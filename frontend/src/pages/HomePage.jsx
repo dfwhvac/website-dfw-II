@@ -285,7 +285,10 @@ const HomePage = () => {
                   <div className="border-t pt-4">
                     <div className="font-semibold text-gray-800">{testimonial.name}</div>
                     <div className="text-sm text-gray-600">{testimonial.location}</div>
-                    <div className="text-sm text-blue-600 font-medium">{testimonial.service}</div>
+                    <div className="text-sm text-electric-blue font-medium">{testimonial.service}</div>
+                    {testimonial.timeAgo && (
+                      <div className="text-xs text-gray-500 mt-1">{testimonial.timeAgo}</div>
+                    )}
                   </div>
                 </CardContent>
               </Card>
