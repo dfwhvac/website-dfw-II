@@ -58,7 +58,7 @@ export const services = {
       id: 1,
       name: "Commercial Air Conditioning",
       description: "Large-scale AC systems for commercial properties",
-      features: ["Rooftop Units", "Chiller Systems", "24/7 Service", "Preventive Maintenance"],
+      features: ["Rooftop Units", "Chiller Systems", "Professional Service", "Preventive Maintenance"],
       icon: "building"
     },
     {
