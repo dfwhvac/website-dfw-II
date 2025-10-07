@@ -166,7 +166,7 @@ const Header = () => {
                 <Link
                   key={service.path}
                   to={service.path}
-                  className="block pl-4 py-1 text-gray-600 hover:text-blue-600 text-sm"
+                  className="block pl-4 py-1 text-gray-600 hover:text-electric-blue text-sm"
                 >
                   {service.name}
                 </Link>
@@ -179,7 +179,7 @@ const Header = () => {
                 <Link
                   key={service.path}
                   to={service.path}
-                  className="block pl-4 py-1 text-gray-600 hover:text-blue-600 text-sm"
+                  className="block pl-4 py-1 text-gray-600 hover:text-electric-blue text-sm"
                 >
                   {service.name}
                 </Link>
