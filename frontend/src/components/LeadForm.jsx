@@ -191,7 +191,7 @@ const LeadForm = ({ title = "Get Your Free Estimate", description = "Fill out th
               onChange={(e) => handleInputChange('problemDescription', e.target.value)}
               required
               rows={4}
-              className="border-gray-300 focus:border-blue-500 focus:ring-blue-500 resize-none"
+              className="border-gray-300 focus:border-electric-blue focus:ring-electric-blue resize-none"
               placeholder="Please describe the issue you're experiencing or the service you need..."
             />
           </div>
