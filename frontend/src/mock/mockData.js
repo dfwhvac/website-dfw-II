@@ -95,35 +95,39 @@ export const services = {
 export const testimonials = [
   {
     id: 1,
-    name: "Sarah Johnson",
-    location: "Dallas, TX",
+    name: "Jesse D.",
+    location: "DFW Area",
     rating: 5,
-    text: "DFW HVAC saved the day when our AC went out during a Texas heatwave. Professional, fast, and reasonably priced!",
-    service: "AC Repair"
+    text: "I had an excellent experience with DFW HVAC! I just bought a home and needed my HVAC system checked out. They came out the very next day, clearly explained the issue, and provided me with multiple options for resolving it.",
+    service: "System Inspection",
+    timeAgo: "7 months ago"
   },
   {
     id: 2,
-    name: "Mike Thompson",
-    location: "Fort Worth, TX", 
+    name: "Daniel Ryan",
+    location: "DFW Area", 
     rating: 5,
-    text: "Been using DFW HVAC for our office building for 3 years. Always reliable and their maintenance program keeps our costs down.",
-    service: "Commercial Maintenance"
+    text: "Jonathan and DFW HVAC were great! We had our AC go out in the middle of the night and reached out to them first thing in the morning. They were responsive and able to get us on their schedule that afternoon. Jonathan was able to diagnose and fix the issue quickly.",
+    service: "AC Repair",
+    timeAgo: "2 months ago"
   },
   {
     id: 3,
-    name: "Jennifer Martinez",
-    location: "Arlington, TX",
+    name: "Beth Schneider",
+    location: "DFW Area",
     rating: 5,
-    text: "Family business that really cares about their customers. Installed our new system perfectly and explained everything clearly.",
-    service: "System Installation"
+    text: "Great experience! They were prompt to respond to initial call and arrange time to come out to assess the issue I was having. They did a great job and very fair price for all the work that was needed. I have complete confidence in the quality of their work.",
+    service: "HVAC Service",
+    timeAgo: "2 months ago"
   },
   {
     id: 4,
-    name: "Robert Chen",
-    location: "Plano, TX",
+    name: "Google Reviews",
+    location: "Verified Customers",
     rating: 5,
-    text: "50 years in business shows! Professional technicians, fair pricing, and they stand behind their work. Highly recommend.",
-    service: "Heating Repair"
+    text: "Service tech got there on time and solved the issue quickly. The service was excellent and the price fair. I'm so grateful to have a dependable company to work with.",
+    service: "Multiple Services",
+    timeAgo: "Recent reviews"
   }
 ];
 
