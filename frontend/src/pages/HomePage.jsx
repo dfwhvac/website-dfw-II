@@ -78,7 +78,7 @@ const HomePage = () => {
                   <p className="text-sm text-gray-600">500+ Reviews</p>
                 </div>
                 <div className="text-center">
-                  <Shield className="w-8 h-8 text-blue-600 mx-auto mb-2" />
+                  <Shield className="w-8 h-8 text-prussian-blue mx-auto mb-2" />
                   <p className="text-sm text-gray-600">Licensed & Insured</p>
                 </div>
                 <div className="text-center">
