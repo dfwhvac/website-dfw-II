@@ -152,7 +152,7 @@ const BookServicePage = () => {
                     <Wrench className="w-5 h-5 text-blue-600" />
                     <div>
                       <div className="font-semibold text-blue-800">Online Service Request</div>
-                      <div className="text-blue-600">Fill out the form for non-emergency service</div>
+                      <div className="text-blue-600">Fill out the form to schedule service</div>
                     </div>
                   </div>
                 </div>
