@@ -91,7 +91,7 @@ const LeadForm = ({ title = "Get Your Free Estimate", description = "Fill out th
                 value={formData.firstName}
                 onChange={(e) => handleInputChange('firstName', e.target.value)}
                 required
-                className="h-12 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                className="h-12 border-gray-300 focus:border-electric-blue focus:ring-electric-blue"
                 placeholder="Enter your first name"
               />
             </div>
@@ -105,7 +105,7 @@ const LeadForm = ({ title = "Get Your Free Estimate", description = "Fill out th
                 value={formData.lastName}
                 onChange={(e) => handleInputChange('lastName', e.target.value)}
                 required
-                className="h-12 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                className="h-12 border-gray-300 focus:border-electric-blue focus:ring-electric-blue"
                 placeholder="Enter your last name"
               />
             </div>
@@ -124,7 +124,7 @@ const LeadForm = ({ title = "Get Your Free Estimate", description = "Fill out th
                 value={formData.email}
                 onChange={(e) => handleInputChange('email', e.target.value)}
                 required
-                className="h-12 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                className="h-12 border-gray-300 focus:border-electric-blue focus:ring-electric-blue"
                 placeholder="your@email.com"
               />
             </div>
@@ -139,7 +139,7 @@ const LeadForm = ({ title = "Get Your Free Estimate", description = "Fill out th
                 value={formData.phone}
                 onChange={(e) => handleInputChange('phone', e.target.value)}
                 required
-                className="h-12 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                className="h-12 border-gray-300 focus:border-electric-blue focus:ring-electric-blue"
                 placeholder="(555) 123-4567"
               />
             </div>
