@@ -166,7 +166,7 @@ const CostEstimatorPage = () => {
                       <SelectValue placeholder="When do you need installation?" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="emergency">Emergency (ASAP)</SelectItem>
+                      <SelectItem value="asap">ASAP</SelectItem>
                       <SelectItem value="urgent">Within 1 week</SelectItem>
                       <SelectItem value="soon">Within 1 month</SelectItem>
                       <SelectItem value="planning">Planning for future</SelectItem>
