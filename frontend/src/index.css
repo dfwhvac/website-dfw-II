@@ -90,3 +90,25 @@ code {
     @apply bg-background text-foreground;
     }
 }
+
+/* DFW HVAC Brand Colors */
+.bg-prussian-blue { background-color: #003153; }
+.text-prussian-blue { color: #003153; }
+.border-prussian-blue { border-color: #003153; }
+
+.bg-electric-blue { background-color: #00B8FF; }
+.text-electric-blue { color: #00B8FF; }
+.border-electric-blue { border-color: #00B8FF; }
+
+.bg-vivid-red { background-color: #FF0606; }
+.text-vivid-red { color: #FF0606; }
+.border-vivid-red { border-color: #FF0606; }
+
+.bg-lime-green { background-color: #00FF00; }
+.text-lime-green { color: #00FF00; }
+.border-lime-green { border-color: #00FF00; }
+
+/* Hover variants */
+.hover\:bg-prussian-blue:hover { background-color: #003153; }
+.hover\:bg-electric-blue:hover { background-color: #00B8FF; }
+.hover\:bg-vivid-red:hover { background-color: #FF0606; }
