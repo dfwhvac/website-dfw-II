@@ -5,13 +5,27 @@ export const companyInfo = {
   tagline: "Family Owned Since 1974",
   phone: "(972) 777-COOL",
   phoneDisplay: "(972) 777-2665",
+  realPhone: "(817) 242-6688",
   email: "info@dfwhvac.com",
-  address: "Dallas-Fort Worth & Surrounding Areas",
+  address: "556 S Coppell Rd Ste 103, Coppell, TX 75019",
+  serviceAddress: "Dallas-Fort Worth & Surrounding Areas",
   established: "1974",
   description: "Family owned Air Conditioning and Heating contractor serving Dallas - Fort Worth and surrounding areas since 1974.",
+  googleRating: 5.0,
+  googleReviews: 118,
+  womenOwned: true,
+  businessHours: {
+    monday: "7AM-7PM",
+    tuesday: "7AM-7PM", 
+    wednesday: "7AM-7PM",
+    thursday: "7AM-7PM",
+    friday: "7AM-7PM",
+    saturday: "8AM-1PM",
+    sunday: "Closed"
+  },
   serviceAreas: [
     "Dallas", "Fort Worth", "Arlington", "Plano", "Irving", "Garland", 
-    "Grand Prairie", "Mesquite", "Carrollton", "Richardson", "Lewisville"
+    "Grand Prairie", "Mesquite", "Carrollton", "Richardson", "Lewisville", "Coppell"
   ]
 };
 
