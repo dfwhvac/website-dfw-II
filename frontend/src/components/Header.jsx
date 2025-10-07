@@ -46,7 +46,7 @@ const Header = () => {
               size="sm" 
               className="bg-red-600 hover:bg-red-700 text-white"
             >
-              24/7 Emergency
+              Call Now
             </Button>
           </div>
         </div>
