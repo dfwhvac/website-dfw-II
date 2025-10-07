@@ -168,7 +168,7 @@ const LeadForm = ({ title = "Get Your Free Estimate", description = "Fill out th
               Number of HVAC Systems *
             </Label>
             <Select onValueChange={(value) => handleInputChange('numSystems', value)}>
-              <SelectTrigger className="h-12 border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+              <SelectTrigger className="h-12 border-gray-300 focus:border-electric-blue focus:ring-electric-blue">
                 <SelectValue placeholder="Select number of systems" />
               </SelectTrigger>
               <SelectContent>
