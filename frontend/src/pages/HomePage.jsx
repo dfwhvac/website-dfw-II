@@ -234,7 +234,7 @@ const HomePage = () => {
             </div>
             
             <div className="text-center">
-              <div className="w-16 h-16 bg-green-600 text-white rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-lime-green text-white rounded-full flex items-center justify-center mx-auto mb-4">
                 <Shield className="w-8 h-8" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Licensed & Insured</h3>
