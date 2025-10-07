@@ -268,8 +268,25 @@ const HomePage = () => {
               What Our Customers Say
             </h2>
             <p className="text-xl text-gray-600">
-              Real reviews from satisfied customers across Dallas-Fort Worth
+              Real reviews from verified Google customers
             </p>
+            
+            {/* Google Reviews Badge */}
+            <div className="flex items-center justify-center gap-4 mt-8 p-6 bg-gray-50 rounded-lg max-w-md mx-auto">
+              <div className="text-center">
+                <div className="flex items-center justify-center gap-1 text-yellow-500 mb-2">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-6 h-6 fill-current" />
+                  ))}
+                </div>
+                <div className="text-3xl font-bold text-gray-900">{companyInfo.googleRating}</div>
+                <div className="text-sm text-gray-600">Google Rating</div>
+              </div>
+              <div className="border-l border-gray-300 pl-4">
+                <div className="text-3xl font-bold text-electric-blue">{companyInfo.googleReviews}</div>
+                <div className="text-sm text-gray-600">Customer Reviews</div>
+              </div>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
