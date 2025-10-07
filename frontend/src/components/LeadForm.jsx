@@ -69,7 +69,7 @@ const LeadForm = ({ title = "Get Your Free Estimate", description = "Fill out th
     <Card className="w-full max-w-2xl mx-auto shadow-xl border-0">
       <CardHeader className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-t-lg">
         <CardTitle className="text-2xl text-center text-gray-800 flex items-center justify-center gap-2">
-          <Wrench className="w-6 h-6 text-blue-600" />
+          <Wrench className="w-6 h-6 text-electric-blue" />
           {title}
         </CardTitle>
         <CardDescription className="text-center text-gray-600">
