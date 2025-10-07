@@ -110,7 +110,7 @@ const Footer = () => {
                 <Phone className="w-4 h-4 text-red-500" />
                 <div>
                   <div className="font-semibold">{companyInfo.phoneDisplay}</div>
-                  <div className="text-gray-400">24/7 Emergency Service</div>
+                  <div className="text-gray-400">Professional HVAC Service</div>
                 </div>
               </div>
               <div className="flex items-center gap-3 text-sm">
