@@ -242,7 +242,7 @@ const HomePage = () => {
             </div>
             
             <div className="text-center">
-              <div className="w-16 h-16 bg-red-600 text-white rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-vivid-red text-white rounded-full flex items-center justify-center mx-auto mb-4">
                 <Clock className="w-8 h-8" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Fast Response</h3>
