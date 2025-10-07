@@ -58,7 +58,7 @@ const HomePage = () => {
                 <Button 
                   variant="outline" 
                   size="lg" 
-                  className="border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white font-semibold px-8 py-4 text-lg h-auto"
+                  className="border-2 border-electric-blue text-electric-blue hover:bg-electric-blue hover:text-white font-semibold px-8 py-4 text-lg h-auto"
                   asChild
                 >
                   <Link to="/cost-estimator">
