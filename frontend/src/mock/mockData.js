@@ -21,7 +21,7 @@ export const services = {
       id: 1,
       name: "Air Conditioning",
       description: "Complete AC installation, repair, and replacement services",
-      features: ["24/7 Emergency Service", "Energy Efficient Systems", "Licensed Technicians", "Warranty Included"],
+      features: ["Fast Response Time", "Energy Efficient Systems", "Licensed Technicians", "Warranty Included"],
       icon: "snowflake"
     },
     {
