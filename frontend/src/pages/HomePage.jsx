@@ -35,7 +35,7 @@ const HomePage = () => {
                 </div>
                 <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">
                   Dallas-Fort Worth's
-                  <span className="text-blue-600 block">Trusted HVAC</span>
+                  <span className="text-electric-blue block">Trusted HVAC</span>
                   Experts
                 </h1>
                 <p className="text-xl text-gray-600 leading-relaxed">
