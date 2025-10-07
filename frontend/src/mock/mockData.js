@@ -170,6 +170,11 @@ export const faqs = [
     id: 5,
     question: "Do you work on both residential and commercial systems?",
     answer: "Yes, we provide comprehensive HVAC services for both residential homes and commercial properties of all sizes."
+  },
+  {
+    id: 6,
+    question: "What do customers say about your service?",
+    answer: "We're proud to maintain a 5.0-star rating on Google with over 118 customer reviews. Our customers consistently praise our prompt response, fair pricing, and quality workmanship."
   }
 ];
 
