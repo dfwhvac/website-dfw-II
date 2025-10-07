@@ -72,7 +72,7 @@ export const services = {
       id: 3,
       name: "Commercial Maintenance",
       description: "Comprehensive maintenance programs for businesses",
-      features: ["Scheduled Service", "Emergency Response", "Equipment Monitoring", "Cost Control"],
+      features: ["Scheduled Service", "Fast Response", "Equipment Monitoring", "Cost Control"],
       icon: "clipboard-check"
     },
     {
