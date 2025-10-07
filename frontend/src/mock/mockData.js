@@ -176,10 +176,10 @@ export const recentJobs = [
   },
   {
     id: 3,
-    title: "Emergency AC Repair",
+    title: "Priority AC Repair",
     location: "Arlington, TX",
-    type: "Emergency",
-    description: "Same-day compressor replacement during July heatwave",
+    type: "Priority",
+    description: "Same-day compressor replacement during hot weather",
     image: "https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=400&h=300&fit=crop",
     result: "System restored within 4 hours"
   }
