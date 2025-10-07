@@ -118,7 +118,7 @@ const Footer = () => {
                 <span className="text-gray-300">{companyInfo.email}</span>
               </div>
               <div className="flex items-center gap-3 text-sm">
-                <MapPin className="w-4 h-4 text-green-500" />
+                <MapPin className="w-4 h-4 text-lime-green" />
                 <span className="text-gray-300">{companyInfo.address}</span>
               </div>
               <div className="flex items-center gap-3 text-sm">
