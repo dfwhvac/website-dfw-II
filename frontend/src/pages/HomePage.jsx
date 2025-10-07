@@ -306,7 +306,7 @@ const HomePage = () => {
           <h2 className="text-4xl font-bold text-white mb-4">
             Ready to Get Started?
           </h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-white opacity-90 mb-8 max-w-2xl mx-auto">
             Contact DFW HVAC today for your free estimate. Professional HVAC service when you need it.
           </p>
           
