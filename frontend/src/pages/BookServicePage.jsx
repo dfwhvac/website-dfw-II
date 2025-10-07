@@ -62,18 +62,18 @@ const BookServicePage = () => {
           </p>
         </div>
 
-        {/* Emergency Banner */}
-        <div className="bg-red-600 text-white rounded-lg p-6 mb-12 text-center">
+        {/* Service Banner */}
+        <div className="bg-blue-600 text-white rounded-lg p-6 mb-12 text-center">
           <div className="flex items-center justify-center gap-3 mb-3">
-            <AlertCircle className="w-6 h-6" />
-            <h2 className="text-2xl font-bold">HVAC Emergency?</h2>
+            <Phone className="w-6 h-6" />
+            <h2 className="text-2xl font-bold">Need HVAC Service?</h2>
           </div>
           <p className="text-lg mb-4">
-            Don't wait! Call us now for immediate 24/7 emergency service.
+            Contact us today for professional heating and cooling service.
           </p>
           <Button 
             size="lg" 
-            className="bg-white text-red-600 hover:bg-gray-100 font-semibold px-8 py-4 text-lg h-auto"
+            className="bg-white text-blue-600 hover:bg-gray-100 font-semibold px-8 py-4 text-lg h-auto"
           >
             <Phone className="w-5 h-5 mr-2" />
             Call (972) 777-COOL Now
