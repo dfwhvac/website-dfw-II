@@ -200,7 +200,8 @@ const LeadForm = ({ title = "Get Your Free Estimate", description = "Fill out th
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="w-full h-12 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold text-lg transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            className="w-full h-12 text-white font-semibold text-lg transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            style={{background: 'linear-gradient(to right, #00B8FF, #003153)', '--hover-bg': 'linear-gradient(to right, #003153, #00B8FF)'}}
           >
             {isSubmitting ? "Submitting..." : "Get My Free Estimate"}
           </Button>
