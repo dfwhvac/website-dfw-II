@@ -239,6 +239,9 @@ const HomePage = () => {
               </div>
               <h3 className="text-xl font-semibold mb-2">Licensed & Insured</h3>
               <p className="text-gray-600">Fully licensed technicians and comprehensive insurance</p>
+              {companyInfo.womenOwned && (
+                <p className="text-xs text-lime-green font-medium mt-2">Women-Owned Business</p>
+              )}
             </div>
             
             <div className="text-center">
