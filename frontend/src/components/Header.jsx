@@ -30,7 +30,7 @@ const Header = () => {
   ];
 
   return (
-    <header className="bg-white shadow-lg border-b-2 border-blue-600 sticky top-0 z-50">
+    <header className="bg-white shadow-lg border-b-2 border-electric-blue sticky top-0 z-50">
       <div className="container mx-auto px-4">
         {/* Top Bar */}
         <div className="flex justify-between items-center py-2 text-sm border-b border-gray-200">
