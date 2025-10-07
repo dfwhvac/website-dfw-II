@@ -245,8 +245,8 @@ const HomePage = () => {
               <div className="w-16 h-16 bg-red-600 text-white rounded-full flex items-center justify-center mx-auto mb-4">
                 <Clock className="w-8 h-8" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">24/7 Emergency</h3>
-              <p className="text-gray-600">Round-the-clock service when you need it most</p>
+              <h3 className="text-xl font-semibold mb-2">Fast Response</h3>
+              <p className="text-gray-600">Quick service when you need it most</p>
             </div>
             
             <div className="text-center">
