@@ -19,8 +19,8 @@ const BookServicePage = () => {
   const serviceTypes = [
     {
       icon: AlertCircle,
-      title: "Emergency Service",
-      description: "24/7 emergency repairs for heating and cooling systems",
+      title: "Priority Service",
+      description: "Fast repairs for heating and cooling systems",
       color: "red",
       urgent: true
     },
