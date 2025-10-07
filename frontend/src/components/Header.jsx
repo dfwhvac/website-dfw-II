@@ -111,19 +111,19 @@ const Header = () => {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <Link to="/about" className="px-4 py-2 hover:text-blue-600 transition-colors">
+                <Link to="/about" className="px-4 py-2 hover:text-electric-blue transition-colors">
                   About
                 </Link>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <Link to="/reviews" className="px-4 py-2 hover:text-blue-600 transition-colors">
+                <Link to="/reviews" className="px-4 py-2 hover:text-electric-blue transition-colors">
                   Reviews
                 </Link>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <Link to="/contact" className="px-4 py-2 hover:text-blue-600 transition-colors">
+                <Link to="/contact" className="px-4 py-2 hover:text-electric-blue transition-colors">
                   Contact
                 </Link>
               </NavigationMenuItem>
