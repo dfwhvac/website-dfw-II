@@ -76,7 +76,7 @@ const BookServicePage = () => {
             className="bg-white text-red-600 hover:bg-gray-100 font-semibold px-8 py-4 text-lg h-auto"
           >
             <Phone className="w-5 h-5 mr-2" />
-            Call (855) TEX-HVAC Now
+            Call (972) 777-COOL Now
           </Button>
         </div>
 
