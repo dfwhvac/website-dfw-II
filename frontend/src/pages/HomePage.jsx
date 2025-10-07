@@ -104,7 +104,7 @@ const HomePage = () => {
               Complete HVAC Solutions
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              From emergency repairs to new system installations, we provide comprehensive 
+              From repairs to new system installations, we provide comprehensive 
               residential and commercial HVAC services throughout the Dallas-Fort Worth area.
             </p>
           </div>
