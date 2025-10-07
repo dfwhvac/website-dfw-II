@@ -67,7 +67,7 @@ const Header = () => {
           <NavigationMenu className="hidden lg:flex">
             <NavigationMenuList>
               <NavigationMenuItem>
-                <Link to="/" className="px-4 py-2 hover:text-blue-600 transition-colors">
+                <Link to="/" className="px-4 py-2 hover:text-electric-blue transition-colors">
                   Home
                 </Link>
               </NavigationMenuItem>
