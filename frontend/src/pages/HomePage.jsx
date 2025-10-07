@@ -205,7 +205,7 @@ const HomePage = () => {
 
           {/* View All Services CTA */}
           <div className="text-center mt-12">
-            <Button size="lg" className="bg-blue-600 hover:bg-blue-700" asChild>
+            <Button size="lg" className="bg-electric-blue hover:bg-electric-blue text-white" asChild>
               <Link to="/services">View All Services</Link>
             </Button>
           </div>
