@@ -107,7 +107,7 @@ const Footer = () => {
             <h3 className="text-lg font-semibold">Contact Us</h3>
             <div className="space-y-3">
               <div className="flex items-center gap-3 text-sm">
-                <Phone className="w-4 h-4 text-red-500" />
+                <Phone className="w-4 h-4 text-vivid-red" />
                 <div>
                   <div className="font-semibold">{companyInfo.phoneDisplay}</div>
                   <div className="text-gray-400">Professional HVAC Service</div>
