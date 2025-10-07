@@ -130,8 +130,8 @@ export const testimonials = [
 export const faqs = [
   {
     id: 1,
-    question: "Do you offer 24/7 emergency service?",
-    answer: "Yes, we provide 24/7 emergency HVAC service throughout the Dallas-Fort Worth area. Call us anytime for urgent heating or cooling issues."
+    question: "Do you offer fast response service?",
+    answer: "Yes, we provide fast response HVAC service throughout the Dallas-Fort Worth area. Call us for prompt heating or cooling service."
   },
   {
     id: 2,
