@@ -135,7 +135,7 @@ const Header = () => {
             <Button variant="outline" asChild>
               <Link to="/cost-estimator">Get Estimate</Link>
             </Button>
-            <Button className="bg-blue-600 hover:bg-blue-700" asChild>
+            <Button className="bg-electric-blue hover:bg-electric-blue text-white" asChild>
               <Link to="/book-service">Book Service</Link>
             </Button>
           </div>
