@@ -186,13 +186,13 @@ const Header = () => {
               ))}
             </div>
 
-            <Link to="/about" className="block py-2 text-gray-700 hover:text-blue-600">
+            <Link to="/about" className="block py-2 text-gray-700 hover:text-electric-blue">
               About
             </Link>
-            <Link to="/reviews" className="block py-2 text-gray-700 hover:text-blue-600">
+            <Link to="/reviews" className="block py-2 text-gray-700 hover:text-electric-blue">
               Reviews
             </Link>
-            <Link to="/contact" className="block py-2 text-gray-700 hover:text-blue-600">
+            <Link to="/contact" className="block py-2 text-gray-700 hover:text-electric-blue">
               Contact
             </Link>
 
