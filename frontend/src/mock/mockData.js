@@ -3,8 +3,8 @@
 export const companyInfo = {
   name: "DFW HVAC",
   tagline: "Family Owned Since 1974",
-  phone: "(855) TEX-HVAC",
-  phoneDisplay: "(855) 839-4822",
+  phone: "(972) 777-COOL",
+  phoneDisplay: "(972) 777-2665",
   email: "info@dfwhvac.com",
   address: "Dallas-Fort Worth & Surrounding Areas",
   established: "1974",
