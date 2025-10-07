@@ -29,7 +29,7 @@ const HomePage = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <div className="space-y-4">
-                <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium">
+                <div className="inline-flex items-center gap-2 bg-blue-50 text-prussian-blue px-4 py-2 rounded-full text-sm font-medium border border-prussian-blue">
                   <Award className="w-4 h-4" />
                   Trusted Since 1974
                 </div>
