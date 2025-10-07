@@ -82,7 +82,7 @@ const HomePage = () => {
                   <p className="text-sm text-gray-600">Licensed & Insured</p>
                 </div>
                 <div className="text-center">
-                  <Clock className="w-8 h-8 text-green-600 mx-auto mb-2" />
+                  <Clock className="w-8 h-8 text-lime-green mx-auto mb-2" />
                   <p className="text-sm text-gray-600">Fast Service</p>
                 </div>
               </div>
