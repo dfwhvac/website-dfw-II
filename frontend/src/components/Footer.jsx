@@ -27,9 +27,9 @@ const Footer = () => {
               for over 50 years. Quality service, reliable solutions.
             </p>
             <div className="flex space-x-4">
-              <Facebook className="w-5 h-5 text-gray-400 hover:text-blue-500 cursor-pointer transition-colors" />
-              <Instagram className="w-5 h-5 text-gray-400 hover:text-pink-500 cursor-pointer transition-colors" />
-              <Twitter className="w-5 h-5 text-gray-400 hover:text-blue-400 cursor-pointer transition-colors" />
+              <Facebook className="w-5 h-5 text-gray-400 hover:text-electric-blue cursor-pointer transition-colors" />
+              <Instagram className="w-5 h-5 text-gray-400 hover:text-electric-blue cursor-pointer transition-colors" />
+              <Twitter className="w-5 h-5 text-gray-400 hover:text-electric-blue cursor-pointer transition-colors" />
             </div>
           </div>
 
