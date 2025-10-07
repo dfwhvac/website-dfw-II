@@ -318,7 +318,7 @@ const HomePage = () => {
             >
               <Link to="/book-service">
                 <Phone className="w-5 h-5 mr-2" />
-                Call (855) TEX-HVAC
+                Call (972) 777-COOL
               </Link>
             </Button>
             <Button 
