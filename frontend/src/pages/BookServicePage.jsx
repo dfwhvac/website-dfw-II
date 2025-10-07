@@ -58,7 +58,7 @@ const BookServicePage = () => {
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Schedule professional HVAC service with Dallas-Fort Worth's most trusted 
-            heating and cooling experts. Available 24/7 for emergencies.
+            heating and cooling experts. Fast, reliable service.
           </p>
         </div>
 
