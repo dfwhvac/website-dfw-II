@@ -47,7 +47,7 @@ const HomePage = () => {
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button 
                   size="lg" 
-                  className="bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-4 text-lg h-auto"
+                  className="bg-vivid-red hover:bg-vivid-red text-white font-semibold px-8 py-4 text-lg h-auto"
                   asChild
                 >
                   <Link to="/book-service">
