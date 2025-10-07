@@ -14,7 +14,7 @@ const Footer = () => {
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <div className="bg-blue-600 text-white px-3 py-2 rounded-lg font-bold text-lg">
+              <div className="bg-prussian-blue text-white px-3 py-2 rounded-lg font-bold text-lg">
                 DFW
               </div>
               <div>
