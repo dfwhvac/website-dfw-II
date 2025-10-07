@@ -75,7 +75,7 @@ const HomePage = () => {
                       <Star key={i} className="w-4 h-4 fill-current" />
                     ))}
                   </div>
-                  <p className="text-sm text-gray-600">500+ Reviews</p>
+                  <p className="text-sm text-gray-600">{companyInfo.googleRating} Stars · {companyInfo.googleReviews} Reviews</p>
                 </div>
                 <div className="text-center">
                   <Shield className="w-8 h-8 text-prussian-blue mx-auto mb-2" />
