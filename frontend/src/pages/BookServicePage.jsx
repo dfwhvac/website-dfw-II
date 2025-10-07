@@ -169,7 +169,7 @@ const BookServicePage = () => {
                   <div className="flex items-center gap-3">
                     <Clock className="w-5 h-5 text-green-600" />
                     <span className="text-gray-700">
-                      <strong>24/7 Emergency Service</strong> - Available when you need us most
+                      <strong>Fast Response Time</strong> - Available when you need us most
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
