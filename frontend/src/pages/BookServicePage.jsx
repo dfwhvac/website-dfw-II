@@ -121,7 +121,7 @@ const BookServicePage = () => {
                           <h3 className="font-semibold text-lg">{service.title}</h3>
                           {service.urgent && (
                             <span className="bg-red-100 text-red-600 text-xs px-2 py-1 rounded-full font-medium">
-                              24/7
+                              FAST
                             </span>
                           )}
                         </div>
