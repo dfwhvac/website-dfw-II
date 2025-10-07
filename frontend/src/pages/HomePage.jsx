@@ -307,7 +307,7 @@ const HomePage = () => {
             Ready to Get Started?
           </h2>
           <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-            Contact DFW HVAC today for your free estimate. We're available 24/7 for emergency services.
+            Contact DFW HVAC today for your free estimate. Professional HVAC service when you need it.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
