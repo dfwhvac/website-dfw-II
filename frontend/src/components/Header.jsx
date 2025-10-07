@@ -44,7 +44,7 @@ const Header = () => {
             </div>
             <Button 
               size="sm" 
-              className="bg-red-600 hover:bg-red-700 text-white"
+              className="bg-vivid-red hover:bg-vivid-red text-white"
             >
               Call Now
             </Button>
