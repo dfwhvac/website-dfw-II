@@ -207,7 +207,7 @@ const LeadForm = ({ title = "Get Your Free Estimate", description = "Fill out th
 
           {/* Trust Signals */}
           <div className="text-center text-sm text-gray-600 space-y-2">
-            <p>✓ Free estimates • ✓ Licensed & insured • ✓ 24/7 emergency service</p>
+            <p>✓ Free estimates • ✓ Licensed & insured • ✓ Fast response time</p>
             <p className="text-xs">We'll contact you within 24 hours to schedule your appointment</p>
           </div>
         </form>
