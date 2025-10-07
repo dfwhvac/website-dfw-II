@@ -54,7 +54,7 @@ const Header = () => {
         {/* Main Navigation */}
         <div className="flex justify-between items-center py-4">
           <Link to="/" className="flex items-center gap-3">
-            <div className="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold text-xl">
+            <div className="bg-prussian-blue text-white px-4 py-2 rounded-lg font-bold text-xl">
               DFW
             </div>
             <div>
