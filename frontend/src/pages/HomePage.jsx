@@ -127,8 +127,8 @@ const HomePage = () => {
                 return (
                   <Card key={service.id} className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg">
                     <CardHeader className="text-center pb-4">
-                      <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-200 transition-colors">
-                        <IconComponent className="w-8 h-8 text-blue-600" />
+                      <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-100 transition-colors border border-electric-blue">
+                        <IconComponent className="w-8 h-8 text-electric-blue" />
                       </div>
                       <CardTitle className="text-xl">{service.name}</CardTitle>
                     </CardHeader>
