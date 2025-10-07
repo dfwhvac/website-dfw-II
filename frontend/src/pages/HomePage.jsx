@@ -139,7 +139,7 @@ const HomePage = () => {
                       <ul className="space-y-2 text-sm text-gray-600 mb-6">
                         {service.features.slice(0, 2).map((feature, index) => (
                           <li key={index} className="flex items-center justify-center gap-2">
-                            <CheckCircle className="w-4 h-4 text-green-500" />
+                            <CheckCircle className="w-4 h-4 text-lime-green" />
                             {feature}
                           </li>
                         ))}
@@ -186,7 +186,7 @@ const HomePage = () => {
                       <ul className="space-y-2 text-sm text-gray-600 mb-6">
                         {service.features.slice(0, 2).map((feature, index) => (
                           <li key={index} className="flex items-center justify-center gap-2">
-                            <CheckCircle className="w-4 h-4 text-green-500" />
+                            <CheckCircle className="w-4 h-4 text-lime-green" />
                             {feature}
                           </li>
                         ))}
