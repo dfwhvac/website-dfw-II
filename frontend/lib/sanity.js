@@ -1,109 +1,42 @@
-import { createClient } from '@sanity/client'
-import imageUrlBuilder from '@sanity/image-url'
+// Mock Sanity client for Phase 1 testing
+// Replace with actual Sanity integration when ready
 
-// Sanity client configuration
-export const client = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'demo-project-id',
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
-  useCdn: true,
-  apiVersion: '2023-12-01',
-  // Add token for write operations (in production)
-  token: process.env.SANITY_API_TOKEN,
-})
+// Placeholder client (not used in Phase 1)
+export const client = null
 
-// Helper function for image URLs
-const builder = imageUrlBuilder(client)
-
+// Helper function for image URLs (returns placeholder)
 export function urlFor(source) {
-  return builder.image(source)
+  return {
+    url: () => source || '/placeholder.jpg'
+  }
 }
 
-// GROQ queries for content
+// GROQ queries (for future use)
 export const queries = {
-  // Get all services
-  allServices: `*[_type == "service"] {
-    _id,
-    title,
-    slug,
-    description,
-    category,
-    icon,
-    heroContent,
-    sections,
-    pricing,
-    faqs,
-    "testimonials": testimonials[]->
-  }`,
-  
-  // Get service by slug
-  serviceBySlug: `*[_type == "service" && slug.current == $slug][0] {
-    _id,
-    title,
-    slug,
-    description,
-    category,
-    icon,
-    heroContent,
-    sections,
-    pricing,
-    faqs,
-    seo,
-    "testimonials": testimonials[]->
-  }`,
-  
-  // Get company information
-  companyInfo: `*[_type == "companyInfo"][0] {
-    _id,
-    name,
-    phone,
-    email,
-    address,
-    businessHours,
-    serviceAreas,
-    socialMedia,
-    googleRating,
-    googleReviews
-  }`,
-  
-  // Get testimonials
-  testimonials: `*[_type == "testimonial"] | order(_createdAt desc) {
-    _id,
-    customerName,
-    location,
-    rating,
-    text,
-    service,
-    timeAgo
-  }`,
-  
-  // Get site settings
-  siteSettings: `*[_type == "siteSettings"][0] {
-    _id,
-    title,
-    description,
-    keywords,
-    ogImage,
-    favicon
-  }`
+  allServices: '',
+  serviceBySlug: '',
+  companyInfo: '',
+  testimonials: '',
+  siteSettings: ''
 }
 
-// Helper functions
+// Helper functions return null (data comes from mockData.js)
 export async function getServices() {
-  return await client.fetch(queries.allServices)
+  return null
 }
 
 export async function getServiceBySlug(slug) {
-  return await client.fetch(queries.serviceBySlug, { slug })
+  return null
 }
 
 export async function getCompanyInfo() {
-  return await client.fetch(queries.companyInfo)
+  return null
 }
 
 export async function getTestimonials() {
-  return await client.fetch(queries.testimonials)
+  return null
 }
 
 export async function getSiteSettings() {
-  return await client.fetch(queries.siteSettings)
+  return null
 }
