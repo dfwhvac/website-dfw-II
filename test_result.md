@@ -169,10 +169,7 @@ metadata:
   run_ui: true
 
 test_plan:
-  current_focus:
-    - "Homepage Display"
-    - "Navigation Menu"
-    - "Lead Capture Form"
+  current_focus: []
   stuck_tasks: []
   test_all: true
   test_priority: "high_first"
