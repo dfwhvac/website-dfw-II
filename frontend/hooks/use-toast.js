@@ -1,0 +1,1 @@
+// Simple toast hook that integrates with sonner\nimport { toast } from 'sonner'\n\nexport const useToast = () => {\n  return {\n    toast: {\n      success: (message) => toast.success(message),\n      error: (message) => toast.error(message),\n      message: (message) => toast(message)\n    }\n  }\n}
