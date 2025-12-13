@@ -1,5 +1,5 @@
 import NextImage from 'next/image'
-import { cn } from '@/lib/utils'
+import { cn } from '../../lib/utils'
 
 const Image = ({ className, alt = '', ...props }) => {
   return (
