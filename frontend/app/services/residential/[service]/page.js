@@ -1,8 +1,8 @@
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
-import ServiceTemplate from '@/components/ServiceTemplate'
-import { getServiceData } from '@/lib/services'
-import { createMetadata } from '@/lib/metadata'
+import Header from '../../../../components/Header'
+import Footer from '../../../../components/Footer'
+import ServiceTemplate from '../../../../components/ServiceTemplate'
+import { getServiceData } from '../../../../lib/services'
+import { createMetadata } from '../../../../lib/metadata'
 import { notFound } from 'next/navigation'
 
 // Generate metadata for SEO
