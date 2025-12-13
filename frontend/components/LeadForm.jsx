@@ -14,7 +14,7 @@ import {
 } from './ui/select'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card'
 import { Phone, Mail, MapPin, Wrench } from 'lucide-react'
-import { submitLeadForm } from '@/lib/mockData'
+import { submitLeadForm } from '../lib/mockData'
 import { toast } from 'sonner'
 
 const LeadForm = ({ title = "Get Your Free Estimate", description = "Fill out the form below and we'll contact you within 24 hours" }) => {

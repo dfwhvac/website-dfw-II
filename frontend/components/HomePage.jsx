@@ -19,7 +19,7 @@ import {
   TrendingUp,
   Award
 } from 'lucide-react'
-import { companyInfo, services, testimonials } from '@/lib/mockData'
+import { companyInfo, services, testimonials } from '../lib/mockData'
 
 const HomePage = () => {
   return (

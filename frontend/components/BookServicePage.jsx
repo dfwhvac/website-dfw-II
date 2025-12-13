@@ -15,7 +15,7 @@ import {
   Settings,
   AlertCircle
 } from 'lucide-react'
-import { companyInfo } from '@/lib/mockData'
+import { companyInfo } from '../lib/mockData'
 
 const BookServicePage = () => {
   const serviceTypes = [
