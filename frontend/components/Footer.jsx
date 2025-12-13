@@ -3,7 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { Phone, Mail, MapPin, Clock, Facebook, Instagram, Twitter } from 'lucide-react'
-import { companyInfo } from '@/lib/mockData'
+import { companyInfo } from '../lib/mockData'
 
 const Footer = () => {
   const currentYear = new Date().getFullYear()
