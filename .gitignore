@@ -87,3 +87,7 @@ dfwhvac-deploy/node_modules/@next/swc-linux-arm64-gnu/next-swc.linux-arm64-gnu.n
 *.env
 *.env.*
 dfwhvac-nextjs-deployment.tar.gz
+-e 
+# Environment files
+*.env
+*.env.*
