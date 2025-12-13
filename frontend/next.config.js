@@ -9,8 +9,6 @@ const nextConfig = {
     ],
     formats: ['image/webp', 'image/avif'],
   },
-  // Enable static exports for better performance
-  output: 'standalone',
   // Compress images and assets
   compress: true,
 };
