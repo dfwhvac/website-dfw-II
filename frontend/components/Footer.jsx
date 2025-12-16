@@ -3,9 +3,9 @@
 import React from 'react'
 import Link from 'next/link'
 import { Phone, Mail, MapPin, Clock, Facebook, Instagram, Twitter } from 'lucide-react'
-import { companyInfo } from '../lib/mockData'
+import { companyInfo as defaultCompanyInfo } from '../lib/mockData'
 
-const Footer = () => {
+const Footer = ({ companyInfo = defaultCompanyInfo }) => {
   const currentYear = new Date().getFullYear()
 
   return (
