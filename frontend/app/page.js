@@ -1,15 +1,51 @@
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import HomePage from '../components/HomePage'
+import { getCompanyInfo, getServices, getTestimonials } from '../lib/sanity'
+import { companyInfo as mockCompanyInfo, services as mockServices, testimonials as mockTestimonials } from '../lib/mockData'
 
-export default function Home() {
+// Revalidate every 60 seconds
+export const revalidate = 60
+
+export default async function Home() {
+  // Fetch data from Sanity (with fallback to mock data)
+  let companyInfo = await getCompanyInfo()
+  let services = await getServices()
+  let testimonials = await getTestimonials()
+  
+  // Use mock data if Sanity returns null/empty
+  if (!companyInfo) {
+    companyInfo = mockCompanyInfo
+  }
+  
+  if (!services || services.length === 0) {
+    services = {
+      residential: mockServices.residential,
+      commercial: mockServices.commercial
+    }
+  } else {
+    // Organize services by category
+    services = {
+      residential: services.filter(s => s.category === 'residential'),
+      commercial: services.filter(s => s.category === 'commercial')
+    }
+  }
+  
+  if (!testimonials || testimonials.length === 0) {
+    testimonials = mockTestimonials
+  }
+
   return (
     <div className="min-h-screen">
-      <Header />
+      <Header companyInfo={companyInfo} />
       <main>
-        <HomePage />
+        <HomePage 
+          companyInfo={companyInfo}
+          services={services}
+          testimonials={testimonials}
+        />
       </main>
-      <Footer />
+      <Footer companyInfo={companyInfo} />
     </div>
   )
 }
