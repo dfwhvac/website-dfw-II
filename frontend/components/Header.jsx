@@ -41,7 +41,7 @@ const Header = ({ companyInfo = {} }) => {
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2 text-vivid-red font-semibold">
               <Phone className="w-4 h-4" />
-              <span>(972) 777-COOL</span>
+              <span>{phone}</span>
             </div>
             <Button 
               size="sm" 
