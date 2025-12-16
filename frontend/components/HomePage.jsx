@@ -19,9 +19,13 @@ import {
   TrendingUp,
   Award
 } from 'lucide-react'
-import { companyInfo, services, testimonials } from '../lib/mockData'
+import { companyInfo as defaultCompanyInfo, services as defaultServices, testimonials as defaultTestimonials } from '../lib/mockData'
 
-const HomePage = () => {
+const HomePage = ({ 
+  companyInfo = defaultCompanyInfo, 
+  services = defaultServices, 
+  testimonials = defaultTestimonials 
+}) => {
   return (
     <div className="min-h-screen">
       
