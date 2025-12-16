@@ -12,8 +12,9 @@ import {
   NavigationMenuTrigger,
 } from './ui/navigation-menu'
 
-const Header = () => {
+const Header = ({ companyInfo = {} }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const phone = companyInfo?.phone || '(972) 777-COOL'
 
   const residentialServices = [
     { name: 'Air Conditioning', path: '/services/residential/air-conditioning' },
