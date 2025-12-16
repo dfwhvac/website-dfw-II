@@ -112,3 +112,4 @@ dfwhvac-nextjs-deployment.tar.gz
 *.env
 *.env.*
 frontend/.next/cache/webpack/server-production/0.pack
+frontend/.next/cache/webpack/server-production/1.pack
