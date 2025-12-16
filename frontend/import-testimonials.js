@@ -49,7 +49,32 @@ function parseCSVLine(line) {
   return result
 }
 
+// Calculate "time ago" from a date
+function getTimeAgo(dateString) {
+  const date = new Date(dateString)
+  const now = new Date()
+  const diffMs = now - date
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
+  
+  if (diffDays < 1) return 'Today'
+  if (diffDays === 1) return '1 day ago'
+  if (diffDays < 7) return `${diffDays} days ago`
+  if (diffDays < 14) return '1 week ago'
+  if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`
+  if (diffDays < 60) return '1 month ago'
+  if (diffDays < 365) return `${Math.floor(diffDays / 30)} months ago`
+  if (diffDays < 730) return '1 year ago'
+  return `${Math.floor(diffDays / 365)} years ago`
+}
+
 async function importTestimonials() {
+  // Check for token
+  if (!process.env.SANITY_API_TOKEN) {
+    console.error('Error: SANITY_API_TOKEN environment variable is required')
+    console.log('\nUsage: SANITY_API_TOKEN=your_token node import-testimonials.js [path/to/file.csv]')
+    process.exit(1)
+  }
+
   // Read the CSV file
   const csvPath = process.argv[2] || path.join(__dirname, 'testimonials-template.csv')
   
@@ -78,9 +103,9 @@ async function importTestimonials() {
   for (let i = 0; i < testimonials.length; i++) {
     const t = testimonials[i]
     
-    // Create a date offset so they sort properly (newest first)
-    const date = new Date()
-    date.setDate(date.getDate() - i) // Each review is 1 day older
+    // Parse the published date
+    const publishedDate = t.publishedDate ? new Date(t.publishedDate) : new Date()
+    const timeAgo = getTimeAgo(t.publishedDate || new Date().toISOString())
     
     await client.create({
       _type: 'testimonial',
@@ -88,12 +113,12 @@ async function importTestimonials() {
       location: t.location || 'DFW Area',
       rating: parseInt(t.rating) || 5,
       service: t.service || 'HVAC Service',
-      timeAgo: t.timeAgo || 'Recently',
+      timeAgo: timeAgo,
       text: t.text,
-      publishedAt: date.toISOString()
+      publishedAt: publishedDate.toISOString()
     })
     
-    console.log(`  ✓ ${i + 1}. ${t.name}`)
+    console.log(`  ✓ ${i + 1}. ${t.name} (${timeAgo})`)
   }
   
   console.log(`\n✅ Successfully imported ${testimonials.length} testimonials!`)
