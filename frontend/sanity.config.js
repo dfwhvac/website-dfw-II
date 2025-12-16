@@ -7,7 +7,6 @@ export default defineConfig({
   title: 'DFW HVAC CMS',
   projectId: 'iar2b790',
   dataset: 'production',
-  basePath: '/studio',
   plugins: [structureTool()],
   schema: {
     types: schemaTypes,
