@@ -6,9 +6,10 @@ import os
 import logging
 from pathlib import Path
 from pydantic import BaseModel, Field, ConfigDict
-from typing import List
+from typing import List, Optional
 import uuid
 from datetime import datetime, timezone
+import httpx
 
 
 ROOT_DIR = Path(__file__).parent
@@ -18,6 +19,15 @@ load_dotenv(ROOT_DIR / '.env')
 mongo_url = os.environ['MONGO_URL']
 client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ['DB_NAME']]
+
+# Google Places API config
+GOOGLE_PLACES_API_KEY = os.environ.get('GOOGLE_PLACES_API_KEY', '')
+GOOGLE_PLACE_ID = os.environ.get('GOOGLE_PLACE_ID', '')
+
+# Sanity config
+SANITY_PROJECT_ID = os.environ.get('SANITY_PROJECT_ID', '')
+SANITY_DATASET = os.environ.get('SANITY_DATASET', 'production')
+SANITY_API_TOKEN = os.environ.get('SANITY_API_TOKEN', '')
 
 # Create the main app without a prefix
 app = FastAPI()
@@ -36,6 +46,12 @@ class StatusCheck(BaseModel):
 
 class StatusCheckCreate(BaseModel):
     client_name: str
+
+class GoogleReviewsResponse(BaseModel):
+    rating: float
+    review_count: int
+    business_name: str
+    updated_at: str
 
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
