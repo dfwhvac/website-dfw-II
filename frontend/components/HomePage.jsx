@@ -131,7 +131,7 @@ const HomePage = ({
                 }[service.icon] || Wrench
 
                 return (
-                  <Card key={service.id} className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg">
+                  <Card key={service.id || service._id || service.title} className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg">
                     <CardHeader className="text-center pb-4">
                       <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-100 transition-colors border border-electric-blue">
                         <IconComponent className="w-8 h-8 text-electric-blue" />
@@ -178,7 +178,7 @@ const HomePage = ({
                 }[service.icon] || Building
 
                 return (
-                  <Card key={service.id} className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg">
+                  <Card key={service.id || service._id || service.title} className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg">
                     <CardHeader className="text-center pb-4">
                       <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-100 transition-colors border border-prussian-blue">
                         <IconComponent className="w-8 h-8 text-prussian-blue" />
