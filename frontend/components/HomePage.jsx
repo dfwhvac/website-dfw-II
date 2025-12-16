@@ -136,7 +136,7 @@ const HomePage = ({
                       <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-100 transition-colors border border-electric-blue">
                         <IconComponent className="w-8 h-8 text-electric-blue" />
                       </div>
-                      <CardTitle className="text-xl">{service.name}</CardTitle>
+                      <CardTitle className="text-xl">{service.name || service.title}</CardTitle>
                     </CardHeader>
                     <CardContent className="text-center">
                       <CardDescription className="mb-4 text-gray-600">
@@ -183,7 +183,7 @@ const HomePage = ({
                       <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-100 transition-colors border border-prussian-blue">
                         <IconComponent className="w-8 h-8 text-prussian-blue" />
                       </div>
-                      <CardTitle className="text-xl">{service.name}</CardTitle>
+                      <CardTitle className="text-xl">{service.name || service.title}</CardTitle>
                     </CardHeader>
                     <CardContent className="text-center">
                       <CardDescription className="mb-4 text-gray-600">
