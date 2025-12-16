@@ -1,42 +1,97 @@
-// Mock Sanity client for Phase 1 testing
-// Replace with actual Sanity integration when ready
+import { createClient } from '@sanity/client'
+import imageUrlBuilder from '@sanity/image-url'
 
-// Placeholder client (not used in Phase 1)
-export const client = null
+// Sanity configuration
+const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'iar2b790'
+const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'
+const apiVersion = '2024-01-01'
 
-// Helper function for image URLs (returns placeholder)
+// Create the Sanity client
+export const client = createClient({
+  projectId,
+  dataset,
+  apiVersion,
+  useCdn: true,
+  perspective: 'published',
+})
+
+// Image URL builder
+const builder = imageUrlBuilder(client)
+
 export function urlFor(source) {
-  return {
-    url: () => source || '/placeholder.jpg'
+  if (!source) return null
+  return builder.image(source)
+}
+
+// GROQ Queries
+export const queries = {
+  // Company Info
+  companyInfo: `*[_type == "companyInfo"][0] {
+    name,
+    tagline,
+    phone,
+    phoneDisplay,
+    email,
+    address,
+    description,
+    googleRating,
+    googleReviews,
+    womenOwned,
+    established,
+    businessHours,
+    serviceAreas
+  }`,
+
+  // All Services
+  allServices: `*[_type == "service"] | order(order asc) {
+    _id,
+    title,
+    slug,
+    description,
+    category,
+    icon,
+    features
+  }`,
+
+  // Testimonials
+  testimonials: `*[_type == "testimonial"] | order(publishedAt desc) {
+    _id,
+    name,
+    location,
+    rating,
+    text,
+    service,
+    timeAgo
+  }`,
+}
+
+// Helper functions to fetch data
+export async function getCompanyInfo() {
+  try {
+    const data = await client.fetch(queries.companyInfo)
+    return data
+  } catch (error) {
+    console.error('Error fetching company info:', error)
+    return null
   }
 }
 
-// GROQ queries (for future use)
-export const queries = {
-  allServices: '',
-  serviceBySlug: '',
-  companyInfo: '',
-  testimonials: '',
-  siteSettings: ''
-}
-
-// Helper functions return null (data comes from mockData.js)
 export async function getServices() {
-  return null
-}
-
-export async function getServiceBySlug(slug) {
-  return null
-}
-
-export async function getCompanyInfo() {
-  return null
+  try {
+    const data = await client.fetch(queries.allServices)
+    return data
+  } catch (error) {
+    console.error('Error fetching services:', error)
+    return null
+  }
 }
 
 export async function getTestimonials() {
-  return null
-}
-
-export async function getSiteSettings() {
-  return null
+  try {
+    const data = await client.fetch(queries.testimonials)
+    return data
+  } catch (error) {
+    console.error('Error fetching testimonials:', error)
+    return null
+  }
 }
