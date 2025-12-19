@@ -25,6 +25,18 @@ export function urlFor(source) {
 
 // GROQ Queries
 export const queries = {
+  // Brand Colors
+  brandColors: `*[_type == "brandColors"][0] {
+    prussianBlue { hex },
+    electricBlue { hex },
+    vividRed { hex },
+    limeGreen { hex },
+    goldAmber { hex },
+    charcoal { hex },
+    lightGray { hex },
+    white { hex }
+  }`,
+
   // Company Info
   companyInfo: `*[_type == "companyInfo"][0] {
     name,
