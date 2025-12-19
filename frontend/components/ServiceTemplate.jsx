@@ -262,6 +262,7 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [] }) => {
       </section>
 
       {/* Customer Testimonials */}
+      {testimonials.length > 0 && (
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
@@ -270,11 +271,11 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [] }) => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {testimonials.slice(0, 2).map((testimonial) => (
-              <Card key={testimonial.id} className="shadow-lg border-0">
+            {testimonials.slice(0, 2).map((testimonial, index) => (
+              <Card key={testimonial._id || testimonial.id || index} className="shadow-lg border-0">
                 <CardContent className="p-6">
                   <div className="flex items-center gap-1 mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
+                    {[...Array(testimonial.rating || 5)].map((_, i) => (
                       <Star key={i} className="w-4 h-4 text-yellow-500 fill-current" />
                     ))}
                   </div>
@@ -293,6 +294,7 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [] }) => {
           </div>
         </div>
       </section>
+      )}
 
       {/* FAQ Section */}
       <section className="py-16 bg-gray-50">
