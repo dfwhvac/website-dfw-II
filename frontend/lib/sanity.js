@@ -154,3 +154,13 @@ export async function getSiteSettings() {
     return null
   }
 }
+
+export async function getBrandColors() {
+  try {
+    const data = await client.fetch(queries.brandColors)
+    return data
+  } catch (error) {
+    console.error('Error fetching brand colors:', error)
+    return null
+  }
+}
