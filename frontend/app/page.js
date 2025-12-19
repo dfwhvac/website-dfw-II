@@ -38,7 +38,7 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen">
-      <Header companyInfo={companyInfo} />
+      <Header companyInfo={companyInfo} siteSettings={siteSettings} />
       <main>
         <HomePage 
           companyInfo={companyInfo}
@@ -46,7 +46,7 @@ export default async function Home() {
           testimonials={testimonials}
         />
       </main>
-      <Footer companyInfo={companyInfo} />
+      <Footer companyInfo={companyInfo} siteSettings={siteSettings} />
     </div>
   )
 }
