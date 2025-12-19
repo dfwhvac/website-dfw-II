@@ -90,24 +90,40 @@ code {
     }
 }
 
-/* DFW HVAC Brand Colors */
-.bg-prussian-blue { background-color: #003153; }
-.text-prussian-blue { color: #003153; }
-.border-prussian-blue { border-color: #003153; }
+/* DFW HVAC Brand Colors - Using CSS Variables (Dynamic from Sanity) */
+.bg-prussian-blue { background-color: var(--prussian-blue); }
+.text-prussian-blue { color: var(--prussian-blue); }
+.border-prussian-blue { border-color: var(--prussian-blue); }
 
-.bg-electric-blue { background-color: #00B8FF; }
-.text-electric-blue { color: #00B8FF; }
-.border-electric-blue { border-color: #00B8FF; }
+.bg-electric-blue { background-color: var(--electric-blue); }
+.text-electric-blue { color: var(--electric-blue); }
+.border-electric-blue { border-color: var(--electric-blue); }
 
-.bg-vivid-red { background-color: #FF0606; }
-.text-vivid-red { color: #FF0606; }
-.border-vivid-red { border-color: #FF0606; }
+.bg-vivid-red { background-color: var(--vivid-red); }
+.text-vivid-red { color: var(--vivid-red); }
+.border-vivid-red { border-color: var(--vivid-red); }
 
-.bg-lime-green { background-color: #00FF00; }
-.text-lime-green { color: #00FF00; }
-.border-lime-green { border-color: #00FF00; }
+.bg-lime-green { background-color: var(--lime-green); }
+.text-lime-green { color: var(--lime-green); }
+.border-lime-green { border-color: var(--lime-green); }
+
+.bg-gold-amber { background-color: var(--gold-amber); }
+.text-gold-amber { color: var(--gold-amber); }
+.border-gold-amber { border-color: var(--gold-amber); }
+
+.bg-charcoal { background-color: var(--charcoal); }
+.text-charcoal { color: var(--charcoal); }
+.border-charcoal { border-color: var(--charcoal); }
+
+.bg-light-gray { background-color: var(--light-gray); }
+.text-light-gray { color: var(--light-gray); }
+.border-light-gray { border-color: var(--light-gray); }
 
 /* Hover variants */
-.hover\:bg-prussian-blue:hover { background-color: #003153; }
-.hover\:bg-electric-blue:hover { background-color: #00B8FF; }
-.hover\:bg-vivid-red:hover { background-color: #FF0606; }
+.hover\:bg-prussian-blue:hover { background-color: var(--prussian-blue); }
+.hover\:bg-electric-blue:hover { background-color: var(--electric-blue); }
+.hover\:bg-vivid-red:hover { background-color: var(--vivid-red); }
+.hover\:bg-lime-green:hover { background-color: var(--lime-green); }
+.hover\:bg-gold-amber:hover { background-color: var(--gold-amber); }
+.hover\:text-electric-blue:hover { color: var(--electric-blue); }
+.hover\:text-vivid-red:hover { color: var(--vivid-red); }
