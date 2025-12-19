@@ -5,13 +5,6 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Phone, Menu, X, ChevronDown } from 'lucide-react'
 import { Button } from './ui/button'
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from './ui/navigation-menu'
 
 // Default navigation data (used as fallback when Sanity data not available)
 const defaultNavigation = [
@@ -48,6 +41,44 @@ const defaultCtaButtons = [
   { label: 'Get Estimate', href: '/contact', variant: 'outline' },
   { label: 'Book Service', href: '/book-service', variant: 'primary' },
 ]
+
+// Custom dropdown component with proper alignment
+const NavDropdown = ({ item }) => {
+  const [isOpen, setIsOpen] = useState(false)
+
+  return (
+    <div 
+      className="relative"
+      onMouseEnter={() => setIsOpen(true)}
+      onMouseLeave={() => setIsOpen(false)}
+    >
+      <button 
+        className="flex items-center gap-1 px-4 py-2 text-sm font-medium hover:text-electric-blue transition-colors"
+      >
+        {item.label}
+        <ChevronDown 
+          className={`w-3 h-3 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} 
+        />
+      </button>
+      
+      {isOpen && (
+        <div className="absolute left-0 top-full mt-0 bg-white border border-gray-200 rounded-md shadow-lg z-50 min-w-full">
+          <div className="py-2">
+            {item.dropdownItems?.map((subItem) => (
+              <Link
+                key={subItem.href}
+                href={subItem.href}
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors whitespace-nowrap"
+              >
+                {subItem.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
 
 const Header = ({ companyInfo = {}, siteSettings = null }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -101,38 +132,22 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
           </Link>
 
           {/* Desktop Navigation */}
-          <NavigationMenu className="hidden lg:flex">
-            <NavigationMenuList>
-              {navigation.map((item, index) => (
-                <NavigationMenuItem key={item.href || index} className="relative">
-                  {item.isDropdown && item.dropdownItems?.length > 0 ? (
-                    <>
-                      <NavigationMenuTrigger className="px-4 py-2">
-                        {item.label}
-                      </NavigationMenuTrigger>
-                      <NavigationMenuContent className="absolute left-0 top-full mt-1">
-                        <div className="min-w-full py-2">
-                          {item.dropdownItems.map((subItem) => (
-                            <Link
-                              key={subItem.href}
-                              href={subItem.href}
-                              className="block px-4 py-2 text-sm hover:bg-gray-100 transition-colors whitespace-nowrap"
-                            >
-                              {subItem.label}
-                            </Link>
-                          ))}
-                        </div>
-                      </NavigationMenuContent>
-                    </>
-                  ) : (
-                    <Link href={item.href} className="px-4 py-2 hover:text-electric-blue transition-colors">
-                      {item.label}
-                    </Link>
-                  )}
-                </NavigationMenuItem>
-              ))}
-            </NavigationMenuList>
-          </NavigationMenu>
+          <nav className="hidden lg:flex items-center">
+            {navigation.map((item, index) => (
+              <div key={item.href || index}>
+                {item.isDropdown && item.dropdownItems?.length > 0 ? (
+                  <NavDropdown item={item} />
+                ) : (
+                  <Link 
+                    href={item.href} 
+                    className="px-4 py-2 text-sm font-medium hover:text-electric-blue transition-colors"
+                  >
+                    {item.label}
+                  </Link>
+                )}
+              </div>
+            ))}
+          </nav>
 
           {/* CTA Buttons */}
           <div className="hidden lg:flex items-center gap-3">
