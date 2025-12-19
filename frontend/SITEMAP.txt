@@ -175,8 +175,11 @@ FUTURE TASKS
 ------------
 
 DESIGN & CONTENT
-   [ ] Testimonial Carousel - Replace static testimonials with dynamic carousel
-   [ ] Bulk Testimonial Import - Import reviews via CSV using prepared script
+   [x] Testimonial Carousel - Homepage carousel with 12 reviews, auto-scroll, navigation
+   [x] Reviews Page - Full list with pagination, "Load More" button
+   [ ] Bulk Testimonial Import - Import 50 reviews via Sanity (user to provide export)
+       Note: Google only allows 5 reviews via API; user needs to export reviews
+       manually from Google Business Profile or use third-party tool
    [ ] "View All Services" Button - Redesign or repurpose (currently links to 404)
        Note: Button exists on homepage but /services page won't exist;
        Consider: two buttons (Residential/Commercial) or scroll anchor
