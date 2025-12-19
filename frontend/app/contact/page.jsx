@@ -14,6 +14,8 @@ export default async function ContactPage() {
   if (!companyInfo) {
     companyInfo = mockCompanyInfo
   }
+  
+  const siteSettings = await getSiteSettings()
 
   const pageData = {
     title: 'Contact Us',
@@ -25,14 +27,14 @@ export default async function ContactPage() {
 
   return (
     <div className="min-h-screen">
-      <Header companyInfo={companyInfo} />
+      <Header companyInfo={companyInfo} siteSettings={siteSettings} />
       <main>
         <CompanyPageTemplate 
           page={pageData} 
           companyInfo={companyInfo}
         />
       </main>
-      <Footer companyInfo={companyInfo} />
+      <Footer companyInfo={companyInfo} siteSettings={siteSettings} />
     </div>
   )
 }
