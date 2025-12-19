@@ -112,7 +112,7 @@ const ServiceTemplate = ({ service, companyInfo = {} }) => {
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="w-5 h-5 fill-current text-yellow-400" />
                   ))}
-                  <span className="ml-2 font-semibold">5.0 Rating • 118+ Reviews</span>
+                  <span className="ml-2 font-semibold">5.0 Rating • {googleReviews}+ Reviews</span>
                 </div>
               </div>
             </div>
