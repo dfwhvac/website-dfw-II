@@ -83,6 +83,9 @@ export default async function ServicePage({ params }) {
     testimonials = mockTestimonials
   }
   
+  // Fetch site settings
+  const siteSettings = await getSiteSettings()
+  
   // Transform service data to match template structure
   const serviceData = {
     title: service.title,
@@ -157,7 +160,7 @@ export default async function ServicePage({ params }) {
   
   return (
     <div className="min-h-screen">
-      <Header companyInfo={companyInfo} />
+      <Header companyInfo={companyInfo} siteSettings={siteSettings} />
       <main>
         <ServiceTemplate 
           service={serviceData} 
@@ -165,7 +168,7 @@ export default async function ServicePage({ params }) {
           testimonials={testimonials}
         />
       </main>
-      <Footer companyInfo={companyInfo} />
+      <Footer companyInfo={companyInfo} siteSettings={siteSettings} />
     </div>
   )
 }
