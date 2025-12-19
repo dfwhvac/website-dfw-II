@@ -18,11 +18,14 @@ code {
 
 @layer base {
   :root {
-        /* DFW HVAC Brand Colors */
+        /* DFW HVAC Brand Colors - Dynamic from Sanity */
         --prussian-blue: #003153;
         --electric-blue: #00B8FF;
         --vivid-red: #FF0606;
         --lime-green: #00FF00;
+        --gold-amber: #F77F00;
+        --charcoal: #2D3748;
+        --light-gray: #F7FAFC;
         
         --background: 0 0% 100%;
         --foreground: 0 0% 3.9%;
