@@ -198,7 +198,7 @@ const HomePage = ({
                         ))}
                       </ul>
                       <Button variant="outline" className="w-full" asChild>
-                        <Link href={`/services/commercial/${(service.name || service.title || '').toLowerCase().replace(/^commercial\s+/, '').replace(' ', '-')}`}>
+                        <Link href={`/services/commercial/${service.slug?.current || service.slug || (service.name || service.title || '').toLowerCase().replace(/\s+/g, '-')}`}>
                           Learn More
                         </Link>
                       </Button>
