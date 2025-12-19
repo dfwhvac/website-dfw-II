@@ -1,7 +1,7 @@
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import HomePage from '../components/HomePage'
-import { getCompanyInfo, getServices, getTestimonials } from '../lib/sanity'
+import { getCompanyInfo, getServices, getTestimonials, getSiteSettings } from '../lib/sanity'
 import { companyInfo as mockCompanyInfo, services as mockServices, testimonials as mockTestimonials } from '../lib/mockData'
 
 // Revalidate every 60 seconds
@@ -12,6 +12,7 @@ export default async function Home() {
   let companyInfo = await getCompanyInfo()
   let services = await getServices()
   let testimonials = await getTestimonials()
+  const siteSettings = await getSiteSettings()
   
   // Use mock data if Sanity returns null/empty
   if (!companyInfo) {
