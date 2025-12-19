@@ -1,0 +1,170 @@
+DFW HVAC WEBSITE SITEMAP
+========================
+
+Generated: December 2024
+Status Legend: ✓ = Complete | ○ = Not Built
+
+
+MAIN NAVIGATION
+---------------
+
+HOME (/)                                                    ✓ Complete
+    • Hero section with lead capture form
+    • Services overview
+    • Testimonials section
+    • Trust badges & company info
+
+
+RESIDENTIAL SERVICES
+--------------------
+
+Air Conditioning (/services/residential/air-conditioning)   ✓ Complete
+    • AC repair, installation, maintenance
+    • Template A - Full service page
+
+Heating (/services/residential/heating)                     ✓ Complete
+    • Furnace & heat pump services
+    • Template A - Full service page
+
+Preventative Maintenance (/services/residential/preventative-maintenance)    ✓ Complete
+    • Seasonal tune-ups & inspections
+    • Template A - Full service page
+
+Indoor Air Quality (/services/residential/indoor-air-quality)               ✓ Complete
+    • Air purification, filtration, humidity
+    • Template A - Full service page
+
+
+COMMERCIAL SERVICES
+-------------------
+
+Commercial AC (/services/commercial/commercial-air-conditioning)            ✓ Complete
+    • Commercial cooling systems
+    • Template A - Full service page
+
+Commercial Heating (/services/commercial/commercial-heating)                ✓ Complete
+    • Commercial heating systems
+    • Template A - Full service page
+
+Commercial Maintenance (/services/commercial/commercial-maintenance)        ✓ Complete
+    • Commercial HVAC maintenance
+    • Template A - Full service page
+
+
+COMPANY PAGES
+-------------
+
+About Us (/about)                                           ✓ Complete
+    • Company history, values, team
+    • Template B - Company page
+
+Reviews (/reviews)                                          ✓ Complete
+    • Customer testimonials
+    • Template B - Company page
+
+Contact (/contact)                                          ✓ Complete
+    • Contact form, phone, address
+    • Template B - Company page
+
+Book Service (/book-service)                                ✓ Complete
+    • Service booking form
+    • Standalone page
+
+
+FOOTER PAGES (NOT YET BUILT)
+----------------------------
+
+Case Studies (/case-studies)                                ○ Not Built
+    • Project examples & success stories
+
+Financing Options (/financing)                              ○ Not Built
+    • Payment plans, financing info
+
+Cities Served (/cities-served)                              ○ Not Built
+    • Service area map & city list
+
+FAQ (/faq)                                                  ○ Not Built
+    • Frequently asked questions
+
+Privacy Policy (/privacy-policy)                            ○ Not Built
+    • Legal privacy information
+
+Terms of Service (/terms-of-service)                        ○ Not Built
+    • Legal terms & conditions
+
+
+ADMIN / CMS
+-----------
+
+Sanity Studio (/studio)                                     ✓ Complete
+    • Content management interface
+    • Edit services, testimonials, settings
+
+
+================================================================================
+
+SUMMARY
+-------
+
+Total Pages Planned:        20
+Pages Completed:            14
+Pages Not Built:             6
+
+Completion Rate:            70%
+
+
+SITE STRUCTURE DIAGRAM
+----------------------
+
+dfwhvac.com
+│
+├── / (Homepage)
+│
+├── /services/
+│   ├── /residential/
+│   │   ├── /air-conditioning
+│   │   ├── /heating
+│   │   ├── /preventative-maintenance
+│   │   └── /indoor-air-quality
+│   │
+│   └── /commercial/
+│       ├── /commercial-air-conditioning
+│       ├── /commercial-heating
+│       └── /commercial-maintenance
+│
+├── /about
+├── /reviews
+├── /contact
+├── /book-service
+│
+├── /case-studies          (not built)
+├── /financing             (not built)
+├── /cities-served         (not built)
+├── /faq                   (not built)
+├── /privacy-policy        (not built)
+├── /terms-of-service      (not built)
+│
+└── /studio (CMS Admin)
+
+
+================================================================================
+
+NOTES
+-----
+
+1. All service pages use "Template A" - comprehensive service layout with:
+   - Hero section
+   - What We Do
+   - Our Process
+   - Why Choose Us
+   - Pricing tiers
+   - FAQs
+   - Testimonials
+
+2. Company pages use "Template B" - flexible content layout
+
+3. Content is managed through Sanity CMS at /studio
+
+4. Pages marked "Not Built" are linked in the footer navigation
+   and should be created before site launch
+
