@@ -2,11 +2,76 @@
 
 import React from 'react'
 import Link from 'next/link'
-import { Phone, Mail, MapPin, Clock, Facebook, Instagram, Twitter } from 'lucide-react'
-import { companyInfo as defaultCompanyInfo } from '../lib/mockData'
+import { Phone, Mail, MapPin, Clock, Facebook, Instagram, Twitter, Linkedin, Youtube } from 'lucide-react'
 
-const Footer = ({ companyInfo = defaultCompanyInfo }) => {
+// Default footer sections (used as fallback when Sanity data not available)
+const defaultFooterSections = [
+  {
+    title: 'Our Services',
+    links: [
+      { label: 'Air Conditioning', href: '/services/residential/air-conditioning' },
+      { label: 'Heating Systems', href: '/services/residential/heating' },
+      { label: 'Preventative Maintenance', href: '/services/residential/preventative-maintenance' },
+      { label: 'Indoor Air Quality', href: '/services/residential/indoor-air-quality' },
+      { label: 'Commercial HVAC', href: '/services/commercial/air-conditioning' },
+    ]
+  },
+  {
+    title: 'Quick Links',
+    links: [
+      { label: 'About Us', href: '/about' },
+      { label: 'Customer Reviews', href: '/reviews' },
+      { label: 'Case Studies', href: '/case-studies' },
+      { label: 'Financing Options', href: '/financing' },
+      { label: 'Cities Served', href: '/cities-served' },
+      { label: 'FAQ', href: '/faq' },
+    ]
+  }
+]
+
+const defaultSocialLinks = [
+  { platform: 'facebook', url: '#' },
+  { platform: 'instagram', url: '#' },
+  { platform: 'twitter', url: '#' },
+]
+
+// Social icon mapper
+const SocialIcon = ({ platform, className }) => {
+  const icons = {
+    facebook: Facebook,
+    instagram: Instagram,
+    twitter: Twitter,
+    linkedin: Linkedin,
+    youtube: Youtube,
+    google: MapPin, // Using MapPin as placeholder for Google Business
+    yelp: MapPin, // Using MapPin as placeholder for Yelp
+  }
+  const Icon = icons[platform] || Facebook
+  return <Icon className={className} />
+}
+
+const Footer = ({ companyInfo = {}, siteSettings = null }) => {
   const currentYear = new Date().getFullYear()
+  
+  // Use Sanity data if available, otherwise use defaults
+  const footerTagline = siteSettings?.footerTagline || 
+    'Trusted HVAC contractor serving Dallas-Fort Worth and surrounding areas for over 50 years. Quality service, reliable solutions.'
+  const footerSections = siteSettings?.footerSections || defaultFooterSections
+  const socialLinks = siteSettings?.socialLinks || defaultSocialLinks
+  const copyrightText = (siteSettings?.copyrightText || '© {year} DFW HVAC. All rights reserved.')
+    .replace('{year}', currentYear)
+  const showServiceAreas = siteSettings?.showServiceAreas !== false
+  const showBusinessHours = siteSettings?.showBusinessHours !== false
+
+  // Default company info fallbacks
+  const phoneDisplay = companyInfo?.phoneDisplay || '(972) 777-COOL'
+  const email = companyInfo?.email || 'info@dfwhvac.com'
+  const address = companyInfo?.address || 'Dallas-Fort Worth Area'
+  const businessHours = companyInfo?.businessHours || {
+    monday: '7am - 7pm',
+    saturday: '8am - 5pm',
+    sunday: 'Emergency Only'
+  }
 
   return (
     <footer className="bg-gray-900 text-white">
@@ -25,84 +90,41 @@ const Footer = ({ companyInfo = defaultCompanyInfo }) => {
               </div>
             </div>
             <p className="text-gray-300 text-sm leading-relaxed">
-              Trusted HVAC contractor serving Dallas-Fort Worth and surrounding areas 
-              for over 50 years. Quality service, reliable solutions.
+              {footerTagline}
             </p>
             <div className="flex space-x-4">
-              <Facebook className="w-5 h-5 text-gray-400 hover:text-electric-blue cursor-pointer transition-colors" />
-              <Instagram className="w-5 h-5 text-gray-400 hover:text-electric-blue cursor-pointer transition-colors" />
-              <Twitter className="w-5 h-5 text-gray-400 hover:text-electric-blue cursor-pointer transition-colors" />
+              {socialLinks.map((social, index) => (
+                <a 
+                  key={social.platform || index}
+                  href={social.url || '#'}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-electric-blue transition-colors"
+                >
+                  <SocialIcon platform={social.platform} className="w-5 h-5" />
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* Services */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Our Services</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="/services/residential/air-conditioning" className="text-gray-300 hover:text-white transition-colors">
-                  Air Conditioning
-                </Link>
-              </li>
-              <li>
-                <Link href="/services/residential/heating" className="text-gray-300 hover:text-white transition-colors">
-                  Heating Systems
-                </Link>
-              </li>
-              <li>
-                <Link href="/services/residential/preventative-maintenance" className="text-gray-300 hover:text-white transition-colors">
-                  Preventative Maintenance
-                </Link>
-              </li>
-              <li>
-                <Link href="/services/residential/indoor-air-quality" className="text-gray-300 hover:text-white transition-colors">
-                  Indoor Air Quality
-                </Link>
-              </li>
-              <li>
-                <Link href="/services/commercial/air-conditioning" className="text-gray-300 hover:text-white transition-colors">
-                  Commercial HVAC
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Quick Links */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Quick Links</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="/about" className="text-gray-300 hover:text-white transition-colors">
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link href="/reviews" className="text-gray-300 hover:text-white transition-colors">
-                  Customer Reviews
-                </Link>
-              </li>
-              <li>
-                <Link href="/case-studies" className="text-gray-300 hover:text-white transition-colors">
-                  Case Studies
-                </Link>
-              </li>
-              <li>
-                <Link href="/financing" className="text-gray-300 hover:text-white transition-colors">
-                  Financing Options
-                </Link>
-              </li>
-              <li>
-                <Link href="/cities-served" className="text-gray-300 hover:text-white transition-colors">
-                  Cities Served
-                </Link>
-              </li>
-              <li>
-                <Link href="/faq" className="text-gray-300 hover:text-white transition-colors">
-                  FAQ
-                </Link>
-              </li>
-            </ul>
-          </div>
+          {/* Dynamic Footer Sections */}
+          {footerSections.map((section, index) => (
+            <div key={section.title || index} className="space-y-4">
+              <h3 className="text-lg font-semibold">{section.title}</h3>
+              <ul className="space-y-2 text-sm">
+                {section.links?.map((link, linkIndex) => (
+                  <li key={link.href || linkIndex}>
+                    <Link 
+                      href={link.href || '#'} 
+                      className="text-gray-300 hover:text-white transition-colors"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
 
           {/* Contact Info */}
           <div className="space-y-4">
@@ -111,26 +133,30 @@ const Footer = ({ companyInfo = defaultCompanyInfo }) => {
               <div className="flex items-center gap-3 text-sm">
                 <Phone className="w-4 h-4 text-vivid-red" />
                 <div>
-                  <div className="font-semibold">{companyInfo.phoneDisplay}</div>
+                  <div className="font-semibold">{phoneDisplay}</div>
                   <div className="text-gray-400">Professional HVAC Service</div>
                 </div>
               </div>
               <div className="flex items-center gap-3 text-sm">
                 <Mail className="w-4 h-4 text-electric-blue" />
-                <span className="text-gray-300">{companyInfo.email}</span>
+                <span className="text-gray-300">{email}</span>
               </div>
-              <div className="flex items-center gap-3 text-sm">
-                <MapPin className="w-4 h-4 text-lime-green" />
-                <span className="text-gray-300">{companyInfo.address}</span>
-              </div>
-              <div className="flex items-center gap-3 text-sm">
-                <Clock className="w-4 h-4 text-yellow-500" />
-                <div className="text-gray-300">
-                  <div>Mon-Fri: {companyInfo.businessHours.monday}</div>
-                  <div>Sat: {companyInfo.businessHours.saturday}</div>
-                  <div>Sun: {companyInfo.businessHours.sunday}</div>
+              {showServiceAreas && (
+                <div className="flex items-center gap-3 text-sm">
+                  <MapPin className="w-4 h-4 text-lime-green" />
+                  <span className="text-gray-300">{address}</span>
                 </div>
-              </div>
+              )}
+              {showBusinessHours && businessHours && (
+                <div className="flex items-center gap-3 text-sm">
+                  <Clock className="w-4 h-4 text-yellow-500" />
+                  <div className="text-gray-300">
+                    <div>Mon-Fri: {businessHours.monday}</div>
+                    <div>Sat: {businessHours.saturday}</div>
+                    <div>Sun: {businessHours.sunday}</div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -138,7 +164,7 @@ const Footer = ({ companyInfo = defaultCompanyInfo }) => {
         {/* Bottom Bar */}
         <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="text-sm text-gray-400">
-            © {currentYear} DFW HVAC. All rights reserved.
+            {copyrightText}
           </div>
           <div className="flex gap-6 text-sm">
             <Link href="/privacy-policy" className="text-gray-400 hover:text-white transition-colors">
