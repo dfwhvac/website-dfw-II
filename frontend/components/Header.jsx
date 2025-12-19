@@ -56,9 +56,13 @@ const Header = ({ companyInfo = {} }) => {
         {/* Main Navigation */}
         <div className="flex justify-between items-center py-4">
           <Link href="/" className="flex items-center gap-3">
-            <div className="bg-prussian-blue text-white px-4 py-2 rounded-lg font-bold text-xl">
-              DFW
-            </div>
+            <Image 
+              src="/logo.png" 
+              alt="DFW HVAC Logo" 
+              width={60} 
+              height={60}
+              className="rounded-lg"
+            />
             <div>
               <div className="text-xl font-bold text-gray-800">DFW HVAC</div>
               <div className="text-sm text-gray-600">Family Owned Since 1974</div>
