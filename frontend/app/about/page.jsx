@@ -19,6 +19,8 @@ export default async function AboutPage() {
   if (!testimonials || testimonials.length === 0) {
     testimonials = mockTestimonials
   }
+  
+  const siteSettings = await getSiteSettings()
 
   const pageData = {
     title: 'About Us',
@@ -32,7 +34,7 @@ export default async function AboutPage() {
 
   return (
     <div className="min-h-screen">
-      <Header companyInfo={companyInfo} />
+      <Header companyInfo={companyInfo} siteSettings={siteSettings} />
       <main>
         <CompanyPageTemplate 
           page={pageData} 
@@ -40,7 +42,7 @@ export default async function AboutPage() {
           testimonials={testimonials}
         />
       </main>
-      <Footer companyInfo={companyInfo} />
+      <Footer companyInfo={companyInfo} siteSettings={siteSettings} />
     </div>
   )
 }
