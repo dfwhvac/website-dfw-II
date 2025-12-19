@@ -204,4 +204,27 @@ PERFORMANCE (After colors finalized)
 OTHER
    [ ] Custom domain setup
    [ ] Lead capture form backend (email notifications)
+   [ ] Service visibility toggle - Add "published" field to service schema
+       Note: Allows hiding services via Sanity without deleting content;
+       Useful for temporary removal or seasonal adjustments
+
+STRATEGIC CONSIDERATIONS
+   [ ] Seasonal Homepage Strategy - Dynamic content based on season
+       Context: HVAC traffic is temperature-driven. Visitors arrive with
+       specific intent (AC broken in summer, heater broken in winter).
+       Showing "all services" may dilute conversion.
+       
+       Options to evaluate:
+       a) Auto-detect season → Feature cooling (Apr-Sep) or heating (Oct-Mar)
+       b) Sanity toggle → Manually switch "featured season" in CMS
+       c) Geo-weather API → Show services based on local temperature
+       d) A/B test → Measure conversion: all services vs. seasonal focus
+       
+       Implementation considerations:
+       - Hero messaging: "AC Emergency?" vs "Heater Not Working?"
+       - Featured services section: Show 2-3 relevant services, not all
+       - CTAs: Season-specific calls to action
+       - Could maintain year-round services in nav, but homepage focuses
+       
+       Priority: Post-launch optimization based on traffic data
 
