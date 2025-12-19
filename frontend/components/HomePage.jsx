@@ -36,17 +36,6 @@ const HomePage = ({
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <div className="space-y-4">
-                {/* Hero Logo */}
-                <div className="mb-4 overflow-hidden rounded-xl max-w-[450px]">
-                  <Image 
-                    src="/logo.png" 
-                    alt="DFW HVAC Logo" 
-                    width={450} 
-                    height={180}
-                    className="w-full h-auto object-cover object-center"
-                    style={{ maxHeight: '180px' }}
-                  />
-                </div>
                 <div className="inline-flex items-center gap-2 bg-blue-50 text-prussian-blue px-4 py-2 rounded-full text-sm font-medium border border-prussian-blue">
                   <Award className="w-4 h-4" />
                   Trusted Since 1974
