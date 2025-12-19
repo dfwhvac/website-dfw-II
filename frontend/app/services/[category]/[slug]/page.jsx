@@ -77,6 +77,12 @@ export default async function ServicePage({ params }) {
     companyInfo = mockCompanyInfo
   }
   
+  // Fetch testimonials
+  let testimonials = await getTestimonials()
+  if (!testimonials || testimonials.length === 0) {
+    testimonials = mockTestimonials
+  }
+  
   // Transform service data to match template structure
   const serviceData = {
     title: service.title,
