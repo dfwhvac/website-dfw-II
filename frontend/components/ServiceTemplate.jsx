@@ -215,7 +215,7 @@ const ServiceTemplate = ({ service, companyInfo = {} }) => {
                     asChild
                   >
                     <Link href="/book-service">
-                      Call (972) 777-COOL Now
+                      Call {phone} Now
                     </Link>
                   </Button>
                 </CardContent>
