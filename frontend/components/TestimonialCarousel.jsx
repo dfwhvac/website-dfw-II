@@ -58,7 +58,7 @@ const TestimonialCarousel = ({ testimonials = [], maxDisplay = 12 }) => {
               key={testimonial._id || testimonial.id || index} 
               className="flex-none w-full md:w-1/2 lg:w-1/3 pl-4"
             >
-              <Card className="h-full shadow-lg border-0 bg-white">
+              <Card className="h-full shadow-lg border-0 bg-white min-h-[320px]">
                 <CardContent className="p-6 flex flex-col h-full">
                   {/* Rating Stars */}
                   <div className="flex items-center gap-1 mb-4">
@@ -68,7 +68,7 @@ const TestimonialCarousel = ({ testimonials = [], maxDisplay = 12 }) => {
                   </div>
                   
                   {/* Review Text */}
-                  <p className="text-gray-600 mb-4 italic flex-grow line-clamp-4">
+                  <p className="text-gray-600 mb-4 italic flex-grow line-clamp-[8] text-sm leading-relaxed">
                     "{testimonial.text}"
                   </p>
                   
