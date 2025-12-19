@@ -34,10 +34,10 @@ const defaultNavigation = [
     isDropdown: true, 
     isVisible: true,
     dropdownItems: [
-      { label: 'Commercial AC', href: '/services/commercial/air-conditioning' },
-      { label: 'Commercial Heating', href: '/services/commercial/heating' },
-      { label: 'Commercial Maintenance', href: '/services/commercial/maintenance' },
-      { label: 'Commercial Air Quality', href: '/services/commercial/indoor-air-quality' },
+      { label: 'Commercial AC', href: '/services/commercial/commercial-air-conditioning' },
+      { label: 'Commercial Heating', href: '/services/commercial/commercial-heating' },
+      { label: 'Commercial Maintenance', href: '/services/commercial/commercial-maintenance' },
+      { label: 'Commercial Air Quality', href: '/services/commercial/commercial-indoor-air-quality' },
     ]
   },
   { label: 'About', href: '/about', isDropdown: false, isVisible: true },

@@ -13,7 +13,7 @@ const defaultFooterSections = [
       { label: 'Heating Systems', href: '/services/residential/heating' },
       { label: 'Preventative Maintenance', href: '/services/residential/preventative-maintenance' },
       { label: 'Indoor Air Quality', href: '/services/residential/indoor-air-quality' },
-      { label: 'Commercial HVAC', href: '/services/commercial/air-conditioning' },
+      { label: 'Commercial HVAC', href: '/services/commercial/commercial-air-conditioning' },
     ]
   },
   {
