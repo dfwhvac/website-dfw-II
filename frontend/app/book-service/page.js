@@ -11,14 +11,21 @@ export const metadata = createMetadata({
   keywords: 'book hvac service, schedule ac repair, dallas hvac appointment, fort worth heating service',
 })
 
-export default function BookService() {
+export default async function BookService() {
+  let companyInfo = await getCompanyInfo()
+  if (!companyInfo) {
+    companyInfo = mockCompanyInfo
+  }
+  
+  const siteSettings = await getSiteSettings()
+
   return (
     <div className="min-h-screen">
-      <Header />
+      <Header companyInfo={companyInfo} siteSettings={siteSettings} />
       <main>
         <BookServicePage />
       </main>
-      <Footer />
+      <Footer companyInfo={companyInfo} siteSettings={siteSettings} />
     </div>
   )
 }
