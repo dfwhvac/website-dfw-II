@@ -299,27 +299,9 @@ const HomePage = ({
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {testimonials.slice(0, 3).map((testimonial) => (
-              <Card key={testimonial.id} className="shadow-lg border-0">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-1 mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 text-yellow-500 fill-current" />
-                    ))}
-                  </div>
-                  <p className="text-gray-600 mb-4 italic">"{testimonial.text}"</p>
-                  <div className="border-t pt-4">
-                    <div className="font-semibold text-gray-800">{testimonial.name}</div>
-                    <div className="text-sm text-gray-600">{testimonial.location}</div>
-                    <div className="text-sm text-electric-blue font-medium">{testimonial.service}</div>
-                    {testimonial.timeAgo && (
-                      <div className="text-xs text-gray-500 mt-1">{testimonial.timeAgo}</div>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+          {/* Testimonial Carousel */}
+          <div className="max-w-6xl mx-auto px-8">
+            <TestimonialCarousel testimonials={testimonials} maxDisplay={12} />
           </div>
 
           <div className="text-center mt-12">
