@@ -159,7 +159,11 @@ export default async function ServicePage({ params }) {
     <div className="min-h-screen">
       <Header companyInfo={companyInfo} />
       <main>
-        <ServiceTemplate service={serviceData} />
+        <ServiceTemplate 
+          service={serviceData} 
+          companyInfo={companyInfo}
+          testimonials={testimonials}
+        />
       </main>
       <Footer companyInfo={companyInfo} />
     </div>
