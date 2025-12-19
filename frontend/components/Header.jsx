@@ -131,9 +131,11 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation - excludes "Home" (logo serves as home link) */}
           <nav className="hidden lg:flex items-center">
-            {navigation.map((item, index) => (
+            {navigation
+              .filter(item => item.label !== 'Home')
+              .map((item, index) => (
               <div key={item.href || index}>
                 {item.isDropdown && item.dropdownItems?.length > 0 ? (
                   <NavDropdown item={item} />
