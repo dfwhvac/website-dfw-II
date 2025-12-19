@@ -104,19 +104,19 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
           <NavigationMenu className="hidden lg:flex">
             <NavigationMenuList>
               {navigation.map((item, index) => (
-                <NavigationMenuItem key={item.href || index}>
+                <NavigationMenuItem key={item.href || index} className="relative">
                   {item.isDropdown && item.dropdownItems?.length > 0 ? (
                     <>
                       <NavigationMenuTrigger className="px-4 py-2">
                         {item.label}
                       </NavigationMenuTrigger>
-                      <NavigationMenuContent>
-                        <div className="p-4 w-64">
+                      <NavigationMenuContent className="absolute left-0 top-full mt-1">
+                        <div className="min-w-full py-2">
                           {item.dropdownItems.map((subItem) => (
                             <Link
                               key={subItem.href}
                               href={subItem.href}
-                              className="block px-3 py-2 text-sm hover:bg-gray-100 rounded-md transition-colors"
+                              className="block px-4 py-2 text-sm hover:bg-gray-100 transition-colors whitespace-nowrap"
                             >
                               {subItem.label}
                             </Link>
