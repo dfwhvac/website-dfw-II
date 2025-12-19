@@ -2,7 +2,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ServiceTemplate from '@/components/ServiceTemplate'
 import { client } from '@/lib/sanity'
-import { getCompanyInfo, getTestimonials } from '@/lib/sanity'
+import { getCompanyInfo, getTestimonials, getSiteSettings } from '@/lib/sanity'
 import { companyInfo as mockCompanyInfo, testimonials as mockTestimonials } from '@/lib/mockData'
 import { notFound } from 'next/navigation'
 

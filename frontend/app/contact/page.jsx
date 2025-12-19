@@ -1,7 +1,7 @@
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import CompanyPageTemplate from '@/components/CompanyPageTemplate'
-import { getCompanyInfo } from '@/lib/sanity'
+import { getCompanyInfo, getSiteSettings } from '@/lib/sanity'
 import { companyInfo as mockCompanyInfo } from '@/lib/mockData'
 
 export const metadata = {

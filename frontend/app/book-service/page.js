@@ -2,6 +2,8 @@ import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import BookServicePage from '../../components/BookServicePage'
 import { createMetadata } from '../../lib/metadata'
+import { getCompanyInfo, getSiteSettings } from '../../lib/sanity'
+import { companyInfo as mockCompanyInfo } from '../../lib/mockData'
 
 export const metadata = createMetadata({
   title: 'Book HVAC Service | DFW HVAC | Dallas-Fort Worth',
