@@ -63,6 +63,43 @@ export const queries = {
     service,
     timeAgo
   }`,
+
+  // Site Settings
+  siteSettings: `*[_type == "siteSettings"][0] {
+    headerTagline,
+    headerCtaText,
+    showHeaderTagline,
+    mainNavigation[] | order(order asc) {
+      label,
+      href,
+      isDropdown,
+      dropdownItems[] {
+        label,
+        href
+      },
+      isVisible
+    },
+    ctaButtons[] | order(order asc) {
+      label,
+      href,
+      variant
+    },
+    footerTagline,
+    footerSections[] | order(order asc) {
+      title,
+      links[] {
+        label,
+        href
+      }
+    },
+    socialLinks[] {
+      platform,
+      url
+    },
+    copyrightText,
+    showServiceAreas,
+    showBusinessHours
+  }`,
 }
 
 // Helper functions to fetch data
@@ -92,6 +129,16 @@ export async function getTestimonials() {
     return data
   } catch (error) {
     console.error('Error fetching testimonials:', error)
+    return null
+  }
+}
+
+export async function getSiteSettings() {
+  try {
+    const data = await client.fetch(queries.siteSettings)
+    return data
+  } catch (error) {
+    console.error('Error fetching site settings:', error)
     return null
   }
 }
