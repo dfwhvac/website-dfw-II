@@ -14,15 +14,15 @@ module.exports = {
                         sm: 'calc(var(--radius) - 4px)'
                 },
                 colors: {
-                        // Official DFW HVAC Brand Colors
-                        'prussian-blue': '#003153',
-                        'electric-blue': '#00B8FF',
-                        'vivid-red': '#FF0606',
-                        'lime-green': '#00FF00',
+                        // Official DFW HVAC Brand Colors - Dynamic from Sanity via CSS Variables
+                        'prussian-blue': 'var(--prussian-blue)',
+                        'electric-blue': 'var(--electric-blue)',
+                        'vivid-red': 'var(--vivid-red)',
+                        'lime-green': 'var(--lime-green)',
                         // Additional Colors
-                        'gold-amber': '#F77F00',
-                        'charcoal': '#2D3748',
-                        'light-gray': '#F7FAFC',
+                        'gold-amber': 'var(--gold-amber)',
+                        'charcoal': 'var(--charcoal)',
+                        'light-gray': 'var(--light-gray)',
                         // Shadcn UI Colors
                         background: 'hsl(var(--background))',
                         foreground: 'hsl(var(--foreground))',
