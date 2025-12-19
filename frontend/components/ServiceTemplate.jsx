@@ -17,18 +17,22 @@ import {
   Clock,
   Shield,
   Award,
-  ArrowRight
+  ArrowRight,
+  Building
 } from 'lucide-react'
-import { testimonials } from '@/lib/mockData'
 
-const ServiceTemplate = ({ service }) => {
+const ServiceTemplate = ({ service, companyInfo = {} }) => {
+  const phone = companyInfo?.phone || '(972) 777-COOL'
+  const googleReviews = companyInfo?.googleReviews || 129
+  
   const getIconComponent = (iconName) => {
     const icons = {
       snowflake: Snowflake,
       flame: Flame, 
       wrench: Wrench,
       wind: Wind,
-      clock: Clock
+      clock: Clock,
+      building: Building
     }
     return icons[iconName] || Wrench
   }
