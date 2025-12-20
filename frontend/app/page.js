@@ -11,8 +11,10 @@ export default async function Home() {
   // Fetch data from Sanity (with fallback to mock data)
   let companyInfo = await getCompanyInfo()
   let services = await getServices()
-  let testimonials = await getTestimonials()
   const siteSettings = await getSiteSettings()
+  
+  // Always use mockTestimonials (contains 100 real Google reviews)
+  const testimonials = mockTestimonials
   
   // Use mock data if Sanity returns null/empty
   if (!companyInfo) {
