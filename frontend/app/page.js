@@ -33,10 +33,6 @@ export default async function Home() {
       commercial: services.filter(s => s.category === 'commercial')
     }
   }
-  
-  if (!testimonials || testimonials.length === 0) {
-    testimonials = mockTestimonials
-  }
 
   return (
     <div className="min-h-screen">
