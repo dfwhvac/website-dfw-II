@@ -75,9 +75,6 @@ const TestimonialCarousel = ({ testimonials = [], maxDisplay = 12 }) => {
                   {/* Customer Info */}
                   <div className="border-t pt-4 mt-auto">
                     <div className="font-semibold text-gray-800">{testimonial.name}</div>
-                    {testimonial.location && (
-                      <div className="text-sm text-gray-500">{testimonial.location}</div>
-                    )}
                     {testimonial.service && (
                       <div className="text-sm text-electric-blue font-medium">{testimonial.service}</div>
                     )}
