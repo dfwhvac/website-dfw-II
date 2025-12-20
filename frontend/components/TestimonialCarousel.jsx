@@ -78,11 +78,11 @@ const TestimonialCarousel = ({ testimonials = [], maxDisplay = 12 }) => {
                   {/* Customer Info */}
                   <div className="border-t pt-4 mt-auto">
                     <div className="font-semibold text-gray-800">{testimonial.name}</div>
-                    {testimonial.service && (
-                      <div className="text-sm text-electric-blue font-medium">{testimonial.service}</div>
+                    {testimonial.services && (
+                      <div className="text-sm text-electric-blue font-medium">{testimonial.services}</div>
                     )}
-                    {testimonial.timeAgo && (
-                      <div className="text-xs text-gray-400 mt-1">{testimonial.timeAgo}</div>
+                    {testimonial.date && (
+                      <div className="text-xs text-gray-400 mt-1">{testimonial.date}</div>
                     )}
                   </div>
                 </CardContent>

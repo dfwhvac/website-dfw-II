@@ -55,11 +55,11 @@ const ReviewsGrid = ({ testimonials = [], googleReviews = 130 }) => {
                       <p className="font-semibold text-gray-900">{testimonial.name}</p>
                     </div>
                     <div className="text-right">
-                      {testimonial.service && (
-                        <p className="text-sm text-electric-blue font-medium">{testimonial.service}</p>
+                      {testimonial.services && (
+                        <p className="text-sm text-electric-blue font-medium">{testimonial.services}</p>
                       )}
-                      {testimonial.timeAgo && (
-                        <p className="text-xs text-gray-400">{testimonial.timeAgo}</p>
+                      {testimonial.date && (
+                        <p className="text-xs text-gray-400">{testimonial.date}</p>
                       )}
                     </div>
                   </div>
