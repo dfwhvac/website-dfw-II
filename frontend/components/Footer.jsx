@@ -130,17 +130,17 @@ const Footer = ({ companyInfo = {}, siteSettings = null }) => {
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Contact Us</h3>
             <div className="space-y-3">
-              <div className="flex items-center gap-3 text-sm">
+              <a href="tel:+19727772665" className="flex items-center gap-3 text-sm hover:text-white transition-colors">
                 <Phone className="w-4 h-4 text-vivid-red" />
                 <div>
                   <div className="font-semibold">{phoneDisplay}</div>
                   <div className="text-gray-400">Professional HVAC Service</div>
                 </div>
-              </div>
-              <div className="flex items-center gap-3 text-sm">
+              </a>
+              <a href={`mailto:${email}`} className="flex items-center gap-3 text-sm hover:text-white transition-colors">
                 <Mail className="w-4 h-4 text-electric-blue" />
                 <span className="text-gray-300">{email}</span>
-              </div>
+              </a>
               {showServiceAreas && (
                 <div className="flex items-center gap-3 text-sm">
                   <MapPin className="w-4 h-4 text-lime-green" />
