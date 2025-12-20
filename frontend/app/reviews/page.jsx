@@ -1,7 +1,7 @@
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ReviewsGrid from '@/components/ReviewsGrid'
-import { getCompanyInfo, getTestimonials, getSiteSettings } from '@/lib/sanity'
+import { getCompanyInfo, getSiteSettings } from '@/lib/sanity'
 import { companyInfo as mockCompanyInfo, testimonials as mockTestimonials } from '@/lib/mockData'
 import { Shield, Award, Star } from 'lucide-react'
 
