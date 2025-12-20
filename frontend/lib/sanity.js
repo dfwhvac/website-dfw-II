@@ -112,6 +112,15 @@ export const queries = {
     showServiceAreas,
     showBusinessHours
   }`,
+
+  // FAQs
+  faqs: `*[_type == "faq" && isPublished == true] | order(category asc, order asc) {
+    _id,
+    question,
+    answer,
+    category,
+    order
+  }`,
 }
 
 // Helper functions to fetch data
