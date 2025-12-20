@@ -101,15 +101,18 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
               {headerTagline}
             </div>
             <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2 text-vivid-red font-semibold">
+              <a href="tel:+19727772665" className="flex items-center gap-2 text-vivid-red font-semibold hover:underline">
                 <Phone className="w-4 h-4" />
                 <span>{phone}</span>
-              </div>
+              </a>
               <Button 
                 size="sm" 
                 className="bg-vivid-red hover:bg-vivid-red text-white"
+                asChild
               >
-                {headerCtaText}
+                <a href="tel:+19727772665">
+                  {headerCtaText}
+                </a>
               </Button>
             </div>
           </div>
