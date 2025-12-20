@@ -177,10 +177,7 @@ FUTURE TASKS
 DESIGN & CONTENT
    [x] Testimonial Carousel - Homepage carousel with 12 reviews, auto-scroll, navigation
    [x] Reviews Page - Full list with pagination, "Load More" button
-   [ ] Test Carousel - Verify carousel behavior with full 50 reviews dataset
-   [ ] Bulk Testimonial Import - Import 50 reviews via Sanity (user to provide export)
-       Note: Google only allows 5 reviews via API; user needs to export reviews
-       manually from Google Business Profile or use third-party tool
+   [ ] Lead capture form backend - Email notifications when form submitted
    [ ] "View All Services" Button - Redesign or repurpose (currently links to 404)
        Note: Button exists on homepage but /services page won't exist;
        Consider: two buttons (Residential/Commercial) or scroll anchor
