@@ -337,10 +337,10 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [] }) => {
               className="bg-vivid-red hover:bg-vivid-red text-white font-semibold px-8 py-4 text-lg h-auto"
               asChild
             >
-              <Link href="/book-service">
+              <a href="tel:+19727772665">
                 <Phone className="w-5 h-5 mr-2" />
                 Call {phone}
-              </Link>
+              </a>
             </Button>
             <Button 
               variant="outline" 
