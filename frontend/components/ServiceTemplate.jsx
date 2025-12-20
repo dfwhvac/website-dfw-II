@@ -214,9 +214,9 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [] }) => {
                     className="mt-6 bg-white text-vivid-red hover:bg-gray-100 font-semibold"
                     asChild
                   >
-                    <Link href="/book-service">
+                    <a href="tel:+19727772665">
                       Call {phone} Now
-                    </Link>
+                    </a>
                   </Button>
                 </CardContent>
               </Card>
