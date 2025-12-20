@@ -76,9 +76,12 @@ const BookServicePage = () => {
           <Button 
             size="lg" 
             className="bg-white text-blue-600 hover:bg-gray-100 font-semibold px-8 py-4 text-lg h-auto"
+            asChild
           >
-            <Phone className="w-5 h-5 mr-2" />
-            Call (972) 777-COOL Now
+            <a href="tel:+19727772665">
+              <Phone className="w-5 h-5 mr-2" />
+              Call (972) 777-COOL Now
+            </a>
           </Button>
         </div>
 
