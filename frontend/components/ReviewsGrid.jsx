@@ -16,7 +16,7 @@ const ReviewsGrid = ({ testimonials = [], googleReviews = 130 }) => {
   const hasMore = displayCount < filteredTestimonials.length
   
   const loadMore = () => {
-    setDisplayCount(prev => Math.min(prev + REVIEWS_PER_PAGE, testimonials.length))
+    setDisplayCount(prev => Math.min(prev + REVIEWS_PER_PAGE, filteredTestimonials.length))
   }
 
   return (
@@ -32,9 +32,9 @@ const ReviewsGrid = ({ testimonials = [], googleReviews = 130 }) => {
             </div>
             <p className="text-2xl font-bold text-gray-900">5.0 out of 5</p>
             <p className="text-gray-600">Based on {googleReviews} Google Reviews</p>
-            {testimonials.length > 0 && (
+            {filteredTestimonials.length > 0 && (
               <p className="text-sm text-gray-500 mt-2">
-                Showing {displayedTestimonials.length} of {testimonials.length} reviews
+                Showing {displayedTestimonials.length} of {filteredTestimonials.length} reviews with text
               </p>
             )}
           </div>
@@ -76,7 +76,7 @@ const ReviewsGrid = ({ testimonials = [], googleReviews = 130 }) => {
                 size="lg"
                 onClick={loadMore}
               >
-                Load More Reviews ({testimonials.length - displayCount} remaining)
+                Load More Reviews ({filteredTestimonials.length - displayCount} remaining)
               </Button>
             </div>
           )}
