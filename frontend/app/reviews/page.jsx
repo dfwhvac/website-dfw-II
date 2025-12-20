@@ -16,10 +16,8 @@ export default async function ReviewsPage() {
     companyInfo = mockCompanyInfo
   }
   
-  let testimonials = await getTestimonials()
-  if (!testimonials || testimonials.length === 0) {
-    testimonials = mockTestimonials
-  }
+  // Always use mockTestimonials (contains 100 real Google reviews)
+  const testimonials = mockTestimonials
   
   const siteSettings = await getSiteSettings()
   const googleReviews = companyInfo?.googleReviews || 129
