@@ -8,7 +8,10 @@ import { Card, CardContent } from './ui/card'
 import { Button } from './ui/button'
 
 const TestimonialCarousel = ({ testimonials = [], maxDisplay = 12 }) => {
-  const displayTestimonials = testimonials.slice(0, maxDisplay)
+  // Filter out reviews with blank text, then take the first maxDisplay
+  const displayTestimonials = testimonials
+    .filter(t => t.text && t.text.trim() !== '')
+    .slice(0, maxDisplay)
   
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { 

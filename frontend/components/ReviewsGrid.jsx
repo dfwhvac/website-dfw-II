@@ -7,11 +7,13 @@ import { Button } from './ui/button'
 
 const REVIEWS_PER_PAGE = 10
 
-const ReviewsGrid = ({ testimonials = [], googleReviews = 129 }) => {
+const ReviewsGrid = ({ testimonials = [], googleReviews = 130 }) => {
   const [displayCount, setDisplayCount] = useState(REVIEWS_PER_PAGE)
   
-  const displayedTestimonials = testimonials.slice(0, displayCount)
-  const hasMore = displayCount < testimonials.length
+  // Filter out reviews with blank text
+  const filteredTestimonials = testimonials.filter(t => t.text && t.text.trim() !== '')
+  const displayedTestimonials = filteredTestimonials.slice(0, displayCount)
+  const hasMore = displayCount < filteredTestimonials.length
   
   const loadMore = () => {
     setDisplayCount(prev => Math.min(prev + REVIEWS_PER_PAGE, testimonials.length))
