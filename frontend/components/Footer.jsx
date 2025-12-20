@@ -81,15 +81,19 @@ const Footer = ({ companyInfo = {}, siteSettings = null }) => {
           
           {/* Company Info */}
           <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="bg-prussian-blue text-white px-3 py-2 rounded-lg font-bold text-lg">
-                DFW
-              </div>
+            <Link href="/" className="flex items-center gap-3">
+              <Image 
+                src="/logo.png" 
+                alt="DFW HVAC Logo" 
+                width={60} 
+                height={60}
+                className="rounded-lg"
+              />
               <div>
                 <div className="text-lg font-bold">DFW HVAC</div>
                 <div className="text-sm text-gray-400">Family Owned Since 1974</div>
               </div>
-            </div>
+            </Link>
             <p className="text-gray-300 text-sm leading-relaxed">
               {footerTagline}
             </p>
@@ -102,7 +106,7 @@ const Footer = ({ companyInfo = {}, siteSettings = null }) => {
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-electric-blue transition-colors"
                 >
-                  <SocialIcon platform={social.platform} className="w-5 h-5" />
+                  <SocialIcon platform={social.platform} className="w-8 h-8" />
                 </a>
               ))}
             </div>
