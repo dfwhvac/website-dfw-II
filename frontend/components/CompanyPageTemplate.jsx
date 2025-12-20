@@ -402,10 +402,10 @@ const CompanyPageTemplate = ({
               className="bg-white text-vivid-red hover:bg-gray-100 font-semibold"
               asChild
             >
-              <Link href="/book-service">
+              <a href="tel:+19727772665">
                 <Phone className="w-5 h-5 mr-2" />
                 Call {phone}
-              </Link>
+              </a>
             </Button>
             <Button 
               size="lg" 
