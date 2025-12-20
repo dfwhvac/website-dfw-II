@@ -239,3 +239,33 @@ STRATEGIC CONSIDERATIONS
        
        Priority: Post-launch optimization based on traffic data
 
+   [ ] DFW HVAC Service Area - Drive-time marketing analysis tool
+       Center Address: 556 S. Coppell Rd, Coppell, TX 75028
+       
+       Purpose: Model drive-time-based service area and generate ZIP-code-level
+       weights for targeted marketing (ad spend allocation, mail volume, 
+       territory prioritization).
+       
+       Approach:
+       - Generate drive-time isochrones (0-10, 10-20, 20-30 min rings)
+       - Intersect with Census ZCTA (ZIP) polygons
+       - Calculate % of each ZIP within each ring
+       - Output weighted scores per ZIP for marketing use
+       
+       Tech Stack:
+       - Python (geopandas, shapely, requests)
+       - OpenRouteService API (free tier - need API key)
+       - Census ZCTA shapefiles
+       
+       Deliverables:
+       - Reusable Python script (configurable address, bands, weights)
+       - CSV output: ZIP, Ring A%, Ring B%, Ring C%, Outside%, Weighted Score
+       - Optional: static map visualization
+       
+       Prerequisites:
+       - OpenRouteService API key (free): https://openrouteservice.org/dev/#/signup
+       
+       Estimated Credits: ~225 (expected), ~300 (with iteration)
+       
+       Priority: Future project (not website-related)
+
