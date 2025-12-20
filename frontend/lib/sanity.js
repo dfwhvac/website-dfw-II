@@ -173,3 +173,13 @@ export async function getBrandColors() {
     return null
   }
 }
+
+export async function getFaqs() {
+  try {
+    const data = await client.fetch(queries.faqs)
+    return data
+  } catch (error) {
+    console.error('Error fetching FAQs:', error)
+    return null
+  }
+}
