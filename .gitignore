@@ -232,3 +232,7 @@ frontend/.next/cache/webpack/server-production/23.pack
 # Environment files
 *.env
 *.env.*
+-e 
+# Environment files
+*.env
+*.env.*
