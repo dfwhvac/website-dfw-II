@@ -53,11 +53,6 @@ export default {
       type: 'number',
     },
     {
-      name: 'womenOwned',
-      title: 'Women-Owned Business',
-      type: 'boolean',
-    },
-    {
       name: 'established',
       title: 'Year Established',
       type: 'string',

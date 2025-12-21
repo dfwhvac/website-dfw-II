@@ -13,7 +13,6 @@ export const companyInfo = {
   description: "Family owned Air Conditioning and Heating contractor serving Dallas - Fort Worth and surrounding areas since 1974.",
   googleRating: 5.0,
   googleReviews: 130,
-  womenOwned: true,
   businessHours: {
     monday: "7AM-7PM",
     tuesday: "7AM-7PM", 

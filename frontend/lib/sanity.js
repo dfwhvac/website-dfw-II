@@ -48,7 +48,6 @@ export const queries = {
     description,
     googleRating,
     googleReviews,
-    womenOwned,
     established,
     businessHours,
     serviceAreas
