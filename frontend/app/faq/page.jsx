@@ -1,15 +1,21 @@
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import FAQAccordion from '@/components/FAQAccordion'
-import { getCompanyInfo, getSiteSettings, getFaqs } from '@/lib/sanity'
+import { getCompanyInfo, getSiteSettings, getFaqs, getFaqPage } from '@/lib/sanity'
 import { companyInfo as mockCompanyInfo } from '@/lib/mockData'
 import { HelpCircle, Phone } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
-export const metadata = {
-  title: 'FAQ | DFW HVAC | Frequently Asked Questions',
-  description: 'Find answers to common questions about HVAC services, pricing, scheduling, equipment, and maintenance from DFW HVAC - serving Dallas-Fort Worth since 1974.',
+// ISR: Revalidate every hour
+export const revalidate = 3600
+
+export async function generateMetadata() {
+  const faqPage = await getFaqPage()
+  return {
+    title: faqPage?.metaTitle || 'FAQ | DFW HVAC | Frequently Asked Questions',
+    description: faqPage?.metaDescription || 'Find answers to common questions about HVAC services, pricing, scheduling, equipment, and maintenance from DFW HVAC - serving Dallas-Fort Worth since 1974.',
+  }
 }
 
 // Default FAQs (used when Sanity data not available)
