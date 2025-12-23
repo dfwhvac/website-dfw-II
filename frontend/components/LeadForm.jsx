@@ -17,7 +17,14 @@ import { Phone, Mail, MapPin, Wrench } from 'lucide-react'
 import { submitLeadForm } from '../lib/mockData'
 import { toast } from 'sonner'
 
-const LeadForm = ({ title = "Get Your Free Estimate", description = "Fill out the form below and we'll contact you within 24 hours" }) => {
+const LeadForm = ({ 
+  title = "Get Your Free Estimate", 
+  description = "Fill out the form below and we'll contact you within 24 hours",
+  buttonText = "Get My Free Estimate",
+  successMessage = "Thank you! We'll contact you within 24 hours.",
+  trustSignals = "✓ Free estimates • ✓ Licensed & insured • ✓ Fast response time",
+  footerText = "We'll contact you within 24 hours to schedule your appointment"
+}) => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -40,7 +47,7 @@ const LeadForm = ({ title = "Get Your Free Estimate", description = "Fill out th
     try {
       const result = await submitLeadForm(formData)
       if (result.success) {
-        toast.success(result.message)
+        toast.success(successMessage)
         // Reset form
         setFormData({
           firstName: '',
@@ -197,13 +204,13 @@ const LeadForm = ({ title = "Get Your Free Estimate", description = "Fill out th
             className="w-full h-12 text-white font-semibold text-lg transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             style={{background: 'linear-gradient(to right, #00B8FF, #003153)', '--hover-bg': 'linear-gradient(to right, #003153, #00B8FF)'}}
           >
-            {isSubmitting ? "Submitting..." : "Get My Free Estimate"}
+            {isSubmitting ? "Submitting..." : buttonText}
           </Button>
 
           {/* Trust Signals */}
           <div className="text-center text-sm text-gray-600 space-y-2">
-            <p>✓ Free estimates • ✓ Licensed & insured • ✓ Fast response time</p>
-            <p className="text-xs">We'll contact you within 24 hours to schedule your appointment</p>
+            <p>{trustSignals}</p>
+            <p className="text-xs">{footerText}</p>
           </div>
         </form>
       </CardContent>
