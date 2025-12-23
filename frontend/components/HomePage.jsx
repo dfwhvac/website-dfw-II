@@ -146,11 +146,10 @@ const HomePage = ({
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Complete HVAC Solutions
+              {servicesSection.title}
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              From repairs to new system installations, we provide comprehensive 
-              residential and commercial HVAC services throughout the Dallas-Fort Worth area.
+              {servicesSection.description}
             </p>
           </div>
 
