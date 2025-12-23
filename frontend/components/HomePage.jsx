@@ -25,8 +25,47 @@ import { companyInfo as defaultCompanyInfo, services as defaultServices, testimo
 const HomePage = ({ 
   companyInfo = defaultCompanyInfo, 
   services = defaultServices, 
-  testimonials = defaultTestimonials 
+  testimonials = defaultTestimonials,
+  homepage = null 
 }) => {
+  // Use Sanity content with fallbacks
+  const hero = {
+    badge: homepage?.heroBadge || 'Trusted Since 1974',
+    title: homepage?.heroTitle || "Dallas-Fort Worth's",
+    highlight: homepage?.heroTitleHighlight || 'Trusted HVAC',
+    line3: homepage?.heroTitleLine3 || 'Experts',
+    description: homepage?.heroDescription || 'Family-owned business providing reliable heating, cooling, and air quality solutions throughout DFW for over 50 years. Get your free estimate today!',
+    primaryButton: homepage?.heroPrimaryButton || { text: 'Call (972) 777-COOL', href: 'tel:+19727772665' },
+    secondaryButton: homepage?.heroSecondaryButton || { text: 'Get Free Estimate', href: '/contact' },
+  }
+  
+  const servicesSection = {
+    title: homepage?.servicesTitle || 'Complete HVAC Solutions',
+    description: homepage?.servicesDescription || 'From repairs to new system installations, we provide comprehensive residential and commercial HVAC services throughout the Dallas-Fort Worth area.',
+  }
+  
+  const whyUs = {
+    title: homepage?.whyUsTitle || 'Why Dallas-Fort Worth Trusts DFW HVAC',
+    subtitle: homepage?.whyUsSubtitle || '50+ years of experience and thousands of satisfied customers',
+    items: homepage?.whyUsItems || [
+      { title: '50+ Years Experience', description: 'Family-owned business serving DFW since 1974', icon: 'years' },
+      { title: 'Licensed & Insured', description: 'Fully licensed technicians and comprehensive insurance', icon: 'shield' },
+      { title: 'Fast Response', description: 'Quick service when you need it most', icon: 'clock' },
+      { title: 'Guaranteed Work', description: 'We stand behind our work with comprehensive warranties', icon: 'trending' },
+    ],
+  }
+  
+  const testimonialsSection = {
+    title: homepage?.testimonialsTitle || 'What Our Customers Say',
+    subtitle: homepage?.testimonialsSubtitle || 'Real reviews from verified Google customers',
+    maxDisplay: homepage?.maxTestimonials || 12,
+  }
+  
+  const cta = {
+    title: homepage?.ctaTitle || 'Ready to Get Started?',
+    description: homepage?.ctaDescription || 'Contact DFW HVAC today for your free estimate. Professional HVAC service when you need it.',
+  }
+
   return (
     <div className="min-h-screen">
       
@@ -38,16 +77,15 @@ const HomePage = ({
               <div className="space-y-4">
                 <div className="inline-flex items-center gap-2 bg-blue-50 text-prussian-blue px-4 py-2 rounded-full text-sm font-medium border border-prussian-blue">
                   <Award className="w-4 h-4" />
-                  Trusted Since 1974
+                  {hero.badge}
                 </div>
                 <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                  Dallas-Fort Worth's
-                  <span className="text-electric-blue block">Trusted HVAC</span>
-                  Experts
+                  {hero.title}
+                  <span className="text-electric-blue block">{hero.highlight}</span>
+                  {hero.line3}
                 </h1>
                 <p className="text-xl text-gray-600 leading-relaxed">
-                  Family-owned business providing reliable heating, cooling, and air quality 
-                  solutions throughout DFW for over 50 years. Get your free estimate today!
+                  {hero.description}
                 </p>
               </div>
 
