@@ -297,10 +297,10 @@ const HomePage = ({
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              What Our Customers Say
+              {testimonialsSection.title}
             </h2>
             <p className="text-xl text-gray-600">
-              Real reviews from verified Google customers
+              {testimonialsSection.subtitle}
             </p>
             
             {/* Google Reviews Badge */}
