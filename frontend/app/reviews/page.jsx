@@ -73,11 +73,8 @@ export default async function ReviewsPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Review Schema for SEO */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewSchema) }}
-      />
+      {/* Review Schema for SEO - pulls from Sanity */}
+      <ReviewSchema companyInfo={companyInfo} reviewCount={googleReviews} />
 
       <Header companyInfo={companyInfo} siteSettings={siteSettings} />
       <main>
