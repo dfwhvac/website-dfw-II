@@ -120,6 +120,64 @@ export const queries = {
     category,
     order
   }`,
+
+  // Testimonials (updated schema)
+  allTestimonials: `*[_type == "testimonial" && isVisible == true] | order(date desc) {
+    _id,
+    name,
+    rating,
+    text,
+    services,
+    date,
+    source
+  }`,
+
+  // Company Pages
+  companyPage: `*[_type == "companyPage" && slug.current == $slug && isPublished == true][0] {
+    title,
+    slug,
+    pageType,
+    metaTitle,
+    metaDescription,
+    heroTitle,
+    heroSubtitle,
+    heroDescription,
+    heroCta,
+    sections[] {
+      sectionTitle,
+      sectionContent,
+      bulletPoints
+    },
+    teamMembers[] {
+      name,
+      role,
+      bio
+    },
+    serviceAreasList[] {
+      city,
+      description
+    },
+    financingOptions[] {
+      title,
+      description,
+      terms
+    },
+    caseStudies[] {
+      title,
+      client,
+      challenge,
+      solution,
+      result
+    },
+    showContactForm,
+    showTestimonials,
+    showCtaBanner
+  }`,
+
+  // All published company page slugs (for static generation)
+  allCompanyPageSlugs: `*[_type == "companyPage" && isPublished == true] {
+    "slug": slug.current
+  }`,
 }
 
 // Helper functions to fetch data
