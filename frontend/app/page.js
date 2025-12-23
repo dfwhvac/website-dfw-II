@@ -1,27 +1,38 @@
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import HomePage from '../components/HomePage'
-import { getCompanyInfo, getServices, getTestimonials, getSiteSettings } from '../lib/sanity'
+import { getCompanyInfo, getServices, getSiteSettings, getHomepage, getAllTestimonials } from '../lib/sanity'
 import { companyInfo as mockCompanyInfo, services as mockServices, testimonials as mockTestimonials } from '../lib/mockData'
 
-// Revalidate every 60 seconds
-export const revalidate = 60
+// Revalidate every hour
+export const revalidate = 3600
+
+export async function generateMetadata() {
+  const homepage = await getHomepage()
+  return {
+    title: homepage?.metaTitle || 'DFW HVAC | Trusted HVAC Experts Since 1974',
+    description: homepage?.metaDescription || 'Family-owned HVAC contractor serving Dallas-Fort Worth for 50+ years.',
+  }
+}
 
 export default async function Home() {
   // Fetch data from Sanity (with fallback to mock data)
-  let companyInfo = await getCompanyInfo()
-  let services = await getServices()
-  const siteSettings = await getSiteSettings()
+  const [companyInfoData, servicesData, siteSettings, homepage, sanityTestimonials] = await Promise.all([
+    getCompanyInfo(),
+    getServices(),
+    getSiteSettings(),
+    getHomepage(),
+    getAllTestimonials(),
+  ])
   
-  // Always use mockTestimonials (contains 100 real Google reviews)
-  const testimonials = mockTestimonials
+  // Use Sanity testimonials if available, otherwise mock data
+  const testimonials = sanityTestimonials?.length > 0 ? sanityTestimonials : mockTestimonials
   
   // Use mock data if Sanity returns null/empty
-  if (!companyInfo) {
-    companyInfo = mockCompanyInfo
-  }
+  const companyInfo = companyInfoData || mockCompanyInfo
   
-  if (!services || services.length === 0) {
+  let services
+  if (!servicesData || servicesData.length === 0) {
     services = {
       residential: mockServices.residential,
       commercial: mockServices.commercial
@@ -29,8 +40,8 @@ export default async function Home() {
   } else {
     // Organize services by category
     services = {
-      residential: services.filter(s => s.category === 'residential'),
-      commercial: services.filter(s => s.category === 'commercial')
+      residential: servicesData.filter(s => s.category === 'residential'),
+      commercial: servicesData.filter(s => s.category === 'commercial')
     }
   }
 
@@ -42,6 +53,7 @@ export default async function Home() {
           companyInfo={companyInfo}
           services={services}
           testimonials={testimonials}
+          homepage={homepage}
         />
       </main>
       <Footer companyInfo={companyInfo} siteSettings={siteSettings} />
