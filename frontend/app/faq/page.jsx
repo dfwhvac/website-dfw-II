@@ -130,6 +130,15 @@ export default async function FAQPage() {
   }
   
   const siteSettings = await getSiteSettings()
+  const faqPage = await getFaqPage()
+  
+  // Get page content with fallbacks
+  const pageContent = {
+    heroTitle: faqPage?.heroTitle || 'Frequently Asked Questions',
+    heroDescription: faqPage?.heroDescription || 'Find answers to common questions about our HVAC services, pricing, scheduling, and more.',
+    ctaTitle: faqPage?.ctaTitle || 'Still Have Questions?',
+    ctaDescription: faqPage?.ctaDescription || 'Our friendly team is here to help. Give us a call or schedule a free consultation.',
+  }
   
   // Fetch FAQs from Sanity, fall back to defaults
   let faqs = await getFaqs()
@@ -168,11 +177,10 @@ export default async function FAQPage() {
             <div className="max-w-3xl mx-auto text-center">
               <HelpCircle className="w-16 h-16 mx-auto mb-6 opacity-80" />
               <h1 className="text-4xl lg:text-5xl font-bold mb-4">
-                Frequently Asked Questions
+                {pageContent.heroTitle}
               </h1>
               <p className="text-xl text-blue-100">
-                Find answers to common questions about our HVAC services, pricing, 
-                scheduling, and more.
+                {pageContent.heroDescription}
               </p>
             </div>
           </div>
