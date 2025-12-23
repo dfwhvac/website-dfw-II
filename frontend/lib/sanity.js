@@ -109,7 +109,13 @@ export const queries = {
     },
     copyrightText,
     showServiceAreas,
-    showBusinessHours
+    showBusinessHours,
+    leadFormTitle,
+    leadFormDescription,
+    leadFormButtonText,
+    leadFormSuccessMessage,
+    leadFormTrustSignals,
+    leadFormFooterText
   }`,
 
   // FAQs
