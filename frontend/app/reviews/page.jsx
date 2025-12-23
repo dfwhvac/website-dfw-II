@@ -38,39 +38,6 @@ export default async function ReviewsPage() {
     googleBadgeTitle: reviewsPage?.googleBadgeTitle || 'Based on Google Reviews',
   }
 
-  // Parse address into components (expected format: "Street, City, ST ZIP")
-  const addressParts = (companyInfo?.address || '556 S Coppell Rd Ste 103, Coppell, TX 75019').split(',').map(s => s.trim())
-  const streetAddress = addressParts[0] || ''
-  const cityStateZip = addressParts.slice(1).join(', ')
-  const cityMatch = cityStateZip.match(/^([^,]+),?\s*([A-Z]{2})\s*(\d{5})?/)
-  const city = cityMatch?.[1] || 'Coppell'
-  const state = cityMatch?.[2] || 'TX'
-  const zip = cityMatch?.[3] || '75019'
-
-  // Generate Review Schema JSON-LD for SEO - pulls from Sanity
-  const reviewSchema = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": companyInfo?.name || "DFW HVAC",
-    "image": "https://dfwhvac.com/logo.png",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": streetAddress,
-      "addressLocality": city,
-      "addressRegion": state,
-      "postalCode": zip,
-      "addressCountry": "US"
-    },
-    "telephone": companyInfo?.phone || "+1-972-777-2665",
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": (companyInfo?.googleRating || 5.0).toString(),
-      "reviewCount": googleReviews.toString(),
-      "bestRating": "5",
-      "worstRating": "1"
-    }
-  }
-
   return (
     <div className="min-h-screen bg-white">
       {/* Review Schema for SEO - pulls from Sanity */}
