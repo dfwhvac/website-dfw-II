@@ -147,27 +147,10 @@ export default async function FAQPage() {
     faqs = defaultFaqs
   }
 
-  // Generate FAQ Schema JSON-LD for SEO
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": faqs.map(faq => ({
-      "@type": "Question",
-      "name": faq.question,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": faq.answer
-      }
-    }))
-  }
-
   return (
     <div className="min-h-screen bg-white">
-      {/* FAQ Schema for SEO */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
+      {/* FAQ Schema for SEO - pulls from Sanity */}
+      <FAQSchema faqs={faqs} />
 
       <Header companyInfo={companyInfo} siteSettings={siteSettings} />
       
