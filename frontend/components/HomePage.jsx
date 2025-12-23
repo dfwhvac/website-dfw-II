@@ -26,7 +26,8 @@ const HomePage = ({
   companyInfo = defaultCompanyInfo, 
   services = defaultServices, 
   testimonials = defaultTestimonials,
-  homepage = null 
+  homepage = null,
+  siteSettings = null 
 }) => {
   // Use Sanity content with fallbacks
   const hero = {
@@ -37,6 +38,16 @@ const HomePage = ({
     description: homepage?.heroDescription || 'Family-owned business providing reliable heating, cooling, and air quality solutions throughout DFW for over 50 years. Get your free estimate today!',
     primaryButton: homepage?.heroPrimaryButton || { text: 'Call (972) 777-COOL', href: 'tel:+19727772665' },
     secondaryButton: homepage?.heroSecondaryButton || { text: 'Get Free Estimate', href: '/contact' },
+  }
+  
+  // Lead form settings from siteSettings
+  const leadForm = {
+    title: siteSettings?.leadFormTitle || 'Get Your Free Estimate',
+    description: siteSettings?.leadFormDescription || "Fill out the form below and we'll contact you within 24 hours",
+    buttonText: siteSettings?.leadFormButtonText || 'Get My Free Estimate',
+    successMessage: siteSettings?.leadFormSuccessMessage || "Thank you! We'll contact you within 24 hours.",
+    trustSignals: siteSettings?.leadFormTrustSignals || '✓ Free estimates • ✓ Licensed & insured • ✓ Fast response time',
+    footerText: siteSettings?.leadFormFooterText || "We'll contact you within 24 hours to schedule your appointment",
   }
   
   const servicesSection = {
