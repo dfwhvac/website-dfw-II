@@ -261,45 +261,33 @@ const HomePage = ({
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Why Dallas-Fort Worth Trusts DFW HVAC
+              {whyUs.title}
             </h2>
             <p className="text-xl text-gray-600">
-              50+ years of experience and thousands of satisfied customers
+              {whyUs.subtitle}
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-prussian-blue text-white rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold">50+</span>
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Years Experience</h3>
-              <p className="text-gray-600">Family-owned business serving DFW since 1974</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="w-16 h-16 bg-lime-green text-white rounded-full flex items-center justify-center mx-auto mb-4">
-                <Shield className="w-8 h-8" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Licensed & Insured</h3>
-              <p className="text-gray-600">Fully licensed technicians and comprehensive insurance</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="w-16 h-16 bg-vivid-red text-white rounded-full flex items-center justify-center mx-auto mb-4">
-                <Clock className="w-8 h-8" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Fast Response</h3>
-              <p className="text-gray-600">Quick service when you need it most</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="w-16 h-16 bg-electric-blue text-white rounded-full flex items-center justify-center mx-auto mb-4">
-                <TrendingUp className="w-8 h-8" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Guaranteed Work</h3>
-              <p className="text-gray-600">We stand behind our work with comprehensive warranties</p>
-            </div>
+            {whyUs.items.map((item, index) => {
+              const iconColors = ['bg-prussian-blue', 'bg-lime-green', 'bg-vivid-red', 'bg-electric-blue']
+              const IconComponent = {
+                years: () => <span className="text-2xl font-bold">50+</span>,
+                shield: Shield,
+                clock: Clock,
+                trending: TrendingUp,
+              }[item.icon] || Shield
+              
+              return (
+                <div key={item._key || index} className="text-center">
+                  <div className={`w-16 h-16 ${iconColors[index % 4]} text-white rounded-full flex items-center justify-center mx-auto mb-4`}>
+                    {item.icon === 'years' ? <span className="text-2xl font-bold">50+</span> : <IconComponent className="w-8 h-8" />}
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
+                  <p className="text-gray-600">{item.description}</p>
+                </div>
+              )
+            })}
           </div>
         </div>
       </section>
