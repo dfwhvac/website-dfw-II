@@ -1,6 +1,7 @@
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import FAQAccordion from '@/components/FAQAccordion'
+import { FAQSchema } from '@/components/SchemaMarkup'
 import { getCompanyInfo, getSiteSettings, getFaqs, getFaqPage } from '@/lib/sanity'
 import { companyInfo as mockCompanyInfo } from '@/lib/mockData'
 import { HelpCircle, Phone } from 'lucide-react'
