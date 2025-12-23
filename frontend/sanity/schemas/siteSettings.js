@@ -7,6 +7,7 @@ export default {
     { name: 'navigation', title: 'Navigation' },
     { name: 'footer', title: 'Footer' },
     { name: 'leadForm', title: 'Lead Form' },
+    { name: 'seo', title: 'SEO Defaults' },
   ],
   fields: [
     {
@@ -15,6 +16,39 @@ export default {
       type: 'string',
       initialValue: 'Site Settings',
       readOnly: true,
+    },
+
+    // SEO Defaults
+    {
+      name: 'siteNameSuffix',
+      title: 'Site Name Suffix',
+      type: 'string',
+      group: 'seo',
+      description: 'Appended to page titles (e.g., " | DFW HVAC")',
+      initialValue: ' | DFW HVAC',
+    },
+    {
+      name: 'defaultMetaDescription',
+      title: 'Default Meta Description',
+      type: 'text',
+      group: 'seo',
+      description: 'Used when a page has no specific description (150-160 chars)',
+      initialValue: 'DFW HVAC - Family owned HVAC contractor serving Dallas-Fort Worth since 1974. AC repair, heating, installation & maintenance. Call (972) 777-COOL.',
+      validation: Rule => Rule.max(200),
+    },
+    {
+      name: 'defaultOgImage',
+      title: 'Default Social Share Image',
+      type: 'image',
+      group: 'seo',
+      description: 'Image shown when pages are shared on Facebook, Twitter, etc. (1200x630px recommended)',
+    },
+    {
+      name: 'googleSiteVerification',
+      title: 'Google Site Verification',
+      type: 'string',
+      group: 'seo',
+      description: 'Google Search Console verification code (just the code, not the full meta tag)',
     },
 
     // Header Settings
