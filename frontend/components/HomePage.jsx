@@ -323,7 +323,7 @@ const HomePage = ({
 
           {/* Testimonial Carousel */}
           <div className="max-w-6xl mx-auto px-8">
-            <TestimonialCarousel testimonials={testimonials} maxDisplay={12} />
+            <TestimonialCarousel testimonials={testimonials} maxDisplay={testimonialsSection.maxDisplay} />
           </div>
 
           <div className="text-center mt-12">
