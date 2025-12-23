@@ -293,3 +293,13 @@ export async function getAllCompanyPageSlugs() {
     return []
   }
 }
+
+export async function getHomepage() {
+  try {
+    const data = await client.fetch(queries.homepage)
+    return data
+  } catch (error) {
+    console.error('Error fetching homepage:', error)
+    return null
+  }
+}
