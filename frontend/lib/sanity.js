@@ -115,7 +115,11 @@ export const queries = {
     leadFormButtonText,
     leadFormSuccessMessage,
     leadFormTrustSignals,
-    leadFormFooterText
+    leadFormFooterText,
+    siteNameSuffix,
+    defaultMetaDescription,
+    defaultOgImage,
+    googleSiteVerification
   }`,
 
   // FAQs
