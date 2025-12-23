@@ -334,3 +334,23 @@ export async function getHomepage() {
     return null
   }
 }
+
+export async function getFaqPage() {
+  try {
+    const data = await client.fetch(queries.faqPage)
+    return data
+  } catch (error) {
+    console.error('Error fetching FAQ page:', error)
+    return null
+  }
+}
+
+export async function getReviewsPage() {
+  try {
+    const data = await client.fetch(queries.reviewsPage)
+    return data
+  } catch (error) {
+    console.error('Error fetching reviews page:', error)
+    return null
+  }
+}
