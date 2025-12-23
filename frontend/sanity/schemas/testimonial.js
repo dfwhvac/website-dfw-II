@@ -10,43 +10,75 @@ export default {
       validation: Rule => Rule.required(),
     },
     {
-      name: 'location',
-      title: 'Location',
-      type: 'string',
-    },
-    {
       name: 'rating',
       title: 'Rating',
       type: 'number',
       validation: Rule => Rule.required().min(1).max(5),
+      initialValue: 5,
     },
     {
       name: 'text',
       title: 'Review Text',
       type: 'text',
-      validation: Rule => Rule.required(),
+      description: 'Leave empty for ratings without text',
     },
     {
-      name: 'service',
-      title: 'Service Type',
+      name: 'services',
+      title: 'Services',
       type: 'string',
+      description: 'Services mentioned in the review',
     },
     {
-      name: 'timeAgo',
-      title: 'Time Ago',
+      name: 'date',
+      title: 'Review Date',
       type: 'string',
-      description: 'e.g., "2 months ago"',
+      description: 'e.g., "12/18/25"',
     },
     {
-      name: 'publishedAt',
-      title: 'Published Date',
-      type: 'datetime',
+      name: 'source',
+      title: 'Source',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Google', value: 'google' },
+          { title: 'Yelp', value: 'yelp' },
+          { title: 'Facebook', value: 'facebook' },
+          { title: 'Website', value: 'website' },
+        ],
+      },
+      initialValue: 'google',
+    },
+    {
+      name: 'isVisible',
+      title: 'Visible on Website',
+      type: 'boolean',
+      initialValue: true,
+      description: 'Toggle to show/hide this review',
     },
   ],
   preview: {
     select: {
       title: 'name',
-      subtitle: 'service',
+      subtitle: 'date',
+      rating: 'rating',
+    },
+    prepare({ title, subtitle, rating }) {
+      return {
+        title: title,
+        subtitle: `${rating}★ - ${subtitle || 'No date'}`,
+      }
     },
   },
+  orderings: [
+    {
+      title: 'Date, Newest',
+      name: 'dateDesc',
+      by: [{ field: 'date', direction: 'desc' }],
+    },
+    {
+      title: 'Name, A-Z',
+      name: 'nameAsc',
+      by: [{ field: 'name', direction: 'asc' }],
+    },
+  ],
 }
