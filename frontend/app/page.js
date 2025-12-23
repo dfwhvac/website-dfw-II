@@ -48,6 +48,9 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen">
+      {/* Global LocalBusiness Schema - pulls all data from Sanity */}
+      <LocalBusinessSchema companyInfo={companyInfo} />
+      
       <Header companyInfo={companyInfo} siteSettings={siteSettings} />
       <main>
         <HomePage 
