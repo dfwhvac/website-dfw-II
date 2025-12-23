@@ -211,6 +211,27 @@ export const queries = {
     ctaTitle,
     ctaDescription
   }`,
+
+  // FAQ Page settings
+  faqPage: `*[_type == "faqPage"][0] {
+    heroTitle,
+    heroDescription,
+    ctaTitle,
+    ctaDescription,
+    metaTitle,
+    metaDescription
+  }`,
+
+  // Reviews Page settings
+  reviewsPage: `*[_type == "reviewsPage"][0] {
+    heroTitle,
+    heroSubtitle,
+    googleBadgeTitle,
+    showAllText,
+    loadMoreText,
+    metaTitle,
+    metaDescription
+  }`,
 }
 
 // Helper functions to fetch data
