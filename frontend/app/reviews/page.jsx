@@ -1,13 +1,19 @@
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ReviewsGrid from '@/components/ReviewsGrid'
-import { getCompanyInfo, getSiteSettings } from '@/lib/sanity'
+import { getCompanyInfo, getSiteSettings, getReviewsPage, getAllTestimonials } from '@/lib/sanity'
 import { companyInfo as mockCompanyInfo, testimonials as mockTestimonials } from '@/lib/mockData'
 import { Shield, Award, Star } from 'lucide-react'
 
-export const metadata = {
-  title: 'Reviews | DFW HVAC',
-  description: 'See what our customers say about DFW HVAC. 5-star rated HVAC service in Dallas-Fort Worth.',
+// ISR: Revalidate every hour
+export const revalidate = 3600
+
+export async function generateMetadata() {
+  const reviewsPage = await getReviewsPage()
+  return {
+    title: reviewsPage?.metaTitle || '5-Star HVAC Reviews Dallas | Customer Testimonials | DFW HVAC',
+    description: reviewsPage?.metaDescription || 'Read 130+ 5-star reviews from real DFW HVAC customers. Family-owned HVAC contractor serving Dallas-Fort Worth since 1974.',
+  }
 }
 
 export default async function ReviewsPage() {
@@ -16,14 +22,53 @@ export default async function ReviewsPage() {
     companyInfo = mockCompanyInfo
   }
   
-  // Always use mockTestimonials (contains 100 real Google reviews)
-  const testimonials = mockTestimonials
-  
   const siteSettings = await getSiteSettings()
-  const googleReviews = companyInfo?.googleReviews || 129
+  const reviewsPage = await getReviewsPage()
+  const sanityTestimonials = await getAllTestimonials()
+  
+  // Use Sanity testimonials if available, otherwise mock data
+  const testimonials = sanityTestimonials?.length > 0 ? sanityTestimonials : mockTestimonials
+  const googleReviews = companyInfo?.googleReviews || 130
+  
+  // Page content with fallbacks
+  const pageContent = {
+    heroTitle: reviewsPage?.heroTitle || 'Customer Reviews',
+    heroSubtitle: reviewsPage?.heroSubtitle || 'See What Our Customers Say About Us',
+    googleBadgeTitle: reviewsPage?.googleBadgeTitle || 'Based on Google Reviews',
+  }
+
+  // Generate Review Schema JSON-LD for SEO
+  const reviewSchema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "DFW HVAC",
+    "image": "https://dfwhvac.com/logo.png",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "556 S Coppell Rd Ste 103",
+      "addressLocality": "Coppell",
+      "addressRegion": "TX",
+      "postalCode": "75019",
+      "addressCountry": "US"
+    },
+    "telephone": "+1-972-777-2665",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5.0",
+      "reviewCount": googleReviews.toString(),
+      "bestRating": "5",
+      "worstRating": "1"
+    }
+  }
 
   return (
     <div className="min-h-screen bg-white">
+      {/* Review Schema for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewSchema) }}
+      />
+
       <Header companyInfo={companyInfo} siteSettings={siteSettings} />
       <main>
         {/* Hero Section */}
@@ -31,10 +76,10 @@ export default async function ReviewsPage() {
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center">
               <h1 className="text-4xl lg:text-5xl font-bold mb-4">
-                Customer Reviews
+                {pageContent.heroTitle}
               </h1>
               <p className="text-xl lg:text-2xl text-blue-200 mb-6">
-                5-Star Rated Service
+                {pageContent.heroSubtitle}
               </p>
               <p className="text-lg text-blue-100 mb-8">
                 Don't just take our word for it - see what our customers have to say about their experience with DFW HVAC.
@@ -63,6 +108,7 @@ export default async function ReviewsPage() {
         <ReviewsGrid 
           testimonials={testimonials} 
           googleReviews={googleReviews}
+          pageSettings={reviewsPage}
         />
       </main>
       <Footer companyInfo={companyInfo} siteSettings={siteSettings} />
