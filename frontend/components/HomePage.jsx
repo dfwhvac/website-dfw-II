@@ -146,7 +146,14 @@ const HomePage = ({
 
             {/* Lead Form */}
             <div className="lg:pl-8">
-              <LeadForm />
+              <LeadForm 
+                title={leadForm.title}
+                description={leadForm.description}
+                buttonText={leadForm.buttonText}
+                successMessage={leadForm.successMessage}
+                trustSignals={leadForm.trustSignals}
+                footerText={leadForm.footerText}
+              />
             </div>
           </div>
         </div>
