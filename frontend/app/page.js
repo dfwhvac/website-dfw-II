@@ -54,6 +54,7 @@ export default async function Home() {
           services={services}
           testimonials={testimonials}
           homepage={homepage}
+          siteSettings={siteSettings}
         />
       </main>
       <Footer companyInfo={companyInfo} siteSettings={siteSettings} />
