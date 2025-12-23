@@ -240,3 +240,33 @@ export async function getFaqs() {
     return null
   }
 }
+
+export async function getAllTestimonials() {
+  try {
+    const data = await client.fetch(queries.allTestimonials)
+    return data
+  } catch (error) {
+    console.error('Error fetching testimonials:', error)
+    return null
+  }
+}
+
+export async function getCompanyPage(slug) {
+  try {
+    const data = await client.fetch(queries.companyPage, { slug })
+    return data
+  } catch (error) {
+    console.error('Error fetching company page:', error)
+    return null
+  }
+}
+
+export async function getAllCompanyPageSlugs() {
+  try {
+    const data = await client.fetch(queries.allCompanyPageSlugs)
+    return data
+  } catch (error) {
+    console.error('Error fetching company page slugs:', error)
+    return []
+  }
+}
