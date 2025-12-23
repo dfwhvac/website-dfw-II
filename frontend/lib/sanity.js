@@ -178,6 +178,29 @@ export const queries = {
   allCompanyPageSlugs: `*[_type == "companyPage" && isPublished == true] {
     "slug": slug.current
   }`,
+
+  // Homepage content
+  homepage: `*[_type == "homepage"][0] {
+    metaTitle,
+    metaDescription,
+    heroBadge,
+    heroTitle,
+    heroTitleHighlight,
+    heroTitleLine3,
+    heroDescription,
+    heroPrimaryButton,
+    heroSecondaryButton,
+    servicesTitle,
+    servicesDescription,
+    whyUsTitle,
+    whyUsSubtitle,
+    whyUsItems,
+    testimonialsTitle,
+    testimonialsSubtitle,
+    maxTestimonials,
+    ctaTitle,
+    ctaDescription
+  }`,
 }
 
 // Helper functions to fetch data
