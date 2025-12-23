@@ -6,6 +6,7 @@ export default {
     { name: 'header', title: 'Header' },
     { name: 'navigation', title: 'Navigation' },
     { name: 'footer', title: 'Footer' },
+    { name: 'leadForm', title: 'Lead Form' },
   ],
   fields: [
     {
@@ -101,6 +102,51 @@ export default {
           select: { title: 'label', subtitle: 'href' }
         }
       }],
+    },
+
+    // Lead Form Settings
+    {
+      name: 'leadFormTitle',
+      title: 'Form Title',
+      type: 'string',
+      group: 'leadForm',
+      initialValue: 'Get Your Free Estimate',
+    },
+    {
+      name: 'leadFormDescription',
+      title: 'Form Description',
+      type: 'string',
+      group: 'leadForm',
+      initialValue: "Fill out the form below and we'll contact you within 24 hours",
+    },
+    {
+      name: 'leadFormButtonText',
+      title: 'Submit Button Text',
+      type: 'string',
+      group: 'leadForm',
+      initialValue: 'Get My Free Estimate',
+    },
+    {
+      name: 'leadFormSuccessMessage',
+      title: 'Success Message',
+      type: 'string',
+      group: 'leadForm',
+      initialValue: "Thank you! We'll contact you within 24 hours.",
+    },
+    {
+      name: 'leadFormTrustSignals',
+      title: 'Trust Signals',
+      type: 'string',
+      group: 'leadForm',
+      description: 'Text shown below the button (e.g., "✓ Free estimates • ✓ Licensed & insured")',
+      initialValue: '✓ Free estimates • ✓ Licensed & insured • ✓ Fast response time',
+    },
+    {
+      name: 'leadFormFooterText',
+      title: 'Footer Text',
+      type: 'string',
+      group: 'leadForm',
+      initialValue: "We'll contact you within 24 hours to schedule your appointment",
     },
 
     // Footer Settings
