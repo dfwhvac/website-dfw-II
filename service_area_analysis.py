@@ -17,7 +17,7 @@ import time
 import os
 
 # OpenRouteService API Key (from user)
-ORS_API_KEY = "5b8cc7a4-38c8-11e9-a77a-525400001cd1"
+ORS_API_KEY = "eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjhhMDQ1YzYyYzYwZjQwYTI4Y2Y5NTY4NDIzNDkzNTNhIiwiaCI6Im11cm11cjY0In0="
 
 # DFW HVAC headquarters location (Coppell, TX - 75019)
 HQ_COORDS = [-96.9903, 32.9546]  # [longitude, latitude]
