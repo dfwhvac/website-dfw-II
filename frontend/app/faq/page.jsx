@@ -9,7 +9,8 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
 // ISR: Revalidate every hour
-export const revalidate = 3600
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 export async function generateMetadata() {
   const faqPage = await getFaqPage()

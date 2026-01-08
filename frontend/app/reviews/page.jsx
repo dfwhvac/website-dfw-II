@@ -7,7 +7,8 @@ import { companyInfo as mockCompanyInfo, testimonials as mockTestimonials } from
 import { Shield, Award, Star } from 'lucide-react'
 
 // ISR: Revalidate every hour
-export const revalidate = 3600
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 export async function generateMetadata() {
   const reviewsPage = await getReviewsPage()
