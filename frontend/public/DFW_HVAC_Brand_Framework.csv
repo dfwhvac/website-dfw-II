@@ -1,0 +1,91 @@
+Category,Element,Content
+POSITIONING,Primary Tagline,"Honest Comfort. Expert Care."
+POSITIONING,Brand Promise,"We deliver honest answers, expert guidance, and exceptional workmanship—because your comfort shouldn't come with surprises, pressure, or shortcuts."
+POSITIONING,Differentiator,"Unlike commission-driven competitors who sell what benefits them, we take the time to understand your needs and do the job right—every time."
+
+PILLAR 1,Name,Transparency
+PILLAR 1,Theme,"You'll always know where you stand."
+PILLAR 1,Key Message 1,"Upfront pricing before we start—the quote is the quote"
+PILLAR 1,Key Message 2,"We'll show you exactly what we find, with photos and explanations"
+PILLAR 1,Key Message 3,"No hidden fees, no surprise charges, no fine print"
+PILLAR 1,Proof Point,"Written quotes provided before any work begins; Photo/video documentation of all findings"
+PILLAR 1,Customer Promise,"You'll never wonder what you're paying for or why."
+
+PILLAR 2,Name,Integrity
+PILLAR 2,Theme,"We do what's right—even when it costs us."
+PILLAR 2,Key Message 1,"Our technicians aren't paid commission—they're paid to solve problems"
+PILLAR 2,Key Message 2,"Sometimes the right answer is 'you don't need us right now'"
+PILLAR 2,Key Message 3,"We'll tell you when a repair makes more sense than a replacement"
+PILLAR 2,Proof Point,"Non-commissioned technicians; Second opinion policy; Repair vs. Replace honest assessment"
+PILLAR 2,Customer Promise,"We succeed when you're comfortable—not when we close a sale."
+
+PILLAR 3,Name,Consultative Approach
+PILLAR 3,Theme,"We listen first. Then we solve."
+PILLAR 3,Key Message 1,"Every home is different—cookie-cutter solutions don't work"
+PILLAR 3,Key Message 2,"We ask about your lifestyle, concerns, and budget before recommending anything"
+PILLAR 3,Key Message 3,"Our job is to educate you so you can make the best decision"
+PILLAR 3,Proof Point,"Whole-home assessments; Manual J load calculations; Custom solution design"
+PILLAR 3,Customer Promise,"You'll understand your options and feel confident in your choice."
+
+PILLAR 4,Name,Quality Workmanship
+PILLAR 4,Theme,"Excellence in every detail."
+PILLAR 4,Key Message 1,"We don't cut corners—your comfort depends on every connection, seal, and calibration"
+PILLAR 4,Key Message 2,"Installation quality determines 10-year vs. 18-year system life"
+PILLAR 4,Key Message 3,"We test, verify, and document everything before we call it done"
+PILLAR 4,Proof Point,"NATE-certified technicians; Factory-trained; Post-installation verification; Photo documentation"
+PILLAR 4,Customer Promise,"When we say it's done, it's done right."
+
+TAGLINE OPTIONS,Trust Style,"Honest Comfort. Expert Care."
+TAGLINE OPTIONS,Quality Style,"Crafted Comfort for DFW Homes."
+TAGLINE OPTIONS,Relationship Style,"Your Comfort Partner, Not Just Your Contractor."
+TAGLINE OPTIONS,Straightforward Style,"No Pressure. No Surprises. Just Comfort."
+TAGLINE OPTIONS,Expertise Style,"We Solve. We Don't Sell."
+
+HOMEPAGE HERO,Option A Headline,"Honest Comfort. Expert Care."
+HOMEPAGE HERO,Option A Subhead,"No sales pressure. No surprise bills. Just straightforward solutions from technicians who care about getting it right."
+HOMEPAGE HERO,Option B Headline,"Tired of HVAC Companies That Just Want to Sell You Something?"
+HOMEPAGE HERO,Option B Subhead,"We're different. We listen first, recommend what you actually need, and do the job right—every time."
+
+SERVICE HEADLINES,AC Repair,"Honest Diagnosis. Lasting Repairs."
+SERVICE HEADLINES,AC Installation,"The Right System. Installed Right."
+SERVICE HEADLINES,Heating Repair,"Warmth You Can Count On."
+SERVICE HEADLINES,Heating Installation,"Comfort Engineered for Your Home."
+SERVICE HEADLINES,Maintenance,"Prevention That Actually Prevents."
+SERVICE HEADLINES,Indoor Air Quality,"Breathe Easier. Live Healthier."
+
+DIFFERENTIATORS,Non-Commissioned Techs,"Our technicians are paid to solve problems, not sell products. When they recommend something, it's because you need it."
+DIFFERENTIATORS,Upfront Pricing,"Before we start any work, you'll receive a written quote. No hidden fees. No surprises on the invoice."
+DIFFERENTIATORS,Consultative Approach,"We start by understanding your specific situation—your home, your needs, your budget. Then we recommend solutions that make sense for you."
+DIFFERENTIATORS,Quality Craftsmanship,"The same equipment installed poorly vs. properly can mean 10 years vs. 18 years of service. We obsess over the details."
+
+CAMPAIGN 1,Name,The Second Opinion
+CAMPAIGN 1,Headline,"Before You Spend $8,000, Spend 30 Minutes With Us."
+CAMPAIGN 1,Body,"We offer free second opinions because we've seen too many homeowners pay for repairs they didn't need. Let us take a look."
+CAMPAIGN 1,CTA,"Get a Free Second Opinion"
+
+CAMPAIGN 2,Name,No Commission No Pressure
+CAMPAIGN 2,Headline,"Our Technicians Aren't Paid to Sell You Anything."
+CAMPAIGN 2,Body,"We removed commissions because we wanted our team focused on one thing: solving your problem."
+CAMPAIGN 2,CTA,"Experience Pressure-Free Service"
+
+CAMPAIGN 3,Name,Done Right Guarantee
+CAMPAIGN 3,Headline,"We're So Confident in Our Work, We Guarantee It."
+CAMPAIGN 3,Body,"Quality installation isn't just about equipment—it's about every connection, seal, and calibration. We obsess over details."
+CAMPAIGN 3,CTA,"See Our Workmanship Standards"
+
+CAMPAIGN 4,Name,Your Home Your Solution
+CAMPAIGN 4,Headline,"Cookie-Cutter Solutions Don't Work. We Design Comfort for Your Home."
+CAMPAIGN 4,Body,"Every home is different. We start with questions, perform a complete assessment, and design solutions for your specific needs."
+CAMPAIGN 4,CTA,"Get a Custom Assessment"
+
+VOICE,Tone 1,"Honest - Direct, clear, no hedging"
+VOICE,Tone 2,"Warm - Friendly, approachable, human"
+VOICE,Tone 3,"Knowledgeable - Expert but not arrogant"
+VOICE,Tone 4,"Respectful - Values customer's time, money, intelligence"
+VOICE,Tone 5,"Confident - Assured, stands behind work"
+
+TRUST SIGNALS,Signal 1,"Non-Commissioned Technicians"
+TRUST SIGNALS,Signal 2,"Upfront Written Quotes"
+TRUST SIGNALS,Signal 3,"[X]-Year Workmanship Guarantee"
+TRUST SIGNALS,Signal 4,"NATE Certified Team"
+TRUST SIGNALS,Signal 5,"Serving [Coppell/DFW] Since [Year]"
