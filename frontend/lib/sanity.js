@@ -7,11 +7,12 @@ const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'
 const apiVersion = '2024-01-01'
 
 // Create the Sanity client
+// useCdn: false ensures fresh content on every request (no caching delays)
 export const client = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: true,
+  useCdn: false,  // Disable CDN to get fresh content immediately after publish
   perspective: 'published',
 })
 
