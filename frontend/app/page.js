@@ -5,8 +5,9 @@ import { LocalBusinessSchema } from '../components/SchemaMarkup'
 import { getCompanyInfo, getServices, getSiteSettings, getHomepage, getAllTestimonials } from '../lib/sanity'
 import { companyInfo as mockCompanyInfo, services as mockServices, testimonials as mockTestimonials } from '../lib/mockData'
 
-// Revalidate every hour
-export const revalidate = 3600
+// Force dynamic rendering to always fetch fresh Sanity content
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 export async function generateMetadata() {
   const homepage = await getHomepage()
