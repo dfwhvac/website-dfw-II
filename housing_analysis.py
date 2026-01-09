@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
 Housing Type Analysis by Zip Code
-Pulls single-family detached vs. other dwelling types from Census ACS data
+Single-Family Detached vs. Other Dwelling Types
+Data Source: US Census Bureau, American Community Survey (ACS) 5-year estimates
 """
 
 import requests
@@ -12,29 +13,35 @@ import time
 # Table B25024: Units in Structure
 CENSUS_API_BASE = "https://api.census.gov/data/2022/acs/acs5"
 
+# Zip codes provided by user
+ZIP_CODES = [
+    "75019", "75063", "75067", "76051", "75039", "75006", "75010", "75234", "75007", "75057",
+    "75261", "75028", "75038", "75056", "75229", "75022", "76092", "75025", "75093", "75248",
+    "75065", "76022", "75024", "76180", "75050", "75023", "75077", "75034", "75252", "75051",
+    "76148", "75240", "75219", "75061", "76040", "75220", "76021", "76005", "75062", "75244",
+    "75205", "75060", "76248", "75235", "76053", "75036", "76039", "75001", "76054", "76210",
+    "75212", "75204", "76034", "75225", "75287", "76182", "75209", "75251", "75390", "75231",
+    "75270", "75230", "75238", "75254", "75081", "75206", "75247", "75202", "76155", "75075",
+    "75080", "76006", "75243", "76118", "75211", "75201", "76244", "76011", "75042", "76262",
+    "75207", "75208", "75246", "75214", "75013", "76137", "76205", "75035", "76226", "75041",
+    "75074", "75033", "75082", "76117", "76120", "76010", "75044", "75218", "76012", "75070",
+    "76208", "75236", "75068", "76177", "75052", "75226"
+]
+
 def get_housing_data_by_zcta(zip_codes):
     """
     Fetch housing unit type data from Census Bureau
     B25024_001E = Total housing units
     B25024_002E = 1-unit detached (single-family detached)
-    B25024_003E = 1-unit attached (townhomes)
-    B25024_004E = 2 units
-    B25024_005E = 3-4 units
-    B25024_006E = 5-9 units
-    B25024_007E = 10-19 units
-    B25024_008E = 20-49 units
-    B25024_009E = 50+ units
-    B25024_010E = Mobile homes
-    B25024_011E = Boat, RV, van, etc.
     """
     
-    print(f"Fetching housing data for {len(zip_codes)} zip codes...")
+    print(f"Fetching housing data for {len(zip_codes)} zip codes from Census Bureau...")
+    print()
     
     # Variables to fetch
     variables = "NAME,B25024_001E,B25024_002E"
     
     # Census API allows querying multiple ZCTAs at once
-    # But we need to batch them to avoid URL length limits
     batch_size = 50
     all_results = []
     
@@ -48,37 +55,28 @@ def get_housing_data_by_zcta(zip_codes):
             response = requests.get(url, timeout=30)
             if response.status_code == 200:
                 data = response.json()
-                # First row is headers
                 headers = data[0]
                 for row in data[1:]:
                     all_results.append(dict(zip(headers, row)))
+                print(f"  Batch {i//batch_size + 1}: Retrieved {len(data) - 1} zip codes")
             else:
                 print(f"  Batch {i//batch_size + 1} error: {response.status_code}")
         except Exception as e:
             print(f"  Batch {i//batch_size + 1} exception: {e}")
         
-        time.sleep(0.5)  # Rate limiting
-        
-        if (i // batch_size + 1) % 3 == 0:
-            print(f"  Processed {min(i + batch_size, len(zip_codes))}/{len(zip_codes)} zip codes...")
+        time.sleep(0.5)
     
     return all_results
 
 def main():
-    print("=" * 60)
-    print("Housing Type Analysis: Single-Family Detached vs. Other")
-    print("=" * 60)
-    print()
-    
-    # Load service area zip codes
-    service_area_df = pd.read_csv('/app/frontend/public/DFW_HVAC_Service_Area_Zones.csv')
-    zip_codes = service_area_df['Zip Code'].astype(str).str.zfill(5).tolist()
-    
-    print(f"Loaded {len(zip_codes)} service area zip codes")
+    print("=" * 70)
+    print("HOUSING TYPE ANALYSIS")
+    print("Single-Family Detached vs. Other Dwelling Types")
+    print("=" * 70)
     print()
     
     # Fetch Census data
-    census_data = get_housing_data_by_zcta(zip_codes)
+    census_data = get_housing_data_by_zcta(ZIP_CODES)
     
     if not census_data:
         print("Error: No data returned from Census API")
@@ -93,6 +91,7 @@ def main():
             zcta = record.get('zip code tabulation area', '')
             total_units = int(record.get('B25024_001E', 0) or 0)
             sf_detached = int(record.get('B25024_002E', 0) or 0)
+            other = total_units - sf_detached
             
             if total_units > 0:
                 sf_detached_pct = round((sf_detached / total_units) * 100, 1)
@@ -102,74 +101,57 @@ def main():
                 other_pct = 0
             
             results.append({
-                'zip_code': zcta,
-                'total_housing_units': total_units,
-                'single_family_detached': sf_detached,
-                'other_dwelling_types': total_units - sf_detached,
-                'pct_single_family_detached': sf_detached_pct,
-                'pct_other': other_pct
+                'Zip Code': zcta,
+                'Total Housing Units': total_units,
+                'Single-Family Detached': sf_detached,
+                '% Single-Family Detached': sf_detached_pct,
+                'Other Dwellings': other,
+                '% Other': other_pct
             })
         except Exception as e:
             print(f"  Error processing {record}: {e}")
     
-    # Create DataFrame and merge with service area data
-    housing_df = pd.DataFrame(results)
-    housing_df['zip_code'] = housing_df['zip_code'].astype(str).str.zfill(5)
-    
-    # Merge with original service area data to get city names
-    service_area_df['Zip Code'] = service_area_df['Zip Code'].astype(str).str.zfill(5)
-    merged_df = service_area_df.merge(
-        housing_df, 
-        left_on='Zip Code', 
-        right_on='zip_code', 
-        how='left'
-    )
-    
-    # Select and rename columns
-    output_df = merged_df[[
-        'Zip Code', 'City', 
-        'total_housing_units', 'single_family_detached', 'other_dwelling_types',
-        'pct_single_family_detached', 'pct_other',
-        'Zone 1 (%)', 'Zone 2 (%)', 'Zone 3 (%)'
-    ]].copy()
-    
-    output_df.columns = [
-        'Zip Code', 'City',
-        'Total Housing Units', 'Single-Family Detached', 'Other Dwellings',
-        '% Single-Family Detached', '% Other',
-        'Zone 1 (%)', 'Zone 2 (%)', 'Zone 3 (%)'
-    ]
+    # Create DataFrame
+    df = pd.DataFrame(results)
+    df['Zip Code'] = df['Zip Code'].astype(str).str.zfill(5)
     
     # Sort by % single-family detached (highest first)
-    output_df = output_df.sort_values('% Single-Family Detached', ascending=False)
+    df = df.sort_values('% Single-Family Detached', ascending=False)
     
     # Save to CSV
     output_path = '/app/frontend/public/DFW_HVAC_Housing_Types.csv'
-    output_df.to_csv(output_path, index=False)
+    df.to_csv(output_path, index=False)
     print(f"\nSaved to {output_path}")
     
     # Print summary
-    print("\n" + "=" * 60)
+    print("\n" + "=" * 70)
     print("SUMMARY")
-    print("=" * 60)
+    print("=" * 70)
     
-    total_units = output_df['Total Housing Units'].sum()
-    total_sf = output_df['Single-Family Detached'].sum()
-    total_other = output_df['Other Dwellings'].sum()
+    total_units = df['Total Housing Units'].sum()
+    total_sf = df['Single-Family Detached'].sum()
+    total_other = df['Other Dwellings'].sum()
     
-    print(f"Total Housing Units in Service Area: {total_units:,}")
-    print(f"Single-Family Detached: {total_sf:,} ({total_sf/total_units*100:.1f}%)")
-    print(f"Other Dwelling Types: {total_other:,} ({total_other/total_units*100:.1f}%)")
+    print(f"\nTotal Housing Units Across All Zip Codes: {total_units:,}")
+    print(f"Single-Family Detached:                   {total_sf:,} ({total_sf/total_units*100:.1f}%)")
+    print(f"Other Dwelling Types:                     {total_other:,} ({total_other/total_units*100:.1f}%)")
     
-    print("\n" + "-" * 60)
-    print("TOP 15 ZIP CODES BY % SINGLE-FAMILY DETACHED")
-    print("-" * 60)
-    print(output_df[['Zip Code', 'City', '% Single-Family Detached', 'Total Housing Units']].head(15).to_string(index=False))
+    print("\n" + "-" * 70)
+    print("TOP 20 ZIP CODES BY % SINGLE-FAMILY DETACHED")
+    print("-" * 70)
+    print(df[['Zip Code', '% Single-Family Detached', 'Single-Family Detached', 'Total Housing Units']].head(20).to_string(index=False))
     
-    print("\n" + "-" * 60)
-    print("BOTTOM 15 ZIP CODES BY % SINGLE-FAMILY DETACHED")
-    print("-" * 60)
-    print(output_df[['Zip Code', 'City', '% Single-Family Detached', 'Total Housing Units']].tail(15).to_string(index=False))
+    print("\n" + "-" * 70)
+    print("BOTTOM 20 ZIP CODES BY % SINGLE-FAMILY DETACHED (Most Multi-Family)")
+    print("-" * 70)
+    print(df[['Zip Code', '% Single-Family Detached', 'Other Dwellings', 'Total Housing Units']].tail(20).to_string(index=False))
+    
+    # Zip codes not found
+    found_zips = set(df['Zip Code'].tolist())
+    requested_zips = set([z.zfill(5) for z in ZIP_CODES])
+    missing = requested_zips - found_zips
+    if missing:
+        print(f"\n⚠️  Zip codes not found in Census data: {', '.join(sorted(missing))}")
 
 if __name__ == "__main__":
     main()
