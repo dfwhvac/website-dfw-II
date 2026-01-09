@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Housing Type Analysis by Zip Code
-Single-Family Detached vs. Other Dwelling Types
+Single-Family Detached vs. Other Dwelling Types + Median Household Income
 Data Source: US Census Bureau, American Community Survey (ACS) 5-year estimates
 """
 
@@ -10,7 +10,6 @@ import pandas as pd
 import time
 
 # Census API endpoint for ACS 5-year estimates
-# Table B25024: Units in Structure
 CENSUS_API_BASE = "https://api.census.gov/data/2022/acs/acs5"
 
 # Zip codes provided by user
@@ -28,20 +27,20 @@ ZIP_CODES = [
     "76208", "75236", "75068", "76177", "75052", "75226"
 ]
 
-def get_housing_data_by_zcta(zip_codes):
+def get_census_data(zip_codes):
     """
-    Fetch housing unit type data from Census Bureau
+    Fetch housing unit type data and median household income from Census Bureau
     B25024_001E = Total housing units
     B25024_002E = 1-unit detached (single-family detached)
+    B19013_001E = Median household income
     """
     
-    print(f"Fetching housing data for {len(zip_codes)} zip codes from Census Bureau...")
+    print(f"Fetching data for {len(zip_codes)} zip codes from Census Bureau...")
     print()
     
     # Variables to fetch
-    variables = "NAME,B25024_001E,B25024_002E"
+    variables = "NAME,B25024_001E,B25024_002E,B19013_001E"
     
-    # Census API allows querying multiple ZCTAs at once
     batch_size = 50
     all_results = []
     
@@ -70,13 +69,13 @@ def get_housing_data_by_zcta(zip_codes):
 
 def main():
     print("=" * 70)
-    print("HOUSING TYPE ANALYSIS")
-    print("Single-Family Detached vs. Other Dwelling Types")
+    print("HOUSING TYPE & INCOME ANALYSIS")
+    print("Single-Family Detached vs. Other + Median Household Income")
     print("=" * 70)
     print()
     
     # Fetch Census data
-    census_data = get_housing_data_by_zcta(ZIP_CODES)
+    census_data = get_census_data(ZIP_CODES)
     
     if not census_data:
         print("Error: No data returned from Census API")
@@ -93,6 +92,13 @@ def main():
             sf_detached = int(record.get('B25024_002E', 0) or 0)
             other = total_units - sf_detached
             
+            # Median household income (can be negative for suppressed data)
+            income_raw = record.get('B19013_001E', None)
+            if income_raw and int(income_raw) > 0:
+                median_income = int(income_raw)
+            else:
+                median_income = None
+            
             if total_units > 0:
                 sf_detached_pct = round((sf_detached / total_units) * 100, 1)
                 other_pct = round(100 - sf_detached_pct, 1)
@@ -106,7 +112,8 @@ def main():
                 'Single-Family Detached': sf_detached,
                 '% Single-Family Detached': sf_detached_pct,
                 'Other Dwellings': other,
-                '% Other': other_pct
+                '% Other': other_pct,
+                'Median Household Income': median_income
             })
         except Exception as e:
             print(f"  Error processing {record}: {e}")
@@ -131,20 +138,27 @@ def main():
     total_units = df['Total Housing Units'].sum()
     total_sf = df['Single-Family Detached'].sum()
     total_other = df['Other Dwellings'].sum()
+    avg_income = df['Median Household Income'].dropna().mean()
     
     print(f"\nTotal Housing Units Across All Zip Codes: {total_units:,}")
     print(f"Single-Family Detached:                   {total_sf:,} ({total_sf/total_units*100:.1f}%)")
     print(f"Other Dwelling Types:                     {total_other:,} ({total_other/total_units*100:.1f}%)")
+    print(f"Average Median Household Income:          ${avg_income:,.0f}")
     
     print("\n" + "-" * 70)
     print("TOP 20 ZIP CODES BY % SINGLE-FAMILY DETACHED")
     print("-" * 70)
-    print(df[['Zip Code', '% Single-Family Detached', 'Single-Family Detached', 'Total Housing Units']].head(20).to_string(index=False))
+    top20 = df[['Zip Code', '% Single-Family Detached', 'Total Housing Units', 'Median Household Income']].head(20).copy()
+    top20['Median Household Income'] = top20['Median Household Income'].apply(lambda x: f"${x:,.0f}" if pd.notna(x) else "N/A")
+    print(top20.to_string(index=False))
     
     print("\n" + "-" * 70)
-    print("BOTTOM 20 ZIP CODES BY % SINGLE-FAMILY DETACHED (Most Multi-Family)")
+    print("TOP 20 ZIP CODES BY MEDIAN HOUSEHOLD INCOME")
     print("-" * 70)
-    print(df[['Zip Code', '% Single-Family Detached', 'Other Dwellings', 'Total Housing Units']].tail(20).to_string(index=False))
+    by_income = df.dropna(subset=['Median Household Income']).sort_values('Median Household Income', ascending=False)
+    top_income = by_income[['Zip Code', 'Median Household Income', '% Single-Family Detached', 'Total Housing Units']].head(20).copy()
+    top_income['Median Household Income'] = top_income['Median Household Income'].apply(lambda x: f"${x:,.0f}")
+    print(top_income.to_string(index=False))
     
     # Zip codes not found
     found_zips = set(df['Zip Code'].tolist())
