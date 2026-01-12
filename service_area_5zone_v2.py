@@ -1,221 +1,217 @@
 #!/usr/bin/env python3
 """
-DFW HVAC Service Area Analysis - 5-Zone Model (Memory Optimized)
+DFW HVAC Service Area - 5-Zone Geospatial Analysis
+Calculates actual % of each zip code area in each drive-time zone
 """
 
 import requests
 import pandas as pd
+import geopandas as gpd
+import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
+from shapely.geometry import shape, box
 import numpy as np
-import os
 import time
 import warnings
 warnings.filterwarnings('ignore')
 
-# Configuration
-HQ_COORDS = [-97.006677, 32.958239]
+# ============================================================================
+# CONFIGURATION
+# ============================================================================
+
+HQ_COORDS = [-97.006677, 32.958239]  # 556 S. Coppell Rd, Coppell TX
 HQ_ADDRESS = "556 S. Coppell Rd, Coppell, TX 75019"
+
 ORS_API_KEY = "eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjhhMDQ1YzYyYzYwZjQwYTI4Y2Y5NTY4NDIzNDkzNTNhIiwiaCI6Im11cm11cjY0In0="
 
+# Zone definitions
 ZONES = {
-    'zone1': {'max_time': 11, 'label': '<11 min', 'color': '#90EE90'},
-    'zone2': {'max_time': 20, 'label': '11-20 min', 'color': '#ADD8E6'},
-    'zone3': {'max_time': 30, 'label': '21-30 min', 'color': '#FFFFE0'},
-    'zone4': {'max_time': 45, 'label': '31-45 min', 'color': '#FFDAB9'},
-    'zone5': {'max_time': 999, 'label': '>45 min', 'color': '#D3D3D3'},
+    1: {'max_min': 11, 'label': '<11 min', 'color': '#90EE90'},       # Light Green
+    2: {'max_min': 20, 'label': '11-20 min', 'color': '#ADD8E6'},     # Light Blue
+    3: {'max_min': 30, 'label': '21-30 min', 'color': '#FFFFE0'},     # Light Yellow
+    4: {'max_min': 45, 'label': '31-45 min', 'color': '#FFDAB9'},     # Light Orange
+    5: {'max_min': 999, 'label': '>45 min', 'color': '#D3D3D3'},      # Gray
 }
 
-CENSUS_API_BASE = "https://api.census.gov/data/2022/acs/acs5"
+DFW_BOUNDS = {'min_lon': -97.6, 'max_lon': -96.3, 'min_lat': 32.4, 'max_lat': 33.5}
 
-# Comprehensive DFW zip codes with cities
-DFW_ZIPS = {
-    "75001": ("Addison", 32.960, -96.832), "75002": ("Allen", 33.103, -96.671),
-    "75006": ("Carrollton", 32.954, -96.900), "75007": ("Carrollton", 32.976, -96.890),
-    "75010": ("Carrollton", 33.002, -96.854), "75013": ("Allen", 33.120, -96.626),
-    "75019": ("Coppell", 32.955, -97.010), "75022": ("Flower Mound", 33.015, -97.070),
-    "75023": ("Plano", 33.054, -96.687), "75024": ("Plano", 33.073, -96.718),
-    "75025": ("Plano", 33.085, -96.730), "75028": ("Flower Mound", 33.036, -97.114),
-    "75032": ("Rockwall", 32.884, -96.460), "75033": ("Frisco", 33.151, -96.824),
-    "75034": ("Frisco", 33.112, -96.777), "75035": ("Frisco", 33.141, -96.703),
-    "75036": ("Frisco", 33.161, -96.751), "75038": ("Irving", 32.857, -96.969),
-    "75039": ("Irving", 32.885, -96.942), "75040": ("Garland", 32.922, -96.616),
-    "75041": ("Garland", 32.877, -96.632), "75042": ("Garland", 32.908, -96.650),
-    "75043": ("Garland", 32.859, -96.604), "75044": ("Garland", 32.959, -96.628),
-    "75048": ("Sachse", 32.978, -96.578), "75050": ("Grand Prairie", 32.738, -96.995),
-    "75051": ("Grand Prairie", 32.693, -97.012), "75052": ("Grand Prairie", 32.689, -97.012),
-    "75054": ("Grand Prairie", 32.657, -97.002), "75056": ("The Colony", 33.091, -96.892),
-    "75057": ("Lewisville", 33.046, -96.994), "75060": ("Irving", 32.798, -96.967),
-    "75061": ("Irving", 32.814, -96.950), "75062": ("Irving", 32.844, -96.943),
-    "75063": ("Irving", 32.918, -96.965), "75065": ("Lake Dallas", 33.119, -96.959),
-    "75067": ("Lewisville", 33.002, -96.954), "75068": ("Little Elm", 33.156, -96.938),
-    "75069": ("McKinney", 33.214, -96.632), "75070": ("McKinney", 33.187, -96.648),
-    "75071": ("McKinney", 33.174, -96.609), "75072": ("McKinney", 33.227, -96.658),
-    "75074": ("Plano", 33.025, -96.656), "75075": ("Plano", 33.013, -96.735),
-    "75077": ("Flower Mound", 33.056, -97.004), "75078": ("Prosper", 33.237, -96.787),
-    "75080": ("Richardson", 32.963, -96.705), "75081": ("Richardson", 32.948, -96.673),
-    "75082": ("Richardson", 32.982, -96.654), "75087": ("Rockwall", 32.929, -96.462),
-    "75088": ("Rowlett", 32.917, -96.559), "75089": ("Rowlett", 32.900, -96.552),
-    "75093": ("Plano", 33.032, -96.760), "75098": ("Wylie", 33.029, -96.521),
-    "75104": ("Cedar Hill", 32.588, -96.948), "75115": ("DeSoto", 32.595, -96.861),
-    "75116": ("Duncanville", 32.652, -96.913), "75134": ("Lancaster", 32.571, -96.804),
-    "75137": ("Duncanville", 32.621, -96.895), "75141": ("Hutchins", 32.642, -96.713),
-    "75146": ("Lancaster", 32.617, -96.756), "75149": ("Mesquite", 32.774, -96.612),
-    "75150": ("Mesquite", 32.775, -96.637), "75159": ("Seagoville", 32.649, -96.558),
-    "75172": ("Wilmer", 32.588, -96.685), "75181": ("Mesquite", 32.727, -96.556),
-    "75182": ("Sunnyvale", 32.767, -96.549), "75201": ("Dallas", 32.788, -96.802),
-    "75202": ("Dallas", 32.783, -96.792), "75203": ("Dallas", 32.745, -96.813),
-    "75204": ("Dallas", 32.798, -96.786), "75205": ("Dallas", 32.833, -96.798),
-    "75206": ("Dallas", 32.820, -96.771), "75207": ("Dallas", 32.788, -96.827),
-    "75208": ("Dallas", 32.759, -96.851), "75209": ("Dallas", 32.843, -96.821),
-    "75210": ("Dallas", 32.770, -96.753), "75211": ("Dallas", 32.742, -96.891),
-    "75212": ("Dallas", 32.785, -96.877), "75214": ("Dallas", 32.820, -96.753),
-    "75215": ("Dallas", 32.752, -96.767), "75216": ("Dallas", 32.706, -96.783),
-    "75217": ("Dallas", 32.716, -96.698), "75218": ("Dallas", 32.832, -96.712),
-    "75219": ("Dallas", 32.810, -96.810), "75220": ("Dallas", 32.867, -96.872),
-    "75223": ("Dallas", 32.787, -96.753), "75224": ("Dallas", 32.716, -96.838),
-    "75225": ("Dallas", 32.858, -96.792), "75226": ("Dallas", 32.785, -96.769),
-    "75227": ("Dallas", 32.752, -96.699), "75228": ("Dallas", 32.815, -96.688),
-    "75229": ("Dallas", 32.888, -96.869), "75230": ("Dallas", 32.900, -96.793),
-    "75231": ("Dallas", 32.882, -96.759), "75232": ("Dallas", 32.671, -96.839),
-    "75233": ("Dallas", 32.708, -96.867), "75234": ("Farmers Branch", 32.927, -96.896),
-    "75235": ("Dallas", 32.833, -96.845), "75236": ("Dallas", 32.695, -96.929),
-    "75237": ("Dallas", 32.666, -96.878), "75238": ("Dallas", 32.877, -96.701),
-    "75240": ("Dallas", 32.932, -96.787), "75241": ("Dallas", 32.667, -96.755),
-    "75243": ("Dallas", 32.900, -96.726), "75244": ("Dallas", 32.930, -96.834),
-    "75246": ("Dallas", 32.795, -96.775), "75247": ("Dallas", 32.812, -96.865),
-    "75248": ("Dallas", 32.965, -96.801), "75249": ("Dallas", 32.652, -96.897),
-    "75251": ("Dallas", 32.912, -96.771), "75252": ("Dallas", 32.990, -96.770),
-    "75253": ("Dallas", 32.692, -96.627), "75254": ("Dallas", 32.944, -96.775),
-    "75261": ("DFW Airport", 32.903, -97.040), "75270": ("Dallas", 32.787, -96.800),
-    "75287": ("Dallas", 32.989, -96.820), "75390": ("Dallas", 32.813, -96.840),
-    "76001": ("Arlington", 32.627, -97.123), "76002": ("Arlington", 32.615, -97.056),
-    "76005": ("Arlington", 32.704, -97.126), "76006": ("Arlington", 32.776, -97.078),
-    "76010": ("Arlington", 32.717, -97.089), "76011": ("Arlington", 32.757, -97.089),
-    "76012": ("Arlington", 32.735, -97.111), "76013": ("Arlington", 32.725, -97.132),
-    "76014": ("Arlington", 32.700, -97.075), "76015": ("Arlington", 32.697, -97.109),
-    "76016": ("Arlington", 32.708, -97.146), "76017": ("Arlington", 32.684, -97.127),
-    "76018": ("Arlington", 32.662, -97.095), "76021": ("Bedford", 32.842, -97.136),
-    "76022": ("Bedford", 32.854, -97.124), "76028": ("Burleson", 32.542, -97.321),
-    "76034": ("Colleyville", 32.880, -97.155), "76039": ("Euless", 32.857, -97.082),
-    "76040": ("Euless", 32.843, -97.082), "76051": ("Grapevine", 32.934, -97.078),
-    "76052": ("Haslet", 32.969, -97.349), "76053": ("Hurst", 32.833, -97.169),
-    "76054": ("Hurst", 32.857, -97.190), "76060": ("Kennedale", 32.647, -97.212),
-    "76063": ("Mansfield", 32.563, -97.112), "76092": ("Southlake", 32.955, -97.150),
-    "76117": ("Haltom City", 32.804, -97.262), "76118": ("Fort Worth", 32.800, -97.203),
-    "76119": ("Fort Worth", 32.699, -97.257), "76120": ("Fort Worth", 32.777, -97.178),
-    "76131": ("Fort Worth", 32.882, -97.358), "76132": ("Fort Worth", 32.680, -97.402),
-    "76133": ("Fort Worth", 32.652, -97.367), "76134": ("Fort Worth", 32.643, -97.306),
-    "76137": ("Fort Worth", 32.856, -97.299), "76140": ("Fort Worth", 32.601, -97.256),
-    "76148": ("Fort Worth", 32.865, -97.266), "76155": ("Fort Worth", 32.830, -97.046),
-    "76164": ("Fort Worth", 32.782, -97.360), "76177": ("Fort Worth", 32.931, -97.324),
-    "76179": ("Fort Worth", 32.891, -97.417), "76180": ("North Richland Hills", 32.860, -97.218),
-    "76182": ("North Richland Hills", 32.887, -97.199), "76201": ("Denton", 33.214, -97.137),
-    "76205": ("Denton", 33.188, -97.128), "76207": ("Denton", 33.232, -97.175),
-    "76208": ("Denton", 33.218, -97.071), "76209": ("Denton", 33.219, -97.116),
-    "76210": ("Denton", 33.175, -97.073), "76226": ("Argyle", 33.112, -97.184),
-    "76227": ("Aubrey", 33.297, -96.954), "76244": ("Keller", 32.942, -97.286),
-    "76247": ("Justin", 33.083, -97.298), "76248": ("Keller", 32.935, -97.252),
-    "76262": ("Roanoke", 33.004, -97.226),
+CENSUS_API = "https://api.census.gov/data/2022/acs/acs5"
+
+# City mapping
+ZIP_TO_CITY = {
+    "75001": "Addison", "75002": "Allen", "75006": "Carrollton", "75007": "Carrollton",
+    "75010": "Carrollton", "75013": "Allen", "75019": "Coppell", "75022": "Flower Mound",
+    "75023": "Plano", "75024": "Plano", "75025": "Plano", "75028": "Flower Mound",
+    "75032": "Rockwall", "75033": "Frisco", "75034": "Frisco", "75035": "Frisco",
+    "75036": "Frisco", "75038": "Irving", "75039": "Irving", "75040": "Garland",
+    "75041": "Garland", "75042": "Garland", "75043": "Garland", "75044": "Garland",
+    "75048": "Sachse", "75050": "Grand Prairie", "75051": "Grand Prairie",
+    "75052": "Grand Prairie", "75054": "Grand Prairie", "75056": "The Colony",
+    "75057": "Lewisville", "75060": "Irving", "75061": "Irving", "75062": "Irving",
+    "75063": "Irving", "75065": "Lake Dallas", "75067": "Lewisville",
+    "75068": "Little Elm", "75069": "McKinney", "75070": "McKinney", "75071": "McKinney",
+    "75072": "McKinney", "75074": "Plano", "75075": "Plano", "75077": "Flower Mound",
+    "75078": "Prosper", "75080": "Richardson", "75081": "Richardson", "75082": "Richardson",
+    "75087": "Rockwall", "75088": "Rowlett", "75089": "Rowlett", "75093": "Plano",
+    "75098": "Wylie", "75104": "Cedar Hill", "75115": "DeSoto", "75116": "Duncanville",
+    "75149": "Mesquite", "75150": "Mesquite", "75181": "Mesquite", "75182": "Sunnyvale",
+    "75201": "Dallas", "75202": "Dallas", "75204": "Dallas", "75205": "Dallas",
+    "75206": "Dallas", "75207": "Dallas", "75208": "Dallas", "75209": "Dallas",
+    "75211": "Dallas", "75212": "Dallas", "75214": "Dallas", "75218": "Dallas",
+    "75219": "Dallas", "75220": "Dallas", "75225": "Dallas", "75226": "Dallas",
+    "75228": "Dallas", "75229": "Dallas", "75230": "Dallas", "75231": "Dallas",
+    "75234": "Farmers Branch", "75235": "Dallas", "75236": "Dallas", "75238": "Dallas",
+    "75240": "Dallas", "75243": "Dallas", "75244": "Dallas", "75246": "Dallas",
+    "75247": "Dallas", "75248": "Dallas", "75251": "Dallas", "75252": "Dallas",
+    "75254": "Dallas", "75287": "Dallas",
+    "76001": "Arlington", "76002": "Arlington", "76006": "Arlington", "76010": "Arlington",
+    "76011": "Arlington", "76012": "Arlington", "76013": "Arlington", "76014": "Arlington",
+    "76015": "Arlington", "76016": "Arlington", "76017": "Arlington", "76018": "Arlington",
+    "76021": "Bedford", "76022": "Bedford", "76034": "Colleyville", "76039": "Euless",
+    "76040": "Euless", "76051": "Grapevine", "76052": "Haslet", "76053": "Hurst",
+    "76054": "Hurst", "76063": "Mansfield", "76092": "Southlake", "76117": "Haltom City",
+    "76118": "Fort Worth", "76120": "Fort Worth", "76137": "Fort Worth",
+    "76148": "North Richland Hills", "76155": "Fort Worth", "76177": "Fort Worth",
+    "76180": "North Richland Hills", "76182": "North Richland Hills",
+    "76201": "Denton", "76205": "Denton", "76207": "Denton", "76208": "Denton",
+    "76209": "Denton", "76210": "Denton", "76226": "Argyle", "76227": "Aubrey",
+    "76244": "Keller", "76247": "Justin", "76248": "Keller", "76262": "Roanoke",
 }
 
-def get_drive_times_matrix():
-    """Get actual drive times from HQ to all zip code centroids using ORS Matrix API"""
-    print("Calculating drive times to all zip codes...")
+# ============================================================================
+# FUNCTIONS
+# ============================================================================
+
+def get_isochrones():
+    """Get drive-time polygons from OpenRouteService"""
+    print("Fetching isochrones from OpenRouteService...")
     
-    # Prepare locations
-    locations = [HQ_COORDS]  # First is HQ
-    zip_list = list(DFW_ZIPS.keys())
-    
-    for zip_code in zip_list:
-        city, lat, lon = DFW_ZIPS[zip_code]
-        locations.append([lon, lat])
-    
-    # ORS Matrix API - batch requests
-    url = "https://api.openrouteservice.org/v2/matrix/driving-car"
+    url = "https://api.openrouteservice.org/v2/isochrones/driving-car"
     headers = {'Authorization': ORS_API_KEY, 'Content-Type': 'application/json'}
     
-    all_durations = {}
-    batch_size = 50
+    # Times in seconds: 11, 20, 30, 45 minutes
+    times = [11*60, 20*60, 30*60, 45*60]
     
-    for i in range(0, len(zip_list), batch_size):
-        batch_zips = zip_list[i:i+batch_size]
-        batch_locations = [HQ_COORDS]
+    body = {
+        "locations": [HQ_COORDS],
+        "range": times,
+        "range_type": "time",
+        "smoothing": 25
+    }
+    
+    response = requests.post(url, json=body, headers=headers, timeout=60)
+    if response.status_code != 200:
+        print(f"  Error: {response.status_code}")
+        return None, None
+    
+    data = response.json()
+    
+    # Cumulative zones (each includes all closer zones)
+    cumulative = {}
+    for feature in data['features']:
+        value = feature['properties']['value']
+        geom = shape(feature['geometry'])
+        if value == 11*60: cumulative[1] = geom
+        elif value == 20*60: cumulative[2] = geom
+        elif value == 30*60: cumulative[3] = geom
+        elif value == 45*60: cumulative[4] = geom
+    
+    # Exclusive zones (donut rings)
+    exclusive = {1: cumulative.get(1)}
+    if cumulative.get(2) and cumulative.get(1):
+        exclusive[2] = cumulative[2].difference(cumulative[1])
+    if cumulative.get(3) and cumulative.get(2):
+        exclusive[3] = cumulative[3].difference(cumulative[2])
+    if cumulative.get(4) and cumulative.get(3):
+        exclusive[4] = cumulative[4].difference(cumulative[3])
+    
+    print(f"  Retrieved {len(cumulative)} zone boundaries")
+    return cumulative, exclusive
+
+
+def load_zcta():
+    """Load ZCTA boundaries for DFW"""
+    print("Loading ZCTA boundaries...")
+    
+    gdf = gpd.read_file("/tmp/zcta_data/tl_2023_us_zcta520.shp")
+    
+    # Filter to DFW
+    dfw_box = box(DFW_BOUNDS['min_lon'], DFW_BOUNDS['min_lat'],
+                  DFW_BOUNDS['max_lon'], DFW_BOUNDS['max_lat'])
+    gdf = gdf[gdf.geometry.intersects(dfw_box)]
+    
+    if gdf.crs != "EPSG:4326":
+        gdf = gdf.to_crs("EPSG:4326")
+    
+    print(f"  Found {len(gdf)} zip codes in DFW area")
+    return gdf
+
+
+def calculate_zone_percentages(zcta_gdf, exclusive_zones, cumulative_zones):
+    """Calculate actual % of each zip's area in each zone"""
+    print("Calculating zone percentages (geospatial intersection)...")
+    
+    zip_col = 'ZCTA5CE20' if 'ZCTA5CE20' in zcta_gdf.columns else 'ZCTA5CE10'
+    results = []
+    total = len(zcta_gdf)
+    
+    for idx, (_, row) in enumerate(zcta_gdf.iterrows()):
+        if idx % 50 == 0:
+            print(f"  Processing {idx}/{total}...")
         
-        for zip_code in batch_zips:
-            city, lat, lon = DFW_ZIPS[zip_code]
-            batch_locations.append([lon, lat])
+        zip_code = str(row[zip_col]).zfill(5)
+        zip_geom = row.geometry
+        zip_area = zip_geom.area
         
-        body = {
-            "locations": batch_locations,
-            "sources": [0],
-            "destinations": list(range(1, len(batch_locations))),
-            "metrics": ["duration"]
-        }
+        if zip_area == 0:
+            continue
+        
+        pcts = {i: 0.0 for i in range(1, 6)}
         
         try:
-            response = requests.post(url, json=body, headers=headers, timeout=60)
-            if response.status_code == 200:
-                data = response.json()
-                durations = data['durations'][0]
-                
-                for j, zip_code in enumerate(batch_zips):
-                    if durations[j] is not None:
-                        all_durations[zip_code] = durations[j] / 60  # Convert to minutes
-                
-                print(f"  Batch {i//batch_size + 1}: Got {len(batch_zips)} drive times")
-            else:
-                print(f"  Batch {i//batch_size + 1} error: {response.status_code}")
-        except Exception as e:
-            print(f"  Batch {i//batch_size + 1} exception: {e}")
+            for zone_num in [1, 2, 3, 4]:
+                if zone_num in exclusive_zones and exclusive_zones[zone_num]:
+                    zone_geom = exclusive_zones[zone_num]
+                    if zone_geom.is_valid:
+                        intersection = zip_geom.intersection(zone_geom)
+                        if not intersection.is_empty:
+                            pcts[zone_num] = (intersection.area / zip_area) * 100
+            
+            # Zone 5 = remainder
+            pcts[5] = max(0, 100 - sum(pcts[i] for i in range(1, 5)))
+        except:
+            continue
         
-        time.sleep(0.5)
-    
-    return all_durations
-
-def classify_zones(drive_times):
-    """Classify zip codes into zones based on drive time"""
-    results = []
-    
-    for zip_code, minutes in drive_times.items():
-        city, lat, lon = DFW_ZIPS.get(zip_code, ("Unknown", 0, 0))
-        
-        # Determine zone
-        if minutes < 11:
-            primary_zone = 1
-            zone_pcts = [100, 0, 0, 0, 0]
-        elif minutes < 20:
-            primary_zone = 2
-            zone_pcts = [0, 100, 0, 0, 0]
-        elif minutes < 30:
-            primary_zone = 3
-            zone_pcts = [0, 0, 100, 0, 0]
-        elif minutes < 45:
-            primary_zone = 4
-            zone_pcts = [0, 0, 0, 100, 0]
-        else:
-            primary_zone = 5
-            zone_pcts = [0, 0, 0, 0, 100]
-        
-        results.append({
-            'zip_code': zip_code,
-            'city': city,
-            'drive_time_min': round(minutes, 1),
-            'primary_zone': primary_zone,
-            'zone1_pct': zone_pcts[0],
-            'zone2_pct': zone_pcts[1],
-            'zone3_pct': zone_pcts[2],
-            'zone4_pct': zone_pcts[3],
-            'zone5_pct': zone_pcts[4],
-            'lat': lat,
-            'lon': lon
-        })
+        # Only include if >10% in zones 1-4
+        service_pct = sum(pcts[i] for i in range(1, 5))
+        if service_pct > 10:
+            # Primary zone = first zone with coverage
+            primary = 5
+            for i in range(1, 6):
+                if pcts[i] > 0:
+                    primary = i
+                    break
+            
+            results.append({
+                'zip_code': zip_code,
+                'city': ZIP_TO_CITY.get(zip_code, 'Unknown'),
+                'primary_zone': primary,
+                'zone1_pct': round(pcts[1], 1),
+                'zone2_pct': round(pcts[2], 1),
+                'zone3_pct': round(pcts[3], 1),
+                'zone4_pct': round(pcts[4], 1),
+                'zone5_pct': round(pcts[5], 1),
+            })
     
     df = pd.DataFrame(results)
-    df = df.sort_values(['primary_zone', 'drive_time_min'])
+    df = df.sort_values(['primary_zone', 'zone1_pct', 'zone2_pct'], ascending=[True, False, False])
+    print(f"  Found {len(df)} zip codes with >10% service coverage")
     return df
 
+
 def get_demographics(zip_codes):
-    """Fetch Census demographics"""
-    print(f"Fetching Census demographics for {len(zip_codes)} zip codes...")
+    """Fetch housing and income data from Census"""
+    print(f"Fetching demographics for {len(zip_codes)} zip codes...")
     
     variables = "B25024_001E,B25024_002E,B19013_001E"
     batch_size = 50
@@ -223,68 +219,71 @@ def get_demographics(zip_codes):
     
     for i in range(0, len(zip_codes), batch_size):
         batch = zip_codes[i:i+batch_size]
-        zcta_list = ",".join(batch)
-        url = f"{CENSUS_API_BASE}?get={variables}&for=zip%20code%20tabulation%20area:{zcta_list}"
+        url = f"{CENSUS_API}?get={variables}&for=zip%20code%20tabulation%20area:{','.join(batch)}"
         
         try:
-            response = requests.get(url, timeout=30)
-            if response.status_code == 200:
-                data = response.json()
-                headers = data[0]
+            resp = requests.get(url, timeout=30)
+            if resp.status_code == 200:
+                data = resp.json()
                 for row in data[1:]:
-                    record = dict(zip(headers, row))
-                    zcta = record['zip code tabulation area']
-                    total = int(record.get('B25024_001E', 0) or 0)
-                    sf = int(record.get('B25024_002E', 0) or 0)
-                    income = record.get('B19013_001E')
-                    income = int(income) if income and int(income) > 0 else None
-                    
+                    zcta = row[3]
+                    total = int(row[0] or 0)
+                    sf = int(row[1] or 0)
+                    income = int(row[2]) if row[2] and int(row[2]) > 0 else None
                     results[zcta] = {
                         'total_units': total,
                         'sf_detached': sf,
-                        'sf_pct': round((sf/total)*100, 1) if total > 0 else 0,
+                        'sf_pct': round(sf/total*100, 1) if total > 0 else 0,
                         'other': total - sf,
-                        'other_pct': round(((total-sf)/total)*100, 1) if total > 0 else 0,
+                        'other_pct': round((total-sf)/total*100, 1) if total > 0 else 0,
                         'income': income
                     }
-            time.sleep(0.3)
         except Exception as e:
-            print(f"  Error: {e}")
+            print(f"  Batch error: {e}")
+        time.sleep(0.3)
     
-    print(f"  Retrieved {len(results)} records")
+    print(f"  Retrieved demographics for {len(results)} zip codes")
     return results
 
-def create_map(df, output_path):
-    """Create service area map"""
-    import matplotlib.pyplot as plt
-    import matplotlib.patches as mpatches
-    
+
+def create_map(zcta_gdf, cumulative_zones, df, output_path):
+    """Generate the service area map"""
     print("Generating map...")
     
-    fig, ax = plt.subplots(1, 1, figsize=(18, 14))
+    fig, ax = plt.subplots(1, 1, figsize=(20, 16))
     ax.set_facecolor('#f8fafc')
     
-    zone_colors = {
-        1: ZONES['zone1']['color'],
-        2: ZONES['zone2']['color'],
-        3: ZONES['zone3']['color'],
-        4: ZONES['zone4']['color'],
-        5: ZONES['zone5']['color']
-    }
+    zip_col = 'ZCTA5CE20' if 'ZCTA5CE20' in zcta_gdf.columns else 'ZCTA5CE10'
+    zcta_gdf = zcta_gdf.copy()
+    zcta_gdf[zip_col] = zcta_gdf[zip_col].astype(str).str.zfill(5)
     
-    # Plot zip code points by zone
+    merged = zcta_gdf.merge(df, left_on=zip_col, right_on='zip_code', how='left')
+    merged['primary_zone'] = merged['primary_zone'].fillna(5).astype(int)
+    
+    colors = {i: ZONES[i]['color'] for i in range(1, 6)}
+    
     for zone in [5, 4, 3, 2, 1]:
-        zone_data = df[df['primary_zone'] == zone]
+        zone_data = merged[merged['primary_zone'] == zone]
         if len(zone_data) > 0:
-            ax.scatter(zone_data['lon'], zone_data['lat'], 
-                      c=zone_colors[zone], s=100, alpha=0.7,
-                      edgecolors='#374151', linewidth=0.5, zorder=5-zone+1)
+            zone_data.plot(ax=ax, facecolor=colors[zone], edgecolor='#374151', linewidth=0.5, alpha=0.7)
     
-    # Add labels for zones 1-2
-    for _, row in df[df['primary_zone'] <= 2].iterrows():
-        ax.annotate(row['zip_code'], (row['lon'], row['lat']),
-                   fontsize=6, ha='center', va='bottom',
-                   xytext=(0, 4), textcoords='offset points',
+    # Zone boundaries
+    for zone_num, geom in cumulative_zones.items():
+        if geom and geom.is_valid:
+            color = colors.get(zone_num, '#000')
+            if geom.geom_type == 'Polygon':
+                x, y = geom.exterior.xy
+                ax.plot(x, y, color=color, linewidth=2.5, alpha=0.9, zorder=5)
+            elif geom.geom_type == 'MultiPolygon':
+                for poly in geom.geoms:
+                    x, y = poly.exterior.xy
+                    ax.plot(x, y, color=color, linewidth=2.5, alpha=0.9, zorder=5)
+    
+    # Zip labels for zones 1-2
+    for _, row in merged[merged['primary_zone'] <= 2].iterrows():
+        c = row.geometry.centroid
+        ax.annotate(row[zip_col], xy=(c.x, c.y), fontsize=6, ha='center', va='center',
+                   color='#1f2937', weight='bold',
                    bbox=dict(boxstyle='round,pad=0.1', facecolor='white', alpha=0.7, edgecolor='none'))
     
     # City labels
@@ -294,120 +293,107 @@ def create_map(df, output_path):
         'Dallas': (-96.77, 32.78), 'Plano': (-96.70, 33.02), 'Frisco': (-96.82, 33.15),
         'Arlington': (-97.11, 32.70), 'Fort Worth': (-97.35, 32.76), 'Denton': (-97.13, 33.22),
     }
-    
     for city, (lon, lat) in cities.items():
-        ax.annotate(city, xy=(lon, lat), fontsize=10, ha='center', va='center',
-                   color='#1e293b', weight='bold', style='italic',
+        ax.annotate(city, xy=(lon, lat), fontsize=9, ha='center', color='#1e293b', weight='bold', style='italic',
                    bbox=dict(boxstyle='round,pad=0.2', facecolor='white', alpha=0.85, edgecolor='#94a3b8'))
     
-    # HQ marker
-    ax.scatter(HQ_COORDS[0], HQ_COORDS[1], c='#dc2626', s=400, marker='*',
-               edgecolors='white', linewidth=2, zorder=10)
-    ax.annotate('DFW HVAC HQ', xy=(HQ_COORDS[0], HQ_COORDS[1]),
-               xytext=(HQ_COORDS[0] + 0.04, HQ_COORDS[1] + 0.025),
-               fontsize=10, ha='left', color='#dc2626', weight='bold',
+    # HQ
+    ax.scatter(HQ_COORDS[0], HQ_COORDS[1], c='#dc2626', s=400, marker='*', edgecolors='white', linewidth=2, zorder=10)
+    ax.annotate('DFW HVAC HQ', xy=(HQ_COORDS[0], HQ_COORDS[1]), xytext=(HQ_COORDS[0]+0.04, HQ_COORDS[1]+0.02),
+               fontsize=10, color='#dc2626', weight='bold',
                bbox=dict(boxstyle='round,pad=0.3', facecolor='white', alpha=0.95, edgecolor='#dc2626'))
     
     # Legend
-    legend_elements = [
-        mpatches.Patch(facecolor=ZONES['zone1']['color'], alpha=0.7, edgecolor='#374151', label=f"Zone 1: {ZONES['zone1']['label']}"),
-        mpatches.Patch(facecolor=ZONES['zone2']['color'], alpha=0.7, edgecolor='#374151', label=f"Zone 2: {ZONES['zone2']['label']}"),
-        mpatches.Patch(facecolor=ZONES['zone3']['color'], alpha=0.7, edgecolor='#374151', label=f"Zone 3: {ZONES['zone3']['label']}"),
-        mpatches.Patch(facecolor=ZONES['zone4']['color'], alpha=0.7, edgecolor='#374151', label=f"Zone 4: {ZONES['zone4']['label']}"),
-        mpatches.Patch(facecolor=ZONES['zone5']['color'], alpha=0.7, edgecolor='#374151', label=f"Zone 5: {ZONES['zone5']['label']}"),
-        plt.Line2D([0], [0], marker='*', color='w', markerfacecolor='#dc2626', markersize=15, label='DFW HVAC HQ')
-    ]
-    ax.legend(handles=legend_elements, loc='upper right', fontsize=11, framealpha=0.95, title='Service Zones', title_fontsize=12)
+    legend = [mpatches.Patch(facecolor=ZONES[i]['color'], alpha=0.7, edgecolor='#374151', label=f"Zone {i}: {ZONES[i]['label']}") for i in range(1, 6)]
+    legend.append(plt.Line2D([0], [0], marker='*', color='w', markerfacecolor='#dc2626', markersize=15, label='HQ'))
+    ax.legend(handles=legend, loc='upper right', fontsize=11, framealpha=0.95, title='Service Zones')
     
     # Stats
-    zone_counts = df['primary_zone'].value_counts().sort_index()
-    stats = f"""Service Area Statistics
-━━━━━━━━━━━━━━━━━━━━━━
-HQ: {HQ_ADDRESS}
-━━━━━━━━━━━━━━━━━━━━━━
-Zone 1 (<11 min):   {zone_counts.get(1, 0):>3}
-Zone 2 (11-20):     {zone_counts.get(2, 0):>3}
-Zone 3 (21-30):     {zone_counts.get(3, 0):>3}
-Zone 4 (31-45):     {zone_counts.get(4, 0):>3}
-Zone 5 (>45):       {zone_counts.get(5, 0):>3}
-━━━━━━━━━━━━━━━━━━━━━━
-Total: {len(df)} zip codes"""
-    
-    ax.text(0.02, 0.02, stats, transform=ax.transAxes, fontsize=9, verticalalignment='bottom',
+    counts = df['primary_zone'].value_counts().sort_index()
+    stats = f"HQ: {HQ_ADDRESS}\n" + "━"*30 + "\n"
+    for z in range(1, 5):
+        stats += f"Zone {z} ({ZONES[z]['label']}): {counts.get(z, 0)} zips\n"
+    stats += "━"*30 + f"\nTotal: {len(df)} zip codes"
+    ax.text(0.02, 0.02, stats, transform=ax.transAxes, fontsize=10, verticalalignment='bottom',
            fontfamily='monospace', bbox=dict(boxstyle='round,pad=0.5', facecolor='white', alpha=0.9))
     
-    ax.set_xlabel('Longitude', fontsize=12)
-    ax.set_ylabel('Latitude', fontsize=12)
-    ax.set_title('DFW HVAC Service Area - 5-Zone Model', fontsize=16, fontweight='bold', pad=15)
+    ax.set_title('DFW HVAC Service Area - 5-Zone Model', fontsize=18, fontweight='bold', pad=20)
+    ax.set_xlim(DFW_BOUNDS['min_lon'], DFW_BOUNDS['max_lon'])
+    ax.set_ylim(DFW_BOUNDS['min_lat'], DFW_BOUNDS['max_lat'])
     ax.grid(True, alpha=0.3, linestyle='--')
-    ax.set_xlim(-97.6, -96.4)
-    ax.set_ylim(32.5, 33.4)
     
     plt.tight_layout()
     plt.savefig(output_path, dpi=150, bbox_inches='tight', facecolor='white')
     plt.close()
-    print(f"  Map saved to {output_path}")
+    print(f"  Map saved")
 
 
 def main():
-    print("=" * 60)
-    print("DFW HVAC SERVICE AREA - 5-ZONE MODEL")
-    print("=" * 60)
+    print("="*70)
+    print("DFW HVAC SERVICE AREA - 5-ZONE GEOSPATIAL ANALYSIS")
+    print("="*70)
     print(f"\nHQ: {HQ_ADDRESS}")
-    print(f"Zones: <11min, 11-20, 21-30, 31-45, >45\n")
+    print(f"Zones: <11min, 11-20min, 21-30min, 31-45min, >45min\n")
     
-    # Step 1: Get drive times
-    drive_times = get_drive_times_matrix()
-    print(f"  Got drive times for {len(drive_times)} zip codes\n")
+    # Step 1: Isochrones
+    cumulative, exclusive = get_isochrones()
+    if not cumulative:
+        return
     
-    # Step 2: Classify into zones
-    df = classify_zones(drive_times)
+    # Step 2: ZCTA
+    zcta = load_zcta()
     
-    # Step 3: Get demographics
-    zip_list = df['zip_code'].tolist()
-    demographics = get_demographics(zip_list)
+    # Step 3: Zone percentages
+    df = calculate_zone_percentages(zcta, exclusive, cumulative)
     
-    # Step 4: Merge demographics
-    df['total_housing_units'] = df['zip_code'].map(lambda z: demographics.get(z, {}).get('total_units', 0))
-    df['sf_detached'] = df['zip_code'].map(lambda z: demographics.get(z, {}).get('sf_detached', 0))
-    df['sf_pct'] = df['zip_code'].map(lambda z: demographics.get(z, {}).get('sf_pct', 0))
-    df['other_dwellings'] = df['zip_code'].map(lambda z: demographics.get(z, {}).get('other', 0))
-    df['other_pct'] = df['zip_code'].map(lambda z: demographics.get(z, {}).get('other_pct', 0))
-    df['median_income'] = df['zip_code'].map(lambda z: demographics.get(z, {}).get('income'))
+    # Step 4: Demographics
+    demo = get_demographics(df['zip_code'].tolist())
     
-    # Step 5: Save CSV
-    output_df = df[[
-        'zip_code', 'city', 'primary_zone', 'drive_time_min',
-        'zone1_pct', 'zone2_pct', 'zone3_pct', 'zone4_pct', 'zone5_pct',
-        'total_housing_units', 'sf_detached', 'sf_pct', 'other_dwellings', 'other_pct', 'median_income'
-    ]].copy()
+    # Merge demographics
+    df['total_housing_units'] = df['zip_code'].map(lambda z: demo.get(z, {}).get('total_units', 0))
+    df['sf_detached'] = df['zip_code'].map(lambda z: demo.get(z, {}).get('sf_detached', 0))
+    df['sf_pct'] = df['zip_code'].map(lambda z: demo.get(z, {}).get('sf_pct', 0))
+    df['other_dwellings'] = df['zip_code'].map(lambda z: demo.get(z, {}).get('other', 0))
+    df['other_pct'] = df['zip_code'].map(lambda z: demo.get(z, {}).get('other_pct', 0))
+    df['median_income'] = df['zip_code'].map(lambda z: demo.get(z, {}).get('income'))
     
-    output_df.columns = [
-        'Zip Code', 'City', 'Primary Zone', 'Drive Time (min)',
-        'Zone 1 (%)', 'Zone 2 (%)', 'Zone 3 (%)', 'Zone 4 (%)', 'Zone 5 (%)',
-        'Total Housing Units', 'SF Detached', '% SF Detached', 'Other Dwellings', '% Other', 'Median Income'
-    ]
+    # Save CSV
+    out_df = df.rename(columns={
+        'zip_code': 'Zip Code', 'city': 'City', 'primary_zone': 'Primary Zone',
+        'zone1_pct': 'Zone 1 (%)', 'zone2_pct': 'Zone 2 (%)', 'zone3_pct': 'Zone 3 (%)',
+        'zone4_pct': 'Zone 4 (%)', 'zone5_pct': 'Zone 5 (%)',
+        'total_housing_units': 'Total Housing Units', 'sf_detached': 'SF Detached',
+        'sf_pct': '% SF Detached', 'other_dwellings': 'Other Dwellings',
+        'other_pct': '% Other', 'median_income': 'Median Income'
+    })
     
     csv_path = '/app/frontend/public/DFW_HVAC_Service_Area_Zones.csv'
-    output_df.to_csv(csv_path, index=False)
-    print(f"\nCSV saved: {csv_path}")
+    out_df.to_csv(csv_path, index=False)
+    print(f"\nCSV saved to {csv_path}")
     
-    # Step 6: Create map
-    create_map(df, '/app/frontend/public/dfw_service_area_map.png')
+    # Map
+    create_map(zcta, cumulative, df, '/app/frontend/public/dfw_service_area_map.png')
     
     # Summary
-    print("\n" + "=" * 60)
+    print("\n" + "="*70)
     print("SUMMARY")
-    print("=" * 60)
-    zone_counts = df['primary_zone'].value_counts().sort_index()
-    for z in range(1, 6):
-        print(f"Zone {z}: {zone_counts.get(z, 0)} zip codes")
-    print(f"\nTotal: {len(df)} zip codes")
+    print("="*70)
+    counts = df['primary_zone'].value_counts().sort_index()
+    for z in range(1, 5):
+        print(f"Zone {z}: {counts.get(z, 0)} zip codes")
+    print(f"Total: {len(df)} zip codes")
     
-    print("\n--- ZONE 1 (<11 min) ---")
-    z1 = df[df['primary_zone'] == 1][['zip_code', 'city', 'drive_time_min', 'sf_pct', 'median_income']]
-    print(z1.to_string(index=False))
-
+    # Show sample of split zip codes
+    print("\n" + "-"*70)
+    print("SAMPLE: ZIP CODES SPANNING MULTIPLE ZONES")
+    print("-"*70)
+    split = df[(df['zone1_pct'] > 0) & (df['zone1_pct'] < 100) & (df['zone2_pct'] > 0)]
+    if len(split) > 0:
+        print(split[['zip_code', 'city', 'zone1_pct', 'zone2_pct', 'zone3_pct']].head(10).to_string(index=False))
+    
+    print("\n" + "="*70)
+    print("COMPLETE")
+    print("="*70)
 
 if __name__ == "__main__":
     main()
