@@ -88,6 +88,7 @@ Build a premium, conversion-focused website for DFW HVAC company using Next.js f
 ### P2 - Future
 - [ ] **Production Caching Mode** - Webhook-based on-demand revalidation
 - [ ] **Marketing/Analytics** - Facebook Pixel, GA4/GTM integration
+- [ ] **Auto-generated Cities Served Page** - List all 139 zip codes grouped by zone for local SEO
 - [ ] **Clean URLs** - Remove `/services/` prefix from routes
 - [ ] **Code Cleanup** - Remove unused files, audit hardcoded content
 
