@@ -182,10 +182,11 @@ def get_isochrones():
 
 def get_zip_boundary_tigerweb(zip_code):
     """Fetch a single zip code boundary from Census TIGERweb API"""
-    url = f"https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/tigerWMS_ACS2022/MapServer/2/query"
+    # Layer 0 is '2020 Census ZIP Code Tabulation Areas'
+    url = "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/tigerWMS_ACS2022/MapServer/0/query"
     params = {
         'where': f"ZCTA5='{zip_code}'",
-        'outFields': 'ZCTA5,AREALAND',
+        'outFields': 'ZCTA5,AREALAND,CENTLAT,CENTLON',
         'f': 'geojson',
         'returnGeometry': 'true'
     }
