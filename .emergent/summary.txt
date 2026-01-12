@@ -1,152 +1,137 @@
 <analysis>**original_problem_statement:**
-The user wants to build a premium, conversion-focused website for their HVAC company, DFW HVAC. The initial project involved setting up a Next.js application with Sanity.io for content management.
+The user's primary goal is to build a premium, conversion-focused website for their HVAC company, DFW HVAC, using a Next.js frontend and Sanity.io for content management.
 
-The focus of this session shifted heavily towards making the entire website content manageable from the Sanity Studio and then starting a strategic data analysis project to define the company's service area based on drive times.
+Throughout the session, the scope expanded significantly to include several data analysis and branding tasks:
+1.  A deep-dive service area analysis based on drive times from the company's headquarters to define service zones.
+2.  A comprehensive competitive analysis to understand the brand positioning of other DFW HVAC companies.
+3.  A demographic analysis to understand housing types (single-family vs. other) and median income by zip code.
+4.  Merging the service area and demographic data into a master file for strategic planning.
+5.  Evaluating and implementing a text-to-speech (TTS) solution for the company's phone system.
+6.  The user has now requested a complete re-do of the service area analysis with new, more granular drive-time zones and a specific HQ address.
 
 **User's preferred language**: English
 
 **what currently exists?**
-The project is a Next.js 14 application where nearly all content is dynamically fetched from a headless Sanity.io CMS. This includes the homepage, all service pages, company pages (About, Contact), reviews, FAQs, navigation, footer, brand colors, and lead form text.
+The project is a Next.js 14 application where almost all content is dynamically managed via a self-hosted Sanity.io studio (accessible at ). This includes pages, navigation, SEO metadata, and brand assets.
 
-The agent has implemented a dynamic routing system that allows the user to create new pages entirely within Sanity. SEO has been a major focus, with dynamic, page-specific schema markup (LocalBusiness, Review, FAQ) and meta tags all pulling from Sanity. The Sanity Studio has been customized with an Unpublished Drafts view to improve the user's workflow.
+Several data analysis tasks have been completed, resulting in multiple CSV files and map images located in . A temporary fix for a Sanity content caching issue has been implemented, prioritizing instant updates during development over performance. A bug related to Invalid property value in the Sanity Studio has been resolved by simplifying the  schema and cleaning the underlying data.
 
 **Last working item**:
--   **Last item agent was working:** The agent is about to re-run a high-accuracy service area analysis. The first attempt used a less accurate estimation method. The user requested 90%+ accuracy, so the agent proposed using the OpenRouteService API and the user provided a valid API key.
--   **Status:** IN PROGRESS
+-   **Last item agent was working:** The agent was executing a multi-step plan to perform a completely new service area analysis based on user-defined parameters (5 zones, new drive times, new HQ address). The process repeatedly failed due to the environment running out of memory while trying to download and process a very large national zip code (ZCTA) shapefile. The agent had correctly identified the need to break the task into smaller, more memory-efficient steps but was still getting blocked.
+-   **Status:** BLOCKED
 -   **Agent Testing Done:** N
--   **Which testing method agent to use?** N/A. This is a data analysis task. The agent will produce a CSV data table and a PNG map image for the user to review.
+-   **Which testing method agent to use?** N/A. This is a data analysis task. The output (CSV and PNG files) will need to be inspected manually.
 -   **User Testing Done:** N
 
 **All Pending/In progress Issue list**:
--   **Issue 1: (P0) Re-run the Service Area Project with high accuracy.**
-    -   **Attempted fixes:** The first analysis used a low-confidence estimation method (straight-line distance + road factor).
+-   **Issue 1: (P0) Memory Exhaustion During Geospatial Analysis.**
+    -   **Description:** The agent's environment repeatedly crashes due to exceeding memory limits when attempting to download and process the national US Census ZCTA shapefile, which is a very large file.
+    -   **Attempted fixes:**
+        1.  Running the analysis as a single script -> Timed out and crashed.
+        2.  Breaking the analysis into smaller steps -> Still crashed during the shapefile download step.
     -   **Next debug checklist:**
-        1.  Use the user-provided OpenRouteService API key to generate accurate isochrone (drive-time) polygons for <15 min, 15-30 min, and 30-45 min.
-        2.  Acquire DFW zip code boundary shape data.
-        3.  Overlay the isochrones with the zip code boundaries to calculate the percentage of each zip code's geographic area that falls into each drive-time zone.
-        4.  Produce a filtered data table (CSV) showing only zip codes with >10% of their area in the combined <45 min zones.
-        5.  Generate a visual map (PNG) that overlays the color-coded zones (Green, Yellow, Blue, Gray) onto the actual zip code boundary shapes.
-        6.  Provide the final CSV and PNG files to the user.
-    -   **Why fix this issue and what will be achieved with the fix?** To provide the user with a highly accurate dataset and visual map for marketing, ad targeting, and internal planning.
-    -   **Status:** IN PROGRESS
-    -   **Is recurring issue?** N
+        1.  **DO NOT** attempt to download the full national shapefile again.
+        2.  Implement a more memory-efficient approach. The previous agent suggested using the Census API directly to fetch boundaries for specific zip codes, which is a promising strategy.
+        3.  Alternatively, use  to find a direct download link for a shapefile containing only Texas zip codes, which would be significantly smaller.
+        4.  If a large file download is unavoidable, research and use a Python library that supports streaming and processing the file in chunks rather than loading it all into memory at once.
+    -   **Why fix this issue and what will be achieved with the fix?** This is the primary blocker for the user's main active request. Resolving it will allow the new service area analysis to be completed.
+    -   **Status:** BLOCKED
+    -   **Is recurring issue?** Y
     -   **Should Test frontend/backend/both after fix?** N/A
-    -   **Blocked on other issue:** None.
+    -   **Blocked on other issue:** None. This is the root blocker.
 
 **In progress Task List**:
--   None.
+-   **Task 1: (P0) Re-run the Service Area Project with new 5-zone definition.**
+    -   **Description:** Create a new service area analysis from scratch using a new HQ address, 5 granular drive-time zones, and then merge the results with housing and income demographics.
+    -   **Where to resume:** The agent had a 6-step plan. The pod crashed on Step 2. You must restart the entire plan from **Step 1 (Get Isochrones)**, as all temporary files were lost on restart. Critically, for **Step 2 (Download & Prepare ZCTA Shapefile)**, you must implement the memory-efficient solution from the Next debug checklist above.
+    -   **What will be achieved with this?** A new, highly accurate  and a corresponding  that meet the user's latest strategic requirements.
+    -   **Status:** IN PROGRESS
+    -   **Should Test frontend/backend/both after fix?** N/A
+    -   **Blocked on something:** Blocked on **Issue 1: Memory Exhaustion**.
 
 **Upcoming and Future Tasks**
 **Upcoming Tasks:**
--   (P0) **Lead Capture Form Backend:** Implement email notifications using Resend when a lead form is submitted. This is the next logical functionality to add.
--   (P1) **Build Remaining Pages:** The user needs to create the content in Sanity for , , , , and . The technical framework for this is already complete.
+-   (P0) **Lead Capture Form Backend:** Implement email notifications using Resend when a lead form is submitted.
+-   (P1) **Generate Phone System Audio Files:** The user has reviewed OpenAI TTS voice previews. The next step is to get the final text scripts from the user, select a voice, and generate the MP3 files.
+-   (P1) **Build Remaining Pages:** The user needs to create content in Sanity for , , , , and . The technical framework is ready.
 -   (P1) **Advanced SEO (sitemap.xml):** Generate a dynamic  from the content in Sanity.
 
 **Future Tasks:**
--   **Marketing & Analytics:** Facebook Pixel and Google Analytics 4 / GTM integration.
--   **Performance & Launch:** Convert dynamic colors to static Tailwind CSS for production; custom domain setup.
--   **Clean URLs:** Refactor routes to remove the  prefix.
--   **Service Visibility Toggle:** Add a publish/unpublish feature for individual services in Sanity.
--   **Seasonal Homepage Strategy:** Implement logic to show season-specific content.
+-   (P2) **Switch to Production Caching Mode:** Implement a webhook-based on-demand revalidation system for Sanity to provide optimal site performance, as detailed in .
+-   (P2) **Marketing & Analytics:** Integrate Facebook Pixel and Google Analytics 4 / GTM.
+-   (P2) **Clean URLs:** Refactor routes to remove the  prefix.
 
 **Completed work in this session**
--   **Full Sanity CMS Migration:** Migrated all website content (Homepage, Services, About, Contact, FAQs, Reviews, Navigation, Footer, SEO) from hardcoded files to be fully editable in Sanity Studio.
--   **Google Reviews Import:** Successfully imported 130 customer reviews from a user-provided CSV, fixing all data alignment issues and filtering out blank reviews from display.
--   **Dynamic Page System:** Created a system () that allows the user to create and publish new pages entirely from Sanity without requiring code changes.
--   **SEO Optimization:** Implemented dynamic, page-specific schema markup (LocalBusiness, Review, FAQ) and meta tags that all pull directly from Sanity content.
--   **Sanity Studio Enhancements:** Added an Unpublished Drafts view to the Studio sidebar to help the user track changes. Cleaned up all duplicate content entries.
--   **Lead Form Management:** Made all text content for the lead form editable in Sanity Studio.
--   **File Exports:** Generated a downloadable CSV file of all FAQs.
-
-**Earlier issues found/mentioned but not fixed**
--   None.
+-   **Comprehensive Brand Strategy:** Researched competitors and worked with the user to distill brand concepts into a final 3-pillar framework ().
+-   **Demographic Data Analysis:** Acquired and processed US Census data to create a detailed report on housing types and income for over 100 zip codes ().
+-   **Master Data Merge (v1):** Successfully merged the initial service area data with the demographic data into a master CSV file (now superseded by the 5-zone request).
+-   **Text-to-Speech (TTS) Evaluation:** Provided a comparative analysis of TTS providers and generated 9 voice samples from OpenAI TTS for the user to review.
+-   **Sanity Caching Hotfix:** Investigated and resolved a content update delay by temporarily disabling caching to prioritize freshness during development. Correctly deferred the performant production solution as a future task.
+-   **Sanity Studio Bug Fix:** Diagnosed and fixed a persistent Invalid property value and Unknown field error in the brand colors editor by simplifying the schema, patching the data, and instructing the user on clearing their local cache.
 
 **Known issue recurrence from previous fork**
--   None. The review import issue from the previous fork was definitively resolved.
+-   None.
 
 **Code Architecture**
 
 
 **Key Technical Concepts**
--   **Frontend:** Next.js 14 (App Router), React, Tailwind CSS
--   **CMS:** Sanity.io (Headless CMS)
--   **Content Strategy:** Full migration from hardcoded data to a fully Sanity-managed site.
--   **Routing:** Dynamic routing based on slugs from the CMS.
--   **SEO:** Dynamic generation of page-specific metadata and JSON-LD Schema Markup.
--   **Data Analysis:** Using Python libraries to perform geospatial analysis for the service area project.
+-   **Geospatial Analysis (Python):** The project relies heavily on , , and  for processing geographic data (isochrones, zip code boundaries). The main blocker is a memory management issue with this stack.
+-   **API Integration:** Interacts with OpenRouteService (isochrones), US Census Bureau (demographics/geodata), and OpenAI TTS.
+-   **Next.js Caching:** The agent demonstrated understanding of the trade-offs between performance (, ) and content freshness (). The current setup is a temporary developer mode with caching disabled.
+-   **Sanity.io Debugging:** Successfully debugged schema/data mismatches and client-side caching issues within the Sanity Studio environment.
 
 **key DB schema**
--   **Sanity Schemas:**
-    -   : Globals for header/footer, navigation, SEO defaults, and lead form text.
-    -   : Core business details used across the site and in schema markup.
-    -   : A singleton document for all homepage-specific content sections.
-    -   : The template for all 7 residential and commercial service pages.
-    -   : Holds the 130 imported Google reviews.
-    -   : A generic template for creating new content pages (e.g., About, Contact, Case Studies).
-    -   : Individual question/answer documents (30 total).
-    -    & : Singleton documents for the settings (hero, SEO) of their respective pages.
-
-**changes in tech stack**
--   No changes to the application's core tech stack. Python with  and  was used for a one-off data analysis task.
+-   **Sanity :** The schema was refactored from complex nested objects to simple  fields with hex validation. This resolved persistent UI errors in the Sanity Studio.
 
 **All files of reference**
--   : The source of truth for all data fetching logic from Sanity.
--   : The template that renders all new pages created in Sanity.
--   : The directory containing all content models.
--   : The visual map of the service area (to be updated).
--   : The data table for the service area (to be updated).
-
-**Areas that need refactoring**:
--   The  file is now obsolete as all its data has been migrated to Sanity. It should be removed, and components should be checked to ensure no fallback logic relies on it.
-
-**key api endpoints**
--   The agent is about to use the OpenRouteService Isochrones API ().
+-   : The last attempted script for the main blocked task. **It should be revised or replaced.**
+-   : The official list of future tasks, including the critical Switch to Production Caching Mode.
+-   : This directory contains all previously generated analysis files (CSVs, MDs) and the TTS audio previews.
+-   : Contains the temporary caching hotfix ().
 
 **Critical Info for New Agent**
--   **Your immediate priority is to complete the high-accuracy service area analysis.** Use the OpenRouteService API key provided by the user (). The user wants a map overlaying colored zones on actual zip code shapes, not just points.
--   The entire website's content is now editable in Sanity Studio. The user is comfortable with this workflow. Future tasks should leverage this structure.
--   The user is highly focused on SEO and conversion. Frame your suggestions and implementations with this in mind.
--   After the service area project, the next most important task is implementing the lead form backend (email notifications).
+-   **Your immediate task is to complete the 5-zone service area analysis, which is currently BLOCKED by a recurring memory exhaustion issue.** Do not repeat the previous agent's mistake of downloading the entire national zip code shapefile. Your first step must be to implement a memory-efficient solution as outlined in the Pending Issues section.
+-   Follow the 6-step plan laid out by the previous agent, starting from Step 1, as all temporary files were lost during the last crash.
+-   Use the correct HQ address for the analysis: **556 S. Coppell Rd, Coppell TX 75019** (Coordinates: Latitude: 32.958239, Longitude: -97.006677).
+-   The website's caching is in developer mode (no caching). Do not change this. The plan to implement a proper production caching solution is already documented as a future task in .
 
 **documents and test reports created in this job**
--   
--   
--   
--   
--   
+-   /app/frontend/public/DFW_HVAC_Competitor_Analysis.csv
+-   /app/frontend/public/DFW_HVAC_Brand_Framework_3Pillar.csv
+-   /app/frontend/public/DFW_HVAC_Housing_Types.csv
+-   /app/frontend/public/DFW_HVAC_Master_Service_Area.csv
+-   /app/frontend/public/voice-previews/ (Directory of 9 MP3 files)
+-   /app/frontend/PROJECT_TASKS.md
 
 **Last 10 User Messages and any pending HUMAN messages**
-10. **User:** Asked for a summary of accomplishments and remaining tasks.
-9.  **User:** Redo the service area map colors to Green, Yellow, Blue, Gray for zones 1-4. (Completed)
-8.  **User:** Asked if they need to save to Git to access the analysis files. (Agent confirmed yes)
-7.  **User:** Questioned the accuracy of the initial drive-time analysis and asked for a map overlaying zip code geography.
-6.  **User:** Asked for the most cost-effective way to develop a model with 90%+ accuracy.
-5.  **User:** Provided what appears to be a valid OpenRouteService API key.
-4.  **User:** Asked if the site writes to their live Google Business Profile. (Agent confirmed it does not).
-3.  **User:** Asked for an explanation of Review and LocalBusiness schema. (Agent explained).
-2.  **User:** Asked if editing site info in Sanity updates the schema markup. (Agent confirmed it was partially dynamic and then made it fully dynamic).
-1.  **User:** Asked how to tell if all edits in Studio have been published. (Agent implemented an Unpublished Drafts view in Studio).
+10. **User:** Asked for the analysis to be broken down into smaller components after it crashed.
+9.  **User:** Checked on the status after a timeout.
+8.  **User:** Accidentally clicked stop and asked the agent to resume.
+7.  **User:** Confirmed go to start the analysis with the correct HQ address.
+6.  **User:** Confirmed the HQ address ().
+5.  **User:** Asked which address was being used as the center point.
+4.  **User:** Confirmed the plan and new parameters for the service area re-analysis.
+3.  **User:** Requested a complete re-do of the service area model with new zone definitions, colors, and a full re-analysis.
+2.  **User:** Asked to preview the 6 (later found to be 9) voices from OpenAI TTS.
+1.  **User:** Asked for the best TTS option prioritizing natural voice and cost.
 
 **Project Health Check:**
--   **Broken:** None.
--   **Mocked:** None. All mock data has been migrated to the live CMS.
+-   **Broken:** The service area analysis process is critically broken due to memory exhaustion. The Python environment cannot handle the current approach of processing the large national shapefile.
+-   **Mocked:** None.
 
 **3rd Party Integrations**
--   **Sanity.io:** Fully integrated for all content management.
--   **Vercel:** Used for hosting.
--   **Google Cloud (Places API):** Used for live review count/rating sync.
--   **GitHub:** Used for version control.
--   **OpenRouteService:** About to be used for the service area analysis, requires the user-provided API key.
+-   **Sanity.io:** Fully integrated for headless CMS.
+-   **Vercel:** Used for hosting and previews.
+-   **OpenRouteService:** Used for drive-time analysis. Requires a user-provided API key.
+-   **OpenAI TTS:** Used for text-to-speech generation. Utilizes the Emergent LLM Key via the  library.
+-   **US Census Bureau:** Used for geographic (shapefiles) and demographic (ACS) data. Does not require a key.
 
 **Testing status**
 -   **Testing agent used after significant changes:** NO
 -   **Troubleshoot agent used after agent stuck in loop:** NO
--   **Test files created:** None.
--   **Known regressions:** None.
+-   **Test files created:** None
+-   **Known regressions:** None
 
 **Credentials to test flow:**
--   An OpenRouteService API key is available in the message history: 
-
-**What agent forgot to execute**
--   The agent initially used a low-accuracy method for the service area analysis but is now correcting it.
--   The agent initially forgot they had write access to Sanity but later discovered and used it to complete the full content migration.</analysis>
+-   The OpenRouteService API key is available in the previous handoff summary and has been used successfully. It is required for the main pending task.</analysis>
