@@ -8,5 +8,6 @@ import faq from './faq'
 import faqPage from './faqPage'
 import reviewsPage from './reviewsPage'
 import homepage from './homepage'
+import cityPage from './cityPage'
 
-export const schemaTypes = [companyInfo, service, testimonial, companyPage, brandColors, siteSettings, faq, faqPage, reviewsPage, homepage]
+export const schemaTypes = [companyInfo, service, testimonial, companyPage, brandColors, siteSettings, faq, faqPage, reviewsPage, homepage, cityPage]
