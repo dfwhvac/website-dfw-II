@@ -94,6 +94,68 @@ Build a premium, conversion-focused website for DFW HVAC company using Next.js f
 
 ---
 
+## 🚀 PRE-LAUNCH CHECKLIST (Do Not Skip)
+
+### Performance Optimization
+- [ ] **Switch to Production Caching Mode**
+  - Re-enable `useCdn: true` in `/lib/sanity.js`
+  - Change `export const dynamic = 'force-dynamic'` to `export const revalidate = 3600` on all pages
+  - Create `/api/revalidate` webhook endpoint for on-demand cache invalidation
+  - Configure Sanity webhook (Settings → API → Webhooks) to POST to `/api/revalidate` on publish
+  - Test: publish content in Sanity → verify site updates within seconds
+- [ ] **Image Optimization**
+  - Verify all images use Next.js `<Image>` component with explicit width/height
+  - Confirm Sanity images use CDN transformations (auto format, quality)
+  - Add `loading="lazy"` for below-fold images
+- [ ] **Font Optimization**
+  - Convert to `next/font` for self-hosted fonts (eliminates render-blocking)
+- [ ] **Bundle Analysis**
+  - Run `yarn analyze` and reduce any oversized dependencies
+
+### SEO Optimization
+- [ ] **Generate Dynamic sitemap.xml**
+  - Create `/app/sitemap.js` that queries all pages from Sanity
+  - Include all service pages, company pages, and blog posts
+- [ ] **Add robots.txt**
+  - Create `/public/robots.txt` allowing all crawlers
+  - Reference sitemap location
+- [ ] **Canonical URLs**
+  - Add `<link rel="canonical">` to all pages
+- [ ] **Open Graph Images**
+  - Set default OG image in Sanity siteSettings
+  - Ensure all pages have proper og:image meta tags
+- [ ] **Service Schema Markup**
+  - Add Service structured data to each service page
+- [ ] **Internal Linking Audit**
+  - Ensure services link to related services
+  - Add contextual links within content
+
+### Pre-Launch Verification
+- [ ] **Lighthouse Audit**
+  - Run on homepage, 1 service page, contact page
+  - Target: Performance >90, SEO >95, Accessibility >90
+- [ ] **Core Web Vitals Check**
+  - LCP < 2.5s, FID < 100ms, CLS < 0.1
+- [ ] **Mobile Responsiveness Test**
+  - Test on actual mobile devices, not just DevTools
+- [ ] **Form Testing**
+  - Verify lead form submissions work and send emails
+- [ ] **404 Page**
+  - Confirm custom 404 page exists and looks professional
+
+### Post-Launch
+- [ ] **Google Search Console**
+  - Verify domain ownership
+  - Submit sitemap.xml
+  - Monitor for crawl errors
+- [ ] **Google Analytics / GTM**
+  - Verify tracking is firing on all pages
+  - Set up conversion goals for form submissions
+- [ ] **Facebook Pixel** (if using)
+  - Verify pixel fires correctly
+
+---
+
 ## Technical Architecture
 
 ### Tech Stack
