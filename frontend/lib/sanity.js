@@ -362,3 +362,13 @@ export async function getReviewsPage() {
     return null
   }
 }
+
+export async function getCityPages() {
+  try {
+    const data = await client.fetch(queries.cityPages)
+    return data || []
+  } catch (error) {
+    console.error('Error fetching city pages:', error)
+    return []
+  }
+}
