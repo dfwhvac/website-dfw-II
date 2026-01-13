@@ -3,7 +3,7 @@
 // Schema markup component that generates JSON-LD structured data
 // All values are pulled from Sanity companyInfo
 
-export function LocalBusinessSchema({ companyInfo }) {
+export function LocalBusinessSchema({ companyInfo, cityPages = [] }) {
   if (!companyInfo) return null
 
   // Parse address into components
@@ -44,6 +44,17 @@ export function LocalBusinessSchema({ companyInfo }) {
     }
   }
 
+  // Use cityPages if available, otherwise fall back to serviceAreas
+  const areasServed = cityPages.length > 0 
+    ? cityPages.map(city => ({
+        "@type": "City",
+        "name": city.cityName
+      }))
+    : (companyInfo.serviceAreas || []).map(area => ({
+        "@type": "City",
+        "name": area
+      }))
+
   const schema = {
     "@context": "https://schema.org",
     "@type": "HVACBusiness",
@@ -66,10 +77,7 @@ export function LocalBusinessSchema({ companyInfo }) {
       "latitude": "32.9545",
       "longitude": "-96.9903"
     },
-    "areaServed": (companyInfo.serviceAreas || []).map(area => ({
-      "@type": "City",
-      "name": area
-    })),
+    "areaServed": areasServed,
     "openingHoursSpecification": hoursSpec,
     "aggregateRating": {
       "@type": "AggregateRating",
