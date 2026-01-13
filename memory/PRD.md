@@ -80,7 +80,6 @@ Build a premium, conversion-focused website for DFW HVAC company using Next.js f
 - [ ] **Build Remaining Pages** - Content creation in Sanity for:
   - `/case-studies`
   - `/financing`
-  - `/cities-served`
   - `/privacy-policy`
   - `/terms-of-service`
 - [ ] **Dynamic sitemap.xml** - Generate from Sanity content
