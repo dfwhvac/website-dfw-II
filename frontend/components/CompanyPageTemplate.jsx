@@ -87,13 +87,13 @@ const CompanyPageTemplate = ({
                       to families and businesses throughout the Dallas-Fort Worth metroplex.
                     </p>
                     <p className="text-gray-600 mb-4">
-                      As a family-owned and women-owned business, we take pride in treating every 
+                      As a family-owned business, we take pride in treating every 
                       customer like family. Our commitment to quality workmanship and honest service 
                       has earned us the trust of thousands of homeowners over five decades.
                     </p>
                     <div className="flex items-center gap-2 text-vivid-red font-semibold">
                       <Heart className="w-5 h-5" />
-                      <span>Women-Owned Business</span>
+                      <span>Family-Owned Business</span>
                     </div>
                   </div>
                   <div className="bg-gray-100 rounded-lg p-8">
