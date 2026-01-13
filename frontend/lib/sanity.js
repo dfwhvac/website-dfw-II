@@ -233,6 +233,13 @@ export const queries = {
     metaTitle,
     metaDescription
   }`,
+
+  // City Pages (for service areas)
+  cityPages: `*[_type == "cityPage" && isPublished == true] | order(priority asc, cityName asc) {
+    cityName,
+    "slug": slug.current,
+    zipCodes
+  }`,
 }
 
 // Helper functions to fetch data
