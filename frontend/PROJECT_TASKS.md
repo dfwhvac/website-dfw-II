@@ -106,6 +106,53 @@
 
 ---
 
+## 🔴 PRE-LAUNCH CHECKLIST (Do Not Skip Before Going Live)
+
+> **Important:** Complete ALL items before removing development mode and launching to production.
+
+### Performance Optimization
+- [ ] **Switch to Production Caching Mode**
+  - Re-enable `useCdn: true` in `/app/frontend/lib/sanity.js`
+  - Change `export const dynamic = 'force-dynamic'` to `export const revalidate = 3600` on pages:
+    - `/app/frontend/app/page.js`
+    - `/app/frontend/app/services/[category]/[slug]/page.jsx`
+    - `/app/frontend/app/[slug]/page.jsx`
+    - `/app/frontend/app/faq/page.jsx`
+    - `/app/frontend/app/reviews/page.jsx`
+    - `/app/frontend/app/about/page.jsx`
+    - `/app/frontend/app/contact/page.jsx`
+  - Create `/app/frontend/app/api/revalidate/route.js` webhook endpoint
+  - Configure Sanity webhook: Settings → API → Webhooks → POST to `https://yourdomain.com/api/revalidate`
+  - Test: publish in Sanity → verify instant update
+- [ ] **Image Optimization**
+  - Verify all images use Next.js `<Image>` with width/height
+  - Confirm Sanity images use CDN with auto format/quality
+  - Add `loading="lazy"` for below-fold images
+- [ ] **Font Optimization** - Use `next/font` for self-hosted fonts
+- [ ] **Bundle Analysis** - Run `yarn analyze`, reduce oversized dependencies
+
+### SEO Optimization
+- [ ] **Dynamic sitemap.xml** - Create `/app/frontend/app/sitemap.js`
+- [ ] **robots.txt** - Create `/app/frontend/public/robots.txt`
+- [ ] **Canonical URLs** - Add to all pages
+- [ ] **Open Graph Images** - Set in Sanity siteSettings
+- [ ] **Service Schema Markup** - Add to each service page
+- [ ] **Internal Linking** - Cross-link related services
+
+### Pre-Launch Verification
+- [ ] **Lighthouse Audit** - Target: Performance >90, SEO >95, Accessibility >90
+- [ ] **Core Web Vitals** - LCP <2.5s, FID <100ms, CLS <0.1
+- [ ] **Mobile Test** - Test on real devices
+- [ ] **Form Testing** - Verify lead submissions + email delivery
+- [ ] **404 Page** - Confirm custom 404 exists
+
+### Post-Launch
+- [ ] **Google Search Console** - Verify domain, submit sitemap
+- [ ] **Google Analytics / GTM** - Verify tracking + conversion goals
+- [ ] **Facebook Pixel** - Verify firing (if applicable)
+
+---
+
 ## 📝 Notes
 
 ### Current Caching Configuration (Development Mode)
