@@ -1,7 +1,7 @@
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import CompanyPageTemplate from '@/components/CompanyPageTemplate'
-import { getCompanyInfo, getSiteSettings } from '@/lib/sanity'
+import { getCompanyInfo, getSiteSettings, getCityPages } from '@/lib/sanity'
 import { companyInfo as mockCompanyInfo } from '@/lib/mockData'
 
 // Disable caching for instant Sanity updates
@@ -20,6 +20,7 @@ export default async function ContactPage() {
   }
   
   const siteSettings = await getSiteSettings()
+  const cityPages = await getCityPages()
 
   const pageData = {
     title: 'Contact Us',
@@ -36,6 +37,7 @@ export default async function ContactPage() {
         <CompanyPageTemplate 
           page={pageData} 
           companyInfo={companyInfo}
+          cityPages={cityPages}
         />
       </main>
       <Footer companyInfo={companyInfo} siteSettings={siteSettings} />
