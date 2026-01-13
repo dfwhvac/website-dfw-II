@@ -232,17 +232,25 @@ const CompanyPageTemplate = ({
                 {/* Service Areas */}
                 {serviceAreas.length > 0 && (
                   <div className="mt-8">
-                    <h3 className="font-semibold text-gray-900 mb-3">Service Areas</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {serviceAreas.map((area, index) => (
-                        <span 
-                          key={index}
-                          className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm"
-                        >
-                          {area}
-                        </span>
-                      ))}
-                    </div>
+                    <h3 className="font-semibold text-gray-900 mb-3">
+                      <Link href="/cities-served" className="hover:text-[#00B8FF]">
+                        Service Areas
+                      </Link>
+                    </h3>
+                    {cityPages.length > 0 ? (
+                      <LinkedCityList cities={cityPages} />
+                    ) : (
+                      <div className="flex flex-wrap gap-2">
+                        {serviceAreas.map((area, index) => (
+                          <span 
+                            key={index}
+                            className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm"
+                          >
+                            {area}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
