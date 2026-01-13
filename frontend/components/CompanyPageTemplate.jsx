@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { Button } from './ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
 import LeadForm from './LeadForm'
+import LinkedCityList from './LinkedCityList'
 import { 
   Phone, 
   Mail, 
@@ -21,14 +22,16 @@ import {
 const CompanyPageTemplate = ({ 
   page, 
   companyInfo = {}, 
-  testimonials = [] 
+  testimonials = [],
+  cityPages = []
 }) => {
   const phone = companyInfo?.phone || '(972) 777-COOL'
   const email = companyInfo?.email || 'info@dfwhvac.com'
   const address = companyInfo?.address || '556 S Coppell Rd Ste 103, Coppell, TX 75019'
   const googleReviews = companyInfo?.googleReviews || 129
   const businessHours = companyInfo?.businessHours || {}
-  const serviceAreas = companyInfo?.serviceAreas || []
+  // Use cityPages if available, otherwise fall back to serviceAreas from companyInfo
+  const serviceAreas = cityPages.length > 0 ? cityPages : (companyInfo?.serviceAreas || [])
 
   return (
     <div className="min-h-screen bg-white">
