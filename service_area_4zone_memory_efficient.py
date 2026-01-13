@@ -443,22 +443,25 @@ def create_map(zcta_gdf, cumulative_zones, df, output_path):
         if len(zone_data) > 0:
             zone_data.plot(ax=ax, facecolor=colors[zone], edgecolor='#374151', linewidth=0.5, alpha=0.7)
     
-    # Draw zone boundaries (isochrone outlines)
+    # Draw zone boundaries (isochrone outlines) with BRIGHT colors
+    line_colors = {i: ZONES[i]['line_color'] for i in range(1, 6)}
     for zone_num, geom in cumulative_zones.items():
         if geom and geom.is_valid:
-            color = colors.get(zone_num, '#000')
+            color = line_colors.get(zone_num, '#000')
             if geom.geom_type == 'Polygon':
                 x, y = geom.exterior.xy
-                ax.plot(x, y, color=color, linewidth=2.5, alpha=0.9, zorder=5)
+                ax.plot(x, y, color=color, linewidth=3.5, alpha=1.0, zorder=5)
             elif geom.geom_type == 'MultiPolygon':
                 for poly in geom.geoms:
                     x, y = poly.exterior.xy
-                    ax.plot(x, y, color=color, linewidth=2.5, alpha=0.9, zorder=5)
+                    ax.plot(x, y, color=color, linewidth=3.5, alpha=1.0, zorder=5)
     
-    # Zip code labels for zones 1-2 only
-    for _, row in merged[merged['primary_zone'] <= 2].iterrows():
+    # Zip code labels for zones 1, 2, AND 3
+    for _, row in merged[merged['primary_zone'] <= 3].iterrows():
         c = row.geometry.centroid
-        ax.annotate(row[zip_col], xy=(c.x, c.y), fontsize=6, ha='center', va='center',
+        # Smaller font for zone 3 to reduce clutter
+        fontsize = 6 if row['primary_zone'] <= 2 else 5
+        ax.annotate(row[zip_col], xy=(c.x, c.y), fontsize=fontsize, ha='center', va='center',
                    color='#1f2937', weight='bold',
                    bbox=dict(boxstyle='round,pad=0.1', facecolor='white', alpha=0.7, edgecolor='none'))
     
