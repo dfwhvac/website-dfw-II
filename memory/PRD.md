@@ -96,6 +96,34 @@ Build a premium, conversion-focused website for DFW HVAC company using Next.js f
 
 ## 🚀 PRE-LAUNCH CHECKLIST (Do Not Skip)
 
+> **Important:** Complete ALL items before removing development mode and launching to production.
+
+### Required Before Launch (Blockers)
+- [ ] **Lead Capture Form Backend (Resend)**
+  - Configure Resend API integration
+  - Set up email templates for lead notifications
+  - Test form submission flow end-to-end
+  - Verify emails are delivered to correct recipient
+- [ ] **Legal Pages Content** (Required for compliance)
+  - Create `/privacy-policy` content in Sanity
+  - Create `/terms-of-service` content in Sanity
+- [ ] **Custom Domain Setup**
+  - Configure DNS records (A record, CNAME)
+  - Verify SSL certificate is active
+  - Test www vs non-www redirect
+  - Update all hardcoded URLs if any
+
+### Content Completion
+- [ ] **Finalize All Service Pages** - Review and complete all service page content
+- [ ] **Create Remaining Pages in Sanity**
+  - `/case-studies` (if launching with this)
+  - `/financing` (if launching with this)
+  - `/cities-served` (can auto-generate from service area data)
+- [ ] **Phone System Audio Files** (if needed for launch)
+  - Get final scripts from stakeholder
+  - Select voice (samples at `/public/voice-previews/`)
+  - Generate production MP3 files
+
 ### Performance Optimization
 - [ ] **Switch to Production Caching Mode**
   - Re-enable `useCdn: true` in `/lib/sanity.js`
@@ -111,6 +139,7 @@ Build a premium, conversion-focused website for DFW HVAC company using Next.js f
   - Convert to `next/font` for self-hosted fonts (eliminates render-blocking)
 - [ ] **Bundle Analysis**
   - Run `yarn analyze` and reduce any oversized dependencies
+- [ ] **Convert Brand Colors to Static Tailwind** - Remove runtime CSS variable overhead
 
 ### SEO Optimization
 - [ ] **Generate Dynamic sitemap.xml**
@@ -130,6 +159,12 @@ Build a premium, conversion-focused website for DFW HVAC company using Next.js f
   - Ensure services link to related services
   - Add contextual links within content
 
+### Code Cleanup
+- [ ] **Remove mockData.js** - `/app/frontend/lib/mockData.js` (all data in Sanity now)
+- [ ] **Audit for Hardcoded Content** - Search for any remaining hardcoded text
+- [ ] **Remove Unused Dependencies** - Audit `package.json`
+- [ ] **Clean Up Analysis Scripts** - Move or archive `/app/*.py` scripts
+
 ### Pre-Launch Verification
 - [ ] **Lighthouse Audit**
   - Run on homepage, 1 service page, contact page
@@ -137,11 +172,14 @@ Build a premium, conversion-focused website for DFW HVAC company using Next.js f
 - [ ] **Core Web Vitals Check**
   - LCP < 2.5s, FID < 100ms, CLS < 0.1
 - [ ] **Mobile Responsiveness Test**
-  - Test on actual mobile devices, not just DevTools
+  - Test on actual mobile devices (iPhone, Android), not just DevTools
+- [ ] **Cross-Browser Test** - Chrome, Safari, Firefox, Edge
 - [ ] **Form Testing**
   - Verify lead form submissions work and send emails
 - [ ] **404 Page**
   - Confirm custom 404 page exists and looks professional
+- [ ] **All Links Working** - Check for broken internal/external links
+- [ ] **Phone Number Click-to-Call** - Verify `tel:` links work on mobile
 
 ### Post-Launch
 - [ ] **Google Search Console**
@@ -153,6 +191,13 @@ Build a premium, conversion-focused website for DFW HVAC company using Next.js f
   - Set up conversion goals for form submissions
 - [ ] **Facebook Pixel** (if using)
   - Verify pixel fires correctly
+- [ ] **Monitor for Errors** - Check browser console, server logs first 24-48 hours
+
+### Future Enhancements (Post-Launch)
+- [ ] **Clean URLs** - Remove `/services/` prefix from routes
+- [ ] **Service Visibility Toggle** - Add publish/unpublish in Sanity
+- [ ] **Seasonal Homepage Strategy** - Summer AC focus / Winter heating focus
+- [ ] **Auto-generated Cities Served Page** - List 200 zip codes by zone for local SEO
 
 ---
 
