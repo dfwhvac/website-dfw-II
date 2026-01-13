@@ -353,3 +353,7 @@ frontend/.next/cache/webpack/server-production/27.pack
 # Environment files
 *.env
 *.env.*
+-e 
+# Environment files
+*.env
+*.env.*
