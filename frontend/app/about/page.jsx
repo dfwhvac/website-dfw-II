@@ -4,6 +4,10 @@ import CompanyPageTemplate from '@/components/CompanyPageTemplate'
 import { getCompanyInfo, getTestimonials, getSiteSettings } from '@/lib/sanity'
 import { companyInfo as mockCompanyInfo, testimonials as mockTestimonials } from '@/lib/mockData'
 
+// Disable caching for instant Sanity updates
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export const metadata = {
   title: 'About Us | DFW HVAC',
   description: 'Learn about DFW HVAC - Family owned HVAC contractor serving Dallas-Fort Worth since 1974.',
