@@ -6,6 +6,10 @@ import { getCompanyInfo, getTestimonials, getSiteSettings } from '@/lib/sanity'
 import { companyInfo as mockCompanyInfo, testimonials as mockTestimonials } from '@/lib/mockData'
 import { notFound } from 'next/navigation'
 
+// Disable caching for instant Sanity updates
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 // Generate static params for all services
 export async function generateStaticParams() {
   const services = await client.fetch(`*[_type == "service"] { 
