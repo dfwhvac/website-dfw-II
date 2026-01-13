@@ -10,19 +10,6 @@ import { notFound } from 'next/navigation'
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
-// Generate static params for all services
-export async function generateStaticParams() {
-  const services = await client.fetch(`*[_type == "service"] { 
-    category,
-    "slug": slug.current 
-  }`)
-  
-  return services.map((service) => ({
-    category: service.category,
-    slug: service.slug,
-  }))
-}
-
 // Generate metadata for SEO
 export async function generateMetadata({ params }) {
   const { category, slug } = await params
