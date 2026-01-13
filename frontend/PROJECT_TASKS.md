@@ -110,6 +110,32 @@
 
 > **Important:** Complete ALL items before removing development mode and launching to production.
 
+### Required Before Launch (Blockers)
+- [ ] **Lead Capture Form Backend (Resend)**
+  - Configure Resend API integration
+  - Set up email templates for lead notifications
+  - Test form submission flow end-to-end
+  - Verify emails are delivered to correct recipient
+- [ ] **Legal Pages Content** (Required for compliance)
+  - Create `/privacy-policy` content in Sanity
+  - Create `/terms-of-service` content in Sanity
+- [ ] **Custom Domain Setup**
+  - Configure DNS records (A record, CNAME)
+  - Verify SSL certificate is active
+  - Test www vs non-www redirect
+  - Update all hardcoded URLs if any
+
+### Content Completion
+- [ ] **Finalize All Service Pages** - Review and complete all service page content
+- [ ] **Create Remaining Pages in Sanity**
+  - `/case-studies` (if launching with this)
+  - `/financing` (if launching with this)
+  - `/cities-served` (can auto-generate from service area data)
+- [ ] **Phone System Audio Files** (if needed for launch)
+  - Get final scripts from stakeholder
+  - Select voice (samples at `/public/voice-previews/`)
+  - Generate production MP3 files
+
 ### Performance Optimization
 - [ ] **Switch to Production Caching Mode**
   - Re-enable `useCdn: true` in `/app/frontend/lib/sanity.js`
@@ -130,6 +156,7 @@
   - Add `loading="lazy"` for below-fold images
 - [ ] **Font Optimization** - Use `next/font` for self-hosted fonts
 - [ ] **Bundle Analysis** - Run `yarn analyze`, reduce oversized dependencies
+- [ ] **Convert Brand Colors to Static Tailwind** - Remove runtime CSS variable overhead
 
 ### SEO Optimization
 - [ ] **Dynamic sitemap.xml** - Create `/app/frontend/app/sitemap.js`
@@ -139,17 +166,33 @@
 - [ ] **Service Schema Markup** - Add to each service page
 - [ ] **Internal Linking** - Cross-link related services
 
+### Code Cleanup
+- [ ] **Remove mockData.js** - `/app/frontend/lib/mockData.js` (all data in Sanity now)
+- [ ] **Audit for Hardcoded Content** - Search for any remaining hardcoded text
+- [ ] **Remove Unused Dependencies** - Audit `package.json`
+- [ ] **Clean Up Analysis Scripts** - Move or archive `/app/*.py` scripts
+
 ### Pre-Launch Verification
 - [ ] **Lighthouse Audit** - Target: Performance >90, SEO >95, Accessibility >90
 - [ ] **Core Web Vitals** - LCP <2.5s, FID <100ms, CLS <0.1
-- [ ] **Mobile Test** - Test on real devices
+- [ ] **Mobile Test** - Test on real devices (iPhone, Android)
+- [ ] **Cross-Browser Test** - Chrome, Safari, Firefox, Edge
 - [ ] **Form Testing** - Verify lead submissions + email delivery
-- [ ] **404 Page** - Confirm custom 404 exists
+- [ ] **404 Page** - Confirm custom 404 exists and looks professional
+- [ ] **All Links Working** - Check for broken internal/external links
+- [ ] **Phone Number Click-to-Call** - Verify `tel:` links work on mobile
 
 ### Post-Launch
 - [ ] **Google Search Console** - Verify domain, submit sitemap
 - [ ] **Google Analytics / GTM** - Verify tracking + conversion goals
 - [ ] **Facebook Pixel** - Verify firing (if applicable)
+- [ ] **Monitor for Errors** - Check browser console, server logs first 24-48 hours
+
+### Future Enhancements (Post-Launch)
+- [ ] **Clean URLs** - Remove `/services/` prefix from routes
+- [ ] **Service Visibility Toggle** - Add publish/unpublish in Sanity
+- [ ] **Seasonal Homepage Strategy** - Summer AC focus / Winter heating focus
+- [ ] **Auto-generated Cities Served Page** - List 200 zip codes by zone for local SEO
 
 ---
 
