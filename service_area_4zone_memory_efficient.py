@@ -27,12 +27,13 @@ HQ_ADDRESS = "556 S. Coppell Rd, Coppell, TX 75019"
 ORS_API_KEY = "eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjhhMDQ1YzYyYzYwZjQwYTI4Y2Y5NTY4NDIzNDkzNTNhIiwiaCI6Im11cm11cjY0In0="
 
 # 4 Zones with data + Zone 5 as "everything else" (no data needed)
+# fill_color = lighter shade, line_color = bright/vivid version for visibility
 ZONES = {
-    1: {'max_min': 11, 'label': '<11 min', 'color': '#90EE90'},       # Light Green
-    2: {'max_min': 20, 'label': '11-20 min', 'color': '#ADD8E6'},     # Light Blue
-    3: {'max_min': 30, 'label': '21-30 min', 'color': '#FFFFE0'},     # Light Yellow
-    4: {'max_min': 45, 'label': '31-45 min', 'color': '#FFDAB9'},     # Light Orange
-    5: {'max_min': 999, 'label': '>45 min', 'color': '#D3D3D3'},      # Gray (no data)
+    1: {'max_min': 11, 'label': '<11 min', 'color': '#90EE90', 'line_color': '#00AA00'},       # Light Green fill, Bright Green line
+    2: {'max_min': 20, 'label': '11-20 min', 'color': '#ADD8E6', 'line_color': '#0066FF'},     # Light Blue fill, Bright Blue line
+    3: {'max_min': 30, 'label': '21-30 min', 'color': '#FFFFE0', 'line_color': '#FFD700'},     # Light Yellow fill, Gold line
+    4: {'max_min': 45, 'label': '31-45 min', 'color': '#FFDAB9', 'line_color': '#FF6600'},     # Light Orange fill, Bright Orange line
+    5: {'max_min': 999, 'label': '>45 min', 'color': '#D3D3D3', 'line_color': '#888888'},      # Gray (no data)
 }
 
 # DFW bounding box
