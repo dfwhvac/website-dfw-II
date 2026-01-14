@@ -110,33 +110,54 @@
 
 > **Important:** Complete ALL items before removing development mode and launching to production.
 
-### Required Before Launch (Blockers)
+---
+
+### PHASE 1: While Building (Do Now)
+*Focus on things that are hard to change later*
+
+- [ ] **Finalize URL Structure** - Changing URLs after Google indexes them hurts SEO
+  - Lock in `/cities-served/[city]` structure ✅ Done
+  - Lock in `/services/[category]/[service]` structure ✅ Done
+- [ ] **Complete Legal Pages** (Required for compliance - Google may flag sites without them)
+  - Create `/privacy-policy` content in Sanity
+  - Create `/terms-of-service` content in Sanity
+- [ ] **Ensure Mobile Responsiveness** - 60%+ of local searches are mobile
+  - Test on actual mobile devices, not just DevTools
+- [ ] **Verify Schema Markup** - Test at validator.schema.org
+  - LocalBusiness schema ✅ Implemented
+  - Review schema ✅ Implemented
+  - FAQ schema ✅ Implemented
+
+---
+
+### PHASE 2: Pre-Launch (Content Finalized)
+
+#### Required Blockers
 - [ ] **Lead Capture Form Backend (Resend)**
   - Configure Resend API integration
   - Set up email templates for lead notifications
   - Test form submission flow end-to-end
   - Verify emails are delivered to correct recipient
-- [ ] **Legal Pages Content** (Required for compliance)
-  - Create `/privacy-policy` content in Sanity
-  - Create `/terms-of-service` content in Sanity
 - [ ] **Custom Domain Setup**
   - Configure DNS records (A record, CNAME)
   - Verify SSL certificate is active
   - Test www vs non-www redirect
   - Update all hardcoded URLs if any
 
-### Content Completion
+#### Content Completion
 - [ ] **Finalize All Service Pages** - Review and complete all service page content
 - [ ] **Create Remaining Pages in Sanity**
   - `/case-studies` (if launching with this)
   - `/financing` (if launching with this)
-  - `/cities-served` (can auto-generate from service area data)
 - [ ] **Phone System Audio Files** (if needed for launch)
   - Get final scripts from stakeholder
   - Select voice (samples at `/public/voice-previews/`)
   - Generate production MP3 files
 
-### Performance Optimization
+#### Performance Optimization
+- [ ] **Run Lighthouse Audit** - Establish baseline
+  - Target: Performance >90, SEO >95, Accessibility >90
+- [ ] **Fix Critical Issues Flagged** - Address any red flags from Lighthouse
 - [ ] **Switch to Production Caching Mode**
   - Re-enable `useCdn: true` in `/app/frontend/lib/sanity.js`
   - Change `export const dynamic = 'force-dynamic'` to `export const revalidate = 3600` on pages:
@@ -147,6 +168,8 @@
     - `/app/frontend/app/reviews/page.jsx`
     - `/app/frontend/app/about/page.jsx`
     - `/app/frontend/app/contact/page.jsx`
+    - `/app/frontend/app/cities-served/page.jsx`
+    - `/app/frontend/app/cities-served/[slug]/page.jsx`
   - Create `/app/frontend/app/api/revalidate/route.js` webhook endpoint
   - Configure Sanity webhook: Settings → API → Webhooks → POST to `https://yourdomain.com/api/revalidate`
   - Test: publish in Sanity → verify instant update
@@ -158,22 +181,21 @@
 - [ ] **Bundle Analysis** - Run `yarn analyze`, reduce oversized dependencies
 - [ ] **Convert Brand Colors to Static Tailwind** - Remove runtime CSS variable overhead
 
-### SEO Optimization
-- [ ] **Dynamic sitemap.xml** - Create `/app/frontend/app/sitemap.js`
-- [ ] **robots.txt** - Create `/app/frontend/public/robots.txt`
+#### SEO Setup
+- [ ] **Create XML Sitemap** - `/app/frontend/app/sitemap.js`
+- [ ] **Create robots.txt** - `/app/frontend/public/robots.txt`
 - [ ] **Canonical URLs** - Add to all pages
 - [ ] **Open Graph Images** - Set in Sanity siteSettings
 - [ ] **Service Schema Markup** - Add to each service page
 - [ ] **Internal Linking** - Cross-link related services
 
-### Code Cleanup
+#### Code Cleanup
 - [ ] **Remove mockData.js** - `/app/frontend/lib/mockData.js` (all data in Sanity now)
 - [ ] **Audit for Hardcoded Content** - Search for any remaining hardcoded text
 - [ ] **Remove Unused Dependencies** - Audit `package.json`
 - [ ] **Clean Up Analysis Scripts** - Move or archive `/app/*.py` scripts
 
-### Pre-Launch Verification
-- [ ] **Lighthouse Audit** - Target: Performance >90, SEO >95, Accessibility >90
+#### Pre-Launch Verification
 - [ ] **Core Web Vitals** - LCP <2.5s, FID <100ms, CLS <0.1
 - [ ] **Mobile Test** - Test on real devices (iPhone, Android)
 - [ ] **Cross-Browser Test** - Chrome, Safari, Firefox, Edge
@@ -182,13 +204,12 @@
 - [ ] **All Links Working** - Check for broken internal/external links
 - [ ] **Phone Number Click-to-Call** - Verify `tel:` links work on mobile
 
-### Post-Launch (First 30 Days)
-- [ ] **Google Search Console** - Verify domain, submit sitemap
-- [ ] **Google Analytics / GTM** - Verify tracking + conversion goals
-- [ ] **Facebook Pixel** - Verify firing (if applicable)
-- [ ] **Monitor for Errors** - Check browser console, server logs first 24-48 hours
+---
 
-### Google Business Profile (Critical for Local SEO)
+### PHASE 3: Launch Day
+*The single most important action for a local HVAC company*
+
+#### Google Business Profile (Critical - 80% of leads come from Google Maps / "near me" searches)
 - [ ] **Claim & Verify Listing** - business.google.com
 - [ ] **Complete All Business Info** - Name, address, phone, hours, website
 - [ ] **Add All Services** - List every HVAC service offered
@@ -197,7 +218,22 @@
 - [ ] **Link to Website** - Ensure URL is correct
 - [ ] **Create First Post** - Announce website launch or seasonal promotion
 
-### Local Citations (Build in First 2 Weeks)
+---
+
+### PHASE 4: Post-Launch (First 30 Days)
+
+#### Week 1
+- [ ] **Submit Sitemap to Google Search Console** (15 min)
+  - Verify domain ownership
+  - Submit sitemap.xml
+  - Check for any crawl errors
+- [ ] **Set Up Google Analytics 4** (30 min)
+  - Verify tracking is firing on all pages
+  - Set up conversion goals for form submissions
+- [ ] **Facebook Pixel** - Verify firing (if applicable)
+- [ ] **Monitor for Errors** - Check browser console, server logs first 24-48 hours
+
+#### Week 2-4: Build Local Citations (2 hours total)
 - [ ] **Yelp** - Claim/create listing
 - [ ] **BBB (Better Business Bureau)** - Register business
 - [ ] **Angi (formerly Angie's List)** - Create profile
@@ -209,17 +245,49 @@
 - [ ] **Bing Places** - Claim listing
 - [ ] **Yellow Pages / YP.com** - Create listing
 
-### Reviews Strategy
+#### Reviews Strategy (Ongoing)
 - [ ] **Request Reviews from 5 Happy Customers** - Direct link to Google review
 - [ ] **Set Up Review Response Process** - Respond to all reviews within 48 hours
 - [ ] **Create Review Request Email/Text Template** - For ongoing use
 
-### Ongoing Monthly Tasks (Document for Reference)
-- [ ] Add 1-2 Google Business posts per month
-- [ ] Respond to all new reviews
-- [ ] Check Search Console for crawl errors
+#### Week 3-4
+- [ ] **Check Search Console for Crawl Errors** (15 min)
+- [ ] **Review Which Pages Get Traffic** - Optimize those first (30 min)
+
+---
+
+### PHASE 5: Ongoing Monthly Maintenance (1-2 Hours/Month)
+
+- [ ] Add 1-2 Google Business posts per month (signals activity to Google)
+- [ ] Respond to all new reviews (improves local ranking)
+- [ ] Check Search Console for new issues (catch problems early)
 - [ ] Update seasonal content (AC focus in summer, heating in winter)
 - [ ] Review analytics for top-performing pages
+
+---
+
+### What NOT to Spend Money On (Yet)
+
+| Skip This | Why |
+|-----------|-----|
+| Paid SEO tools (Ahrefs, SEMrush) | Free tools are sufficient for a single-location business |
+| Paid backlink building | Focus on citations and reviews first |
+| PPC ads | Get organic foundation solid first |
+| SEO agencies | You can do 90% of local SEO yourself |
+
+---
+
+### Minimum Viable SEO (If Nothing Else, Do These 5 Things)
+
+1. ✅ **Google Business Profile** (claimed & optimized)
+2. ✅ **Google Search Console** (sitemap submitted)
+3. ✅ **10 local citations** (Yelp, BBB, Angi, etc.)
+4. ✅ **5+ Google reviews** (ask customers)
+5. ✅ **Mobile-friendly site** (test on real phone)
+
+*This covers 80% of local SEO value with 20% of the effort.*
+
+---
 
 ### Future Enhancements (Post-Launch)
 - [ ] **Clean URLs** - Remove `/services/` prefix from routes
