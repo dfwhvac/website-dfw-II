@@ -130,11 +130,6 @@
 - [ ] Configure redirects in Vercel dashboard (Settings → Redirects)
 - [ ] Test all redirects before launch (visit old URLs, confirm they redirect)
 
-#### Branding Cleanup
-- [ ] **Remove "Alpine HVAC" references** - Current site has mixed branding
-- [ ] **Confirm primary phone number** - Current site shows `(855)TEX-HVAC` and `972.999.0511`
-- [ ] **Update booking links** - Old site uses HouseCall Pro/Jobber, new site uses lead form
-
 #### Google Business Profile
 - [ ] **Do NOT modify GBP until new site is live**
 - [ ] **After launch:** Update website URL in GBP if changed
