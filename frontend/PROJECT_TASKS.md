@@ -182,11 +182,44 @@
 - [ ] **All Links Working** - Check for broken internal/external links
 - [ ] **Phone Number Click-to-Call** - Verify `tel:` links work on mobile
 
-### Post-Launch
+### Post-Launch (First 30 Days)
 - [ ] **Google Search Console** - Verify domain, submit sitemap
 - [ ] **Google Analytics / GTM** - Verify tracking + conversion goals
 - [ ] **Facebook Pixel** - Verify firing (if applicable)
 - [ ] **Monitor for Errors** - Check browser console, server logs first 24-48 hours
+
+### Google Business Profile (Critical for Local SEO)
+- [ ] **Claim & Verify Listing** - business.google.com
+- [ ] **Complete All Business Info** - Name, address, phone, hours, website
+- [ ] **Add All Services** - List every HVAC service offered
+- [ ] **Add Service Areas** - All 24 target cities
+- [ ] **Upload Photos** - Trucks, team, completed jobs, office
+- [ ] **Link to Website** - Ensure URL is correct
+- [ ] **Create First Post** - Announce website launch or seasonal promotion
+
+### Local Citations (Build in First 2 Weeks)
+- [ ] **Yelp** - Claim/create listing
+- [ ] **BBB (Better Business Bureau)** - Register business
+- [ ] **Angi (formerly Angie's List)** - Create profile
+- [ ] **HomeAdvisor** - Create profile
+- [ ] **Thumbtack** - Create profile
+- [ ] **Facebook Business Page** - Create/claim
+- [ ] **Nextdoor Business** - Claim listing
+- [ ] **Apple Maps** - Submit via Apple Business Connect
+- [ ] **Bing Places** - Claim listing
+- [ ] **Yellow Pages / YP.com** - Create listing
+
+### Reviews Strategy
+- [ ] **Request Reviews from 5 Happy Customers** - Direct link to Google review
+- [ ] **Set Up Review Response Process** - Respond to all reviews within 48 hours
+- [ ] **Create Review Request Email/Text Template** - For ongoing use
+
+### Ongoing Monthly Tasks (Document for Reference)
+- [ ] Add 1-2 Google Business posts per month
+- [ ] Respond to all new reviews
+- [ ] Check Search Console for crawl errors
+- [ ] Update seasonal content (AC focus in summer, heating in winter)
+- [ ] Review analytics for top-performing pages
 
 ### Future Enhancements (Post-Launch)
 - [ ] **Clean URLs** - Remove `/services/` prefix from routes
