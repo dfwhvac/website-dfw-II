@@ -112,6 +112,43 @@
 
 ---
 
+### MIGRATION: Existing Site (www.dfwhvac.com)
+*Critical steps to preserve SEO equity from current Wix site*
+
+#### 301 Redirects (Must be configured before launch)
+| Old URL | New URL | Status |
+|---------|---------|--------|
+| `/scheduleservicecall` | `/contact` | [ ] |
+| `/installation` | `/services/residential/air-conditioning` | [ ] |
+| `/iaq` | `/services/residential/indoor-air-quality` | [ ] |
+| `/ducting` | `/services/residential/air-conditioning` | [ ] |
+| `/seasonalmaintenance` | `/services/residential/preventative-maintenance` | [ ] |
+| `/testresults` | `/services/residential/indoor-air-quality` | [ ] |
+
+#### Redirect Implementation
+- [ ] Create `/app/frontend/next.config.js` redirects array OR
+- [ ] Configure redirects in Vercel dashboard (Settings → Redirects)
+- [ ] Test all redirects before launch (visit old URLs, confirm they redirect)
+
+#### Branding Cleanup
+- [ ] **Remove "Alpine HVAC" references** - Current site has mixed branding
+- [ ] **Confirm primary phone number** - Current site shows `(855)TEX-HVAC` and `972.999.0511`
+- [ ] **Update booking links** - Old site uses HouseCall Pro/Jobber, new site uses lead form
+
+#### Google Business Profile
+- [ ] **Do NOT modify GBP until new site is live**
+- [ ] **After launch:** Update website URL in GBP if changed
+- [ ] **After launch:** Verify GBP links to correct pages (services, contact, etc.)
+- [ ] **Monitor GBP insights** for 2 weeks post-launch for any traffic changes
+
+#### Post-Migration Monitoring (First 2 Weeks)
+- [ ] Check Google Search Console daily for crawl errors
+- [ ] Monitor for 404 errors (indicates missed redirects)
+- [ ] Watch for ranking drops on key terms
+- [ ] Verify all old indexed URLs redirect properly (search `site:dfwhvac.com` in Google)
+
+---
+
 ### PHASE 1: While Building (Do Now)
 *Focus on things that are hard to change later*
 
