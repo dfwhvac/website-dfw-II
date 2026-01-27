@@ -93,13 +93,13 @@ export default async function CityPage({ params }) {
   const subheadline = city.subheadline || `Professional Heating & Air Conditioning for ${city.cityName} Residents`
   
   const introText = city.introText || 
-    `Looking for reliable HVAC services in ${city.cityName}? DFW HVAC provides professional heating and air conditioning repair, installation, and maintenance to homeowners and businesses throughout ${city.cityName} and surrounding areas. Our experienced technicians are available 24/7 for emergency repairs.`
+    `Looking for reliable HVAC services in ${city.cityName}? DFW HVAC delivers expert heating and air conditioning service with integrity and care. Our licensed technicians provide honest assessments, transparent pricing, and quality workmanship to homeowners and businesses throughout ${city.cityName}. Available 24/7 for emergencies.`
   
   const servicesHighlight = city.servicesHighlight ||
-    `We offer comprehensive HVAC services including AC repair, heating system installation, preventive maintenance, and indoor air quality solutions. Whether you need a quick repair or a complete system replacement, our team has the expertise to get the job done right.`
+    `We offer comprehensive HVAC services including AC repair, heating system installation, preventive maintenance, and indoor air quality solutions. As a three-generation family business, we believe in doing the job right the first time with meticulous workmanship and customer-first service.`
   
   const whyChooseUs = city.whyChooseUs ||
-    `When you choose DFW HVAC for your ${city.cityName} home or business, you're choosing a company that puts quality and customer satisfaction first. We're fully licensed and insured, offer upfront pricing with no hidden fees, and stand behind our work with comprehensive warranties.`
+    `When you choose DFW HVAC for your ${city.cityName} home or business, you're choosing a company with a three-generation family commitment to trustworthy, high-quality service. We provide honest assessments, transparent pricing with no hidden fees, and stand behind our work with comprehensive warranties.`
 
   const defaultServices = [
     { title: 'Air Conditioning Repair', description: '24/7 emergency AC repair services', link: '/services/residential/air-conditioning' },
@@ -256,12 +256,12 @@ export default async function CityPage({ params }) {
               </p>
               <ul className="space-y-3">
                 {[
-                  'Experienced, NATE-certified technicians',
-                  'Upfront pricing with no hidden fees',
-                  'Same-day service available',
+                  'Three-generation family legacy of excellence',
+                  'Honest assessments with transparent pricing',
+                  'Licensed, bonded, and insured technicians',
+                  'Same-day service when available',
                   'All major brands serviced',
-                  'Financing options available',
-                  '100% satisfaction guarantee',
+                  'Comprehensive warranty on all work',
                 ].map((item, index) => (
                   <li key={index} className="flex items-center gap-3">
                     <CheckCircle className="w-5 h-5 text-[#32CD32] flex-shrink-0" />
@@ -319,7 +319,7 @@ export default async function CityPage({ params }) {
           </h2>
           <p className="text-blue-100 mb-8 max-w-2xl mx-auto">
             Our team is ready to help with all your heating and cooling needs. 
-            Contact us today for fast, reliable service.
+            Expert service with integrity and care—that&apos;s our commitment to you.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
