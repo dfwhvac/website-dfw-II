@@ -275,7 +275,7 @@ const AboutPageTemplate = ({
                         <Star key={i} className="w-4 h-4 fill-current text-yellow-400" />
                       ))}
                     </div>
-                    <p className="text-gray-600 mb-4 text-sm">"{testimonial.text}"</p>
+                    <p className="text-gray-600 mb-4 text-sm">&ldquo;{testimonial.text}&rdquo;</p>
                     <p className="font-semibold text-gray-900">{testimonial.name}</p>
                   </CardContent>
                 </Card>
@@ -309,7 +309,7 @@ const AboutPageTemplate = ({
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Experience the DFW HVAC Difference</h2>
           <p className="text-xl mb-8 text-red-100">
-            Expert service with integrity and care—that's our commitment to you.
+            Expert service with integrity and care—that&apos;s our commitment to you.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
