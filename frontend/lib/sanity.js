@@ -240,6 +240,110 @@ export const queries = {
     "slug": slug.current,
     zipCodes
   }`,
+
+  // About Page
+  aboutPage: `*[_type == "aboutPage"][0] {
+    metaTitle,
+    metaDescription,
+    heroTitle,
+    heroSubtitle,
+    heroDescription,
+    storyTitle,
+    storyContent,
+    storyHighlight,
+    legacyTimeline,
+    valuesTitle,
+    valuesSubtitle,
+    brandPillars,
+    statistics,
+    showTeamSection,
+    teamTitle,
+    teamMembers,
+    showTestimonials,
+    showContactForm
+  }`,
+
+  // Contact Page
+  contactPage: `*[_type == "contactPage"][0] {
+    metaTitle,
+    metaDescription,
+    heroTitle,
+    heroSubtitle,
+    heroDescription,
+    contactSectionTitle,
+    phoneDescription,
+    emailDescription,
+    emergencyText,
+    formTitle,
+    formDescription,
+    ctaTitle,
+    ctaDescription
+  }`,
+
+  // Trust Signals
+  trustSignals: `*[_type == "trustSignals"][0] {
+    primaryBadges,
+    whyChooseUsItems,
+    servicePageReasons,
+    emergencyServiceTitle,
+    emergencyServiceDescription,
+    emergencyServiceFeatures,
+    ctaTitle,
+    ctaDescription,
+    footerTrustText
+  }`,
+
+  // Site Settings (extended)
+  siteSettingsExtended: `*[_type == "siteSettings"][0] {
+    logoTagline,
+    legacyStatement,
+    missionStatement,
+    companyFoundedYear,
+    legacyStartYear,
+    headerTagline,
+    headerCtaText,
+    showHeaderTagline,
+    mainNavigation[] | order(order asc) {
+      label,
+      href,
+      isDropdown,
+      dropdownItems[] {
+        label,
+        href
+      },
+      isVisible
+    },
+    ctaButtons[] | order(order asc) {
+      label,
+      href,
+      variant
+    },
+    footerTagline,
+    footerSections[] | order(order asc) {
+      title,
+      links[] {
+        label,
+        href
+      }
+    },
+    socialLinks[] {
+      platform,
+      url
+    },
+    copyrightText,
+    showServiceAreas,
+    showBusinessHours,
+    leadFormTitle,
+    leadFormDescription,
+    leadFormButtonText,
+    leadFormSuccessMessage,
+    leadFormTrustSignals,
+    leadFormFooterText,
+    siteNameSuffix,
+    defaultMetaDescription,
+    defaultOgImage,
+    googleSiteVerification
+  }`,
 }
 
 // Helper functions to fetch data
