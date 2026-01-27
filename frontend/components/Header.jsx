@@ -86,9 +86,10 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
   const phone = companyInfo?.phone || '(972) 777-COOL'
   
   // Use Sanity data if available, otherwise use defaults
-  const headerTagline = siteSettings?.headerTagline || 'Serving Dallas-Fort Worth Since 1974'
+  const headerTagline = siteSettings?.headerTagline || 'Three Generations of Trusted HVAC Service in DFW'
   const headerCtaText = siteSettings?.headerCtaText || 'Call Now'
   const showHeaderTagline = siteSettings?.showHeaderTagline !== false
+  const logoTagline = siteSettings?.logoTagline || 'Three Generations of Trusted Service'
   const navigation = siteSettings?.mainNavigation?.filter(item => item.isVisible !== false) || defaultNavigation
   const ctaButtons = siteSettings?.ctaButtons || defaultCtaButtons
 
@@ -131,7 +132,7 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
             />
             <div>
               <div className="text-xl font-bold text-gray-800">DFW HVAC</div>
-              <div className="text-sm text-gray-600">Family Owned Since 1974</div>
+              <div className="text-sm text-gray-600">{logoTagline}</div>
             </div>
           </Link>
 
