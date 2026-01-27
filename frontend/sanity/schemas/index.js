@@ -9,5 +9,23 @@ import faqPage from './faqPage'
 import reviewsPage from './reviewsPage'
 import homepage from './homepage'
 import cityPage from './cityPage'
+import aboutPage from './aboutPage'
+import contactPage from './contactPage'
+import trustSignals from './trustSignals'
 
-export const schemaTypes = [companyInfo, service, testimonial, companyPage, brandColors, siteSettings, faq, faqPage, reviewsPage, homepage, cityPage]
+export const schemaTypes = [
+  companyInfo,
+  service,
+  testimonial,
+  companyPage,
+  brandColors,
+  siteSettings,
+  faq,
+  faqPage,
+  reviewsPage,
+  homepage,
+  cityPage,
+  aboutPage,
+  contactPage,
+  trustSignals,
+]
