@@ -56,7 +56,8 @@ const Footer = ({ companyInfo = {}, siteSettings = null }) => {
   
   // Use Sanity data if available, otherwise use defaults
   const footerTagline = siteSettings?.footerTagline || 
-    'Trusted HVAC contractor serving Dallas-Fort Worth and surrounding areas for over 50 years. Quality service, reliable solutions.'
+    'Expert HVAC service with integrity and care. A three-generation family commitment to quality workmanship in Dallas-Fort Worth.'
+  const logoTagline = siteSettings?.logoTagline || 'Three Generations of Trusted Service'
   const footerSections = siteSettings?.footerSections || defaultFooterSections
   const socialLinks = siteSettings?.socialLinks || defaultSocialLinks
   const copyrightText = (siteSettings?.copyrightText || '© {year} DFW HVAC. All rights reserved.')
@@ -91,7 +92,7 @@ const Footer = ({ companyInfo = {}, siteSettings = null }) => {
               />
               <div>
                 <div className="text-lg font-bold">DFW HVAC</div>
-                <div className="text-sm text-gray-400">Family Owned Since 1974</div>
+                <div className="text-sm text-gray-400">{logoTagline}</div>
               </div>
             </Link>
             <p className="text-gray-300 text-sm leading-relaxed">
