@@ -112,6 +112,8 @@ const AboutPageTemplate = ({
   
   const statistics = aboutPage?.statistics?.length > 0 ? aboutPage.statistics : defaultStatistics
   
+  const legacyTimeline = aboutPage?.legacyTimeline || []
+  
   const showTestimonials = aboutPage?.showTestimonials !== false
   const showContactForm = aboutPage?.showContactForm !== false
 
