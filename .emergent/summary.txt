@@ -1,137 +1,143 @@
 <analysis>**original_problem_statement:**
-The user's primary goal is to build a premium, conversion-focused website for their HVAC company, DFW HVAC, using a Next.js frontend and Sanity.io for content management.
+The user's primary goal is to build a premium, conversion-focused website for their HVAC company, DFW HVAC. This involves a Next.js frontend and a Sanity.io backend for content management. The project has expanded to include in-depth data analysis for service areas, competitive analysis, and SEO strategy.
 
-Throughout the session, the scope expanded significantly to include several data analysis and branding tasks:
-1.  A deep-dive service area analysis based on drive times from the company's headquarters to define service zones.
-2.  A comprehensive competitive analysis to understand the brand positioning of other DFW HVAC companies.
-3.  A demographic analysis to understand housing types (single-family vs. other) and median income by zip code.
-4.  Merging the service area and demographic data into a master file for strategic planning.
-5.  Evaluating and implementing a text-to-speech (TTS) solution for the company's phone system.
-6.  The user has now requested a complete re-do of the service area analysis with new, more granular drive-time zones and a specific HQ address.
+The most recent user requests have focused on preparing the website for launch, including:
+1.  Implementing a robust Cities Served section for local SEO.
+2.  Developing a pre-launch optimization checklist.
+3.  Creating a migration plan to move from their existing Wix website () to the new platform, preserving SEO value.
+4.  Ensuring all content, including navigation and service area lists, is dynamically managed via Sanity.io.
 
 **User's preferred language**: English
 
 **what currently exists?**
-The project is a Next.js 14 application where almost all content is dynamically managed via a self-hosted Sanity.io studio (accessible at ). This includes pages, navigation, SEO metadata, and brand assets.
+The project is a Next.js 14 application with a self-hosted Sanity.io studio for content management. A major data analysis task to define service zones was completed successfully, overcoming a previous memory-exhaustion blocker.
 
-Several data analysis tasks have been completed, resulting in multiple CSV files and map images located in . A temporary fix for a Sanity content caching issue has been implemented, prioritizing instant updates during development over performance. A bug related to Invalid property value in the Sanity Studio has been resolved by simplifying the  schema and cleaning the underlying data.
+A key feature, Cities Served, has been fully implemented. This includes a new Sanity schema for city pages, a hub page listing all 24 priority cities, and individual dynamic pages for each city. This data has been seeded into Sanity, and the main site navigation has been updated to include a link to the hub page.
+
+Components like the About and Contact pages have been refactored to dynamically pull their service area lists from the new City Pages data in Sanity, with each city name linking to its respective page.
+
+A comprehensive pre-launch and migration checklist has been created and is now the single source of truth for all future tasks, located at .
 
 **Last working item**:
--   **Last item agent was working:** The agent was executing a multi-step plan to perform a completely new service area analysis based on user-defined parameters (5 zones, new drive times, new HQ address). The process repeatedly failed due to the environment running out of memory while trying to download and process a very large national zip code (ZCTA) shapefile. The agent had correctly identified the need to break the task into smaller, more memory-efficient steps but was still getting blocked.
--   **Status:** BLOCKED
--   **Agent Testing Done:** N
--   **Which testing method agent to use?** N/A. This is a data analysis task. The output (CSV and PNG files) will need to be inspected manually.
--   **User Testing Done:** N
+-   **Last item agent was working:** The agent finalized the pre-launch checklist in . This involved adding a detailed migration plan for the user's existing Wix website, specifying 301 redirects, and ensuring all SEO considerations were documented. The agent also consolidated two separate checklists into one authoritative document.
+-   **Status:** NONE (COMPLETED)
+-   **Agent Testing Done:** N/A
+-   **Which testing method agent to use?** NA(if testing is already done)
+-   **User Testing Done:** Y
 
 **All Pending/In progress Issue list**:
--   **Issue 1: (P0) Memory Exhaustion During Geospatial Analysis.**
-    -   **Description:** The agent's environment repeatedly crashes due to exceeding memory limits when attempting to download and process the national US Census ZCTA shapefile, which is a very large file.
-    -   **Attempted fixes:**
-        1.  Running the analysis as a single script -> Timed out and crashed.
-        2.  Breaking the analysis into smaller steps -> Still crashed during the shapefile download step.
-    -   **Next debug checklist:**
-        1.  **DO NOT** attempt to download the full national shapefile again.
-        2.  Implement a more memory-efficient approach. The previous agent suggested using the Census API directly to fetch boundaries for specific zip codes, which is a promising strategy.
-        3.  Alternatively, use  to find a direct download link for a shapefile containing only Texas zip codes, which would be significantly smaller.
-        4.  If a large file download is unavoidable, research and use a Python library that supports streaming and processing the file in chunks rather than loading it all into memory at once.
-    -   **Why fix this issue and what will be achieved with the fix?** This is the primary blocker for the user's main active request. Resolving it will allow the new service area analysis to be completed.
-    -   **Status:** BLOCKED
-    -   **Is recurring issue?** Y
-    -   **Should Test frontend/backend/both after fix?** N/A
-    -   **Blocked on other issue:** None. This is the root blocker.
+There are no outstanding technical issues or bugs. All previously identified issues (memory exhaustion, caching, Sanity schema errors) have been resolved.
 
 **In progress Task List**:
--   **Task 1: (P0) Re-run the Service Area Project with new 5-zone definition.**
-    -   **Description:** Create a new service area analysis from scratch using a new HQ address, 5 granular drive-time zones, and then merge the results with housing and income demographics.
-    -   **Where to resume:** The agent had a 6-step plan. The pod crashed on Step 2. You must restart the entire plan from **Step 1 (Get Isochrones)**, as all temporary files were lost on restart. Critically, for **Step 2 (Download & Prepare ZCTA Shapefile)**, you must implement the memory-efficient solution from the Next debug checklist above.
-    -   **What will be achieved with this?** A new, highly accurate  and a corresponding  that meet the user's latest strategic requirements.
-    -   **Status:** IN PROGRESS
-    -   **Should Test frontend/backend/both after fix?** N/A
-    -   **Blocked on something:** Blocked on **Issue 1: Memory Exhaustion**.
+There are no tasks currently in progress.
 
 **Upcoming and Future Tasks**
-**Upcoming Tasks:**
--   (P0) **Lead Capture Form Backend:** Implement email notifications using Resend when a lead form is submitted.
--   (P1) **Generate Phone System Audio Files:** The user has reviewed OpenAI TTS voice previews. The next step is to get the final text scripts from the user, select a voice, and generate the MP3 files.
--   (P1) **Build Remaining Pages:** The user needs to create content in Sanity for , , , , and . The technical framework is ready.
--   (P1) **Advanced SEO (sitemap.xml):** Generate a dynamic  from the content in Sanity.
+The single source of truth for all tasks is . The next agent should work through this checklist in the order of priority defined.
 
-**Future Tasks:**
--   (P2) **Switch to Production Caching Mode:** Implement a webhook-based on-demand revalidation system for Sanity to provide optimal site performance, as detailed in .
--   (P2) **Marketing & Analytics:** Integrate Facebook Pixel and Google Analytics 4 / GTM.
--   (P2) **Clean URLs:** Refactor routes to remove the  prefix.
+**Upcoming Tasks (Pre-Launch Blockers - P0):**
+-   **Lead Capture Form Backend:** Implement email notifications using Resend for the lead form.
+-   **Legal Pages Content:** User needs to create content for  and .
+-   **Website Migration Execution:** Implement the 301 redirects defined in the checklist.
+-   **Custom Domain Setup:** Configure DNS and SSL for the  domain.
+
+**Upcoming Tasks (Pre-Launch Content & Features - P1):**
+-   **Finalize Content:** User needs to create content for  and .
+-   **Generate Phone System Audio:** Generate final MP3s for the phone system once scripts are provided.
+-   **Verify All Links & Functionality:** Perform a full site audit before launch.
+
+**Future Tasks (Post-Launch & Optimization - P2):**
+-   **Switch to Production Caching Mode:** Re-enable Sanity CDN and implement webhook-based revalidation for performance.
+-   **SEO Foundation:** Generate a dynamic , create , and set up Google Search Console & Analytics.
+-   **Local SEO Activation:** Fully optimize the Google Business Profile and build local citations.
+-   **Ongoing SEO:** Implement monthly tasks like posting to Google Business Profile and monitoring performance.
+-   **Code Cleanup:** Remove mock data, unused dependencies, and old analysis scripts.
 
 **Completed work in this session**
--   **Comprehensive Brand Strategy:** Researched competitors and worked with the user to distill brand concepts into a final 3-pillar framework ().
--   **Demographic Data Analysis:** Acquired and processed US Census data to create a detailed report on housing types and income for over 100 zip codes ().
--   **Master Data Merge (v1):** Successfully merged the initial service area data with the demographic data into a master CSV file (now superseded by the 5-zone request).
--   **Text-to-Speech (TTS) Evaluation:** Provided a comparative analysis of TTS providers and generated 9 voice samples from OpenAI TTS for the user to review.
--   **Sanity Caching Hotfix:** Investigated and resolved a content update delay by temporarily disabling caching to prioritize freshness during development. Correctly deferred the performant production solution as a future task.
--   **Sanity Studio Bug Fix:** Diagnosed and fixed a persistent Invalid property value and Unknown field error in the brand colors editor by simplifying the schema, patching the data, and instructing the user on clearing their local cache.
-
-**Known issue recurrence from previous fork**
--   None.
+-   **Service Area Analysis (Completed):** Successfully completed the 4-zone service area analysis using a memory-efficient Python script, generating a new map and CSV file.
+-   **Service Area Map Revisions (Completed):** Updated the map with brighter boundary lines, Zone 3 zip code labels, and added 61 missing zip codes to the analysis.
+-   **Cities Served Feature (Completed):**
+    -   Created a new  schema in Sanity.
+    -   Built a hub page () and dynamic individual city pages ().
+    -   Seeded Sanity with 24 priority cities and their 47 associated zip codes.
+    -   Added Cities Served to the main navigation, managed via Sanity.
+-   **Content Synchronization (Completed):** Refactored components (About, Contact, Schema Markup) to dynamically display a clickable list of served cities sourced from the new City Pages in Sanity.
+-   **Sanity Caching Issue (Resolved):** Diagnosed and fixed an aggressive caching issue on the Emergent preview environment, ensuring Sanity content updates appear instantly.
+-   **Pre-Launch & Migration Strategy (Completed):**
+    -   Provided a detailed SEO and performance optimization roadmap.
+    -   Analyzed the user's existing Wix site to create a migration plan.
+    -   Consolidated all remaining tasks into a single, authoritative pre-launch checklist in .
+-   **Content Cleanup (Completed):** Removed specific woman-owned business text and cleaned up color descriptions in the Sanity schema per user request.
 
 **Code Architecture**
 
 
 **Key Technical Concepts**
--   **Geospatial Analysis (Python):** The project relies heavily on , , and  for processing geographic data (isochrones, zip code boundaries). The main blocker is a memory management issue with this stack.
--   **API Integration:** Interacts with OpenRouteService (isochrones), US Census Bureau (demographics/geodata), and OpenAI TTS.
--   **Next.js Caching:** The agent demonstrated understanding of the trade-offs between performance (, ) and content freshness (). The current setup is a temporary developer mode with caching disabled.
--   **Sanity.io Debugging:** Successfully debugged schema/data mismatches and client-side caching issues within the Sanity Studio environment.
+-   **Geospatial Analysis (Python):** Successfully used  and the Census API to perform memory-efficient analysis, resolving a major blocker.
+-   **Next.js App Router:**
+    -   **Dynamic Rendering:** Resolved a caching issue by removing  and using  to ensure pages are server-rendered on demand.
+    -   **Route Organization:** Created nested routes for the  feature.
+-   **Headless CMS (Sanity.io):**
+    -   **Schema Design:** Created a new  document type with a template for easy content creation.
+    -   **Data Seeding:** Used the Sanity client in a Node.js script to programmatically create 24 city documents.
+    -   **Content Synchronization:** Refactored multiple components to pull data from a single City Pages source in Sanity, demonstrating a single-source-of-truth architecture.
+-   **Local SEO Strategy:** The implementation of city-specific pages and the development of a pre-launch/migration plan reflect a strategy focused on ranking for local search terms.
+-   **Website Migration:** Analyzed an existing Wix website and planned a migration strategy focused on preserving SEO equity through 301 redirects.
 
 **key DB schema**
--   **Sanity :** The schema was refactored from complex nested objects to simple  fields with hex validation. This resolved persistent UI errors in the Sanity Studio.
+-   **Sanity :**
+    -    (string)
+    -    (slug)
+    -    (array of strings)
+    -    (boolean)
+    -    (number)
+    -    (portable text)
+    -    (object with metaTitle and metaDescription)
 
 **All files of reference**
--   : The last attempted script for the main blocked task. **It should be revised or replaced.**
--   : The official list of future tasks, including the critical Switch to Production Caching Mode.
--   : This directory contains all previously generated analysis files (CSVs, MDs) and the TTS audio previews.
--   : Contains the temporary caching hotfix ().
+-   : **This is the most important file.** It contains the complete, consolidated pre-launch checklist and should be the primary guide for the next agent.
+-   : The successful Python script used for the final service area analysis.
+-   : The directory containing the newly created hub and dynamic city pages.
+-   : The schema definition for the City Pages content type in Sanity.
 
 **Critical Info for New Agent**
--   **Your immediate task is to complete the 5-zone service area analysis, which is currently BLOCKED by a recurring memory exhaustion issue.** Do not repeat the previous agent's mistake of downloading the entire national zip code shapefile. Your first step must be to implement a memory-efficient solution as outlined in the Pending Issues section.
--   Follow the 6-step plan laid out by the previous agent, starting from Step 1, as all temporary files were lost during the last crash.
--   Use the correct HQ address for the analysis: **556 S. Coppell Rd, Coppell TX 75019** (Coordinates: Latitude: 32.958239, Longitude: -97.006677).
--   The website's caching is in developer mode (no caching). Do not change this. The plan to implement a proper production caching solution is already documented as a future task in .
+-   **Your primary directive is to follow the pre-launch checklist in **. All upcoming work is documented there in order of priority.
+-   The project has shifted from initial build/analysis to a pre-launch optimization and migration phase.
+-   The user's existing website is  (built on Wix). The migration plan in the checklist is critical to preserve its SEO authority. Do not change the planned URL structure without discussing the SEO implications.
+-   All content lists (like service areas) should now be sourced from their respective Sanity schemas, not hardcoded. The City Pages implementation is the template for this pattern.
+-   The next logical tasks are the **P0 Blockers** from the checklist: setting up the lead form backend and implementing the 301 redirects for the migration.
 
 **documents and test reports created in this job**
--   /app/frontend/public/DFW_HVAC_Competitor_Analysis.csv
--   /app/frontend/public/DFW_HVAC_Brand_Framework_3Pillar.csv
--   /app/frontend/public/DFW_HVAC_Housing_Types.csv
--   /app/frontend/public/DFW_HVAC_Master_Service_Area.csv
--   /app/frontend/public/voice-previews/ (Directory of 9 MP3 files)
--   /app/frontend/PROJECT_TASKS.md
+-    (Updated)
+-    (Updated)
+-    (New)
+-    (New/Updated)
 
 **Last 10 User Messages and any pending HUMAN messages**
-10. **User:** Asked for the analysis to be broken down into smaller components after it crashed.
-9.  **User:** Checked on the status after a timeout.
-8.  **User:** Accidentally clicked stop and asked the agent to resume.
-7.  **User:** Confirmed go to start the analysis with the correct HQ address.
-6.  **User:** Confirmed the HQ address ().
-5.  **User:** Asked which address was being used as the center point.
-4.  **User:** Confirmed the plan and new parameters for the service area re-analysis.
-3.  **User:** Requested a complete re-do of the service area model with new zone definitions, colors, and a full re-analysis.
-2.  **User:** Asked to preview the 6 (later found to be 9) voices from OpenAI TTS.
-1.  **User:** Asked for the best TTS option prioritizing natural voice and cost.
+10. **User:** Asked agent to add the SEO/migration recommendations to the checklist. (Completed)
+9.  **User:** Asked why there were two checklists. (Resolved by consolidation)
+8.  **User:** Asked about Google tracking on the current site. (Agent analyzed and confirmed none exists)
+7.  **User:** Confirmed branding on the new site is accurate and to remove cleanup task. (Completed)
+6.  **User:** Asked to add migration plan to the checklist. (Completed)
+5.  **User:** Asked how to handle migration given an existing site and Google Business Profile. (Agent provided a detailed migration plan)
+4.  **User:** Asked for recommendations on SEO optimization with limited resources. (Agent provided a phased plan)
+3.  **User:** Asked who the experts are for evaluating SEO/performance. (Agent provided a list of tools)
+2.  **User:** Asked to remove woman-owned business mentions. (Completed)
+1.  **User:** Asked for clarification on the Service Areas section in Sanity's company info. (Resolved by syncing it with the new City Pages data)
 
 **Project Health Check:**
--   **Broken:** The service area analysis process is critically broken due to memory exhaustion. The Python environment cannot handle the current approach of processing the large national shapefile.
--   **Mocked:** None.
+-   **Broken:** None.
+-   **Mocked:** A  file still exists and is slated for removal in the pre-launch code cleanup task.
 
 **3rd Party Integrations**
 -   **Sanity.io:** Fully integrated for headless CMS.
 -   **Vercel:** Used for hosting and previews.
--   **OpenRouteService:** Used for drive-time analysis. Requires a user-provided API key.
--   **OpenAI TTS:** Used for text-to-speech generation. Utilizes the Emergent LLM Key via the  library.
--   **US Census Bureau:** Used for geographic (shapefiles) and demographic (ACS) data. Does not require a key.
+-   **OpenRouteService:** Used for the completed drive-time analysis.
+-   **OpenAI TTS:** Used for voice generation samples.
+-   **Wix:** The user's current live site is on Wix. The migration from Wix is a critical upcoming task.
+-   **HouseCall Pro / Jobber:** Booking systems on the old Wix site. These will be replaced by the new site's lead form.
 
 **Testing status**
 -   **Testing agent used after significant changes:** NO
 -   **Troubleshoot agent used after agent stuck in loop:** NO
 -   **Test files created:** None
--   **Known regressions:** None
-
-**Credentials to test flow:**
--   The OpenRouteService API key is available in the previous handoff summary and has been used successfully. It is required for the main pending task.</analysis>
+-   **Known regressions:** None</analysis>
