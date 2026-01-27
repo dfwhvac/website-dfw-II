@@ -89,6 +89,7 @@ const Footer = ({ companyInfo = {}, siteSettings = null }) => {
                 width={60} 
                 height={60}
                 className="rounded-lg"
+                style={{ clipPath: 'inset(1px)' }}
               />
               <div>
                 <div className="text-lg font-bold">DFW HVAC</div>
