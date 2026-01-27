@@ -328,7 +328,7 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [] }) => {
             Ready for Professional {service.title}?
           </h2>
           <p className="text-lg text-white opacity-90 mb-8 max-w-2xl mx-auto">
-            Contact DFW HVAC today for your free consultation and estimate.
+            Contact DFW HVAC today for expert service with integrity and care.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -362,7 +362,7 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [] }) => {
             </div>
             <div className="flex items-center gap-2 text-white">
               <Award className="w-5 h-5" />
-              <span>50+ Years Experience</span>
+              <span>Three-Generation Legacy</span>
             </div>
             <div className="flex items-center gap-2 text-white">
               <Star className="w-5 h-5 fill-current text-yellow-400" />
