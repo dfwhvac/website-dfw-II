@@ -61,7 +61,7 @@ const CompanyPageTemplate = ({
               </div>
               <div className="flex items-center gap-2">
                 <Award className="w-5 h-5" />
-                <span>50+ Years Experience</span>
+                <span>Three-Generation Legacy</span>
               </div>
               <div className="flex items-center gap-2">
                 <Star className="w-5 h-5 fill-current text-yellow-400" />
@@ -83,32 +83,36 @@ const CompanyPageTemplate = ({
                   <div>
                     <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Story</h2>
                     <p className="text-gray-600 mb-4">
-                      Since 1974, DFW HVAC has been providing reliable heating and cooling solutions 
-                      to families and businesses throughout the Dallas-Fort Worth metroplex.
+                      DFW HVAC was founded in 2020 as the natural evolution of a three-generation family 
+                      commitment to trustworthy, high-quality HVAC service in the Dallas–Fort Worth Metroplex.
                     </p>
                     <p className="text-gray-600 mb-4">
-                      As a family-owned business, we take pride in treating every 
-                      customer like family. Our commitment to quality workmanship and honest service 
-                      has earned us the trust of thousands of homeowners over five decades.
+                      This commitment began in 1972 when Garland Nevil started A-1 Air Conditioning & Heating. 
+                      It continued through his son, Ronny Grubb, who spent over 50 years building Alpine 
+                      Heating & Air Conditioning on honest assessments, fair pricing, and meticulous workmanship.
                     </p>
-                    <div className="flex items-center gap-2 text-vivid-red font-semibold">
+                    <p className="text-gray-600 mb-4">
+                      Today, we combine our family's hard-earned technical expertise with modern systems, 
+                      training, and processes—delivering expert service with integrity and care.
+                    </p>
+                    <div className="flex items-center gap-2 text-electric-blue font-semibold">
                       <Heart className="w-5 h-5" />
-                      <span>Family-Owned Business</span>
+                      <span>Three-Generation Family Legacy</span>
                     </div>
                   </div>
                   <div className="bg-gray-100 rounded-lg p-8">
                     <div className="grid grid-cols-2 gap-6 text-center">
                       <div>
                         <div className="text-4xl font-bold text-electric-blue">50+</div>
-                        <div className="text-gray-600">Years Experience</div>
+                        <div className="text-gray-600">Years of Family Legacy</div>
                       </div>
                       <div>
                         <div className="text-4xl font-bold text-electric-blue">{googleReviews}+</div>
                         <div className="text-gray-600">5-Star Reviews</div>
                       </div>
                       <div>
-                        <div className="text-4xl font-bold text-electric-blue">10K+</div>
-                        <div className="text-gray-600">Satisfied Customers</div>
+                        <div className="text-4xl font-bold text-electric-blue">3</div>
+                        <div className="text-gray-600">Generations Strong</div>
                       </div>
                       <div>
                         <div className="text-4xl font-bold text-electric-blue">24/7</div>
@@ -131,11 +135,12 @@ const CompanyPageTemplate = ({
                     <div className="mx-auto bg-electric-blue rounded-full p-4 w-16 h-16 flex items-center justify-center mb-4">
                       <Shield className="w-8 h-8 text-white" />
                     </div>
-                    <CardTitle>Integrity</CardTitle>
+                    <CardTitle>Trust</CardTitle>
+                    <p className="text-electric-blue text-sm font-medium">Honest, Transparent, Ethical</p>
                   </CardHeader>
                   <CardContent>
                     <p className="text-gray-600">
-                      We provide honest assessments and fair pricing. No hidden fees, no unnecessary repairs.
+                      We provide honest assessments and fair pricing. No hidden fees, no unnecessary repairs—just straightforward service.
                     </p>
                   </CardContent>
                 </Card>
@@ -145,10 +150,11 @@ const CompanyPageTemplate = ({
                       <Award className="w-8 h-8 text-white" />
                     </div>
                     <CardTitle>Excellence</CardTitle>
+                    <p className="text-electric-blue text-sm font-medium">Skilled, Professional, Safe</p>
                   </CardHeader>
                   <CardContent>
                     <p className="text-gray-600">
-                      Our technicians are fully licensed, trained, and committed to delivering top-quality work.
+                      Our technicians are fully licensed, trained, and committed to delivering top-quality workmanship.
                     </p>
                   </CardContent>
                 </Card>
@@ -157,11 +163,12 @@ const CompanyPageTemplate = ({
                     <div className="mx-auto bg-electric-blue rounded-full p-4 w-16 h-16 flex items-center justify-center mb-4">
                       <Users className="w-8 h-8 text-white" />
                     </div>
-                    <CardTitle>Family</CardTitle>
+                    <CardTitle>Care</CardTitle>
+                    <p className="text-electric-blue text-sm font-medium">Attentive, Consultative, Convenient</p>
                   </CardHeader>
                   <CardContent>
                     <p className="text-gray-600">
-                      We treat every customer like family, because to us, that's exactly what you are.
+                      We treat every customer like family, ensuring a seamless and satisfying experience from start to finish.
                     </p>
                   </CardContent>
                 </Card>
