@@ -3,6 +3,7 @@ export default {
   title: 'Site Settings',
   type: 'document',
   groups: [
+    { name: 'branding', title: 'Branding' },
     { name: 'header', title: 'Header' },
     { name: 'navigation', title: 'Navigation' },
     { name: 'footer', title: 'Footer' },
@@ -16,6 +17,48 @@ export default {
       type: 'string',
       initialValue: 'Site Settings',
       readOnly: true,
+    },
+
+    // Branding
+    {
+      name: 'logoTagline',
+      title: 'Logo Tagline',
+      type: 'string',
+      group: 'branding',
+      description: 'Text shown under company name in header/footer (e.g., "Three Generations of Trusted Service")',
+      initialValue: 'Three Generations of Trusted Service',
+    },
+    {
+      name: 'legacyStatement',
+      title: 'Legacy Statement',
+      type: 'string',
+      group: 'branding',
+      description: 'Flexible legacy messaging (e.g., "A three-generation family commitment since 1972")',
+      initialValue: 'A three-generation family commitment to trustworthy HVAC service',
+    },
+    {
+      name: 'missionStatement',
+      title: 'Mission Statement',
+      type: 'text',
+      group: 'branding',
+      description: 'Company mission statement used across the site',
+      initialValue: 'DFW HVAC delivers expert HVAC service with integrity and care—earning trust and long-term customer satisfaction through quality workmanship.',
+    },
+    {
+      name: 'companyFoundedYear',
+      title: 'Company Founded Year',
+      type: 'string',
+      group: 'branding',
+      description: 'Year DFW HVAC was founded (2020)',
+      initialValue: '2020',
+    },
+    {
+      name: 'legacyStartYear',
+      title: 'Legacy Start Year',
+      type: 'string',
+      group: 'branding',
+      description: 'Year the family HVAC legacy began (1972)',
+      initialValue: '1972',
     },
 
     // SEO Defaults
@@ -33,7 +76,7 @@ export default {
       type: 'text',
       group: 'seo',
       description: 'Used when a page has no specific description (150-160 chars)',
-      initialValue: 'DFW HVAC - Family owned HVAC contractor serving Dallas-Fort Worth since 1974. AC repair, heating, installation & maintenance. Call (972) 777-COOL.',
+      initialValue: 'DFW HVAC delivers expert HVAC service with integrity and care. Three generations of trusted heating & cooling service in Dallas-Fort Worth. Call (972) 777-COOL.',
       validation: Rule => Rule.max(200),
     },
     {
@@ -57,8 +100,8 @@ export default {
       title: 'Header Tagline',
       type: 'string',
       group: 'header',
-      description: 'Text shown at top of header (e.g., "Serving Dallas-Fort Worth Since 1974")',
-      initialValue: 'Serving Dallas-Fort Worth Since 1974',
+      description: 'Text shown at top of header (e.g., "Three Generations of Trusted HVAC Service")',
+      initialValue: 'Three Generations of Trusted HVAC Service in DFW',
     },
     {
       name: 'headerCtaText',
@@ -190,7 +233,7 @@ export default {
       type: 'string',
       group: 'footer',
       description: 'Short description under company name in footer',
-      initialValue: 'Your trusted HVAC partner in Dallas-Fort Worth since 1974.',
+      initialValue: 'Expert HVAC service with integrity and care. A three-generation family commitment to quality workmanship in Dallas-Fort Worth.',
     },
     {
       name: 'footerSections',
