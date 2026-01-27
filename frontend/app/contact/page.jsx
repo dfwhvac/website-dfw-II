@@ -1,33 +1,37 @@
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import CompanyPageTemplate from '@/components/CompanyPageTemplate'
-import { getCompanyInfo, getSiteSettings, getCityPages } from '@/lib/sanity'
+import { getCompanyInfo, getSiteSettings, getCityPages, getContactPage } from '@/lib/sanity'
 import { companyInfo as mockCompanyInfo } from '@/lib/mockData'
 
 // Disable caching for instant Sanity updates
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
-export const metadata = {
-  title: 'Contact Us | DFW HVAC',
-  description: 'Contact DFW HVAC for all your heating and cooling needs. Available 24/7 for emergencies.',
+export async function generateMetadata() {
+  const contactPage = await getContactPage()
+  return {
+    title: contactPage?.metaTitle || 'Contact Us | DFW HVAC',
+    description: contactPage?.metaDescription || 'Contact DFW HVAC for expert heating and cooling services in Dallas-Fort Worth. Available 24/7 for emergencies. Call (972) 777-COOL.',
+  }
 }
 
 export default async function ContactPage() {
-  let companyInfo = await getCompanyInfo()
-  if (!companyInfo) {
-    companyInfo = mockCompanyInfo
-  }
+  const [companyInfoData, siteSettings, cityPages, contactPage] = await Promise.all([
+    getCompanyInfo(),
+    getSiteSettings(),
+    getCityPages(),
+    getContactPage(),
+  ])
   
-  const siteSettings = await getSiteSettings()
-  const cityPages = await getCityPages()
+  const companyInfo = companyInfoData || mockCompanyInfo
 
   const pageData = {
     title: 'Contact Us',
     pageType: 'contact',
-    heroTitle: 'Contact Us',
-    heroSubtitle: 'We\'re Here to Help',
-    heroDescription: 'Have a question or need service? Reach out to our friendly team today.',
+    heroTitle: contactPage?.heroTitle || 'Contact Us',
+    heroSubtitle: contactPage?.heroSubtitle || "We're Here to Help",
+    heroDescription: contactPage?.heroDescription || 'Have a question or need service? Our team is ready to provide expert HVAC service with integrity and care.',
   }
 
   return (
