@@ -31,11 +31,11 @@ const HomePage = ({
 }) => {
   // Use Sanity content with fallbacks
   const hero = {
-    badge: homepage?.heroBadge || 'Trusted Since 1974',
+    badge: homepage?.heroBadge || 'Three Generations of Trust',
     title: homepage?.heroTitle || "Dallas-Fort Worth's",
     highlight: homepage?.heroTitleHighlight || 'Trusted HVAC',
     line3: homepage?.heroTitleLine3 || 'Experts',
-    description: homepage?.heroDescription || 'Family-owned business providing reliable heating, cooling, and air quality solutions throughout DFW for over 50 years. Get your free estimate today!',
+    description: homepage?.heroDescription || 'Expert HVAC service with integrity and care. A three-generation family commitment to quality workmanship throughout Dallas-Fort Worth.',
     primaryButton: homepage?.heroPrimaryButton || { text: 'Call (972) 777-COOL', href: 'tel:+19727772665' },
     secondaryButton: homepage?.heroSecondaryButton || { text: 'Get Free Estimate', href: '/contact' },
   }
@@ -57,12 +57,12 @@ const HomePage = ({
   
   const whyUs = {
     title: homepage?.whyUsTitle || 'Why Dallas-Fort Worth Trusts DFW HVAC',
-    subtitle: homepage?.whyUsSubtitle || '50+ years of experience and thousands of satisfied customers',
+    subtitle: homepage?.whyUsSubtitle || 'Expert service with integrity and care',
     items: homepage?.whyUsItems || [
-      { title: '50+ Years Experience', description: 'Family-owned business serving DFW since 1974', icon: 'years' },
-      { title: 'Licensed & Insured', description: 'Fully licensed technicians and comprehensive insurance', icon: 'shield' },
-      { title: 'Fast Response', description: 'Quick service when you need it most', icon: 'clock' },
-      { title: 'Guaranteed Work', description: 'We stand behind our work with comprehensive warranties', icon: 'trending' },
+      { title: 'Three-Generation Legacy', description: 'A family commitment to HVAC excellence since 1972', icon: 'years' },
+      { title: 'Licensed & Insured', description: 'Fully licensed technicians you can trust', icon: 'shield' },
+      { title: 'Fast Response', description: 'Quick, reliable service when you need it', icon: 'clock' },
+      { title: 'Guaranteed Work', description: 'Quality workmanship backed by comprehensive warranties', icon: 'trending' },
     ],
   }
   
@@ -74,7 +74,7 @@ const HomePage = ({
   
   const cta = {
     title: homepage?.ctaTitle || 'Ready to Get Started?',
-    description: homepage?.ctaDescription || 'Contact DFW HVAC today for your free estimate. Professional HVAC service when you need it.',
+    description: homepage?.ctaDescription || 'Contact DFW HVAC today for expert service with integrity and care.',
   }
 
   return (
