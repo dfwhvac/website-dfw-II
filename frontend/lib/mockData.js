@@ -2,15 +2,17 @@
 
 export const companyInfo = {
   name: "DFW HVAC",
-  tagline: "Family Owned Since 1974",
+  tagline: "Three Generations of Trusted Service",
   phone: "(972) 777-COOL",
   phoneDisplay: "(972) 777-2665",
   realPhone: "(817) 242-6688",
   email: "info@dfwhvac.com",
   address: "556 S Coppell Rd Ste 103, Coppell, TX 75019",
   serviceAddress: "Dallas-Fort Worth & Surrounding Areas",
-  established: "1974",
-  description: "Family owned Air Conditioning and Heating contractor serving Dallas - Fort Worth and surrounding areas since 1974.",
+  established: "2020",
+  legacyStartYear: "1972",
+  legacyDescription: "A three-generation family commitment to trustworthy, high-quality HVAC service",
+  description: "DFW HVAC delivers expert HVAC service with integrity and care—earning trust and long-term customer satisfaction through quality workmanship.",
   googleRating: 5.0,
   googleReviews: 130,
   businessHours: {
