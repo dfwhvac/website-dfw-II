@@ -159,8 +159,16 @@ const AboutPageTemplate = ({
                 <h2 className="text-3xl font-bold text-gray-900 mb-4">{storyTitle}</h2>
                 
                 {storyContent ? (
-                  <div className="prose prose-lg text-gray-600">
-                    <PortableText value={storyContent} />
+                  <div className="text-gray-600 space-y-4">
+                    <PortableText 
+                      value={storyContent} 
+                      components={{
+                        block: {
+                          normal: ({children}) => <p className="mb-4 leading-relaxed">{children}</p>,
+                          h3: ({children}) => <h3 className="text-xl font-bold text-gray-900 mt-6 mb-3">{children}</h3>,
+                        },
+                      }}
+                    />
                   </div>
                 ) : (
                   <div className="space-y-4 text-gray-600">
