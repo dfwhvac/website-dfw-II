@@ -68,8 +68,8 @@ export default async function CitiesServedPage() {
               Cities We Serve in DFW
             </h1>
             <p className="text-xl text-blue-100 mb-8">
-              Professional HVAC services across the Dallas-Fort Worth metroplex. 
-              Find heating and air conditioning experts in your neighborhood.
+              Expert HVAC service with integrity and care throughout the Dallas-Fort Worth metroplex. 
+              A three-generation family commitment to quality workmanship in your neighborhood.
             </p>
             <div className="flex flex-wrap justify-center gap-6 text-lg">
               <div className="flex items-center gap-2">
