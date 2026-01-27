@@ -476,3 +476,43 @@ export async function getCityPages() {
     return []
   }
 }
+
+export async function getAboutPage() {
+  try {
+    const data = await client.fetch(queries.aboutPage)
+    return data
+  } catch (error) {
+    console.error('Error fetching about page:', error)
+    return null
+  }
+}
+
+export async function getContactPage() {
+  try {
+    const data = await client.fetch(queries.contactPage)
+    return data
+  } catch (error) {
+    console.error('Error fetching contact page:', error)
+    return null
+  }
+}
+
+export async function getTrustSignals() {
+  try {
+    const data = await client.fetch(queries.trustSignals)
+    return data
+  } catch (error) {
+    console.error('Error fetching trust signals:', error)
+    return null
+  }
+}
+
+export async function getSiteSettingsExtended() {
+  try {
+    const data = await client.fetch(queries.siteSettingsExtended)
+    return data
+  } catch (error) {
+    console.error('Error fetching extended site settings:', error)
+    return null
+  }
+}
