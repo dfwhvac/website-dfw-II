@@ -32,7 +32,7 @@ export default {
       title: 'Hero Badge Text',
       type: 'string',
       group: 'hero',
-      initialValue: 'Trusted Since 1974',
+      initialValue: 'Three Generations of Trust',
     },
     {
       name: 'heroTitle',
@@ -60,7 +60,7 @@ export default {
       title: 'Hero Description',
       type: 'text',
       group: 'hero',
-      initialValue: 'Family-owned business providing reliable heating, cooling, and air quality solutions throughout DFW for over 50 years. Get your free estimate today!',
+      initialValue: 'Expert HVAC service with integrity and care. A three-generation family commitment to quality workmanship throughout Dallas-Fort Worth.',
     },
     {
       name: 'heroPrimaryButton',
@@ -112,7 +112,7 @@ export default {
       title: 'Section Subtitle',
       type: 'string',
       group: 'whyUs',
-      initialValue: '50+ years of experience and thousands of satisfied customers',
+      initialValue: 'Expert service with integrity and care',
     },
     {
       name: 'whyUsItems',
@@ -175,7 +175,7 @@ export default {
       title: 'CTA Description',
       type: 'text',
       group: 'cta',
-      initialValue: 'Contact DFW HVAC today for your free estimate. Professional HVAC service when you need it.',
+      initialValue: 'Contact DFW HVAC today for expert service with integrity and care.',
     },
   ],
   preview: {
