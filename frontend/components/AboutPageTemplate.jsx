@@ -99,7 +99,7 @@ const getDynamicStatistics = (companyInfo, cmsStatistics) => {
     { value: '50+', label: 'Years of Family Legacy', suffix: '' },
     { value: googleRating.toString(), label: 'Google Rating', suffix: 'Stars' },
     { value: `${googleReviews}+`, label: 'Customer Reviews', suffix: '' },
-    { value: '24/7', label: 'Emergency Service', suffix: '' },
+    { value: 'Same-Day', label: 'Service Available', suffix: '' },
   ]
 }
 
