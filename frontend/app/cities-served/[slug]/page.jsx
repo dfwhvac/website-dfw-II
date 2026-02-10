@@ -4,7 +4,7 @@ import { client, getCompanyInfo, getSiteSettings, getTrustSignals } from '@/lib/
 import { companyInfo as mockCompanyInfo } from '@/lib/mockData'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { Phone, MapPin, CheckCircle, ArrowRight, Clock, Shield, Star, Award, Users, Calendar } from 'lucide-react'
+import { Phone, MapPin, CheckCircle, ArrowRight, Clock, Shield, Star, Award, Users, Calendar, TrendingUp } from 'lucide-react'
 
 // Disable caching for instant Sanity updates
 export const dynamic = 'force-dynamic'
