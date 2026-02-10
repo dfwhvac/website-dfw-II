@@ -126,14 +126,14 @@ export default {
     },
     {
       name: 'emergencyTitle',
-      title: 'Emergency Service Title',
+      title: 'Fast Response Section Title',
       type: 'string',
       group: 'content',
-      description: 'e.g., "24/7 Emergency AC Repair"',
+      description: 'e.g., "Same-Day Service Available"',
     },
     {
       name: 'emergencyDescription',
-      title: 'Emergency Service Description',
+      title: 'Fast Response Section Description',
       type: 'text',
       group: 'content',
     },
