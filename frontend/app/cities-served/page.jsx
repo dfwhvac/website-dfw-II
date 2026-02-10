@@ -185,7 +185,7 @@ export default async function CitiesServedPage() {
             </h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
               {[
-                { title: 'AC Repair', desc: '24/7 emergency air conditioning repair' },
+                { title: 'AC Repair', desc: 'Fast, same-day air conditioning repair' },
                 { title: 'AC Installation', desc: 'New system installation and replacement' },
                 { title: 'Heating Repair', desc: 'Furnace and heat pump repairs' },
                 { title: 'Heating Installation', desc: 'New heating system installation' },
