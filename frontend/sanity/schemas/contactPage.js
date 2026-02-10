@@ -61,7 +61,7 @@ export default {
       title: 'Phone Description',
       type: 'string',
       group: 'content',
-      initialValue: 'Available 24/7 for emergencies',
+      initialValue: 'Same-day service M-Sat',
     },
     {
       name: 'emailDescription',
