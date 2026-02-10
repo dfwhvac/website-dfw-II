@@ -87,6 +87,31 @@ export default async function CityPage({ params }) {
   
   const siteSettings = await getSiteSettings()
   const otherCities = await getOtherCities(slug)
+  const trustSignals = await getTrustSignals()
+  
+  // Icon mapping for trust badges
+  const iconMap = {
+    'shield': Shield,
+    'award': Award,
+    'star': Star,
+    'clock': Clock,
+    'check-circle': CheckCircle,
+    'users': Users,
+    'phone': Phone,
+    'calendar': Calendar,
+  }
+  
+  // Default trust badges
+  const defaultTrustBadges = [
+    { text: '24/7 Emergency Service', icon: 'clock' },
+    { text: 'Licensed & Insured', icon: 'shield' },
+    { text: '5-Star Rated', icon: 'star' },
+    { text: 'Satisfaction Guaranteed', icon: 'check-circle' },
+  ]
+  
+  const trustBadges = trustSignals?.primaryBadges?.length > 0 
+    ? trustSignals.primaryBadges.sort((a, b) => (a.order || 0) - (b.order || 0))
+    : defaultTrustBadges
   
   // Default content if not provided in Sanity
   const headline = city.headline || `HVAC Services in ${city.cityName}, TX`
