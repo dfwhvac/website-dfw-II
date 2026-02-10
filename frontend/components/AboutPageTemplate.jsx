@@ -68,13 +68,40 @@ const defaultBrandPillars = [
   },
 ]
 
-// Default statistics
+// Default statistics - will be overridden by dynamic data
 const defaultStatistics = [
   { value: '50+', label: 'Years of Family Legacy', suffix: '' },
   { value: '5.0', label: 'Google Rating', suffix: 'Stars' },
   { value: '130+', label: 'Customer Reviews', suffix: '' },
   { value: '24/7', label: 'Emergency Service', suffix: '' },
 ]
+
+// Function to get dynamic statistics with live Google data
+const getDynamicStatistics = (companyInfo, cmsStatistics) => {
+  const googleRating = companyInfo?.googleRating || 5.0
+  const googleReviews = companyInfo?.googleReviews || 130
+  
+  // If CMS has custom statistics, use them but override Google data
+  if (cmsStatistics && cmsStatistics.length > 0) {
+    return cmsStatistics.map(stat => {
+      if (stat.label === 'Google Rating') {
+        return { ...stat, value: googleRating.toString() }
+      }
+      if (stat.label === 'Customer Reviews') {
+        return { ...stat, value: `${googleReviews}+` }
+      }
+      return stat
+    })
+  }
+  
+  // Return defaults with live data
+  return [
+    { value: '50+', label: 'Years of Family Legacy', suffix: '' },
+    { value: googleRating.toString(), label: 'Google Rating', suffix: 'Stars' },
+    { value: `${googleReviews}+`, label: 'Customer Reviews', suffix: '' },
+    { value: '24/7', label: 'Emergency Service', suffix: '' },
+  ]
+}
 
 // Default story content
 const defaultStoryContent = `DFW HVAC was founded in 2020 as the natural evolution of a three-generation family commitment to trustworthy, high-quality HVAC service in the Dallas–Fort Worth Metroplex.
