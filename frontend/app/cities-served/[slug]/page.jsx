@@ -202,22 +202,25 @@ export default async function CityPage({ params }) {
       <section className="bg-gray-50 py-6 border-b">
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap justify-center gap-8 text-sm text-gray-600">
-            <div className="flex items-center gap-2">
-              <Clock className="w-5 h-5 text-[#00B8FF]" />
-              <span>24/7 Emergency Service</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Shield className="w-5 h-5 text-[#00B8FF]" />
-              <span>Licensed & Insured</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Star className="w-5 h-5 text-[#F77F00]" />
-              <span>5-Star Rated</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle className="w-5 h-5 text-[#32CD32]" />
-              <span>Satisfaction Guaranteed</span>
-            </div>
+            {trustBadges.map((badge, index) => {
+              const IconComponent = iconMap[badge.icon] || CheckCircle
+              const iconColors = {
+                'clock': 'text-[#00B8FF]',
+                'shield': 'text-[#00B8FF]',
+                'star': 'text-[#F77F00]',
+                'check-circle': 'text-[#32CD32]',
+                'award': 'text-[#00B8FF]',
+                'users': 'text-[#00B8FF]',
+                'phone': 'text-[#00B8FF]',
+                'calendar': 'text-[#00B8FF]',
+              }
+              return (
+                <div key={index} className="flex items-center gap-2">
+                  <IconComponent className={`w-5 h-5 ${iconColors[badge.icon] || 'text-[#00B8FF]'}`} />
+                  <span>{badge.text}</span>
+                </div>
+              )
+            })}
           </div>
         </div>
       </section>
