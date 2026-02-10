@@ -601,7 +601,7 @@ const serviceData = {
           'Prevent unexpected downtime',
           'Extend equipment lifespan',
           'Maintain energy efficiency',
-          'Priority emergency service'
+          'Priority service'
         ]
       },
       sections: {
