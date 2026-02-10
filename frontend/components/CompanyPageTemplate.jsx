@@ -115,8 +115,8 @@ const CompanyPageTemplate = ({
                         <div className="text-gray-600">Generations Strong</div>
                       </div>
                       <div>
-                        <div className="text-4xl font-bold text-electric-blue">24/7</div>
-                        <div className="text-gray-600">Emergency Service</div>
+                        <div className="text-4xl font-bold text-electric-blue">Same-Day</div>
+                        <div className="text-gray-600">Service Available</div>
                       </div>
                     </div>
                   </div>
