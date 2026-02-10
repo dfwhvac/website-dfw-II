@@ -29,6 +29,7 @@
 - [ ] Generate dynamic `sitemap.xml` from Sanity content
 - [ ] Add structured data for service pages
 - [ ] Optimize meta descriptions for all pages
+- [ ] **City Page SEO Descriptions** - Rewrite city descriptions (currently 30-45 words) to 300-500 words with HVAC keywords + local context. Options: place at bottom of page, distribute throughout page, or use collapsible section. Priority cities first (Coppell, Dallas, Grapevine, etc.)
 
 ---
 
