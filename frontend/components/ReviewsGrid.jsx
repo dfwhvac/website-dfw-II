@@ -80,23 +80,6 @@ const ReviewsGrid = ({ testimonials = [], googleReviews = 130 }) => {
               </Button>
             </div>
           )}
-
-          {/* Google Review CTA */}
-          <div className="text-center mt-12">
-            <p className="text-gray-600 mb-4">Love our service? Leave us a review!</p>
-            <Button 
-              className="bg-electric-blue hover:bg-prussian-blue"
-              asChild
-            >
-              <a 
-                href="https://g.page/r/CcumMADJhchIEB0/review" 
-                target="_blank" 
-                rel="noopener noreferrer"
-              >
-                Write a Google Review
-              </a>
-            </Button>
-          </div>
         </div>
       </div>
     </div>
