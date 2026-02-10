@@ -230,7 +230,7 @@ const CompanyPageTemplate = ({
                         <p>Monday - Friday: {businessHours.monday || '7AM-7PM'}</p>
                         <p>Saturday: {businessHours.saturday || '8AM-1PM'}</p>
                         <p>Sunday: {businessHours.sunday || 'Closed'}</p>
-                        <p className="text-vivid-red font-medium mt-1">24/7 Emergency Service Available</p>
+                        <p className="text-vivid-red font-medium mt-1">Same-Day Service Available</p>
                       </div>
                     </div>
                   </div>
