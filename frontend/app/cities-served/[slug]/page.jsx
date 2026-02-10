@@ -214,6 +214,7 @@ export default async function CityPage({ params }) {
                 'users': 'text-[#00B8FF]',
                 'phone': 'text-[#00B8FF]',
                 'calendar': 'text-[#00B8FF]',
+                'trending-up': 'text-[#32CD32]',
               }
               return (
                 <div key={index} className="flex items-center gap-2">
