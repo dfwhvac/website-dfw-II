@@ -130,6 +130,7 @@ export default {
               { title: 'Shield', value: 'shield' },
               { title: 'Clock', value: 'clock' },
               { title: 'Trending Up', value: 'trending' },
+              { title: 'Handshake', value: 'handshake' },
             ]
           }},
         ],
