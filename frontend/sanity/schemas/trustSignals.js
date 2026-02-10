@@ -99,22 +99,22 @@ export default {
       of: [{ type: 'string' }],
     },
 
-    // Emergency Service Content
+    // Fast Response Service Content
     {
       name: 'emergencyServiceTitle',
-      title: 'Emergency Service Title',
+      title: 'Fast Response Service Title',
       type: 'string',
       initialValue: 'Fast Response Service',
     },
     {
       name: 'emergencyServiceDescription',
-      title: 'Emergency Service Description',
+      title: 'Fast Response Service Description',
       type: 'text',
       initialValue: 'When your HVAC system breaks down, you need fast, reliable service you can count on.',
     },
     {
       name: 'emergencyServiceFeatures',
-      title: 'Emergency Service Features',
+      title: 'Fast Response Service Features',
       type: 'array',
       of: [{ type: 'string' }],
     },
