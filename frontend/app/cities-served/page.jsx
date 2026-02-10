@@ -126,9 +126,6 @@ export default async function CitiesServedPage() {
                         <h3 className="text-xl font-bold text-[#003153] group-hover:text-[#00B8FF] transition-colors">
                           {city.cityName}
                         </h3>
-                        <p className="text-gray-500 text-sm mt-1">
-                          {city.zipCodes?.length || 0} zip code{city.zipCodes?.length !== 1 ? 's' : ''} served
-                        </p>
                         <div className="flex flex-wrap gap-2 mt-3">
                           {city.zipCodes?.slice(0, 4).map((zip) => (
                             <span 
