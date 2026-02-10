@@ -71,8 +71,8 @@ const Footer = ({ companyInfo = {}, siteSettings = null }) => {
   const address = companyInfo?.address || 'Dallas-Fort Worth Area'
   const businessHours = companyInfo?.businessHours || {
     monday: '7am - 7pm',
-    saturday: '8am - 5pm',
-    sunday: 'Emergency Only'
+    saturday: '8am - 1pm',
+    sunday: 'Closed'
   }
 
   return (
