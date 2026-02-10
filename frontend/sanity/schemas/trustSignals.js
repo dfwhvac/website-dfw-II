@@ -36,6 +36,7 @@ export default {
                 { title: 'Users', value: 'users' },
                 { title: 'Phone', value: 'phone' },
                 { title: 'Calendar', value: 'calendar' },
+                { title: 'Trending Up', value: 'trending-up' },
               ],
             },
           },
