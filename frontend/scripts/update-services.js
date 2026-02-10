@@ -30,7 +30,7 @@ const serviceUpdates = {
       ],
       whyChooseUsReasons: [
         'Three-generation family legacy of HVAC excellence',
-        '5.0-star Google rating with 130+ reviews',
+        '5.0-star Google rating',
         'Licensed, bonded, and insured technicians',
         'Transparent pricing with no hidden fees',
         'Respectful of your home and time',
@@ -62,7 +62,7 @@ const serviceUpdates = {
       ],
       whyChooseUsReasons: [
         'Three-generation family legacy of HVAC excellence',
-        '5.0-star Google rating with 130+ reviews',
+        '5.0-star Google rating',
         'Licensed, bonded, and insured technicians',
         'Transparent pricing with no hidden fees',
         'Respectful of your home and time',
