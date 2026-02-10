@@ -60,7 +60,7 @@ export async function generateMetadata({ params }) {
   
   const title = city.metaTitle || `HVAC Services in ${city.cityName}, TX | DFW HVAC`
   const description = city.metaDescription || 
-    `Professional heating and air conditioning services in ${city.cityName}, Texas. 24/7 emergency HVAC repair, installation, and maintenance. Serving zip codes: ${city.zipCodes?.join(', ')}.`
+    `Professional heating and air conditioning services in ${city.cityName}, Texas. Same-day HVAC repair, installation, and maintenance. Serving zip codes: ${city.zipCodes?.join(', ')}.`
   
   return {
     title,
