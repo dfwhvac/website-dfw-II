@@ -609,7 +609,7 @@ const serviceData = {
           title: 'Program Benefits',
           items: [
             'Scheduled preventive maintenance',
-            'Priority emergency response',
+            'Priority response',
             'Discounted repair rates',
             'Equipment performance tracking',
             'Energy efficiency monitoring',
