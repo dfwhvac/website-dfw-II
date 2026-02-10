@@ -12,9 +12,12 @@ export const revalidate = 0
 
 export async function generateMetadata() {
   const reviewsPage = await getReviewsPage()
+  const companyInfo = await getCompanyInfo()
+  const reviewCount = companyInfo?.googleReviews || 135
+  
   return {
     title: reviewsPage?.metaTitle || '5-Star HVAC Reviews Dallas | Customer Testimonials | DFW HVAC',
-    description: reviewsPage?.metaDescription || 'Read 130+ 5-star reviews from real DFW HVAC customers. Family-owned HVAC contractor serving Dallas-Fort Worth since 1974.',
+    description: reviewsPage?.metaDescription || `Read ${reviewCount}+ 5-star reviews from real DFW HVAC customers. Three generations of trusted HVAC service in Dallas-Fort Worth.`,
   }
 }
 
