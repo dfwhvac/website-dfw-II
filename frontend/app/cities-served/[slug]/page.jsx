@@ -104,7 +104,7 @@ export default async function CityPage({ params }) {
   
   // Default trust badges
   const defaultTrustBadges = [
-    { text: '24/7 Emergency Service', icon: 'clock' },
+    { text: 'Same-Day Service', icon: 'clock' },
     { text: 'Licensed & Insured', icon: 'shield' },
     { text: '5-Star Rated', icon: 'star' },
     { text: 'Satisfaction Guaranteed', icon: 'check-circle' },
@@ -119,7 +119,7 @@ export default async function CityPage({ params }) {
   const subheadline = city.subheadline || `Professional Heating & Air Conditioning for ${city.cityName} Residents`
   
   const introText = city.introText || 
-    `Looking for reliable HVAC services in ${city.cityName}? DFW HVAC delivers expert heating and air conditioning service with integrity and care. Our licensed technicians provide honest assessments, transparent pricing, and quality workmanship to homeowners and businesses throughout ${city.cityName}. Available 24/7 for emergencies.`
+    `Looking for reliable HVAC services in ${city.cityName}? DFW HVAC delivers expert heating and air conditioning service with integrity and care. Our licensed technicians provide honest assessments, transparent pricing, and quality workmanship to homeowners and businesses throughout ${city.cityName}. Same-day service available Monday through Saturday.`
   
   const servicesHighlight = city.servicesHighlight ||
     `We offer comprehensive HVAC services including AC repair, heating system installation, preventive maintenance, and indoor air quality solutions. As a three-generation family business, we believe in doing the job right the first time with meticulous workmanship and customer-first service.`
@@ -128,7 +128,7 @@ export default async function CityPage({ params }) {
     `When you choose DFW HVAC for your ${city.cityName} home or business, you're choosing a company with a three-generation family commitment to trustworthy, high-quality service. We provide honest assessments, transparent pricing with no hidden fees, and stand behind our work with comprehensive warranties.`
 
   const defaultServices = [
-    { title: 'Air Conditioning Repair', description: '24/7 emergency AC repair services', link: '/services/residential/air-conditioning' },
+    { title: 'Air Conditioning Repair', description: 'Fast, same-day AC repair services', link: '/services/residential/air-conditioning' },
     { title: 'Heating Services', description: 'Furnace repair, maintenance & installation', link: '/services/residential/heating' },
     { title: 'HVAC Installation', description: 'New system installation & replacement', link: '/services/residential/air-conditioning' },
     { title: 'Maintenance Plans', description: 'Preventive maintenance to extend system life', link: '/services/residential/air-conditioning' },
