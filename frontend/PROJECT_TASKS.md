@@ -1,122 +1,25 @@
-# DFW HVAC Website - Project Tasks
+# DFW HVAC Website - Consolidated Task List
 
-## Current Status
-**Phase:** Development  
-**Caching Mode:** Development (No Cache) - optimized for content iteration speed
+**Last Updated:** February 2025  
+**Status:** Development Phase  
+**Caching Mode:** Development (No Cache)
 
 ---
 
-## 🔴 Priority Tasks (P0)
+## 🔴 P0 - Critical / Pre-Launch Blockers
 
 ### Lead Capture Form Backend
 - [ ] Implement email notifications using Resend when lead form is submitted
 - [ ] Configure Resend API integration
 - [ ] Set up email templates for lead notifications
 - [ ] Test form submission flow end-to-end
+- [ ] Verify emails are delivered to correct recipient
 
----
+### Legal Pages (Required for Compliance)
+- [ ] Create `/privacy-policy` content in Sanity
+- [ ] Create `/terms-of-service` content in Sanity
 
-## 🟡 Upcoming Tasks (P1)
-
-### Content Creation (In Sanity Studio)
-- [ ] Create `/case-studies` page content
-- [ ] Create `/financing` page content
-- [ ] Create `/cities-served` page content
-- [ ] Create `/privacy-policy` page content
-- [ ] Create `/terms-of-service` page content
-
-### SEO Enhancements
-- [ ] Generate dynamic `sitemap.xml` from Sanity content
-- [ ] Add structured data for service pages
-- [ ] Optimize meta descriptions for all pages
-- [ ] **City Page SEO Descriptions** - Rewrite city descriptions (currently 30-45 words) to 300-500 words with HVAC keywords + local context. Options: place at bottom of page, distribute throughout page, or use collapsible section. Priority cities first (Coppell, Dallas, Grapevine, etc.)
-
----
-
-## 🔵 Future Tasks (P2)
-
-### Marketing & Analytics Integration
-- [ ] Facebook Pixel integration
-- [ ] Google Analytics 4 (GA4) integration
-- [ ] Google Tag Manager (GTM) setup
-
-### Performance & Launch Preparation
-- [ ] **Switch to Production Caching Mode**
-  - Create `/api/revalidate` webhook endpoint
-  - Configure Sanity webhook for on-publish revalidation
-  - Re-enable CDN caching (`useCdn: true`)
-  - Set proper `revalidate` values on pages
-  - Test webhook revalidation flow
-  - *Estimated time: 15-20 minutes*
-- [ ] Convert dynamic brand colors to static Tailwind CSS (performance optimization)
-- [ ] Custom domain setup and configuration
-- [ ] SSL certificate verification
-- [ ] Performance audit (Core Web Vitals)
-
-### Feature Enhancements
-- [ ] Clean URLs - Remove `/services/` prefix from service page routes
-- [ ] Service visibility toggle - Add publish/unpublish feature for individual services in Sanity
-- [ ] Seasonal homepage strategy - Implement logic to show season-specific content (summer AC focus, winter heating focus)
-
-### Code Cleanup
-- [ ] Remove `/app/frontend/lib/mockData.js` (all data migrated to Sanity)
-- [ ] Audit components for any remaining hardcoded content
-- [ ] Remove unused dependencies from `package.json`
-
----
-
-## ✅ Completed Tasks
-
-### Sanity CMS Migration
-- [x] Migrate all website content to Sanity Studio
-- [x] Homepage content fully editable in Sanity
-- [x] Service pages content in Sanity
-- [x] Company pages (About, Contact) in Sanity
-- [x] Navigation and footer editable in Sanity
-- [x] Lead form text editable in Sanity
-- [x] Brand colors configurable in Sanity
-
-### Google Reviews Import
-- [x] Import 130 customer reviews from CSV
-- [x] Fix data alignment issues
-- [x] Filter blank reviews from display
-
-### Dynamic Page System
-- [x] Create `/[slug]/page.jsx` for Sanity-driven pages
-- [x] Allow new pages to be created entirely from Sanity
-
-### SEO Implementation
-- [x] Dynamic LocalBusiness schema markup
-- [x] Dynamic Review schema markup
-- [x] Dynamic FAQ schema markup
-- [x] Page-specific meta tags from Sanity
-
-### Sanity Studio Enhancements
-- [x] Add "Unpublished Drafts" view to Studio sidebar
-- [x] Clean up duplicate content entries
-
-### Service Area Analysis
-- [x] Generate high-accuracy drive-time analysis using OpenRouteService API
-- [x] Create service area map with zip code boundaries
-- [x] Export CSV with zone percentages per zip code
-
-### Brand Strategy
-- [x] Competitor analysis (12 DFW HVAC companies)
-- [x] Three-pillar brand framework development
-- [x] Brand messaging and positioning documentation
-
----
-
-## 🔴 PRE-LAUNCH CHECKLIST (Do Not Skip Before Going Live)
-
-> **Important:** Complete ALL items before removing development mode and launching to production.
-
----
-
-### MIGRATION: Existing Site (www.dfwhvac.com)
-*Critical steps to preserve SEO equity from current Wix site*
-
-#### 301 Redirects (Must be configured before launch)
+### 301 Redirects (Must be configured before launch)
 | Old URL | New URL | Status |
 |---------|---------|--------|
 | `/scheduleservicecall` | `/contact` | [ ] |
@@ -126,207 +29,198 @@
 | `/seasonalmaintenance` | `/services/residential/preventative-maintenance` | [ ] |
 | `/testresults` | `/services/residential/indoor-air-quality` | [ ] |
 
-#### Redirect Implementation
-- [ ] Create `/app/frontend/next.config.js` redirects array OR
-- [ ] Configure redirects in Vercel dashboard (Settings → Redirects)
-- [ ] Test all redirects before launch (visit old URLs, confirm they redirect)
+- [ ] Create redirects in `next.config.js` OR Vercel dashboard
+- [ ] Test all redirects before launch
 
-#### Google Business Profile
-- [ ] **Do NOT modify GBP until new site is live**
-- [ ] **After launch:** Update website URL in GBP if changed
-- [ ] **After launch:** Verify GBP links to correct pages (services, contact, etc.)
-- [ ] **Monitor GBP insights** for 2 weeks post-launch for any traffic changes
+### Custom Domain Setup
+- [ ] Configure DNS records (A record, CNAME)
+- [ ] Verify SSL certificate is active
+- [ ] Test www vs non-www redirect
 
-#### Post-Migration Monitoring (First 2 Weeks)
+---
+
+## 🟡 P1 - Important / Pre-Launch
+
+### Content Creation (In Sanity Studio)
+- [ ] Create `/case-studies` page content
+- [ ] Create `/financing` page content
+- [ ] Finalize all service page content
+
+### SEO Implementation (Structural)
+- [ ] Generate dynamic `sitemap.xml` from Sanity content
+- [ ] Create `robots.txt`
+- [ ] Add canonical URL tags to all pages
+- [ ] Add Service schema markup to service pages
+- [ ] Add BreadcrumbList schema to service pages
+- [ ] Expand structured data (Review schema on more pages)
+
+### YouTube Video Embed
+- [ ] Add YouTube video to Indoor Air Quality page
+- [ ] Use Lite YouTube Embed method for performance
+- [ ] Video URL: https://www.youtube.com/watch?v=1ChdZMrkLeM
+
+### Conversion Optimization
+- [ ] Add sticky mobile CTA bar with click-to-call
+- [ ] Ensure trust badges visible above fold on all pages
+- [ ] Add scroll-triggered secondary CTA on long pages
+
+### Internal Linking
+- [ ] Cross-link service pages to relevant city pages
+- [ ] Cross-link city pages to relevant service pages
+- [ ] Add "Nearby Cities" sections on city pages
+
+### Performance Optimization
+- [ ] Run Lighthouse audit - Target: Performance >90, SEO >95, Accessibility >90
+- [ ] Fix any critical issues flagged
+- [ ] Image optimization - verify all use Next.js `<Image>`
+- [ ] Font optimization - use `next/font`
+
+### Pre-Launch Verification
+- [ ] Mobile test on real devices (iPhone, Android)
+- [ ] Cross-browser test (Chrome, Safari, Firefox, Edge)
+- [ ] Verify all forms submit correctly
+- [ ] Check for broken links
+- [ ] Verify phone number click-to-call works on mobile
+- [ ] Confirm custom 404 page exists
+
+---
+
+## 🔵 P2 - Post-Launch / Future
+
+### Switch to Production Caching Mode
+- [ ] Create `/api/revalidate` webhook endpoint
+- [ ] Configure Sanity webhook for on-publish revalidation
+- [ ] Re-enable CDN caching (`useCdn: true`)
+- [ ] Set proper `revalidate` values on pages
+- [ ] Test webhook revalidation flow
+
+### Marketing & Analytics Integration
+- [ ] Google Analytics 4 (GA4) integration
+- [ ] Google Tag Manager (GTM) setup
+- [ ] Facebook Pixel integration
+- [ ] Set up conversion goals for form submissions
+
+### Google Business Profile (Launch Day)
+- [ ] Claim & verify listing at business.google.com
+- [ ] Complete all business info (name, address, phone, hours, website)
+- [ ] Add all HVAC services offered
+- [ ] Add all 28 service area cities
+- [ ] Upload photos (trucks, team, completed jobs, office)
+- [ ] Create first post (website launch or seasonal promotion)
+
+### Local Citations (First 30 Days)
+- [ ] Yelp - Claim/create listing
+- [ ] BBB (Better Business Bureau) - Register business
+- [ ] Angi (formerly Angie's List) - Create profile
+- [ ] HomeAdvisor - Create profile
+- [ ] Thumbtack - Create profile
+- [ ] Facebook Business Page - Create/claim
+- [ ] Nextdoor Business - Claim listing
+- [ ] Apple Maps - Submit via Apple Business Connect
+- [ ] Bing Places - Claim listing
+- [ ] Yellow Pages / YP.com - Create listing
+
+### Reviews Strategy
+- [ ] Request reviews from 5 happy customers
+- [ ] Set up review response process (respond within 48 hours)
+- [ ] Create review request email/text template
+
+### Post-Migration Monitoring (First 2 Weeks)
 - [ ] Check Google Search Console daily for crawl errors
-- [ ] Monitor for 404 errors (indicates missed redirects)
+- [ ] Monitor for 404 errors
 - [ ] Watch for ranking drops on key terms
-- [ ] Verify all old indexed URLs redirect properly (search `site:dfwhvac.com` in Google)
+- [ ] Verify old indexed URLs redirect properly
+
+### City Page SEO Enhancement
+- [ ] Rewrite city descriptions to 300-500 words with HVAC keywords + local context
+- [ ] Options: bottom of page, distributed throughout, or collapsible section
+- [ ] Priority cities first: Coppell, Dallas, Grapevine, Lewisville, Carrollton, etc.
+
+### City + Service Combination Pages (Local SEO)
+- [ ] Create pages like `/dallas-ac-repair/`, `/plano-heating-service/`
+- [ ] Target high-converting local search terms
+
+### Feature Enhancements
+- [ ] Clean URLs - Remove `/services/` prefix from service page routes
+- [ ] Service visibility toggle - Add publish/unpublish feature in Sanity
+- [ ] Seasonal homepage strategy - Summer AC focus / Winter heating focus
+- [ ] Service area map on Cities Served hub page
+- [ ] Add Google Business Profile link in footer
+
+### Code Cleanup
+- [ ] Remove `/app/frontend/lib/mockData.js` (data migrated to Sanity)
+- [ ] Audit components for remaining hardcoded content
+- [ ] Remove unused dependencies from `package.json`
+- [ ] Archive analysis scripts (`/app/*.py`)
+- [ ] Convert dynamic brand colors to static Tailwind CSS
+
+### Phone System Audio (Awaiting User Input)
+- [ ] Get final scripts from stakeholder
+- [ ] Select voice (samples at `/public/voice-previews/`)
+- [ ] Generate production MP3 files
 
 ---
 
-### PHASE 1: While Building (Do Now)
-*Focus on things that are hard to change later*
+## 🟢 Ongoing Monthly Maintenance
 
-- [ ] **Finalize URL Structure** - Changing URLs after Google indexes them hurts SEO
-  - Lock in `/cities-served/[city]` structure ✅ Done
-  - Lock in `/services/[category]/[service]` structure ✅ Done
-- [ ] **Complete Legal Pages** (Required for compliance - Google may flag sites without them)
-  - Create `/privacy-policy` content in Sanity
-  - Create `/terms-of-service` content in Sanity
-- [ ] **Ensure Mobile Responsiveness** - 60%+ of local searches are mobile
-  - Test on actual mobile devices, not just DevTools
-- [ ] **Verify Schema Markup** - Test at validator.schema.org
-  - LocalBusiness schema ✅ Implemented
-  - Review schema ✅ Implemented
-  - FAQ schema ✅ Implemented
-
----
-
-### PHASE 2: Pre-Launch (Content Finalized)
-
-#### Required Blockers
-- [ ] **Lead Capture Form Backend (Resend)**
-  - Configure Resend API integration
-  - Set up email templates for lead notifications
-  - Test form submission flow end-to-end
-  - Verify emails are delivered to correct recipient
-- [ ] **Custom Domain Setup**
-  - Configure DNS records (A record, CNAME)
-  - Verify SSL certificate is active
-  - Test www vs non-www redirect
-  - Update all hardcoded URLs if any
-
-#### Content Completion
-- [ ] **Finalize All Service Pages** - Review and complete all service page content
-- [ ] **Create Remaining Pages in Sanity**
-  - `/case-studies` (if launching with this)
-  - `/financing` (if launching with this)
-- [ ] **Phone System Audio Files** (if needed for launch)
-  - Get final scripts from stakeholder
-  - Select voice (samples at `/public/voice-previews/`)
-  - Generate production MP3 files
-
-#### Performance Optimization
-- [ ] **Run Lighthouse Audit** - Establish baseline
-  - Target: Performance >90, SEO >95, Accessibility >90
-- [ ] **Fix Critical Issues Flagged** - Address any red flags from Lighthouse
-- [ ] **Switch to Production Caching Mode**
-  - Re-enable `useCdn: true` in `/app/frontend/lib/sanity.js`
-  - Change `export const dynamic = 'force-dynamic'` to `export const revalidate = 3600` on pages:
-    - `/app/frontend/app/page.js`
-    - `/app/frontend/app/services/[category]/[slug]/page.jsx`
-    - `/app/frontend/app/[slug]/page.jsx`
-    - `/app/frontend/app/faq/page.jsx`
-    - `/app/frontend/app/reviews/page.jsx`
-    - `/app/frontend/app/about/page.jsx`
-    - `/app/frontend/app/contact/page.jsx`
-    - `/app/frontend/app/cities-served/page.jsx`
-    - `/app/frontend/app/cities-served/[slug]/page.jsx`
-  - Create `/app/frontend/app/api/revalidate/route.js` webhook endpoint
-  - Configure Sanity webhook: Settings → API → Webhooks → POST to `https://yourdomain.com/api/revalidate`
-  - Test: publish in Sanity → verify instant update
-- [ ] **Image Optimization**
-  - Verify all images use Next.js `<Image>` with width/height
-  - Confirm Sanity images use CDN with auto format/quality
-  - Add `loading="lazy"` for below-fold images
-- [ ] **Font Optimization** - Use `next/font` for self-hosted fonts
-- [ ] **Bundle Analysis** - Run `yarn analyze`, reduce oversized dependencies
-- [ ] **Convert Brand Colors to Static Tailwind** - Remove runtime CSS variable overhead
-
-#### SEO Setup
-- [ ] **Create XML Sitemap** - `/app/frontend/app/sitemap.js`
-- [ ] **Create robots.txt** - `/app/frontend/public/robots.txt`
-- [ ] **Canonical URLs** - Add to all pages
-- [ ] **Open Graph Images** - Set in Sanity siteSettings
-- [ ] **Service Schema Markup** - Add to each service page
-- [ ] **Internal Linking** - Cross-link related services
-
-#### Code Cleanup
-- [ ] **Remove mockData.js** - `/app/frontend/lib/mockData.js` (all data in Sanity now)
-- [ ] **Audit for Hardcoded Content** - Search for any remaining hardcoded text
-- [ ] **Remove Unused Dependencies** - Audit `package.json`
-- [ ] **Clean Up Analysis Scripts** - Move or archive `/app/*.py` scripts
-
-#### Pre-Launch Verification
-- [ ] **Core Web Vitals** - LCP <2.5s, FID <100ms, CLS <0.1
-- [ ] **Mobile Test** - Test on real devices (iPhone, Android)
-- [ ] **Cross-Browser Test** - Chrome, Safari, Firefox, Edge
-- [ ] **Form Testing** - Verify lead submissions + email delivery
-- [ ] **404 Page** - Confirm custom 404 exists and looks professional
-- [ ] **All Links Working** - Check for broken internal/external links
-- [ ] **Phone Number Click-to-Call** - Verify `tel:` links work on mobile
-
----
-
-### PHASE 3: Launch Day
-*The single most important action for a local HVAC company*
-
-#### Google Business Profile (Critical - 80% of leads come from Google Maps / "near me" searches)
-- [ ] **Claim & Verify Listing** - business.google.com
-- [ ] **Complete All Business Info** - Name, address, phone, hours, website
-- [ ] **Add All Services** - List every HVAC service offered
-- [ ] **Add Service Areas** - All 24 target cities
-- [ ] **Upload Photos** - Trucks, team, completed jobs, office
-- [ ] **Link to Website** - Ensure URL is correct
-- [ ] **Create First Post** - Announce website launch or seasonal promotion
-
----
-
-### PHASE 4: Post-Launch (First 30 Days)
-
-#### Week 1
-- [ ] **Submit Sitemap to Google Search Console** (15 min)
-  - Verify domain ownership
-  - Submit sitemap.xml
-  - Check for any crawl errors
-- [ ] **Set Up Google Analytics 4** (30 min)
-  - Verify tracking is firing on all pages
-  - Set up conversion goals for form submissions
-- [ ] **Facebook Pixel** - Verify firing (if applicable)
-- [ ] **Monitor for Errors** - Check browser console, server logs first 24-48 hours
-
-#### Week 2-4: Build Local Citations (2 hours total)
-- [ ] **Yelp** - Claim/create listing
-- [ ] **BBB (Better Business Bureau)** - Register business
-- [ ] **Angi (formerly Angie's List)** - Create profile
-- [ ] **HomeAdvisor** - Create profile
-- [ ] **Thumbtack** - Create profile
-- [ ] **Facebook Business Page** - Create/claim
-- [ ] **Nextdoor Business** - Claim listing
-- [ ] **Apple Maps** - Submit via Apple Business Connect
-- [ ] **Bing Places** - Claim listing
-- [ ] **Yellow Pages / YP.com** - Create listing
-
-#### Reviews Strategy (Ongoing)
-- [ ] **Request Reviews from 5 Happy Customers** - Direct link to Google review
-- [ ] **Set Up Review Response Process** - Respond to all reviews within 48 hours
-- [ ] **Create Review Request Email/Text Template** - For ongoing use
-
-#### Week 3-4
-- [ ] **Check Search Console for Crawl Errors** (15 min)
-- [ ] **Review Which Pages Get Traffic** - Optimize those first (30 min)
-
----
-
-### PHASE 5: Ongoing Monthly Maintenance (1-2 Hours/Month)
-
-- [ ] Add 1-2 Google Business posts per month (signals activity to Google)
-- [ ] Respond to all new reviews (improves local ranking)
-- [ ] Check Search Console for new issues (catch problems early)
-- [ ] Update seasonal content (AC focus in summer, heating in winter)
+- [ ] Add 1-2 Google Business posts per month
+- [ ] Respond to all new reviews within 48 hours
+- [ ] Check Search Console for new issues
+- [ ] Update seasonal content (AC in summer, heating in winter)
 - [ ] Review analytics for top-performing pages
 
 ---
 
-### What NOT to Spend Money On (Yet)
+## ✅ Completed
 
-| Skip This | Why |
-|-----------|-----|
-| Paid SEO tools (Ahrefs, SEMrush) | Free tools are sufficient for a single-location business |
-| Paid backlink building | Focus on citations and reviews first |
-| PPC ads | Get organic foundation solid first |
-| SEO agencies | You can do 90% of local SEO yourself |
+### Phase 1: CMS Architecture (Feb 2025)
+- [x] Created `aboutPage` schema with brand pillars, timeline, statistics
+- [x] Created `contactPage` schema
+- [x] Created `trustSignals` schema
+- [x] Extended `siteSettings` with logo tagline, legacy statement, mission
+- [x] Extended `companyInfo` with legacy start year
+- [x] Updated all schema defaults to new brand messaging
 
----
+### Phase 2: Brand Content Migration (Feb 2025)
+- [x] Seeded Sanity with brand framework content
+- [x] Updated all service pages with brand messaging
+- [x] Updated Header/Footer with new taglines
+- [x] Updated HomePage fallback content
+- [x] Updated CompanyPageTemplate (story, values)
+- [x] Created AboutPageTemplate with brand pillars
+- [x] Added Legacy Timeline to About page
+- [x] Fixed Portable Text paragraph spacing
 
-### Minimum Viable SEO (If Nothing Else, Do These 5 Things)
+### Google Reviews Auto-Sync (Feb 2025)
+- [x] Configured new Google Places API key
+- [x] Tested sync endpoint - live data (5.0 rating, 135 reviews)
+- [x] Updated Sanity CMS with live data
+- [x] Removed hardcoded review counts
+- [x] Connected About page stats to dynamic data
+- [x] Vercel cron configured for daily sync at 6 AM UTC
 
-1. ✅ **Google Business Profile** (claimed & optimized)
-2. ✅ **Google Search Console** (sitemap submitted)
-3. ✅ **10 local citations** (Yelp, BBB, Angi, etc.)
-4. ✅ **5+ Google reviews** (ask customers)
-5. ✅ **Mobile-friendly site** (test on real phone)
+### City Pages (Feb 2025)
+- [x] Added 31 missing zip codes to website
+- [x] Created 4 new city pages (Lewisville, Arlington, Haslet, Mansfield)
+- [x] Updated priorities based on drive-time zones
+- [x] Connected trust badges to CMS
+- [x] Removed zip code count display
 
-*This covers 80% of local SEO value with 20% of the effort.*
+### UI Fixes (Feb 2025)
+- [x] Fixed logo white edges in footer (clip path)
+- [x] Created Services hub page (`/services`)
+- [x] Removed "Write a Google Review" button from reviews page
+- [x] Added Handshake icon option to homepage trust items
+- [x] Added Trending Up icon to trust badges
 
----
-
-### Future Enhancements (Post-Launch)
-- [ ] **Clean URLs** - Remove `/services/` prefix from routes
-- [ ] **Service Visibility Toggle** - Add publish/unpublish in Sanity
-- [ ] **Seasonal Homepage Strategy** - Summer AC focus / Winter heating focus
-- [ ] **Auto-generated Cities Served Page** - List 200 zip codes by zone for local SEO
+### Previous Completions
+- [x] Service Area Analysis (4-zone model)
+- [x] Sanity CMS Migration (all content)
+- [x] Google Reviews Import (130 reviews)
+- [x] Dynamic Page System
+- [x] SEO Schema Markup (LocalBusiness, Review, FAQ)
+- [x] TTS Voice Previews (9 samples)
+- [x] Brand Strategy & Competitor Analysis
 
 ---
 
@@ -342,18 +236,16 @@ export const dynamic = 'force-dynamic'
 export const revalidate = 0
 ```
 
-### Production Caching Configuration (To Be Implemented)
-```javascript
-// /app/frontend/lib/sanity.js
-useCdn: true  // Use CDN for fast reads
+### Google Places API
+- Key configured in `.env.local`
+- Auto-sync runs daily at 6 AM UTC via Vercel cron
+- Endpoint: `/api/cron/sync-reviews`
 
-// Page files
-export const revalidate = 3600  // Static generation with ISR
-
-// Plus webhook-based on-demand revalidation
-// /api/revalidate endpoint
-```
+### Preview URLs
+- **Site:** https://hvac-evolution.preview.emergentagent.com
+- **CMS:** https://hvac-evolution.preview.emergentagent.com/studio
+- **Vercel:** https://website-dfw-ii-b4zk.vercel.app
 
 ---
 
-*Last Updated: January 2025*
+*This is the single source of truth for all project tasks.*
