@@ -26,7 +26,7 @@ const serviceData = {
             'Central air conditioning repair and installation',
             'Ductless mini-split systems',
             'AC unit replacement and upgrades',
-            'Emergency AC repair services',
+            'Same-day AC repair services',
             'Preventive maintenance programs',
             'Energy efficiency assessments'
           ]
