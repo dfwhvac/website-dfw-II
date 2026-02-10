@@ -295,6 +295,7 @@ const HomePage = ({
                 shield: Shield,
                 clock: Clock,
                 trending: TrendingUp,
+                handshake: Handshake,
               }[item.icon] || Shield
               
               return (
