@@ -60,7 +60,7 @@ export default {
       type: 'text',
       group: 'seo',
       description: 'Description for search results (150-160 chars)',
-      initialValue: 'Read 130+ 5-star reviews from real DFW HVAC customers. Family-owned HVAC contractor serving Dallas-Fort Worth since 1974. See why customers trust us.',
+      initialValue: 'Read 5-star reviews from real DFW HVAC customers. Three generations of trusted HVAC service in Dallas-Fort Worth. See why customers trust us.',
       validation: Rule => Rule.max(200),
     },
   ],
