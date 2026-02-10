@@ -670,7 +670,7 @@ const serviceData = {
           includes: [
             'Weekly inspections',
             'Dedicated account manager',
-            '24/7 priority service',
+            'Same-day priority service',
             '20% repair discount'
           ]
         }
