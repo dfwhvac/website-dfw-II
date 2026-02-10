@@ -62,7 +62,7 @@ const defaultFaqs = [
     answer: 'Yes, we require an adult (18+) to be present during service calls for safety and liability reasons. This also allows our technician to explain findings, discuss options, and answer any questions you may have about your system.' },
   { _id: 'rsc3', category: 'residential-scheduling', order: 3,
     question: 'What are your business hours?',
-    answer: 'Our regular business hours are Monday through Friday, 7:00 AM to 7:00 PM, and Saturday 8:00 AM to 5:00 PM. For emergencies, we offer 24/7 service. Call our main line anytime and you\'ll reach our emergency dispatch during off-hours.' },
+    answer: 'Our regular business hours are Monday through Friday, 7:00 AM to 7:00 PM, and Saturday 8:00 AM to 1:00 PM. We are closed on Sundays. For issues that arise over the weekend, we prioritize Monday morning appointments to get your system back up and running quickly.' },
 
   // Residential - Equipment (4)
   { _id: 're1', category: 'residential-equipment', order: 1,
