@@ -1,10 +1,10 @@
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { client, getCompanyInfo, getSiteSettings } from '@/lib/sanity'
+import { client, getCompanyInfo, getSiteSettings, getTrustSignals } from '@/lib/sanity'
 import { companyInfo as mockCompanyInfo } from '@/lib/mockData'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { Phone, MapPin, CheckCircle, ArrowRight, Clock, Shield, Star } from 'lucide-react'
+import { Phone, MapPin, CheckCircle, ArrowRight, Clock, Shield, Star, Award, Users, Calendar } from 'lucide-react'
 
 // Disable caching for instant Sanity updates
 export const dynamic = 'force-dynamic'
