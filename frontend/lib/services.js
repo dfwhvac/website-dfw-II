@@ -60,7 +60,7 @@ const serviceData = {
           title: 'Why Choose DFW HVAC',
           reasons: [
             'Three-generation family legacy of HVAC excellence',
-            '5.0-star Google rating with 130+ reviews',
+            '5-star Google rating',
             'Licensed, bonded, and insured technicians',
             'Transparent pricing with no hidden fees',
             'Respectful of your home and time',
@@ -186,7 +186,7 @@ const serviceData = {
           title: 'Why Choose DFW HVAC',
           reasons: [
             'Three-generation family legacy of HVAC excellence',
-            '5.0-star Google rating with 130+ reviews',
+            '5-star Google rating',
             'Licensed, bonded, and insured technicians',
             'Transparent pricing with no hidden fees',
             'Respectful of your home and time',
