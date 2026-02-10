@@ -137,7 +137,7 @@ const AboutPageTemplate = ({
   const valuesSubtitle = aboutPage?.valuesSubtitle || 'The pillars that guide everything we do'
   const brandPillars = aboutPage?.brandPillars?.length > 0 ? aboutPage.brandPillars : defaultBrandPillars
   
-  const statistics = aboutPage?.statistics?.length > 0 ? aboutPage.statistics : defaultStatistics
+  const statistics = getDynamicStatistics(companyInfo, aboutPage?.statistics)
   
   const legacyTimeline = aboutPage?.legacyTimeline || []
   
