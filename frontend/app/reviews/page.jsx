@@ -71,7 +71,7 @@ export default async function ReviewsPage() {
                 </div>
                 <div className="flex items-center gap-2">
                   <Award className="w-5 h-5" />
-                  <span>50+ Years Experience</span>
+                  <span>Three-Generation Legacy</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Star className="w-5 h-5 fill-current text-yellow-400" />
