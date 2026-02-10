@@ -99,6 +99,7 @@ export default async function CityPage({ params }) {
     'users': Users,
     'phone': Phone,
     'calendar': Calendar,
+    'trending-up': TrendingUp,
   }
   
   // Default trust badges
