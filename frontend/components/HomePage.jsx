@@ -18,7 +18,8 @@ import {
   Building,
   CheckCircle,
   TrendingUp,
-  Award
+  Award,
+  Handshake
 } from 'lucide-react'
 import { companyInfo as defaultCompanyInfo, services as defaultServices, testimonials as defaultTestimonials } from '../lib/mockData'
 
