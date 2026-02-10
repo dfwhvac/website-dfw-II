@@ -11,7 +11,7 @@ const serviceData = {
       heroContent: {
         title: 'Professional Air Conditioning Services',
         subtitle: 'Expert Service with Integrity and Care',
-        description: 'From routine maintenance to emergency repairs, our licensed technicians deliver honest assessments and quality workmanship for your home\'s cooling needs.',
+        description: 'From routine maintenance to same-day repairs, our licensed technicians deliver honest assessments and quality workmanship for your home\'s cooling needs.',
         benefits: [
           'Honest assessments with transparent pricing',
           'Licensed & insured technicians',
