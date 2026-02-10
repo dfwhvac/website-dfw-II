@@ -115,7 +115,7 @@ export default async function ServicePage({ params }) {
         title: service.emergencyTitle || 'Fast Response Service',
         description: service.emergencyDescription || 'When your HVAC system fails, you need fast, reliable service you can trust. Our team responds quickly with honest solutions.',
         features: service.emergencyFeatures || [
-          'Available 24/7 for Emergencies',
+          'Same-Day Service Available',
           'Fast Response Time',
           'Honest Diagnosis & Fair Pricing',
         ],
