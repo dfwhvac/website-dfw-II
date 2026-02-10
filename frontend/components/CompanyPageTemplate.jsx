@@ -195,7 +195,7 @@ const CompanyPageTemplate = ({
                     <div>
                       <h3 className="font-semibold text-gray-900">Phone</h3>
                       <p className="text-gray-600">{phone}</p>
-                      <p className="text-sm text-gray-500">Available 24/7 for emergencies</p>
+                      <p className="text-sm text-gray-500">Same-day service M-Sat</p>
                     </div>
                   </div>
                   
