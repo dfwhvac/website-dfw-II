@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = createMetadata({
   title: 'DFW HVAC - Dallas-Fort Worth\'s Trusted HVAC Experts',
-  description: 'Family owned Air Conditioning and Heating contractor serving Dallas - Fort Worth and surrounding areas since 1974. Professional HVAC service with 5.0 Google rating.',
+  description: 'Expert HVAC service with integrity and care. Three generations of trusted heating & cooling service in Dallas-Fort Worth. Call (972) 777-COOL.',
 })
 
 export default async function RootLayout({ children }) {
