@@ -75,7 +75,7 @@ export default {
       title: 'Emergency Service Text',
       type: 'string',
       group: 'content',
-      initialValue: '24/7 Emergency Service Available',
+      initialValue: 'Same-Day Service Available',
     },
 
     // Form Section
