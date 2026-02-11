@@ -105,7 +105,7 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
             <div className="flex items-center gap-4">
               <a href="tel:+19727772665" className="flex items-center gap-2 text-vivid-red font-semibold hover:underline">
                 <Phone className="w-4 h-4" />
-                <span>{phone}</span>
+                <span>{phone} <span className="text-gray-400 font-normal text-xs">(2665)</span></span>
               </a>
               <Button 
                 size="sm" 

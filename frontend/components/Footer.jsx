@@ -140,7 +140,7 @@ const Footer = ({ companyInfo = {}, siteSettings = null }) => {
                 <Phone className="w-4 h-4 text-vivid-red" />
                 <div>
                   <div className="font-semibold underline underline-offset-2 decoration-gray-500">{phoneDisplay}</div>
-                  <div className="text-gray-400">Professional HVAC Service</div>
+                  <div className="text-gray-400 text-xs">(972) 777-2665</div>
                 </div>
               </a>
               <a href="/contact" className="flex items-center gap-3 text-sm text-white underline underline-offset-2 decoration-gray-500 hover:decoration-white transition-colors">
