@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { Button } from './ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
 import LeadForm from './LeadForm'
+import SimpleContactForm from './SimpleContactForm'
 import LinkedCityList from './LinkedCityList'
 import { 
   Phone, 
@@ -250,10 +251,7 @@ const CompanyPageTemplate = ({
 
               {/* Contact Form */}
               <div>
-                <LeadForm 
-                  title="Send Us a Message"
-                  description="Fill out the form below and we'll get back to you within 24 hours"
-                />
+                <SimpleContactForm />
               </div>
             </div>
           </div>
