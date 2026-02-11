@@ -175,7 +175,7 @@ const aboutPageContent = {
     { _key: 'stat1', value: '50+', label: 'Years of Family Legacy', suffix: '' },
     { _key: 'stat2', value: '5.0', label: 'Google Rating', suffix: 'Stars' },
     { _key: 'stat3', value: '130+', label: 'Customer Reviews', suffix: '' },
-    { _key: 'stat4', value: '24/7', label: 'Emergency Service', suffix: '' },
+    { _key: 'stat4', value: 'Same-Day', label: 'Service Available', suffix: '' },
   ],
   
   // Display options
@@ -189,16 +189,16 @@ const aboutPageContent = {
 const contactPageContent = {
   _type: 'contactPage',
   metaTitle: 'Contact Us | DFW HVAC - Expert HVAC Service',
-  metaDescription: 'Contact DFW HVAC for expert heating and cooling services in Dallas-Fort Worth. Available 24/7 for emergencies. Experience service with integrity and care.',
+  metaDescription: 'Contact DFW HVAC for expert heating and cooling services in Dallas-Fort Worth. Same-day service available Monday-Friday. Call (972) 777-COOL.',
   
   heroTitle: 'Contact Us',
   heroSubtitle: "We're Here to Help",
   heroDescription: 'Have a question or need service? Our team is ready to provide expert HVAC service with integrity and care.',
   
   contactSectionTitle: 'Get In Touch',
-  phoneDescription: 'Available 24/7 for emergencies',
+  phoneDescription: 'Same-day service available Monday-Friday',
   emailDescription: 'We respond within 24 hours',
-  emergencyText: '24/7 Emergency Service Available',
+  emergencyText: 'Same-Day Service Available',
   
   formTitle: 'Send Us a Message',
   formDescription: "Fill out the form below and we'll get back to you within 24 hours",
@@ -216,7 +216,7 @@ const trustSignalsContent = {
     { _key: 'badge1', text: 'Licensed & Insured', icon: 'shield', order: 1 },
     { _key: 'badge2', text: 'Three-Generation Legacy', icon: 'award', order: 2 },
     { _key: 'badge3', text: '5.0 Google Rating', icon: 'star', order: 3 },
-    { _key: 'badge4', text: '24/7 Emergency Service', icon: 'clock', order: 4 },
+    { _key: 'badge4', text: 'Same-Day Service Available', icon: 'clock', order: 4 },
   ],
   
   whyChooseUsItems: [
@@ -256,14 +256,14 @@ const trustSignalsContent = {
     'Quality parts and meticulous workmanship',
     'Comprehensive warranties on all work',
     'Respectful of your home and time',
-    '24/7 emergency service available',
+    'Same-day service available Monday-Friday',
   ],
   
   emergencyServiceTitle: 'Fast Response Service',
   emergencyServiceDescription: 'When your HVAC system breaks down, you need fast, reliable service you can count on. Our team responds quickly with expert solutions.',
   emergencyServiceFeatures: [
-    '24/7 Emergency availability',
-    'Same-day service when possible',
+    'Same-day service availability',
+    'Fast response Monday-Friday',
     'Transparent pricing before work begins',
     'Expert diagnosis and repair',
   ],
