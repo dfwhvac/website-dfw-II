@@ -360,7 +360,7 @@ export default async function CityPage({ params }) {
               {companyInfo.phone}
             </a>
             <Link
-              href="/contact"
+              href="/estimate"
               className="inline-flex items-center justify-center gap-2 bg-[#003153] text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-[#00213a] transition-colors"
             >
               Request a Quote

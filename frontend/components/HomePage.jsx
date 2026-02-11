@@ -382,7 +382,7 @@ const HomePage = ({
               style={{"--hover-text-color": "#003153"}}
               asChild
             >
-              <Link href="/contact">
+              <Link href="/estimate">
                 Get Free Estimate
               </Link>
             </Button>
