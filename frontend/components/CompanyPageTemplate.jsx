@@ -26,7 +26,6 @@ const CompanyPageTemplate = ({
   cityPages = []
 }) => {
   const phone = companyInfo?.phone || '(972) 777-COOL'
-  const email = companyInfo?.email || 'info@dfwhvac.com'
   const address = companyInfo?.address || '556 S Coppell Rd Ste 103, Coppell, TX 75019'
   const googleReviews = companyInfo?.googleReviews || 129
   const businessHours = companyInfo?.businessHours || {}
