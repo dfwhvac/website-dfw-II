@@ -20,84 +20,84 @@ Build a premium, conversion-focused website for DFW HVAC company using Next.js f
 ## Current Status
 **Phase:** Development
 **Caching Mode:** Development (No Cache) - optimized for content iteration
+**Last Updated:** February 2025
 
 ---
 
 ## Completed Work
 
-### ✅ Service Area Analysis (January 2025)
-- **4-Zone Model Successfully Completed**
-  - HQ: 556 S. Coppell Rd, Coppell, TX 75019
-  - Zone 1 (<11 min): 4 zip codes | 86,923 housing units | Avg income: $106,384
-  - Zone 2 (11-20 min): 34 zip codes | 489,498 housing units | Avg income: $97,543
-  - Zone 3 (21-30 min): 67 zip codes | 966,255 housing units | Avg income: $90,355
-  - Zone 4 (31-45 min): 34 zip codes | 489,950 housing units | Avg income: $102,333
-  - Zone 5 (>45 min): Outside service area (no data)
-  - **Total:** 139 zip codes | 2M+ housing units | 59.1% single-family homes
-  
-- **Output Files:**
-  - `/app/frontend/public/DFW_HVAC_Service_Area_4Zone.csv` - Full data with demographics
-  - `/app/frontend/public/dfw_service_area_map_4zone.png` - Visual map
+### Phase 1: CMS Architecture (Feb 2025)
+- Created `aboutPage`, `contactPage`, `trustSignals` schemas
+- Extended `siteSettings` with logo tagline, legacy statement, mission
+- Extended `companyInfo` with legacy start year
+- Updated all schema defaults to new brand messaging
 
-### ✅ Sanity CMS Migration
-- All website content editable in Sanity Studio
-- Homepage, service pages, company pages complete
-- Navigation and footer configurable
-- Brand colors in Sanity (simplified schema)
-- Lead form text editable
+### Phase 2: Brand Content Migration (Feb 2025)
+- Seeded Sanity with brand framework content
+- Updated all service pages, Header/Footer, HomePage
+- Created AboutPageTemplate with brand pillars and Legacy Timeline
+- Fixed Portable Text paragraph spacing
 
-### ✅ Brand Strategy
-- Competitor analysis (12 DFW HVAC companies)
-- Three-pillar brand framework
-- Brand messaging and positioning documentation
+### Google Reviews Auto-Sync (Feb 2025)
+- Google Places API integration (daily cron at 6 AM UTC)
+- Live data: 5.0 rating, 135+ reviews
+- Removed all hardcoded review counts
 
-### ✅ Google Reviews Import
-- 130 customer reviews imported
-- Data alignment issues fixed
+### City Pages (Feb 2025)
+- Added 31 missing zip codes
+- Created 4 new city pages (Lewisville, Arlington, Haslet, Mansfield)
+- Updated priorities based on drive-time zones
+- Connected trust badges to CMS
 
-### ✅ Dynamic Page System
-- `/[slug]/page.jsx` for Sanity-driven pages
+### UI Fixes (Feb 2025)
+- Fixed logo white edges in footer (clip path)
+- Created Services hub page (`/services`)
+- Removed "Write a Google Review" button
+- Added Handshake and Trending Up icons
 
-### ✅ SEO Implementation
-- LocalBusiness schema markup
-- Review schema markup
-- FAQ schema markup
-- Page-specific meta tags
+### About Page Reorder (Feb 2025)
+- Reordered content blocks to: Our Values -> Our Legacy -> Our Story
+- Optimized for visitor conversion (values-first approach)
 
-### ✅ TTS Voice Previews
-- 9 voice samples generated from OpenAI TTS
-- Located at `/app/frontend/public/voice-previews/`
+### Previous Completions
+- Service Area Analysis (4-zone model, 139 zip codes)
+- Sanity CMS Migration (all content)
+- Google Reviews Import (130 reviews)
+- Dynamic Page System
+- SEO Schema Markup (LocalBusiness, Review, FAQ)
+- TTS Voice Previews (9 samples)
+- Brand Strategy & Competitor Analysis
 
 ---
 
 ## Pending Tasks
 
+> **See `/app/frontend/PROJECT_TASKS.md` for the complete, authoritative checklist.**
+
 ### P0 - Critical
 - [ ] **Lead Capture Form Backend** - Implement email notifications using Resend
+- [ ] **Legal Pages** - Privacy Policy and Terms of Service
+- [ ] **301 Redirects** - 6 redirects for old URLs before launch
+- [ ] **Custom Domain Setup** - DNS, SSL, www redirect
 
-### P1 - Important  
-- [ ] **Phone System Audio Files** - Generate MP3s with final scripts (awaiting user input on voice selection and scripts)
-- [ ] **Build Remaining Pages** - Content creation in Sanity for:
-  - `/case-studies`
-  - `/financing`
-  - `/privacy-policy`
-  - `/terms-of-service`
-- [ ] **Dynamic sitemap.xml** - Generate from Sanity content
+### P1 - Important
+- [ ] **SEO Implementation** - sitemap.xml, robots.txt, canonical URLs, structured data
+- [ ] **Conversion Optimization** - Sticky mobile CTA, trust badges above fold
+- [ ] **YouTube Video Embed** - Indoor Air Quality page
+- [ ] **Content Creation** - Case studies, financing pages
+- [ ] **Internal Linking** - Cross-link services ↔ cities
+- [ ] **Performance Optimization** - Lighthouse audit
+- [ ] **Pre-Launch Verification** - Mobile/browser testing, forms, broken links
 
-### P2 - Future
-- [ ] **Production Caching Mode** - Webhook-based on-demand revalidation
-- [ ] **Marketing/Analytics** - Facebook Pixel, GA4/GTM integration
-- [ ] **Auto-generated Cities Served Page** - List all 139 zip codes grouped by zone for local SEO
-- [ ] **Clean URLs** - Remove `/services/` prefix from routes
-- [ ] **Code Cleanup** - Remove unused files, audit hardcoded content
-
----
-
-## 🚀 PRE-LAUNCH CHECKLIST
-
-> **See `/app/frontend/PROJECT_TASKS.md` for the complete, authoritative checklist.**
-> 
-> This includes: Required blockers, content completion, performance optimization, SEO, code cleanup, pre-launch verification, post-launch tasks, Google Business Profile setup, local citations, and reviews strategy.
+### P2 - Post-Launch
+- [ ] Production Caching Mode (webhook revalidation)
+- [ ] Marketing & Analytics (GA4, GTM, Facebook Pixel)
+- [ ] Google Business Profile setup
+- [ ] Local Citations (Yelp, BBB, Angi, etc.)
+- [ ] City Page SEO Enhancement (300-500 word descriptions)
+- [ ] City + Service Combination Pages
+- [ ] Feature Enhancements (clean URLs, seasonal strategy, etc.)
+- [ ] Code Cleanup (remove mockData.js, unused deps)
 
 ---
 
@@ -110,50 +110,16 @@ Build a premium, conversion-focused website for DFW HVAC company using Next.js f
 - **Database:** MongoDB
 - **Hosting:** Vercel
 
-### Key Files
-```
-/app/frontend/
-├── app/
-│   ├── [slug]/page.jsx      # Dynamic pages from Sanity
-│   ├── studio/              # Self-hosted Sanity Studio
-│   └── ...
-├── lib/
-│   └── sanity.js            # Sanity client (useCdn: false for dev)
-├── public/
-│   ├── DFW_HVAC_Service_Area_4Zone.csv    # Latest service area data
-│   ├── dfw_service_area_map_4zone.png     # Latest service area map
-│   └── voice-previews/                     # TTS samples
-└── sanity/
-    └── schemas/             # Content schemas
-
-/app/
-├── service_area_4zone_memory_efficient.py  # Service area analysis script
-└── ...
-```
-
 ### 3rd Party Integrations
 | Service | Status | Notes |
 |---------|--------|-------|
-| Sanity.io | ✅ Active | CMS |
-| OpenRouteService | ✅ Active | Drive-time isochrones |
-| US Census Bureau | ✅ Active | Demographics/geodata |
-| OpenAI TTS | ✅ Tested | Via Emergent LLM Key |
-| Resend | ⏳ Pending | For lead form emails |
-| Facebook Pixel | ⏳ Future | Marketing |
-| GA4/GTM | ⏳ Future | Analytics |
+| Sanity.io | Active | CMS |
+| Google Places API | Active | Daily review sync |
+| Vercel | Active | Hosting + cron jobs |
+| Resend | Pending | Lead form emails |
+| GA4/GTM | Future | Analytics |
+| Facebook Pixel | Future | Marketing |
 
 ---
 
-## Data Files Reference
-
-| File | Description | Last Updated |
-|------|-------------|--------------|
-| `DFW_HVAC_Service_Area_4Zone.csv` | 4-zone service area with demographics | Jan 2025 |
-| `dfw_service_area_map_4zone.png` | Service area visualization | Jan 2025 |
-| `DFW_HVAC_Brand_Framework_3Pillar.csv` | Brand positioning | Previous |
-| `DFW_HVAC_Competitor_Analysis.csv` | Competitive landscape | Previous |
-| `DFW_HVAC_Housing_Types.csv` | Housing demographics | Previous |
-
----
-
-*Last Updated: January 12, 2025*
+*Last Updated: February 11, 2025*
