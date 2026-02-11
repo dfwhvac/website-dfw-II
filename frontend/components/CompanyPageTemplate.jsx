@@ -195,7 +195,7 @@ const CompanyPageTemplate = ({
                     <div>
                       <h3 className="font-semibold text-gray-900">Phone</h3>
                       <p className="text-gray-600">{phone}</p>
-                      <p className="text-sm text-gray-500">Same-day service M-Sat</p>
+                      <p className="text-sm text-gray-500">Same-day service M-F</p>
                     </div>
                   </div>
                   
@@ -204,8 +204,8 @@ const CompanyPageTemplate = ({
                       <Mail className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900">Email</h3>
-                      <p className="text-gray-600">{email}</p>
+                      <h3 className="font-semibold text-gray-900">Send Us a Message</h3>
+                      <a href="/contact" className="text-electric-blue hover:underline">Contact Form</a>
                       <p className="text-sm text-gray-500">We respond within 24 hours</p>
                     </div>
                   </div>
