@@ -415,11 +415,9 @@ const CompanyPageTemplate = ({
               size="lg" 
               variant="outline"
               className="border-2 border-white text-white hover:bg-white hover:text-vivid-red font-semibold"
-              asChild
+              onClick={() => { if (typeof window !== 'undefined' && window.HCPWidget) window.HCPWidget.openModal() }}
             >
-              <Link href="/book-service">
-                Schedule Online
-              </Link>
+              Schedule Online
             </Button>
           </div>
         </div>
