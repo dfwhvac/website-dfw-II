@@ -91,7 +91,11 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
   const showHeaderTagline = siteSettings?.showHeaderTagline !== false
   const logoTagline = siteSettings?.logoTagline || 'Three Generations of Trusted Service'
   const navigation = siteSettings?.mainNavigation?.filter(item => item.isVisible !== false) || defaultNavigation
-  const ctaButtons = siteSettings?.ctaButtons || defaultCtaButtons
+  const rawCtaButtons = siteSettings?.ctaButtons || defaultCtaButtons
+  const ctaButtons = rawCtaButtons.map(btn => ({
+    ...btn,
+    isBooking: btn.isBooking || btn.href === '/book-service' || btn.href === '#booking'
+  }))
 
   return (
     <header className="bg-white shadow-lg border-b-2 border-electric-blue sticky top-0 z-50">
