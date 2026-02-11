@@ -62,7 +62,6 @@ export function LocalBusinessSchema({ companyInfo, cityPages = [] }) {
     "description": companyInfo.description || "",
     "url": "https://dfwhvac.com",
     "telephone": companyInfo.phone || "",
-    "email": companyInfo.email || "",
     "foundingDate": companyInfo.established || "1974",
     "address": {
       "@type": "PostalAddress",
