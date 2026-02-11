@@ -56,7 +56,7 @@ const siteSettings = {
   
   // CTA Buttons
   ctaButtons: [
-    { _key: 'cta1', label: 'Get Estimate', href: '/contact', variant: 'outline', order: 1 },
+    { _key: 'cta1', label: 'Get Estimate', href: '/estimate', variant: 'outline', order: 1 },
     { _key: 'cta2', label: 'Book Service', href: '/book-service', variant: 'primary', order: 2 },
   ],
   
