@@ -200,17 +200,6 @@ const CompanyPageTemplate = ({
                   
                   <div className="flex items-start gap-4">
                     <div className="bg-electric-blue rounded-full p-3">
-                      <Mail className="w-6 h-6 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900">Send Us a Message</h3>
-                      <a href="/contact" className="text-electric-blue hover:underline">Contact Form</a>
-                      <p className="text-sm text-gray-500">We respond within 24 hours</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start gap-4">
-                    <div className="bg-electric-blue rounded-full p-3">
                       <MapPin className="w-6 h-6 text-white" />
                     </div>
                     <div>
