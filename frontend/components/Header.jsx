@@ -226,14 +226,24 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
 
             <div className="pt-4 space-y-2">
               {ctaButtons.map((btn, index) => (
-                <Button 
-                  key={btn.href || index}
-                  variant={btn.variant === 'outline' ? 'outline' : 'default'}
-                  className={`w-full ${btn.variant !== 'outline' ? 'bg-electric-blue hover:bg-electric-blue text-white' : ''}`}
-                  asChild
-                >
-                  <Link href={btn.href}>{btn.label}</Link>
-                </Button>
+                btn.isBooking ? (
+                  <Button 
+                    key={btn.href || index}
+                    className={`w-full bg-electric-blue hover:bg-electric-blue text-white`}
+                    onClick={() => { setIsMobileMenuOpen(false); if (typeof window !== 'undefined' && window.HCPWidget) window.HCPWidget.openModal() }}
+                  >
+                    {btn.label}
+                  </Button>
+                ) : (
+                  <Button 
+                    key={btn.href || index}
+                    variant={btn.variant === 'outline' ? 'outline' : 'default'}
+                    className={`w-full ${btn.variant !== 'outline' ? 'bg-electric-blue hover:bg-electric-blue text-white' : ''}`}
+                    asChild
+                  >
+                    <Link href={btn.href}>{btn.label}</Link>
+                  </Button>
+                )
               ))}
             </div>
           </div>
