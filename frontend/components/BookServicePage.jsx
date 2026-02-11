@@ -56,11 +56,11 @@ const BookServicePage = () => {
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Book Your HVAC Service
+            Get Your Free Estimate
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Schedule professional HVAC service with Dallas-Fort Worth's most trusted 
-            heating and cooling experts. Fast, reliable service.
+            Request a free estimate from Dallas-Fort Worth's most trusted 
+            heating and cooling experts. Honest assessments, transparent pricing.
           </p>
         </div>
 
@@ -87,11 +87,11 @@ const BookServicePage = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
           
-          {/* Service Request Form */}
+          {/* Estimate Request Form */}
           <div>
             <LeadForm 
-              title="Schedule Your Service"
-              description="Fill out the form below and we'll contact you to schedule your appointment"
+              title="Get Your Free Estimate"
+              description="Fill out the form below and we'll contact you within 24 hours"
             />
           </div>
 
@@ -215,14 +215,6 @@ const BookServicePage = () => {
               </CardContent>
             </Card>
 
-            {/* Placeholder CRM Integration Notice */}
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <div className="text-blue-800 font-medium mb-2">Integration Note:</div>
-              <p className="text-blue-700 text-sm">
-                This form currently uses mock data. In production, form submissions will 
-                integrate directly with your CRM system for automatic scheduling and follow-up.
-              </p>
-            </div>
           </div>
         </div>
       </div>
