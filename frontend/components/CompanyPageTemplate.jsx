@@ -194,7 +194,6 @@ const CompanyPageTemplate = ({
                     <div>
                       <h3 className="font-semibold text-gray-900">Phone</h3>
                       <p className="text-gray-600">{phone}</p>
-                      <p className="text-sm text-gray-400">(972) 777-2665</p>
                     </div>
                   </div>
                   
