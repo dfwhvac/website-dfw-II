@@ -96,8 +96,7 @@ export function createJsonLd(data) {
         'Coppell, TX'
       ],
       openingHours: [
-        'Mo-Fr 07:00-19:00',
-        'Sa 08:00-13:00'
+        'Mo-Fr 09:00-18:00'
       ],
       priceRange: '$$',
       aggregateRating: {

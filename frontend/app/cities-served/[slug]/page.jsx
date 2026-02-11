@@ -119,7 +119,7 @@ export default async function CityPage({ params }) {
   const subheadline = city.subheadline || `Professional Heating & Air Conditioning for ${city.cityName} Residents`
   
   const introText = city.introText || 
-    `Looking for reliable HVAC services in ${city.cityName}? DFW HVAC delivers expert heating and air conditioning service with integrity and care. Our licensed technicians provide honest assessments, transparent pricing, and quality workmanship to homeowners and businesses throughout ${city.cityName}. Same-day service available Monday through Saturday.`
+    `Looking for reliable HVAC services in ${city.cityName}? DFW HVAC delivers expert heating and air conditioning service with integrity and care. Our licensed technicians provide honest assessments, transparent pricing, and quality workmanship to homeowners and businesses throughout ${city.cityName}. Same-day service available Monday through Friday.`
   
   const servicesHighlight = city.servicesHighlight ||
     `We offer comprehensive HVAC services including AC repair, heating system installation, preventive maintenance, and indoor air quality solutions. As a three-generation family business, we believe in doing the job right the first time with meticulous workmanship and customer-first service.`

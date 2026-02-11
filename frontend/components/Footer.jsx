@@ -70,8 +70,8 @@ const Footer = ({ companyInfo = {}, siteSettings = null }) => {
   const email = companyInfo?.email || 'info@dfwhvac.com'
   const address = companyInfo?.address || 'Dallas-Fort Worth Area'
   const businessHours = companyInfo?.businessHours || {
-    monday: '7am - 7pm',
-    saturday: '8am - 1pm',
+    monday: '9am - 6pm',
+    saturday: 'Closed',
     sunday: 'Closed'
   }
 
@@ -159,8 +159,7 @@ const Footer = ({ companyInfo = {}, siteSettings = null }) => {
                   <Clock className="w-4 h-4 text-yellow-500" />
                   <div className="text-gray-300">
                     <div>Mon-Fri: {businessHours.monday}</div>
-                    <div>Sat: {businessHours.saturday}</div>
-                    <div>Sun: {businessHours.sunday}</div>
+                    <div>Sat-Sun: Closed</div>
                   </div>
                 </div>
               )}

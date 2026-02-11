@@ -227,9 +227,8 @@ const CompanyPageTemplate = ({
                     <div>
                       <h3 className="font-semibold text-gray-900">Business Hours</h3>
                       <div className="text-gray-600 text-sm">
-                        <p>Monday - Friday: {businessHours.monday || '7AM-7PM'}</p>
-                        <p>Saturday: {businessHours.saturday || '8AM-1PM'}</p>
-                        <p>Sunday: {businessHours.sunday || 'Closed'}</p>
+                        <p>Monday - Friday: {businessHours.monday || '9AM-6PM'}</p>
+                        <p>Saturday - Sunday: Closed</p>
                         <p className="text-vivid-red font-medium mt-1">Same-Day Service Available</p>
                       </div>
                     </div>

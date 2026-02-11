@@ -584,7 +584,7 @@ const serviceData = {
         },
         {
           question: 'Can you work around our business hours?',
-          answer: 'Absolutely. We understand business disruption costs money. We offer flexible scheduling including evenings and weekends to minimize impact on your operations.'
+          answer: 'Absolutely. We understand business disruption costs money. We offer flexible scheduling within our operating hours (Monday-Friday, 9 AM - 6 PM) to minimize impact on your operations.'
         }
       ]
     },

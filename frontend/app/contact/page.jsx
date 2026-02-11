@@ -12,7 +12,7 @@ export async function generateMetadata() {
   const contactPage = await getContactPage()
   return {
     title: contactPage?.metaTitle || 'Contact Us | DFW HVAC',
-    description: contactPage?.metaDescription || 'Contact DFW HVAC for expert heating and cooling services in Dallas-Fort Worth. Same-day service available Monday-Saturday. Call (972) 777-COOL.',
+    description: contactPage?.metaDescription || 'Contact DFW HVAC for expert heating and cooling services in Dallas-Fort Worth. Same-day service available Monday-Friday. Call (972) 777-COOL.',
   }
 }
 
