@@ -66,7 +66,8 @@ const Footer = ({ companyInfo = {}, siteSettings = null }) => {
   const showBusinessHours = siteSettings?.showBusinessHours !== false
 
   // Default company info fallbacks
-  const phoneDisplay = companyInfo?.phoneDisplay || '(972) 777-COOL'
+  const phoneVanity = companyInfo?.phone || '(972) 777-COOL'
+  const phoneDigits = companyInfo?.phoneDisplay || '(972) 777-2665'
   const address = companyInfo?.address || 'Dallas-Fort Worth Area'
   const businessHours = companyInfo?.businessHours || {
     monday: '9am - 6pm',
