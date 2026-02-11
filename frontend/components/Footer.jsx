@@ -140,8 +140,8 @@ const Footer = ({ companyInfo = {}, siteSettings = null }) => {
               <a href="tel:+19727772665" className="flex items-center gap-3 text-sm text-white hover:decoration-white transition-colors">
                 <Phone className="w-4 h-4 text-vivid-red" />
                 <div>
-                  <div className="font-semibold underline underline-offset-2 decoration-gray-500">{phoneDisplay}</div>
-                  <div className="text-gray-400 text-xs">(972) 777-2665</div>
+                  <div className="font-semibold underline underline-offset-2 decoration-gray-500">{phoneVanity}</div>
+                  <div className="text-gray-400 text-xs">{phoneDigits}</div>
                 </div>
               </a>
               <a href="/contact" className="flex items-center gap-3 text-sm text-white underline underline-offset-2 decoration-gray-500 hover:decoration-white transition-colors">
