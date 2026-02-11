@@ -159,14 +159,24 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
           {/* CTA Buttons */}
           <div className="hidden lg:flex items-center gap-3">
             {ctaButtons.map((btn, index) => (
-              <Button 
-                key={btn.href || index}
-                variant={btn.variant === 'outline' ? 'outline' : 'default'}
-                className={btn.variant !== 'outline' ? 'bg-electric-blue hover:bg-electric-blue text-white' : ''}
-                asChild
-              >
-                <Link href={btn.href}>{btn.label}</Link>
-              </Button>
+              btn.isBooking ? (
+                <Button 
+                  key={btn.href || index}
+                  className="bg-electric-blue hover:bg-electric-blue text-white"
+                  onClick={() => { if (typeof window !== 'undefined' && window.HCPWidget) window.HCPWidget.openModal() }}
+                >
+                  {btn.label}
+                </Button>
+              ) : (
+                <Button 
+                  key={btn.href || index}
+                  variant={btn.variant === 'outline' ? 'outline' : 'default'}
+                  className={btn.variant !== 'outline' ? 'bg-electric-blue hover:bg-electric-blue text-white' : ''}
+                  asChild
+                >
+                  <Link href={btn.href}>{btn.label}</Link>
+                </Button>
+              )
             ))}
           </div>
 
