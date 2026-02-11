@@ -67,7 +67,6 @@ const Footer = ({ companyInfo = {}, siteSettings = null }) => {
 
   // Default company info fallbacks
   const phoneDisplay = companyInfo?.phoneDisplay || '(972) 777-COOL'
-  const email = companyInfo?.email || 'info@dfwhvac.com'
   const address = companyInfo?.address || 'Dallas-Fort Worth Area'
   const businessHours = companyInfo?.businessHours || {
     monday: '9am - 6pm',
