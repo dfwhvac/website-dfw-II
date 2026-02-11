@@ -6,7 +6,6 @@ export const companyInfo = {
   phone: "(972) 777-COOL",
   phoneDisplay: "(972) 777-2665",
   realPhone: "(817) 242-6688",
-  email: "info@dfwhvac.com",
   address: "556 S Coppell Rd Ste 103, Coppell, TX 75019",
   serviceAddress: "Dallas-Fort Worth & Surrounding Areas",
   established: "2020",
