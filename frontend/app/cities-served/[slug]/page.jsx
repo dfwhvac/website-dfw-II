@@ -187,13 +187,13 @@ export default async function CityPage({ params }) {
                 <Phone className="w-5 h-5" />
                 Call {companyInfo.phone}
               </a>
-              <Link
-                href="/contact"
+              <button
+                onClick={() => { if (typeof window !== 'undefined' && window.HCPWidget) window.HCPWidget.openModal() }}
                 className="inline-flex items-center justify-center gap-2 bg-white text-[#003153] px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors"
               >
                 Schedule Service
                 <ArrowRight className="w-5 h-5" />
-              </Link>
+              </button>
             </div>
           </div>
         </div>
