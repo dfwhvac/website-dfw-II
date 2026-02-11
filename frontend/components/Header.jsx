@@ -39,7 +39,7 @@ const defaultNavigation = [
 ]
 
 const defaultCtaButtons = [
-  { label: 'Get Estimate', href: '/contact', variant: 'outline' },
+  { label: 'Get Estimate', href: '/estimate', variant: 'outline' },
   { label: 'Book Service', href: '#', variant: 'primary', isBooking: true },
 ]
 
