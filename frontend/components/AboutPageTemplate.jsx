@@ -179,8 +179,102 @@ const AboutPageTemplate = ({
         </div>
       </section>
 
+      {/* Brand Pillars / Values Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">{valuesTitle}</h2>
+            <p className="text-lg text-gray-600">{valuesSubtitle}</p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {brandPillars.map((pillar, index) => {
+              const IconComponent = iconMap[pillar.icon] || Shield
+              
+              return (
+                <Card key={index} className="text-center border-0 shadow-lg hover:shadow-xl transition-shadow">
+                  <CardHeader>
+                    <div className="mx-auto bg-electric-blue rounded-full p-4 w-16 h-16 flex items-center justify-center mb-4">
+                      <IconComponent className="w-8 h-8 text-white" />
+                    </div>
+                    <CardTitle className="text-xl">{pillar.title}</CardTitle>
+                    {pillar.tagline && (
+                      <p className="text-electric-blue font-medium text-sm">{pillar.tagline}</p>
+                    )}
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-600 mb-4">
+                      {pillar.description}
+                    </p>
+                    {pillar.proofPoints && pillar.proofPoints.length > 0 && (
+                      <ul className="text-left space-y-2 text-sm">
+                        {pillar.proofPoints.map((point, pointIndex) => (
+                          <li key={pointIndex} className="flex items-start gap-2">
+                            <CheckCircle className="w-4 h-4 text-lime-green flex-shrink-0 mt-0.5" />
+                            <span className="text-gray-600">{point}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </CardContent>
+                </Card>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Legacy Timeline Section */}
+      {legacyTimeline.length > 0 && (
+        <section className="py-16">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4 text-center">Our Legacy</h2>
+              <p className="text-lg text-gray-600 text-center mb-12">Three generations of HVAC excellence</p>
+              
+              <div className="relative">
+                {/* Timeline line */}
+                <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-electric-blue transform md:-translate-x-1/2" />
+                
+                {/* Timeline items */}
+                <div className="space-y-12">
+                  {legacyTimeline.map((item, index) => (
+                    <div 
+                      key={item._key || index} 
+                      className={`relative flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-8 ${
+                        index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
+                      }`}
+                    >
+                      {/* Timeline dot */}
+                      <div className="absolute left-4 md:left-1/2 w-4 h-4 bg-electric-blue rounded-full border-4 border-white shadow transform -translate-x-1/2 z-10" />
+                      
+                      {/* Content card */}
+                      <div className={`ml-12 md:ml-0 md:w-1/2 ${index % 2 === 0 ? 'md:pr-12 md:text-right' : 'md:pl-12'}`}>
+                        <div className="bg-white rounded-xl p-6 shadow-lg">
+                          <span className="inline-block bg-electric-blue text-white text-sm font-bold px-3 py-1 rounded-full mb-3">
+                            {item.year}
+                          </span>
+                          <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
+                          {item.person && (
+                            <p className="text-electric-blue font-medium text-sm mb-2">{item.person}</p>
+                          )}
+                          <p className="text-gray-600">{item.description}</p>
+                        </div>
+                      </div>
+                      
+                      {/* Spacer for alternating layout */}
+                      <div className="hidden md:block md:w-1/2" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Our Story Section */}
-      <section className="py-16">
+      <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="grid md:grid-cols-2 gap-12 items-start">
@@ -230,100 +324,6 @@ const AboutPageTemplate = ({
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Legacy Timeline Section */}
-      {legacyTimeline.length > 0 && (
-        <section className="py-16 bg-gray-50">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4 text-center">Our Legacy</h2>
-              <p className="text-lg text-gray-600 text-center mb-12">Three generations of HVAC excellence</p>
-              
-              <div className="relative">
-                {/* Timeline line */}
-                <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-electric-blue transform md:-translate-x-1/2" />
-                
-                {/* Timeline items */}
-                <div className="space-y-12">
-                  {legacyTimeline.map((item, index) => (
-                    <div 
-                      key={item._key || index} 
-                      className={`relative flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-8 ${
-                        index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-                      }`}
-                    >
-                      {/* Timeline dot */}
-                      <div className="absolute left-4 md:left-1/2 w-4 h-4 bg-electric-blue rounded-full border-4 border-white shadow transform -translate-x-1/2 z-10" />
-                      
-                      {/* Content card */}
-                      <div className={`ml-12 md:ml-0 md:w-1/2 ${index % 2 === 0 ? 'md:pr-12 md:text-right' : 'md:pl-12'}`}>
-                        <div className="bg-white rounded-xl p-6 shadow-lg">
-                          <span className="inline-block bg-electric-blue text-white text-sm font-bold px-3 py-1 rounded-full mb-3">
-                            {item.year}
-                          </span>
-                          <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
-                          {item.person && (
-                            <p className="text-electric-blue font-medium text-sm mb-2">{item.person}</p>
-                          )}
-                          <p className="text-gray-600">{item.description}</p>
-                        </div>
-                      </div>
-                      
-                      {/* Spacer for alternating layout */}
-                      <div className="hidden md:block md:w-1/2" />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Brand Pillars / Values Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">{valuesTitle}</h2>
-            <p className="text-lg text-gray-600">{valuesSubtitle}</p>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {brandPillars.map((pillar, index) => {
-              const IconComponent = iconMap[pillar.icon] || Shield
-              
-              return (
-                <Card key={index} className="text-center border-0 shadow-lg hover:shadow-xl transition-shadow">
-                  <CardHeader>
-                    <div className="mx-auto bg-electric-blue rounded-full p-4 w-16 h-16 flex items-center justify-center mb-4">
-                      <IconComponent className="w-8 h-8 text-white" />
-                    </div>
-                    <CardTitle className="text-xl">{pillar.title}</CardTitle>
-                    {pillar.tagline && (
-                      <p className="text-electric-blue font-medium text-sm">{pillar.tagline}</p>
-                    )}
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-gray-600 mb-4">
-                      {pillar.description}
-                    </p>
-                    {pillar.proofPoints && pillar.proofPoints.length > 0 && (
-                      <ul className="text-left space-y-2 text-sm">
-                        {pillar.proofPoints.map((point, pointIndex) => (
-                          <li key={pointIndex} className="flex items-start gap-2">
-                            <CheckCircle className="w-4 h-4 text-lime-green flex-shrink-0 mt-0.5" />
-                            <span className="text-gray-600">{point}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </CardContent>
-                </Card>
-              )
-            })}
           </div>
         </div>
       </section>
