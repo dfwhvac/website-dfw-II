@@ -22,7 +22,7 @@ export default {
       type: 'text',
       group: 'seo',
       validation: Rule => Rule.max(160),
-      initialValue: 'Contact DFW HVAC for expert heating and cooling services in Dallas-Fort Worth. Same-day service available Monday-Saturday. Call (972) 777-COOL.',
+      initialValue: 'Contact DFW HVAC for expert heating and cooling services in Dallas-Fort Worth. Same-day service available Monday-Friday. Call (972) 777-COOL.',
     },
 
     // Hero Section
