@@ -3,8 +3,9 @@ import Footer from '@/components/Footer'
 import { client, getCompanyInfo, getSiteSettings } from '@/lib/sanity'
 import { companyInfo as mockCompanyInfo } from '@/lib/mockData'
 import Link from 'next/link'
-import { Phone, MapPin, CheckCircle, ArrowRight } from 'lucide-react'
+import { Phone, MapPin, CheckCircle, ArrowRight, Wrench } from 'lucide-react'
 import { HCPBookingLink } from '@/components/HCPBookingButton'
+import ServiceFirstCTA from '@/components/ServiceFirstCTA'
 
 // Disable caching for instant Sanity updates
 export const dynamic = 'force-dynamic'
@@ -206,30 +207,12 @@ export default async function CitiesServedPage() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16 bg-[#003153] text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to Schedule Service?</h2>
-          <p className="text-blue-100 mb-8 max-w-2xl mx-auto">
-            Our expert technicians are standing by to help with all your heating and cooling needs.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href={`tel:${companyInfo.phone}`}
-              className="inline-flex items-center justify-center gap-2 bg-[#FF0000] hover:bg-red-600 text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors"
-            >
-              <Phone className="w-5 h-5" />
-              {companyInfo.phone}
-            </a>
-            <HCPBookingLink
-              className="inline-flex items-center justify-center gap-2 bg-white text-[#003153] px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors"
-            >
-              Schedule Online
-              <ArrowRight className="w-5 h-5" />
-            </HCPBookingLink>
-          </div>
-        </div>
-      </section>
+      {/* CTA Section - Service-first strategy */}
+      <ServiceFirstCTA 
+        title="Ready to Schedule Service?"
+        description="Our expert technicians are standing by to help with all your heating and cooling needs."
+        variant="dark"
+      />
 
       <Footer companyInfo={companyInfo} siteSettings={siteSettings} />
     </div>
