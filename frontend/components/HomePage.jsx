@@ -37,18 +37,18 @@ const HomePage = ({
     highlight: homepage?.heroTitleHighlight || 'Trusted HVAC',
     line3: homepage?.heroTitleLine3 || 'Experts',
     description: homepage?.heroDescription || 'Expert HVAC service with integrity and care. A three-generation family commitment to quality workmanship throughout Dallas-Fort Worth.',
-    primaryButton: homepage?.heroPrimaryButton || { text: 'Book Service Now', href: '#booking', isBooking: true },
-    secondaryButton: homepage?.heroSecondaryButton || { text: 'Call (972) 777-COOL', href: 'tel:+19727772665' },
+    primaryButton: homepage?.heroPrimaryButton || { text: 'Call (972) 777-COOL', href: 'tel:+19727772665' },
+    secondaryButton: homepage?.heroSecondaryButton || { text: 'Get Free Estimate', href: '/estimate' },
   }
   
-  // Lead form settings from siteSettings - now focused on service scheduling
+  // Lead form settings from siteSettings
   const leadForm = {
-    title: siteSettings?.leadFormTitle || 'Schedule Service',
-    description: siteSettings?.leadFormDescription || "Book your repair or maintenance appointment",
-    buttonText: siteSettings?.leadFormButtonText || 'Schedule My Service',
+    title: siteSettings?.leadFormTitle || 'Get Your Free Estimate',
+    description: siteSettings?.leadFormDescription || "Fill out the form below and we'll contact you within 24 hours",
+    buttonText: siteSettings?.leadFormButtonText || 'Get My Free Estimate',
     successMessage: siteSettings?.leadFormSuccessMessage || "Thank you! We'll contact you within 24 hours.",
-    trustSignals: siteSettings?.leadFormTrustSignals || '✓ Same-day available • ✓ Licensed techs • ✓ Upfront pricing',
-    footerText: siteSettings?.leadFormFooterText || "Need a system replacement? Get a Free Estimate →",
+    trustSignals: siteSettings?.leadFormTrustSignals || '✓ Free estimates • ✓ Licensed & insured • ✓ Fast response time',
+    footerText: siteSettings?.leadFormFooterText || "We'll contact you within 24 hours to schedule your appointment",
   }
   
   const servicesSection = {
@@ -104,11 +104,13 @@ const HomePage = ({
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button 
                   size="lg" 
-                  className="bg-vivid-red hover:bg-red-700 text-white font-semibold px-8 py-4 text-lg h-auto"
-                  onClick={() => { if (typeof window !== 'undefined' && window.HCPWidget) window.HCPWidget.openModal() }}
+                  className="bg-vivid-red hover:bg-vivid-red text-white font-semibold px-8 py-4 text-lg h-auto"
+                  asChild
                 >
-                  <Wrench className="w-5 h-5 mr-2" />
-                  {hero.primaryButton.text}
+                  <a href={hero.primaryButton.href}>
+                    <Phone className="w-5 h-5 mr-2" />
+                    {hero.primaryButton.text}
+                  </a>
                 </Button>
                 <Button 
                   variant="outline" 
@@ -116,16 +118,10 @@ const HomePage = ({
                   className="border-2 border-electric-blue text-electric-blue hover:bg-electric-blue hover:text-white font-semibold px-8 py-4 text-lg h-auto"
                   asChild
                 >
-                  <a href={hero.secondaryButton.href}>
-                    <Phone className="w-5 h-5 mr-2" />
+                  <Link href={hero.secondaryButton.href}>
                     {hero.secondaryButton.text}
-                  </a>
+                  </Link>
                 </Button>
-              </div>
-              
-              {/* Subtle link to Free Estimate for replacement seekers */}
-              <div className="text-sm text-gray-500">
-                Considering a new system? <Link href="/estimate" className="text-electric-blue hover:underline font-medium">Get a Free Replacement Estimate →</Link>
               </div>
 
               {/* Trust Indicators */}
@@ -362,25 +358,16 @@ const HomePage = ({
       <section className="py-20" style={{background: 'linear-gradient(to right, #003153, #00B8FF)'}}>
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl font-bold text-white mb-4">
-            Need HVAC Service? We're Ready.
+            {cta.title}
           </h2>
           <p className="text-xl text-white opacity-90 mb-8 max-w-2xl mx-auto">
-            Fast, reliable repairs from technicians you can trust. Three generations of quality workmanship.
+            {cta.description}
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button 
               size="lg" 
-              className="bg-vivid-red hover:bg-red-700 text-white font-semibold px-8 py-4 text-lg h-auto"
-              onClick={() => { if (typeof window !== 'undefined' && window.HCPWidget) window.HCPWidget.openModal() }}
-            >
-              <Wrench className="w-5 h-5 mr-2" />
-              Book Service Now
-            </Button>
-            <Button 
-              variant="outline" 
-              size="lg" 
-              className="border-2 border-white text-white hover:bg-white hover:text-[#003153] font-semibold px-8 py-4 text-lg h-auto"
+              className="bg-vivid-red hover:bg-vivid-red text-white font-semibold px-8 py-4 text-lg h-auto"
               asChild
             >
               <a href="tel:+19727772665">
@@ -388,12 +375,17 @@ const HomePage = ({
                 Call (972) 777-COOL
               </a>
             </Button>
+            <Button 
+              variant="outline" 
+              size="lg" 
+              className="border-2 border-white text-white hover:bg-white hover:text-[#003153] font-semibold px-8 py-4 text-lg h-auto"
+              asChild
+            >
+              <Link href="/estimate">
+                Get Free Estimate
+              </Link>
+            </Button>
           </div>
-          
-          {/* Subtle estimate link */}
-          <p className="mt-6 text-white/70 text-sm">
-            Considering a system upgrade? <Link href="/estimate" className="text-white underline hover:text-white/90">Get a Free Estimate →</Link>
-          </p>
         </div>
       </section>
     </div>
