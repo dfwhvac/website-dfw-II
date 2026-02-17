@@ -39,8 +39,8 @@ const defaultNavigation = [
 ]
 
 const defaultCtaButtons = [
-  { label: 'Get Estimate', href: '/estimate', variant: 'outline' },
   { label: 'Book Service', href: '#', variant: 'primary', isBooking: true },
+  { label: 'Free Estimate', href: '/estimate', variant: 'outline' },
 ]
 
 // Custom dropdown component with proper alignment
