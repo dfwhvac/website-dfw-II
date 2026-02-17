@@ -91,11 +91,13 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
   const showHeaderTagline = siteSettings?.showHeaderTagline !== false
   const logoTagline = siteSettings?.logoTagline || 'Three Generations of Trusted Service'
   const navigation = siteSettings?.mainNavigation?.filter(item => item.isVisible !== false) || defaultNavigation
-  const rawCtaButtons = siteSettings?.ctaButtons || defaultCtaButtons
-  const ctaButtons = rawCtaButtons.map(btn => ({
-    ...btn,
-    isBooking: btn.isBooking || btn.href === '/book-service' || btn.href === '#booking'
-  }))
+  
+  // Force the new CTA button order: Book Service (red, primary) then Free Estimate (outline, secondary)
+  // This overrides any CMS settings to implement the service-first conversion strategy
+  const ctaButtons = [
+    { label: 'Book Service', href: '#', variant: 'primary', isBooking: true },
+    { label: 'Free Estimate', href: '/estimate', variant: 'outline' },
+  ]
 
   return (
     <header className="bg-white shadow-lg border-b-2 border-electric-blue sticky top-0 z-50">
