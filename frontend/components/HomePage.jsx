@@ -358,26 +358,24 @@ const HomePage = ({
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* CTA Section - Service-first strategy */}
       <section className="py-20" style={{background: 'linear-gradient(to right, #003153, #00B8FF)'}}>
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl font-bold text-white mb-4">
-            {cta.title}
+            Need HVAC Service? We're Ready.
           </h2>
           <p className="text-xl text-white opacity-90 mb-8 max-w-2xl mx-auto">
-            {cta.description}
+            Fast, reliable repairs from technicians you can trust. Three generations of quality workmanship.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button 
               size="lg" 
-              className="bg-vivid-red hover:bg-vivid-red text-white font-semibold px-8 py-4 text-lg h-auto"
-              asChild
+              className="bg-vivid-red hover:bg-red-700 text-white font-semibold px-8 py-4 text-lg h-auto"
+              onClick={() => { if (typeof window !== 'undefined' && window.HCPWidget) window.HCPWidget.openModal() }}
             >
-              <a href="tel:+19727772665">
-                <Phone className="w-5 h-5 mr-2" />
-                Call (972) 777-COOL
-              </a>
+              <Wrench className="w-5 h-5 mr-2" />
+              Book Service Now
             </Button>
             <Button 
               variant="outline" 
@@ -385,11 +383,17 @@ const HomePage = ({
               className="border-2 border-white text-white hover:bg-white hover:text-[#003153] font-semibold px-8 py-4 text-lg h-auto"
               asChild
             >
-              <Link href="/estimate">
-                Get Free Estimate
-              </Link>
+              <a href="tel:+19727772665">
+                <Phone className="w-5 h-5 mr-2" />
+                Call (972) 777-COOL
+              </a>
             </Button>
           </div>
+          
+          {/* Subtle estimate link */}
+          <p className="mt-6 text-white/70 text-sm">
+            Considering a system upgrade? <Link href="/estimate" className="text-white underline hover:text-white/90">Get a Free Estimate →</Link>
+          </p>
         </div>
       </section>
     </div>
