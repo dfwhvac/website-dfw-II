@@ -4,7 +4,7 @@ import FAQAccordion from '@/components/FAQAccordion'
 import { FAQSchema } from '@/components/SchemaMarkup'
 import { getCompanyInfo, getSiteSettings, getFaqs, getFaqPage } from '@/lib/sanity'
 import { companyInfo as mockCompanyInfo } from '@/lib/mockData'
-import { HelpCircle, Phone } from 'lucide-react'
+import { HelpCircle, Phone, Wrench } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
@@ -197,7 +197,7 @@ export default async function FAQPage() {
           </div>
         </section>
 
-        {/* Still Have Questions CTA */}
+        {/* Still Have Questions CTA - Service-first strategy */}
         <section className="bg-prussian-blue text-white py-16">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-3xl font-bold mb-4">
@@ -209,13 +209,11 @@ export default async function FAQPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 size="lg" 
-                className="bg-vivid-red hover:bg-vivid-red text-white font-semibold"
-                asChild
+                className="bg-vivid-red hover:bg-red-700 text-white font-semibold"
+                onClick={() => { if (typeof window !== 'undefined' && window.HCPWidget) window.HCPWidget.openModal() }}
               >
-                <a href="tel:+19727772665">
-                  <Phone className="w-5 h-5 mr-2" />
-                  Call (972) 777-COOL
-                </a>
+                <Wrench className="w-5 h-5 mr-2" />
+                Book Service Now
               </Button>
               <Button 
                 size="lg" 
@@ -223,11 +221,17 @@ export default async function FAQPage() {
                 className="border-2 border-white text-white hover:bg-white hover:text-prussian-blue font-semibold"
                 asChild
               >
-                <Link href="/contact">
-                  Contact Us Online
-                </Link>
+                <a href="tel:+19727772665">
+                  <Phone className="w-5 h-5 mr-2" />
+                  Call (972) 777-COOL
+                </a>
               </Button>
             </div>
+            
+            {/* Subtle estimate link */}
+            <p className="mt-6 text-blue-200/70 text-sm">
+              Considering a system upgrade? <Link href="/estimate" className="text-white underline hover:text-blue-100">Get a Free Estimate →</Link>
+            </p>
           </div>
         </section>
       </main>
