@@ -234,7 +234,7 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
                 btn.isBooking ? (
                   <Button 
                     key={btn.href || index}
-                    className={`w-full bg-electric-blue hover:bg-electric-blue text-white`}
+                    className="w-full bg-vivid-red hover:bg-red-700 text-white font-semibold"
                     onClick={() => { setIsMobileMenuOpen(false); if (typeof window !== 'undefined' && window.HCPWidget) window.HCPWidget.openModal() }}
                   >
                     {btn.label}
@@ -242,8 +242,8 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
                 ) : (
                   <Button 
                     key={btn.href || index}
-                    variant={btn.variant === 'outline' ? 'outline' : 'default'}
-                    className={`w-full ${btn.variant !== 'outline' ? 'bg-electric-blue hover:bg-electric-blue text-white' : ''}`}
+                    variant="outline"
+                    className="w-full border-gray-300 text-gray-700"
                     asChild
                   >
                     <Link href={btn.href}>{btn.label}</Link>
