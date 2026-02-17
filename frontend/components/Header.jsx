@@ -39,8 +39,8 @@ const defaultNavigation = [
 ]
 
 const defaultCtaButtons = [
-  { label: 'Get Estimate', href: '/estimate', variant: 'outline' },
   { label: 'Book Service', href: '#', variant: 'primary', isBooking: true },
+  { label: 'Free Estimate', href: '/estimate', variant: 'outline' },
 ]
 
 // Custom dropdown component with proper alignment
@@ -91,11 +91,12 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
   const showHeaderTagline = siteSettings?.showHeaderTagline !== false
   const logoTagline = siteSettings?.logoTagline || 'Three Generations of Trusted Service'
   const navigation = siteSettings?.mainNavigation?.filter(item => item.isVisible !== false) || defaultNavigation
-  const rawCtaButtons = siteSettings?.ctaButtons || defaultCtaButtons
-  const ctaButtons = rawCtaButtons.map(btn => ({
-    ...btn,
-    isBooking: btn.isBooking || btn.href === '/book-service' || btn.href === '#booking'
-  }))
+  
+  // Force service-first CTA strategy: Book Service (red) → Free Estimate (outline)
+  const ctaButtons = [
+    { label: 'Book Service', href: '#', variant: 'primary', isBooking: true },
+    { label: 'Free Estimate', href: '/estimate', variant: 'outline' },
+  ]
 
   return (
     <header className="bg-white shadow-lg border-b-2 border-electric-blue sticky top-0 z-50">
@@ -160,13 +161,13 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
             ))}
           </nav>
 
-          {/* CTA Buttons */}
+          {/* CTA Buttons - Service-first strategy */}
           <div className="hidden lg:flex items-center gap-3">
             {ctaButtons.map((btn, index) => (
               btn.isBooking ? (
                 <Button 
                   key={btn.href || index}
-                  className="bg-electric-blue hover:bg-electric-blue text-white"
+                  className="bg-vivid-red hover:bg-red-700 text-white font-semibold"
                   onClick={() => { if (typeof window !== 'undefined' && window.HCPWidget) window.HCPWidget.openModal() }}
                 >
                   {btn.label}
@@ -174,8 +175,8 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
               ) : (
                 <Button 
                   key={btn.href || index}
-                  variant={btn.variant === 'outline' ? 'outline' : 'default'}
-                  className={btn.variant !== 'outline' ? 'bg-electric-blue hover:bg-electric-blue text-white' : ''}
+                  variant="outline"
+                  className="border-gray-300 text-gray-700 hover:bg-gray-50"
                   asChild
                 >
                   <Link href={btn.href}>{btn.label}</Link>
