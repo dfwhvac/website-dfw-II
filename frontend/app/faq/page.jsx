@@ -4,9 +4,8 @@ import FAQAccordion from '@/components/FAQAccordion'
 import { FAQSchema } from '@/components/SchemaMarkup'
 import { getCompanyInfo, getSiteSettings, getFaqs, getFaqPage } from '@/lib/sanity'
 import { companyInfo as mockCompanyInfo } from '@/lib/mockData'
-import { HelpCircle, Phone, Wrench } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import Link from 'next/link'
+import { HelpCircle } from 'lucide-react'
+import ServiceFirstCTA from '@/components/ServiceFirstCTA'
 
 // ISR: Revalidate every hour
 export const dynamic = 'force-dynamic'
@@ -198,42 +197,11 @@ export default async function FAQPage() {
         </section>
 
         {/* Still Have Questions CTA - Service-first strategy */}
-        <section className="bg-prussian-blue text-white py-16">
-          <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl font-bold mb-4">
-              {pageContent.ctaTitle}
-            </h2>
-            <p className="text-xl text-blue-200 mb-8 max-w-2xl mx-auto">
-              {pageContent.ctaDescription}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                size="lg" 
-                className="bg-vivid-red hover:bg-red-700 text-white font-semibold"
-                onClick={() => { if (typeof window !== 'undefined' && window.HCPWidget) window.HCPWidget.openModal() }}
-              >
-                <Wrench className="w-5 h-5 mr-2" />
-                Book Service Now
-              </Button>
-              <Button 
-                size="lg" 
-                variant="outline"
-                className="border-2 border-white text-white hover:bg-white hover:text-prussian-blue font-semibold"
-                asChild
-              >
-                <a href="tel:+19727772665">
-                  <Phone className="w-5 h-5 mr-2" />
-                  Call (972) 777-COOL
-                </a>
-              </Button>
-            </div>
-            
-            {/* Subtle estimate link */}
-            <p className="mt-6 text-blue-200/70 text-sm">
-              Considering a system upgrade? <Link href="/estimate" className="text-white underline hover:text-blue-100">Get a Free Estimate →</Link>
-            </p>
-          </div>
-        </section>
+        <ServiceFirstCTA 
+          title={pageContent.ctaTitle}
+          description={pageContent.ctaDescription}
+          variant="dark"
+        />
       </main>
 
       <Footer companyInfo={companyInfo} siteSettings={siteSettings} />
