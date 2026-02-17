@@ -37,8 +37,8 @@ const HomePage = ({
     highlight: homepage?.heroTitleHighlight || 'Trusted HVAC',
     line3: homepage?.heroTitleLine3 || 'Experts',
     description: homepage?.heroDescription || 'Expert HVAC service with integrity and care. A three-generation family commitment to quality workmanship throughout Dallas-Fort Worth.',
-    primaryButton: homepage?.heroPrimaryButton || { text: 'Call (972) 777-COOL', href: 'tel:+19727772665' },
-    secondaryButton: homepage?.heroSecondaryButton || { text: 'Get Free Estimate', href: '/estimate' },
+    primaryButton: homepage?.heroPrimaryButton || { text: 'Book Service Now', href: '#booking', isBooking: true },
+    secondaryButton: homepage?.heroSecondaryButton || { text: 'Call (972) 777-COOL', href: 'tel:+19727772665' },
   }
   
   // Lead form settings from siteSettings
