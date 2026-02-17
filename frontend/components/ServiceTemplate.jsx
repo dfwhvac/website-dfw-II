@@ -77,17 +77,15 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [] }) => {
                 ))}
               </div>
 
-              {/* CTA Buttons */}
+              {/* CTA Buttons - Service-first strategy */}
               <div className="flex flex-col sm:flex-row gap-4 pt-6">
                 <Button 
                   size="lg" 
-                  className="bg-vivid-red hover:bg-vivid-red text-white font-semibold px-8 py-4 text-lg h-auto"
-                  asChild
+                  className="bg-vivid-red hover:bg-red-700 text-white font-semibold px-8 py-4 text-lg h-auto"
+                  onClick={() => { if (typeof window !== 'undefined' && window.HCPWidget) window.HCPWidget.openModal() }}
                 >
-                  <a href="tel:+19727772665">
-                    <Phone className="w-5 h-5 mr-2" />
-                    Call {phone}
-                  </a>
+                  <Wrench className="w-5 h-5 mr-2" />
+                  Book Service Now
                 </Button>
                 <Button 
                   variant="outline" 
@@ -95,11 +93,17 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [] }) => {
                   className="border-2 border-electric-blue text-electric-blue hover:bg-electric-blue hover:text-white font-semibold px-8 py-4 text-lg h-auto"
                   asChild
                 >
-                  <Link href="/estimate">
-                    Get Free Estimate
-                  </Link>
+                  <a href="tel:+19727772665">
+                    <Phone className="w-5 h-5 mr-2" />
+                    Call {phone}
+                  </a>
                 </Button>
               </div>
+              
+              {/* Subtle estimate link */}
+              <p className="text-sm text-gray-500 pt-2">
+                Considering a new system? <Link href="/estimate" className="text-electric-blue hover:underline font-medium">Get a Free Replacement Estimate →</Link>
+              </p>
             </div>
 
             {/* Service Image/Illustration Placeholder */}
@@ -321,26 +325,24 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [] }) => {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* CTA Section - Service-first strategy */}
       <section className="py-16" style={{background: 'linear-gradient(to right, #003153, #00B8FF)'}}>
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-white mb-4">
-            Ready for Professional {service.title}?
+            Need HVAC Service? We're Ready.
           </h2>
           <p className="text-lg text-white opacity-90 mb-8 max-w-2xl mx-auto">
-            Contact DFW HVAC today for expert service with integrity and care.
+            Fast, reliable {service.title.toLowerCase()} from technicians you can trust.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button 
               size="lg" 
-              className="bg-vivid-red hover:bg-vivid-red text-white font-semibold px-8 py-4 text-lg h-auto"
-              asChild
+              className="bg-vivid-red hover:bg-red-700 text-white font-semibold px-8 py-4 text-lg h-auto"
+              onClick={() => { if (typeof window !== 'undefined' && window.HCPWidget) window.HCPWidget.openModal() }}
             >
-              <a href="tel:+19727772665">
-                <Phone className="w-5 h-5 mr-2" />
-                Call {phone}
-              </a>
+              <Wrench className="w-5 h-5 mr-2" />
+              Book Service Now
             </Button>
             <Button 
               variant="outline" 
@@ -348,11 +350,17 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [] }) => {
               className="border-2 border-white text-white hover:bg-white hover:text-prussian-blue font-semibold px-8 py-4 text-lg h-auto"
               asChild
             >
-              <Link href="/estimate">
-                Get Free Estimate
-              </Link>
+              <a href="tel:+19727772665">
+                <Phone className="w-5 h-5 mr-2" />
+                Call {phone}
+              </a>
             </Button>
           </div>
+          
+          {/* Subtle estimate link */}
+          <p className="mt-6 text-white/70 text-sm">
+            Considering a system upgrade? <Link href="/estimate" className="text-white underline hover:text-white/90">Get a Free Estimate →</Link>
+          </p>
 
           {/* Trust Signals */}
           <div className="flex flex-col sm:flex-row justify-center items-center gap-6 mt-8 pt-8 border-t border-blue-400">
