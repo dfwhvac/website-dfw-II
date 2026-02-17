@@ -41,14 +41,14 @@ const HomePage = ({
     secondaryButton: homepage?.heroSecondaryButton || { text: 'Get Free Estimate', href: '/estimate' },
   }
   
-  // Lead form settings from siteSettings
+  // Lead form settings - Service-first strategy
   const leadForm = {
-    title: siteSettings?.leadFormTitle || 'Get Your Free Estimate',
-    description: siteSettings?.leadFormDescription || "Fill out the form below and we'll contact you within 24 hours",
-    buttonText: siteSettings?.leadFormButtonText || 'Get My Free Estimate',
-    successMessage: siteSettings?.leadFormSuccessMessage || "Thank you! We'll contact you within 24 hours.",
-    trustSignals: siteSettings?.leadFormTrustSignals || '✓ Free estimates • ✓ Licensed & insured • ✓ Fast response time',
-    footerText: siteSettings?.leadFormFooterText || "We'll contact you within 24 hours to schedule your appointment",
+    title: 'Schedule Service',
+    description: "Book your repair or maintenance appointment",
+    buttonText: 'Schedule My Service',
+    successMessage: "Thank you! We'll contact you shortly to confirm your appointment.",
+    trustSignals: '✓ Same-day available • ✓ Licensed techs • ✓ Upfront pricing',
+    footerText: null, // Using custom footer with estimate link
   }
   
   const servicesSection = {
