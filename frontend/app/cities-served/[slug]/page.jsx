@@ -347,34 +347,13 @@ export default async function CityPage({ params }) {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16 bg-[#00B8FF] text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">
-            Need HVAC Service in {city.cityName}?
-          </h2>
-          <p className="text-blue-100 mb-8 max-w-2xl mx-auto">
-            Our team is ready to help with all your heating and cooling needs. 
-            Expert service with integrity and care—that&apos;s our commitment to you.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href={`tel:${companyInfo.phone}`}
-              className="inline-flex items-center justify-center gap-2 bg-white text-[#003153] px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors"
-            >
-              <Phone className="w-5 h-5" />
-              {companyInfo.phone}
-            </a>
-            <Link
-              href="/estimate"
-              className="inline-flex items-center justify-center gap-2 bg-[#003153] text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-[#00213a] transition-colors"
-            >
-              Request a Quote
-              <ArrowRight className="w-5 h-5" />
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* CTA Section - Service-first strategy */}
+      <ServiceFirstCTA 
+        title={`Need HVAC Service in ${city.cityName}?`}
+        description="Our team is ready to help with all your heating and cooling needs. Expert service with integrity and care—that's our commitment to you."
+        variant="blue"
+        className="bg-[#00B8FF]"
+      />
 
       {/* Other Cities */}
       {otherCities.length > 0 && (
