@@ -4,8 +4,9 @@ import { client, getCompanyInfo, getSiteSettings, getTrustSignals } from '@/lib/
 import { companyInfo as mockCompanyInfo } from '@/lib/mockData'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { Phone, MapPin, CheckCircle, ArrowRight, Clock, Shield, Star, Award, Users, Calendar, TrendingUp } from 'lucide-react'
+import { Phone, MapPin, CheckCircle, ArrowRight, Clock, Shield, Star, Award, Users, Calendar, TrendingUp, Wrench } from 'lucide-react'
 import { HCPBookingLink } from '@/components/HCPBookingButton'
+import ServiceFirstCTA from '@/components/ServiceFirstCTA'
 
 // Disable caching for instant Sanity updates
 export const dynamic = 'force-dynamic'
@@ -179,22 +180,27 @@ export default async function CityPage({ params }) {
               </div>
             </div>
             
-            {/* CTA Buttons */}
+            {/* CTA Buttons - Service-first strategy */}
             <div className="flex flex-col sm:flex-row gap-4">
+              <HCPBookingLink
+                className="inline-flex items-center justify-center gap-2 bg-[#FF0000] hover:bg-red-600 text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors"
+              >
+                <Wrench className="w-5 h-5" />
+                Book Service Now
+              </HCPBookingLink>
               <a
                 href={`tel:${companyInfo.phone}`}
-                className="inline-flex items-center justify-center gap-2 bg-[#FF0000] hover:bg-red-600 text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors"
+                className="inline-flex items-center justify-center gap-2 bg-white text-[#003153] px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors"
               >
                 <Phone className="w-5 h-5" />
                 Call {companyInfo.phone}
               </a>
-              <HCPBookingLink
-                className="inline-flex items-center justify-center gap-2 bg-white text-[#003153] px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors"
-              >
-                Schedule Service
-                <ArrowRight className="w-5 h-5" />
-              </HCPBookingLink>
             </div>
+            
+            {/* Subtle estimate link */}
+            <p className="text-blue-200 text-sm mt-4">
+              Considering a new system? <Link href="/estimate" className="text-white underline hover:text-blue-100">Get a Free Replacement Estimate →</Link>
+            </p>
           </div>
         </div>
       </section>
