@@ -212,7 +212,12 @@ const LeadForm = ({
           {/* Trust Signals */}
           <div className="text-center text-sm text-gray-600 space-y-2">
             <p>{trustSignals}</p>
-            <p className="text-xs">{footerText}</p>
+            {footerText && <p className="text-xs">{footerText}</p>}
+            {showEstimateLink && (
+              <p className="text-xs pt-2 border-t border-gray-100">
+                Need a system replacement? <Link href="/estimate" className="text-electric-blue hover:underline font-medium">Get a Free Estimate →</Link>
+              </p>
+            )}
           </div>
         </form>
       </CardContent>
