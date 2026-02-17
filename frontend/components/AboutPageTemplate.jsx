@@ -15,7 +15,8 @@ import {
   Heart,
   Users,
   CheckCircle,
-  Clock
+  Clock,
+  Wrench
 } from 'lucide-react'
 
 // Icon mapping for brand pillars
