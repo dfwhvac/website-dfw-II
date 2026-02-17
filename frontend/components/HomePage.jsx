@@ -41,14 +41,14 @@ const HomePage = ({
     secondaryButton: homepage?.heroSecondaryButton || { text: 'Call (972) 777-COOL', href: 'tel:+19727772665' },
   }
   
-  // Lead form settings from siteSettings
+  // Lead form settings from siteSettings - now focused on service scheduling
   const leadForm = {
-    title: siteSettings?.leadFormTitle || 'Get Your Free Estimate',
-    description: siteSettings?.leadFormDescription || "Fill out the form below and we'll contact you within 24 hours",
-    buttonText: siteSettings?.leadFormButtonText || 'Get My Free Estimate',
+    title: siteSettings?.leadFormTitle || 'Schedule Service',
+    description: siteSettings?.leadFormDescription || "Book your repair or maintenance appointment",
+    buttonText: siteSettings?.leadFormButtonText || 'Schedule My Service',
     successMessage: siteSettings?.leadFormSuccessMessage || "Thank you! We'll contact you within 24 hours.",
-    trustSignals: siteSettings?.leadFormTrustSignals || '✓ Free estimates • ✓ Licensed & insured • ✓ Fast response time',
-    footerText: siteSettings?.leadFormFooterText || "We'll contact you within 24 hours to schedule your appointment",
+    trustSignals: siteSettings?.leadFormTrustSignals || '✓ Same-day available • ✓ Licensed techs • ✓ Upfront pricing',
+    footerText: siteSettings?.leadFormFooterText || "Need a system replacement? Get a Free Estimate →",
   }
   
   const servicesSection = {
