@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import Link from 'next/link'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { Label } from './ui/label'
@@ -18,12 +19,13 @@ import { submitLeadForm } from '../lib/mockData'
 import { toast } from 'sonner'
 
 const LeadForm = ({ 
-  title = "Get Your Free Estimate", 
-  description = "Fill out the form below and we'll contact you within 24 hours",
-  buttonText = "Get My Free Estimate",
-  successMessage = "Thank you! We'll contact you within 24 hours.",
-  trustSignals = "✓ Free estimates • ✓ Licensed & insured • ✓ Fast response time",
-  footerText = "We'll contact you within 24 hours to schedule your appointment"
+  title = "Schedule Service", 
+  description = "Book your repair or maintenance appointment",
+  buttonText = "Schedule My Service",
+  successMessage = "Thank you! We'll contact you shortly to confirm your appointment.",
+  trustSignals = "✓ Same-day available • ✓ Licensed techs • ✓ Upfront pricing",
+  footerText = null,
+  showEstimateLink = true
 }) => {
   const [formData, setFormData] = useState({
     firstName: '',
