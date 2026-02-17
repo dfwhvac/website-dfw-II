@@ -104,13 +104,11 @@ const HomePage = ({
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button 
                   size="lg" 
-                  className="bg-vivid-red hover:bg-vivid-red text-white font-semibold px-8 py-4 text-lg h-auto"
-                  asChild
+                  className="bg-vivid-red hover:bg-red-700 text-white font-semibold px-8 py-4 text-lg h-auto"
+                  onClick={() => { if (typeof window !== 'undefined' && window.HCPWidget) window.HCPWidget.openModal() }}
                 >
-                  <a href={hero.primaryButton.href}>
-                    <Phone className="w-5 h-5 mr-2" />
-                    {hero.primaryButton.text}
-                  </a>
+                  <Wrench className="w-5 h-5 mr-2" />
+                  {hero.primaryButton.text}
                 </Button>
                 <Button 
                   variant="outline" 
@@ -118,10 +116,16 @@ const HomePage = ({
                   className="border-2 border-electric-blue text-electric-blue hover:bg-electric-blue hover:text-white font-semibold px-8 py-4 text-lg h-auto"
                   asChild
                 >
-                  <Link href={hero.secondaryButton.href}>
+                  <a href={hero.secondaryButton.href}>
+                    <Phone className="w-5 h-5 mr-2" />
                     {hero.secondaryButton.text}
-                  </Link>
+                  </a>
                 </Button>
+              </div>
+              
+              {/* Subtle link to Free Estimate for replacement seekers */}
+              <div className="text-sm text-gray-500">
+                Considering a new system? <Link href="/estimate" className="text-electric-blue hover:underline font-medium">Get a Free Replacement Estimate →</Link>
               </div>
 
               {/* Trust Indicators */}
