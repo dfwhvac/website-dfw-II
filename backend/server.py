@@ -59,6 +59,22 @@ class GoogleReviewsResponse(BaseModel):
     business_name: str
     updated_at: str
 
+
+class LeadSubmission(BaseModel):
+    firstName: str
+    lastName: str
+    email: str
+    phone: str
+    serviceAddress: str
+    numSystems: str = ""
+    problemDescription: str
+
+
+class LeadResponse(BaseModel):
+    success: bool
+    message: str
+    lead_id: Optional[str] = None
+
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
 async def root():
