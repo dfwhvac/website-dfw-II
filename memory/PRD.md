@@ -105,10 +105,11 @@ Build a premium, conversion-focused website for DFW HVAC company using Next.js f
 ### Recent Projects Page (Feb 2025)
 - Created `/recent-projects` page with conversion-optimized structure
 - Hero section with phone-first CTAs
-- Trust stats bar (500+ Projects, 50+ Cities, Since 1974, 3 Generations)
-- **RealWork widget placeholder** — awaiting embed code from provider
+- Trust stats bar (500+ Projects, 50+ Cities, Family Owned, 3 Generations)
+- **RealWork widget integrated** — Interactive map showing 500+ jobs across DFW
 - SEO internal links to city pages
 - Full conversion CTA section at bottom
+- Added "Recent Projects" link to header navigation and footer
 
 ### Sticky Mobile CTA Bar (Feb 2025)
 - Created `StickyMobileCTA` component (site-wide)
@@ -116,6 +117,20 @@ Build a premium, conversion-focused website for DFW HVAC company using Next.js f
 - Click-to-call with "(972) 777-COOL" display
 - Dismissible (persists in session storage)
 - Added to root layout for site-wide display
+
+### Lead Capture System (Feb 2025)
+- Implemented `/api/leads` endpoint with database storage
+- Three-funnel email routing:
+  - Service leads → `service@dfwhvac.com` (Subject: "🔧 Service Lead: {Name} - {Phone}")
+  - Estimate leads → `estimate@dfwhvac.com` (Subject: "💰 Estimate Lead: {Name} - {Phone}")
+  - Contact leads → `contact@dfwhvac.com` (Subject: "📬 Contact Form: {Name} - {Email}")
+- Updated `LeadForm.jsx` and `SimpleContactForm.jsx` to use real API
+- Resend integration configured (awaiting domain verification)
+
+### Date Reference Cleanup (Feb 2025)
+- Removed all "1974" references (incorrect)
+- Preserved all "1972" references (correct legacy start year)
+- Updated meta descriptions, FAQ answers, schema defaults
 
 ### Legal Pages (Feb 2025)
 - Created `/privacy-policy` page from user-provided PDF
