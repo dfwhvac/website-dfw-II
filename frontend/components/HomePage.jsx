@@ -60,7 +60,7 @@ const HomePage = ({
     title: homepage?.whyUsTitle || 'Why Dallas-Fort Worth Trusts DFW HVAC',
     subtitle: homepage?.whyUsSubtitle || 'Expert service with integrity and care',
     items: homepage?.whyUsItems || [
-      { title: 'Three-Generation Legacy', description: 'A family commitment to HVAC excellence since 1972', icon: 'years' },
+      { title: 'Three-Generation Legacy', description: 'A family commitment to HVAC excellence', icon: 'years' },
       { title: 'Licensed & Insured', description: 'Fully licensed technicians you can trust', icon: 'shield' },
       { title: 'Fast Response', description: 'Quick, reliable service when you need it', icon: 'clock' },
       { title: 'Guaranteed Work', description: 'Quality workmanship backed by comprehensive warranties', icon: 'trending' },
