@@ -4,6 +4,7 @@ import { Toaster } from '../components/ui/sonner'
 import { createMetadata } from '../lib/metadata'
 import ColorProvider from '../components/ColorProvider'
 import { getBrandColors } from '../lib/sanity'
+import StickyMobileCTA from '../components/StickyMobileCTA'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,6 +23,11 @@ export default async function RootLayout({ children }) {
           {children}
         </ColorProvider>
         <Toaster />
+        <StickyMobileCTA 
+          phone="(972) 777-COOL"
+          phoneNumber="+19727772665"
+          ctaText="Call Now for Service"
+        />
       </body>
     </html>
   )
