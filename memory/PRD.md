@@ -171,8 +171,9 @@ Build a premium, conversion-focused website for DFW HVAC company using Next.js f
 > **See `/app/frontend/PROJECT_TASKS.md` for the complete, authoritative checklist.**
 
 ### P0 - Critical
-- [ ] **Lead Capture Form Backend** - Implement email notifications using Resend
-- [ ] **301 Redirects** - 6 redirects for old URLs before launch
+- [x] **Lead Capture Form Backend** - ✅ Implemented with three-funnel email routing (service→service@, estimate→estimate@, contact→contact@)
+- [ ] **Resend Domain Verification** - Verify `dfwhvac.com` in Resend to enable email notifications (requires DNS records in GoDaddy)
+- [ ] **301 Redirects** - Identify and configure redirects for old URLs before launch
 
 ### P1 - Important (Pre-Launch)
 - [ ] **Google Search Console Setup & Verification** - Verify domain via GoDaddy DNS TXT record; check indexing status
