@@ -235,19 +235,23 @@ Build a premium, conversion-focused website for DFW HVAC company using Next.js f
 | Sanity.io | Active | CMS |
 | Google Places API | Active | Daily review sync |
 | Vercel | Active | Hosting + cron jobs |
-| RealWork | **Pending** | Recent Projects widget (awaiting embed code) |
-| Resend | Pending | Lead form emails |
+| RealWork | **Active** | Recent Projects widget (embedded, account ID: mTNPdsX-K4WXweP6) |
+| Resend | **Configured** | Lead form emails (awaiting domain verification) |
 | GA4/GTM | Future | Analytics |
 | Facebook Pixel | Future | Marketing |
 
 ---
 
 ## Key Files Reference
-- `/app/frontend/app/recent-projects/page.jsx` - Recent Projects page with widget placeholder
+- `/app/frontend/app/recent-projects/page.jsx` - Recent Projects page with RealWork widget
+- `/app/frontend/components/RealWorkWidget.jsx` - RealWork widget component
 - `/app/frontend/components/StickyMobileCTA.jsx` - Site-wide sticky mobile CTA bar
 - `/app/frontend/components/ServiceFirstCTA.jsx` - Reusable phone-first CTA component
+- `/app/frontend/components/LeadForm.jsx` - Lead capture form (supports leadType prop)
+- `/app/frontend/components/SimpleContactForm.jsx` - Contact page form
 - `/app/frontend/app/layout.js` - Root layout (includes StickyMobileCTA)
 - `/app/frontend/components/Header.jsx` - Navigation with phone-first CTAs
+- `/app/backend/server.py` - API server with /api/leads endpoint
 - `/app/frontend/components/Footer.jsx` - Footer with Recent Projects link
 
 ---
