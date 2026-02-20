@@ -7,7 +7,6 @@ import { Label } from './ui/label'
 import { Textarea } from './ui/textarea'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card'
 import { Phone, Mail, MessageSquare } from 'lucide-react'
-import { submitLeadForm } from '../lib/mockData'
 import { toast } from 'sonner'
 
 const SimpleContactForm = ({ 
@@ -32,7 +31,26 @@ const SimpleContactForm = ({
     setIsSubmitting(true)
 
     try {
-      const result = await submitLeadForm(formData)
+      const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL || process.env.REACT_APP_BACKEND_URL || ''
+      const response = await fetch(`${apiUrl}/api/leads`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName: formData.firstName,
+          lastName: formData.lastName || '',
+          email: formData.email,
+          phone: formData.phone,
+          serviceAddress: '',
+          numSystems: '',
+          problemDescription: formData.message,
+          leadType: 'contact'
+        })
+      })
+      
+      const result = await response.json()
+      
       if (result.success) {
         toast.success("Thank you! We'll get back to you within 24 hours.")
         setFormData({
@@ -42,8 +60,11 @@ const SimpleContactForm = ({
           phone: '',
           message: ''
         })
+      } else {
+        toast.error(result.message || "Something went wrong. Please try again.")
       }
     } catch (error) {
+      console.error('Contact form submission error:', error)
       toast.error("Something went wrong. Please try again.")
     } finally {
       setIsSubmitting(false)
