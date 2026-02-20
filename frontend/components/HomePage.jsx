@@ -359,7 +359,7 @@ const HomePage = ({
         </div>
       </section>
 
-      {/* CTA Section - Service-first strategy */}
+      {/* CTA Section - Phone-first strategy */}
       <section className="py-20" style={{background: 'linear-gradient(to right, #003153, #00B8FF)'}}>
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl font-bold text-white mb-4">
@@ -373,10 +373,12 @@ const HomePage = ({
             <Button 
               size="lg" 
               className="bg-vivid-red hover:bg-red-700 text-white font-semibold px-8 py-4 text-lg h-auto"
-              onClick={() => { if (typeof window !== 'undefined' && window.HCPWidget) window.HCPWidget.openModal() }}
+              asChild
             >
-              <Wrench className="w-5 h-5 mr-2" />
-              Book Service Now
+              <a href="tel:+19727772665">
+                <Phone className="w-5 h-5 mr-2" />
+                Call (972) 777-COOL
+              </a>
             </Button>
             <Button 
               variant="outline" 
@@ -384,10 +386,9 @@ const HomePage = ({
               className="border-2 border-white text-white hover:bg-white hover:text-[#003153] font-semibold px-8 py-4 text-lg h-auto"
               asChild
             >
-              <a href="tel:+19727772665">
-                <Phone className="w-5 h-5 mr-2" />
-                Call (972) 777-COOL
-              </a>
+              <Link href="/contact">
+                Request Service
+              </Link>
             </Button>
           </div>
           
