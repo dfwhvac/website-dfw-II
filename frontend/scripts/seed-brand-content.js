@@ -223,7 +223,7 @@ const trustSignalsContent = {
     { 
       _key: 'why1', 
       title: 'Three-Generation Legacy', 
-      description: 'A family commitment to HVAC excellence since 1972', 
+      description: 'A family commitment to HVAC excellence', 
       icon: 'years', 
       order: 1 
     },
@@ -299,7 +299,7 @@ const homepageUpdates = {
     { 
       _key: 'item1',
       title: 'Three-Generation Legacy', 
-      description: 'A family commitment to HVAC excellence since 1972', 
+      description: 'A family commitment to HVAC excellence', 
       icon: 'years' 
     },
     { 

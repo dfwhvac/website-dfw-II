@@ -14,7 +14,7 @@ const siteSettings = {
   title: 'Site Settings',
   
   // Header Settings
-  headerTagline: 'Serving Dallas-Fort Worth Since 1974',
+  headerTagline: 'Three Generations of Trusted HVAC Service',
   headerCtaText: 'Call Now',
   showHeaderTagline: true,
   
