@@ -57,8 +57,8 @@ export default {
       title: 'Legacy Start Year',
       type: 'string',
       group: 'branding',
-      description: 'Year the family HVAC legacy began (optional)',
-      initialValue: '',
+      description: 'Year the family HVAC legacy began (1972)',
+      initialValue: '1972',
     },
 
     // SEO Defaults

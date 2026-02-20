@@ -62,7 +62,7 @@ export default {
       name: 'legacyStartYear',
       title: 'Legacy Start Year',
       type: 'string',
-      description: 'Year the family HVAC legacy began (optional)',
+      description: 'Year the family HVAC legacy began (1972)',
     },
     {
       name: 'legacyDescription',
