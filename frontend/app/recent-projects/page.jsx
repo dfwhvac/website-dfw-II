@@ -5,6 +5,7 @@ import { companyInfo as mockCompanyInfo } from '@/lib/mockData'
 import Link from 'next/link'
 import { Phone, MapPin, CheckCircle, ArrowRight, Briefcase, Calendar, Award } from 'lucide-react'
 import ServiceFirstCTA from '@/components/ServiceFirstCTA'
+import RealWorkWidget from '@/components/RealWorkWidget'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
