@@ -110,38 +110,11 @@ export default async function RecentProjectsPage() {
       </section>
 
       {/* RealWork Widget Section */}
-      <section className="py-12 md:py-16 bg-white">
+      <section className="py-12 md:py-16 bg-[#003153]">
         <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            {/* Widget Placeholder */}
-            <div 
-              id="realwork-widget-container" 
-              className="min-h-[600px] bg-gray-100 rounded-xl flex items-center justify-center border-2 border-dashed border-gray-300"
-              data-testid="realwork-widget-placeholder"
-            >
-              {/* 
-                REALWORK WIDGET PLACEHOLDER
-                
-                Replace this entire div with the RealWork embed code.
-                Example embed formats:
-                
-                Option 1 - Script embed:
-                <script src="https://widgets.realwork.com/embed.js" data-account="YOUR_ID"></script>
-                <div id="realwork-widget"></div>
-                
-                Option 2 - Iframe embed:
-                <iframe src="https://app.realwork.com/widget/YOUR_ID" width="100%" height="600" frameborder="0"></iframe>
-              */}
-              <div className="text-center p-8">
-                <MapPin className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-gray-600 mb-2">
-                  Project Map Widget
-                </h3>
-                <p className="text-gray-500 max-w-md">
-                  RealWork widget will be embedded here showing interactive map of completed projects across DFW.
-                </p>
-              </div>
-            </div>
+          <div className="max-w-7xl mx-auto">
+            {/* RealWork Widget */}
+            <RealWorkWidget />
           </div>
         </div>
       </section>
