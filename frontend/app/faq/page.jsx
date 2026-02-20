@@ -36,7 +36,7 @@ const defaultFaqs = [
     answer: 'We serve the entire Dallas-Fort Worth metroplex including Dallas, Fort Worth, Arlington, Plano, Irving, Garland, Grand Prairie, McKinney, Frisco, Denton, Coppell, Lewisville, Carrollton, Richardson, and surrounding communities within approximately 30 miles of our location.' },
   { _id: 'rs5', category: 'residential-services', order: 5,
     question: 'How long has DFW HVAC been in business?',
-    answer: 'DFW HVAC has been family-owned and operated since 1974 - that\'s over 50 years of serving the Dallas-Fort Worth community. Our longevity speaks to our commitment to quality service, fair pricing, and customer satisfaction.' },
+    answer: 'DFW HVAC is a three-generation, family-owned and operated business serving the Dallas-Fort Worth community. Our longevity speaks to our commitment to quality service, fair pricing, and customer satisfaction.' },
 
   // Residential - Pricing (4)
   { _id: 'rp1', category: 'residential-pricing', order: 1,
