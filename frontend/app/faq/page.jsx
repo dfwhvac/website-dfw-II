@@ -15,7 +15,7 @@ export async function generateMetadata() {
   const faqPage = await getFaqPage()
   return {
     title: faqPage?.metaTitle || 'FAQ | DFW HVAC | Frequently Asked Questions',
-    description: faqPage?.metaDescription || 'Find answers to common questions about HVAC services, pricing, scheduling, equipment, and maintenance from DFW HVAC - serving Dallas-Fort Worth since 1974.',
+    description: faqPage?.metaDescription || 'Find answers to common questions about HVAC services, pricing, scheduling, equipment, and maintenance from DFW HVAC - serving Dallas-Fort Worth.',
   }
 }
 
