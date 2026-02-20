@@ -33,7 +33,7 @@ export default {
       title: 'Legacy Statement',
       type: 'string',
       group: 'branding',
-      description: 'Flexible legacy messaging (e.g., "A three-generation family commitment since 1972")',
+      description: 'Flexible legacy messaging (e.g., "A three-generation family commitment")',
       initialValue: 'A three-generation family commitment to trustworthy HVAC service',
     },
     {
@@ -49,16 +49,16 @@ export default {
       title: 'Company Founded Year',
       type: 'string',
       group: 'branding',
-      description: 'Year DFW HVAC was founded (2020)',
-      initialValue: '2020',
+      description: 'Year DFW HVAC was founded (optional)',
+      initialValue: '',
     },
     {
       name: 'legacyStartYear',
       title: 'Legacy Start Year',
       type: 'string',
       group: 'branding',
-      description: 'Year the family HVAC legacy began (1972)',
-      initialValue: '1972',
+      description: 'Year the family HVAC legacy began (optional)',
+      initialValue: '',
     },
 
     // SEO Defaults
