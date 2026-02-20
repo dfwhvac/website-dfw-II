@@ -93,8 +93,8 @@ export default async function RecentProjectsPage() {
             <div className="flex items-center gap-3">
               <Calendar className="w-8 h-8 text-[#F77F00]" />
               <div>
-                <div className="text-2xl font-bold text-[#003153]">Since 1974</div>
-                <div className="text-sm text-gray-600">Family Owned</div>
+                <div className="text-2xl font-bold text-[#003153]">Family Owned</div>
+                <div className="text-sm text-gray-600">Three Generations</div>
               </div>
             </div>
             <div className="flex items-center gap-3">
@@ -207,7 +207,7 @@ export default async function RecentProjectsPage() {
             </h2>
             <div className="grid md:grid-cols-2 gap-6">
               {[
-                { title: 'Three-Generation Legacy', desc: 'Family-owned since 1974 with a commitment to quality workmanship' },
+                { title: 'Three-Generation Legacy', desc: 'Family-owned with a commitment to quality workmanship' },
                 { title: 'Licensed & Insured', desc: 'Fully licensed technicians you can trust in your home' },
                 { title: 'Transparent Pricing', desc: 'No hidden fees or surprises—honest assessments every time' },
                 { title: 'Comprehensive Warranties', desc: 'We stand behind our work with industry-leading warranties' },
