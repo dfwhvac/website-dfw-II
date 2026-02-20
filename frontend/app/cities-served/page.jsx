@@ -3,8 +3,7 @@ import Footer from '@/components/Footer'
 import { client, getCompanyInfo, getSiteSettings } from '@/lib/sanity'
 import { companyInfo as mockCompanyInfo } from '@/lib/mockData'
 import Link from 'next/link'
-import { Phone, MapPin, CheckCircle, ArrowRight, Wrench } from 'lucide-react'
-import { HCPBookingLink } from '@/components/HCPBookingButton'
+import { Phone, MapPin, CheckCircle, ArrowRight } from 'lucide-react'
 import ServiceFirstCTA from '@/components/ServiceFirstCTA'
 
 // Disable caching for instant Sanity updates
