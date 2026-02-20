@@ -147,10 +147,21 @@ Build a premium, conversion-focused website for DFW HVAC company using Next.js f
 | Sanity.io | Active | CMS |
 | Google Places API | Active | Daily review sync |
 | Vercel | Active | Hosting + cron jobs |
+| RealWork | **Pending** | Recent Projects widget (awaiting embed code) |
 | Resend | Pending | Lead form emails |
 | GA4/GTM | Future | Analytics |
 | Facebook Pixel | Future | Marketing |
 
 ---
 
-*Last Updated: February 11, 2025*
+## Key Files Reference
+- `/app/frontend/app/recent-projects/page.jsx` - Recent Projects page with widget placeholder
+- `/app/frontend/components/StickyMobileCTA.jsx` - Site-wide sticky mobile CTA bar
+- `/app/frontend/components/ServiceFirstCTA.jsx` - Reusable phone-first CTA component
+- `/app/frontend/app/layout.js` - Root layout (includes StickyMobileCTA)
+- `/app/frontend/components/Header.jsx` - Navigation with phone-first CTAs
+- `/app/frontend/components/Footer.jsx` - Footer with Recent Projects link
+
+---
+
+*Last Updated: February 20, 2025*
