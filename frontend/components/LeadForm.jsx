@@ -15,7 +15,6 @@ import {
 } from './ui/select'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card'
 import { Phone, Mail, MapPin, Wrench } from 'lucide-react'
-import { submitLeadForm } from '../lib/mockData'
 import { toast } from 'sonner'
 
 const LeadForm = ({ 
@@ -47,7 +46,17 @@ const LeadForm = ({
     setIsSubmitting(true)
 
     try {
-      const result = await submitLeadForm(formData)
+      const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL || process.env.REACT_APP_BACKEND_URL || ''
+      const response = await fetch(`${apiUrl}/api/leads`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      })
+      
+      const result = await response.json()
+      
       if (result.success) {
         toast.success(successMessage)
         // Reset form
@@ -60,9 +69,12 @@ const LeadForm = ({
           numSystems: '',
           problemDescription: ''
         })
+      } else {
+        toast.error(result.message || "Something went wrong. Please try again.")
       }
     } catch (error) {
-      toast.error("Something went wrong. Please try again.")
+      console.error('Lead submission error:', error)
+      toast.error("Something went wrong. Please try again or call us directly.")
     } finally {
       setIsSubmitting(false)
     }
