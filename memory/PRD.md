@@ -110,9 +110,10 @@ Build a premium, conversion-focused website for DFW HVAC company using Next.js f
 - [ ] **Lead Capture Form Backend** - Implement email notifications using Resend
 - [ ] **301 Redirects** - 6 redirects for old URLs before launch
 - [ ] **Custom Domain Setup** - DNS, SSL, www redirect
-- [ ] **RealWork Widget Integration** - Obtain embed code and add to Recent Projects page
 
 ### P1 - Important (Pre-Launch)
+- [ ] **Google Search Console Setup & Verification** - Verify domain ownership, check indexing status
+- [ ] **RealWork Widget SEO Evaluation** - Use Search Console to verify if widget content is indexed; determine ROI vs. subscription cost
 - [ ] **SEO Implementation** - sitemap.xml, robots.txt, canonical URLs, structured data
 - [ ] **YouTube Video Embed** - Indoor Air Quality page
 - [ ] **Content Creation** - Case studies, financing pages
