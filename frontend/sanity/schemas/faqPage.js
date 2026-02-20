@@ -52,7 +52,7 @@ export default {
       type: 'text',
       group: 'seo',
       description: 'Description for search results (150-160 chars)',
-      initialValue: 'Find answers to common questions about HVAC services, pricing, scheduling, equipment, and maintenance from DFW HVAC - serving Dallas-Fort Worth since 1974.',
+      initialValue: 'Find answers to common questions about HVAC services, pricing, scheduling, equipment, and maintenance from DFW HVAC - serving Dallas-Fort Worth.',
       validation: Rule => Rule.max(200),
     },
   ],
