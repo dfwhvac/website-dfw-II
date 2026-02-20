@@ -24,7 +24,8 @@ const LeadForm = ({
   successMessage = "Thank you! We'll call you within 2 business hours to discuss your needs.",
   trustSignals = "✓ Fast response • ✓ Licensed techs • ✓ Upfront pricing",
   footerText = null,
-  showEstimateLink = true
+  showEstimateLink = true,
+  leadType = "service"  // "service", "estimate", or "contact"
 }) => {
   const [formData, setFormData] = useState({
     firstName: '',
@@ -52,7 +53,10 @@ const LeadForm = ({
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({
+          ...formData,
+          leadType: leadType
+        })
       })
       
       const result = await response.json()
