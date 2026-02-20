@@ -105,6 +105,118 @@ async def get_status_checks():
     return status_checks
 
 
+@api_router.post("/leads", response_model=LeadResponse)
+async def submit_lead(lead: LeadSubmission):
+    """Submit a lead form and send email notification"""
+    lead_id = str(uuid.uuid4())
+    
+    try:
+        # Save lead to database
+        lead_doc = {
+            "id": lead_id,
+            "firstName": lead.firstName,
+            "lastName": lead.lastName,
+            "email": lead.email,
+            "phone": lead.phone,
+            "serviceAddress": lead.serviceAddress,
+            "numSystems": lead.numSystems,
+            "problemDescription": lead.problemDescription,
+            "createdAt": datetime.now(timezone.utc).isoformat(),
+            "status": "new"
+        }
+        await db.leads.insert_one(lead_doc)
+        logger.info(f"Lead saved to database: {lead_id}")
+        
+        # Send email notification
+        if RESEND_API_KEY:
+            try:
+                email_html = f"""
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                    <div style="background-color: #003153; color: white; padding: 20px; text-align: center;">
+                        <h1 style="margin: 0;">New Lead Received!</h1>
+                    </div>
+                    
+                    <div style="padding: 20px; background-color: #f9f9f9;">
+                        <h2 style="color: #FF0000; margin-top: 0;">⚡ Action Required</h2>
+                        <p style="font-size: 16px;">A potential customer has submitted a service request. Call them back promptly!</p>
+                        
+                        <div style="background-color: white; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                            <h3 style="color: #003153; margin-top: 0;">Contact Information</h3>
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <tr>
+                                    <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Name:</strong></td>
+                                    <td style="padding: 8px 0; border-bottom: 1px solid #eee;">{lead.firstName} {lead.lastName}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Phone:</strong></td>
+                                    <td style="padding: 8px 0; border-bottom: 1px solid #eee;">
+                                        <a href="tel:{lead.phone}" style="color: #FF0000; font-weight: bold; font-size: 18px;">{lead.phone}</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Email:</strong></td>
+                                    <td style="padding: 8px 0; border-bottom: 1px solid #eee;">
+                                        <a href="mailto:{lead.email}">{lead.email}</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Service Address:</strong></td>
+                                    <td style="padding: 8px 0; border-bottom: 1px solid #eee;">{lead.serviceAddress}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>HVAC Systems:</strong></td>
+                                    <td style="padding: 8px 0; border-bottom: 1px solid #eee;">{lead.numSystems or 'Not specified'}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <div style="background-color: white; padding: 20px; border-radius: 8px;">
+                            <h3 style="color: #003153; margin-top: 0;">Service Request Details</h3>
+                            <p style="background-color: #f5f5f5; padding: 15px; border-radius: 4px; margin: 0;">
+                                {lead.problemDescription}
+                            </p>
+                        </div>
+                        
+                        <div style="margin-top: 20px; padding: 15px; background-color: #e8f5e9; border-radius: 8px; text-align: center;">
+                            <p style="margin: 0; color: #2e7d32;">
+                                <strong>Lead ID:</strong> {lead_id}<br>
+                                <small>Submitted: {datetime.now(timezone.utc).strftime('%B %d, %Y at %I:%M %p UTC')}</small>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div style="background-color: #003153; color: white; padding: 15px; text-align: center; font-size: 12px;">
+                        <p style="margin: 0;">DFW HVAC Lead Notification System</p>
+                    </div>
+                </div>
+                """
+                
+                resend.Emails.send({
+                    "from": "DFW HVAC Leads <leads@dfwhvac.com>",
+                    "to": [NOTIFICATION_EMAIL],
+                    "subject": f"🔥 New Lead: {lead.firstName} {lead.lastName} - {lead.phone}",
+                    "html": email_html
+                })
+                logger.info(f"Email notification sent for lead: {lead_id}")
+                
+            except Exception as email_error:
+                logger.error(f"Failed to send email notification: {email_error}")
+                # Don't fail the whole request if email fails
+        
+        return LeadResponse(
+            success=True,
+            message="Thank you! We'll call you within 2 business hours.",
+            lead_id=lead_id
+        )
+        
+    except Exception as e:
+        logger.error(f"Error processing lead: {e}")
+        return LeadResponse(
+            success=False,
+            message="Something went wrong. Please try again or call us directly."
+        )
+
+
 @api_router.get("/google-reviews", response_model=GoogleReviewsResponse)
 async def get_google_reviews():
     """Fetch current Google rating and review count"""
