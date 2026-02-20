@@ -92,6 +92,9 @@ const BookServicePage = () => {
             <LeadForm 
               title="Get Your Free Estimate"
               description="Fill out the form below and we'll contact you within 24 hours"
+              leadType="estimate"
+              successMessage="Thank you! We'll contact you within 24 hours to schedule your free estimate."
+              showEstimateLink={false}
             />
           </div>
 
