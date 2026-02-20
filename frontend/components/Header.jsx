@@ -161,16 +161,16 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
             ))}
           </nav>
 
-          {/* CTA Buttons - Service-first strategy */}
+          {/* CTA Buttons - Phone-first strategy */}
           <div className="hidden lg:flex items-center gap-3">
             {ctaButtons.map((btn, index) => (
-              btn.isBooking ? (
+              btn.isPhone ? (
                 <Button 
                   key={btn.href || index}
                   className="bg-vivid-red hover:bg-red-700 text-white font-semibold"
-                  onClick={() => { if (typeof window !== 'undefined' && window.HCPWidget) window.HCPWidget.openModal() }}
+                  asChild
                 >
-                  {btn.label}
+                  <a href={btn.href}>{btn.label}</a>
                 </Button>
               ) : (
                 <Button 
