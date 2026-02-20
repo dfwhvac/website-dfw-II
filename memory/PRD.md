@@ -32,6 +32,32 @@ Build a premium, conversion-focused website for DFW HVAC company using Next.js f
 
 ## Completed Work
 
+### Phone-First Conversion Strategy (Feb 2025)
+- **Removed Housecall Pro integration entirely** (operational constraints)
+- Implemented phone-first CTA pattern site-wide
+- Created reusable `ServiceFirstCTA` client component
+- All primary CTAs now prompt users to call
+
+### Recent Projects Page (Feb 2025)
+- Created `/recent-projects` page with conversion-optimized structure
+- Hero section with phone-first CTAs
+- Trust stats bar (500+ Projects, 50+ Cities, Since 1974, 3 Generations)
+- **RealWork widget placeholder** — awaiting embed code from provider
+- SEO internal links to city pages
+- Full conversion CTA section at bottom
+
+### Sticky Mobile CTA Bar (Feb 2025)
+- Created `StickyMobileCTA` component (site-wide)
+- Appears on mobile after scrolling 100px
+- Click-to-call with "(972) 777-COOL" display
+- Dismissible (persists in session storage)
+- Added to root layout for site-wide display
+
+### Legal Pages (Feb 2025)
+- Created `/privacy-policy` page from user-provided PDF
+- Created `/terms-of-service` page from user-provided PDF
+- Both linked in footer
+
 ### Phase 1: CMS Architecture (Feb 2025)
 - Created `aboutPage`, `contactPage`, `trustSignals` schemas
 - Extended `siteSettings` with logo tagline, legacy statement, mission
