@@ -105,10 +105,12 @@ const HomePage = ({
                 <Button 
                   size="lg" 
                   className="bg-vivid-red hover:bg-red-700 text-white font-semibold px-8 py-4 text-lg h-auto"
-                  onClick={() => { if (typeof window !== 'undefined' && window.HCPWidget) window.HCPWidget.openModal() }}
+                  asChild
                 >
-                  <Wrench className="w-5 h-5 mr-2" />
-                  {hero.primaryButton.text}
+                  <a href={hero.primaryButton.href}>
+                    <Phone className="w-5 h-5 mr-2" />
+                    {hero.primaryButton.text}
+                  </a>
                 </Button>
                 <Button 
                   variant="outline" 
@@ -116,10 +118,9 @@ const HomePage = ({
                   className="border-2 border-electric-blue text-electric-blue hover:bg-electric-blue hover:text-white font-semibold px-8 py-4 text-lg h-auto"
                   asChild
                 >
-                  <a href={hero.secondaryButton.href}>
-                    <Phone className="w-5 h-5 mr-2" />
+                  <Link href={hero.secondaryButton.href}>
                     {hero.secondaryButton.text}
-                  </a>
+                  </Link>
                 </Button>
               </div>
               
