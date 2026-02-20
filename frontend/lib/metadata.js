@@ -65,7 +65,7 @@ export function createJsonLd(data) {
       '@type': 'LocalBusiness',
       '@id': 'https://dfwhvac.com/#organization',
       name: 'DFW HVAC',
-      description: 'Family owned Air Conditioning and Heating contractor serving Dallas - Fort Worth and surrounding areas since 1974.',
+      description: 'Family owned Air Conditioning and Heating contractor serving Dallas - Fort Worth and surrounding areas.',
       url: 'https://dfwhvac.com',
       telephone: '(972) 777-COOL',
       address: {
