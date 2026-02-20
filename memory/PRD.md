@@ -1,19 +1,25 @@
 # DFW HVAC Website - Product Requirements Document
 
 ## Original Problem Statement
-Build a premium, conversion-focused website for DFW HVAC company using Next.js frontend and Sanity.io for content management. The project expanded to include comprehensive data analysis for strategic planning including service area analysis, demographic analysis, and brand strategy development.
+Build a premium, conversion-focused website for DFW HVAC company using Next.js frontend and Sanity.io for content management. The site follows a **phone-first conversion strategy** — funneling users to call the business directly or submit a lead form for a callback. The Housecall Pro booking integration was intentionally removed due to operational constraints.
 
 ## User Personas
 - **Business Owner**: Needs strategic data to optimize service delivery and marketing
 - **Potential Customers**: Looking for HVAC services in the DFW area
 - **Marketing Team**: Requires data-driven insights for targeting campaigns
 
+## Core Conversion Strategy
+**Phone-First, Form-Second**
+1. **Primary CTA**: "Call Now" (click-to-call)
+2. **Secondary CTA**: "Request Service" (leads to contact form)
+3. **Tertiary CTA**: Subtle link to `/estimate` for replacement quotes
+
 ## Core Requirements
 1. Dynamic website with Sanity CMS for all content
 2. Lead capture with email notifications
 3. SEO-optimized pages with structured data
 4. Service area definition with drive-time analysis
-5. Demographic data for targeting decisions
+5. Phone-first conversion optimization
 
 ---
 
