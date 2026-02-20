@@ -10,6 +10,7 @@ from typing import List, Optional
 import uuid
 from datetime import datetime, timezone
 import httpx
+import resend
 
 
 ROOT_DIR = Path(__file__).parent
@@ -28,6 +29,11 @@ GOOGLE_PLACE_ID = os.environ.get('GOOGLE_PLACE_ID', '')
 SANITY_PROJECT_ID = os.environ.get('SANITY_PROJECT_ID', '')
 SANITY_DATASET = os.environ.get('SANITY_DATASET', 'production')
 SANITY_API_TOKEN = os.environ.get('SANITY_API_TOKEN', '')
+
+# Resend config
+RESEND_API_KEY = os.environ.get('RESEND_API_KEY', '')
+NOTIFICATION_EMAIL = os.environ.get('NOTIFICATION_EMAIL', 'support@dfwhvac.com')
+resend.api_key = RESEND_API_KEY
 
 # Create the main app without a prefix
 app = FastAPI()
