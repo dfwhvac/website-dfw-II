@@ -21,11 +21,11 @@ const defaultFooterSections = [
     title: 'Quick Links',
     links: [
       { label: 'About Us', href: '/about' },
+      { label: 'Recent Projects', href: '/recent-projects' },
       { label: 'Customer Reviews', href: '/reviews' },
-      { label: 'Case Studies', href: '/case-studies' },
-      { label: 'Financing Options', href: '/financing' },
       { label: 'Cities Served', href: '/cities-served' },
       { label: 'FAQ', href: '/faq' },
+      { label: 'Contact', href: '/contact' },
     ]
   }
 ]
