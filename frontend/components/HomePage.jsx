@@ -41,13 +41,13 @@ const HomePage = ({
     secondaryButton: { text: 'Request Service', href: '/contact' },
   }
   
-  // Lead form settings - Service-first strategy
+  // Lead form settings - Phone-first strategy (form as secondary option)
   const leadForm = {
-    title: 'Schedule Service',
-    description: "Book your repair or maintenance appointment",
-    buttonText: 'Schedule My Service',
-    successMessage: "Thank you! We'll contact you shortly to confirm your appointment.",
-    trustSignals: '✓ Same-day available • ✓ Licensed techs • ✓ Upfront pricing',
+    title: 'Request Service',
+    description: "Fill out the form and we'll call you within 2 business hours",
+    buttonText: 'Submit Request',
+    successMessage: "Thank you! We'll call you within 2 business hours to discuss your needs.",
+    trustSignals: '✓ Fast response • ✓ Licensed techs • ✓ Upfront pricing',
     footerText: null, // Using custom footer with estimate link
   }
   
