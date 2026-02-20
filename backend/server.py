@@ -142,31 +142,50 @@ async def submit_lead(lead: LeadSubmission):
             "serviceAddress": lead.serviceAddress,
             "numSystems": lead.numSystems,
             "problemDescription": lead.problemDescription,
+            "leadType": lead.leadType,
             "createdAt": datetime.now(timezone.utc).isoformat(),
             "status": "new"
         }
         await db.leads.insert_one(lead_doc)
-        logger.info(f"Lead saved to database: {lead_id}")
+        logger.info(f"Lead saved to database: {lead_id} (type: {lead.leadType})")
+        
+        # Get email config for this lead type
+        email_config = LEAD_EMAIL_CONFIG.get(lead.leadType, LEAD_EMAIL_CONFIG["service"])
+        full_name = f"{lead.firstName} {lead.lastName}"
+        
+        # Build subject line based on lead type
+        subject = f"{email_config['emoji']} {email_config['subject_template'].format(name=full_name, phone=lead.phone, email=lead.email)}"
         
         # Send email notification
         if RESEND_API_KEY:
             try:
+                # Customize content based on lead type
+                if lead.leadType == "estimate":
+                    action_text = "A potential customer is interested in a system replacement quote."
+                    highlight_color = "#F77F00"
+                elif lead.leadType == "contact":
+                    action_text = "Someone has submitted a general inquiry through the contact form."
+                    highlight_color = "#00B8FF"
+                else:
+                    action_text = "A potential customer has submitted a service request. Call them back promptly!"
+                    highlight_color = "#FF0000"
+                
                 email_html = f"""
                 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
                     <div style="background-color: #003153; color: white; padding: 20px; text-align: center;">
-                        <h1 style="margin: 0;">New Lead Received!</h1>
+                        <h1 style="margin: 0;">{email_config['emoji']} New {lead.leadType.title()} Lead</h1>
                     </div>
                     
                     <div style="padding: 20px; background-color: #f9f9f9;">
-                        <h2 style="color: #FF0000; margin-top: 0;">⚡ Action Required</h2>
-                        <p style="font-size: 16px;">A potential customer has submitted a service request. Call them back promptly!</p>
+                        <h2 style="color: {highlight_color}; margin-top: 0;">⚡ Action Required</h2>
+                        <p style="font-size: 16px;">{action_text}</p>
                         
                         <div style="background-color: white; padding: 20px; border-radius: 8px; margin: 20px 0;">
                             <h3 style="color: #003153; margin-top: 0;">Contact Information</h3>
                             <table style="width: 100%; border-collapse: collapse;">
                                 <tr>
                                     <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Name:</strong></td>
-                                    <td style="padding: 8px 0; border-bottom: 1px solid #eee;">{lead.firstName} {lead.lastName}</td>
+                                    <td style="padding: 8px 0; border-bottom: 1px solid #eee;">{full_name}</td>
                                 </tr>
                                 <tr>
                                     <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Phone:</strong></td>
@@ -180,27 +199,22 @@ async def submit_lead(lead: LeadSubmission):
                                         <a href="mailto:{lead.email}">{lead.email}</a>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Service Address:</strong></td>
-                                    <td style="padding: 8px 0; border-bottom: 1px solid #eee;">{lead.serviceAddress}</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>HVAC Systems:</strong></td>
-                                    <td style="padding: 8px 0; border-bottom: 1px solid #eee;">{lead.numSystems or 'Not specified'}</td>
-                                </tr>
+                                {"<tr><td style='padding: 8px 0; border-bottom: 1px solid #eee;'><strong>Service Address:</strong></td><td style='padding: 8px 0; border-bottom: 1px solid #eee;'>" + lead.serviceAddress + "</td></tr>" if lead.serviceAddress else ""}
+                                {"<tr><td style='padding: 8px 0; border-bottom: 1px solid #eee;'><strong>HVAC Systems:</strong></td><td style='padding: 8px 0; border-bottom: 1px solid #eee;'>" + lead.numSystems + "</td></tr>" if lead.numSystems else ""}
                             </table>
                         </div>
                         
-                        <div style="background-color: white; padding: 20px; border-radius: 8px;">
-                            <h3 style="color: #003153; margin-top: 0;">Service Request Details</h3>
+                        {f'''<div style="background-color: white; padding: 20px; border-radius: 8px;">
+                            <h3 style="color: #003153; margin-top: 0;">Message / Details</h3>
                             <p style="background-color: #f5f5f5; padding: 15px; border-radius: 4px; margin: 0;">
                                 {lead.problemDescription}
                             </p>
-                        </div>
+                        </div>''' if lead.problemDescription else ''}
                         
                         <div style="margin-top: 20px; padding: 15px; background-color: #e8f5e9; border-radius: 8px; text-align: center;">
                             <p style="margin: 0; color: #2e7d32;">
                                 <strong>Lead ID:</strong> {lead_id}<br>
+                                <strong>Type:</strong> {lead.leadType.title()}<br>
                                 <small>Submitted: {datetime.now(timezone.utc).strftime('%B %d, %Y at %I:%M %p UTC')}</small>
                             </p>
                         </div>
@@ -214,11 +228,11 @@ async def submit_lead(lead: LeadSubmission):
                 
                 resend.Emails.send({
                     "from": "DFW HVAC Leads <leads@dfwhvac.com>",
-                    "to": [NOTIFICATION_EMAIL],
-                    "subject": f"🔥 New Lead: {lead.firstName} {lead.lastName} - {lead.phone}",
+                    "to": [email_config["to"]],
+                    "subject": subject,
                     "html": email_html
                 })
-                logger.info(f"Email notification sent for lead: {lead_id}")
+                logger.info(f"Email notification sent to {email_config['to']} for lead: {lead_id}")
                 
             except Exception as email_error:
                 logger.error(f"Failed to send email notification: {email_error}")
