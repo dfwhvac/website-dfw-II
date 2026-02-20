@@ -17,9 +17,6 @@ export default async function RootLayout({ children }) {
   
   return (
     <html lang="en">
-      <head>
-        <script async src="https://online-booking.housecallpro.com/script.js?token=c0de8864fcbf4c789213a123bc36ca59&orgName=DFW-HVAC"></script>
-      </head>
       <body className={inter.className}>
         <ColorProvider brandColors={brandColors}>
           {children}
