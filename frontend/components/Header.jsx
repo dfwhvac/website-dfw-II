@@ -91,7 +91,25 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
   const headerCtaText = siteSettings?.headerCtaText || 'Call Now'
   const showHeaderTagline = siteSettings?.showHeaderTagline !== false
   const logoTagline = siteSettings?.logoTagline || 'Three Generations of Trusted Service'
-  const navigation = siteSettings?.mainNavigation?.filter(item => item.isVisible !== false) || defaultNavigation
+  
+  // Get base navigation from Sanity or defaults
+  let navigation = siteSettings?.mainNavigation?.filter(item => item.isVisible !== false) || defaultNavigation
+  
+  // Ensure "Recent Projects" is always in navigation (insert before Cities Served if not present)
+  const hasRecentProjects = navigation.some(item => item.href === '/recent-projects')
+  if (!hasRecentProjects) {
+    const citiesIndex = navigation.findIndex(item => item.href === '/cities-served')
+    const recentProjectsItem = { label: 'Recent Projects', href: '/recent-projects', isDropdown: false, isVisible: true }
+    if (citiesIndex > 0) {
+      navigation = [
+        ...navigation.slice(0, citiesIndex),
+        recentProjectsItem,
+        ...navigation.slice(citiesIndex)
+      ]
+    } else {
+      navigation = [...navigation, recentProjectsItem]
+    }
+  }
   
   // Phone-first CTA strategy: Call Now (red) → Request Service (outline)
   const ctaButtons = [
