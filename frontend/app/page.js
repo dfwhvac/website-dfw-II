@@ -12,7 +12,7 @@ export const revalidate = 0
 export async function generateMetadata() {
   const homepage = await getHomepage()
   return {
-    title: homepage?.metaTitle || 'DFW HVAC | Trusted HVAC Experts Since 1974',
+    title: homepage?.metaTitle || 'DFW HVAC | Trusted HVAC Experts in Dallas-Fort Worth',
     description: homepage?.metaDescription || 'Family-owned HVAC contractor serving Dallas-Fort Worth for 50+ years.',
   }
 }

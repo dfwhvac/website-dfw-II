@@ -28,7 +28,7 @@ export async function generateMetadata({ params }) {
 
   return {
     title: page.metaTitle || `${page.title} | DFW HVAC`,
-    description: page.metaDescription || page.heroDescription || `${page.title} - DFW HVAC serving Dallas-Fort Worth since 1974.`,
+    description: page.metaDescription || page.heroDescription || `${page.title} - DFW HVAC serving Dallas-Fort Worth.`,
   }
 }
 
