@@ -391,7 +391,7 @@ const AboutPageTemplate = ({
         </section>
       )}
 
-      {/* CTA Section - Service-first strategy */}
+      {/* CTA Section - Phone-first strategy */}
       <section className="py-16 bg-vivid-red text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Experience the DFW HVAC Difference</h2>
@@ -402,10 +402,12 @@ const AboutPageTemplate = ({
             <Button 
               size="lg" 
               className="bg-white text-vivid-red hover:bg-gray-100 font-semibold"
-              onClick={() => { if (typeof window !== 'undefined' && window.HCPWidget) window.HCPWidget.openModal() }}
+              asChild
             >
-              <Wrench className="w-5 h-5 mr-2" />
-              Book Service Now
+              <a href="tel:+19727772665">
+                <Phone className="w-5 h-5 mr-2" />
+                Call {phone}
+              </a>
             </Button>
             <Button 
               size="lg" 
@@ -413,10 +415,9 @@ const AboutPageTemplate = ({
               className="border-2 border-white text-white hover:bg-white hover:text-vivid-red font-semibold"
               asChild
             >
-              <a href="tel:+19727772665">
-                <Phone className="w-5 h-5 mr-2" />
-                Call {phone}
-              </a>
+              <Link href="/contact">
+                Request Service
+              </Link>
             </Button>
           </div>
           
