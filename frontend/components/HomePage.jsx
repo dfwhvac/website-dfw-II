@@ -30,15 +30,15 @@ const HomePage = ({
   homepage = null,
   siteSettings = null 
 }) => {
-  // Use Sanity content with fallbacks - Service-first CTA strategy
+  // Use Sanity content with fallbacks - Phone-first CTA strategy
   const hero = {
     badge: homepage?.heroBadge || 'Three Generations of Trust',
     title: homepage?.heroTitle || "Dallas-Fort Worth's",
     highlight: homepage?.heroTitleHighlight || 'Trusted HVAC',
     line3: homepage?.heroTitleLine3 || 'Experts',
     description: homepage?.heroDescription || 'Expert HVAC service with integrity and care. A three-generation family commitment to quality workmanship serving Dallas-Fort Worth.',
-    primaryButton: { text: 'Book Service Now', href: '#booking', isBooking: true },
-    secondaryButton: { text: 'Call (972) 777-COOL', href: 'tel:+19727772665' },
+    primaryButton: { text: 'Call (972) 777-COOL', href: 'tel:+19727772665' },
+    secondaryButton: { text: 'Request Service', href: '/contact' },
   }
   
   // Lead form settings - Service-first strategy
