@@ -92,10 +92,10 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
   const logoTagline = siteSettings?.logoTagline || 'Three Generations of Trusted Service'
   const navigation = siteSettings?.mainNavigation?.filter(item => item.isVisible !== false) || defaultNavigation
   
-  // Force service-first CTA strategy: Book Service (red) → Free Estimate (outline)
+  // Phone-first CTA strategy: Call Now (red) → Request Service (outline)
   const ctaButtons = [
-    { label: 'Book Service', href: '#', variant: 'primary', isBooking: true },
-    { label: 'Free Estimate', href: '/estimate', variant: 'outline' },
+    { label: 'Call Now', href: 'tel:+19727772665', variant: 'primary', isPhone: true },
+    { label: 'Request Service', href: '/contact', variant: 'outline' },
   ]
 
   return (
