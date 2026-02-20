@@ -3,13 +3,13 @@
 import React from 'react'
 import Link from 'next/link'
 import { Button } from './ui/button'
-import { Phone, Wrench } from 'lucide-react'
+import { Phone } from 'lucide-react'
 
 /**
- * Service-First CTA Component
+ * Phone-First CTA Component
  * Consistent CTA pattern across all pages:
- * 1. Book Service Now (RED, triggers HCP modal) - Primary
- * 2. Call phone number (outline) - Secondary
+ * 1. Call Now (RED, click-to-call) - Primary
+ * 2. Request Service (outline, links to contact) - Secondary
  * 3. Subtle estimate link - Tertiary
  */
 const ServiceFirstCTA = ({ 
@@ -20,11 +20,6 @@ const ServiceFirstCTA = ({
   showEstimateLink = true,
   className = "",
 }) => {
-  const handleBookService = () => {
-    if (typeof window !== 'undefined' && window.HCPWidget) {
-      window.HCPWidget.openModal()
-    }
-  }
 
   const bgStyles = {
     blue: "bg-gradient-to-r from-prussian-blue to-electric-blue",
@@ -62,10 +57,12 @@ const ServiceFirstCTA = ({
           <Button 
             size="lg" 
             className={`${primaryBtnStyles[variant]} font-semibold`}
-            onClick={handleBookService}
+            asChild
           >
-            <Wrench className="w-5 h-5 mr-2" />
-            Book Service Now
+            <a href="tel:+19727772665">
+              <Phone className="w-5 h-5 mr-2" />
+              Call {phone}
+            </a>
           </Button>
           <Button 
             size="lg" 
@@ -73,10 +70,9 @@ const ServiceFirstCTA = ({
             className={`${secondaryBtnStyles[variant]} font-semibold`}
             asChild
           >
-            <a href="tel:+19727772665">
-              <Phone className="w-5 h-5 mr-2" />
-              Call {phone}
-            </a>
+            <Link href="/contact">
+              Request Service
+            </Link>
           </Button>
         </div>
         
