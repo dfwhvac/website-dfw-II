@@ -23,6 +23,70 @@ Build a premium, conversion-focused website for DFW HVAC company using Next.js f
 
 ---
 
+## Domain & Hosting Configuration
+
+### Current Setup (Wix)
+| Item | Value |
+|------|-------|
+| Domain | `dfwhvac.com` |
+| Registrar | **GoDaddy.com, LLC** |
+| Current DNS | Wix DNS (`ns8.wixdns.net`, `ns9.wixdns.net`) |
+| Current Hosting | Wix |
+| Domain Created | April 19, 2019 |
+| Domain Expires | April 19, 2031 |
+
+### New Setup (Post-Launch)
+| Item | Value |
+|------|-------|
+| Domain | `dfwhvac.com` (unchanged) |
+| Registrar | **GoDaddy** (unchanged - no transfer needed) |
+| New DNS | Vercel OR GoDaddy DNS |
+| New Hosting | Vercel |
+
+---
+
+## Site Launch Transition Plan
+
+### Phase 1: Pre-Launch Preparation
+- [ ] Complete all development tasks (see Pending Tasks below)
+- [ ] Set up Google Search Console and verify domain ownership
+- [ ] Final testing on preview environment
+- [ ] Create backup/export of current Wix site content (if needed)
+
+### Phase 2: DNS Transition (Go-Live Day)
+
+**Option A: Use Vercel Nameservers (Recommended - Simplest)**
+1. Log into **GoDaddy** → My Products → dfwhvac.com → DNS → Nameservers
+2. Change from Wix nameservers to Vercel nameservers:
+   - `ns1.vercel-dns.com`
+   - `ns2.vercel-dns.com`
+3. In Vercel dashboard: Add `dfwhvac.com` as production domain
+4. Wait for DNS propagation (15 min - 48 hours)
+
+**Option B: Keep GoDaddy DNS (More Control)**
+1. Log into **GoDaddy** → My Products → dfwhvac.com → DNS → Nameservers
+2. Change to GoDaddy nameservers (if not already)
+3. Add DNS records pointing to Vercel:
+   - `A` record: `@` → `76.76.21.21`
+   - `CNAME` record: `www` → `cname.vercel-dns.com`
+4. In Vercel dashboard: Add `dfwhvac.com` as production domain
+5. Wait for DNS propagation
+
+### Phase 3: Post-Launch Verification
+- [ ] Verify site loads at `https://dfwhvac.com`
+- [ ] Verify `www.dfwhvac.com` redirects properly
+- [ ] Verify SSL certificate is active (automatic with Vercel)
+- [ ] Test all forms, CTAs, and phone links
+- [ ] Verify RealWork widget loads correctly
+- [ ] Submit updated sitemap to Google Search Console
+- [ ] Monitor for 404 errors (implement 301 redirects as needed)
+
+### Phase 4: Cleanup
+- [ ] Cancel Wix subscription (after confirming new site is stable)
+- [ ] Update any external listings with new site info (if URLs changed)
+
+---
+
 ## Current Status
 **Phase:** Development
 **Caching Mode:** Development (No Cache) - optimized for content iteration
