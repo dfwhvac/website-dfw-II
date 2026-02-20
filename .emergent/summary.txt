@@ -1,184 +1,137 @@
 <analysis>**original_problem_statement:**
-The user's primary goal is to build a premium, conversion-focused website for their HVAC company, DFW HVAC, using a Next.js frontend and Sanity.io backend. The project has evolved to incorporate a new, detailed brand framework across the entire site, improve SEO and conversion structures, and prepare for launch.
+The user's primary goal is to build a premium, conversion-focused website for their HVAC company, DFW HVAC, using a Next.js frontend and a Sanity.io CMS.
 
-Recent user requests have focused on:
-1.  Implementing a 95% CMS-managed content architecture.
-2.  Rewriting all site content to reflect the new brand framework and messaging.
-3.  Implementing structural SEO and conversion rate optimization (CRO) changes.
-4.  Resolving various UI/UX issues and content inconsistencies (e.g., emergency service messaging, broken links, logo artifacts, city page content).
-5.  Setting up dynamic data synchronization for Google reviews and ratings.
+Initial work focused on integrating the Housecall Pro (HCP) booking system to streamline service appointments. However, after extensive competitor analysis and a review of their operational capacity, the user has pivoted their strategy. The core requirement is now to optimize the site for a phone-first conversion strategy, funneling users towards calling the business directly or submitting a lead form for a callback, while completely removing the Housecall Pro integration. The secondary goal is to maintain a clear path for users interested in Free Replacement Estimates.
 
-A multi-phase plan was created and approved to address these goals, with the agent currently executing this plan.
+The user has also requested the addition of legal pages (Privacy Policy, Terms of Service) based on documents they provided.
 
 **User's preferred language**: English
 
 **what currently exists?**
-The project is a Next.js 14 application with a Sanity.io CMS. A major content and architecture overhaul has been completed (Phase 1 & 2 of the approved plan). This includes creating new Sanity schemas (, , ) and updating all components and pages to reflect a new brand framework, moving away from hardcoded content.
-
-Key features implemented in this session:
-- A dynamic Google Places API integration automatically syncs the Google rating and review count to the Sanity CMS daily via a Vercel cron job. All references on the site now pull from this single source of truth.
-- All 24/7 Emergency Service messaging has been replaced with Same-Day Service Available across all files and CMS data.
-- The service area has been updated with 31 new zip codes and 4 new city pages, and the display order has been reprioritized based on drive-time logic.
-- A new  hub page was created to fix a 404 error from a homepage button.
-- Several UI fixes have been made, including fixing paragraph spacing in Portable Text, adding a visual timeline to the About page, and removing white artifacts from the footer logo.
-- The task list has been consolidated into a single source of truth at .
+The project is a non-live Next.js 14 application with a Sanity.io CMS backend. A phone-first, form-second conversion strategy has been implemented across the entire website. The Housecall Pro booking widget and all associated code have been completely removed. All primary Calls-to-Action (CTAs) now prompt users to call the business, with a secondary option to Request Service via the contact page form. A subtle text link to the  page is present on all major pages for users seeking replacement quotes. Additionally, new, fully styled  and  pages have been created from user-provided documents and are linked in the footer.
 
 **Last working item**:
--   **Last item agent was working:** The user requested to reorder the content blocks on the About page to  to optimize for visitor conversion. The agent was just about to implement this change.
--   **Status:** IN PROGRESS
--   **Agent Testing Done:** N
--   **Which testing method agent to use?** screenshot tool
+-   **Last item agent was working:** The agent performed a comprehensive, site-wide review to ensure that all pages and components consistently follow the new phone-first CTA strategy, after having removed the previous Book Service (Housecall Pro) implementation.
+-   **Status:** USER VERIFICATION PENDING
+-   **Agent Testing Done:** Y
+-   **Which testing method agent to use?** Manual review with screenshots. The next agent should take screenshots of the Homepage, a Service page (e.g., ), the About page, and a City page (e.g., ) to confirm the CTA consistency with the user.
 -   **User Testing Done:** N
 
 **All Pending/In progress Issue list**:
--   **Issue 1:** The reordering of the About page content blocks has been requested but not yet implemented.
-    -   **Attempted fixes:** None.
-    -   **Next debug checklist:** Edit  to reorder the JSX elements for the 'Values', 'Legacy', and 'Story' sections.
-    -   **Why fix this issue and what will be achieved with the fix?** To align the page structure with the user's conversion optimization strategy, presenting the most critical information to visitors first.
-    -   **Status:** IN PROGRESS
-    -   **Is recurring issue?** N
-    -   **Should Test frontend/backend/both after fix?** Frontend
-    -   **Blocked on other issue:** None
+There are no outstanding technical issues. The primary pending item is user verification of the site-wide CTA strategy change.
 
 **In progress Task List**:
--   **Task 1:** Complete the multi-phase site overhaul.
-    -   **Where to resume:** Immediately reorder the About page sections as requested. Then, move to Phase 3: Structural SEO Implementation, as documented in .
-    -   **What will be achieved with this?** A fully rebranded website optimized for SEO and conversion, ready for launch.
-    -   **Status:** IN PROGRESS
-    -   **Should Test frontend/backend/both after fix?** Both (as SEO and CRO features are added).
-    -   **Blocked on something:** User approval for each phase.
+-   **Task 1:** Finalize Site-Wide Conversion Strategy Implementation (P0)
+    -   **Where to resume:** The phone-first strategy has been implemented. Awaiting user review and approval.
+    -   **What will be achieved with this?** The website's primary CTAs will be aligned with the user's operational capabilities, prioritizing direct phone calls and lead form submissions over automated booking.
+    -   **Status:** USER VERIFICATION PENDING
+    -   **Should Test frontend/backend/both after fix?** Frontend
+    -   **Blocked on something:** Awaiting user feedback on the completed implementation.
 
 **Upcoming and Future Tasks**
-All tasks are now consolidated in .
 
-**Upcoming Tasks (P0 & P1 from ):**
--   **Phase 3: Structural SEO:**
-    -   Create dynamic .
-    -   Create .
+**Upcoming Tasks:**
+-   **Phase 3: Structural SEO (P1):**
+    -   Create a dynamic .
+    -   Create a  file.
     -   Add canonical URL tags to all pages.
-    -   Expand structured data (Service, FAQ, Review schemas).
--   **Phase 4: Conversion Optimization:**
-    -   Add sticky mobile CTA bar with click-to-call.
-    -   Ensure trust badges are visible above the fold.
--   **Phase 5: Local SEO Enhancement:**
-    -   Create city + service combination pages (e.g., ).
--   **Feature Request:** Implement YouTube video embed on the Indoor Air Quality page.
+    -   Expand structured data schemas (Service, FAQ, Review).
+-   **Phase 4: Conversion Optimization (P1):**
+    -   Add a sticky mobile CTA bar with a click-to-call button.
+-   **Phase 5: Local SEO Enhancement (P2):**
+    -   Create dynamic city + service combination pages (e.g., ).
+-   **Feature Request (P2):** Embed a YouTube video on the Indoor Air Quality page.
 
-**Future Tasks (P2 from ):**
--   **City Page SEO Descriptions:** Rewrite city descriptions to be 300-500 words with local context and HVAC keywords.
--   **Blog/Resource Section:** Add for long-tail keyword targeting.
--   **Switch to Production Caching Mode:** Re-enable Sanity CDN.
--   **Code Cleanup:** Remove mock data and unused scripts.
+**Future Tasks:**
+-   Rewrite city page SEO descriptions to be 300-500 words.
+-   Add a Blog/Resource section for content marketing.
+-   Switch the Sanity client to production caching mode before launch.
+-   Perform code cleanup: remove unused mock data and scripts.
 
 **Completed work in this session**
--   **Phase 1: CMS Architecture (DONE):**
-    -   Created new Sanity schemas: , , .
-    -   Extended existing schemas: , , .
-    -   Created new  component.
--   **Phase 2: Brand Content Migration (DONE):**
-    -   Updated all site content (hardcoded and CMS) to reflect the new brand framework, including .
-    -   Seeded new brand content into Sanity CMS.
--   **Dynamic Google Reviews (DONE):**
-    -   Configured and enabled a cron job () to sync Google rating and review count daily from Google Places API to Sanity CMS.
-    -   Removed all hardcoded review/rating counts from the codebase.
--   **Emergency Service Messaging (DONE):**
-    -   Replaced all instances of 24/7 Emergency Service with Same-Day Service Available.
--   **Service Area Expansion (DONE):**
-    -   Added 31 missing zip codes to the website.
-    -   Created 4 new city pages (Lewisville, Arlington, Haslet, Mansfield).
-    -   Re-prioritized city display order based on drive-time logic.
--   **Bug/UI Fixes (DONE):**
-    -   Fixed missing paragraph spacing in Portable Text on the About page.
-    -   Added a visual Legacy Timeline to the About page.
-    -   Fixed white edge artifacts on the footer logo using CSS .
-    -   Created a  hub page to resolve a 404 error from the homepage.
-    -   Removed the leave a review button from the Reviews page.
-    -   Removed zip code count from city cards on the Cities Served page.
--   **CMS Enhancements (DONE):**
-    -   Made trust badges on city pages editable via CMS.
-    -   Added Trending Up and Handshake icons to CMS icon selectors.
--   **Task Management (DONE):**
-    -   Consolidated all open tasks into .
+-   **Competitor Analysis:** Performed a detailed analysis of the top 12 DFW HVAC competitors' conversion funnels, identifying two primary strategies: Service-First vs. Estimate-First.
+-   **Strategic Pivot to Phone-First:**
+    -   Based on user feedback about operational constraints, the agent pivoted from a Book Service (HCP) strategy to a Call Now primary strategy.
+    -   **Completely removed the Housecall Pro integration**, including the root layout script, all  triggers, and the  component.
+-   **Site-Wide CTA Rearchitecture:**
+    -   Implemented a new, consistent CTA pattern on the Homepage, Header, Service Pages, About Page, FAQ Page, and all City Pages.
+    -   **Primary CTA:** Call Now (or similar), styled in red for emphasis.
+    -   **Secondary CTA:** Request Service, styled as an outline button linking to the  page.
+    -   **Tertiary CTA:** A subtle text link for Get a Free Replacement Estimate was added below the main buttons to preserve the high-margin lead funnel.
+-   **Privacy Policy Page Creation:**
+    -   Extracted text from a user-provided PDF.
+    -   Created a new, fully-styled page at .
+    -   Ensured the existing footer link works correctly.
+-   **Terms of Service Page Creation:**
+    -   Extracted text from a user-provided PDF.
+    -   Created a new, fully-styled page at .
+    -   Ensured the existing footer link works correctly.
+-   **Next.js Cache Debugging:** Successfully resolved a critical display issue where changes were not appearing by identifying and removing the  cache directory and restarting the development server.
 
 **Earlier issues found/mentioned but not fixed**
-None. All issues raised by the user during this session were addressed.
+-   The footer phone number issue mentioned in the initial handoff summary was investigated and found to be incorrect. The footer was already displaying the number correctly, so no fix was needed.
 
 **Known issue recurrence from previous fork**
-None.
+-   None.
 
 **Code Architecture**
 
 
 **Key Technical Concepts**
--   **Headless CMS Architecture:** Deepened integration with Sanity.io by creating new schemas and refactoring components to pull ~95% of content from the CMS, reducing hardcoded values.
--   **API Integration (Google Places):** Implemented a server-side endpoint to fetch data from a third-party API (Google Places) to get live business ratings and review counts.
--   **Cron Jobs (Vercel):** Configured a Vercel cron job in  to trigger the Google Places API sync automatically on a daily schedule.
--   **Portable Text Rendering:** Customized Portable Text components in React to fix styling issues (e.g., adding margins to paragraphs).
--   **Tailwind CSS:** Used for styling, including  for typography and custom  for image correction.
--   **Next.js App Router:** Created new pages (e.g., ) and modified dynamic routes.
+-   **Strategic Code Removal:** Successfully removed a major third-party integration (Housecall Pro) from the entire application, including scripts, components, and event handlers.
+-   **Component Refactoring for State/Events:** Created a dedicated client component () to handle  events and stateful logic within server-rendered pages (like the FAQ page), avoiding the need to convert entire pages to client components.
+-   **Debugging Next.js Caching:** Diagnosed and resolved a persistent issue where UI changes were not reflected due to server-side caching. The solution involved manually deleting the  folder to force a fresh build, which is a critical troubleshooting step for Next.js development.
+-   **Dynamic Page Creation:** Created new static pages (, ) with custom styling to render legal documents provided by the user.
 
 **key DB schema**
--   **Sanity :**
-    -   , , ,  (portableText),  (array of milestones),  (array of brand pillars),  (array of stats).
--   **Sanity :**
-    -   Fields for hero, form, and CTA content.
--   **Sanity :**
-    -    (array of badges with , , ).
--   **Sanity  (Extended):**
-    -   Added , , , .
--   **Sanity  (Extended):**
-    -    and  fields are now automatically updated.
+-   No database schema changes were made in this session.
 
 **All files of reference**
--   : **The single source of truth for all remaining work.**
--   : The directory containing all new and updated schema definitions.
--   : The new component for the redesigned About page.
--   : The rewritten data file for all service offerings.
--   : The endpoint that handles the daily Google review sync.
--   : Contains all new scripts for seeding and updating CMS content.
+-   : Controls the site-wide primary and secondary CTAs.
+-   : The reusable client component that now implements the new phone-first CTA pattern across multiple server-rendered pages.
+-   : The root layout where the Housecall Pro script was removed.
+-   : The new Privacy Policy page.
+-   : The new Terms of Service page.
 
 **Critical Info for New Agent**
--   Your primary guide is . Follow the phased plan outlined there.
--   The immediate next step is to implement the user's last request: reordering the content blocks on the About page ().
--   The Google Places API key is now working and configured. The review/rating data is automated. Do not change it unless requested.
--   The website is pre-launch, which means you have more freedom to make structural changes without worrying about impacting live users or SEO. The focus is on building it right before launch.
+-   **The user has made a significant strategic pivot.** The Book Now functionality via Housecall Pro has been **intentionally and completely removed** due to operational constraints. The new strategy is **phone-first**. Do not suggest re-implementing direct booking.
+-   The primary conversion path is now a phone call. The secondary path is a form submission for a callback. The tertiary path is a link to the  page for high-margin replacement leads.
+-   UI changes may not appear immediately due to Next.js caching. If you make code changes and don't see them reflected, the first step is to stop the server, run , and restart the server.
 
 **documents and test reports created in this job**
--    (Overwritten/Consolidated)
--    (New)
--    (New)
--    (New)
--    (New)
--    (New)
--    (New)
+-   New Page: 
+-   New Page: 
 
 **Last 10 User Messages and any pending HUMAN messages**
-10. **User:** Asked to reorder the About page content blocks to  for conversion optimization. (Pending Implementation)
-9.  **User:** Confirmed the agent should proceed with replacing 24/7 Emergency Service with Same-Day Service Available. (Completed)
-8.  **User:** Asked for a recommendation on how to handle emergency service messaging, as they don't offer 24/7 service. (Agent Provided Recommendation)
-7.  **User:** Asked for a list of all site references to 24/7 Emergency Service. (Completed)
-6.  **User:** Asked to consolidate all open tasks into a single to-do list. (Completed)
-5.  **User:** Asked to add the task of writing unique city page SEO descriptions to the to-do list for later. (Completed)
-4.  **User:** Expressed concern about a long SEO description impacting user experience and bounce rate. (Agent Provided Recommendation)
-3.  **User:** Asked if the short About [City] description is fulfilling its SEO function. (Agent Assessed as No)
-2.  **User:** Asked for the word count of the About Coppell description. (Completed)
-1.  **User:** Asked about the ideal length for a unique city description for SEO. (Agent Provided Recommendation)
+10. **User Questions Form Purpose (Pending):** The user correctly identified that having a Schedule Service form next to a Book Service button was a redundant workflow.
+9.  **User Explains Constraints (Pending):** The user clarified that direct online booking is not feasible due to unpredictable scheduling and limited staff. They want to funnel users to either call or fill out a form.
+8.  **Agent Recommends Phone-First (Completed):** The agent proposed removing Housecall Pro entirely and implementing a Call Now (primary) and Request Service (secondary form) strategy.
+7.  **User Approves and Confirms Removal (Pending):** The user approved the new strategy and explicitly confirmed the removal of the Housecall Pro integration.
+6.  **Agent Implements Phone-First Strategy (Completed):** The agent executed the site-wide removal of HCP and implemented the new CTA pattern.
+5.  **User Requests Site-Wide Check (Pending):** The user asked the agent to review the entire site to ensure all CTAs were updated consistently.
+4.  **Agent Completes Review (Completed):** The agent reviewed all pages and confirmed consistency.
+3.  **User Provides Privacy Policy (Pending):** The user uploaded a privacy policy PDF and asked for it to be added to the site.
+2.  **Agent Implements Privacy Policy (Completed):** The agent created the page, styled it, and verified the footer link.
+1.  **User Provides Terms of Service (Pending):** The user uploaded a terms of service PDF and asked for it to be added.
 
 **Project Health Check:**
 -   **Broken:** None.
--   **Mocked:**  still exists but its role as a primary fallback has been significantly reduced by updating CMS defaults and component fallbacks. Slated for cleanup in P2 tasks.
+-   **Mocked:**  still exists but is slated for future cleanup.
 
 **3rd Party Integrations**
--   **Sanity.io:** Primary CMS.
+-   **Sanity.io:** Primary Headless CMS.
 -   **Vercel:** Hosting, previews, and cron jobs.
--   **Google Places API:** Integrated for fetching live Google rating and review counts. The API key is configured in  and is functional.
--   **Lucide React:** Icon library used throughout the frontend.
+-   **Google Places API:** Used for syncing Google rating and review counts.
+-   **Lucide React:** Icon library.
 
 **Testing status**
 -   **Testing agent used after significant changes:** NO
 -   **Troubleshoot agent used after agent stuck in loop:** NO
 -   **Test files created:** None
--   **Known regressions:** None
+-   **Known regressions:** The persistent Next.js caching issue was a major hurdle, requiring manual deletion of the  folder to see changes. This is a known behavior to watch out for.
+
+**Credentials to test flow:**
+N/A
 
 **What agent forgot to execute**
--   The agent has not yet implemented the user's most recent request to reorder the content sections on the about page. This should be the very first action taken by the next agent.</analysis>
+The agent correctly identified and disregarded an incorrect issue from the previous handoff summary (related to the footer phone number). All user requests in this session were addressed.</analysis>
