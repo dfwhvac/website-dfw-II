@@ -231,13 +231,13 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
 
             <div className="pt-4 space-y-2">
               {ctaButtons.map((btn, index) => (
-                btn.isBooking ? (
+                btn.isPhone ? (
                   <Button 
                     key={btn.href || index}
                     className="w-full bg-vivid-red hover:bg-red-700 text-white font-semibold"
-                    onClick={() => { setIsMobileMenuOpen(false); if (typeof window !== 'undefined' && window.HCPWidget) window.HCPWidget.openModal() }}
+                    asChild
                   >
-                    {btn.label}
+                    <a href={btn.href}>{btn.label}</a>
                   </Button>
                 ) : (
                   <Button 
