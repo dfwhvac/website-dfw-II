@@ -173,10 +173,9 @@ Build a premium, conversion-focused website for DFW HVAC company using Next.js f
 ### P0 - Critical
 - [ ] **Lead Capture Form Backend** - Implement email notifications using Resend
 - [ ] **301 Redirects** - 6 redirects for old URLs before launch
-- [ ] **Custom Domain Setup** - DNS, SSL, www redirect
 
 ### P1 - Important (Pre-Launch)
-- [ ] **Google Search Console Setup & Verification** - Verify domain ownership, check indexing status
+- [ ] **Google Search Console Setup & Verification** - Verify domain via GoDaddy DNS TXT record; check indexing status
 - [ ] **RealWork Widget SEO Evaluation** - Use Search Console to verify if widget content is indexed; determine ROI vs. subscription cost
 - [ ] **SEO Implementation** - sitemap.xml, robots.txt, canonical URLs, structured data
 - [ ] **YouTube Video Embed** - Indoor Air Quality page
@@ -184,8 +183,15 @@ Build a premium, conversion-focused website for DFW HVAC company using Next.js f
 - [ ] **Internal Linking** - Cross-link services ↔ cities
 - [ ] **Performance Optimization** - Lighthouse audit
 - [ ] **Pre-Launch Verification** - Mobile/browser testing, forms, broken links
+- [ ] **DNS Transition Planning** - Decide between Vercel nameservers vs. GoDaddy DNS approach
 
-### P2 - Post-Launch
+### P2 - Launch Day
+- [ ] **DNS Cutover** - Change nameservers in GoDaddy from Wix to Vercel (or update A/CNAME records)
+- [ ] **Domain Configuration in Vercel** - Add dfwhvac.com as production domain
+- [ ] **SSL Verification** - Confirm HTTPS working on new domain
+- [ ] **Post-Launch Testing** - Verify all pages, forms, RealWork widget, redirects
+
+### P3 - Post-Launch
 - [ ] Production Caching Mode (webhook revalidation)
 - [ ] Marketing & Analytics (GA4, GTM, Facebook Pixel)
 - [ ] Google Business Profile setup
@@ -194,6 +200,7 @@ Build a premium, conversion-focused website for DFW HVAC company using Next.js f
 - [ ] City + Service Combination Pages (e.g., `/dallas-ac-repair/`)
 - [ ] Feature Enhancements (clean URLs, seasonal strategy, etc.)
 - [ ] Code Cleanup (remove mockData.js, unused deps)
+- [ ] Cancel Wix Subscription (after confirming stability)
 
 ---
 
