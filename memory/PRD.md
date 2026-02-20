@@ -108,13 +108,12 @@ Build a premium, conversion-focused website for DFW HVAC company using Next.js f
 
 ### P0 - Critical
 - [ ] **Lead Capture Form Backend** - Implement email notifications using Resend
-- [ ] **Legal Pages** - Privacy Policy and Terms of Service
 - [ ] **301 Redirects** - 6 redirects for old URLs before launch
 - [ ] **Custom Domain Setup** - DNS, SSL, www redirect
+- [ ] **RealWork Widget Integration** - Obtain embed code and add to Recent Projects page
 
-### P1 - Important
+### P1 - Important (Pre-Launch)
 - [ ] **SEO Implementation** - sitemap.xml, robots.txt, canonical URLs, structured data
-- [ ] **Conversion Optimization** - Sticky mobile CTA, trust badges above fold
 - [ ] **YouTube Video Embed** - Indoor Air Quality page
 - [ ] **Content Creation** - Case studies, financing pages
 - [ ] **Internal Linking** - Cross-link services ↔ cities
@@ -127,7 +126,7 @@ Build a premium, conversion-focused website for DFW HVAC company using Next.js f
 - [ ] Google Business Profile setup
 - [ ] Local Citations (Yelp, BBB, Angi, etc.)
 - [ ] City Page SEO Enhancement (300-500 word descriptions)
-- [ ] City + Service Combination Pages
+- [ ] City + Service Combination Pages (e.g., `/dallas-ac-repair/`)
 - [ ] Feature Enhancements (clean URLs, seasonal strategy, etc.)
 - [ ] Code Cleanup (remove mockData.js, unused deps)
 
