@@ -39,8 +39,8 @@ const defaultNavigation = [
 ]
 
 const defaultCtaButtons = [
-  { label: 'Book Service', href: '#', variant: 'primary', isBooking: true },
-  { label: 'Free Estimate', href: '/estimate', variant: 'outline' },
+  { label: 'Call Now', href: 'tel:+19727772665', variant: 'primary', isPhone: true },
+  { label: 'Request Service', href: '/contact', variant: 'outline' },
 ]
 
 // Custom dropdown component with proper alignment
