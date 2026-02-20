@@ -65,15 +65,36 @@ class LeadSubmission(BaseModel):
     lastName: str
     email: str
     phone: str
-    serviceAddress: str
+    serviceAddress: str = ""
     numSystems: str = ""
-    problemDescription: str
+    problemDescription: str = ""
+    leadType: str = "service"  # "service", "estimate", or "contact"
 
 
 class LeadResponse(BaseModel):
     success: bool
     message: str
     lead_id: Optional[str] = None
+
+
+# Email routing configuration
+LEAD_EMAIL_CONFIG = {
+    "service": {
+        "to": "service@dfwhvac.com",
+        "subject_template": "Service Lead: {name} - {phone}",
+        "emoji": "🔧"
+    },
+    "estimate": {
+        "to": "estimate@dfwhvac.com",
+        "subject_template": "Estimate Lead: {name} - {phone}",
+        "emoji": "💰"
+    },
+    "contact": {
+        "to": "contact@dfwhvac.com",
+        "subject_template": "Contact Form: {name} - {email}",
+        "emoji": "📬"
+    }
+}
 
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
