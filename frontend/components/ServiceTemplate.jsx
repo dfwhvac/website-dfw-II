@@ -258,8 +258,12 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [] }) => {
                       </li>
                     ))}
                   </ul>
-                  <Button className="w-full" onClick={() => { if (typeof window !== 'undefined' && window.HCPWidget) window.HCPWidget.openModal() }}>
-                    Book Now
+                  <Button 
+                    className="w-full" 
+                    onClick={() => openModal(pricing.title === 'Replacement' ? 'estimate' : 'service')}
+                    data-testid={`pricing-${key}-btn`}
+                  >
+                    {pricing.title === 'Replacement' ? 'Get Free Estimate' : 'Request Service'}
                   </Button>
                 </CardContent>
               </Card>
