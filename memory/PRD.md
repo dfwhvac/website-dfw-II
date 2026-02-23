@@ -218,8 +218,8 @@ Build a premium, conversion-focused website for DFW HVAC company using Next.js f
 > **See `/app/frontend/PROJECT_TASKS.md` for the complete, authoritative checklist.**
 
 ### P0 - Critical
-- [x] **Lead Capture Form Backend** - ✅ Implemented with three-funnel email routing (service→service@, estimate→estimate@, contact→contact@)
-- [ ] **Resend Domain Verification** - Verify `dfwhvac.com` in Resend to enable email notifications. **⚠️ BLOCKED:** Wix DNS doesn't support MX subdomains. This will be unblocked when DNS is moved to Vercel/GoDaddy at go-live.
+- [x] **Lead Capture Form Backend** - ✅ Implemented with MongoDB storage. Email notifications configured via Resend (pending domain verification).
+- [ ] **Resend Domain Verification** - Verify `dfwhvac.com` in Resend to enable email notifications. **⚠️ BLOCKED:** Wix DNS doesn't support required records. Will be unblocked when DNS moves to Vercel at go-live. **This is the launch plan for lead notifications.**
 - [ ] **301 Redirects** - Identify and configure redirects for old URLs before launch
 
 ### P1 - Important (Pre-Launch)
