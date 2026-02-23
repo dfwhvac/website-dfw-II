@@ -110,6 +110,24 @@ Build a premium, conversion-focused website for DFW HVAC company using Next.js f
 - Root layout now properly exports `metadataBase` from `defaultMetadata` for URL resolution
 - Verified all pages return correct canonical URLs (e.g., `https://dfwhvac.com/contact`, `https://dfwhvac.com/services/residential/air-conditioning`)
 
+### Request Service Page & CTA Consolidation (Feb 23, 2025)
+- Created dedicated `/request-service` page as conversion landing page
+- Page includes: Lead form, phone call CTA, trust signals, business hours
+- Lightweight, focused page optimized for fast load and high conversion
+- Updated all "Request Service" and "Book Now" buttons site-wide to point to `/request-service`
+  - Header CTA button
+  - Hero section button (homepage)
+  - Service pricing buttons (Diagnostic, Repair → Request Service; Replacement → Get Free Estimate)
+  - CTA sections in company page templates
+- Added "Request Service" to footer Quick Links
+- Added `/request-service` to sitemap.xml with 0.9 priority
+- Hybrid accessibility: Not in main nav (CTA serves that purpose), but accessible via footer, sitemap, direct URL
+
+### Header Navigation Cleanup (Feb 23, 2025)
+- Changed logo tagline from "Three Generations of Trusted Service" to "Trust. Excellence. Care."
+- Made header tagline "Three Generations of Trusted HVAC Service in DFW" link to About page
+- Moved "Cities Served" from main nav to footer Quick Links (reduces nav crowding)
+
 ### Phone-First Conversion Strategy (Feb 2025)
 - **Removed Housecall Pro integration entirely** (operational constraints)
 - Implemented phone-first CTA pattern site-wide
