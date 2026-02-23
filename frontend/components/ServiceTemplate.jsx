@@ -256,8 +256,13 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [] }) => {
                       </li>
                     ))}
                   </ul>
-                  <Button className="w-full" onClick={() => { if (typeof window !== 'undefined' && window.HCPWidget) window.HCPWidget.openModal() }}>
-                    Book Now
+                  <Button 
+                    className="w-full" 
+                    asChild
+                  >
+                    <Link href={pricing.title === 'Replacement' ? '/estimate' : '/request-service'}>
+                      {pricing.title === 'Replacement' ? 'Get Free Estimate' : 'Request Service'}
+                    </Link>
                   </Button>
                 </CardContent>
               </Card>
