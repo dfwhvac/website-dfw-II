@@ -95,16 +95,19 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
   // Get base navigation from Sanity or defaults
   let navigation = siteSettings?.mainNavigation?.filter(item => item.isVisible !== false) || defaultNavigation
   
-  // Ensure "Recent Projects" is always in navigation (insert before Cities Served if not present)
+  // Remove "Cities Served" from header nav (moved to footer only)
+  navigation = navigation.filter(item => item.href !== '/cities-served')
+  
+  // Ensure "Recent Projects" is always in navigation
   const hasRecentProjects = navigation.some(item => item.href === '/recent-projects')
   if (!hasRecentProjects) {
-    const citiesIndex = navigation.findIndex(item => item.href === '/cities-served')
+    const aboutIndex = navigation.findIndex(item => item.href === '/about')
     const recentProjectsItem = { label: 'Recent Projects', href: '/recent-projects', isDropdown: false, isVisible: true }
-    if (citiesIndex > 0) {
+    if (aboutIndex > 0) {
       navigation = [
-        ...navigation.slice(0, citiesIndex),
+        ...navigation.slice(0, aboutIndex),
         recentProjectsItem,
-        ...navigation.slice(citiesIndex)
+        ...navigation.slice(aboutIndex)
       ]
     } else {
       navigation = [...navigation, recentProjectsItem]
