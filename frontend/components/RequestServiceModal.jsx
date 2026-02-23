@@ -1,6 +1,6 @@
 'use client'
 
-import React, { createContext, useContext, useState } from 'react'
+import React, { useState } from 'react'
 import {
   Dialog,
   DialogContent,
@@ -18,76 +18,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from './ui/select'
-import { Phone, Wrench, CheckCircle, X } from 'lucide-react'
+import { Phone, Wrench, CheckCircle } from 'lucide-react'
 import { toast } from 'sonner'
 import Link from 'next/link'
 
-// Context for managing modal state across the app
-const ModalContext = createContext(null)
-
-export function RequestServiceModalProvider({ children }) {
-  const [isOpen, setIsOpen] = useState(false)
-  const [leadType, setLeadType] = useState('service')
-
-  const openModal = (type = 'service') => {
-    setLeadType(type)
-    setIsOpen(true)
-  }
-
-  const closeModal = () => {
-    setIsOpen(false)
-  }
-
-  return (
-    <ModalContext.Provider value={{ isOpen, openModal, closeModal, leadType }}>
-      {children}
-      <RequestServiceModal />
-    </ModalContext.Provider>
-  )
-}
-
-export function useRequestServiceModal() {
-  const context = useContext(ModalContext)
-  // Return a no-op if context is not available (e.g., during SSR or outside provider)
-  if (!context) {
-    return {
-      isOpen: false,
-      openModal: () => console.warn('RequestServiceModal: Provider not found'),
-      closeModal: () => {},
-      leadType: 'service'
-    }
-  }
-  return context
-}
-
-// Standalone trigger button component
-export function RequestServiceButton({ 
-  children = 'Request Service', 
-  className = '',
-  variant = 'default',
-  size = 'default',
-  leadType = 'service',
-  ...props 
+// Standalone modal component with its own state
+export default function RequestServiceModal({ 
+  isOpen, 
+  onClose, 
+  leadType = 'service' 
 }) {
-  const { openModal } = useRequestServiceModal()
-  
-  return (
-    <Button
-      variant={variant}
-      size={size}
-      className={className}
-      onClick={() => openModal(leadType)}
-      data-testid="request-service-btn"
-      {...props}
-    >
-      {children}
-    </Button>
-  )
-}
-
-// The actual modal component
-function RequestServiceModal() {
-  const { isOpen, closeModal, leadType } = useRequestServiceModal()
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -137,7 +77,7 @@ function RequestServiceModal() {
           duration: 5000,
         })
         resetForm()
-        closeModal()
+        onClose()
       } else {
         throw new Error('Failed to submit')
       }
@@ -163,7 +103,7 @@ function RequestServiceModal() {
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && closeModal()}>
+    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto p-0">
         {/* Header */}
         <div className="bg-gradient-to-r from-[#003153] to-[#00B8FF] text-white p-6 rounded-t-lg">
@@ -325,7 +265,7 @@ function RequestServiceModal() {
               <Link 
                 href="/estimate" 
                 className="text-[#00B8FF] hover:underline font-medium"
-                onClick={closeModal}
+                onClick={onClose}
               >
                 Get a Free Estimate →
               </Link>
@@ -336,5 +276,3 @@ function RequestServiceModal() {
     </Dialog>
   )
 }
-
-export default RequestServiceModal
