@@ -416,7 +416,7 @@ const CompanyPageTemplate = ({
               size="lg" 
               variant="outline"
               className="border-2 border-white text-white hover:bg-white hover:text-vivid-red font-semibold"
-              onClick={() => openModal('service')}
+              onClick={() => setIsModalOpen(true)}
               data-testid="company-page-schedule-btn"
             >
               Request Service
