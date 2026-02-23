@@ -10,9 +10,14 @@ import RealWorkWidget from '@/components/RealWorkWidget'
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
-export const metadata = {
-  title: 'Recent HVAC Projects in Dallas-Fort Worth | DFW HVAC',
-  description: 'View 500+ completed HVAC installations across DFW. AC repairs, heating systems, and air quality solutions in Dallas, Fort Worth, Arlington & 50+ cities. See our work.',
+export function generateMetadata() {
+  return {
+    title: 'Recent HVAC Projects in Dallas-Fort Worth | DFW HVAC',
+    description: 'View 500+ completed HVAC installations across DFW. AC repairs, heating systems, and air quality solutions in Dallas, Fort Worth, Arlington & 50+ cities. See our work.',
+    alternates: {
+      canonical: '/recent-projects',
+    },
+  }
 }
 
 export default async function RecentProjectsPage() {

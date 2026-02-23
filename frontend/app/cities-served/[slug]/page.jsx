@@ -66,6 +66,9 @@ export async function generateMetadata({ params }) {
   return {
     title,
     description,
+    alternates: {
+      canonical: `/cities-served/${slug}`,
+    },
     openGraph: {
       title,
       description,

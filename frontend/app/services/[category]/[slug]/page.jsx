@@ -28,6 +28,9 @@ export async function generateMetadata({ params }) {
   return {
     title: `${service.title} | DFW HVAC`,
     description: service.description,
+    alternates: {
+      canonical: `/services/${category}/${slug}`,
+    },
   }
 }
 

@@ -9,9 +9,14 @@ import { Phone, ArrowRight, Snowflake, Flame, Wind, ClipboardCheck, Building, Se
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
-export const metadata = {
-  title: 'HVAC Services | DFW HVAC - Heating & Air Conditioning',
-  description: 'Professional HVAC services in Dallas-Fort Worth. Residential & commercial air conditioning, heating, indoor air quality, and maintenance. Expert service with integrity and care.',
+export function generateMetadata() {
+  return {
+    title: 'HVAC Services | DFW HVAC - Heating & Air Conditioning',
+    description: 'Professional HVAC services in Dallas-Fort Worth. Residential & commercial air conditioning, heating, indoor air quality, and maintenance. Expert service with integrity and care.',
+    alternates: {
+      canonical: '/services',
+    },
+  }
 }
 
 const iconMap = {

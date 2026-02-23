@@ -13,6 +13,9 @@ export async function generateMetadata() {
   return {
     title: `Terms of Service | ${companyName}`,
     description: `Terms of Service for ${companyName}. Review the terms and conditions governing your use of our website and HVAC services.`,
+    alternates: {
+      canonical: '/terms-of-service',
+    },
   }
 }
 

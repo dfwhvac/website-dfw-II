@@ -17,6 +17,9 @@ export async function generateMetadata() {
   return {
     title: `Cities We Serve | ${companyName}`,
     description: `${companyName} provides professional HVAC services across the Dallas-Fort Worth metroplex. Find heating and air conditioning services in your city.`,
+    alternates: {
+      canonical: '/cities-served',
+    },
   }
 }
 

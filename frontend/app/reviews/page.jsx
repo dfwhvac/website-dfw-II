@@ -18,6 +18,9 @@ export async function generateMetadata() {
   return {
     title: reviewsPage?.metaTitle || '5-Star HVAC Reviews Dallas | Customer Testimonials | DFW HVAC',
     description: reviewsPage?.metaDescription || `Read ${reviewCount}+ 5-star reviews from real DFW HVAC customers. Three generations of trusted HVAC service in Dallas-Fort Worth.`,
+    alternates: {
+      canonical: '/reviews',
+    },
   }
 }
 

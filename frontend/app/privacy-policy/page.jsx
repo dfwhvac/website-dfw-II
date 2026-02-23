@@ -13,6 +13,9 @@ export async function generateMetadata() {
   return {
     title: `Privacy Policy | ${companyName}`,
     description: `Privacy Policy for ${companyName}. Learn how we collect, use, and protect your personal information.`,
+    alternates: {
+      canonical: '/privacy-policy',
+    },
   }
 }
 
