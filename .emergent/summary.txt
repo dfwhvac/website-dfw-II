@@ -1,75 +1,70 @@
 <analysis>**original_problem_statement:**
-The user's primary goal is to build a premium, conversion-focused website for their HVAC company, DFW HVAC, using a Next.js frontend and a Sanity.io CMS.
+The user's primary goal is to build a premium, conversion-focused website for their HVAC company, DFW HVAC, using a Next.js frontend and a Sanity.io CMS. The strategy has pivoted from a direct booking system to a phone-first, form-second conversion model, which has been implemented.
 
-Initial work focused on integrating the Housecall Pro (HCP) booking system to streamline service appointments. However, after extensive competitor analysis and a review of their operational capacity, the user has pivoted their strategy. The core requirement is now to optimize the site for a phone-first conversion strategy, funneling users towards calling the business directly or submitting a lead form for a callback, while completely removing the Housecall Pro integration. The secondary goal is to maintain a clear path for users interested in Free Replacement Estimates.
-
-The user has also requested the addition of legal pages (Privacy Policy, Terms of Service) based on documents they provided.
+Recent requests include:
+-   Adding a Recent Projects page by embedding a third-party RealWork JavaScript widget.
+-   Implementing a robust lead capture system with email notifications for different lead funnels (service, estimate, contact).
+-   Optimizing the site for SEO and planning the go-live transition from the old Wix site, keeping the same domain.
+-   Evaluating the SEO value and monetary worth of the RealWork widget subscription.
 
 **User's preferred language**: English
 
 **what currently exists?**
-The project is a non-live Next.js 14 application with a Sanity.io CMS backend. A phone-first, form-second conversion strategy has been implemented across the entire website. The Housecall Pro booking widget and all associated code have been completely removed. All primary Calls-to-Action (CTAs) now prompt users to call the business, with a secondary option to Request Service via the contact page form. A subtle text link to the  page is present on all major pages for users seeking replacement quotes. Additionally, new, fully styled  and  pages have been created from user-provided documents and are linked in the footer.
+The project is a Next.js 14 application with a Sanity.io CMS backend. The core phone-first conversion strategy is implemented site-wide with consistent CTAs and a new sticky mobile CTA bar. The RealWork widget is now fully integrated and functional on a new  page, which is accessible from the main navigation.
+
+A full-stack lead capture system is also complete. It uses a FastAPI endpoint () to save submissions to a MongoDB database and is configured to route email notifications via Resend to three different email addresses based on the lead source (service, estimate, contact). All frontend forms have been updated to use this new system.
 
 **Last working item**:
--   **Last item agent was working:** The agent performed a comprehensive, site-wide review to ensure that all pages and components consistently follow the new phone-first CTA strategy, after having removed the previous Book Service (Housecall Pro) implementation.
+-   **Last item agent was working:** The agent performed a definitive analysis of the RealWork widget's SEO value. Using an HTML dump provided by the user from Google Search Console, the agent confirmed that the widget's content is **not indexed by Google** and therefore provides no direct SEO or traffic generation benefits.
 -   **Status:** USER VERIFICATION PENDING
 -   **Agent Testing Done:** Y
--   **Which testing method agent to use?** Manual review with screenshots. The next agent should take screenshots of the Homepage, a Service page (e.g., ), the About page, and a City page (e.g., ) to confirm the CTA consistency with the user.
+-   **Which testing method agent to use?** N/A. The analysis is complete and a conclusion has been presented.
 -   **User Testing Done:** N
 
 **All Pending/In progress Issue list**:
-There are no outstanding technical issues. The primary pending item is user verification of the site-wide CTA strategy change.
+There are no active technical issues. All pending work consists of user-driven tasks and pre-launch configurations.
 
 **In progress Task List**:
--   **Task 1:** Finalize Site-Wide Conversion Strategy Implementation (P0)
-    -   **Where to resume:** The phone-first strategy has been implemented. Awaiting user review and approval.
-    -   **What will be achieved with this?** The website's primary CTAs will be aligned with the user's operational capabilities, prioritizing direct phone calls and lead form submissions over automated booking.
+-   **Task 1:** RealWork Widget SEO & Value Evaluation (P1)
+    -   **Where to resume:** The technical analysis is complete and confirmed the widget has zero SEO value. The user now needs to evaluate the subscription cost against its confirmed trust/conversion value.
+    -   **What will be achieved with this?** A final decision on whether to keep the RealWork subscription.
     -   **Status:** USER VERIFICATION PENDING
-    -   **Should Test frontend/backend/both after fix?** Frontend
-    -   **Blocked on something:** Awaiting user feedback on the completed implementation.
+    -   **Should Test frontend/backend/both after fix?** N/A
+    -   **Blocked on something:** User decision on the subscription cost.
 
 **Upcoming and Future Tasks**
 
 **Upcoming Tasks:**
--   **Phase 3: Structural SEO (P1):**
-    -   Create a dynamic .
-    -   Create a  file.
-    -   Add canonical URL tags to all pages.
-    -   Expand structured data schemas (Service, FAQ, Review).
--   **Phase 4: Conversion Optimization (P1):**
-    -   Add a sticky mobile CTA bar with a click-to-call button.
--   **Phase 5: Local SEO Enhancement (P2):**
-    -   Create dynamic city + service combination pages (e.g., ).
--   **Feature Request (P2):** Embed a YouTube video on the Indoor Air Quality page.
+-   **Resend Domain Verification (P0):** The user needs to add DNS records (provided by Resend) to their GoDaddy account. This is critical to enable email notifications from the lead capture system.
+-   **301 Redirects (P0):** Identify all URLs from the old Wix site that will change and configure 301 redirects in  to preserve SEO value upon launch.
+-   **Google Search Console Setup (P1):** The user needs to complete the domain verification process by adding the Google-provided TXT record to their DNS settings in GoDaddy.
+-   **Structural SEO (P1):** Implement site-wide SEO infrastructure, including a dynamic , a  file, canonical URL tags, and expanded structured data schemas.
+-   **YouTube Video Embed (P1):** Embed a YouTube video on the Indoor Air Quality page.
 
 **Future Tasks:**
+-   Create dynamic city + service combination pages (e.g., ).
 -   Rewrite city page SEO descriptions to be 300-500 words.
 -   Add a Blog/Resource section for content marketing.
+-   Finalize the DNS transition plan (Vercel nameservers vs. GoDaddy DNS).
 -   Switch the Sanity client to production caching mode before launch.
--   Perform code cleanup: remove unused mock data and scripts.
+-   Perform code cleanup to remove unused mock data and scripts.
 
 **Completed work in this session**
--   **Competitor Analysis:** Performed a detailed analysis of the top 12 DFW HVAC competitors' conversion funnels, identifying two primary strategies: Service-First vs. Estimate-First.
--   **Strategic Pivot to Phone-First:**
-    -   Based on user feedback about operational constraints, the agent pivoted from a Book Service (HCP) strategy to a Call Now primary strategy.
-    -   **Completely removed the Housecall Pro integration**, including the root layout script, all  triggers, and the  component.
--   **Site-Wide CTA Rearchitecture:**
-    -   Implemented a new, consistent CTA pattern on the Homepage, Header, Service Pages, About Page, FAQ Page, and all City Pages.
-    -   **Primary CTA:** Call Now (or similar), styled in red for emphasis.
-    -   **Secondary CTA:** Request Service, styled as an outline button linking to the  page.
-    -   **Tertiary CTA:** A subtle text link for Get a Free Replacement Estimate was added below the main buttons to preserve the high-margin lead funnel.
--   **Privacy Policy Page Creation:**
-    -   Extracted text from a user-provided PDF.
-    -   Created a new, fully-styled page at .
-    -   Ensured the existing footer link works correctly.
--   **Terms of Service Page Creation:**
-    -   Extracted text from a user-provided PDF.
-    -   Created a new, fully-styled page at .
-    -   Ensured the existing footer link works correctly.
--   **Next.js Cache Debugging:** Successfully resolved a critical display issue where changes were not appearing by identifying and removing the  cache directory and restarting the development server.
+-   **Created  Page:** Built the new page with a conversion-focused layout (CTAs, trust stats) and a placeholder for the widget.
+-   **Implemented Sticky Mobile CTA Bar:** Added a site-wide, persistent click-to-call bar for mobile users.
+-   **Fixed Header Navigation:** Implemented a code-based solution in  to ensure the Recent Projects link appears alongside the CMS-driven navigation items.
+-   **Corrected Legacy Date:** Removed all incorrect 1974 references site-wide while preserving the accurate 1972 start date.
+-   **Integrated RealWork Widget:** Successfully embedded the third-party JavaScript widget into the  page using a dedicated client component.
+-   **Built Lead Capture Backend:**
+    -   Created a new API endpoint () in .
+    -   Configured the endpoint to save all form submissions to a MongoDB  collection.
+    -   Implemented three-funnel email routing via Resend to , , and  addresses based on lead type.
+    -   Updated all frontend forms to call the new API.
+-   **Analyzed RealWork SEO Value:** Conclusively determined the widget has **zero SEO value** after guiding the user through Google Search Console and analyzing the rendered HTML.
+-   **Documented Go-Live Plan:** Created a detailed plan in  for transitioning the site from Wix to Vercel by changing DNS records at GoDaddy.
 
 **Earlier issues found/mentioned but not fixed**
--   The footer phone number issue mentioned in the initial handoff summary was investigated and found to be incorrect. The footer was already displaying the number correctly, so no fix was needed.
+-   None.
 
 **Known issue recurrence from previous fork**
 -   None.
@@ -78,60 +73,75 @@ There are no outstanding technical issues. The primary pending item is user veri
 
 
 **Key Technical Concepts**
--   **Strategic Code Removal:** Successfully removed a major third-party integration (Housecall Pro) from the entire application, including scripts, components, and event handlers.
--   **Component Refactoring for State/Events:** Created a dedicated client component () to handle  events and stateful logic within server-rendered pages (like the FAQ page), avoiding the need to convert entire pages to client components.
--   **Debugging Next.js Caching:** Diagnosed and resolved a persistent issue where UI changes were not reflected due to server-side caching. The solution involved manually deleting the  folder to force a fresh build, which is a critical troubleshooting step for Next.js development.
--   **Dynamic Page Creation:** Created new static pages (, ) with custom styling to render legal documents provided by the user.
+-   **3rd Party JS Integration:** Used a Next.js client component () with the  hook to safely load and initialize the external RealWork widget script.
+-   **Hybrid Navigation:** Solved a missing navigation link issue by merging a hardcoded link with a navigation array fetched from the Sanity CMS.
+-   **API-Driven Lead Capture:** Implemented a full-stack lead funnel with a FastAPI endpoint () that saves data to MongoDB and sends transactional emails via the Resend API.
+-   **Dynamic Email Routing:** The backend uses a  property from the frontend to route lead notifications to different inboxes, allowing for business process separation.
+-   **SEO Debugging with GSC:** Used Google Search Console's URL Inspection tool and HTML analysis to definitively prove a client-side widget's content was not being indexed.
 
 **key DB schema**
--   No database schema changes were made in this session.
+-   **leads** (MongoDB Collection): 
+
+**changes in tech stack**
+-   None.
 
 **All files of reference**
--   : Controls the site-wide primary and secondary CTAs.
--   : The reusable client component that now implements the new phone-first CTA pattern across multiple server-rendered pages.
--   : The root layout where the Housecall Pro script was removed.
--   : The new Privacy Policy page.
--   : The new Terms of Service page.
+-   : The page hosting the RealWork widget.
+-   : The client component for the widget script.
+-   : The site-wide mobile CTA component.
+-   : The FastAPI backend containing the new  endpoint.
+-   : The main lead form, now connected to the backend.
+-   : Contains the project roadmap, go-live plan, and task list.
+-   : The user-provided file used to confirm the widget's SEO value.
+
+**Areas that need refactoring**:
+-   The  component's method for adding the Recent Projects link is a temporary fix. A more robust solution would be to add the link directly via the Sanity CMS, which would require either user action or write permissions for the agent's Sanity API token.
+
+**key api endpoints**
+-   : Submits form data (name, phone, email, etc.) along with a  ('service', 'estimate', or 'contact'). It saves the lead to MongoDB and triggers a routed email notification via Resend.
 
 **Critical Info for New Agent**
--   **The user has made a significant strategic pivot.** The Book Now functionality via Housecall Pro has been **intentionally and completely removed** due to operational constraints. The new strategy is **phone-first**. Do not suggest re-implementing direct booking.
--   The primary conversion path is now a phone call. The secondary path is a form submission for a callback. The tertiary path is a link to the  page for high-margin replacement leads.
--   UI changes may not appear immediately due to Next.js caching. If you make code changes and don't see them reflected, the first step is to stop the server, run , and restart the server.
+-   **Lead Notifications are DISABLED:** The lead capture system is built, but emails are not being sent because the user's domain () has not been verified in their Resend account. This is a P0 task requiring the user to add DNS records in GoDaddy.
+-   **RealWork Widget = ZERO SEO Value:** It has been definitively confirmed that Google does not index the content of the RealWork widget. Its value is purely for visual trust for users already on the page. Do not propose any work assuming it provides SEO benefits.
+-   **Navigation is Hybrid:** The header navigation pulls from Sanity CMS but is programmatically merged with a hardcoded Recent Projects link in . Be aware of this if modifying navigation.
+-   **Go-Live Plan:** The launch plan is documented in . The core action involves changing the domain's nameservers in the user's **GoDaddy** account to point from Wix to Vercel.
 
 **documents and test reports created in this job**
--   New Page: 
--   New Page: 
+-    (Updated extensively)
+-    (User-provided artifact that was analyzed)
 
 **Last 10 User Messages and any pending HUMAN messages**
-10. **User Questions Form Purpose (Pending):** The user correctly identified that having a Schedule Service form next to a Book Service button was a redundant workflow.
-9.  **User Explains Constraints (Pending):** The user clarified that direct online booking is not feasible due to unpredictable scheduling and limited staff. They want to funnel users to either call or fill out a form.
-8.  **Agent Recommends Phone-First (Completed):** The agent proposed removing Housecall Pro entirely and implementing a Call Now (primary) and Request Service (secondary form) strategy.
-7.  **User Approves and Confirms Removal (Pending):** The user approved the new strategy and explicitly confirmed the removal of the Housecall Pro integration.
-6.  **Agent Implements Phone-First Strategy (Completed):** The agent executed the site-wide removal of HCP and implemented the new CTA pattern.
-5.  **User Requests Site-Wide Check (Pending):** The user asked the agent to review the entire site to ensure all CTAs were updated consistently.
-4.  **Agent Completes Review (Completed):** The agent reviewed all pages and confirmed consistency.
-3.  **User Provides Privacy Policy (Pending):** The user uploaded a privacy policy PDF and asked for it to be added to the site.
-2.  **Agent Implements Privacy Policy (Completed):** The agent created the page, styled it, and verified the footer link.
-1.  **User Provides Terms of Service (Pending):** The user uploaded a terms of service PDF and asked for it to be added.
+10. **User:** Verified domain in GSC.
+9.  **User:** Sees a blank area in the GSC screenshot where the widget should be.
+8.  **User:** Asks if analyzing the HTML from GSC would be a good validation step.
+7.  **User:** Asks if they can paste the HTML for the agent to review.
+6.  **User:** Provides the HTML dump as a  file.
+5.  **User:** Acknowledges the conclusion and asks to save it. Adds a to-do item to evaluate the RealWork license cost.
+4.  **User:** Wants to resume domain validation to evaluate the widget.
+3.  **User:** Provides the Resend API key to continue with lead capture implementation.
+2.  **User:** Confirms the email routing structure and dynamic subject lines for the three lead funnels.
+1.  **User:** Pauses the widget evaluation and asks to see the P0/P1 task list.
 
 **Project Health Check:**
--   **Broken:** None.
--   **Mocked:**  still exists but is slated for future cleanup.
+-   **Broken:** Email notifications for the lead capture system are non-functional pending Resend domain verification by the user.
+-   **Mocked:** The  file still exists but is no longer used for the core lead submission flow.
 
 **3rd Party Integrations**
--   **Sanity.io:** Primary Headless CMS.
--   **Vercel:** Hosting, previews, and cron jobs.
--   **Google Places API:** Used for syncing Google rating and review counts.
--   **Lucide React:** Icon library.
+-   **Sanity.io:** Headless CMS for content management.
+-   **Vercel:** Hosting platform.
+-   **Google Places API:** For syncing reviews and ratings.
+-   **RealWork:** Embedded JavaScript widget for the Recent Projects page. **(SEO value confirmed to be zero)**.
+-   **Resend:** Email API for lead capture notifications. **(Requires user to verify domain to become active)**.
+-   **GoDaddy:** The user's domain registrar.
 
 **Testing status**
 -   **Testing agent used after significant changes:** NO
 -   **Troubleshoot agent used after agent stuck in loop:** NO
 -   **Test files created:** None
--   **Known regressions:** The persistent Next.js caching issue was a major hurdle, requiring manual deletion of the  folder to see changes. This is a known behavior to watch out for.
+-   **Known regressions:** None
 
 **Credentials to test flow:**
-N/A
+-   A Resend API key is stored in  and is used by the  endpoint.
 
 **What agent forgot to execute**
-The agent correctly identified and disregarded an incorrect issue from the previous handoff summary (related to the footer phone number). All user requests in this session were addressed.</analysis>
+-   None. The agent successfully handled all user requests, including out-of-scope questions, and documented all decisions and upcoming work.</analysis>
