@@ -405,6 +405,13 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [] }) => {
           </div>
         </div>
       </section>
+
+      {/* Request Service Modal */}
+      <RequestServiceModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        leadType={modalLeadType}
+      />
     </div>
   )
 }
