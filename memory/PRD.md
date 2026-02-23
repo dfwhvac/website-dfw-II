@@ -294,6 +294,7 @@ The Open Graph (OG) image is displayed when your site is shared on social media 
 ---
 
 ## Key Files Reference
+- `/app/frontend/app/request-service/page.jsx` - Dedicated Request Service conversion page
 - `/app/frontend/app/recent-projects/page.jsx` - Recent Projects page with RealWork widget
 - `/app/frontend/components/RealWorkWidget.jsx` - RealWork widget component
 - `/app/frontend/components/StickyMobileCTA.jsx` - Site-wide sticky mobile CTA bar
@@ -305,7 +306,7 @@ The Open Graph (OG) image is displayed when your site is shared on social media 
 - `/app/frontend/components/Header.jsx` - Navigation with phone-first CTAs
 - `/app/frontend/components/ui/button.jsx` - Button component with custom outlineBlue variant
 - `/app/backend/server.py` - API server with /api/leads endpoint
-- `/app/frontend/components/Footer.jsx` - Footer with Recent Projects link
+- `/app/frontend/components/Footer.jsx` - Footer with Quick Links (Cities Served, Request Service)
 - `/app/frontend/app/sitemap.js` - Dynamic sitemap generation
 - `/app/frontend/app/robots.js` - robots.txt generation
 
