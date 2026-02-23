@@ -259,7 +259,7 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
                 className="w-full font-semibold"
                 onClick={() => {
                   setIsMobileMenuOpen(false)
-                  openModal('service')
+                  setIsModalOpen(true)
                 }}
                 data-testid="mobile-request-service-btn"
               >
