@@ -400,6 +400,13 @@ const HomePage = ({
           </p>
         </div>
       </section>
+
+      {/* Request Service Modal */}
+      <RequestServiceModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        leadType="service"
+      />
     </div>
   )
 }
