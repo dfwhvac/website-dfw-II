@@ -3,6 +3,7 @@ import './globals.css'
 import { Toaster } from '../components/ui/sonner'
 import { defaultMetadata } from '../lib/metadata'
 import ColorProvider from '../components/ColorProvider'
+import ClientProviders from '../components/ClientProviders'
 import { getBrandColors } from '../lib/sanity'
 import StickyMobileCTA from '../components/StickyMobileCTA'
 
@@ -22,15 +23,17 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ColorProvider brandColors={brandColors}>
-          {children}
-        </ColorProvider>
-        <Toaster />
-        <StickyMobileCTA 
-          phone="(972) 777-COOL"
-          phoneNumber="+19727772665"
-          ctaText="Call Now for Service"
-        />
+        <ClientProviders>
+          <ColorProvider brandColors={brandColors}>
+            {children}
+          </ColorProvider>
+          <Toaster />
+          <StickyMobileCTA 
+            phone="(972) 777-COOL"
+            phoneNumber="+19727772665"
+            ctaText="Call Now for Service"
+          />
+        </ClientProviders>
       </body>
     </html>
   )
