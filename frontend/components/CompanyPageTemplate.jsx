@@ -424,6 +424,13 @@ const CompanyPageTemplate = ({
           </div>
         </div>
       </section>
+
+      {/* Request Service Modal */}
+      <RequestServiceModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        leadType="service"
+      />
     </div>
   )
 }
