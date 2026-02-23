@@ -387,7 +387,7 @@ const HomePage = ({
               variant="outline" 
               size="lg" 
               className="border-2 border-white text-white hover:bg-white hover:text-[#003153] font-semibold px-8 py-4 text-lg h-auto"
-              onClick={() => openModal('service')}
+              onClick={() => setIsModalOpen(true)}
               data-testid="hero-request-service-btn"
             >
               Request Service
