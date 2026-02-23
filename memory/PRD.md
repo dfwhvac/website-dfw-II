@@ -209,12 +209,30 @@ Build a premium, conversion-focused website for DFW HVAC company using Next.js f
 - [x] **RealWork Widget SEO Evaluation** - ✅ CONFIRMED: Widget has **ZERO SEO value** (Google does not index the content). Value is purely visual trust for on-page visitors.
 - [ ] **RealWork Subscription Cost Evaluation** - User to evaluate whether the subscription cost is justified by its trust/conversion value alone (not SEO)
 - [x] **SEO Implementation** - ✅ sitemap.xml, robots.txt created; canonical URLs fixed across all pages (Feb 23, 2025)
+- [ ] **Create OG Image** - Replace the placeholder logo with a proper Open Graph image. See instructions below.
 - [ ] **YouTube Video Embed** - Indoor Air Quality page
 - [ ] **Content Creation** - Case studies, financing pages
 - [ ] **Internal Linking** - Cross-link services ↔ cities
 - [ ] **Performance Optimization** - Lighthouse audit
 - [ ] **Pre-Launch Verification** - Mobile/browser testing, forms, broken links
 - [ ] **DNS Transition Planning** - Decide between Vercel nameservers vs. GoDaddy DNS approach
+
+#### OG Image Instructions
+The Open Graph (OG) image is displayed when your site is shared on social media (Facebook, LinkedIn, Twitter/X, iMessage, etc.).
+
+**Current state:** Using company logo as placeholder at `/app/frontend/public/images/dfwhvac-og.jpg`
+
+**To create a proper OG image:**
+1. **Size:** 1200 x 630 pixels (required aspect ratio for social media)
+2. **Content suggestions:**
+   - Company logo prominently displayed
+   - Tagline: "Trust. Excellence. Care." or "Three Generations of Trusted Service"
+   - Professional HVAC imagery (AC unit, service truck, or happy homeowner)
+   - Dallas-Fort Worth reference (subtle skyline or "Serving DFW" text)
+   - Brand colors: Navy (#003153), Cyan (#00B8FF), Red (#FF0000)
+3. **Format:** JPG or PNG
+4. **File location:** Save as `/app/frontend/public/images/dfwhvac-og.jpg`
+5. **Keep text minimal** - social platforms overlay their own title/description
 
 ### P2 - Launch Day
 - [ ] **DNS Cutover** - Change nameservers in GoDaddy from Wix to Vercel (or update A/CNAME records)
