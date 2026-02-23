@@ -3,6 +3,7 @@ import Footer from '@/components/Footer'
 import CompanyPageTemplate from '@/components/CompanyPageTemplate'
 import { getCompanyInfo, getSiteSettings, getCityPages, getContactPage } from '@/lib/sanity'
 import { companyInfo as mockCompanyInfo } from '@/lib/mockData'
+import { buildPageMetadata } from '@/lib/metadata'
 
 // Disable caching for instant Sanity updates
 export const dynamic = 'force-dynamic'
@@ -10,10 +11,11 @@ export const revalidate = 0
 
 export async function generateMetadata() {
   const contactPage = await getContactPage()
-  return {
-    title: contactPage?.metaTitle || 'Contact Us | DFW HVAC',
+  return buildPageMetadata({
+    title: contactPage?.metaTitle || 'Contact Us | DFW HVAC - Expert HVAC Service',
     description: contactPage?.metaDescription || 'Contact DFW HVAC for expert heating and cooling services in Dallas-Fort Worth. Same-day service available Monday-Friday. Call (972) 777-COOL.',
-  }
+    path: '/contact',
+  })
 }
 
 export default async function ContactPage() {
