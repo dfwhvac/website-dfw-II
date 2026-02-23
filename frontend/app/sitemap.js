@@ -9,6 +9,7 @@ export default async function sitemap() {
     { url: '', priority: 1.0, changeFrequency: 'weekly' },
     { url: '/about', priority: 0.8, changeFrequency: 'monthly' },
     { url: '/contact', priority: 0.9, changeFrequency: 'monthly' },
+    { url: '/request-service', priority: 0.9, changeFrequency: 'monthly' },
     { url: '/services', priority: 0.9, changeFrequency: 'weekly' },
     { url: '/reviews', priority: 0.7, changeFrequency: 'weekly' },
     { url: '/faq', priority: 0.6, changeFrequency: 'monthly' },
