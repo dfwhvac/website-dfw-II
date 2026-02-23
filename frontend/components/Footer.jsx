@@ -60,19 +60,22 @@ const Footer = ({ companyInfo = {}, siteSettings = null }) => {
   const logoTagline = siteSettings?.logoTagline || 'Three Generations of Trusted Service'
   let footerSections = siteSettings?.footerSections || defaultFooterSections
   
-  // Ensure "Cities Served" is in Quick Links section
+  // Ensure "Cities Served" and "Request Service" are in Quick Links section
   footerSections = footerSections.map(section => {
     if (section.title === 'Quick Links') {
-      const hasCitiesServed = section.links?.some(link => link.href === '/cities-served')
-      if (!hasCitiesServed) {
-        return {
-          ...section,
-          links: [
-            ...(section.links || []),
-            { label: 'Cities Served', href: '/cities-served' }
-          ]
-        }
+      let links = [...(section.links || [])]
+      
+      // Add Cities Served if missing
+      if (!links.some(link => link.href === '/cities-served')) {
+        links.push({ label: 'Cities Served', href: '/cities-served' })
       }
+      
+      // Add Request Service if missing
+      if (!links.some(link => link.href === '/request-service')) {
+        links.push({ label: 'Request Service', href: '/request-service' })
+      }
+      
+      return { ...section, links }
     }
     return section
   })
