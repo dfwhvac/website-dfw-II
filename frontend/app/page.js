@@ -4,6 +4,7 @@ import HomePage from '../components/HomePage'
 import { LocalBusinessSchema } from '../components/SchemaMarkup'
 import { getCompanyInfo, getServices, getSiteSettings, getHomepage, getAllTestimonials } from '../lib/sanity'
 import { companyInfo as mockCompanyInfo, services as mockServices, testimonials as mockTestimonials } from '../lib/mockData'
+import { buildPageMetadata } from '../lib/metadata'
 
 // Force dynamic rendering to always fetch fresh Sanity content
 export const dynamic = 'force-dynamic'
@@ -11,10 +12,11 @@ export const revalidate = 0
 
 export async function generateMetadata() {
   const homepage = await getHomepage()
-  return {
-    title: homepage?.metaTitle || 'DFW HVAC | Trusted HVAC Experts in Dallas-Fort Worth',
-    description: homepage?.metaDescription || 'Family-owned HVAC contractor serving Dallas-Fort Worth for 50+ years.',
-  }
+  return buildPageMetadata({
+    title: homepage?.metaTitle || 'DFW HVAC | Trusted Air Conditioning & Heating Experts',
+    description: homepage?.metaDescription || 'Family-owned HVAC contractor serving Dallas-Fort Worth. AC and heating diagnosis, repair, installation and maintenance. Call (972) 777-COOL.',
+    path: '/',
+  })
 }
 
 export default async function Home() {
