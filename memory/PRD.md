@@ -187,7 +187,7 @@ Build a premium, conversion-focused website for DFW HVAC company using Next.js f
 
 ### P0 - Critical
 - [x] **Lead Capture Form Backend** - ✅ Implemented with three-funnel email routing (service→service@, estimate→estimate@, contact→contact@)
-- [ ] **Resend Domain Verification** - Verify `dfwhvac.com` in Resend to enable email notifications (requires DNS records in GoDaddy)
+- [ ] **Resend Domain Verification** - Verify `dfwhvac.com` in Resend to enable email notifications. **⚠️ BLOCKED:** Wix DNS doesn't support MX subdomains. This will be unblocked when DNS is moved to Vercel/GoDaddy at go-live.
 - [ ] **301 Redirects** - Identify and configure redirects for old URLs before launch
 
 ### P1 - Important (Pre-Launch)
