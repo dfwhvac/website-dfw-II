@@ -260,7 +260,6 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
                 ) : (
                   <Button 
                     key={btn.href || index}
-                    variant="outline"
                     className="w-full btn-outline-electric font-semibold"
                     asChild
                   >
