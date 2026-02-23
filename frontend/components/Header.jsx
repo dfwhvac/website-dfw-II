@@ -85,7 +85,7 @@ const NavDropdown = ({ item }) => {
 
 const Header = ({ companyInfo = {}, siteSettings = null }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const { openModal } = useRequestServiceModal()
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const phone = companyInfo?.phone || '(972) 777-COOL'
   
   // Use Sanity data if available, otherwise use defaults
