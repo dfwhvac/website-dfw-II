@@ -90,7 +90,7 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
   const headerTagline = siteSettings?.headerTagline || 'Three Generations of Trusted HVAC Service in DFW'
   const headerCtaText = siteSettings?.headerCtaText || 'Call Now'
   const showHeaderTagline = siteSettings?.showHeaderTagline !== false
-  const logoTagline = siteSettings?.logoTagline || 'Three Generations of Trusted Service'
+  const logoTagline = siteSettings?.logoTagline || 'Trust. Excellence. Care.'
   
   // Get base navigation from Sanity or defaults
   let navigation = siteSettings?.mainNavigation?.filter(item => item.isVisible !== false) || defaultNavigation
