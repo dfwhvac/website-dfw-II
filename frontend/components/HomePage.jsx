@@ -1,12 +1,12 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import { Button } from './ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card'
 import LeadForm from './LeadForm'
 import TestimonialCarousel from './TestimonialCarousel'
-import { useRequestServiceModal } from './RequestServiceModal'
+import RequestServiceModal from './RequestServiceModal'
 import { 
   Phone, 
   Shield, 
@@ -31,7 +31,7 @@ const HomePage = ({
   homepage = null,
   siteSettings = null 
 }) => {
-  const { openModal } = useRequestServiceModal()
+  const [isModalOpen, setIsModalOpen] = useState(false)
   
   // Use Sanity content with fallbacks - Phone-first CTA strategy
   const hero = {
