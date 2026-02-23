@@ -33,9 +33,9 @@ const defaultNavigation = [
     ]
   },
   { label: 'Recent Projects', href: '/recent-projects', isDropdown: false, isVisible: true },
-  { label: 'Cities Served', href: '/cities-served', isDropdown: false, isVisible: true },
   { label: 'About', href: '/about', isDropdown: false, isVisible: true },
   { label: 'Reviews', href: '/reviews', isDropdown: false, isVisible: true },
+  { label: 'FAQ', href: '/faq', isDropdown: false, isVisible: true },
   { label: 'Contact', href: '/contact', isDropdown: false, isVisible: true },
 ]
 
