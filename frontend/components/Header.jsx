@@ -196,7 +196,7 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
             <Button 
               variant="outlineBlue"
               className="font-semibold"
-              onClick={() => openModal('service')}
+              onClick={() => setIsModalOpen(true)}
               data-testid="header-request-service-btn"
             >
               Request Service
