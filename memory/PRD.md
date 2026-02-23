@@ -96,6 +96,12 @@ Build a premium, conversion-focused website for DFW HVAC company using Next.js f
 
 ## Completed Work
 
+### Header Button Hover Fix (Feb 2025)
+- Fixed "Request Service" button in header becoming unreadable on hover (white text on white background)
+- Added new `outlineBlue` variant to `/app/frontend/components/ui/button.jsx`
+- Button now shows cyan border/text on default, cyan background/white text on hover
+- Matches the styling of hero section button for visual consistency
+
 ### Phone-First Conversion Strategy (Feb 2025)
 - **Removed Housecall Pro integration entirely** (operational constraints)
 - Implemented phone-first CTA pattern site-wide
