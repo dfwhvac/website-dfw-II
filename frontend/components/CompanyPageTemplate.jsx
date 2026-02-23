@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
 import LeadForm from './LeadForm'
 import SimpleContactForm from './SimpleContactForm'
 import LinkedCityList from './LinkedCityList'
+import { useRequestServiceModal } from './RequestServiceModal'
 import { 
   Phone, 
   Mail, 
@@ -26,6 +27,7 @@ const CompanyPageTemplate = ({
   testimonials = [],
   cityPages = []
 }) => {
+  const { openModal } = useRequestServiceModal()
   const phone = companyInfo?.phone || '(972) 777-COOL'
   const address = companyInfo?.address || '556 S Coppell Rd Ste 103, Coppell, TX 75019'
   const googleReviews = companyInfo?.googleReviews || 129
