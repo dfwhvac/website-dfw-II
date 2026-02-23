@@ -58,7 +58,25 @@ const Footer = ({ companyInfo = {}, siteSettings = null }) => {
   const footerTagline = siteSettings?.footerTagline || 
     'Expert HVAC service with integrity and care. A three-generation family commitment to quality workmanship in Dallas-Fort Worth.'
   const logoTagline = siteSettings?.logoTagline || 'Three Generations of Trusted Service'
-  const footerSections = siteSettings?.footerSections || defaultFooterSections
+  let footerSections = siteSettings?.footerSections || defaultFooterSections
+  
+  // Ensure "Cities Served" is in Quick Links section
+  footerSections = footerSections.map(section => {
+    if (section.title === 'Quick Links') {
+      const hasCitiesServed = section.links?.some(link => link.href === '/cities-served')
+      if (!hasCitiesServed) {
+        return {
+          ...section,
+          links: [
+            ...(section.links || []),
+            { label: 'Cities Served', href: '/cities-served' }
+          ]
+        }
+      }
+    }
+    return section
+  })
+  
   const socialLinks = siteSettings?.socialLinks || defaultSocialLinks
   const copyrightText = (siteSettings?.copyrightText || '© {year} DFW HVAC. All rights reserved.')
     .replace('{year}', currentYear)
