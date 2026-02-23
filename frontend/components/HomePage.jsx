@@ -6,6 +6,7 @@ import { Button } from './ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card'
 import LeadForm from './LeadForm'
 import TestimonialCarousel from './TestimonialCarousel'
+import { useRequestServiceModal } from './RequestServiceModal'
 import { 
   Phone, 
   Shield, 
@@ -30,6 +31,8 @@ const HomePage = ({
   homepage = null,
   siteSettings = null 
 }) => {
+  const { openModal } = useRequestServiceModal()
+  
   // Use Sanity content with fallbacks - Phone-first CTA strategy
   const hero = {
     badge: homepage?.heroBadge || 'Three Generations of Trust',
@@ -38,7 +41,7 @@ const HomePage = ({
     line3: homepage?.heroTitleLine3 || 'Experts',
     description: homepage?.heroDescription || 'Expert HVAC service with integrity and care. A three-generation family commitment to quality workmanship serving Dallas-Fort Worth.',
     primaryButton: { text: 'Call (972) 777-COOL', href: 'tel:+19727772665' },
-    secondaryButton: { text: 'Request Service', href: '/contact' },
+    secondaryButton: { text: 'Request Service' },
   }
   
   // Lead form settings - Phone-first strategy (form as secondary option)
