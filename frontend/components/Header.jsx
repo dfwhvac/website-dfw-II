@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Phone, Menu, X, ChevronDown } from 'lucide-react'
 import { Button } from './ui/button'
+import { useRequestServiceModal } from './RequestServiceModal'
 
 // Default navigation data (used as fallback when Sanity data not available)
 const defaultNavigation = [
