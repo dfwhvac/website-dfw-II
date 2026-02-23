@@ -1,12 +1,12 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import { Button } from './ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion'
 import LeadForm from './LeadForm'
-import { useRequestServiceModal } from './RequestServiceModal'
+import RequestServiceModal from './RequestServiceModal'
 import { 
   Phone, 
   CheckCircle, 
