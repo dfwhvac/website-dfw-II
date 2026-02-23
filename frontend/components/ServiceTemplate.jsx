@@ -23,6 +23,7 @@ import {
 } from 'lucide-react'
 
 const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [] }) => {
+  const { openModal } = useRequestServiceModal()
   const phone = companyInfo?.phone || '(972) 777-COOL'
   const googleReviews = companyInfo?.googleReviews || 129
   
