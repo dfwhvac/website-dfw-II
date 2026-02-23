@@ -1,12 +1,16 @@
 // SEO metadata utilities for DFW HVAC
 
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://dfwhvac.com'
+
 export function createMetadata({
   title,
   description,
   keywords = 'hvac, air conditioning, heating, dallas, fort worth, texas, repair, installation, maintenance',
   image = '/images/dfwhvac-og.jpg',
-  url = 'https://dfwhvac.com'
+  path = '/',
 }) {
+  const url = `${BASE_URL}${path}`
+  
   return {
     title,
     description,
@@ -19,9 +23,9 @@ export function createMetadata({
       address: false,
       telephone: false,
     },
-    metadataBase: new URL(url),
+    metadataBase: new URL(BASE_URL),
     alternates: {
-      canonical: '/',
+      canonical: path,
     },
     openGraph: {
       title,
