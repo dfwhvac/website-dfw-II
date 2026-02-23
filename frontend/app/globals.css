@@ -127,14 +127,3 @@ code {
 .hover\:bg-gold-amber:hover { background-color: var(--gold-amber); }
 .hover\:text-electric-blue:hover { color: var(--electric-blue); }
 .hover\:text-vivid-red:hover { color: var(--vivid-red); }
-
-/* Custom button hover state for header CTA */
-.btn-outline-electric {
-  border: 2px solid var(--electric-blue) !important;
-  color: var(--electric-blue) !important;
-  background-color: transparent !important;
-}
-.btn-outline-electric:hover {
-  background-color: var(--electric-blue) !important;
-  color: white !important;
-}
