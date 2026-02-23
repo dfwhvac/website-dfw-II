@@ -48,8 +48,14 @@ export function RequestServiceModalProvider({ children }) {
 
 export function useRequestServiceModal() {
   const context = useContext(ModalContext)
+  // Return a no-op if context is not available (e.g., during SSR or outside provider)
   if (!context) {
-    throw new Error('useRequestServiceModal must be used within RequestServiceModalProvider')
+    return {
+      isOpen: false,
+      openModal: () => console.warn('RequestServiceModal: Provider not found'),
+      closeModal: () => {},
+      leadType: 'service'
+    }
   }
   return context
 }
