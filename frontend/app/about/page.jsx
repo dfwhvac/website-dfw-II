@@ -3,6 +3,7 @@ import Footer from '@/components/Footer'
 import AboutPageTemplate from '@/components/AboutPageTemplate'
 import { getCompanyInfo, getTestimonials, getSiteSettings, getCityPages, getAboutPage } from '@/lib/sanity'
 import { companyInfo as mockCompanyInfo, testimonials as mockTestimonials } from '@/lib/mockData'
+import { buildPageMetadata } from '@/lib/metadata'
 
 // Disable caching for instant Sanity updates
 export const dynamic = 'force-dynamic'
@@ -10,10 +11,11 @@ export const revalidate = 0
 
 export async function generateMetadata() {
   const aboutPage = await getAboutPage()
-  return {
-    title: aboutPage?.metaTitle || 'About Us | DFW HVAC',
+  return buildPageMetadata({
+    title: aboutPage?.metaTitle || 'About Us | DFW HVAC - Three Generations of Trust',
     description: aboutPage?.metaDescription || 'Learn about DFW HVAC - a three-generation family commitment to trustworthy, high-quality HVAC service in Dallas-Fort Worth.',
-  }
+    path: '/about',
+  })
 }
 
 export default async function AboutPage() {
