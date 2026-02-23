@@ -5,7 +5,6 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Phone, Menu, X, ChevronDown } from 'lucide-react'
 import { Button } from './ui/button'
-import RequestServiceModal from './RequestServiceModal'
 
 // Default navigation data (used as fallback when Sanity data not available)
 const defaultNavigation = [
@@ -85,7 +84,6 @@ const NavDropdown = ({ item }) => {
 
 const Header = ({ companyInfo = {}, siteSettings = null }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [isModalOpen, setIsModalOpen] = useState(false)
   const phone = companyInfo?.phone || '(972) 777-COOL'
   
   // Use Sanity data if available, otherwise use defaults
@@ -187,20 +185,26 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
 
           {/* CTA Buttons - Phone-first strategy */}
           <div className="hidden lg:flex items-center gap-3">
-            <Button 
-              className="bg-vivid-red hover:bg-red-700 text-white font-semibold"
-              asChild
-            >
-              <a href="tel:+19727772665">Call Now</a>
-            </Button>
-            <Button 
-              variant="outlineBlue"
-              className="font-semibold"
-              onClick={() => setIsModalOpen(true)}
-              data-testid="header-request-service-btn"
-            >
-              Request Service
-            </Button>
+            {ctaButtons.map((btn, index) => (
+              btn.isPhone ? (
+                <Button 
+                  key={btn.href || index}
+                  className="bg-vivid-red hover:bg-red-700 text-white font-semibold"
+                  asChild
+                >
+                  <a href={btn.href}>{btn.label}</a>
+                </Button>
+              ) : (
+                <Button 
+                  key={btn.href || index}
+                  variant="outlineBlue"
+                  className="font-semibold"
+                  asChild
+                >
+                  <Link href={btn.href}>{btn.label}</Link>
+                </Button>
+              )
+            ))}
           </div>
 
           {/* Mobile Menu Button */}
@@ -248,34 +252,30 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
             ))}
 
             <div className="pt-4 space-y-2">
-              <Button 
-                className="w-full bg-vivid-red hover:bg-red-700 text-white font-semibold"
-                asChild
-              >
-                <a href="tel:+19727772665">Call Now</a>
-              </Button>
-              <Button 
-                variant="outlineBlue"
-                className="w-full font-semibold"
-                onClick={() => {
-                  setIsMobileMenuOpen(false)
-                  setIsModalOpen(true)
-                }}
-                data-testid="mobile-request-service-btn"
-              >
-                Request Service
-              </Button>
+              {ctaButtons.map((btn, index) => (
+                btn.isPhone ? (
+                  <Button 
+                    key={btn.href || index}
+                    className="w-full bg-vivid-red hover:bg-red-700 text-white font-semibold"
+                    asChild
+                  >
+                    <a href={btn.href}>{btn.label}</a>
+                  </Button>
+                ) : (
+                  <Button 
+                    key={btn.href || index}
+                    variant="outlineBlue"
+                    className="w-full font-semibold"
+                    asChild
+                  >
+                    <Link href={btn.href}>{btn.label}</Link>
+                  </Button>
+                )
+              ))}
             </div>
           </div>
         </div>
       )}
-
-      {/* Request Service Modal */}
-      <RequestServiceModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-        leadType="service"
-      />
     </header>
   )
 }

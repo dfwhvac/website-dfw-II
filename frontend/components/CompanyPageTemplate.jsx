@@ -1,13 +1,12 @@
 'use client'
 
-import React, { useState } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import { Button } from './ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
 import LeadForm from './LeadForm'
 import SimpleContactForm from './SimpleContactForm'
 import LinkedCityList from './LinkedCityList'
-import RequestServiceModal from './RequestServiceModal'
 import { 
   Phone, 
   Mail, 
@@ -27,7 +26,6 @@ const CompanyPageTemplate = ({
   testimonials = [],
   cityPages = []
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
   const phone = companyInfo?.phone || '(972) 777-COOL'
   const address = companyInfo?.address || '556 S Coppell Rd Ste 103, Coppell, TX 75019'
   const googleReviews = companyInfo?.googleReviews || 129
@@ -416,21 +414,13 @@ const CompanyPageTemplate = ({
               size="lg" 
               variant="outline"
               className="border-2 border-white text-white hover:bg-white hover:text-vivid-red font-semibold"
-              onClick={() => setIsModalOpen(true)}
-              data-testid="company-page-schedule-btn"
+              onClick={() => { if (typeof window !== 'undefined' && window.HCPWidget) window.HCPWidget.openModal() }}
             >
-              Request Service
+              Schedule Online
             </Button>
           </div>
         </div>
       </section>
-
-      {/* Request Service Modal */}
-      <RequestServiceModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-        leadType="service"
-      />
     </div>
   )
 }

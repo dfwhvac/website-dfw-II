@@ -1,12 +1,11 @@
 'use client'
 
-import React, { useState } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import { Button } from './ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card'
 import LeadForm from './LeadForm'
 import TestimonialCarousel from './TestimonialCarousel'
-import RequestServiceModal from './RequestServiceModal'
 import { 
   Phone, 
   Shield, 
@@ -31,8 +30,6 @@ const HomePage = ({
   homepage = null,
   siteSettings = null 
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  
   // Use Sanity content with fallbacks - Phone-first CTA strategy
   const hero = {
     badge: homepage?.heroBadge || 'Three Generations of Trust',
@@ -41,7 +38,7 @@ const HomePage = ({
     line3: homepage?.heroTitleLine3 || 'Experts',
     description: homepage?.heroDescription || 'Expert HVAC service with integrity and care. A three-generation family commitment to quality workmanship serving Dallas-Fort Worth.',
     primaryButton: { text: 'Call (972) 777-COOL', href: 'tel:+19727772665' },
-    secondaryButton: { text: 'Request Service' },
+    secondaryButton: { text: 'Request Service', href: '/contact' },
   }
   
   // Lead form settings - Phone-first strategy (form as secondary option)
@@ -387,10 +384,11 @@ const HomePage = ({
               variant="outline" 
               size="lg" 
               className="border-2 border-white text-white hover:bg-white hover:text-[#003153] font-semibold px-8 py-4 text-lg h-auto"
-              onClick={() => setIsModalOpen(true)}
-              data-testid="hero-request-service-btn"
+              asChild
             >
-              Request Service
+              <Link href="/contact">
+                Request Service
+              </Link>
             </Button>
           </div>
           
@@ -400,13 +398,6 @@ const HomePage = ({
           </p>
         </div>
       </section>
-
-      {/* Request Service Modal */}
-      <RequestServiceModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-        leadType="service"
-      />
     </div>
   )
 }

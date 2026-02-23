@@ -1,12 +1,11 @@
 'use client'
 
-import React, { useState } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import { Button } from './ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion'
 import LeadForm from './LeadForm'
-import RequestServiceModal from './RequestServiceModal'
 import { 
   Phone, 
   CheckCircle, 
@@ -23,15 +22,8 @@ import {
 } from 'lucide-react'
 
 const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [] }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [modalLeadType, setModalLeadType] = useState('service')
   const phone = companyInfo?.phone || '(972) 777-COOL'
   const googleReviews = companyInfo?.googleReviews || 129
-  
-  const openModal = (type = 'service') => {
-    setModalLeadType(type)
-    setIsModalOpen(true)
-  }
   
   const getIconComponent = (iconName) => {
     const icons = {
@@ -264,12 +256,8 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [] }) => {
                       </li>
                     ))}
                   </ul>
-                  <Button 
-                    className="w-full" 
-                    onClick={() => openModal(pricing.title === 'Replacement' ? 'estimate' : 'service')}
-                    data-testid={`pricing-${key}-btn`}
-                  >
-                    {pricing.title === 'Replacement' ? 'Get Free Estimate' : 'Request Service'}
+                  <Button className="w-full" onClick={() => { if (typeof window !== 'undefined' && window.HCPWidget) window.HCPWidget.openModal() }}>
+                    Book Now
                   </Button>
                 </CardContent>
               </Card>
@@ -405,13 +393,6 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [] }) => {
           </div>
         </div>
       </section>
-
-      {/* Request Service Modal */}
-      <RequestServiceModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-        leadType={modalLeadType}
-      />
     </div>
   )
 }
