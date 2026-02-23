@@ -102,6 +102,14 @@ Build a premium, conversion-focused website for DFW HVAC company using Next.js f
 - Button now shows cyan border/text on default, cyan background/white text on hover
 - Matches the styling of hero section button for visual consistency
 
+### Canonical URL Fix (Feb 23, 2025)
+- Fixed critical SEO bug: all pages were showing the root URL (`/`) as canonical
+- Implemented page-specific `generateMetadata()` functions with correct `alternates.canonical` paths
+- Updated all static pages: homepage, contact, about, faq, services, reviews, cities-served, estimate, recent-projects, privacy-policy, terms-of-service
+- Updated all dynamic pages: `/cities-served/[slug]`, `/services/[category]/[slug]`, `/[slug]`
+- Root layout now properly exports `metadataBase` from `defaultMetadata` for URL resolution
+- Verified all pages return correct canonical URLs (e.g., `https://dfwhvac.com/contact`, `https://dfwhvac.com/services/residential/air-conditioning`)
+
 ### Phone-First Conversion Strategy (Feb 2025)
 - **Removed Housecall Pro integration entirely** (operational constraints)
 - Implemented phone-first CTA pattern site-wide
