@@ -268,6 +268,43 @@ The Open Graph (OG) image is displayed when your site is shared on social media 
 - [ ] Feature Enhancements (clean URLs, seasonal strategy, etc.)
 - [ ] Code Cleanup (remove mockData.js, unused deps)
 - [ ] Cancel Wix Subscription (after confirming stability)
+- [ ] **Housecall Pro Direct Integration** - See details below
+
+#### Housecall Pro API Integration (Post-Launch)
+**Goal:** Automatically create customers/jobs in Housecall Pro when leads submit the Request Service form.
+
+**Current launch plan:** Email notifications via Resend (manual entry into HCP)
+
+**Future integration approach:** Direct API integration (no Zapier fees, instant, reliable)
+
+**Questions to answer before implementation:**
+1. Does HCP API support customer lookup by email/phone? (for deduplication)
+2. Does it auto-deduplicate or do we need to handle that logic?
+3. What fields are required to create a customer vs. a job?
+4. What HCP subscription tier is needed for API access?
+5. How to obtain API credentials?
+
+**Proposed flow:**
+```
+Form submission
+      ↓
+Check if customer exists (by email OR phone)
+      ↓
+  ┌───┴───┐
+  YES     NO
+  ↓       ↓
+Add job   Create new customer + job
+      ↓
+MongoDB backup (audit trail)
+      ↓
+Success response to user
+```
+
+**Benefits over Zapier:**
+- No monthly fee ($240-600/yr saved)
+- Instant (vs 1-15 min delay)
+- More reliable (no middleman)
+- Complete data mapping control
 
 ---
 
