@@ -387,11 +387,10 @@ const HomePage = ({
               variant="outline" 
               size="lg" 
               className="border-2 border-white text-white hover:bg-white hover:text-[#003153] font-semibold px-8 py-4 text-lg h-auto"
-              asChild
+              onClick={() => openModal('service')}
+              data-testid="hero-request-service-btn"
             >
-              <Link href="/contact">
-                Request Service
-              </Link>
+              Request Service
             </Button>
           </div>
           
