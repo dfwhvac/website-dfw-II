@@ -252,9 +252,10 @@ Build a premium, conversion-focused website for DFW HVAC company using Next.js f
 - `/app/frontend/components/SimpleContactForm.jsx` - Contact page form
 - `/app/frontend/app/layout.js` - Root layout (includes StickyMobileCTA)
 - `/app/frontend/components/Header.jsx` - Navigation with phone-first CTAs
+- `/app/frontend/components/ui/button.jsx` - Button component with custom outlineBlue variant
 - `/app/backend/server.py` - API server with /api/leads endpoint
 - `/app/frontend/components/Footer.jsx` - Footer with Recent Projects link
 
 ---
 
-*Last Updated: February 20, 2025*
+*Last Updated: February 23, 2025*
