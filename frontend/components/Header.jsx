@@ -187,26 +187,20 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
 
           {/* CTA Buttons - Phone-first strategy */}
           <div className="hidden lg:flex items-center gap-3">
-            {ctaButtons.map((btn, index) => (
-              btn.isPhone ? (
-                <Button 
-                  key={btn.href || index}
-                  className="bg-vivid-red hover:bg-red-700 text-white font-semibold"
-                  asChild
-                >
-                  <a href={btn.href}>{btn.label}</a>
-                </Button>
-              ) : (
-                <Button 
-                  key={btn.href || index}
-                  variant="outlineBlue"
-                  className="font-semibold"
-                  asChild
-                >
-                  <Link href={btn.href}>{btn.label}</Link>
-                </Button>
-              )
-            ))}
+            <Button 
+              className="bg-vivid-red hover:bg-red-700 text-white font-semibold"
+              asChild
+            >
+              <a href="tel:+19727772665">Call Now</a>
+            </Button>
+            <Button 
+              variant="outlineBlue"
+              className="font-semibold"
+              onClick={() => openModal('service')}
+              data-testid="header-request-service-btn"
+            >
+              Request Service
+            </Button>
           </div>
 
           {/* Mobile Menu Button */}
