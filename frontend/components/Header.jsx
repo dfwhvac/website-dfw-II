@@ -123,9 +123,9 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
         {/* Top Bar */}
         {showHeaderTagline && (
           <div className="flex justify-between items-center py-2 text-sm border-b border-gray-200">
-            <div className="text-gray-600">
+            <Link href="/about" className="text-gray-600 hover:text-electric-blue transition-colors">
               {headerTagline}
-            </div>
+            </Link>
             <div className="flex items-center gap-4">
               <a href="tel:+19727772665" className="flex items-center gap-2 text-vivid-red font-semibold hover:underline">
                 <Phone className="w-4 h-4" />
