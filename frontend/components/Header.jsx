@@ -248,26 +248,23 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
             ))}
 
             <div className="pt-4 space-y-2">
-              {ctaButtons.map((btn, index) => (
-                btn.isPhone ? (
-                  <Button 
-                    key={btn.href || index}
-                    className="w-full bg-vivid-red hover:bg-red-700 text-white font-semibold"
-                    asChild
-                  >
-                    <a href={btn.href}>{btn.label}</a>
-                  </Button>
-                ) : (
-                  <Button 
-                    key={btn.href || index}
-                    variant="outlineBlue"
-                    className="w-full font-semibold"
-                    asChild
-                  >
-                    <Link href={btn.href}>{btn.label}</Link>
-                  </Button>
-                )
-              ))}
+              <Button 
+                className="w-full bg-vivid-red hover:bg-red-700 text-white font-semibold"
+                asChild
+              >
+                <a href="tel:+19727772665">Call Now</a>
+              </Button>
+              <Button 
+                variant="outlineBlue"
+                className="w-full font-semibold"
+                onClick={() => {
+                  setIsMobileMenuOpen(false)
+                  openModal('service')
+                }}
+                data-testid="mobile-request-service-btn"
+              >
+                Request Service
+              </Button>
             </div>
           </div>
         </div>
