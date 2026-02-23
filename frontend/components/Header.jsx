@@ -94,8 +94,8 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
   // Get base navigation from Sanity or defaults
   let navigation = siteSettings?.mainNavigation?.filter(item => item.isVisible !== false) || defaultNavigation
   
-  // Remove "Cities Served" from header nav (moved to footer only)
-  navigation = navigation.filter(item => item.href !== '/cities-served')
+  // Remove "Cities Served" and "Contact" from header nav (available in footer)
+  navigation = navigation.filter(item => item.href !== '/cities-served' && item.href !== '/contact')
   
   // Ensure "Recent Projects" is always in navigation
   const hasRecentProjects = navigation.some(item => item.href === '/recent-projects')
