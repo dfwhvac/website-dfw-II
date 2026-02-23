@@ -269,6 +269,13 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
           </div>
         </div>
       )}
+
+      {/* Request Service Modal */}
+      <RequestServiceModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        leadType="service"
+      />
     </header>
   )
 }
