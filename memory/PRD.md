@@ -123,10 +123,23 @@ Build a premium, conversion-focused website for DFW HVAC company using Next.js f
 - Added `/request-service` to sitemap.xml with 0.9 priority
 - Hybrid accessibility: Not in main nav (CTA serves that purpose), but accessible via footer, sitemap, direct URL
 
-### Header Navigation Cleanup (Feb 23, 2025)
+### Header Navigation Cleanup (Feb 23-24, 2025)
 - Changed logo tagline from "Three Generations of Trusted Service" to "Trust. Excellence. Care."
 - Made header tagline "Three Generations of Trusted HVAC Service in DFW" link to About page
 - Moved "Cities Served" from main nav to footer Quick Links (reduces nav crowding)
+- Removed "Contact" from main nav (redundant with footer, funnels users to Call/Request Service CTAs)
+
+### Estimate Page Rebrand (Feb 24, 2025)
+- Updated `/estimate` page branding to match site colors (navy #003153, cyan #00B8FF, red #FF0000)
+- Replaced old blue-600 styling with consistent brand colors
+- Updated Service Areas section with condensed list of 12 major cities + "View all cities we serve →" link to `/cities-served`
+- Removed FAQ section from estimate page (per user request)
+
+### Site-Wide CTA Audit (Feb 24, 2025)
+- Audited all "Request Service" buttons across entire site
+- Fixed 8 locations that were incorrectly linking to `/contact` instead of `/request-service`
+- Updated: Header defaults, HomePage, ServiceTemplate (2 locations), ServiceFirstCTA, AboutPageTemplate, cities-served/[slug], recent-projects
+- Changed services page CTA from "Get Free Estimate" to "Request Service"
 
 ### Phone-First Conversion Strategy (Feb 2025)
 - **Removed Housecall Pro integration entirely** (operational constraints)
