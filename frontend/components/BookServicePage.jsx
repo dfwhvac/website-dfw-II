@@ -4,6 +4,7 @@ import React from 'react'
 import Link from 'next/link'
 import { Button } from './ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion'
 import LeadForm from './LeadForm'
 import { 
   Phone, 
@@ -13,9 +14,11 @@ import {
   Snowflake,
   Flame,
   Settings,
-  AlertCircle
+  AlertCircle,
+  MapPin,
+  CheckCircle,
+  ArrowRight
 } from 'lucide-react'
-import { companyInfo } from '../lib/mockData'
 
 const BookServicePage = () => {
   const serviceTypes = [
@@ -30,7 +33,7 @@ const BookServicePage = () => {
       icon: Snowflake,
       title: "Air Conditioning",
       description: "AC repair, maintenance, and installation services",
-      color: "blue",
+      color: "cyan",
       urgent: false
     },
     {
@@ -49,49 +52,64 @@ const BookServicePage = () => {
     }
   ]
 
+  // Major cities for the condensed list (matching Cities Served page)
+  const majorCities = [
+    "Dallas", "Fort Worth", "Arlington", "Plano", "Irving", "Frisco",
+    "Carrollton", "Richardson", "Lewisville", "Grapevine", "Southlake", "Coppell"
+  ]
+
+  const faqs = [
+    {
+      question: "What areas do you serve?",
+      answer: "We proudly serve the Dallas-Fort Worth metroplex, including Dallas, Fort Worth, Arlington, Plano, Irving, Frisco, and surrounding communities.",
+      hasLink: true,
+      linkText: "View all cities we serve",
+      linkHref: "/cities-served"
+    },
+    {
+      question: "How long does it take to get an estimate?",
+      answer: "We'll contact you within 24 hours of receiving your request to schedule a convenient time for your free estimate."
+    },
+    {
+      question: "Is the estimate really free?",
+      answer: "Yes! Our estimates are completely free with no obligation. We'll assess your system, discuss your options, and provide transparent pricing."
+    },
+    {
+      question: "What information do I need for an estimate?",
+      answer: "Just provide your contact information and address. Our technician will evaluate your current system and discuss your heating and cooling needs during the visit."
+    }
+  ]
+
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="container mx-auto px-4">
-        
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Get Your Free Estimate
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section */}
+      <section className="bg-gradient-to-br from-[#003153] to-[#00213a] text-white py-12">
+        <div className="container mx-auto px-4 text-center">
+          <h1 className="text-3xl md:text-4xl font-bold mb-4">
+            Get Your Free HVAC Estimate
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-blue-100 max-w-3xl mx-auto mb-6">
             Request a free estimate from Dallas-Fort Worth's most trusted 
             heating and cooling experts. Honest assessments, transparent pricing.
           </p>
-        </div>
-
-        {/* Service Banner */}
-        <div className="bg-blue-600 text-white rounded-lg p-6 mb-12 text-center">
-          <div className="flex items-center justify-center gap-3 mb-3">
-            <Phone className="w-6 h-6" />
-            <h2 className="text-2xl font-bold">Need HVAC Service?</h2>
-          </div>
-          <p className="text-lg mb-4">
-            Contact us today for professional heating and cooling service.
-          </p>
-          <Button 
-            size="lg" 
-            className="bg-white text-blue-600 hover:bg-gray-100 font-semibold px-8 py-4 text-lg h-auto"
-            asChild
-          >
-            <a href="tel:+19727772665">
-              <Phone className="w-5 h-5 mr-2" />
-              Call (972) 777-COOL Now
+          <div className="flex items-center justify-center gap-2 text-[#00B8FF]">
+            <Phone className="w-5 h-5" />
+            <span className="text-lg">Need immediate service?</span>
+            <a href="tel:+19727772665" className="text-white font-bold hover:underline">
+              Call (972) 777-COOL
             </a>
-          </Button>
+          </div>
         </div>
+      </section>
 
+      <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
           
           {/* Estimate Request Form */}
           <div>
             <LeadForm 
-              title="Get Your Free Estimate"
-              description="Fill out the form below and we'll contact you within 24 hours"
+              title="Request Your Free Estimate"
+              description="Fill out the form below and we'll contact you within 24 hours to schedule your free estimate."
               leadType="estimate"
               successMessage="Thank you! We'll contact you within 24 hours to schedule your free estimate."
               showEstimateLink={false}
@@ -104,7 +122,7 @@ const BookServicePage = () => {
             {/* Service Types */}
             <Card className="shadow-lg border-0">
               <CardHeader>
-                <CardTitle className="text-2xl">Our Services</CardTitle>
+                <CardTitle className="text-2xl text-[#003153]">Our Services</CardTitle>
                 <CardDescription>
                   Professional HVAC services for all your heating and cooling needs
                 </CardDescription>
@@ -113,8 +131,8 @@ const BookServicePage = () => {
                 {serviceTypes.map((service, index) => {
                   const IconComponent = service.icon
                   const colorClasses = {
-                    red: "bg-red-100 text-red-600",
-                    blue: "bg-blue-100 text-blue-600", 
+                    red: "bg-red-100 text-[#FF0000]",
+                    cyan: "bg-cyan-100 text-[#00B8FF]", 
                     orange: "bg-orange-100 text-orange-600",
                     green: "bg-green-100 text-green-600"
                   }
@@ -126,9 +144,9 @@ const BookServicePage = () => {
                       </div>
                       <div className="flex-1">
                         <div className="flex items-center gap-2">
-                          <h3 className="font-semibold text-lg">{service.title}</h3>
+                          <h3 className="font-semibold text-lg text-[#003153]">{service.title}</h3>
                           {service.urgent && (
-                            <span className="bg-red-100 text-red-600 text-xs px-2 py-1 rounded-full font-medium">
+                            <span className="bg-red-100 text-[#FF0000] text-xs px-2 py-1 rounded-full font-medium">
                               FAST
                             </span>
                           )}
@@ -141,55 +159,35 @@ const BookServicePage = () => {
               </CardContent>
             </Card>
 
-            {/* Contact Methods */}
-            <Card className="shadow-lg border-0">
-              <CardHeader>
-                <CardTitle className="text-xl">Contact Methods</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3 p-3 bg-red-50 rounded-lg">
-                    <Phone className="w-5 h-5 text-red-600" />
-                    <div>
-                      <div className="font-semibold text-red-800">Call for Immediate Service</div>
-                      <div className="text-red-600 font-bold">{companyInfo.phoneDisplay}</div>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
-                    <Wrench className="w-5 h-5 text-blue-600" />
-                    <div>
-                      <div className="font-semibold text-blue-800">Online Service Request</div>
-                      <div className="text-blue-600">Fill out the form to schedule service</div>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
             {/* Service Guarantees */}
             <Card className="shadow-lg border-0">
               <CardHeader>
-                <CardTitle className="text-xl">Service Guarantees</CardTitle>
+                <CardTitle className="text-xl text-[#003153]">Why Choose DFW HVAC?</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
-                    <Clock className="w-5 h-5 text-green-600" />
+                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
                     <span className="text-gray-700">
-                      <strong>Fast Response Time</strong> - Available when you need us most
+                      <strong>Three Generations</strong> of trusted family service
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <Shield className="w-5 h-5 text-blue-600" />
+                    <Clock className="w-5 h-5 text-[#00B8FF] flex-shrink-0" />
                     <span className="text-gray-700">
-                      <strong>Licensed & Insured</strong> - Fully certified technicians
+                      <strong>Fast Response</strong> — Contact within 24 hours
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <Wrench className="w-5 h-5 text-orange-600" />
+                    <Shield className="w-5 h-5 text-[#003153] flex-shrink-0" />
                     <span className="text-gray-700">
-                      <strong>Guaranteed Work</strong> - We stand behind our service
+                      <strong>Licensed & Insured</strong> — Fully certified technicians
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Wrench className="w-5 h-5 text-orange-600 flex-shrink-0" />
+                    <span className="text-gray-700">
+                      <strong>Honest Assessments</strong> — Transparent, upfront pricing
                     </span>
                   </div>
                 </div>
@@ -199,22 +197,60 @@ const BookServicePage = () => {
             {/* Service Areas */}
             <Card className="shadow-lg border-0">
               <CardHeader>
-                <CardTitle className="text-xl">Service Areas</CardTitle>
+                <CardTitle className="text-xl text-[#003153] flex items-center gap-2">
+                  <MapPin className="w-5 h-5 text-[#00B8FF]" />
+                  Service Areas
+                </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600 mb-3">
-                  We proudly serve the entire Dallas-Fort Worth metroplex including:
+                <p className="text-gray-600 mb-4">
+                  We proudly serve the Dallas-Fort Worth metroplex, including:
                 </p>
-                <div className="grid grid-cols-2 gap-2 text-sm">
-                  {companyInfo.serviceAreas.map((area, index) => (
-                    <div key={index} className="text-gray-700">• {area}</div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm mb-4">
+                  {majorCities.map((city, index) => (
+                    <div key={index} className="text-gray-700 flex items-center gap-1">
+                      <CheckCircle className="w-3 h-3 text-[#00B8FF] flex-shrink-0" />
+                      {city}
+                    </div>
                   ))}
                 </div>
-                <div className="mt-4">
-                  <Button variant="outline" size="sm" asChild>
-                    <Link href="/cities-served">View All Service Areas</Link>
-                  </Button>
-                </div>
+                <Link 
+                  href="/cities-served"
+                  className="inline-flex items-center gap-2 text-[#00B8FF] hover:text-[#003153] font-medium transition-colors"
+                >
+                  View all cities we serve
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </CardContent>
+            </Card>
+
+            {/* FAQ Section */}
+            <Card className="shadow-lg border-0">
+              <CardHeader>
+                <CardTitle className="text-xl text-[#003153]">Frequently Asked Questions</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Accordion type="single" collapsible className="w-full">
+                  {faqs.map((faq, index) => (
+                    <AccordionItem key={index} value={`faq-${index}`}>
+                      <AccordionTrigger className="text-left text-[#003153] hover:text-[#00B8FF]">
+                        {faq.question}
+                      </AccordionTrigger>
+                      <AccordionContent className="text-gray-600">
+                        {faq.answer}
+                        {faq.hasLink && (
+                          <Link 
+                            href={faq.linkHref}
+                            className="inline-flex items-center gap-1 text-[#00B8FF] hover:text-[#003153] font-medium ml-1 transition-colors"
+                          >
+                            {faq.linkText}
+                            <ArrowRight className="w-3 h-3" />
+                          </Link>
+                        )}
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
               </CardContent>
             </Card>
 
