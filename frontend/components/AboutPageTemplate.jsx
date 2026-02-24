@@ -415,7 +415,7 @@ const AboutPageTemplate = ({
               className="border-2 border-white text-white hover:bg-white hover:text-vivid-red font-semibold"
               asChild
             >
-              <Link href="/contact">
+              <Link href="/request-service">
                 Request Service
               </Link>
             </Button>
