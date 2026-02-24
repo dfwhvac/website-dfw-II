@@ -358,7 +358,7 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [] }) => {
               className="border-2 border-white text-white hover:bg-white hover:text-prussian-blue font-semibold px-8 py-4 text-lg h-auto"
               asChild
             >
-              <Link href="/contact">
+              <Link href="/request-service">
                 Request Service
               </Link>
             </Button>
