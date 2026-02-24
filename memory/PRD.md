@@ -1,5 +1,17 @@
 # DFW HVAC Website - Product Requirements Document
 
+---
+## ⚡ NEXT ACTION (Resume Point - Feb 24, 2025)
+
+**Task:** Update FAQ page "What areas do you serve?" question
+**Location:** `/app/frontend/app/faq/page.jsx` or Sanity CMS FAQ content
+**Action:** Change the answer to a one-sentence summary + link to `/cities-served`
+**Target answer:** "We proudly serve the Dallas-Fort Worth metroplex, including Dallas, Fort Worth, Arlington, Plano, Irving, Frisco, and surrounding communities. [View all cities we serve →](/cities-served)"
+
+**Context:** Part of ensuring service area references are consistent and link to the authoritative Cities Served page.
+
+---
+
 ## Original Problem Statement
 Build a premium, conversion-focused website for DFW HVAC company using Next.js frontend and Sanity.io for content management. The site follows a **phone-first conversion strategy** — funneling users to call the business directly or submit a lead form for a callback. The Housecall Pro booking integration was intentionally removed due to operational constraints.
 
