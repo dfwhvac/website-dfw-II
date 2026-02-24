@@ -307,6 +307,22 @@ Success response to user
 - More reliable (no middleman)
 - Complete data mapping control
 
+#### "50+ Cities" Claim Cleanup (Post-Launch)
+**Issue:** The site references "50+ cities" in several places, but Sanity only has 28 cities configured.
+
+**Files to update:**
+1. `/app/frontend/app/recent-projects/page.jsx` - Meta description and page content
+2. `/app/frontend/scripts/seed-brand-content.js` - Seed data references
+3. `/app/frontend/components/HomePage.jsx` - Stats section
+4. `/app/frontend/components/CompanyPageTemplate.jsx` - Stats section
+5. `/app/frontend/components/AboutPageTemplate.jsx` - Stats references
+
+**Resolution options:**
+1. **Update copy to accurate language:** "We serve the Dallas-Fort Worth metroplex" (no specific number)
+2. **Add more cities to Sanity:** Expand coverage to actually serve 50+ cities
+
+**Recommendation:** Use option 1 (accurate language) unless business expansion warrants adding more city pages.
+
 ---
 
 ## Technical Architecture
