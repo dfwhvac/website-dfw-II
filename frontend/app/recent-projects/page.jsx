@@ -47,7 +47,7 @@ export default async function RecentProjectsPage() {
               See Our Work Across DFW
             </h1>
             <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-              Hundreds of satisfied customers across 50+ cities. Explore our completed HVAC installations, repairs, and maintenance projects.
+              Hundreds of satisfied customers across the DFW metroplex. Explore our completed HVAC installations, repairs, and maintenance projects.
             </p>
             
             {/* CTA Buttons - Phone-first strategy */}
