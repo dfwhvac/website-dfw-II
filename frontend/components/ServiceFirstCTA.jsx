@@ -9,7 +9,7 @@ import { Phone } from 'lucide-react'
  * Phone-First CTA Component
  * Consistent CTA pattern across all pages:
  * 1. Call Now (RED, click-to-call) - Primary
- * 2. Request Service (outline, links to contact) - Secondary
+ * 2. Request Service (outline, links to /request-service) - Secondary
  * 3. Subtle estimate link - Tertiary
  */
 const ServiceFirstCTA = ({ 
