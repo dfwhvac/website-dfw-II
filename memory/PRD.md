@@ -269,6 +269,7 @@ The Open Graph (OG) image is displayed when your site is shared on social media 
 - [ ] Code Cleanup (remove mockData.js, unused deps)
 - [ ] Cancel Wix Subscription (after confirming stability)
 - [ ] **Housecall Pro Direct Integration** - See details below
+- [ ] **"50+ Cities" Claim Cleanup** - See details below
 
 #### Housecall Pro API Integration (Post-Launch)
 **Goal:** Automatically create customers/jobs in Housecall Pro when leads submit the Request Service form.
