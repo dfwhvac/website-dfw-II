@@ -13,7 +13,7 @@ export const revalidate = 0
 export function generateMetadata() {
   return {
     title: 'Recent HVAC Projects in Dallas-Fort Worth | DFW HVAC',
-    description: 'View 500+ completed HVAC installations across DFW. AC repairs, heating systems, and air quality solutions in Dallas, Fort Worth, Arlington & 50+ cities. See our work.',
+    description: 'View completed HVAC installations across the DFW metroplex. AC repairs, heating systems, and air quality solutions in Dallas, Irving, Coppell, Carrollton & surrounding cities.',
     alternates: {
       canonical: '/recent-projects',
     },
