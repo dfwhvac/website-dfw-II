@@ -7,19 +7,20 @@ import { ChevronDown } from 'lucide-react'
 // Helper function to render answer with links
 const renderAnswerWithLinks = (answer) => {
   // Check if answer contains a link pattern like "View all cities we serve at /cities-served"
-  const linkPattern = /(View all cities we serve) at (\/[a-z-]+)/i
+  const linkPattern = /View all cities we serve at (\/[a-z-]+)/i
   const match = answer.match(linkPattern)
   
   if (match) {
-    const [fullMatch, linkText, href] = match
-    const parts = answer.split(fullMatch)
+    const [fullMatch, href] = match
+    const beforeLink = answer.substring(0, answer.indexOf(fullMatch))
+    const afterLink = answer.substring(answer.indexOf(fullMatch) + fullMatch.length)
     return (
       <>
-        {parts[0]}
+        {beforeLink}
         <Link href={href} className="text-electric-blue hover:underline font-medium">
-          {linkText} →
+          View all cities we serve →
         </Link>
-        {parts[1]}
+        {afterLink}
       </>
     )
   }
