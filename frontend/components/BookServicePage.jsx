@@ -181,7 +181,7 @@ const BookServicePage = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600 mb-4">
-                  We proudly serve the Dallas-Fort Worth metroplex, including:
+                  We proudly serve the Dallas-Fort Worth metroplex from our Coppell headquarters, including:
                 </p>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm mb-4">
                   {majorCities.map((city, index) => (
