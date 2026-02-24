@@ -224,36 +224,6 @@ const BookServicePage = () => {
               </CardContent>
             </Card>
 
-            {/* FAQ Section */}
-            <Card className="shadow-lg border-0">
-              <CardHeader>
-                <CardTitle className="text-xl text-[#003153]">Frequently Asked Questions</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Accordion type="single" collapsible className="w-full">
-                  {faqs.map((faq, index) => (
-                    <AccordionItem key={index} value={`faq-${index}`}>
-                      <AccordionTrigger className="text-left text-[#003153] hover:text-[#00B8FF]">
-                        {faq.question}
-                      </AccordionTrigger>
-                      <AccordionContent className="text-gray-600">
-                        {faq.answer}
-                        {faq.hasLink && (
-                          <Link 
-                            href={faq.linkHref}
-                            className="inline-flex items-center gap-1 text-[#00B8FF] hover:text-[#003153] font-medium ml-1 transition-colors"
-                          >
-                            {faq.linkText}
-                            <ArrowRight className="w-3 h-3" />
-                          </Link>
-                        )}
-                      </AccordionContent>
-                    </AccordionItem>
-                  ))}
-                </Accordion>
-              </CardContent>
-            </Card>
-
           </div>
         </div>
       </div>
