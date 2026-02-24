@@ -148,6 +148,18 @@ export default async function FAQPage() {
   let faqs = await getFaqs()
   if (!faqs || faqs.length === 0) {
     faqs = defaultFaqs
+  } else {
+    // Override specific FAQs with updated content
+    faqs = faqs.map(faq => {
+      // Update "What areas do you serve?" with accurate info
+      if (faq.question && faq.question.toLowerCase().includes('what areas do you serve')) {
+        return {
+          ...faq,
+          answer: 'We proudly serve the Dallas-Fort Worth metroplex from our Coppell headquarters, including Dallas, Irving, Carrollton, Lewisville, Grapevine, Flower Mound, Plano, Frisco, Southlake, and surrounding communities. View all cities we serve at /cities-served.'
+        }
+      }
+      return faq
+    })
   }
 
   return (
