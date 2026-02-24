@@ -4,7 +4,6 @@ import React from 'react'
 import Link from 'next/link'
 import { Button } from './ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card'
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion'
 import LeadForm from './LeadForm'
 import { 
   Phone, 
@@ -56,28 +55,6 @@ const BookServicePage = () => {
   const majorCities = [
     "Dallas", "Fort Worth", "Arlington", "Plano", "Irving", "Frisco",
     "Carrollton", "Richardson", "Lewisville", "Grapevine", "Southlake", "Coppell"
-  ]
-
-  const faqs = [
-    {
-      question: "What areas do you serve?",
-      answer: "We proudly serve the Dallas-Fort Worth metroplex, including Dallas, Fort Worth, Arlington, Plano, Irving, Frisco, and surrounding communities.",
-      hasLink: true,
-      linkText: "View all cities we serve",
-      linkHref: "/cities-served"
-    },
-    {
-      question: "How long does it take to get an estimate?",
-      answer: "We'll contact you within 24 hours of receiving your request to schedule a convenient time for your free estimate."
-    },
-    {
-      question: "Is the estimate really free?",
-      answer: "Yes! Our estimates are completely free with no obligation. We'll assess your system, discuss your options, and provide transparent pricing."
-    },
-    {
-      question: "What information do I need for an estimate?",
-      answer: "Just provide your contact information and address. Our technician will evaluate your current system and discuss your heating and cooling needs during the visit."
-    }
   ]
 
   return (
