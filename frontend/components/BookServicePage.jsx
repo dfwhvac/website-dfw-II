@@ -51,10 +51,10 @@ const BookServicePage = () => {
     }
   ]
 
-  // Major cities for the condensed list (matching Cities Served page)
+  // Major cities prioritized by proximity to Coppell HQ
   const majorCities = [
-    "Dallas", "Fort Worth", "Arlington", "Plano", "Irving", "Frisco",
-    "Carrollton", "Richardson", "Lewisville", "Grapevine", "Southlake", "Coppell"
+    "Coppell", "Dallas", "Irving", "Carrollton", "Lewisville", "Grapevine",
+    "Flower Mound", "Farmers Branch", "Plano", "Frisco", "Southlake", "The Colony"
   ]
 
   return (
