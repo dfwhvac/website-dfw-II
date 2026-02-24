@@ -92,8 +92,8 @@ export default async function RecentProjectsPage() {
             <div className="flex items-center gap-3">
               <MapPin className="w-8 h-8 text-[#32CD32]" />
               <div>
-                <div className="text-2xl font-bold text-[#003153]">50+</div>
-                <div className="text-sm text-gray-600">Cities Served</div>
+                <div className="text-2xl font-bold text-[#003153]">DFW</div>
+                <div className="text-sm text-gray-600">Metroplex Coverage</div>
               </div>
             </div>
             <div className="flex items-center gap-3">
