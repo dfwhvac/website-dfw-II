@@ -36,7 +36,7 @@ const defaultFaqs = [
     answer: 'Yes, we offer same-day HVAC repair services throughout the Dallas-Fort Worth area during our business hours (Monday-Friday, 9 AM - 6 PM). When your AC fails on a hot Texas summer day or your heater stops working during a cold snap, call us and we\'ll get a technician to you as quickly as possible.' },
   { _id: 'rs4', category: 'residential-services', order: 4,
     question: 'What areas do you serve?',
-    answer: 'We serve the entire Dallas-Fort Worth metroplex including Dallas, Fort Worth, Arlington, Plano, Irving, Garland, Grand Prairie, McKinney, Frisco, Denton, Coppell, Lewisville, Carrollton, Richardson, and surrounding communities within approximately 30 miles of our location.' },
+    answer: 'We proudly serve the Dallas-Fort Worth metroplex from our Coppell headquarters, including Dallas, Irving, Carrollton, Lewisville, Grapevine, Flower Mound, Plano, Frisco, Southlake, and surrounding communities. View all cities we serve at /cities-served.' },
   { _id: 'rs5', category: 'residential-services', order: 5,
     question: 'How long has DFW HVAC been in business?',
     answer: 'DFW HVAC is a three-generation, family-owned and operated business serving the Dallas-Fort Worth community. Our longevity speaks to our commitment to quality service, fair pricing, and customer satisfaction.' },
