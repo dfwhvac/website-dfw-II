@@ -61,7 +61,7 @@ export default async function RecentProjectsPage() {
                 Call {companyInfo.phone}
               </a>
               <Link
-                href="/contact"
+                href="/request-service"
                 className="inline-flex items-center justify-center gap-2 bg-white text-[#003153] px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors"
                 data-testid="hero-request-btn"
               >
