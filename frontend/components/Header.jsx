@@ -40,7 +40,7 @@ const defaultNavigation = [
 
 const defaultCtaButtons = [
   { label: 'Call Now', href: 'tel:+19727772665', variant: 'primary', isPhone: true },
-  { label: 'Request Service', href: '/contact', variant: 'outline' },
+  { label: 'Request Service', href: '/request-service', variant: 'outline' },
 ]
 
 // Custom dropdown component with proper alignment
