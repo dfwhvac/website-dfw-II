@@ -12,6 +12,14 @@
 
 ---
 
+## Deployment Info
+
+**Vercel Deploy Hook:** `https://api.vercel.com/v1/integrations/deploy/prj_yTjUnxmwjCsoARCD3EYvzPeK3ubf/RuXmoGHl40`
+- Trigger manually: `curl -X POST "<hook-url>"`
+- Auto-deploys should trigger on GitHub push to connected branch
+
+---
+
 ## Original Problem Statement
 Build a premium, conversion-focused website for DFW HVAC company using Next.js frontend and Sanity.io for content management. The site follows a **phone-first conversion strategy** — funneling users to call the business directly or submit a lead form for a callback. The Housecall Pro booking integration was intentionally removed due to operational constraints.
 
