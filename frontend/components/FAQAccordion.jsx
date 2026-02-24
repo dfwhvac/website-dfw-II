@@ -102,7 +102,7 @@ const FAQAccordion = ({ faqs = [], categories = [] }) => {
                   }`}
                 >
                   <div className="p-4 pt-0 text-gray-600 leading-relaxed">
-                    {faq.answer}
+                    {renderAnswerWithLinks(faq.answer)}
                   </div>
                 </div>
               </div>
