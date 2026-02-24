@@ -70,7 +70,7 @@ const ServiceFirstCTA = ({
             className={`${secondaryBtnStyles[variant]} font-semibold`}
             asChild
           >
-            <Link href="/contact">
+            <Link href="/request-service">
               Request Service
             </Link>
           </Button>
