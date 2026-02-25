@@ -1,14 +1,14 @@
 # DFW HVAC Website - Product Requirements Document
 
 ---
-## ⚡ NEXT ACTION (Resume Point - Feb 24, 2025)
+## ⚡ NEXT ACTION (Resume Point - Feb 25, 2025)
 
-**Task:** Update FAQ page "What areas do you serve?" question
-**Location:** `/app/frontend/app/faq/page.jsx` or Sanity CMS FAQ content
-**Action:** Change the answer to a one-sentence summary + link to `/cities-served`
-**Target answer:** "We proudly serve the Dallas-Fort Worth metroplex, including Dallas, Fort Worth, Arlington, Plano, Irving, Frisco, and surrounding communities. [View all cities we serve →](/cities-served)"
+**Completed:** FAQ page "What areas do you serve?" ✅ Already updated with link to `/cities-served`
 
-**Context:** Part of ensuring service area references are consistent and link to the authoritative Cities Served page.
+**Next Priority Tasks:**
+1. **301 Redirects** - Obtain list of old Wix URLs from owner, configure in `next.config.js`
+2. **Go Live - DNS Cutover** - Change nameservers from Wix to Vercel in GoDaddy
+3. **Google Search Console Setup** - Verify domain, submit sitemap
 
 ---
 
