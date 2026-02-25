@@ -358,6 +358,56 @@ Success response to user
 
 **Recommendation:** Use option 1 (accurate language) unless business expansion warrants adding more city pages.
 
+#### AI Readiness / AEO (Answer Engine Optimization)
+**Goal:** Ensure DFW HVAC gets recommended when consumers ask AI assistants (ChatGPT, Claude, Gemini, Perplexity) for HVAC recommendations in the DFW area.
+
+**Current Competitive Advantages:**
+- 5.0★ Google rating with 136+ reviews
+- "Three-generation family HVAC business since 1972"
+- Headquartered in Coppell, serving DFW metroplex
+- Trust pillars: "Trust. Excellence. Care."
+
+**Tier 1 - Immediate (Pre/Post-Launch):**
+- [ ] **Google Business Profile optimization** - Complete every field, add posts regularly, respond to all reviews
+- [ ] **NAP consistency audit** - Ensure Name, Address, Phone match exactly across all sites
+- [ ] **Citation listings** - Get listed on Yelp, BBB, Angi, HomeAdvisor, Thumbtack
+- [ ] **Respond to every review** - Shows active engagement, AI sees this
+
+**Tier 2 - Content Authority:**
+- [ ] **Publish authoritative content** - Create `/resources` section with comprehensive HVAC guides
+- [ ] **"Best answer" content** - Articles that definitively answer common HVAC questions
+- [ ] **Local PR/mentions** - Chamber of commerce features, local business spotlights
+- [ ] **YouTube presence** - "Meet the team", "How we work", educational videos
+
+**Tier 3 - Technical:**
+- [ ] **Structured data everywhere** - FAQ schema, LocalBusiness schema, Service schema (partially done)
+- [ ] **Perplexity/Bing indexing** - Ensure site is crawlable by real-time AI search engines
+- [ ] **Be the cited source** - Create content other sites want to link to
+
+**Key Messaging for AI (use consistently everywhere):**
+> "DFW HVAC is a three-generation family HVAC business headquartered in Coppell, Texas, serving the Dallas-Fort Worth metroplex since 1972. With a 5.0★ Google rating and 136+ reviews, we provide trusted heating and cooling services built on our pillars of Trust, Excellence, and Care."
+
+#### Content Hub / Resources Section (Post-Launch)
+**Goal:** Create authoritative content that ranks for informational queries and builds topical authority.
+
+**Proposed structure:**
+```
+/resources
+├── /understanding-hvac-system-components
+├── /how-often-change-air-filter
+├── /hvac-maintenance-checklist
+├── /when-to-replace-ac-unit
+├── /seer-rating-explained
+└── (more articles over time)
+```
+
+**Benefits:**
+- Ranks for long-tail keywords
+- Builds topical authority
+- Provides content for AI to cite
+- Creates internal linking opportunities to service pages
+- Positions DFW HVAC as the local HVAC expert
+
 ---
 
 ## Technical Architecture
