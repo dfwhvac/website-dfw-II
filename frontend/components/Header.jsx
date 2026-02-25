@@ -32,7 +32,8 @@ const defaultNavigation = [
       { label: 'Commercial Maintenance', href: '/services/commercial/commercial-maintenance' },
     ]
   },
-  { label: 'Recent Projects', href: '/recent-projects', isDropdown: false, isVisible: true },
+  // NOTE: Recent Projects temporarily removed - redirects to /reviews
+  // Re-add when static Showcase Projects page is built (see PRD.md)
   { label: 'About', href: '/about', isDropdown: false, isVisible: true },
   { label: 'Reviews', href: '/reviews', isDropdown: false, isVisible: true },
   { label: 'FAQ', href: '/faq', isDropdown: false, isVisible: true },
@@ -94,24 +95,13 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
   // Get base navigation from Sanity or defaults
   let navigation = siteSettings?.mainNavigation?.filter(item => item.isVisible !== false) || defaultNavigation
   
-  // Remove "Cities Served" and "Contact" from header nav (available in footer)
-  navigation = navigation.filter(item => item.href !== '/cities-served' && item.href !== '/contact')
-  
-  // Ensure "Recent Projects" is always in navigation
-  const hasRecentProjects = navigation.some(item => item.href === '/recent-projects')
-  if (!hasRecentProjects) {
-    const aboutIndex = navigation.findIndex(item => item.href === '/about')
-    const recentProjectsItem = { label: 'Recent Projects', href: '/recent-projects', isDropdown: false, isVisible: true }
-    if (aboutIndex > 0) {
-      navigation = [
-        ...navigation.slice(0, aboutIndex),
-        recentProjectsItem,
-        ...navigation.slice(aboutIndex)
-      ]
-    } else {
-      navigation = [...navigation, recentProjectsItem]
-    }
-  }
+  // Remove "Cities Served", "Contact", and "Recent Projects" from header nav
+  // Recent Projects temporarily redirects to /reviews - re-add when Showcase page is built
+  navigation = navigation.filter(item => 
+    item.href !== '/cities-served' && 
+    item.href !== '/contact' && 
+    item.href !== '/recent-projects'
+  )
   
   // Phone-first CTA strategy: Call Now (red) → Request Service (outline)
   const ctaButtons = [

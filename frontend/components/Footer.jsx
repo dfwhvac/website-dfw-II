@@ -21,7 +21,8 @@ const defaultFooterSections = [
     title: 'Quick Links',
     links: [
       { label: 'About Us', href: '/about' },
-      { label: 'Recent Projects', href: '/recent-projects' },
+      // NOTE: Recent Projects temporarily removed - redirects to /reviews
+      // Re-add when static Showcase Projects page is built (see PRD.md)
       { label: 'Customer Reviews', href: '/reviews' },
       { label: 'Cities Served', href: '/cities-served' },
       { label: 'FAQ', href: '/faq' },

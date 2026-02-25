@@ -14,7 +14,8 @@ export default async function sitemap() {
     { url: '/reviews', priority: 0.7, changeFrequency: 'weekly' },
     { url: '/faq', priority: 0.6, changeFrequency: 'monthly' },
     { url: '/estimate', priority: 0.8, changeFrequency: 'monthly' },
-    { url: '/recent-projects', priority: 0.7, changeFrequency: 'weekly' },
+    // NOTE: /recent-projects temporarily redirects to /reviews (see next.config.js)
+    // Re-add when static Showcase Projects page is built
     { url: '/cities-served', priority: 0.8, changeFrequency: 'monthly' },
     { url: '/privacy-policy', priority: 0.3, changeFrequency: 'yearly' },
     { url: '/terms-of-service', priority: 0.3, changeFrequency: 'yearly' },
