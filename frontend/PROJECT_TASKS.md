@@ -242,8 +242,8 @@ export const revalidate = 0
 - Endpoint: `/api/cron/sync-reviews`
 
 ### Preview URLs
-- **Site:** https://conversion-build.preview.emergentagent.com
-- **CMS:** https://conversion-build.preview.emergentagent.com/studio
+- **Site:** https://dfw-hvac-preview-1.preview.emergentagent.com
+- **CMS:** https://dfw-hvac-preview-1.preview.emergentagent.com/studio
 - **Vercel:** https://website-dfw-ii-b4zk.vercel.app
 
 ---
