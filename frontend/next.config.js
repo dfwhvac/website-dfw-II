@@ -16,15 +16,51 @@ const nextConfig = {
   experimental: {
     // Force dynamic rendering for all pages
   },
-  // Temporary redirect: /recent-projects -> /reviews
-  // UNDO THIS when the static Showcase Projects page is built
-  // See PRD.md "Showcase Projects Page Plan" for details
   async redirects() {
     return [
+      // ============================================
+      // TEMPORARY REDIRECT (302) - Remove when Showcase page is built
+      // See PRD.md "RealWork Widget Decommissioning" for undo steps
+      // ============================================
       {
         source: '/recent-projects',
         destination: '/reviews',
-        permanent: false, // 302 temporary redirect (preserves SEO value of URL)
+        permanent: false,
+      },
+      
+      // ============================================
+      // PERMANENT REDIRECTS (301) - Old Wix URLs → New Next.js URLs
+      // These preserve SEO value from the old site
+      // ============================================
+      {
+        source: '/scheduleservicecall',
+        destination: '/request-service',
+        permanent: true,
+      },
+      {
+        source: '/installation',
+        destination: '/estimate',
+        permanent: true,
+      },
+      {
+        source: '/iaq',
+        destination: '/services/residential/indoor-air-quality',
+        permanent: true,
+      },
+      {
+        source: '/ducting',
+        destination: '/services/residential/indoor-air-quality',
+        permanent: true,
+      },
+      {
+        source: '/seasonalmaintenance',
+        destination: '/services/residential/preventative-maintenance',
+        permanent: true,
+      },
+      {
+        source: '/testresults',
+        destination: '/services/residential/indoor-air-quality',
+        permanent: true,
       },
     ]
   },
