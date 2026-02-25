@@ -174,7 +174,32 @@ Build a premium, conversion-focused website for DFW HVAC company using Next.js f
 - **RealWork widget integrated** — Interactive map showing 500+ jobs across DFW
 - SEO internal links to city pages
 - Full conversion CTA section at bottom
-- Added "Recent Projects" link to header navigation and footer
+- ~~Added "Recent Projects" link to header navigation and footer~~ (removed Feb 2025)
+
+### RealWork Widget Decommissioning (Feb 2025)
+**Status:** TEMPORARILY REDIRECTED - Widget removed, URL preserved for future use
+
+**What was done:**
+- `/recent-projects` now 302 redirects to `/reviews` (via `next.config.js`)
+- Removed from sitemap.js
+- Removed from Header navigation
+- Removed from Footer Quick Links
+- Page file (`/app/frontend/app/recent-projects/page.jsx`) preserved for reference
+
+**⚠️ UNDO CHECKLIST - When Showcase Projects Page is Built:**
+1. [ ] Build the static Showcase Projects page at `/app/frontend/app/recent-projects/page.jsx`
+2. [ ] Remove redirect from `next.config.js` (delete the `redirects()` function)
+3. [ ] Re-add to sitemap.js: `{ url: '/recent-projects', priority: 0.7, changeFrequency: 'weekly' }`
+4. [ ] Re-add to Header.jsx defaultNavigation: `{ label: 'Recent Projects', href: '/recent-projects', isDropdown: false, isVisible: true }`
+5. [ ] Re-add to Footer.jsx Quick Links: `{ label: 'Recent Projects', href: '/recent-projects' }`
+6. [ ] Delete the old RealWorkWidget.jsx component (no longer needed)
+
+**Showcase Page Content Plan:**
+- Before/after photos of completed HVAC jobs
+- Brief descriptions: job type, city, date
+- Customer testimonials per project (if available)
+- Format: Grid layout with lightbox for images
+- Source: Owner to provide 6-12 high-quality project photos with details
 
 ### Sticky Mobile CTA Bar (Feb 2025)
 - Created `StickyMobileCTA` component (site-wide)
