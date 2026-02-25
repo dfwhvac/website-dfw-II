@@ -201,6 +201,59 @@ Build a premium, conversion-focused website for DFW HVAC company using Next.js f
 - Format: Grid layout with lightbox for images
 - Source: Owner to provide 6-12 high-quality project photos with details
 
+---
+
+### 📋 Showcase Projects Page - Full Task Breakdown (P1)
+
+**Goal:** Replace the RealWork widget with a static showcase of completed HVAC projects that the owner controls.
+
+**Content Requirements (Owner to Provide):**
+- [ ] 6-12 high-quality project photos (before/after pairs preferred)
+- [ ] For each project: job type, city/neighborhood, approximate date
+- [ ] Optional: brief customer quote or testimonial per project
+- [ ] Optional: specific equipment installed (brand, model, SEER rating)
+
+**Page Structure:**
+```
+/recent-projects (can rename to "Our Work" or "Project Gallery")
+├── Hero Section
+│   ├── Title: "See Our Work Across DFW"
+│   ├── Subtitle: "Real projects. Real results. Real customer satisfaction."
+│   └── Phone-first CTAs (Call Now / Request Service)
+├── Stats Bar (reuse existing)
+│   └── Projects Completed | DFW Coverage | Family Owned | 3 Generations
+├── Project Gallery Section
+│   ├── Filter tabs: All | AC Install | Heating | Maintenance | IAQ
+│   ├── Grid of project cards (3 columns desktop, 1 mobile)
+│   └── Each card: Image, job type badge, city, brief description
+├── Lightbox/Modal for full-size images
+├── City Links Section (reuse existing)
+└── Conversion CTA Section (reuse ServiceFirstCTA)
+```
+
+**Technical Implementation:**
+1. [ ] Create Sanity schema for `project` content type
+2. [ ] Build ProjectCard component with hover effects
+3. [ ] Build ProjectGallery component with filtering
+4. [ ] Implement lightbox for image viewing (use existing Shadcn Dialog)
+5. [ ] Replace `/recent-projects/page.jsx` content
+6. [ ] Execute UNDO CHECKLIST (remove redirect, re-add to nav/sitemap)
+
+**Design Notes:**
+- Match existing site aesthetic (navy #003153, cyan #00B8FF, red #FF0000)
+- Cards should have subtle hover animation (scale + shadow)
+- Before/after images: side-by-side on desktop, stacked on mobile
+- Lazy load images for performance
+
+**SEO Considerations:**
+- Alt text on all images with city + service type
+- Schema markup: ImageGallery or ItemList
+- Internal links to relevant service and city pages
+
+**Estimated Effort:** 4-6 hours (once content is provided)
+
+---
+
 ### Sticky Mobile CTA Bar (Feb 2025)
 - Created `StickyMobileCTA` component (site-wide)
 - Appears on mobile after scrolling 100px
