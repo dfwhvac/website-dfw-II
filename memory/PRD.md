@@ -331,7 +331,86 @@ Build a premium, conversion-focused website for DFW HVAC company using Next.js f
 ### P0 - Critical
 - [x] **Lead Capture Form Backend** - ✅ Implemented with MongoDB storage. Email notifications configured via Resend (pending domain verification).
 - [ ] **Resend Domain Verification** - Verify `dfwhvac.com` in Resend to enable email notifications. **⚠️ BLOCKED:** Wix DNS doesn't support required records. Will be unblocked when DNS moves to Vercel at go-live. **This is the launch plan for lead notifications.**
-- [ ] **301 Redirects** - Identify and configure redirects for old URLs before launch
+- [x] **301 Redirects** - ✅ Plan documented below. Ready to implement.
+
+---
+
+### 📋 301 Redirect Plan - Wix → Next.js (P0)
+
+**Analysis Date:** Feb 25, 2025
+**Source:** Crawled existing Wix site at dfwhvac.com
+
+**Wix Site URL Inventory:**
+
+| Old Wix URL | New Next.js URL | Status | Notes |
+|-------------|-----------------|--------|-------|
+| `/` | `/` | ✅ Same | Homepage |
+| `/scheduleservicecall` | `/request-service` | 🔴 REDIRECT | Service booking → lead form |
+| `/installation` | `/estimate` | 🔴 REDIRECT | Installation quotes |
+| `/iaq` | `/services/residential/indoor-air-quality` | 🔴 REDIRECT | Indoor Air Quality |
+| `/ducting` | `/services/residential/indoor-air-quality` | 🔴 REDIRECT | No dedicated duct page; IAQ covers this |
+| `/seasonalmaintenance` | `/services/residential/preventative-maintenance` | 🔴 REDIRECT | Maintenance plans |
+| `/testresults` | `/services/residential/indoor-air-quality` | 🔴 REDIRECT | IAQ test results → IAQ page |
+
+**External Booking Links Found (no redirect needed - external):**
+- `book.housecallpro.com/...` - Old HCP booking (deprecated)
+- `clienthub.getjobber.com/...` - Jobber booking (deprecated)
+
+**Implementation - Add to `next.config.js`:**
+```javascript
+async redirects() {
+  return [
+    // Temporary redirect for decommissioned page
+    {
+      source: '/recent-projects',
+      destination: '/reviews',
+      permanent: false,
+    },
+    // 301 redirects from old Wix URLs
+    {
+      source: '/scheduleservicecall',
+      destination: '/request-service',
+      permanent: true,
+    },
+    {
+      source: '/installation',
+      destination: '/estimate',
+      permanent: true,
+    },
+    {
+      source: '/iaq',
+      destination: '/services/residential/indoor-air-quality',
+      permanent: true,
+    },
+    {
+      source: '/ducting',
+      destination: '/services/residential/indoor-air-quality',
+      permanent: true,
+    },
+    {
+      source: '/seasonalmaintenance',
+      destination: '/services/residential/preventative-maintenance',
+      permanent: true,
+    },
+    {
+      source: '/testresults',
+      destination: '/services/residential/indoor-air-quality',
+      permanent: true,
+    },
+  ]
+}
+```
+
+**Key Observations:**
+1. Wix site has minimal pages (simple brochure site)
+2. Main conversion paths were external booking links (HCP, Jobber) - now replaced with `/request-service` form
+3. No blog/article content to migrate
+4. The Wix site references "Alpine" branding in several places - this has been updated to "DFW HVAC" in the new site
+5. Wix site says "since 1974" but new site uses accurate "since 1972" messaging
+
+**Action:** Ready to implement. Add redirects to `next.config.js` before DNS cutover.
+
+---
 
 ### P1 - Important (Pre-Launch)
 - [ ] **Google Search Console Setup & Verification** - Verify domain via GoDaddy DNS TXT record; check indexing status
