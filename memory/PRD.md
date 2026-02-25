@@ -303,6 +303,8 @@ The Open Graph (OG) image is displayed when your site is shared on social media 
 - [ ] Cancel Wix Subscription (after confirming stability)
 - [ ] **Housecall Pro Direct Integration** - See details below
 - [ ] **"50+ Cities" Claim Cleanup** - See details below
+- [ ] **AI Readiness / AEO (Answer Engine Optimization)** - See details below
+- [ ] **Content Hub / Resources Section** - `/resources` for authoritative articles
 
 #### Housecall Pro API Integration (Post-Launch)
 **Goal:** Automatically create customers/jobs in Housecall Pro when leads submit the Request Service form.
