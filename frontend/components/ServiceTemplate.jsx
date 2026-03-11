@@ -21,9 +21,12 @@ import {
   Building
 } from 'lucide-react'
 
-const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [] }) => {
+const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [], maintenanceSignup = false }) => {
   const phone = companyInfo?.phone || '(972) 777-COOL'
   const googleReviews = companyInfo?.googleReviews || 129
+  
+  // JotForm URL for maintenance plan signups
+  const maintenanceFormUrl = 'https://form.jotform.com/260576154462055'
   
   const getIconComponent = (iconName) => {
     const icons = {
@@ -89,16 +92,29 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [] }) => {
                     Call {phone}
                   </a>
                 </Button>
-                <Button 
-                  variant="outline" 
-                  size="lg" 
-                  className="border-2 border-electric-blue text-electric-blue hover:bg-electric-blue hover:text-white font-semibold px-8 py-4 text-lg h-auto"
-                  asChild
-                >
-                  <Link href="/request-service">
-                    Request Service
-                  </Link>
-                </Button>
+                {maintenanceSignup ? (
+                  <Button 
+                    variant="outline" 
+                    size="lg" 
+                    className="border-2 border-electric-blue text-electric-blue hover:bg-electric-blue hover:text-white font-semibold px-8 py-4 text-lg h-auto"
+                    asChild
+                  >
+                    <a href={maintenanceFormUrl}>
+                      Sign Up - Annual Care & Maintenance Plan
+                    </a>
+                  </Button>
+                ) : (
+                  <Button 
+                    variant="outline" 
+                    size="lg" 
+                    className="border-2 border-electric-blue text-electric-blue hover:bg-electric-blue hover:text-white font-semibold px-8 py-4 text-lg h-auto"
+                    asChild
+                  >
+                    <Link href="/request-service">
+                      Request Service
+                    </Link>
+                  </Button>
+                )}
               </div>
               
               {/* Subtle estimate link */}
@@ -256,14 +272,25 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [] }) => {
                       </li>
                     ))}
                   </ul>
-                  <Button 
-                    className="w-full" 
-                    asChild
-                  >
-                    <Link href={pricing.title === 'Replacement' ? '/estimate' : '/request-service'}>
-                      {pricing.title === 'Replacement' ? 'Get Free Estimate' : 'Request Service'}
-                    </Link>
-                  </Button>
+                  {maintenanceSignup ? (
+                    <Button 
+                      className="w-full" 
+                      asChild
+                    >
+                      <a href={maintenanceFormUrl}>
+                        Sign Up - Annual Care & Maintenance Plan
+                      </a>
+                    </Button>
+                  ) : (
+                    <Button 
+                      className="w-full" 
+                      asChild
+                    >
+                      <Link href={pricing.title === 'Replacement' ? '/estimate' : '/request-service'}>
+                        {pricing.title === 'Replacement' ? 'Get Free Estimate' : 'Request Service'}
+                      </Link>
+                    </Button>
+                  )}
                 </CardContent>
               </Card>
             ))}
@@ -335,10 +362,13 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [] }) => {
       <section className="py-16" style={{background: 'linear-gradient(to right, #003153, #00B8FF)'}}>
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-white mb-4">
-            Need HVAC Service? We're Ready.
+            {maintenanceSignup ? 'Ready to Protect Your HVAC Investment?' : 'Need HVAC Service? We\'re Ready.'}
           </h2>
           <p className="text-lg text-white opacity-90 mb-8 max-w-2xl mx-auto">
-            Fast, reliable {service.title.toLowerCase()} from technicians you can trust.
+            {maintenanceSignup 
+              ? 'Join our Annual Care & Maintenance Plan and enjoy peace of mind year-round.'
+              : `Fast, reliable ${service.title.toLowerCase()} from technicians you can trust.`
+            }
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -352,16 +382,29 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [] }) => {
                 Call {phone}
               </a>
             </Button>
-            <Button 
-              variant="outline" 
-              size="lg" 
-              className="border-2 border-white text-white hover:bg-white hover:text-prussian-blue font-semibold px-8 py-4 text-lg h-auto"
-              asChild
-            >
-              <Link href="/request-service">
-                Request Service
-              </Link>
-            </Button>
+            {maintenanceSignup ? (
+              <Button 
+                variant="outline" 
+                size="lg" 
+                className="border-2 border-white text-white hover:bg-white hover:text-prussian-blue font-semibold px-8 py-4 text-lg h-auto"
+                asChild
+              >
+                <a href={maintenanceFormUrl}>
+                  Sign Up - Annual Care & Maintenance Plan
+                </a>
+              </Button>
+            ) : (
+              <Button 
+                variant="outline" 
+                size="lg" 
+                className="border-2 border-white text-white hover:bg-white hover:text-prussian-blue font-semibold px-8 py-4 text-lg h-auto"
+                asChild
+              >
+                <Link href="/request-service">
+                  Request Service
+                </Link>
+              </Button>
+            )}
           </div>
           
           {/* Subtle estimate link */}
@@ -387,17 +430,44 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [] }) => {
         </div>
       </section>
 
-      {/* Lead Form Section */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-2xl mx-auto">
-            <LeadForm 
-              title={`Schedule Your ${service.title} Service`}
-              description="Fill out the form below and we'll contact you within 24 hours to schedule your appointment"
-            />
+      {/* Lead Form Section - Hide for maintenance signup (using JotForm instead) */}
+      {!maintenanceSignup && (
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-4">
+            <div className="max-w-2xl mx-auto">
+              <LeadForm 
+                title={`Schedule Your ${service.title} Service`}
+                description="Fill out the form below and we'll contact you within 24 hours to schedule your appointment"
+              />
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
+      
+      {/* Maintenance Signup CTA - Show only for maintenance page */}
+      {maintenanceSignup && (
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-4">
+            <div className="max-w-2xl mx-auto text-center">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                Ready to Sign Up?
+              </h2>
+              <p className="text-lg text-gray-600 mb-8">
+                Complete our quick signup form to enroll in the Annual Care & Maintenance Plan.
+              </p>
+              <Button 
+                size="lg" 
+                className="bg-electric-blue hover:bg-prussian-blue text-white font-semibold px-8 py-4 text-lg h-auto"
+                asChild
+              >
+                <a href={maintenanceFormUrl}>
+                  Sign Up - Annual Care & Maintenance Plan
+                </a>
+              </Button>
+            </div>
+          </div>
+        </section>
+      )}
     </div>
   )
 }

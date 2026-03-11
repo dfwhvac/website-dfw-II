@@ -160,6 +160,7 @@ export default async function ServicePage({ params }) {
           service={serviceData} 
           companyInfo={companyInfo}
           testimonials={testimonials}
+          maintenanceSignup={slug === 'preventative-maintenance'}
         />
       </main>
       <Footer companyInfo={companyInfo} siteSettings={siteSettings} />
