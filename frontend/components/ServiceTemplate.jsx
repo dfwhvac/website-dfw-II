@@ -278,7 +278,7 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [], mainten
                       asChild
                     >
                       <a href={maintenanceFormUrl}>
-                        Sign Up - Annual Care & Maintenance Plan
+                        Join the Program
                       </a>
                     </Button>
                   ) : (
