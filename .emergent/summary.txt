@@ -1,162 +1,140 @@
 <analysis>**original_problem_statement:**
-The user's primary goal is to build a premium, conversion-focused website for their HVAC company, DFW HVAC, using a Next.js frontend and a Sanity.io CMS. The strategy has pivoted from a direct booking system to a phone-first, form-second conversion model.
-
-Recent requests focused on:
--   Optimizing the site for conversion by creating a dedicated  page and auditing all CTAs to point to it.
--   Fixing UI/UX issues like navigation crowding by strategically moving and removing links.
--   Rebranding and updating content on key pages () for consistency.
--   Preparing for the removal of the third-party RealWork widget by planning a static Showcase Projects page and implementing a temporary redirect for the  URL.
--   Developing a strategy for SEO and AI-powered recommendations (AEO).
--   Addressing technical SEO issues like incorrect canonical URLs.
+The user's primary goal is to build a premium, conversion-focused website for their HVAC company, DFW HVAC, using a Next.js frontend and a Sanity.io CMS. The strategy is built around a phone-first, form-second conversion model. Recent focus shifted toward properly decommissioning an old RealWork widget, mapping 301 redirects from their old Wix website, and creating a specialized intake funnel for a Preventative Maintenance plan using an external JotForm.
 
 **User's preferred language**: English
+*(INSTRUCT next agent to respond in English only)*
 
-**what currently exists?**
-The project is a Next.js 14 application with a Sanity.io CMS backend. A phone-first, form-second conversion funnel is now fully implemented, centered around a new dedicated  page. All Request Service CTAs across the site have been audited and updated to link to this page. The header navigation has been cleaned up by removing Contact and moving Cities Served to the footer. The  page has been rebranded to match the site's aesthetic and its content updated. A critical SEO issue with canonical URLs has been fixed site-wide. To decommission the RealWork widget without creating broken links,  is now temporarily redirected to . The plan for building a static showcase page as a replacement is documented in the PRD.
+**what currently exists?** 
+A Next.js 14 application with a Sanity.io CMS backend. The site uses a unified  conversion page for most services. The old RealWork widget page () has been removed from navigation and sitemaps, with a 307 temporary redirect to  active until a new static showcase page is built. 301 redirects mapping old Wix URLs to the new Next.js routes have been implemented in . The Preventative Maintenance service page has been customized to route users to an external JotForm instead of the standard internal lead form.
 
 **Last working item**:
--   **Last item agent was working:** The agent performed two final tasks as requested by the user:
-    1.  Documenting the plan for building a static Showcase Projects page in , including a note to undo the temporary redirect upon completion.
-    2.  Implementing the temporary redirect for  to  by modifying  and removing the old page from the sitemap and navigation.
--   **Status:** COMPLETED
--   **Agent Testing Done:** Y
--   **Which testing method agent to use?** NA
--   **User Testing Done:** N
+- **Last item agent was working:** Extensive consulting and debugging of conditional logic for the user's external JotForm (calculating maintenance costs based on the number of systems and optional filter add-ons). Prior to that, modifying the Next.js codebase to link the Preventative Maintenance page CTAs to this JotForm.
+- **Status:** COMPLETED
+- **Agent Testing Done:** Y (For website code changes)
+- **Which testing method agent to use?** NA (App code is stable; JotForm logic is configured externally by the user)
+- **User Testing Done:** N/A
 
 **All Pending/In progress Issue list**:
--   **Issue 1:** Failed Modal Implementation (P2)
-    -   **Attempted fixes:** The agent attempted to implement a site-wide modal for the Request Service form. This failed and caused the entire site to crash. The changes were rolled back.
-    -   **Next debug checklist:** The root cause was determined to be a client component hydration error clashing with how Sanity data (specifically ) was being fetched. The data returned , which broke the app when components were converted to client components (). The recommended fix is to first make the Sanity data fetching more robust (handle  values at the query or provider level) before re-attempting a modal, or to build the modal as a fully isolated component using  with .
-    -   **Why fix this issue and what will be achieved with the fix?** The user has since opted for a dedicated  page, making the modal redundant for now. This issue should only be revisited if the user explicitly asks for a modal again. Fixing it would provide a reusable modal pattern.
-    -   **Status:** BLOCKED
-    -   **Is recurring issue?** N
-    -   **Should Test frontend/backend/both after fix?** Frontend
-    -   **Blocked on other issue:** User decision to use a dedicated page instead.
+Issue 1: Failed Modal Implementation (P2)
+- Attempted fixes: A previous agent attempted a site-wide modal for the Request Service form, which crashed the site due to a client component hydration error clashing with Sanity data ( returning ).
+- Next debug checklist: Fix Sanity data fetching to handle  values gracefully before converting components to client-side.
+- Why fix this issue and what will be achieved with the fix? Low priority. User opted for a dedicated page instead of a modal. Fixing it would just clean up latent technical debt regarding Sanity data fetching.
+- Status: BLOCKED (by user preference for dedicated page)
+- Is recurring issue? N
+- Should Test frontend/backend/both after fix? Frontend
+- Blocked on other issue: User decision.
 
 **In progress Task List**:
--   None.
+*None active at the moment. The session ended at a clean stopping point.*
 
-**Upcoming and Future Tasks**
+**Upcoming and Future Tasks**:
+Upcoming Tasks:
+- Pre-Launch (P0): Go Live - DNS Cutover. In GoDaddy, change nameservers from Wix to Vercel and add the domain to the Vercel project.
+- Post-Launch (P1): Resend Domain Verification. Add necessary DNS records to enable lead notification emails.
+- Post-Launch (P1): Google Search Console Setup. Add TXT record and submit sitemap.
+- Post-Launch (P1): Build Showcase Projects Page. Build the static replacement for the RealWork widget, using the plan documented in the PRD, and undo the 307 redirect.
+- Pre-Launch (P1): Verify OG Image. Create a proper 1200x630 branded image at .
+- Pre-Launch (P1): Add FAQ Schema. Implement  structured data on .
 
-**Upcoming Tasks (P0):**
--   **Update FAQ Page:** The immediate next action, saved from before the user's reboot, is to find the What areas do you serve? question on the  page and update its answer to a one-sentence summary with a link to the  page.
--   **Pre-Launch:**
-    -   **301 Redirects:** Obtain the list of old Wix URLs and configure 301 redirects in .
-    -   **Go Live - DNS Cutover:** In GoDaddy, change nameservers from Wix to Vercel and add the domain to the Vercel project.
--   **Post-Launch:**
-    -   **Resend Domain Verification:** Add necessary DNS records to enable lead notification emails.
-    -   **Google Search Console Setup:** Add the TXT record for domain verification and submit the sitemap.
-
-**Upcoming Tasks (P1):**
--   **Build Showcase Projects Page:** Build the static replacement for the RealWork widget on the  page, using the plan documented in the PRD. This includes undoing the temporary redirect.
--   **Verify OG Image:** The current OG image is a placeholder (the logo). A proper 1200x630 branded image needs to be created and placed at .
--   **Add FAQ Schema:** Implement  structured data on the  page.
-
-**Future Tasks (P2 & P3):**
--   **50+ cities Claim Cleanup (P2):** Audit and update the remaining files that incorrectly state 50+ cities served.
--   **Housecall Pro Direct API Integration (P3):** Implement direct integration to send form submissions to Housecall Pro, including logic to handle new vs. existing customers.
--   **AI Readiness / AEO (P2):** Execute the plan in the PRD, including citation audit, Google Business Profile optimization, and creating video content.
--   **Content Hub / Resources Section (P3):** Create a  section for authoritative blog/article content.
--   **Expand City Page Content (P2):** Increase content on city pages to improve local SEO.
--   **Add  schema** to service pages.
--   **Code Cleanup:** Remove unused mock data.
--   **Switch Sanity client** to production mode.
+Future Tasks:
+- 50+ cities Claim Cleanup (P2): Audit remaining files incorrectly stating 50+ cities.
+- AI Readiness / AEO (P2): Execute plan in PRD (citation audit, GBP optimization).
+- Expand City Page Content (P2): Improve local SEO.
+- Content Hub / Resources Section (P3): Create  for blog content.
+- Housecall Pro Direct API Integration (P3): Send form submissions directly to CRM.
 
 **Completed work in this session**
--   **Canonical URL Fix:** Resolved a critical SEO issue by implementing correct, self-referencing canonical URLs on all static and dynamic pages.
--   **Dedicated Conversion Page:** Created a new, lightweight  page to serve as the single destination for all service request CTAs.
--   **Site-wide CTA Audit:** Audited and updated every Request Service button across the entire site to link to the new  page, unifying the conversion funnel.
--   **Navigation & Header Cleanup:** De-cluttered the main navigation by removing Contact and moving Cities Served to the footer. The company tagline was updated and made clickable.
--   **Estimate Page Overhaul:** Rebranded the  page to match the site's visual identity and updated its Service Areas section with a curated, SEO-friendly list of cities.
--   **Content Accuracy Update:** Corrected all references of 50+ cities to more accurate language and updated the FAQ page's What areas do you serve? answer to be more specific and link to the main cities page.
--   **RealWork Widget Decommissioning:** Prepared to remove the RealWork widget by implementing a temporary (302) redirect from  to  and documenting the plan to build a static replacement page.
--   **Vercel Deployment Link Tested:** Successfully tested and saved the Vercel deploy hook URL to the PRD.
+- RealWork Widget Decommissioning (DONE): Removed from header, footer, , and added 307 redirect to .
+- Wix 301 Redirects (DONE): Crawled old Wix site and implemented permanent (308) redirects in .
+- Action Items PDF (DONE): Generated a PDF of pending PRD tasks for the user.
+- JotForm Integration on Preventative Maintenance Page (DONE): Modified  to accept a  prop, altering CTAs to say Join the Program and linking externally to JotForm, hiding the standard internal lead form.
+- JotForm Logic Consulting (DONE): Helped user simplify and debug external JotForm visibility and calculation rules.
 
 **Earlier issues found/mentioned but not fixed**
--   **OG Image is a Placeholder:** The file at  is a temporary copy of the logo, not a properly formatted Open Graph image.
--   **FAQ Schema Missing:** The  page lacks  structured data for rich results in search.
--   **City Page Content is Thin:** City pages need more unique content to be competitive in local SEO.
--   **Latent Sanity Data Bug:** The investigation into the failed modal revealed that the Sanity query for  can return , which can break the site if components using this data become client-side. The data fetching should be made more robust.
+Issue 1: OG Image is a Placeholder
+- Debug checklist: Replace  with a properly formatted image.
+- Why to solve this issue and what will be achieved with this? Improves social sharing previews.
+- Should Test frontend/backend/both after fix: Frontend
+- Is recurring issue? N
+
+Issue 2: Latent Sanity Data Bug
+- Debug checklist: Update   to handle  responses gracefully to prevent future React hydration errors.
+- Why to solve this issue and what will be achieved with this? Prevents application crashes if these components are ever made interactive (client-side).
+- Should Test frontend/backend/both after fix: Frontend
+- Is recurring issue? Y (surfaces when converting server components to client components)
 
 **Known issue recurrence from previous fork**
--   None.
+- Issue recurrence in previous fork: None
+- Recurrence count: 0
+- Status: RESOLVED
 
 **Code Architecture**
 
 
 **Key Technical Concepts**
--   **Next.js Redirects:** Using  to implement a temporary (302) redirect to decommission a page without causing SEO harm.
--   **Dedicated Conversion Page:** The strategic decision to create a minimal, fast-loading page () to act as a single, trackable endpoint for all high-intent CTAs.
--   **Client Hydration Errors:** Diagnosed a critical bug where converting server components to client components () caused a site crash due to a mismatch between server-rendered data (expecting data) and client-side reality (receiving  from a Sanity fetch). This is a key learning for future development.
--   **Programmatic Content Override:** As a workaround for not having write access to the Sanity CMS, the agent modified the  page to programmatically find and replace a specific FAQ from the CMS with an updated version from local default data.
+- **Next.js Redirects:** Utilizing  for both temporary routing (307 for decommissioned features) and permanent SEO mapping (308 for old Wix URLs).
+- **Conditional Template Rendering:** Using props () in shared components () to drastically alter page behavior (external JotForm routing vs. internal API lead generation) for a single specific route without duplicating the whole template.
 
 **key DB schema**
--   **leads** (MongoDB Collection): 
+- **leads** (MongoDB Collection):  *(Note: Preventative Maintenance leads now bypass this and go directly to JotForm).*
 
 **changes in tech stack**
--   None. RealWork widget is being removed.
+- Added **JotForm** as an external dependency for the Preventative Maintenance intake funnel. (No backend code integration; purely URL linking).
 
 **All files of reference**
--   : Modified to add the temporary redirect.
--   : New dedicated conversion page.
--   : Modified to remove the redirected page.
--   : Heavily modified for branding and content.
--   : Modified to override Sanity data for a specific question.
--   : Modified to support rendering links.
--   : Modified to update navigation and CTA links.
--   : Modified to add Request Service and Cities Served.
--   Multiple page/template files (, , etc.): Audited and updated to ensure all Request Service CTAs point to the new page.
+- : Updated with Wix 301s and RealWork 302/307.
+- : Removed decommissioned route.
+- : Added JotForm CTA logic.
+- : Added prop passing for JotForm logic.
+- : Updated with Showcase page specs, redirect mapping, and task lists.
 
 **Areas that need refactoring**:
--   The Sanity data fetching logic in  for  is fragile. It should be updated to handle  responses gracefully to prevent future hydration errors, as identified during the failed modal implementation.
+- : Fragile data fetching logic returning  needs robust fallback handling.
 
 **key api endpoints**
--   
+-  (Standard contact form submissions).
 
 **Critical Info for New Agent**
--   **The  page is temporarily redirected to .** This is intentional. The plan to build its replacement (a static showcase) is documented in the PRD and is a P1 post-launch task. Do not try to fix the redirect.
--   **A previous attempt to implement a site-wide modal failed and crashed the site.** The root cause was a React hydration error related to  data from Sanity. Review the analysis before attempting any similar feature. The user has since approved a dedicated page () which is a simpler and more robust solution.
--   **The immediate next task is to update the What areas do you serve? question on the main  page.** This was the user's last instruction before a series of other tasks took priority. The plan is stored in the PRD.
--   **Lead notification emails via Resend are intentionally disabled.** They will be enabled post-launch after the DNS migration to Vercel is complete.
+- **The Preventative Maintenance page is unique:**  uses an external JotForm link instead of the site's native  funnel. Do not fix these buttons to point back to the internal funnel.
+- **The  redirect is intentional:** It points to  temporarily until a static showcase page is built post-launch.
+- **Lead notification emails (Resend) are intentionally broken/disabled:** They await DNS migration to Vercel. 
 
 **documents and test reports created in this job**
--   : Significantly updated with plans for the Showcase Page, AI Readiness (AEO) strategy, Housecall Pro integration, and the next immediate action item. The Vercel deploy hook URL was also saved here.
+-  (Continuously updated)
+-  (Generated for user download)
 
 **Last 10 User Messages and any pending HUMAN messages**
-10. **User:** Asks if building a static showcase of before/after jobs is a good replacement for the RealWork widget. (Status: Addressed)
-9.  **User:** Asks how to launch the site without the Recent Projects page, preserving the URL for later without hurting SEO. (Status: Addressed, redirect plan proposed)
-8.  **User:** Asks for the best way to format showcase content (images, text) for the new page. (Status: Addressed)
-7.  **User:** Decides not to delay launch and asks to add the showcase page to the to-do list and execute the redirect plan. (Status: Implemented)
-6.  **User:** Adds a requirement to document that the redirect plan needs to be undone when the showcase page is built. (Status: Acknowledged & Implemented)
-5.  **User:** Approves the plan. (Status: Implemented)
-4.  **User:** Asks for confirmation on reboot recovery process and states the next action is to update the FAQ page. (Status: Addressed)
-3.  **User:** Reports GitHub-to-Vercel deployment is not automatic. (Status: Investigated & Resolved)
-2.  **User:** Asks how to reconnect the repo in Vercel. (Status: Instructions provided)
-1.  **User:** Asks agent to test the Vercel deploy hook connection after providing the URL. (Status: Implemented)
+- **User:** Asks about token limits and if they should fork the session. (Status: Answered, agent recommended forking if moving to new website tasks).
+- **User:** Reports form issue where filter fields show prematurely; pastes rules. (Status: Debugged, agent identified missing default hidden state).
+- **User:** Clarifies they want text element for 5+ systems, struggles to find correct JotForm element. (Status: Resolved, agent guided to correct element).
+- **User:** Refines requirement: only show total fields if Yes to filters is selected. (Status: Implemented logic mapping).
+- **User:** Asks if two fields can add together based on visibility. (Status: Answered, alternative robust logic provided).
+- **User:** Wants custom message displayed if user selects 5+ systems. (Status: Logic provided).
+- **User:** Asks how to calculate the costs based on system numbers in JotForm. (Status: Logic provided).
+- **User:** Provides screenshots of JotForm to have agent simplify the logic rules. (Status: Analyzed, massive cleanup strategy provided).
+- **User:** Explains the math/pricing logic for systems + filter add-ons. (Status: Acknowledged).
+- **User:** Shares details of JotForm conditional field revealing. (Status: Acknowledged).
 
 **Project Health Check:**
--   **Broken:**
-    -   Email notifications for leads are non-functional (by design, pending DNS migration).
--   **Mocked:**
-    -    file still exists.
+- **Broken:** Email notifications (Resend) - intentional, pending DNS.
+- **Mocked:**  still in codebase.
 
 **3rd Party Integrations**
--   **Sanity.io:** Headless CMS.
--   **Vercel:** Hosting platform.
--   **Google Places API:** For reviews and ratings.
--   **Resend:** Email API (pending domain verification).
--   **GoDaddy:** Domain registrar.
--   **RealWork:** (DECOMMISSIONED) Embedded JavaScript widget, now temporarily redirected.
+- Sanity.io (Headless CMS)
+- Vercel (Hosting)
+- Google Places API (Reviews)
+- Resend (Email API - requires User API Key, currently in backend .env)
+- GoDaddy (DNS)
+- JotForm (External linking only; no API keys in codebase)
 
 **Testing status**
--   **Testing agent used after significant changes:** NO
--   **Troubleshoot agent used after agent stuck in loop:** YES (used to investigate the modal issue, but the user opted to roll back before the agent finished)
--   **Test files created:** None
--   **Known regressions:** None
+- Testing agent used after significant changes: NO (Screenshot tool and curl used successfully for redirect and UI checks).
+- Troubleshoot agent used after agent stuck in loop: NO
+- Test files created: None
+- Known regressions: None
 
 **Credentials to test flow:**
--   A Resend API key is in .
--   A Vercel Deploy Hook URL is saved in .
+- Resend API key in .
 
 **What agent forgot to execute**
--   The user's requested next action—updating the What areas do you serve? question on the main  page—was documented but not executed because the user returned from their reboot with a new, higher-priority request to debug the Vercel deployment. This task remains the top priority for the next session.</analysis>
+- Nothing. The agent successfully addressed the UI changes, the redirect tracking, document generation, and acted as a logic consultant for the user's external JotForm setup.</analysis>
