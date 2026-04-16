@@ -14,6 +14,10 @@ export const metadata = {
   ...defaultMetadata,
   title: 'DFW HVAC - Dallas-Fort Worth\'s Trusted HVAC Experts',
   description: 'Expert HVAC service with integrity and care. Three generations of trusted heating & cooling service in Dallas-Fort Worth. Call (972) 777-COOL.',
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+  },
 }
 
 export default async function RootLayout({ children }) {
