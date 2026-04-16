@@ -589,3 +589,5 @@ frontend/.next/cache/webpack/server-production/27.pack
 # Environment files
 *.env
 *.env.*
+frontend/.next/cache/webpack/server-production/9.pack
+frontend/.next/cache/webpack/server-production/10.pack
