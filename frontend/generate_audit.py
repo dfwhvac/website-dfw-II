@@ -51,44 +51,44 @@ pages = [
 
     # Section: Service Pages
     ("SECTION", "Service Pages", "", "", ""),
-    ("/services/residential/air-conditioning", "(null - using code fallback)", "Published", "https://dfwhvac.com/services/residential/air-conditioning"),
-    ("/services/residential/heating", "(null - using code fallback)", "Published", "https://dfwhvac.com/services/residential/heating"),
-    ("/services/residential/preventative-maintenance", "(null - using code fallback)", "Published", "https://dfwhvac.com/services/residential/preventative-maintenance"),
-    ("/services/residential/indoor-air-quality", "(null - using code fallback)", "Published", "https://dfwhvac.com/services/residential/indoor-air-quality"),
-    ("/services/commercial/commercial-air-conditioning", "(null - using code fallback)", "Published", "https://dfwhvac.com/services/commercial/commercial-air-conditioning"),
-    ("/services/commercial/commercial-heating", "(null - using code fallback)", "Published", "https://dfwhvac.com/services/commercial/commercial-heating"),
-    ("/services/commercial/commercial-maintenance", "(null - using code fallback)", "Published", "https://dfwhvac.com/services/commercial/commercial-maintenance"),
+    ("/services/residential/air-conditioning", "FALLBACK: Complete AC installation, repair, and replacement services for Dallas-Fort Worth homes.", "Published", "https://dfwhvac.com/services/residential/air-conditioning"),
+    ("/services/residential/heating", "FALLBACK: Furnace repair, heat pump service, and heating system installation for DFW homes.", "Published", "https://dfwhvac.com/services/residential/heating"),
+    ("/services/residential/preventative-maintenance", "FALLBACK: Regular maintenance to keep your HVAC system running efficiently year-round.", "Published", "https://dfwhvac.com/services/residential/preventative-maintenance"),
+    ("/services/residential/indoor-air-quality", "FALLBACK: Improve your home's air quality with our specialized solutions.", "Published", "https://dfwhvac.com/services/residential/indoor-air-quality"),
+    ("/services/commercial/commercial-air-conditioning", "FALLBACK: Large-scale AC systems for businesses and commercial properties in the DFW area.", "Published", "https://dfwhvac.com/services/commercial/commercial-air-conditioning"),
+    ("/services/commercial/commercial-heating", "FALLBACK: Commercial heating solutions and repair to keep businesses and commercial properties comfortable.", "Published", "https://dfwhvac.com/services/commercial/commercial-heating"),
+    ("/services/commercial/commercial-maintenance", "FALLBACK: Comprehensive maintenance programs that help businesses keep their HVAC systems running efficiently and avoid downtime.", "Published", "https://dfwhvac.com/services/commercial/commercial-maintenance"),
 
     # Section: City Pages
     ("SECTION", "City Pages (28)", "", "", ""),
-    ("/cities-served/allen", "(null - using code fallback)", "Published", "https://dfwhvac.com/cities-served/allen"),
-    ("/cities-served/argyle", "(null - using code fallback)", "Published", "https://dfwhvac.com/cities-served/argyle"),
-    ("/cities-served/arlington", "(null - using code fallback)", "Published", "https://dfwhvac.com/cities-served/arlington"),
-    ("/cities-served/bedford", "(null - using code fallback)", "Published", "https://dfwhvac.com/cities-served/bedford"),
-    ("/cities-served/carrollton", "(null - using code fallback)", "Published", "https://dfwhvac.com/cities-served/carrollton"),
-    ("/cities-served/colleyville", "(null - using code fallback)", "Published", "https://dfwhvac.com/cities-served/colleyville"),
-    ("/cities-served/coppell", "(null - using code fallback)", "Published", "https://dfwhvac.com/cities-served/coppell"),
-    ("/cities-served/dallas", "(null - using code fallback)", "Published", "https://dfwhvac.com/cities-served/dallas"),
-    ("/cities-served/denton", "(null - using code fallback)", "Published", "https://dfwhvac.com/cities-served/denton"),
-    ("/cities-served/euless", "(null - using code fallback)", "Published", "https://dfwhvac.com/cities-served/euless"),
-    ("/cities-served/farmers-branch", "(null - using code fallback)", "Published", "https://dfwhvac.com/cities-served/farmers-branch"),
-    ("/cities-served/flower-mound", "(null - using code fallback)", "Published", "https://dfwhvac.com/cities-served/flower-mound"),
-    ("/cities-served/fort-worth", "(null - using code fallback)", "Published", "https://dfwhvac.com/cities-served/fort-worth"),
-    ("/cities-served/frisco", "(null - using code fallback)", "Published", "https://dfwhvac.com/cities-served/frisco"),
-    ("/cities-served/grapevine", "(null - using code fallback)", "Published", "https://dfwhvac.com/cities-served/grapevine"),
-    ("/cities-served/haslet", "(null - using code fallback)", "Published", "https://dfwhvac.com/cities-served/haslet"),
-    ("/cities-served/hurst", "(null - using code fallback)", "Published", "https://dfwhvac.com/cities-served/hurst"),
-    ("/cities-served/irving", "(null - using code fallback)", "Published", "https://dfwhvac.com/cities-served/irving"),
-    ("/cities-served/keller", "(null - using code fallback)", "Published", "https://dfwhvac.com/cities-served/keller"),
-    ("/cities-served/lake-dallas", "(null - using code fallback)", "Published", "https://dfwhvac.com/cities-served/lake-dallas"),
-    ("/cities-served/lewisville", "(null - using code fallback)", "Published", "https://dfwhvac.com/cities-served/lewisville"),
-    ("/cities-served/mansfield", "(null - using code fallback)", "Published", "https://dfwhvac.com/cities-served/mansfield"),
-    ("/cities-served/north-richland-hills", "(null - using code fallback)", "Published", "https://dfwhvac.com/cities-served/north-richland-hills"),
-    ("/cities-served/plano", "(null - using code fallback)", "Published", "https://dfwhvac.com/cities-served/plano"),
-    ("/cities-served/richardson", "(null - using code fallback)", "Published", "https://dfwhvac.com/cities-served/richardson"),
-    ("/cities-served/roanoke", "(null - using code fallback)", "Published", "https://dfwhvac.com/cities-served/roanoke"),
-    ("/cities-served/southlake", "(null - using code fallback)", "Published", "https://dfwhvac.com/cities-served/southlake"),
-    ("/cities-served/the-colony", "(null - using code fallback)", "Published", "https://dfwhvac.com/cities-served/the-colony"),
+    ("/cities-served/allen", "FALLBACK: Professional heating and air conditioning services in Allen, Texas. Same-day HVAC repair, installation, and maintenance. Serving zip codes: 75013.", "Published", "https://dfwhvac.com/cities-served/allen"),
+    ("/cities-served/argyle", "FALLBACK: Professional heating and air conditioning services in Argyle, Texas. Same-day HVAC repair, installation, and maintenance. Serving zip codes: 76226.", "Published", "https://dfwhvac.com/cities-served/argyle"),
+    ("/cities-served/arlington", "FALLBACK: Professional heating and air conditioning services in Arlington, Texas. Same-day HVAC repair, installation, and maintenance. Serving zip codes: 76001, 76002, 76012, 76013, 76014, 76015, 76016, 76017, 76018.", "Published", "https://dfwhvac.com/cities-served/arlington"),
+    ("/cities-served/bedford", "FALLBACK: Professional heating and air conditioning services in Bedford, Texas. Same-day HVAC repair, installation, and maintenance. Serving zip codes: 76021, 76022.", "Published", "https://dfwhvac.com/cities-served/bedford"),
+    ("/cities-served/carrollton", "FALLBACK: Professional heating and air conditioning services in Carrollton, Texas. Same-day HVAC repair, installation, and maintenance. Serving zip codes: 75006, 75007, 75010.", "Published", "https://dfwhvac.com/cities-served/carrollton"),
+    ("/cities-served/colleyville", "FALLBACK: Professional heating and air conditioning services in Colleyville, Texas. Same-day HVAC repair, installation, and maintenance. Serving zip codes: 76034.", "Published", "https://dfwhvac.com/cities-served/colleyville"),
+    ("/cities-served/coppell", "FALLBACK: Professional heating and air conditioning services in Coppell, Texas. Same-day HVAC repair, installation, and maintenance. Serving zip codes: 75019.", "Published", "https://dfwhvac.com/cities-served/coppell"),
+    ("/cities-served/dallas", "FALLBACK: Professional heating and air conditioning services in Dallas, Texas. Same-day HVAC repair, installation, and maintenance. Serving zip codes: 75201, 75202, 75204, 75205, 75206, 75207, 75208, 75209, 75214, 75218, 75219, 75225, 75229, 75230, 75238, 75244, 75248, 75254.", "Published", "https://dfwhvac.com/cities-served/dallas"),
+    ("/cities-served/denton", "FALLBACK: Professional heating and air conditioning services in Denton, Texas. Same-day HVAC repair, installation, and maintenance. Serving zip codes: 76210.", "Published", "https://dfwhvac.com/cities-served/denton"),
+    ("/cities-served/euless", "FALLBACK: Professional heating and air conditioning services in Euless, Texas. Same-day HVAC repair, installation, and maintenance. Serving zip codes: 76039, 76040.", "Published", "https://dfwhvac.com/cities-served/euless"),
+    ("/cities-served/farmers-branch", "FALLBACK: Professional heating and air conditioning services in Farmers Branch, Texas. Same-day HVAC repair, installation, and maintenance. Serving zip codes: 75234.", "Published", "https://dfwhvac.com/cities-served/farmers-branch"),
+    ("/cities-served/flower-mound", "FALLBACK: Professional heating and air conditioning services in Flower Mound, Texas. Same-day HVAC repair, installation, and maintenance. Serving zip codes: 75022, 75028, 75077.", "Published", "https://dfwhvac.com/cities-served/flower-mound"),
+    ("/cities-served/fort-worth", "FALLBACK: Professional heating and air conditioning services in Fort Worth, Texas. Same-day HVAC repair, installation, and maintenance. Serving zip codes: 76118, 76120, 76137, 76177.", "Published", "https://dfwhvac.com/cities-served/fort-worth"),
+    ("/cities-served/frisco", "FALLBACK: Professional heating and air conditioning services in Frisco, Texas. Same-day HVAC repair, installation, and maintenance. Serving zip codes: 75033, 75034, 75035, 75036.", "Published", "https://dfwhvac.com/cities-served/frisco"),
+    ("/cities-served/grapevine", "FALLBACK: Professional heating and air conditioning services in Grapevine, Texas. Same-day HVAC repair, installation, and maintenance. Serving zip codes: 76051.", "Published", "https://dfwhvac.com/cities-served/grapevine"),
+    ("/cities-served/haslet", "FALLBACK: Professional heating and air conditioning services in Haslet, Texas. Same-day HVAC repair, installation, and maintenance. Serving zip codes: 76052.", "Published", "https://dfwhvac.com/cities-served/haslet"),
+    ("/cities-served/hurst", "FALLBACK: Professional heating and air conditioning services in Hurst, Texas. Same-day HVAC repair, installation, and maintenance. Serving zip codes: 76054.", "Published", "https://dfwhvac.com/cities-served/hurst"),
+    ("/cities-served/irving", "FALLBACK: Professional heating and air conditioning services in Irving, Texas. Same-day HVAC repair, installation, and maintenance. Serving zip codes: 75038, 75039, 75062, 75063.", "Published", "https://dfwhvac.com/cities-served/irving"),
+    ("/cities-served/keller", "FALLBACK: Professional heating and air conditioning services in Keller, Texas. Same-day HVAC repair, installation, and maintenance. Serving zip codes: 76244, 76248.", "Published", "https://dfwhvac.com/cities-served/keller"),
+    ("/cities-served/lake-dallas", "FALLBACK: Professional heating and air conditioning services in Lake Dallas, Texas. Same-day HVAC repair, installation, and maintenance. Serving zip codes: 75065.", "Published", "https://dfwhvac.com/cities-served/lake-dallas"),
+    ("/cities-served/lewisville", "FALLBACK: Professional heating and air conditioning services in Lewisville, Texas. Same-day HVAC repair, installation, and maintenance. Serving zip codes: 75057, 75067.", "Published", "https://dfwhvac.com/cities-served/lewisville"),
+    ("/cities-served/mansfield", "FALLBACK: Professional heating and air conditioning services in Mansfield, Texas. Same-day HVAC repair, installation, and maintenance. Serving zip codes: 76063.", "Published", "https://dfwhvac.com/cities-served/mansfield"),
+    ("/cities-served/north-richland-hills", "FALLBACK: Professional heating and air conditioning services in North Richland Hills, Texas. Same-day HVAC repair, installation, and maintenance. Serving zip codes: 76148, 76180, 76182.", "Published", "https://dfwhvac.com/cities-served/north-richland-hills"),
+    ("/cities-served/plano", "FALLBACK: Professional heating and air conditioning services in Plano, Texas. Same-day HVAC repair, installation, and maintenance. Serving zip codes: 75023, 75024, 75025, 75075, 75093, 75252.", "Published", "https://dfwhvac.com/cities-served/plano"),
+    ("/cities-served/richardson", "FALLBACK: Professional heating and air conditioning services in Richardson, Texas. Same-day HVAC repair, installation, and maintenance. Serving zip codes: 75080, 75081.", "Published", "https://dfwhvac.com/cities-served/richardson"),
+    ("/cities-served/roanoke", "FALLBACK: Professional heating and air conditioning services in Roanoke, Texas. Same-day HVAC repair, installation, and maintenance. Serving zip codes: 76262.", "Published", "https://dfwhvac.com/cities-served/roanoke"),
+    ("/cities-served/southlake", "FALLBACK: Professional heating and air conditioning services in Southlake, Texas. Same-day HVAC repair, installation, and maintenance. Serving zip codes: 76092.", "Published", "https://dfwhvac.com/cities-served/southlake"),
+    ("/cities-served/the-colony", "FALLBACK: Professional heating and air conditioning services in The Colony, Texas. Same-day HVAC repair, installation, and maintenance. Serving zip codes: 75056.", "Published", "https://dfwhvac.com/cities-served/the-colony"),
 ]
 
 row = 2
@@ -117,7 +117,7 @@ for page in pages:
     # Highlight issues
     if "WARNING" in meta:
         ws.cell(row=row, column=2).fill = warning_fill
-    elif "(null" in meta:
+    elif "FALLBACK:" in meta:
         ws.cell(row=row, column=2).fill = null_fill
 
     if status == "Unpublished":
@@ -132,7 +132,7 @@ row += 1
 ws.cell(row=row, column=1, value="Yellow = Needs immediate fix (test/incorrect data)")
 ws.cell(row=row, column=1).fill = warning_fill
 row += 1
-ws.cell(row=row, column=1, value="Red = No custom meta description set (using generic code fallback)")
+ws.cell(row=row, column=1, value="Red = Fallback code description (no custom meta description set in CMS)")
 ws.cell(row=row, column=1).fill = null_fill
 
 wb.save("/app/frontend/public/DFW_HVAC_Site_Audit.xlsx")
