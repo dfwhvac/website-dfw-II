@@ -1,3 +1,4 @@
+import Script from 'next/script'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { Toaster } from '../components/ui/sonner'
@@ -5,6 +6,8 @@ import { defaultMetadata } from '../lib/metadata'
 import ColorProvider from '../components/ColorProvider'
 import { getBrandColors } from '../lib/sanity'
 import StickyMobileCTA from '../components/StickyMobileCTA'
+
+const GA_ID = 'G-5MX2NE7C73'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -25,6 +28,15 @@ export default async function RootLayout({ children }) {
   
   return (
     <html lang="en">
+      <head>
+        <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="afterInteractive" />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', '${GA_ID}');`}
+        </Script>
+      </head>
       <body className={inter.className}>
         <ColorProvider brandColors={brandColors}>
           {children}
