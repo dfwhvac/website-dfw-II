@@ -81,7 +81,7 @@ export function LocalBusinessSchema({ companyInfo, cityPages = [] }) {
     "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": (companyInfo.googleRating || 5.0).toString(),
-      "reviewCount": (companyInfo.googleReviews || 130).toString(),
+      "reviewCount": (companyInfo.googleReviews || 145).toString(),
       "bestRating": "5",
       "worstRating": "1"
     },
@@ -150,7 +150,7 @@ export function ReviewSchema({ companyInfo, reviewCount }) {
     "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": (companyInfo.googleRating || 5.0).toString(),
-      "reviewCount": (reviewCount || companyInfo.googleReviews || 130).toString(),
+      "reviewCount": (reviewCount || companyInfo.googleReviews || 145).toString(),
       "bestRating": "5",
       "worstRating": "1"
     }

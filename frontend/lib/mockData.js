@@ -5,7 +5,6 @@ export const companyInfo = {
   tagline: "Three Generations of Trusted Service",
   phone: "(972) 777-COOL",
   phoneDisplay: "(972) 777-2665",
-  realPhone: "(817) 242-6688",
   address: "556 S Coppell Rd Ste 103, Coppell, TX 75019",
   serviceAddress: "Dallas-Fort Worth & Surrounding Areas",
   established: "2020",
@@ -13,7 +12,7 @@ export const companyInfo = {
   legacyDescription: "A three-generation family commitment to trustworthy, high-quality HVAC service",
   description: "DFW HVAC delivers expert HVAC service with integrity and care—earning trust and long-term customer satisfaction through quality workmanship.",
   googleRating: 5.0,
-  googleReviews: 130,
+  googleReviews: 145,
   businessHours: {
     monday: "7AM-6PM",
     tuesday: "7AM-6PM", 
