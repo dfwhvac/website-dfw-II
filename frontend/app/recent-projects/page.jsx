@@ -12,7 +12,7 @@ export const revalidate = 0
 
 export function generateMetadata() {
   return {
-    title: 'Recent HVAC Projects in Dallas-Fort Worth | DFW HVAC',
+    title: 'Our Work | Recent HVAC Projects in Dallas-Fort Worth | DFW HVAC',
     description: 'View completed HVAC installations across the DFW metroplex. AC repairs, heating systems, and air quality solutions in Dallas, Irving, Coppell, Carrollton & surrounding cities.',
     alternates: {
       canonical: '/recent-projects',
@@ -44,7 +44,7 @@ export default async function RecentProjectsPage() {
             </nav>
             
             <h1 className="text-3xl md:text-5xl font-bold mb-4" data-testid="projects-heading">
-              See Our Work Across DFW
+              Our Work
             </h1>
             <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
               Hundreds of satisfied customers across the DFW metroplex. Explore our completed HVAC installations, repairs, and maintenance projects.

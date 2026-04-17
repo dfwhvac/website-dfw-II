@@ -19,16 +19,6 @@ const nextConfig = {
   async redirects() {
     return [
       // ============================================
-      // TEMPORARY REDIRECT (302) - Remove when Showcase page is built
-      // See PRD.md "RealWork Widget Decommissioning" for undo steps
-      // ============================================
-      {
-        source: '/recent-projects',
-        destination: '/reviews',
-        permanent: false,
-      },
-      
-      // ============================================
       // PERMANENT REDIRECTS (301) - Old Wix URLs → New Next.js URLs
       // These preserve SEO value from the old site
       // ============================================
