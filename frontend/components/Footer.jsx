@@ -92,7 +92,7 @@ const Footer = ({ companyInfo = {}, siteSettings = null }) => {
   const phoneDigits = companyInfo?.phoneDisplay || '(972) 777-2665'
   const address = companyInfo?.address || 'Dallas-Fort Worth Area'
   const businessHours = companyInfo?.businessHours || {
-    monday: '9am - 6pm',
+    monday: '7AM-6PM',
     saturday: 'Closed',
     sunday: 'Closed'
   }

@@ -15,11 +15,11 @@ export const companyInfo = {
   googleRating: 5.0,
   googleReviews: 130,
   businessHours: {
-    monday: "9AM-6PM",
-    tuesday: "9AM-6PM", 
-    wednesday: "9AM-6PM",
-    thursday: "9AM-6PM",
-    friday: "9AM-6PM",
+    monday: "7AM-6PM",
+    tuesday: "7AM-6PM", 
+    wednesday: "7AM-6PM",
+    thursday: "7AM-6PM",
+    friday: "7AM-6PM",
     saturday: "Closed",
     sunday: "Closed"
   },

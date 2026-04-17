@@ -33,7 +33,7 @@ const defaultFaqs = [
     answer: 'Yes, our technicians are trained and certified to work on all major HVAC brands including Carrier, Trane, Lennox, Rheem, Goodman, American Standard, York, Bryant, and many others. We can repair, maintain, or replace any residential heating or cooling system.' },
   { _id: 'rs3', category: 'residential-services', order: 3,
     question: 'Do you offer same-day HVAC repair services?',
-    answer: 'Yes, we offer same-day HVAC repair services throughout the Dallas-Fort Worth area during our business hours (Monday-Friday, 9 AM - 6 PM). When your AC fails on a hot Texas summer day or your heater stops working during a cold snap, call us and we\'ll get a technician to you as quickly as possible.' },
+    answer: 'Yes, we offer same-day HVAC repair services throughout the Dallas-Fort Worth area during our business hours (Monday-Friday, 7 AM - 6 PM). When your AC fails on a hot Texas summer day or your heater stops working during a cold snap, call us and we\'ll get a technician to you as quickly as possible.' },
   { _id: 'rs4', category: 'residential-services', order: 4,
     question: 'What areas do you serve?',
     answer: 'We proudly serve the Dallas-Fort Worth metroplex from our Coppell headquarters, including Dallas, Irving, Carrollton, Lewisville, Grapevine, Flower Mound, Plano, Frisco, Southlake, and surrounding communities. View all cities we serve at /cities-served.' },
@@ -64,7 +64,7 @@ const defaultFaqs = [
     answer: 'Yes, we require an adult (18+) to be present during service calls for safety and liability reasons. This also allows our technician to explain findings, discuss options, and answer any questions you may have about your system.' },
   { _id: 'rsc3', category: 'residential-scheduling', order: 3,
     question: 'What are your business hours?',
-    answer: 'Our regular business hours are Monday through Friday, 9:00 AM to 6:00 PM. We are closed on Saturday and Sunday.' },
+    answer: 'Our regular business hours are Monday through Friday, 7:00 AM to 6:00 PM. We are closed on Saturday and Sunday.' },
 
   // Residential - Equipment (4)
   { _id: 're1', category: 'residential-equipment', order: 1,
@@ -109,7 +109,7 @@ const defaultFaqs = [
     answer: 'Yes, we offer customized maintenance agreements for commercial clients. These include scheduled preventive maintenance, priority service, detailed documentation for your records, and discounted labor rates. Regular maintenance is critical for commercial systems.' },
   { _id: 'c5', category: 'commercial', order: 5,
     question: 'How quickly can you respond to commercial HVAC issues?',
-    answer: 'We prioritize commercial calls because we understand a failed HVAC system can mean lost revenue, uncomfortable customers, and employee productivity issues. We typically respond to commercial calls within 2-4 hours during business hours (Monday-Friday, 9 AM - 6 PM).' },
+    answer: 'We prioritize commercial calls because we understand a failed HVAC system can mean lost revenue, uncomfortable customers, and employee productivity issues. We typically respond to commercial calls within 2-4 hours during business hours (Monday-Friday, 7 AM - 6 PM).' },
   { _id: 'c6', category: 'commercial', order: 6,
     question: 'What is the difference between commercial and residential HVAC service?',
     answer: 'Commercial systems are typically larger, more complex, and may include rooftop units, multi-zone systems, and building automation controls. They also face heavier usage demands. Our technicians are trained in both residential and light commercial applications.' },
