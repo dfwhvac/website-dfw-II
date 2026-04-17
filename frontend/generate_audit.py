@@ -41,7 +41,7 @@ pages = [
     ("/contact", "Contact DFW HVAC for expert heating and cooling services in Dallas-Fort Worth. Same-day service available Monday-Friday. Call (972) 777-COOL.", "Published", "https://dfwhvac.com/contact"),
     ("/services", "Professional HVAC services in Dallas-Fort Worth. Residential & commercial air conditioning, heating, and maintenance.", "Published", "https://dfwhvac.com/services"),
     ("/faq", "Get answers to common HVAC questions \u2014 air conditioning, heating, heat pumps, preventative maintenance, and more. Expert advice from DFW HVAC, serving Dallas-Fort Worth for three generations.", "Published", "https://dfwhvac.com/faq"),
-    ("/reviews", "Read 130+ 5-star reviews from real DFW HVAC customers. Family-owned HVAC contractor serving Dallas-Fort Worth since 1974. See why customers trust us.", "Published", "https://dfwhvac.com/reviews"),
+    ("/reviews", "Read 145+ 5-star reviews from real DFW HVAC customers. Three generations of trusted HVAC service in Dallas-Fort Worth. See why customers trust us.", "Published", "https://dfwhvac.com/reviews"),
     ("/request-service", "Request HVAC service from DFW HVAC. Fast response, licensed technicians, upfront pricing. Serving Dallas-Fort Worth. Call (972) 777-COOL or fill out our form.", "Published", "https://dfwhvac.com/request-service"),
     ("/estimate", "Request a free HVAC estimate from DFW HVAC. Expert heating and cooling services in Dallas-Fort Worth. Honest assessments, transparent pricing.", "Published", "https://dfwhvac.com/estimate"),
     ("/cities-served", "DFW HVAC provides professional HVAC services across the Dallas-Fort Worth metroplex. Find heating and air conditioning services in your city.", "Published", "https://dfwhvac.com/cities-served"),
