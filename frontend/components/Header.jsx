@@ -94,12 +94,10 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
   // Get base navigation from Sanity or defaults
   let navigation = siteSettings?.mainNavigation?.filter(item => item.isVisible !== false) || defaultNavigation
   
-  // Remove "Cities Served", "Contact", and "Recent Projects" from header nav
-  // Recent Projects temporarily redirects to /reviews - re-add when Showcase page is built
+  // Remove "Cities Served" and "Contact" from header nav
   navigation = navigation.filter(item => 
     item.href !== '/cities-served' && 
-    item.href !== '/contact' && 
-    item.href !== '/recent-projects'
+    item.href !== '/contact'
   )
   
   // Phone-first CTA strategy: Call Now (red) → Request Service (outline)
