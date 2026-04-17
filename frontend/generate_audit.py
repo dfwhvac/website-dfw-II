@@ -137,5 +137,5 @@ row += 1
 ws.cell(row=row, column=1, value="Red = Fallback code description (no custom meta description set in CMS)")
 ws.cell(row=row, column=1).fill = null_fill
 
-wb.save("/app/frontend/public/DFW_HVAC_Site_Audit.xlsx")
+wb.save("/app/frontend/internal/DFW_HVAC_Site_Audit.xlsx")
 print("Spreadsheet saved!")
