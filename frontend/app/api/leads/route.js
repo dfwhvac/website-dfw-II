@@ -7,6 +7,8 @@ const MONGO_URL = process.env.MONGO_URL || process.env.MONGODB_URI
 const DB_NAME = process.env.DB_NAME || 'test_database'
 const RESEND_API_KEY = process.env.RESEND_API_KEY || ''
 const NOTIFICATION_EMAIL = process.env.NOTIFICATION_EMAIL || 'support@dfwhvac.com'
+const RECAPTCHA_SECRET_KEY = process.env.RECAPTCHA_SECRET_KEY || ''
+const RECAPTCHA_THRESHOLD = 0.4
 
 // Email routing configuration
 const LEAD_EMAIL_CONFIG = {
@@ -35,6 +37,26 @@ async function getMongoClient() {
   if (!MONGO_URL) throw new Error('MONGO_URL not configured')
   cachedClient = await new MongoClient(MONGO_URL).connect()
   return cachedClient
+}
+
+// Verify reCAPTCHA token with Google
+async function verifyRecaptcha(token) {
+  if (!RECAPTCHA_SECRET_KEY || !token) {
+    return { success: true, score: 1.0, skipped: true }
+  }
+  try {
+    const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: `secret=${RECAPTCHA_SECRET_KEY}&response=${token}`,
+    })
+    const data = await response.json()
+    return { success: data.success, score: data.score || 0, skipped: false }
+  } catch (error) {
+    console.error('reCAPTCHA verification failed (network error):', error)
+    // Graceful fallback: allow submission if Google is unreachable
+    return { success: true, score: 1.0, skipped: true }
+  }
 }
 
 function buildEmailHtml({ lead, leadId, fullName, actionText, highlightColor, emailConfig }) {
@@ -100,11 +122,15 @@ export async function POST(request) {
       )
     }
 
+    // Verify reCAPTCHA
+    const recaptcha = await verifyRecaptcha(lead.recaptchaToken)
+    const isBlocked = !recaptcha.skipped && (!recaptcha.success || recaptcha.score < RECAPTCHA_THRESHOLD)
+
     const leadId = uuidv4()
     const fullName = `${lead.firstName} ${lead.lastName}`
     const leadType = lead.leadType || 'service'
 
-    // Save to MongoDB
+    // Save to MongoDB (always save, flag blocked submissions)
     const client = await getMongoClient()
     const db = client.db(DB_NAME)
     await db.collection('leads').insertOne({
@@ -118,7 +144,9 @@ export async function POST(request) {
       problemDescription: lead.problemDescription || '',
       leadType,
       createdAt: new Date().toISOString(),
-      status: 'new',
+      status: isBlocked ? 'blocked' : 'new',
+      recaptchaScore: recaptcha.score,
+      recaptchaSkipped: recaptcha.skipped,
     })
 
     // Send email notification
@@ -126,27 +154,47 @@ export async function POST(request) {
     if (RESEND_API_KEY) {
       try {
         const resend = new Resend(RESEND_API_KEY)
-        const actionText = leadType === 'estimate'
-          ? 'A potential customer is interested in a system replacement quote.'
-          : leadType === 'contact'
-            ? 'Someone has submitted a general inquiry through the contact form.'
-            : 'A potential customer has submitted a service request. Call them back promptly!'
-        const highlightColor = leadType === 'estimate' ? '#F77F00' : leadType === 'contact' ? '#00B8FF' : '#FF0000'
 
-        const subject = `${emailConfig.emoji} ${emailConfig.subjectTemplate(fullName, lead.phone, lead.email)}`
+        if (isBlocked) {
+          // Send blocked notification email
+          await resend.emails.send({
+            from: 'DFW HVAC Leads <leads@dfwhvac.com>',
+            to: [emailConfig.to],
+            subject: `[BLOCKED] Possible Spam Lead — ${fullName} (score: ${recaptcha.score})`,
+            html: buildEmailHtml({
+              lead: { ...lead, leadType },
+              leadId,
+              fullName,
+              actionText: `This submission was flagged as possible spam by reCAPTCHA (score: ${recaptcha.score}, threshold: ${RECAPTCHA_THRESHOLD}). Review the details below — if this is a real customer, follow up manually.`,
+              highlightColor: '#FF6600',
+              emailConfig,
+            }),
+          })
+        } else {
+          // Send normal lead notification email
+          const actionText = leadType === 'estimate'
+            ? 'A potential customer is interested in a system replacement quote.'
+            : leadType === 'contact'
+              ? 'Someone has submitted a general inquiry through the contact form.'
+              : 'A potential customer has submitted a service request. Call them back promptly!'
+          const highlightColor = leadType === 'estimate' ? '#F77F00' : leadType === 'contact' ? '#00B8FF' : '#FF0000'
 
-        await resend.emails.send({
-          from: 'DFW HVAC Leads <leads@dfwhvac.com>',
-          to: [emailConfig.to],
-          subject,
-          html: buildEmailHtml({ lead: { ...lead, leadType }, leadId, fullName, actionText, highlightColor, emailConfig }),
-        })
+          const subject = `${emailConfig.emoji} ${emailConfig.subjectTemplate(fullName, lead.phone, lead.email)}`
+
+          await resend.emails.send({
+            from: 'DFW HVAC Leads <leads@dfwhvac.com>',
+            to: [emailConfig.to],
+            subject,
+            html: buildEmailHtml({ lead: { ...lead, leadType }, leadId, fullName, actionText, highlightColor, emailConfig }),
+          })
+        }
       } catch (emailError) {
         console.error('Failed to send email notification:', emailError)
         // Don't fail the request if email fails
       }
     }
 
+    // Always return success to the user (don't reveal bot detection)
     return NextResponse.json({
       success: true,
       message: "Thank you! We'll call you within 2 business hours.",

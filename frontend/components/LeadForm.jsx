@@ -59,6 +59,19 @@ const LeadForm = ({
     setIsSubmitting(true)
 
     try {
+      // Get reCAPTCHA token
+      let recaptchaToken = ''
+      try {
+        if (window.grecaptcha) {
+          recaptchaToken = await window.grecaptcha.execute(
+            process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
+            { action: 'submit_lead' }
+          )
+        }
+      } catch (recaptchaError) {
+        console.warn('reCAPTCHA unavailable, proceeding without token')
+      }
+
       const response = await fetch('/api/leads', {
         method: 'POST',
         headers: {
@@ -66,7 +79,8 @@ const LeadForm = ({
         },
         body: JSON.stringify({
           ...formData,
-          leadType: leadType
+          leadType: leadType,
+          recaptchaToken,
         })
       })
       

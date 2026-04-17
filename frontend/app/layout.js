@@ -8,6 +8,7 @@ import { getBrandColors } from '../lib/sanity'
 import StickyMobileCTA from '../components/StickyMobileCTA'
 
 const GA_ID = 'G-5MX2NE7C73'
+const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -29,6 +30,9 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
+        {RECAPTCHA_SITE_KEY && (
+          <Script src={`https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`} strategy="afterInteractive" />
+        )}
         <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="afterInteractive" />
         <Script id="gtag-init" strategy="afterInteractive">
           {`window.dataLayer = window.dataLayer || [];
