@@ -13,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from './ui/select'
+import AddressAutocomplete from './AddressAutocomplete'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card'
 import { Phone, Mail, MapPin, Wrench } from 'lucide-react'
 import { toast } from 'sonner'
@@ -180,11 +181,10 @@ const LeadForm = ({
               <MapPin className="w-4 h-4 text-gray-500" />
               Service Address *
             </Label>
-            <Input
+            <AddressAutocomplete
               id="serviceAddress"
-              type="text"
               value={formData.serviceAddress}
-              onChange={(e) => handleInputChange('serviceAddress', e.target.value)}
+              onChange={(value) => handleInputChange('serviceAddress', value)}
               required
               className="h-12 border-gray-300 focus:border-electric-blue focus:ring-electric-blue"
               placeholder="123 Main St, Dallas, TX 75201"
