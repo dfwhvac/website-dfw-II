@@ -23,6 +23,17 @@ const SimpleContactForm = ({
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleInputChange = (field, value) => {
+    if (field === 'phone') {
+      const digits = value.replace(/\D/g, '').slice(0, 10)
+      let formatted = ''
+      if (digits.length > 0) formatted = '(' + digits.slice(0, 3)
+      if (digits.length >= 3) formatted += ') '
+      if (digits.length > 3) formatted += digits.slice(3, 6)
+      if (digits.length >= 6) formatted += '-'
+      if (digits.length > 6) formatted += digits.slice(6, 10)
+      setFormData(prev => ({ ...prev, phone: formatted }))
+      return
+    }
     setFormData(prev => ({ ...prev, [field]: value }))
   }
 
@@ -31,8 +42,7 @@ const SimpleContactForm = ({
     setIsSubmitting(true)
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL || process.env.REACT_APP_BACKEND_URL || ''
-      const response = await fetch(`${apiUrl}/api/leads`, {
+      const response = await fetch('/api/leads', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
