@@ -32,10 +32,9 @@ const defaultNavigation = [
       { label: 'Commercial Maintenance', href: '/services/commercial/commercial-maintenance' },
     ]
   },
-  // NOTE: Recent Projects temporarily removed - redirects to /reviews
-  // Re-add when static Showcase Projects page is built (see PRD.md)
   { label: 'About', href: '/about', isDropdown: false, isVisible: true },
   { label: 'Reviews', href: '/reviews', isDropdown: false, isVisible: true },
+  { label: 'Recent Projects', href: '/recent-projects', isDropdown: false, isVisible: true },
   { label: 'FAQ', href: '/faq', isDropdown: false, isVisible: true },
 ]
 

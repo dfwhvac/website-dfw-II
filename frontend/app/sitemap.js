@@ -14,8 +14,8 @@ export default async function sitemap() {
     { url: '/reviews', priority: 0.7, changeFrequency: 'weekly' },
     { url: '/faq', priority: 0.6, changeFrequency: 'monthly' },
     { url: '/estimate', priority: 0.8, changeFrequency: 'monthly' },
-    // NOTE: /recent-projects is built but not yet in sitemap or nav
-    // Add when content is populated and page is ready to go live
+    // /recent-projects is live with RealWork widget
+    { url: '/recent-projects', priority: 0.7, changeFrequency: 'weekly' },
     { url: '/cities-served', priority: 0.8, changeFrequency: 'monthly' },
     { url: '/privacy-policy', priority: 0.3, changeFrequency: 'yearly' },
     { url: '/terms-of-service', priority: 0.3, changeFrequency: 'yearly' },
