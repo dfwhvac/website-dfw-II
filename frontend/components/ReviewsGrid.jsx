@@ -7,7 +7,7 @@ import { Button } from './ui/button'
 
 const REVIEWS_PER_PAGE = 10
 
-const ReviewsGrid = ({ testimonials = [], googleReviews = 130 }) => {
+const ReviewsGrid = ({ testimonials = [], googleReviews = 145 }) => {
   const [displayCount, setDisplayCount] = useState(REVIEWS_PER_PAGE)
   
   // Filter out reviews with blank text

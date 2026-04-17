@@ -36,7 +36,7 @@ export default async function ReviewsPage() {
   
   // Use Sanity testimonials if available, otherwise mock data
   const testimonials = sanityTestimonials?.length > 0 ? sanityTestimonials : mockTestimonials
-  const googleReviews = companyInfo?.googleReviews || 130
+  const googleReviews = companyInfo?.googleReviews || 145
   
   // Page content with fallbacks
   const pageContent = {
