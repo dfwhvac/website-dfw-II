@@ -41,8 +41,13 @@ async function getMongoClient() {
 
 // Verify reCAPTCHA token with Google
 async function verifyRecaptcha(token) {
-  if (!RECAPTCHA_SECRET_KEY || !token) {
+  if (!RECAPTCHA_SECRET_KEY) {
+    // Secret key not configured — skip verification entirely
     return { success: true, score: 1.0, skipped: true }
+  }
+  if (!token) {
+    // No token provided (bot skipping, ad blocker, or very old browser) — flag as blocked
+    return { success: false, score: 0, skipped: false }
   }
   try {
     const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
