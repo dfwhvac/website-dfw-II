@@ -6,7 +6,8 @@ import { Input } from './ui/input'
 const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY || ''
 
 // DFW metroplex center (DFW Airport area) with ~60 mile radius
-const DFW_CENTER = { lat: 32.8998, lng: -97.0403 }
+const DFW_LAT = 32.8998
+const DFW_LNG = -97.0403
 const DFW_RADIUS = 96560 // ~60 miles in meters
 
 let googleMapsLoaded = false
@@ -36,36 +37,29 @@ function loadGoogleMaps() {
 
 const AddressAutocomplete = ({ value, onChange, id, className, placeholder, required }) => {
   const inputRef = useRef(null)
-  const autocompleteRef = useRef(null)
+  const serviceRef = useRef(null)
   const [initialized, setInitialized] = useState(false)
   const [suggestions, setSuggestions] = useState([])
   const [showSuggestions, setShowSuggestions] = useState(false)
-  const [sessionToken, setSessionToken] = useState(null)
+  const sessionTokenRef = useRef(null)
   const debounceRef = useRef(null)
   const containerRef = useRef(null)
-
-  const stableOnChange = useCallback(onChange, [onChange])
 
   useEffect(() => {
     if (!GOOGLE_MAPS_API_KEY || initialized) return
 
     loadGoogleMaps().then(() => {
-      if (autocompleteRef.current) return
-
+      if (serviceRef.current) return
       try {
-        // Try new PlaceAutocompleteElement API first
-        if (window.google?.maps?.places?.AutocompleteService) {
-          autocompleteRef.current = new window.google.maps.places.AutocompleteService()
-          setSessionToken(new window.google.maps.places.AutocompleteSessionToken())
-          setInitialized(true)
-        }
+        serviceRef.current = new window.google.maps.places.AutocompleteService()
+        sessionTokenRef.current = new window.google.maps.places.AutocompleteSessionToken()
+        setInitialized(true)
       } catch (e) {
-        console.warn('Places API initialization error:', e)
+        console.warn('Places API init error:', e)
       }
     })
   }, [initialized])
 
-  // Close suggestions when clicking outside
   useEffect(() => {
     const handleClick = (e) => {
       if (containerRef.current && !containerRef.current.contains(e.target)) {
@@ -77,7 +71,7 @@ const AddressAutocomplete = ({ value, onChange, id, className, placeholder, requ
   }, [])
 
   const fetchSuggestions = useCallback((input) => {
-    if (!autocompleteRef.current || !input || input.length < 3) {
+    if (!serviceRef.current || !input || input.length < 3) {
       setSuggestions([])
       setShowSuggestions(false)
       return
@@ -86,43 +80,39 @@ const AddressAutocomplete = ({ value, onChange, id, className, placeholder, requ
     if (debounceRef.current) clearTimeout(debounceRef.current)
 
     debounceRef.current = setTimeout(() => {
-      autocompleteRef.current.getPlacePredictions(
-        {
-          input,
-          types: ['address'],
-          componentRestrictions: { country: 'us' },
-          locationBias: {
-            center: DFW_CENTER,
-            radius: DFW_RADIUS,
-          },
-          sessionToken,
-        },
-        (predictions, status) => {
-          if (status === window.google.maps.places.PlacesServiceStatus.OK && predictions) {
-            setSuggestions(predictions)
-            setShowSuggestions(true)
-          } else {
-            setSuggestions([])
-            setShowSuggestions(false)
-          }
+      const request = {
+        input,
+        types: ['address'],
+        componentRestrictions: { country: 'us' },
+        location: new window.google.maps.LatLng(DFW_LAT, DFW_LNG),
+        radius: DFW_RADIUS,
+        sessionToken: sessionTokenRef.current,
+      }
+
+      serviceRef.current.getPlacePredictions(request, (predictions, status) => {
+        if (status === window.google.maps.places.PlacesServiceStatus.OK && predictions) {
+          setSuggestions(predictions)
+          setShowSuggestions(true)
+        } else {
+          setSuggestions([])
+          setShowSuggestions(false)
         }
-      )
+      })
     }, 300)
-  }, [sessionToken])
+  }, [])
 
   const handleSelect = useCallback((prediction) => {
-    stableOnChange(prediction.description)
+    onChange(prediction.description)
     setSuggestions([])
     setShowSuggestions(false)
-    // Create new session token for next search
-    setSessionToken(new window.google.maps.places.AutocompleteSessionToken())
-  }, [stableOnChange])
+    sessionTokenRef.current = new window.google.maps.places.AutocompleteSessionToken()
+  }, [onChange])
 
   const handleInputChange = useCallback((e) => {
     const val = e.target.value
-    stableOnChange(val)
+    onChange(val)
     fetchSuggestions(val)
-  }, [stableOnChange, fetchSuggestions])
+  }, [onChange, fetchSuggestions])
 
   return (
     <div ref={containerRef} style={{ position: 'relative' }}>
