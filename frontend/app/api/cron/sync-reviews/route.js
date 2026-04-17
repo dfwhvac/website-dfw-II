@@ -6,9 +6,14 @@ const SANITY_PROJECT_ID = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'iar2b790
 const SANITY_DATASET = process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'
 const SANITY_API_TOKEN = process.env.SANITY_API_TOKEN
 
+const CRON_SECRET = process.env.CRON_SECRET
+
 export async function GET(request) {
-  // Verify cron secret (optional security)
+  // Verify cron secret — reject unauthorized requests
   const authHeader = request.headers.get('authorization')
+  if (CRON_SECRET && authHeader !== `Bearer ${CRON_SECRET}`) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
   
   try {
     // Fetch from Google Places API

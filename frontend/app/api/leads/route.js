@@ -10,6 +10,23 @@ const NOTIFICATION_EMAIL = process.env.NOTIFICATION_EMAIL || 'support@dfwhvac.co
 const RECAPTCHA_SECRET_KEY = process.env.RECAPTCHA_SECRET_KEY || ''
 const RECAPTCHA_THRESHOLD = 0.4
 
+// In-memory rate limiter: max 5 submissions per IP per 15 minutes
+const RATE_LIMIT_MAX = 5
+const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000
+const rateLimitMap = new Map()
+
+function isRateLimited(ip) {
+  const now = Date.now()
+  const entry = rateLimitMap.get(ip)
+  if (!entry || now - entry.windowStart > RATE_LIMIT_WINDOW_MS) {
+    rateLimitMap.set(ip, { windowStart: now, count: 1 })
+    return false
+  }
+  entry.count++
+  if (entry.count > RATE_LIMIT_MAX) return true
+  return false
+}
+
 // Email routing configuration
 const LEAD_EMAIL_CONFIG = {
   service: {
@@ -64,11 +81,29 @@ async function verifyRecaptcha(token) {
   }
 }
 
+// Escape HTML to prevent XSS in email templates
+function escapeHtml(str) {
+  if (!str) return ''
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;')
+}
+
 function buildEmailHtml({ lead, leadId, fullName, actionText, highlightColor, emailConfig }) {
+  const safeName = escapeHtml(fullName)
+  const safePhone = escapeHtml(lead.phone)
+  const safeEmail = escapeHtml(lead.email)
+  const safeAddress = escapeHtml(lead.serviceAddress)
+  const safeSystems = escapeHtml(lead.numSystems)
+  const safeDescription = escapeHtml(lead.problemDescription)
+
   return `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
       <div style="background-color: #003153; color: white; padding: 20px; text-align: center;">
-        <h1 style="margin: 0;">${emailConfig.emoji} New ${lead.leadType.charAt(0).toUpperCase() + lead.leadType.slice(1)} Lead</h1>
+        <h1 style="margin: 0;">${emailConfig.emoji} New ${escapeHtml(lead.leadType.charAt(0).toUpperCase() + lead.leadType.slice(1))} Lead</h1>
       </div>
       <div style="padding: 20px; background-color: #f9f9f9;">
         <h2 style="color: ${highlightColor}; margin-top: 0;">Action Required</h2>
@@ -78,33 +113,33 @@ function buildEmailHtml({ lead, leadId, fullName, actionText, highlightColor, em
           <table style="width: 100%; border-collapse: collapse;">
             <tr>
               <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Name:</strong></td>
-              <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${fullName}</td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${safeName}</td>
             </tr>
             <tr>
               <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Phone:</strong></td>
               <td style="padding: 8px 0; border-bottom: 1px solid #eee;">
-                <a href="tel:${lead.phone}" style="color: #FF0000; font-weight: bold; font-size: 18px;">${lead.phone}</a>
+                <a href="tel:${safePhone}" style="color: #FF0000; font-weight: bold; font-size: 18px;">${safePhone}</a>
               </td>
             </tr>
             <tr>
               <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Email:</strong></td>
               <td style="padding: 8px 0; border-bottom: 1px solid #eee;">
-                <a href="mailto:${lead.email}">${lead.email}</a>
+                <a href="mailto:${safeEmail}">${safeEmail}</a>
               </td>
             </tr>
-            ${lead.serviceAddress ? `<tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Service Address:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${lead.serviceAddress}</td></tr>` : ''}
-            ${lead.numSystems ? `<tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>HVAC Systems:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${lead.numSystems}</td></tr>` : ''}
+            ${safeAddress ? `<tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Service Address:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${safeAddress}</td></tr>` : ''}
+            ${safeSystems ? `<tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>HVAC Systems:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${safeSystems}</td></tr>` : ''}
           </table>
         </div>
-        ${lead.problemDescription ? `
+        ${safeDescription ? `
         <div style="background-color: white; padding: 20px; border-radius: 8px;">
           <h3 style="color: #003153; margin-top: 0;">Message / Details</h3>
-          <p style="background-color: #f5f5f5; padding: 15px; border-radius: 4px; margin: 0;">${lead.problemDescription}</p>
+          <p style="background-color: #f5f5f5; padding: 15px; border-radius: 4px; margin: 0;">${safeDescription}</p>
         </div>` : ''}
         <div style="margin-top: 20px; padding: 15px; background-color: #e8f5e9; border-radius: 8px; text-align: center;">
           <p style="margin: 0; color: #2e7d32;">
             <strong>Lead ID:</strong> ${leadId}<br>
-            <strong>Type:</strong> ${lead.leadType.charAt(0).toUpperCase() + lead.leadType.slice(1)}<br>
+            <strong>Type:</strong> ${escapeHtml(lead.leadType.charAt(0).toUpperCase() + lead.leadType.slice(1))}<br>
             <small>Submitted: ${new Date().toUTCString()}</small>
           </p>
         </div>
@@ -117,6 +152,15 @@ function buildEmailHtml({ lead, leadId, fullName, actionText, highlightColor, em
 
 export async function POST(request) {
   try {
+    // Rate limiting by IP
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
+    if (isRateLimited(ip)) {
+      return NextResponse.json(
+        { success: false, message: 'Too many submissions. Please try again later or call us directly.' },
+        { status: 429 }
+      )
+    }
+
     const lead = await request.json()
 
     // Validate required fields
