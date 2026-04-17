@@ -13,7 +13,7 @@ The Header and Footer components now support dynamic content from Sanity CMS. Un
    - Click **"Create new document"** (or the + button)
 
 3. **Configure Header Settings**:
-   - **Header Tagline**: "Serving Dallas-Fort Worth Since 1974"
+   - **Header Tagline**: "Three Generations of Trusted HVAC Service in DFW"
    - **Header CTA Button Text**: "Call Now"
    - **Show Header Tagline**: ✓ (checked)
 
@@ -48,7 +48,7 @@ The Header and Footer components now support dynamic content from Sanity CMS. Un
    | Book Service | /book-service | Primary (Filled) |
 
 6. **Configure Footer Settings**:
-   - **Footer Tagline**: "Trusted HVAC contractor serving Dallas-Fort Worth and surrounding areas for over 50 years. Quality service, reliable solutions."
+   - **Footer Tagline**: "Expert HVAC service with integrity and care. A three-generation family commitment to quality workmanship in Dallas-Fort Worth."
    - **Copyright Text**: "© {year} DFW HVAC. All rights reserved." (The {year} will be replaced with current year automatically)
    - **Show Service Areas**: ✓ (checked)
    - **Show Business Hours**: ✓ (checked)

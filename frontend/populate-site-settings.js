@@ -61,7 +61,7 @@ const siteSettings = {
   ],
   
   // Footer Settings
-  footerTagline: 'Trusted HVAC contractor serving Dallas-Fort Worth and surrounding areas for over 50 years. Quality service, reliable solutions.',
+  footerTagline: 'Expert HVAC service with integrity and care. A three-generation family commitment to quality workmanship in Dallas-Fort Worth.',
   
   footerSections: [
     {
