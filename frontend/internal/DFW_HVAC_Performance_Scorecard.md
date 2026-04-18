@@ -49,6 +49,45 @@
 
 ---
 
+## Conversion Metrics
+
+*Source: Google Analytics 4 (GA4) — requires conversion event setup*
+
+| Metric | What It Measures | Target | Baseline | Q3 2026 | Q4 2026 | Q1 2027 |
+|--------|-----------------|--------|----------|---------|---------|---------|
+| Form completion rate | % of visitors who start a form and submit | > 30% | Not yet tracked | — | — | — |
+| Click-to-call rate (mobile) | % of mobile visitors who tap phone number | > 5% | Not yet tracked | — | — | — |
+| Bounce rate | % of visitors who leave without interaction | < 50% | Not yet tracked | — | — | — |
+| Pages per session | Average pages viewed per visit | > 2.0 | Not yet tracked | — | — | — |
+
+**Action needed:** Set up GA4 conversion events for form submissions and click-to-call. Currently GA4 tracks pageviews only.
+
+---
+
+## Uptime & Reliability
+
+| Metric | Target | Baseline (Apr 17, 2026) | Post-Upgrade | Q3 2026 | Q4 2026 | Q1 2027 |
+|--------|--------|------------------------|--------------|---------|---------|---------|
+| Site uptime | 99.9% | Vercel-managed (no incidents) | — | — | — | — |
+| API response time (`/api/leads`) | < 500ms | **290ms** (warm) | — | — | — | — |
+| Homepage response time | < 1s | **450ms** (warm) | — | — | — | — |
+| Cron job (`sync-reviews`) | Runs daily at 6AM UTC | Authenticated, HTTP 200 | — | — | — | — |
+
+---
+
+## Security Posture
+
+| Metric | Target | Baseline (Apr 17, 2026) | Post-Upgrade | Q3 2026 | Q4 2026 | Q1 2027 |
+|--------|--------|------------------------|--------------|---------|---------|---------|
+| Dependency vulnerabilities (total) | 0 | **23** (11 high, 12 moderate) | — | — | — | — |
+| Security headers present | 6/6 | **6/6** | — | — | — | — |
+| reCAPTCHA block rate | < 20% normal; investigate if > 50% | 0% (just deployed) | — | — | — | — |
+| Rate limit triggers | Near 0 under normal traffic | 0 (just deployed) | — | — | — | — |
+| Cron endpoint protected | Rejects unauthenticated requests | **Yes** (401 on unauth) | — | — | — | — |
+| Input sanitization | All user input escaped in emails | **Yes** | — | — | — | — |
+
+---
+
 ## Security Headers
 
 | Header | Expected Value | Baseline | Post-Upgrade |

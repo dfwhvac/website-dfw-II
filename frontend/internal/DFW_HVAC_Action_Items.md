@@ -16,6 +16,8 @@
 
 5. **Internal linking audit** — Cross-link services and city pages for SEO. Ensure proper link structure between related content.
 
+5a. **GA4 conversion event setup** — Configure form submission and click-to-call as conversion events in Google Analytics to enable conversion metric tracking on the scorecard.
+
 ---
 
 ## P2 — Important
