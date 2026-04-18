@@ -1,0 +1,40 @@
+{
+  "summary": "Regression testing of Next.js 14->15 + React 18->19 upgrade for DFW HVAC site. 26/26 pytest cases pass (page routes, redirects, security headers, /api/leads validation/happy-path/sanitization/rate-limit, /api/cron auth). End-to-end UI flows verified: request-service and contact lead forms submit successfully (POST /api/leads -> 200, success toasts show). No React 19 hydration errors, no page errors, navigation works, footer works. All `await params` dynamic pages (/about, /contact, /cities-served/plano, /services/residential/indoor-air-quality) render correctly.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_dfw_hvac.py",
+    "/app/test_reports/pytest/pytest_results.xml"
+  ],
+  "action_items": [
+    "OPTIONAL: Add `name` and `data-testid` attributes to LeadForm/SimpleContactForm inputs (firstName, lastName, email, phone, problemDescription, etc.). Currently only placeholders identify fields, making automated testing and form DevTools inspection harder.",
+    "OPTIONAL: CSP in next.config.js `script-src` does not allow `https://static.cloudflareinsights.com`. In preview environment, Cloudflare injects a beacon script that is blocked by CSP (console errors). Not app-caused, but if the same proxy is used in prod, either allow the domain or suppress the beacon. The `frame-ancestors` CSP is report-only and firing for a Google Maps iframe frame-ancestors violation — low risk.",
+    "INFO: Google Maps JS API loaded without `loading=async` and uses deprecated `google.maps.places.Autocomplete` — Google deprecation warnings only, not upgrade-related."
+  ],
+  "critical_code_review_comments": [
+    "Form inputs in LeadForm.jsx / SimpleContactForm.jsx lack `name` and `data-testid` attributes — reduces testability and accessibility tooling compatibility.",
+    "In-memory rate-limit map (/app/frontend/app/api/leads/route.js line 16) does not scale beyond a single Node process; fine for this single-instance deploy but flag for future horizontal scaling.",
+    "`await params` pattern is correctly applied in all three dynamic page files ([slug], services/[category]/[slug], cities-served/[slug]) — Next 15 compliance verified.",
+    "reCAPTCHA graceful fallback is correct: when secret missing or Google unreachable, submissions proceed with recaptchaScore=null (as described by main agent)."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_dfw_hvac.py (created)"
+  ],
+  "success_rate": {
+    "backend": "100% (26/26 pytest cases)",
+    "frontend": "100% (all critical flows: 4 dynamic pages, 2 nav clicks, 2 lead form submissions, footer)"
+  },
+  "test_credentials": "CRON_SECRET read from /app/frontend/.env.local; reCAPTCHA uses graceful fallback on preview (domain not whitelisted) — all POST /api/leads submissions return 200 with lead_id.",
+  "seed_data_creation": "Several TEST_ lead records created in MongoDB during rate-limit, sanitization, happy-path, and UI form tests. Per instructions, these were NOT deleted.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "IMPORTANT ENV ROUTING QUIRK: The preview ingress (REACT_APP_BACKEND_URL) routes /api/* to the FastAPI backend on port 8001, NOT to Next.js API routes. For this Next.js-only app, the Next.js API routes (/api/leads, /api/cron/sync-reviews) are ONLY reachable at http://localhost:3000 from inside the container. However, when the browser hits the preview URL the Next.js frontend on :3000 serves everything (since the ingress reroute does not apply when the page itself is served by Next.js and uses relative fetches). So browser-initiated lead form POSTs to /api/leads DO work via preview URL (confirmed: 200 OK during UI test). Direct curl POST from outside goes to FastAPI and returns 422. test_dfw_hvac.py hits http://localhost:3000 directly for /api/leads and /api/cron tests. To reset rate-limit map between runs: `sudo supervisorctl restart frontend`. Baseline v14 screenshots live at /app/frontend/internal/baseline-screenshots/.",
+  "rca of the issue": "N/A — no upgrade regressions found. React 19 + Next.js 15.5.5 upgrade is clean: no hydration warnings, no pageerror events, all dynamic `await params` routes render, security headers intact, all redirects (301) work, and both lead forms submit end-to-end with real MongoDB persistence and Resend email delivery."
+}
