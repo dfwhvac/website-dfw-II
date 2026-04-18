@@ -1,6 +1,6 @@
 # DFW HVAC — Product Requirements Document
 
-**Last Updated:** April 18, 2026
+**Last Updated:** April 19, 2026
 
 ---
 
@@ -10,7 +10,7 @@ Build a premium, conversion-focused website for DFW HVAC using Next.js frontend 
 
 ## Architecture
 
-- **Frontend:** Next.js 14.2.35 (App Router) deployed on Vercel
+- **Frontend:** Next.js 15.5.5 (App Router) + React 19.2.5 deployed on Vercel
 - **CMS:** Sanity.io (headless CMS)
 - **Database:** MongoDB Atlas (leads collection)
 - **Email:** Resend API (lead notifications)
@@ -18,6 +18,22 @@ Build a premium, conversion-focused website for DFW HVAC using Next.js frontend 
 - **APIs:** Google Maps/Places, Google reCAPTCHA v3, RealWork widget
 
 ## What's Been Implemented
+
+### Session: April 19, 2026 — Next.js 14 → 15 Upgrade
+- Upgraded `next` 14.2.35 → **15.5.5**, `react` 18.2.0 → **19.2.5**, `react-dom` 18.2.0 → **19.2.5**, `eslint-config-next` 14 → **15.5.15**
+- Verified all dynamic route pages already use the Next 15 `await params` async pattern — no code changes needed
+- Removed extraneous lockfiles (`/app/frontend/package-lock.json`, empty `/app/yarn.lock`) that confused Next.js workspace detection
+- `yarn build` passes with no errors; all 11 static pages + dynamic routes compile successfully
+- **Testing (testing_agent_v3_fork iteration_1):** 26/26 pytest cases pass; all critical flows verified end-to-end
+  - All 14 page routes HTTP 200 (home, about, contact, services, service detail, cities-served, city detail, reviews, faq, estimate, request-service, recent-projects, privacy, terms)
+  - `/api/leads` validation (400), happy-path (200 + MongoDB persistence), rate-limit (5/15min enforced), HTML sanitization — all pass
+  - `/api/cron/sync-reviews` auth (401 without Bearer, proceeds with CRON_SECRET)
+  - Lead forms on /contact, /request-service, /estimate submit successfully end-to-end
+  - All 6 legacy redirects (301) still work (/scheduleservicecall, /installation, /iaq, /ducting, /seasonalmaintenance, /testresults)
+  - Security headers intact (CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy)
+  - **Zero React 19 hydration warnings, zero page errors, zero visual regressions** vs baseline screenshots
+- Pytest regression suite created at `/app/backend/tests/test_dfw_hvac.py` for future runs
+- Resolves 5 known Next.js 14 CVEs (DoS, request smuggling) and 23 npm vulnerabilities
 
 ### Session: April 17-18, 2026
 - Address autocomplete verified working on all 5 form pages
@@ -54,7 +70,7 @@ Build a premium, conversion-focused website for DFW HVAC using Next.js frontend 
 ## Prioritized Backlog
 
 ### High Priority
-1. Next.js upgrade (14→15+) + npm vulnerability fixes (23 vulnerabilities)
+1. ~~Next.js upgrade (14→15+) + npm vulnerability fixes~~ ✅ **DONE Apr 19, 2026** (now on 15.5.5 + React 19)
 2. Audit site for speed, SEO, and conversion
 3. Google Search Console setup
 4. Pre-launch verification (mobile, cross-browser, broken links)
