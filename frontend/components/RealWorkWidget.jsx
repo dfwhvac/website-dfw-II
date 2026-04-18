@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from 'react'
 
+const REALWORK_ID = process.env.NEXT_PUBLIC_REALWORK_ID || ''
+
 /**
  * RealWork Widget Component
  * 
@@ -28,7 +30,7 @@ const RealWorkWidget = () => {
     // Add event listener for when the plugin is ready
     const handlePluginReady = () => {
       if (window.rwlPlugin) {
-        window.rwlPlugin.init('https://app.realworklabs.com', 'mTNPdsX-K4WXweP6')
+        window.rwlPlugin.init('https://app.realworklabs.com', REALWORK_ID)
       }
     }
 
