@@ -1,67 +1,87 @@
-<analysis>**original_problem_statement:**
-The user's primary goal is to build a premium, conversion-focused website for their HVAC company, DFW HVAC, using a Next.js frontend and a Sanity.io CMS. The strategy is built around a phone-first, form-second conversion model. Recent focus shifted toward properly decommissioning an old RealWork widget, mapping 301 redirects from their old Wix website, and creating a specialized intake funnel for a Preventative Maintenance plan using an external JotForm.
+<analysis>**original_problem_statement:** 
+The user wants to finalize a premium Next.js/Sanity website for DFW HVAC. The primary goal for the incoming agent is to execute a major framework upgrade from Next.js 14 to Next.js 15 to resolve high-severity security vulnerabilities. All pre-upgrade preparation (baseline screenshots, performance scorecard, and package backups) has been completed in the previous session.
+
+PRODUCT REQUIREMENTS: Maintain a high-converting, secure, and performant HVAC lead generation funnel. Forms are protected by reCAPTCHA v3. The site relies on a headless Sanity CMS and native Next.js API routes connected to MongoDB and Resend.
 
 **User's preferred language**: English
-*(INSTRUCT next agent to respond in English only)*
+(INSTRUCT next agent to respond in English only)
 
 **what currently exists?** 
-A Next.js 14 application with a Sanity.io CMS backend. The site uses a unified  conversion page for most services. The old RealWork widget page () has been removed from navigation and sitemaps, with a 307 temporary redirect to  active until a new static showcase page is built. 301 redirects mapping old Wix URLs to the new Next.js routes have been implemented in . The Preventative Maintenance service page has been customized to route users to an external JotForm instead of the standard internal lead form.
+A live Next.js 14 application with a Sanity CMS, deployed to Vercel (). Forms () are fully protected via Google reCAPTCHA v3, IP-based rate limiting, and HTML input sanitization. The  page is live with a RealWork widget. All sensitive internal documents have been safely moved to . Pre-upgrade baselines (Lighthouse metrics and visual screenshots of 13 key pages) are saved in the  directory.
 
-**Last working item**:
-- **Last item agent was working:** Extensive consulting and debugging of conditional logic for the user's external JotForm (calculating maintenance costs based on the number of systems and optional filter add-ons). Prior to that, modifying the Next.js codebase to link the Preventative Maintenance page CTAs to this JotForm.
-- **Status:** COMPLETED
-- **Agent Testing Done:** Y (For website code changes)
-- **Which testing method agent to use?** NA (App code is stable; JotForm logic is configured externally by the user)
-- **User Testing Done:** N/A
+**Last working item**: 
+- **Last item agent was working:** Preparing the environment for a Next.js 14 to Next.js 15 upgrade. The agent successfully generated baseline performance metrics (), captured baseline visual screenshots (), and backed up the  and .
+- **Status:** NOT STARTED (The prep work is finished; the actual code upgrade has not begun)
+- **Agent Testing Done:** Y (Captured baselines via Playwright script and Lighthouse)
+- **Which testing method agent to use?** both (Frontend screenshot tests to compare against baselines, and backend testing for API routes).
+- **User Testing Done:** N
 
-**All Pending/In progress Issue list**:
-Issue 1: Failed Modal Implementation (P2)
-- Attempted fixes: A previous agent attempted a site-wide modal for the Request Service form, which crashed the site due to a client component hydration error clashing with Sanity data ( returning ).
-- Next debug checklist: Fix Sanity data fetching to handle  values gracefully before converting components to client-side.
-- Why fix this issue and what will be achieved with the fix? Low priority. User opted for a dedicated page instead of a modal. Fixing it would just clean up latent technical debt regarding Sanity data fetching.
-- Status: BLOCKED (by user preference for dedicated page)
+**All Pending/In progress Issue list**: 
+Issue 1: Next.js 14.2.35 and npm vulnerabilities (P0 - HIGHEST PRIORITY)
+- Attempted fixes: Preparation completed (baselines taken, packages backed up).
+- Next debug checklist: Follow Next.js 15 migration guide. Upgrade , , and . Resolve breaking changes (e.g., React 19 requirements,  changes, removing empty experimental config blocks).
+- Why fix this issue and what will be achieved with the fix? Resolves 5 known high-severity CVEs in Next.js 14 and 23 npm vulnerabilities. Secures the application against DoS and request smuggling.
+- Status: NOT STARTED
+- Is recurring issue? N
+- Should Test frontend/backend/both after fix? both
+- Blocked on other issue: None.
+
+Issue 2: Custom Meta Descriptions (P2)
+- Attempted fixes: None.
+- Next debug checklist: Update 7 Service Pages & 28 City Pages in Sanity CMS to replace generic fallbacks.
+- Why fix this issue and what will be achieved with the fix? Improves local SEO and click-through rates.
+- Status: NOT STARTED
 - Is recurring issue? N
 - Should Test frontend/backend/both after fix? Frontend
-- Blocked on other issue: User decision.
 
-**In progress Task List**:
-*None active at the moment. The session ended at a clean stopping point.*
+Issue 3: 50+ cities Claim Cleanup (P2)
+- Attempted fixes: None.
+- Next debug checklist: Audit remaining files incorrectly stating 50+ cities as the service area and correct them.
+- Why fix this issue and what will be achieved with the fix? Ensures brand accuracy (Sanity currently lists ~28 cities).
+- Status: NOT STARTED
+- Is recurring issue? N
+- Should Test frontend/backend/both after fix? Frontend
 
-**Upcoming and Future Tasks**:
+Issue 4: Latent Sanity Data Bug (P3)
+- Attempted fixes: None recently.
+- Next debug checklist: Update  to handle  responses gracefully.
+- Why fix this issue and what will be achieved with the fix? Prevents React hydration errors if server components are ever made client-side.
+- Status: NOT STARTED
+- Is recurring issue? Y
+- Should Test frontend/backend/both after fix? Frontend
+
+**In progress Task List**: 
+*(No active tasks; the session was cleanly wrapped up to prepare for the Next.js upgrade).*
+
+**Upcoming and Future Tasks**: 
 Upcoming Tasks:
-- Pre-Launch (P0): Go Live - DNS Cutover. In GoDaddy, change nameservers from Wix to Vercel and add the domain to the Vercel project.
-- Post-Launch (P1): Resend Domain Verification. Add necessary DNS records to enable lead notification emails.
-- Post-Launch (P1): Google Search Console Setup. Add TXT record and submit sitemap.
-- Post-Launch (P1): Build Showcase Projects Page. Build the static replacement for the RealWork widget, using the plan documented in the PRD, and undo the 307 redirect.
-- Pre-Launch (P1): Verify OG Image. Create a proper 1200x630 branded image at .
-- Pre-Launch (P1): Add FAQ Schema. Implement  structured data on .
+- Audit site for speed, SEO, and conversion (P1)
+- Google Search Console setup (verify domain ownership, submit sitemap) (P1)
+- Pre-launch verification (mobile responsiveness, cross-browser, broken links) (P1)
+- Internal linking audit (cross-link services and city pages for SEO) (P1)
 
 Future Tasks:
-- 50+ cities Claim Cleanup (P2): Audit remaining files incorrectly stating 50+ cities.
-- AI Readiness / AEO (P2): Execute plan in PRD (citation audit, GBP optimization).
-- Expand City Page Content (P2): Improve local SEO.
-- Content Hub / Resources Section (P3): Create  for blog content.
-- Housecall Pro Direct API Integration (P3): Send form submissions directly to CRM.
+- Google Business Profile setup and optimization (P2)
+- Local citations (Yelp, BBB, Angi, etc.) (P2)
+- Production caching mode (webhook revalidation for Sanity updates) (P2)
+- Google Tag Manager (GTM) and Facebook Pixel setup (P2)
+- AI Readiness / AEO (P3)
+- Expand City Page Content (P3)
+- Housecall Pro Direct API Integration (P3)
 
 **Completed work in this session**
-- RealWork Widget Decommissioning (DONE): Removed from header, footer, , and added 307 redirect to .
-- Wix 301 Redirects (DONE): Crawled old Wix site and implemented permanent (308) redirects in .
-- Action Items PDF (DONE): Generated a PDF of pending PRD tasks for the user.
-- JotForm Integration on Preventative Maintenance Page (DONE): Modified  to accept a  prop, altering CTAs to say Join the Program and linking externally to JotForm, hiding the standard internal lead form.
-- JotForm Logic Consulting (DONE): Helped user simplify and debug external JotForm visibility and calculation rules.
+- Removed all false since 1974 claims across code, CMS, and fallbacks (DONE)
+- Fixed business hours to Mon-Fri 7AM-6PM in code, CMS, and fallbacks (DONE)
+- Implemented Google reCAPTCHA v3 on all lead forms with graceful fallback (DONE)
+- Added security headers (CSP, X-Frame-Options) to  (DONE)
+- Locked down  with  authentication (DONE)
+- Added rate limiting and HTML input sanitization to  (DONE)
+- Restored  page and navigation link with RealWork widget (DONE)
+- Moved 14 sensitive internal documents out of  to  (DONE)
+- Captured baseline screenshots and performance metrics for Next.js 15 upgrade (DONE)
 
 **Earlier issues found/mentioned but not fixed**
-Issue 1: OG Image is a Placeholder
-- Debug checklist: Replace  with a properly formatted image.
-- Why to solve this issue and what will be achieved with this? Improves social sharing previews.
-- Should Test frontend/backend/both after fix: Frontend
-- Is recurring issue? N
-
-Issue 2: Latent Sanity Data Bug
-- Debug checklist: Update   to handle  responses gracefully to prevent future React hydration errors.
-- Why to solve this issue and what will be achieved with this? Prevents application crashes if these components are ever made interactive (client-side).
-- Should Test frontend/backend/both after fix: Frontend
-- Is recurring issue? Y (surfaces when converting server components to client components)
+None. Agent successfully logged all remaining requests into .
 
 **Known issue recurrence from previous fork**
 - Issue recurrence in previous fork: None
@@ -72,69 +92,75 @@ Issue 2: Latent Sanity Data Bug
 
 
 **Key Technical Concepts**
-- **Next.js Redirects:** Utilizing  for both temporary routing (307 for decommissioned features) and permanent SEO mapping (308 for old Wix URLs).
-- **Conditional Template Rendering:** Using props () in shared components () to drastically alter page behavior (external JotForm routing vs. internal API lead generation) for a single specific route without duplicating the whole template.
+- Next.js App Router (currently v14.2.35, targeting v15+)
+- Sanity.io Headless CMS with  fallback
+- Vercel deployments & Cron Jobs
+- Google reCAPTCHA v3 integrated for form spam protection.
+- IP-based rate limiting implemented natively in Next.js API routes.
 
 **key DB schema**
-- **leads** (MongoDB Collection):  *(Note: Preventative Maintenance leads now bypass this and go directly to JotForm).*
+-  (MongoDB): 
 
 **changes in tech stack**
-- Added **JotForm** as an external dependency for the Preventative Maintenance intake funnel. (No backend code integration; purely URL linking).
+- Added Google reCAPTCHA v3 validation to API routes.
+- Introduced  directory for securely storing docs outside of the Next.js  directory.
 
 **All files of reference**
-- : Updated with Wix 301s and RealWork 302/307.
-- : Removed decommissioned route.
-- : Added JotForm CTA logic.
-- : Added prop passing for JotForm logic.
-- : Updated with Showcase page specs, redirect mapping, and task lists.
+-  (Target for Next.js 15 upgrade)
+-  (Living task list)
+-  (Baseline metrics to check after upgrade)
+-  (Check for breaking changes during upgrade)
+-  (Form handling with new security rules)
 
 **Areas that need refactoring**:
-- : Fragile data fetching logic returning  needs robust fallback handling.
+- The codebase requires a major upgrade to Next.js 15 and React 19. This will require testing routing, caching, and component hydration patterns to fix breaking changes.
 
 **key api endpoints**
--  (Standard contact form submissions).
+-  (Protected by reCAPTCHA, rate limits, and HTML escaping).
+-  (Requires ).
 
 **Critical Info for New Agent**
-- **The Preventative Maintenance page is unique:**  uses an external JotForm link instead of the site's native  funnel. Do not fix these buttons to point back to the internal funnel.
-- **The  redirect is intentional:** It points to  temporarily until a static showcase page is built post-launch.
-- **Lead notification emails (Resend) are intentionally broken/disabled:** They await DNS migration to Vercel. 
+- **IMMEDIATE TASK:** The user's explicit instruction is: *Proceed with the Next.js 14 to 15 upgrade. All prep work is complete — see the action items and scorecard in /frontend/internal/.* Make this your absolute first step.
+- Compare post-upgrade UI against  to ensure no visual regressions.
+- If the upgrade fails catastrophically, backups exist at .
+- **THE SITE IS LIVE.** Do your testing locally/in the preview environment before committing and pushing to GitHub.
+- DO NOT rely on old preview URLs from this summary. Rely on  or standard Vercel configurations.
 
 **documents and test reports created in this job**
--  (Continuously updated)
--  (Generated for user download)
+- 
+- 
+- 
 
 **Last 10 User Messages and any pending HUMAN messages**
-- **User:** Asks about token limits and if they should fork the session. (Status: Answered, agent recommended forking if moving to new website tasks).
-- **User:** Reports form issue where filter fields show prematurely; pastes rules. (Status: Debugged, agent identified missing default hidden state).
-- **User:** Clarifies they want text element for 5+ systems, struggles to find correct JotForm element. (Status: Resolved, agent guided to correct element).
-- **User:** Refines requirement: only show total fields if Yes to filters is selected. (Status: Implemented logic mapping).
-- **User:** Asks if two fields can add together based on visibility. (Status: Answered, alternative robust logic provided).
-- **User:** Wants custom message displayed if user selects 5+ systems. (Status: Logic provided).
-- **User:** Asks how to calculate the costs based on system numbers in JotForm. (Status: Logic provided).
-- **User:** Provides screenshots of JotForm to have agent simplify the logic rules. (Status: Analyzed, massive cleanup strategy provided).
-- **User:** Explains the math/pricing logic for systems + filter add-ons. (Status: Acknowledged).
-- **User:** Shares details of JotForm conditional field revealing. (Status: Acknowledged).
+- **User:** Yes, run the baseline scorecard. (Status: Done)
+- **User:** Add conversion, uptime, and security metrics to scorecard. (Status: Done)
+- **User:** Have all steps been taken to prepare for the 14 to 15 upgrade? (Status: Agent reviewed guide, backed up files, took screenshots).
+- **User:** Yes [execute backups]. (Status: Done)
+- **User:** Consider if you are approaching token limit. Is it a good idea to fork? (Status: Agent created fork state)
+- **User:** Do I click fork now? After forking will the agent know to proceed with the upgrade to 15 or will I need to instruct it? (Status: PENDING NEXT AGENT ACTION. Agent told user to instruct the new agent to proceed with the Next.js 14 to 15 upgrade).
 
 **Project Health Check:**
-- **Broken:** Email notifications (Resend) - intentional, pending DNS.
-- **Mocked:**  still in codebase.
+- **Broken:** None.
+- **Mocked:**  is intentionally maintained as a fail-safe fallback in case the Sanity CMS goes down.
 
 **3rd Party Integrations**
 - Sanity.io (Headless CMS)
-- Vercel (Hosting)
-- Google Places API (Reviews)
-- Resend (Email API - requires User API Key, currently in backend .env)
-- GoDaddy (DNS)
-- JotForm (External linking only; no API keys in codebase)
+- Vercel (Hosting/Cron)
+- MongoDB Atlas (Cloud Database)
+- Google Places API & Maps JavaScript API (requires User API Key)
+- Resend (Email API - requires User API Key)
+- Google Analytics 4 (GA4 Tracking)
+- Google reCAPTCHA v3 (Spam Protection - requires User API Key)
+- RealWork Widget (External plugin - driven by )
 
 **Testing status**
-- Testing agent used after significant changes: NO (Screenshot tool and curl used successfully for redirect and UI checks).
+- Testing agent used after significant changes: NO (Agent ran custom Python Playwright scripts and curl commands for baseline capture and security validation).
 - Troubleshoot agent used after agent stuck in loop: NO
-- Test files created: None
+- Test files created: 
 - Known regressions: None
 
 **Credentials to test flow:**
-- Resend API key in .
+- All API keys (including new  and ) are present in Vercel and locally in . 
 
 **What agent forgot to execute**
-- Nothing. The agent successfully addressed the UI changes, the redirect tracking, document generation, and acted as a logic consultant for the user's external JotForm setup.</analysis>
+- Nothing. The agent successfully captured the full context, updated all documents, and cleanly halted the session to maximize tokens for the heavy Next.js 15 upgrade task.</analysis>
