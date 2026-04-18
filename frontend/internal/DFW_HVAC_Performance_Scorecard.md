@@ -8,12 +8,12 @@
 
 ## Overall Scores (0-100)
 
-| Category | Target | Baseline (Pre-Upgrade) | Post-Upgrade | Q3 2026 | Q4 2026 | Q1 2027 |
-|----------|--------|----------------------|--------------|---------|---------|---------|
-| Performance | 90+ | — | — | — | — | — |
-| Accessibility | 90+ | — | — | — | — | — |
-| Best Practices | 90+ | — | — | — | — | — |
-| SEO | 90+ | — | — | — | — | — |
+| Category | Target | Baseline (Apr 17, 2026) | Post-Upgrade | Q3 2026 | Q4 2026 | Q1 2027 |
+|----------|--------|------------------------|--------------|---------|---------|---------|
+| Performance | 90+ | **70** | — | — | — | — |
+| Accessibility | 90+ | **86** | — | — | — | — |
+| Best Practices | 90+ | **99** | — | — | — | — |
+| SEO | 90+ | **99** | — | — | — | — |
 
 ---
 
@@ -21,11 +21,11 @@
 
 | Metric | What It Measures | Target | Baseline | Post-Upgrade | Q3 2026 | Q4 2026 | Q1 2027 |
 |--------|-----------------|--------|----------|--------------|---------|---------|---------|
-| First Contentful Paint (FCP) | Time to first visible content | < 1.8s | — | — | — | — | — |
-| Largest Contentful Paint (LCP) | Time to main content load | < 2.5s | — | — | — | — | — |
-| Total Blocking Time (TBT) | Duration page is unresponsive | < 200ms | — | — | — | — | — |
-| Cumulative Layout Shift (CLS) | Visual stability during load | < 0.1 | — | — | — | — | — |
-| Speed Index | How fast visible area fills in | < 3.4s | — | — | — | — | — |
+| First Contentful Paint (FCP) | Time to first visible content | < 1.8s | **1.6s avg** | — | — | — | — |
+| Largest Contentful Paint (LCP) | Time to main content load | < 2.5s | **2.3s avg** | — | — | — | — |
+| Total Blocking Time (TBT) | Duration page is unresponsive | < 200ms | **2,156ms avg** | — | — | — | — |
+| Cumulative Layout Shift (CLS) | Visual stability during load | < 0.1 | **0** | — | — | — | — |
+| Speed Index | How fast visible area fills in | < 3.4s | **2.3s avg** | — | — | — | — |
 
 ---
 
@@ -33,15 +33,19 @@
 
 | Page | Type | Performance | LCP | CLS | Notes |
 |------|------|-------------|-----|-----|-------|
-| `/` | Homepage | — | — | — | Primary landing page |
-| `/request-service` | Lead form | — | — | — | Key conversion page |
-| `/services/residential/air-conditioning` | Service page | — | — | — | Representative service page |
-| `/cities-served/dallas` | City page | — | — | — | Representative city page |
-| `/reviews` | Reviews | — | — | — | Heavy content load |
-| `/contact` | Contact | — | — | — | SimpleContactForm |
-| `/recent-projects` | Projects | — | — | — | RealWork widget (3rd party) |
-| `/about` | About | — | — | — | Company info |
-| `/faq` | FAQ | — | — | — | Accordion content |
+| `/` | Homepage | 69 | 2.1s | 0 | Heaviest page, most components |
+| `/request-service` | Lead form | 67 | 2.7s | 0 | Address autocomplete + Google Maps script |
+| `/estimate` | Estimate form | 68 | 2.6s | 0 | BookServicePage variant |
+| `/contact` | Contact | 72 | 2.3s | 0 | SimpleContactForm + CompanyPageTemplate |
+| `/services` | Service index | 71 | 2.1s | 0 | Service listing page |
+| `/services/residential/air-conditioning` | Service page (residential) | 67 | 2.4s | 0 | Residential service template |
+| `/services/commercial/commercial-air-conditioning` | Service page (commercial) | 67 | 2.6s | 0 | Commercial service template |
+| `/cities-served` | City index | 72 | 2.4s | 0 | City listing page |
+| `/cities-served/dallas` | City page | 72 | 2.1s | 0 | Heaviest city page (most zip codes) |
+| `/reviews` | Reviews | 71 | 2.1s | 0 | 100+ testimonials, heaviest data load |
+| `/recent-projects` | Projects | 68 | 2.5s | 0 | RealWork 3rd party widget |
+| `/about` | About | 71 | 1.8s | 0 | AboutPageTemplate — best LCP |
+| `/faq` | FAQ | 73 | 2.4s | 0 | Accordion component — best performance |
 
 ---
 
@@ -49,12 +53,12 @@
 
 | Header | Expected Value | Baseline | Post-Upgrade |
 |--------|---------------|----------|--------------|
-| X-Frame-Options | DENY | — | — |
-| Content-Security-Policy | (full policy) | — | — |
-| X-Content-Type-Options | nosniff | — | — |
-| Referrer-Policy | strict-origin-when-cross-origin | — | — |
-| Permissions-Policy | camera=(), microphone=(), geolocation=() | — | — |
-| Strict-Transport-Security | max-age=63072000 | — | — |
+| X-Frame-Options | DENY | DENY | — |
+| Content-Security-Policy | (full policy) | Present | — |
+| X-Content-Type-Options | nosniff | nosniff | — |
+| Referrer-Policy | strict-origin-when-cross-origin | Present | — |
+| Permissions-Policy | camera=(), microphone=(), geolocation=() | Present | — |
+| Strict-Transport-Security | max-age=63072000 | Present | — |
 
 ---
 
@@ -73,4 +77,4 @@
 
 | Date | Event | Performed By | Notes |
 |------|-------|-------------|-------|
-| — | Baseline capture (pre-Next.js upgrade) | — | — |
+| Apr 17, 2026 | Baseline capture (pre-Next.js upgrade) | Emergent Agent | Next.js 14.2.35, all 13 pages tested |
