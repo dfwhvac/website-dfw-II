@@ -1,12 +1,12 @@
 # DFW HVAC — Master Action Items & To-Do List
 
-**Last Updated:** April 17, 2026
+**Last Updated:** April 20, 2026
 
 ---
 
 ## High Priority
 
-1. **Next.js upgrade (14→15+) + npm vulnerability fixes** — 23 known vulnerabilities including 5 high-severity CVEs (DoS, HTTP request smuggling, disk cache exhaustion). Breaking change requiring careful migration and testing.
+1. **Next.js upgrade (14→15+) + npm vulnerability fixes** — ✅ **COMPLETED Apr 20, 2026** — Now on `next@15.5.9` + `react@19.2.5`. Resolved 5 Next 14 CVEs + critical CVE-2025-66478 (10.0 RCE) + CVE-2025-67779. 26/26 regression tests pass.
 
 2. **Audit site for speed, SEO, and conversion** — Run Lighthouse audit, analyze Core Web Vitals, review conversion funnel, identify optimization opportunities.
 
@@ -37,6 +37,13 @@
 12. **Google Tag Manager (GTM) setup** — Install GTM for centralized tag management alongside existing GA4.
 
 13. **Facebook Pixel setup** — Add Facebook tracking pixel for remarketing and conversion tracking.
+
+13a. **Next.js 15 → 16 upgrade (+ Sanity 3.50+)** — Revisit ~summer 2026 once Next 16 hits 16.3+ with more production bake time. Bundle with Sanity upgrade (currently 3.25, has React 19 peer-dep warnings).
+   - **Why defer, not skip:** Next 16 adds Cache Components + Partial Pre-Rendering, `updateTag()` caching API, Turbopack stable, View Transitions. Modest perf gains (~50–100ms navigation). Not security-critical — 15.x line gets CVE patches for 12+ months.
+   - **Expected effort:** 30–60 min. Breaking changes are small for this codebase: async `params` already done, no middleware → `proxy.ts` migration, no parallel routes, no Sass. Only `next/image` defaults need a quick review.
+   - **Prerequisites:** Wait until Next `16.3+` is stable. Upgrade `sanity` 3.25 → 3.50+ in same PR to clear React 19 peer-dep warnings.
+   - **Trigger earlier if:** a CVE is disclosed on the 15.x line that isn't backported, OR we want to use View Transitions / Cache Components for a feature.
+   - **Process:** same preview-branch workflow used for 14→15 (push to `nextjs-16-upgrade` branch → Vercel preview → smoke test → merge).
 
 ---
 
@@ -70,6 +77,7 @@
 
 ## Completed
 
+- Next.js 14.2.35 → 15.5.9 + React 18 → 19.2.5 upgrade (Apr 20, 2026) — 26/26 regression tests pass, resolved CVE-2025-66478, CVE-2025-67779, 5 Next 14 CVEs, 23 npm vulnerabilities
 - Resend Domain Verification
 - OG Image & Favicon created
 - DNS Cutover to GoDaddy + SSL verification

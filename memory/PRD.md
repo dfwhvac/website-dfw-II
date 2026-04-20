@@ -86,6 +86,7 @@ Build a premium, conversion-focused website for DFW HVAC using Next.js frontend 
 12. Google Tag Manager setup
 13. Facebook Pixel setup
 14. GA4 conversion event setup (form submissions, click-to-call)
+15. **Next.js 15 → 16 upgrade (+ Sanity 3.50+)** — Revisit ~summer 2026 once Next 16.3+ ships with more bake time. Bundle with Sanity upgrade to clear React 19 peer-dep warnings. Expected effort: 30–60 min (async params already done, no middleware, no parallel routes). Trigger earlier if 15.x CVE isn't backported or we need 16-only features (Cache Components, View Transitions).
 
 ### P3 — Backlog
 15. AI Readiness / AEO
