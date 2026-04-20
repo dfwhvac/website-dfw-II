@@ -8,6 +8,7 @@ import { Textarea } from './ui/textarea'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card'
 import { Phone, Mail, MessageSquare } from 'lucide-react'
 import { toast } from 'sonner'
+import RecaptchaScript from './RecaptchaScript'
 
 const SimpleContactForm = ({ 
   title = "Send Us a Message", 
@@ -97,6 +98,7 @@ const SimpleContactForm = ({
 
   return (
     <Card className="w-full max-w-2xl mx-auto shadow-xl border-0" data-testid="simple-contact-form">
+      <RecaptchaScript />
       <CardHeader className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-t-lg">
         <CardTitle className="text-2xl text-center text-gray-800 flex items-center justify-center gap-2">
           <MessageSquare className="w-6 h-6 text-electric-blue" />

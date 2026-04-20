@@ -35,6 +35,15 @@ Build a premium, conversion-focused website for DFW HVAC using Next.js frontend 
 
 ## What's Been Implemented
 
+### Session: April 20, 2026 (continued) — TBT Optimization (PR #1 of 2 for performance sprint)
+- **Scope:** Lazy-load 3 third-party scripts (Maps, reCAPTCHA, RealWork). GA4 already on `afterInteractive` — left as-is per user decision.
+- **Fixes:**
+  1. **Google Maps / Places** (`components/AddressAutocomplete.jsx`): Removed mount-time `useEffect` eager load. Added `onFocus` handler — Maps script only loads when user actually focuses the address input. Bounced visitors who never touch the form save ~800–1,200ms of TBT.
+  2. **reCAPTCHA v3**: Removed from root layout (`app/layout.js`). Extracted into new `components/RecaptchaScript.jsx` component using `next/script strategy="lazyOnload"`. Included inside `LeadForm.jsx` and `SimpleContactForm.jsx`. Pages without forms (/reviews, /faq, /cities-served list, 27 city detail pages, /services list, /privacy, /terms, /recent-projects) no longer load reCAPTCHA at all. Pages with forms defer until page is interactive.
+  3. **RealWork widget** (`components/RealWorkWidget.jsx`): Added IntersectionObserver with 200px rootMargin. Widget's 3rd-party script only loads when container enters viewport. Users who bounce from /recent-projects before scrolling save ~200–400ms.
+- **Verified:** `yarn build` clean (40s), lint clean, Playwright smoke test across 13 representative pages confirmed reCAPTCHA + Maps load patterns match spec. 27 city detail pages + /reviews + /faq + /cities-served + /services + /privacy + /terms + /recent-projects all load 0 recaptcha + 0 maps requests now.
+- **Expected production TBT improvement:** Pre-fix baseline ~2,300ms. Expected post-fix ~500–800ms (measurable via Lighthouse + GSC Core Web Vitals report after 28d field data). Perf score 69 → 85+.
+
 ### Session: April 20, 2026 (continued) — P1.1 City Meta Descriptions (Path A implementation)
 - **Discovery:** All 28 city pages had `metaDescription: null` in Sanity (including Denton). The "Denton gold template" and all other city descriptions were coming from a single code fallback in `app/cities-served/[slug]/page.jsx` line 64. The original P1.1 plan (populate 27 Sanity CMS records) would have been 27× more work than necessary.
 - **Implementation:** Added `buildCityMetaDescription(cityName, zipCodes)` helper above `generateMetadata` in the same file. Uses an adaptive zip-line format (1 → "Zip: X.", 2 → "Zips: X, Y.", 3 → "Zips: X, Y, Z.", 4+ → "Zips: X, Y, Z & more."). Fallback signature: `city.metaDescription || buildCityMetaDescription(...)` — still allows per-city Sanity override.
