@@ -1,0 +1,14 @@
+url,performance,accessibility,best_practices,seo,fcp,lcp,tbt,cls,si
+https://dfwhvac.com/,67,84,100,92,1.8 s,2.8 s,2;100 ms,0,2.3 s
+https://dfwhvac.com/request-service,68,86,100,100,1.6 s,2.5 s,2;470 ms,0,2.0 s
+https://dfwhvac.com/estimate,67,86,93,100,1.6 s,2.6 s,3;010 ms,0,2.2 s
+https://dfwhvac.com/contact,70,87,100,100,1.7 s,2.4 s,1;840 ms,0,1.9 s
+https://dfwhvac.com/services,70,87,100,100,1.6 s,2.0 s,2;190 ms,0,2.2 s
+https://dfwhvac.com/services/residential/air-conditioning,67,86,100,100,1.8 s,2.5 s,2;670 ms,0,2.4 s
+https://dfwhvac.com/services/commercial/commercial-air-conditioning,67,86,100,100,1.8 s,2.4 s,3;350 ms,0,2.5 s
+https://dfwhvac.com/cities-served,70,87,100,100,1.6 s,2.1 s,2;080 ms,0,2.2 s
+https://dfwhvac.com/cities-served/dallas,71,87,100,100,1.6 s,2.2 s,1;620 ms,0,2.7 s
+https://dfwhvac.com/reviews,72,85,100,100,1.7 s,1.7 s,1;660 ms,0,2.1 s
+https://dfwhvac.com/recent-projects,68,87,93,100,1.6 s,2.3 s,2;960 ms,0,2.2 s
+https://dfwhvac.com/about,67,88,100,100,1.8 s,2.4 s,3;060 ms,0,2.2 s
+https://dfwhvac.com/faq,73,87,93,100,1.8 s,2.4 s,1;150 ms,0,2.1 s

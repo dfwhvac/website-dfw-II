@@ -17,6 +17,12 @@ Build a premium, conversion-focused website for DFW HVAC using Next.js frontend 
 - **Domain:** dfwhvac.com (GoDaddy DNS → Vercel)
 - **APIs:** Google Maps/Places, Google reCAPTCHA v3, RealWork widget
 
+## Key Milestones
+
+- **Site launched (Wix → Next.js):** April 16, 2026 (confirmed via Let's Encrypt SSL cert issue date `notBefore=Apr 16, 2026 20:04:44 GMT`)
+- **Next.js 14 → 15.5.9 + React 19 upgrade deployed:** April 20, 2026
+- **GSC Domain property added:** February 20, 2026 (pre-launch; data before Apr 16 reflects the old Wix site)
+
 ## What's Been Implemented
 
 ### Session: April 19, 2026 — Next.js 14 → 15 Upgrade
@@ -70,9 +76,11 @@ Build a premium, conversion-focused website for DFW HVAC using Next.js frontend 
 ## Prioritized Backlog
 
 ### High Priority
-1. ~~Next.js upgrade (14→15+) + npm vulnerability fixes~~ ✅ **DONE Apr 19, 2026** (now on 15.5.5 + React 19)
+1. ~~Next.js upgrade (14→15+) + npm vulnerability fixes~~ ✅ **DONE Apr 19, 2026** (now on 15.5.9 + React 19)
 2. Audit site for speed, SEO, and conversion
-3. Google Search Console setup
+2a. **Deep technical SEO & architecture audit** ⭐ Added Apr 20, 2026 after discovering `/_next/` robots.txt bug. Systematic sweep for legacy anti-patterns: robots.txt/meta-robots consistency, HTTP headers, canonical tags, structured data (JSON-LD), OG/Twitter meta, internal linking, image optimization, 3rd-party scripts, 404/redirect coverage, mobile/a11y, HTML validation, security, supply-chain. Deliverable: `/app/frontend/internal/DFW_HVAC_Technical_Audit_YYYY-MM-DD.md` (3-5 hrs, quarterly cadence). Details in Action_Items.md item 2a.
+3. ~~Google Search Console setup~~ ✅ **MOSTLY DONE** (verified Apr 20, 2026 — Domain property, GA4 linked, crawling active)
+3a. **Post-migration GSC health check** — Site launched Apr 16, 2026. Submit sitemap, verify all 47 URLs index within 4 weeks, watch for 404s on old Wix URLs, use URL Inspection to request indexing on top ~10 pages. Capture baseline Performance numbers. Wait until ~May 14 for clean 28-day "new vs old" comparison. Details in Action_Items.md item 3a.
 4. Pre-launch verification (mobile, cross-browser, broken links)
 5. Internal linking audit
 
@@ -86,6 +94,8 @@ Build a premium, conversion-focused website for DFW HVAC using Next.js frontend 
 12. Google Tag Manager setup
 13. Facebook Pixel setup
 14. GA4 conversion event setup (form submissions, click-to-call)
+15. **Next.js 15 → 16 upgrade (+ Sanity 3.50+)** — Revisit ~summer 2026 once Next 16.3+ ships with more bake time. Bundle with Sanity upgrade to clear React 19 peer-dep warnings. Expected effort: 30–60 min (async params already done, no middleware, no parallel routes). Trigger earlier if 15.x CVE isn't backported or we need 16-only features (Cache Components, View Transitions).
+16. **TBT optimization — lazy-load 3rd-party scripts** — Reduce TBT from ~2,300ms → ~400ms and Perf score 69 → 85+ by lazy-loading Google Maps (on form focus), reCAPTCHA (lazyOnload), GA4 (afterInteractive), and RealWork widget (IntersectionObserver). ~3 hrs. UX-only win (LCP + CLS already passing, so no SEO impact). Details in Action_Items.md item 13b.
 
 ### P3 — Backlog
 15. AI Readiness / AEO

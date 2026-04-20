@@ -7,9 +7,13 @@ export default function robots() {
         userAgent: '*',
         allow: '/',
         disallow: [
-          '/studio/',      // Sanity Studio - no need to index
-          '/api/',         // API routes
-          '/_next/',       // Next.js internals
+          '/studio/',      // Sanity Studio admin UI - no SEO value
+          '/api/',         // API routes (leads, cron) - never index
+          // NOTE: /_next/ intentionally NOT blocked.
+          // Next.js serves CSS, JS, images, and fonts from /_next/static/.
+          // Googlebot needs these to render pages properly for indexing,
+          // measure Core Web Vitals, and evaluate mobile-friendliness.
+          // Blocking /_next/ is a common legacy anti-pattern that hurts SEO.
         ],
       },
     ],
