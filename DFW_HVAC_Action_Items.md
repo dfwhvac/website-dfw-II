@@ -181,7 +181,7 @@
 
 ## Quick Reference
 
-**Preview URL:** https://hvac-intake-funnel.preview.emergentagent.com  
+**Preview URL:** https://nextjs-upgrade-dfw.preview.emergentagent.com  
 **Vercel Deploy Hook:** See PRD.md for URL  
 **Domain Registrar:** GoDaddy  
 **Current Hosting:** Wix (to be migrated)  
