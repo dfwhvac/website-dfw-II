@@ -253,7 +253,7 @@ export default async function ServicesPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href={`tel:${companyInfo.phone}`}
+              href={`tel:${companyInfo.phoneDisplay || '+19727772665'}`}
               className="inline-flex items-center justify-center gap-2 bg-white text-vivid-red px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors"
             >
               <Phone className="w-5 h-5" />

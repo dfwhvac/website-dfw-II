@@ -1,6 +1,16 @@
 # DFW HVAC — Product Requirements Document
 
-**Last Updated:** April 19, 2026
+**Last Updated:** April 20, 2026 (click-to-call bug fix + P1.6 ranking factor audit added)
+
+---
+
+## 🎯 FOR THE NEXT AGENT: START HERE
+
+The canonical, fully-contextualized prioritized backlog is at:
+
+**`/app/memory/NEXT_SESSION_PRIORITIES.md`**
+
+That document has the full WHY, WHAT, and WHERE for every P1 and P2 task. Read it first. The rest of this PRD is background context.
 
 ---
 
@@ -10,7 +20,7 @@ Build a premium, conversion-focused website for DFW HVAC using Next.js frontend 
 
 ## Architecture
 
-- **Frontend:** Next.js 15.5.5 (App Router) + React 19.2.5 deployed on Vercel
+- **Frontend:** Next.js 15.5.9 (App Router) + React 19.2.5 deployed on Vercel
 - **CMS:** Sanity.io (headless CMS)
 - **Database:** MongoDB Atlas (leads collection)
 - **Email:** Resend API (lead notifications)
@@ -24,6 +34,19 @@ Build a premium, conversion-focused website for DFW HVAC using Next.js frontend 
 - **GSC Domain property added:** February 20, 2026 (pre-launch; data before Apr 16 reflects the old Wix site)
 
 ## What's Been Implemented
+
+### Session: April 20, 2026 (continued) — Click-to-Call Bug Fix
+- **Root cause:** `companyInfo.phone` in Sanity stores the vanity format `(972) 777-COOL`. Two pages (`/services`, `/cities-served`) and the LocalBusiness schema (`SchemaMarkup.jsx` x2, `lib/metadata.js`) used this value directly in `tel:` hrefs. Mobile browsers cannot dial letters — every tap on "Call Now" was a dead-end conversion since site launch Apr 16.
+- **Fix (Option B — clean architecture, single source of truth):**
+  - Repurposed existing `phoneDisplay` Sanity field (already populated with `(972) 777-2665`) as the canonical dialable value
+  - Updated 5 call sites to use `companyInfo.phoneDisplay || '+1-972-777-2665'` fallback
+  - Improved Sanity schema field descriptions so future editors know which field goes where (vanity text vs. tel: hrefs)
+  - Hardcoded E.164 format in `lib/metadata.js` JSON-LD telephone field for schema parser compatibility
+- **Verified:** `yarn build` passes (no regressions, all 11 static pages + dynamic routes compile). Local `next start` + curl confirms:
+  - `/services` + `/cities-served` "Call Now" hrefs now render `tel:(972) 777-2665` ✓
+  - LocalBusiness schema `telephone` now renders `(972) 777-2665` ✓
+  - 22 hardcoded `tel:+19727772665` links across Header/Footer/etc. unchanged (were already correct)
+- **Impact:** Restores mobile click-to-call conversion on two of the highest-intent landing pages. Ready for merge to main → Vercel auto-deploy.
 
 ### Session: April 19, 2026 — Next.js 14 → 15 Upgrade
 - Upgraded `next` 14.2.35 → **15.5.5**, `react` 18.2.0 → **19.2.5**, `react-dom` 18.2.0 → **19.2.5**, `eslint-config-next` 14 → **15.5.15**
@@ -79,6 +102,7 @@ Build a premium, conversion-focused website for DFW HVAC using Next.js frontend 
 1. ~~Next.js upgrade (14→15+) + npm vulnerability fixes~~ ✅ **DONE Apr 19, 2026** (now on 15.5.9 + React 19)
 2. Audit site for speed, SEO, and conversion
 2a. **Deep technical SEO & architecture audit** ⭐ Added Apr 20, 2026 after discovering `/_next/` robots.txt bug. Systematic sweep for legacy anti-patterns: robots.txt/meta-robots consistency, HTTP headers, canonical tags, structured data (JSON-LD), OG/Twitter meta, internal linking, image optimization, 3rd-party scripts, 404/redirect coverage, mobile/a11y, HTML validation, security, supply-chain. Deliverable: `/app/frontend/internal/DFW_HVAC_Technical_Audit_YYYY-MM-DD.md` (3-5 hrs, quarterly cadence). Details in Action_Items.md item 2a.
+2b. **Page-by-page ranking factor audit** ⭐ Added Apr 20, 2026 to address the meta-description-is-not-ranking-factor gap. Systematic matrix of ~47 pages × 10 ranking factors (title tag, body content depth, GBP, backlinks, Core Web Vitals/INP, NAP, internal linking, reviews, schema, meta desc). Sub-tasks P1.6a–f: title audit (highest leverage), body content depth, backlink profile, INP measurement, review cadence, schema verification. Deliverable: `/app/frontend/internal/DFW_HVAC_Ranking_Factor_Audit_YYYY-MM-DD.md`. ~10–15 hrs across sessions. Full context in NEXT_SESSION_PRIORITIES.md § P1.6.
 3. ~~Google Search Console setup~~ ✅ **MOSTLY DONE** (verified Apr 20, 2026 — Domain property, GA4 linked, crawling active)
 3a. **Post-migration GSC health check** — Site launched Apr 16, 2026. Submit sitemap, verify all 47 URLs index within 4 weeks, watch for 404s on old Wix URLs, use URL Inspection to request indexing on top ~10 pages. Capture baseline Performance numbers. Wait until ~May 14 for clean 28-day "new vs old" comparison. Details in Action_Items.md item 3a.
 4. Pre-launch verification (mobile, cross-browser, broken links)

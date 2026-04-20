@@ -126,7 +126,7 @@ export function createJsonLd(data) {
       name: 'DFW HVAC',
       description: 'Family owned Air Conditioning and Heating contractor serving Dallas - Fort Worth and surrounding areas.',
       url: 'https://dfwhvac.com',
-      telephone: '(972) 777-COOL',
+      telephone: '+1-972-777-2665',
       address: {
         '@type': 'PostalAddress',
         streetAddress: '556 S Coppell Rd Ste 103',
