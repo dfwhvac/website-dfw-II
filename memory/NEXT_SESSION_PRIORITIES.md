@@ -1,7 +1,9 @@
 # DFW HVAC — Prioritized Backlog (for next session)
 
-**Last updated:** April 20, 2026
+**Last updated:** April 20, 2026 (evening — strategic framing + conversion-focus backlog expansion)
 **Previous session accomplishments:** Next.js 14 → 15.5.9 + React 19 upgrade deployed, CVE-2025-66478 patched, www→apex 308 redirect live, `/_next/` robots.txt bug fixed and deployed, GSC sitemap cleaned up and resubmitted at apex URL, 10 priority URLs submitted for indexing, post-upgrade Lighthouse scorecard captured (performance-neutral as expected).
+
+**This session accomplishments (Apr 20 evening):** Click-to-call bug fix (5 files) • P1.1 meta descriptions via Path A code fallback (all 28 cities now use adaptive template) • TBT optimization PR #1 (reCAPTCHA removed from root, Maps `onFocus`, RealWork IntersectionObserver, "Powered by Google" attribution) • P1.6 ranking factor audit documented with 7 sub-tasks • P1.6g fallback data parity added after discovering stale values in `lib/metadata.js`.
 
 **Site launch date:** April 16, 2026 (Wix → Next.js migration). GSC data before Apr 16 reflects the old Wix site.
 
@@ -9,9 +11,25 @@
 
 ---
 
+## 🎯 PRIME DIRECTIVE & STRATEGIC FRAMING
+
+**Business goal:** Pull relevant (high-intent, local) traffic → convert into form fills / phone calls.
+
+**The unique strategic asset:** **145 five-star Google reviews, zero negative.** This is outlier-tier social proof — most 4.7-rated local HVAC companies have 1-star reviews dragging them down. DFW HVAC has essentially a unicorn review profile. **It should be pervasive across the site, in schema markup, in SERP snippets, and weaponized in every conversion moment.** Today it's mostly hidden on `/reviews` and under-represented in schema (wrong count in fallback).
+
+**The two pillars:**
+1. **Traffic pillar:** Get found by people one phone call away from buying. GBP + local SEO + city-specific content + title tags with review signal.
+2. **Conversion pillar:** Turn found-and-aware visitors into submits before they comparison shop. Review social proof sitewide + progressive forms + urgency signals + clear "what happens next" + financing visibility.
+
+**What "relevant" traffic means here:** `"ac repair plano"`, `"hvac near me"`, `"emergency ac [city]"`, `"furnace not working [city]"`, `"[city] hvac company"` — purchase-intent + local. NOT `"how does HVAC work"` (top-of-funnel, low conversion).
+
+**Near-term focus (next 2 weeks):** 3 of the highest-leverage items are GBP optimization (biggest traffic), review-badge-everywhere + aggregateRating schema fix (biggest conversion), and progressive form (biggest on-site conversion lift). These 3 items likely 2–3× the combined impact of everything else on this backlog.
+
+---
+
 ## 🔴 P1 — High Priority (pick these first)
 
-### P1.1 — Custom meta descriptions for 27 cities + 7 service pages ⭐ TOP PICK
+### P1.1 — Custom meta descriptions for 27 cities + 7 service pages ✅ SHIPPED (Apr 20, 2026 — 27 cities done via Path A code fallback; 7 service pages pending)
 
 **Why this is #1:** This is the single highest-leverage SEO task on the board. We discovered during the GSC audit that 27 of 28 city pages share an **identical generic fallback** description:
 > *"We offer comprehensive HVAC services including AC repair, heating system installation, preventive maintenance, and indoor air quality solutions. As a three-..."*
@@ -235,6 +253,111 @@ This kills search CTR (users see the same blurb multiple times in one SERP), sig
 
 ---
 
+### P1.8 — Google Business Profile (GBP) full optimization ⭐ BIGGEST TRAFFIC LEVER (promoted from P2.2 on Apr 20, 2026)
+
+**Why this is P1 now:** Previous prioritization had GBP at P2. Re-evaluating holistically as an SEO/conversion expert: for a local home-services company, GBP drives **40–60% of all clicks** via the Google Maps pack on "[service] near me" and "[city] [service]" queries. This is THE biggest traffic lever on the entire backlog. On-site SEO cannot out-perform a missing/weak GBP listing.
+
+**Actions (owner: user for GBP admin; agent for content/strategy):**
+- Claim or verify existing GBP for `556 S Coppell Rd Ste 103, Coppell, TX 75019`
+- Verify NAP matches site + schema exactly: `DFW HVAC` / full address / `(972) 777-2665` (dialable) + `(972) 777-COOL` (vanity in description)
+- Business hours: Mon–Fri 7AM–6PM (matches site)
+- Services list: full 7 (residential AC, heating, IAQ, prev maintenance + 3 commercial) — match site exactly
+- Service area: list all 28 cities
+- Photos: upload 20+ (before/after jobs, trucks, techs, office, team, equipment brands)
+- Attributes: "family-owned", "woman-owned" (if applicable), "licensed", "online appointments", "identifies as LGBTQ+ friendly" if applicable
+- Weekly GBP Posts cadence: seasonal tips, recent job highlights, review responses, offers — 1-per-week minimum
+- Respond to 100% of reviews (you have 145 — catch up in batches if response rate is low today)
+- Enable GBP Messages — respond within 4 business hours
+- Set up GBP Insights tracking; review monthly
+
+**Expected effort:** 4 hrs initial setup + 30 min/week ongoing.
+**Expected impact:** Measurable via GBP Insights (Impressions, Direction requests, Calls). Typical uplift: 30–80% total local traffic within 60 days.
+
+---
+
+### P1.9 — Leverage the 145 five-star reviews sitewide ⭐ BIGGEST ON-SITE CONVERSION LEVER (new Apr 20, 2026)
+
+**Why this is P1:** DFW HVAC's reviews profile is outlier-tier (5.0 with 145 reviews, zero negative). On the current site this asset is essentially hidden on `/reviews` — the page most visitors never reach. Meanwhile schema has stale count (118 in `lib/metadata.js`). This is the biggest unused conversion weapon.
+
+**Actions (ranked by effort):**
+
+**P1.9a — Fix schema count globally (30 min)**
+- `lib/metadata.js` hardcoded `aggregateRating.reviewCount: '118'` → dynamic from `companyInfo.googleReviews` (currently 145)
+- Verify `SchemaMarkup.jsx` aggregateRating pulls from Sanity field
+- Test with Google Rich Results Test on 5 sample pages
+- **Impact:** Unlocks ⭐ stars in SERP snippets across all pages where schema applies → measurable CTR lift in GSC within 2–4 weeks
+
+**P1.9b — Review badge in every page hero (2 hrs)**
+- Design a compact trust badge: `⭐⭐⭐⭐⭐ 5.0 · 145 Google Reviews · Licensed & Family-Owned`
+- Place directly below H1 on: home, every service page (7), every city page (28), /about
+- Link to `/reviews` (eventually to filtered view — see P1.9d)
+- Consumer psychology: social proof adjacent to primary CTA = measurable conversion lift
+
+**P1.9c — Inline review carousel near every form (2 hrs)**
+- 3 rotating reviews with name + city + date (e.g., "Danny C., Dallas · Dec 2025")
+- Appears above or beside `LeadForm.jsx` and `SimpleContactForm.jsx`
+- Uses existing Sanity `testimonials` data (130 already in mockData)
+
+**P1.9d — City-filtered reviews page (3 hrs)**
+- `/reviews#plano` → auto-scrolls + filters to reviews from Plano customers
+- Each city page's trust badge links here
+- Huge for city SEO + hyper-local conversion ("real Plano customers love them")
+- If testimonials lack city data, use last installation city from job metadata
+
+**P1.9e — Footer + sticky bottom bar trust signal (1 hr)**
+- Footer: "⭐⭐⭐⭐⭐ 5.0 from 145 Google Reviews · (972) 777-2665"
+- Update `StickyMobileCTA` to include `⭐ 5.0 · 145 reviews` prefix on mobile
+
+**P1.9f — Post-submit success page (3 hrs)**
+- Replace toast with a success page at `/thanks` showing: "You're joining 145+ happy DFW HVAC customers in DFW" + rotating review + "What happens next: we'll call within 2 business hours"
+- Tie into P1.7 GA4 conversion event on page load
+- Tie into P1.11 — combined flow improvement
+
+**Total effort across P1.9:** ~11 hrs of focused work.
+**Expected impact:** 15–25% conversion-rate lift sitewide. Measurable once P1.7 GA4 events are live.
+
+---
+
+### P1.10 — Progressive form redesign ⭐ CONVERSION LIFT (new Apr 20, 2026)
+
+**Why:** `LeadForm.jsx` currently asks 7 fields upfront (firstName, lastName, email, phone, serviceAddress, numSystems, problemDescription). For HVAC emergency visitors on mobile in 100°F heat, that's too much friction. Industry data: 2-field → expand forms convert **30–50% better** than 7-field one-shot forms.
+
+**Actions:**
+- Step 1: Name + phone (2 fields, most essential) → "Submit" CTA becomes "Continue"
+- Step 2 (optional expansion): Email + address + problem detail → "Complete Request" 
+- After step 1 fields valid, submit immediately to `/api/leads` as a "quick-lead" with partial data. If user abandons step 2, you still have a contact to follow up on.
+- Keep existing 7-field form as an option on `/request-service` for users who prefer it, OR replace entirely based on A/B measurement.
+- Also: move `AddressAutocomplete` into step 2 so Maps JS loads even later (additional TBT win).
+- Mobile-first: single-column, 48px+ touch targets (partially done), large "Continue" button at thumb reach.
+
+**Expected effort:** 4–6 hrs.
+**Expected impact:** 30–50% form submission lift. This alone likely adds more leads/month than most of the SEO work combined.
+
+---
+
+### P1.11 — "What happens next" post-submit flow (new Apr 20, 2026)
+
+**Why:** Current flow: user submits → toast notification → nothing. User is left uncertain whether the form worked, when they'll hear back, or what to expect. Conversion isn't complete until the call/visit happens; every step of silence is a chance for them to call a competitor.
+
+**Actions:**
+- New `/thanks` success page (see P1.9f overlap — implement together):
+  - Clear confirmation: "We got your request, [firstName]"
+  - Expected response time: "We'll call you within 2 business hours (Mon–Fri 7AM–6PM)"
+  - Emergency override: "Urgent? Call us now: (972) 777-COOL"
+  - Rotating review: "While you wait, here's what other [city] customers say..."
+  - Next steps list: "1. We review your request. 2. A tech calls to schedule. 3. We arrive on-time, diagnose, quote, fix."
+  - Secondary CTA: "Add our number to your phone" (click-to-save contact)
+- **Email auto-reply** via Resend (uses existing lead infra): same content, hits inbox within 60s of submit. Builds trust that the form worked.
+- **SMS auto-reply** (future — requires Twilio or similar): "DFW HVAC got your request. Tech will call within 2 business hrs. Urgent? Call (972) 777-2665." Differentiator — most HVAC companies don't text back.
+- Redirect `LeadForm.jsx` and `SimpleContactForm.jsx` to `/thanks` instead of toast
+- GA4 conversion event fires on `/thanks` page load (ties to P1.7)
+
+**Expected effort:** 4 hrs (web page + email auto-reply). SMS auto-reply is a follow-up.
+**Expected impact:** Measurable reduction in "ghosted after submit" leads (conversion cleanup, not funnel-top lift). Also feeds P1.7 GA4 conversion tracking cleanly.
+
+---
+
+
 ## 🟡 P2 — Important (but wait until P1 is largely done)
 
 ### P2.1 — "50+ cities" copy cleanup
@@ -253,7 +376,9 @@ This kills search CTR (users see the same blurb multiple times in one SERP), sig
 
 ---
 
-### P2.2 — Google Business Profile (GBP) setup + optimization
+### P2.2 — Google Business Profile (GBP) setup + optimization ⬆️ PROMOTED to P1.8 (Apr 20, 2026)
+
+**See P1.8 for current scope.** Kept stub here for historical traceability; new work tracked under P1.8.
 
 **Why:** GBP is the #1 driver of local SEO traffic for home services. Without it, you're invisible in the Google Maps pack for "HVAC near me" searches.
 
@@ -284,7 +409,9 @@ This kills search CTR (users see the same blurb multiple times in one SERP), sig
 
 ---
 
-### P2.4 — TBT optimization (lazy-load third-party scripts)
+### P2.4 — TBT optimization (lazy-load third-party scripts) ✅ SHIPPED Apr 20, 2026 (PR #1)
+
+**Shipped:** reCAPTCHA removed from root layout + `RecaptchaScript.jsx` lazy-load only on form pages (`lazyOnload`). Google Maps deferred to `onFocus` in `AddressAutocomplete.jsx`. RealWork widget wrapped in IntersectionObserver. "Powered by Google" attribution added (compliance). GA4 left as `afterInteractive` (already optimal). Expected TBT: 2,300ms → ~1,100–1,900ms (varies by page). Perf score 69 → ~75–85. Full parity 🟢 Good TBT would require further architectural work (server components, bundle reduction) — deferred to new P2.4b.
 
 **Why this is P2, not P1:** Google's Core Web Vitals signals for ranking are LCP and CLS — both passing. TBT is a UX concern (page unresponsive for ~2 sec on mobile) but not directly an SEO ranking factor. Fix when conversion-rate data shows slow-page drop-off, OR when starting paid ads.
 
@@ -337,6 +464,127 @@ This kills search CTR (users see the same blurb multiple times in one SERP), sig
 **Expected effort:** 1-2 hours.
 
 ---
+
+### P2.4b — Deeper TBT optimization (architectural — to reach 🟢 Good <200ms)
+
+**Why:** PR #1 (Apr 20) took TBT from ~2,300ms → ~1,100–1,900ms. Still in 🔴 Poor range on most pages because the remaining TBT is not 3rd-party scripts — it's framework JS, hydration, and bundle size. Deferred here because the biggest ROI lever is elsewhere (P1.8 GBP, P1.9 reviews, P1.10 progressive form), but worth tackling once those ship.
+
+**Scope:**
+- Migrate Header, Footer, StickyMobileCTA, and brand color hydration to **React Server Components** where possible
+- Run `@next/bundle-analyzer` — identify heaviest client modules (likely lucide-react tree-shaking, shadcn over-inclusion, Sanity client)
+- Tree-shake unused lucide-react icons (~20 of ~50 imported likely unused)
+- Audit shadcn/ui imports — remove components not actually rendered
+- Consider replacing `Card` + `Button` wrappers with native HTML + Tailwind where no interactive state is needed
+- Split `/studio` (Sanity admin, 932KB) behind a dynamic import so public routes don't load it
+
+**Expected effort:** 6–10 hrs.
+**Expected impact:** TBT 1,100–1,900ms → ~400–700ms (borderline 🟡 Needs Improvement). Real 🟢 Good likely needs P2.5 (ISR) combined.
+
+---
+
+### P2.8 — Video testimonials (new Apr 20, 2026)
+
+**Why:** Text reviews work but video testimonials convert ~5× better. For a 3-generation family business with 145 perfect reviews, 1–2 video testimonials anchor trust on key pages.
+
+**Scope:**
+- Film 3 videos (30–60s each): Owner intro (Jonathan, the 3-gen family story) + 2 happy customer testimonials (pick from top reviews — already have 145)
+- Host on YouTube (bonus: YouTube search traffic as a second channel)
+- Embed on home hero (owner intro), `/about` (family story), `/reviews` (customer testimonials)
+- Thumbnail optimization for YouTube + on-site
+- Schema: `VideoObject` markup for rich results eligibility
+
+**Expected effort:** ~4 hrs on-site (embed + schema); filming + editing done by a local videographer (~$500–1,500).
+
+---
+
+### P2.9 — Blog / content hub launch with seasonal posts (new Apr 20, 2026)
+
+**Why:** Zero blog content currently. Content marketing captures informational queries (high volume, lower intent) and builds topical authority that lifts commercial-intent rankings. Seasonal content is free link bait.
+
+**Scope (first 4 posts):**
+1. "How to prepare your DFW HVAC for summer heat waves (Texas-specific)"
+2. "Why does my AC freeze up in July? Common DFW issues + fixes"
+3. "When to replace vs. repair: DFW HVAC cost calculator"
+4. "How the 2021 Texas freeze changed HVAC best practices in DFW"
+- Each 1,200–1,800 words, with embedded CTAs, city-specific examples, linked to service pages
+- Add `/blog` route + Sanity `blogPost` schema
+- Quarterly cadence thereafter: 3 posts per quarter minimum
+
+**Expected effort:** 6 hrs (route + schema + templates); ~3 hrs/post writing (drafted + reviewed by user).
+
+---
+
+### P2.10 — Lead magnets for top-of-funnel capture (new Apr 20, 2026)
+
+**Why:** Single funnel today: page → form → call. HVAC is a considered purchase ($5–15k for replacement) that takes weeks. Capture email from consideration-stage visitors who aren't ready to call yet; nurture via email.
+
+**Ideas (pick 1–2):**
+- **"AC Age & Efficiency Lookup"** — enter make/model → email result with replacement recommendation
+- **"DFW HVAC Replacement Cost Calculator"** — square footage + system type → estimate range + email PDF
+- **"Free Pre-Summer HVAC Check Checklist"** — PDF download after email capture
+- All tied to email list + automated nurture sequence (Resend already integrated)
+
+**Expected effort:** 8–12 hrs per lead magnet (UX + logic + email automation).
+
+---
+
+### P2.11 — Financing prominence on service pages (new Apr 20, 2026; split from old P3 case-studies + financing)
+
+**Why:** HVAC replacement is $5k–$15k+. Financing availability is frequently the deciding factor between "get a quote" and "delay the purchase". Current site doesn't surface financing prominently on service pages where replacement decisions happen.
+
+**Scope:**
+- `/financing` page — explain options (Wells Fargo, Synchrony, or whichever partner DFW HVAC uses; confirm with user)
+- Prominent callout on `/services/residential/air-conditioning` and `/services/residential/heating` — "Financing available — monthly payments as low as $X"
+- Footer link to `/financing`
+- Schema: `FinancialProduct` or `Offer` for rich results
+
+**Expected effort:** ~4 hrs (page + callouts); financing partner enrollment done by user.
+
+---
+
+### P2.12 — SMS text-back / chat capture (new Apr 20, 2026)
+
+**Why:** Immediate text-back after a form submit = huge trust builder + differentiator (most HVAC competitors don't do this). Also, live chat (even a simple one) captures visitors who won't fill a form.
+
+**Scope:**
+- SMS: integrate Twilio or similar; send auto-reply within 60 seconds of `/api/leads` submission
+- Chat: consider a lightweight option (Crisp, Tawk, or custom simple chat modal); can be user-staffed during business hours
+- NOT a full chatbot — human-first or AI fallback only when off-hours
+
+**Expected effort:** 4–6 hrs SMS; 6–10 hrs chat depending on approach.
+**External cost:** Twilio ~$0.0075/SMS; Crisp/Tawk free tier available.
+
+---
+
+### P2.13 — Exit intent capture (new Apr 20, 2026)
+
+**Why:** Users moving mouse toward the browser close/back button = strong leave signal. Last-chance offer modal converts 3–8% of exit-intent users.
+
+**Scope:**
+- Detect mouse exit on desktop (tricky on mobile — trigger on scroll-up-at-top or after inactivity)
+- Modal: "Before you go — free 10-minute phone consultation, no obligation" + name/phone form
+- Show at most once per visitor per 7 days
+- Tie into GA4 event tracking
+
+**Expected effort:** 3–4 hrs.
+
+---
+
+### P2.14 — Urgency / scarcity signals (new Apr 20, 2026)
+
+**Why:** HVAC breakdowns on hot days are urgent. Surfaced urgency signals nudge hesitant visitors toward submit-now.
+
+**Scope (honest, not fabricated — use real data):**
+- "Most forms get a call-back within 90 minutes today" (if true — measurable)
+- Seasonal banner: "⚡ 100°F expected Thursday — book same-day before slots fill"
+- "[N] Dallas customers booked service this week" (pull real number from `/api/leads` in last 7 days, rounded/capped)
+- No fake scarcity — false urgency erodes trust especially for local businesses
+
+**Expected effort:** 3–4 hrs.
+
+---
+
+
 
 ## 🔵 P3 — Backlog (wait until P1+P2 largely done)
 

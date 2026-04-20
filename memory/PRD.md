@@ -1,6 +1,6 @@
 # DFW HVAC — Product Requirements Document
 
-**Last Updated:** April 20, 2026 (click-to-call bug fix + P1.6 ranking factor audit added)
+**Last Updated:** April 20, 2026 (evening — strategic framing + conversion-focus backlog expansion; TBT PR #1 shipped)
 
 ---
 
