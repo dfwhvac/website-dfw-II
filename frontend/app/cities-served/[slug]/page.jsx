@@ -51,6 +51,39 @@ async function getOtherCities(currentSlug) {
   }
 }
 
+/**
+ * Build an SEO-optimized meta description for a city page.
+ * Uses an adaptive zip-line format so each city gets hyper-local signals
+ * without generic templating. Drafted Apr 20, 2026 to replace the prior
+ * "Professional heating and air conditioning services..." fallback, which
+ * Google was treating as near-duplicate across all 28 cities.
+ *
+ * Template: "[City], TX AC & heating repair, install & maintenance.
+ *   Same-day service. Call (972) 777-2665. Licensed, family-owned. [Zip line]."
+ *
+ * Zip line rules:
+ *   0 zips  -> "" (skip — avoid empty "Zip: ." tail)
+ *   1 zip   -> "Zip: XXXXX."
+ *   2 zips  -> "Zips: X, Y."
+ *   3 zips  -> "Zips: X, Y, Z."        (show all)
+ *   4+ zips -> "Zips: X, Y, Z & more." (first 3 + "& more")
+ *
+ * Phone number uses dialable digits (972) 777-2665 — required for Google's
+ * mobile SERP click-to-call detection. The vanity "(972) 777-COOL" display
+ * is preserved on-site but kept out of meta descriptions.
+ */
+function buildCityMetaDescription(cityName, zipCodes) {
+  const zips = Array.isArray(zipCodes) ? zipCodes : []
+  let zipLine = ''
+  if (zips.length === 1) zipLine = `Zip: ${zips[0]}.`
+  else if (zips.length === 2) zipLine = `Zips: ${zips[0]}, ${zips[1]}.`
+  else if (zips.length === 3) zipLine = `Zips: ${zips[0]}, ${zips[1]}, ${zips[2]}.`
+  else if (zips.length >= 4) zipLine = `Zips: ${zips[0]}, ${zips[1]}, ${zips[2]} & more.`
+
+  const base = `${cityName}, TX AC & heating repair, install & maintenance. Same-day service. Call (972) 777-2665. Licensed, family-owned.`
+  return zipLine ? `${base} ${zipLine}` : base
+}
+
 export async function generateMetadata({ params }) {
   const { slug } = await params
   const city = await getCityPage(slug)
@@ -60,8 +93,7 @@ export async function generateMetadata({ params }) {
   }
   
   const title = city.metaTitle || `HVAC Services in ${city.cityName}, TX | DFW HVAC`
-  const description = city.metaDescription || 
-    `Professional heating and air conditioning services in ${city.cityName}, Texas. Same-day HVAC repair, installation, and maintenance. Serving zip codes: ${city.zipCodes?.join(', ')}.`
+  const description = city.metaDescription || buildCityMetaDescription(city.cityName, city.zipCodes)
   
   return {
     title,
