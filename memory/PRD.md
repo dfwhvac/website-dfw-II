@@ -1,6 +1,6 @@
 # DFW HVAC — Product Requirements Document
 
-**Last Updated:** April 20, 2026 (P1.6 ranking factor audit added)
+**Last Updated:** April 20, 2026 (click-to-call bug fix + P1.6 ranking factor audit added)
 
 ---
 
@@ -34,6 +34,19 @@ Build a premium, conversion-focused website for DFW HVAC using Next.js frontend 
 - **GSC Domain property added:** February 20, 2026 (pre-launch; data before Apr 16 reflects the old Wix site)
 
 ## What's Been Implemented
+
+### Session: April 20, 2026 (continued) — Click-to-Call Bug Fix
+- **Root cause:** `companyInfo.phone` in Sanity stores the vanity format `(972) 777-COOL`. Two pages (`/services`, `/cities-served`) and the LocalBusiness schema (`SchemaMarkup.jsx` x2, `lib/metadata.js`) used this value directly in `tel:` hrefs. Mobile browsers cannot dial letters — every tap on "Call Now" was a dead-end conversion since site launch Apr 16.
+- **Fix (Option B — clean architecture, single source of truth):**
+  - Repurposed existing `phoneDisplay` Sanity field (already populated with `(972) 777-2665`) as the canonical dialable value
+  - Updated 5 call sites to use `companyInfo.phoneDisplay || '+1-972-777-2665'` fallback
+  - Improved Sanity schema field descriptions so future editors know which field goes where (vanity text vs. tel: hrefs)
+  - Hardcoded E.164 format in `lib/metadata.js` JSON-LD telephone field for schema parser compatibility
+- **Verified:** `yarn build` passes (no regressions, all 11 static pages + dynamic routes compile). Local `next start` + curl confirms:
+  - `/services` + `/cities-served` "Call Now" hrefs now render `tel:(972) 777-2665` ✓
+  - LocalBusiness schema `telephone` now renders `(972) 777-2665` ✓
+  - 22 hardcoded `tel:+19727772665` links across Header/Footer/etc. unchanged (were already correct)
+- **Impact:** Restores mobile click-to-call conversion on two of the highest-intent landing pages. Ready for merge to main → Vercel auto-deploy.
 
 ### Session: April 19, 2026 — Next.js 14 → 15 Upgrade
 - Upgraded `next` 14.2.35 → **15.5.5**, `react` 18.2.0 → **19.2.5**, `react-dom` 18.2.0 → **19.2.5**, `eslint-config-next` 14 → **15.5.15**

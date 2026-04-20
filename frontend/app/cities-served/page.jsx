@@ -95,7 +95,7 @@ export default async function CitiesServedPage() {
           <div className="flex flex-col md:flex-row items-center justify-center gap-4 text-white">
             <span className="font-semibold">Not sure if we serve your area?</span>
             <a 
-              href={`tel:${companyInfo.phone}`}
+              href={`tel:${companyInfo.phoneDisplay || '+19727772665'}`}
               className="flex items-center gap-2 bg-white text-[#003153] px-6 py-2 rounded-full font-bold hover:bg-gray-100 transition-colors"
             >
               <Phone className="w-5 h-5" />

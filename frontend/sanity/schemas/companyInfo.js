@@ -16,15 +16,15 @@ export default {
     },
     {
       name: 'phone',
-      title: 'Phone Number (Display)',
+      title: 'Phone Number — Vanity (display only)',
       type: 'string',
-      description: 'e.g., (972) 777-COOL',
+      description: 'Branded/vanity format shown as text to users. e.g., (972) 777-COOL. Never used in tel: links — letters are not dialable on mobile.',
     },
     {
       name: 'phoneDisplay',
-      title: 'Phone Number (Actual)',
+      title: 'Phone Number — Dialable (tel: links & schema)',
       type: 'string',
-      description: 'e.g., (972) 777-2665',
+      description: 'Numeric format used in tel: hrefs and LocalBusiness schema. e.g., (972) 777-2665 or +19727772665. MUST be digits only — letters break click-to-call.',
     },
     {
       name: 'email',

@@ -61,7 +61,7 @@ export function LocalBusinessSchema({ companyInfo, cityPages = [] }) {
     "name": companyInfo.name || "DFW HVAC",
     "description": companyInfo.description || "",
     "url": "https://dfwhvac.com",
-    "telephone": companyInfo.phone || "",
+    "telephone": companyInfo.phoneDisplay || "+1-972-777-2665",
     "foundingDate": companyInfo.established || "2020",
     "address": {
       "@type": "PostalAddress",
@@ -146,7 +146,7 @@ export function ReviewSchema({ companyInfo, reviewCount }) {
       "postalCode": zip,
       "addressCountry": "US"
     },
-    "telephone": companyInfo.phone || "",
+    "telephone": companyInfo.phoneDisplay || "+1-972-777-2665",
     "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": (companyInfo.googleRating || 5.0).toString(),
