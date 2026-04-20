@@ -1,6 +1,16 @@
 # DFW HVAC — Product Requirements Document
 
-**Last Updated:** April 19, 2026
+**Last Updated:** April 20, 2026
+
+---
+
+## 🎯 FOR THE NEXT AGENT: START HERE
+
+The canonical, fully-contextualized prioritized backlog is at:
+
+**`/app/memory/NEXT_SESSION_PRIORITIES.md`**
+
+That document has the full WHY, WHAT, and WHERE for every P1 and P2 task. Read it first. The rest of this PRD is background context.
 
 ---
 
@@ -10,7 +20,7 @@ Build a premium, conversion-focused website for DFW HVAC using Next.js frontend 
 
 ## Architecture
 
-- **Frontend:** Next.js 15.5.5 (App Router) + React 19.2.5 deployed on Vercel
+- **Frontend:** Next.js 15.5.9 (App Router) + React 19.2.5 deployed on Vercel
 - **CMS:** Sanity.io (headless CMS)
 - **Database:** MongoDB Atlas (leads collection)
 - **Email:** Resend API (lead notifications)
