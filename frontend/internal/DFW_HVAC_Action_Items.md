@@ -10,6 +10,24 @@
 
 2. **Audit site for speed, SEO, and conversion** — Run Lighthouse audit, analyze Core Web Vitals, review conversion funnel, identify optimization opportunities.
 
+2a. **Deep technical SEO & architecture audit** — ⭐ **ADDED Apr 20, 2026 after discovering the `/_next/` robots.txt bug.** The robots.txt was inherited with a legacy anti-pattern (`Disallow: /_next/`) that silently blocked Googlebot from rendering pages properly. We need a systematic sweep to catch similar issues before they cost us ranking. Scope:
+   - **robots.txt / meta robots / sitemap consistency** — verify Googlebot can access all content resources (CSS, JS, fonts, images); confirm no conflicting `noindex` meta tags on pages we want indexed; confirm sitemap URLs all return 200 and match canonical form
+   - **HTTP headers audit** — confirm CSP doesn't block resources Googlebot needs; confirm no conflicting `X-Robots-Tag` headers; Referrer-Policy / Permissions-Policy sanity check
+   - **Canonical tag audit** — every page should have exactly one `<link rel="canonical">` pointing at the preferred URL form (apex, no trailing slash, lowercase)
+   - **Structured data (JSON-LD) audit** — LocalBusiness schema on home + city + service pages, Service schema on service pages, FAQ schema on /faq, BreadcrumbList where appropriate; test in Google's Rich Results Test
+   - **OG / Twitter meta audit** — every page has unique og:title, og:description, og:image, og:url; Twitter cards configured; test in Facebook Sharing Debugger + Twitter Card Validator
+   - **Internal linking audit** — every service ↔ city combo is linked somewhere; no orphan pages; breadcrumb navigation present; anchor text is descriptive (not "click here")
+   - **Image optimization audit** — all images use `next/image`; all have meaningful alt text; no uncompressed originals in /public; hero images have `priority` prop; below-fold images lazy-load
+   - **Third-party script audit** — Google Maps, reCAPTCHA, GA4, GTM, RealWork widget — all using `next/script` with appropriate strategy (`afterInteractive` or `lazyOnload`); none blocking render (ties into TBT optimization in item 13b)
+   - **404 / redirect audit** — all old Wix URLs either 301 to new equivalents or intentionally 404'd; /404 page is well-designed and offers navigation back; no internal links pointing to redirected URLs
+   - **Mobile / accessibility audit** — all touch targets ≥44px; all text meets WCAG AA contrast; keyboard navigation works; ARIA labels on interactive elements; no auto-playing audio/video
+   - **HTML validation** — run W3C validator on top 10 pages; no duplicate IDs, unclosed tags, or semantic errors
+   - **Security audit follow-up** — confirm no sensitive data in client bundles (search for "secret", "key", "token" in built JS); confirm all env vars prefixed `NEXT_PUBLIC_*` are actually safe to expose
+   - **Dependency supply-chain audit** — `yarn audit` clean; no packages flagged with known CVEs; no unmaintained packages (last publish >2 years)
+   - **Deliverable:** A markdown report at `/app/frontend/internal/DFW_HVAC_Technical_Audit_YYYY-MM-DD.md` listing every check performed, pass/fail status, and remediation plan for any failures. Re-run quarterly.
+   - **Expected effort:** 3-5 hours spread across 1-2 sessions. Many checks are scriptable (can be automated via Playwright/curl for recurring runs).
+   - **Trigger for this audit:** Discovered `/_next/` was disallowed in robots.txt (Apr 20, 2026). Blocking Googlebot from rendering CSS/JS is a known SEO anti-pattern; we need to verify no other silent anti-patterns exist.
+
 3. **Google Search Console setup** — ✅ **MOSTLY DONE** (verified Apr 20, 2026). Domain property `dfwhvac.com` added Feb 20, 2026. Ownership verified, GA4 linked, robots.txt valid, 393 crawl requests in last 90 days. **Note:** Site migration from Wix → Next.js happened **Apr 16, 2026** (confirmed via Let's Encrypt SSL issue date). GSC data prior to Apr 16 reflects the old Wix site. **Remaining:** confirm sitemap.xml submitted under Sitemaps tab, baseline Performance numbers (clicks/impressions/CTR/position), review Pages tab for any unexpected "Not indexed" entries.
 
 3a. **Post-migration GSC health check (do within 2 weeks)** — New Next.js site launched Apr 16, 2026. Google needs 2–4 weeks to fully recrawl. Tasks:
