@@ -150,7 +150,7 @@ This kills search CTR (users see the same blurb multiple times in one SERP), sig
 
 **Sub-tasks to execute (in order of ROI):**
 
-**P1.7a — Title tag audit (highest leverage, easiest)**
+**P1.6a — Title tag audit (highest leverage, easiest)**
 - Extract current `<title>` for all ~47 pages (scriptable via curl + cheerio or a quick Next.js build-time log)
 - Flag duplicates and over-60-char titles
 - Rewrite template (city pages): `[City] HVAC Repair & Installation | DFW HVAC`
@@ -158,25 +158,25 @@ This kills search CTR (users see the same blurb multiple times in one SERP), sig
 - Update `generateMetadata()` in `app/cities-served/[slug]/page.jsx` and `app/services/[category]/[slug]/page.jsx`
 - **Expected effort:** 1 hour. **Expected impact:** Can directly move rankings (unlike meta desc).
 
-**P1.7b — Body content depth audit (per city + per service)**
+**P1.6b — Body content depth audit (per city + per service)**
 - Grep current body word count per city page (target 300–500 unique words)
 - Identify pages with thin content or heavy reuse of boilerplate
 - Plan: add 1–2 unique paragraphs per city (local landmark, common HVAC issue in that zip, typical age of housing stock, etc.)
 - **Expected effort:** 4–6 hours (can batch via Sanity). **Expected impact:** High — this is the biggest untapped ranking lever after titles.
 
-**P1.7c — Backlink profile audit + target list**
+**P1.6c — Backlink profile audit + target list**
 - Run free Ahrefs/Moz backlink checker on dfwhvac.com
 - Document current referring domains count + DA
 - Build target list: Coppell Chamber of Commerce, Dallas BBB, DFW trade associations, HVAC supplier "where to buy" pages, local news sites (PR angle: 3-generation family business story)
 - **Expected effort:** 2 hours audit + ongoing outreach. **Expected impact:** Medium-long term.
 
-**P1.7d — INP (Interaction to Next Paint) measurement**
+**P1.6d — INP (Interaction to Next Paint) measurement**
 - Distinct from TBT (P2.4). INP is a field metric from real users via CrUX / GSC Core Web Vitals report.
 - Check GSC → Experience → Core Web Vitals for current INP status on mobile + desktop
 - If "Needs improvement" or "Poor," investigate input handlers (form inputs, button clicks, reCAPTCHA callbacks)
 - **Expected effort:** 30 min diagnosis + variable fix time. **Prerequisite:** Need 28 days of field data, so may not show for any new pages yet.
 
-**P1.7e — Review audit + response cadence**
+**P1.6e — Review audit + response cadence**
 - Count current Google reviews on GBP (dashboard has 80+ reviews historically)
 - Check response rate (ideal: respond to 100%, priority negative/4-star)
 - Audit review freshness (Google weights recency)
@@ -184,11 +184,24 @@ This kills search CTR (users see the same blurb multiple times in one SERP), sig
 - Cross-reference to P2.2 GBP setup.
 - **Expected effort:** 1 hour audit + ongoing. **User-controlled** (requires GBP admin access).
 
-**P1.7f — Schema markup per-page verification**
+**P1.6f — Schema markup per-page verification**
 - Use Google Rich Results Test or Schema.org validator on 5 sample pages (home, 1 service, 1 city, /contact, /about)
 - Verify: LocalBusiness on home + contact, Service schema on service pages, BreadcrumbList on deep pages, FAQ on /faq
 - Flag missing or invalid schema; remediate in component templates
 - **Expected effort:** 2 hours. **Expected impact:** Unlocks rich results (review stars, FAQ dropdowns) which lift CTR indirectly.
+
+**P1.6g — Fallback data parity audit (`lib/metadata.js` + `lib/mockData.js`)**
+- Added Apr 20, 2026 after spotting stale values during click-to-call bug fix.
+- **Known stale values in `lib/metadata.js` JSON-LD fallback (lines ~120–196):**
+  - `reviewCount: '118'` → should be `145` (matches mockData + live Sanity)
+  - `areaServed`: hardcoded 12-city list → should be the full 27-city list or sourced from Sanity `serviceAreas`
+  - `openingHours: 'Mo-Fr 09:00-18:00'` → should be `'Mo-Fr 07:00-18:00'` (7AM–6PM per current business hours)
+- **Why this matters:** These are *fallback* values used only when Sanity is unreachable, but any CMS hiccup causes Google to index incorrect structured data → could surface wrong hours / review count / service areas in SERP rich results and Knowledge Panel. Low frequency, high blast radius.
+- **Fix approach:** Drive the JSON-LD from `companyInfo` prop (pattern `SchemaMarkup.jsx` already uses) instead of hardcoded literals in `lib/metadata.js`. Or deprecate the hardcoded schema in `lib/metadata.js` entirely if `SchemaMarkup.jsx` already covers the same pages (likely overlap — audit both).
+- **Also re-verify:** `companyInfo.established: '2020'` (correct), `legacyStartYear: '1972'` (correct), `phoneDisplay` now wired into schema (fixed Apr 20, 2026).
+- **Expected effort:** 30 min. **Expected impact:** Defensive — prevents stale data from leaking into Google if Sanity fails.
+
+
 
 **Deliverable:** `/app/frontend/internal/DFW_HVAC_Ranking_Factor_Audit_YYYY-MM-DD.md` with:
 - Matrix of all ~47 pages × 10 factors
@@ -196,7 +209,7 @@ This kills search CTR (users see the same blurb multiple times in one SERP), sig
 - Prioritized remediation queue
 - Baseline metrics (GSC avg position per query, CTR per page) captured at start of audit for later delta measurement
 
-**Total expected effort:** 10–15 hours, spread across sessions. Highest-ROI sub-tasks first (P1.7a titles, P1.7b body content).
+**Total expected effort:** 10–15 hours, spread across sessions. Highest-ROI sub-tasks first (P1.6a titles, P1.6b body content).
 
 **Cadence:** First full pass now. Re-audit quarterly alongside P1.2 technical SEO audit.
 
