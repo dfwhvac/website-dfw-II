@@ -17,6 +17,12 @@ Build a premium, conversion-focused website for DFW HVAC using Next.js frontend 
 - **Domain:** dfwhvac.com (GoDaddy DNS → Vercel)
 - **APIs:** Google Maps/Places, Google reCAPTCHA v3, RealWork widget
 
+## Key Milestones
+
+- **Site launched (Wix → Next.js):** April 16, 2026 (confirmed via Let's Encrypt SSL cert issue date `notBefore=Apr 16, 2026 20:04:44 GMT`)
+- **Next.js 14 → 15.5.9 + React 19 upgrade deployed:** April 20, 2026
+- **GSC Domain property added:** February 20, 2026 (pre-launch; data before Apr 16 reflects the old Wix site)
+
 ## What's Been Implemented
 
 ### Session: April 19, 2026 — Next.js 14 → 15 Upgrade
@@ -70,9 +76,10 @@ Build a premium, conversion-focused website for DFW HVAC using Next.js frontend 
 ## Prioritized Backlog
 
 ### High Priority
-1. ~~Next.js upgrade (14→15+) + npm vulnerability fixes~~ ✅ **DONE Apr 19, 2026** (now on 15.5.5 + React 19)
+1. ~~Next.js upgrade (14→15+) + npm vulnerability fixes~~ ✅ **DONE Apr 19, 2026** (now on 15.5.9 + React 19)
 2. Audit site for speed, SEO, and conversion
-3. Google Search Console setup
+3. ~~Google Search Console setup~~ ✅ **MOSTLY DONE** (verified Apr 20, 2026 — Domain property, GA4 linked, crawling active)
+3a. **Post-migration GSC health check** — Site launched Apr 16, 2026. Submit sitemap, verify all 47 URLs index within 4 weeks, watch for 404s on old Wix URLs, use URL Inspection to request indexing on top ~10 pages. Capture baseline Performance numbers. Wait until ~May 14 for clean 28-day "new vs old" comparison. Details in Action_Items.md item 3a.
 4. Pre-launch verification (mobile, cross-browser, broken links)
 5. Internal linking audit
 

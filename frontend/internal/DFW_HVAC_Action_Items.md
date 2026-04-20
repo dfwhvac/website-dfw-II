@@ -10,7 +10,16 @@
 
 2. **Audit site for speed, SEO, and conversion** — Run Lighthouse audit, analyze Core Web Vitals, review conversion funnel, identify optimization opportunities.
 
-3. **Google Search Console setup** — ✅ **MOSTLY DONE** (verified Apr 20, 2026). Domain property `dfwhvac.com` added Feb 20, 2026. Ownership verified, GA4 linked, robots.txt valid, 393 crawl requests in last 90 days. **Remaining:** confirm sitemap.xml submitted under Sitemaps tab, baseline Performance numbers (clicks/impressions/CTR/position), review Pages tab for any unexpected "Not indexed" entries.
+3. **Google Search Console setup** — ✅ **MOSTLY DONE** (verified Apr 20, 2026). Domain property `dfwhvac.com` added Feb 20, 2026. Ownership verified, GA4 linked, robots.txt valid, 393 crawl requests in last 90 days. **Note:** Site migration from Wix → Next.js happened **Apr 16, 2026** (confirmed via Let's Encrypt SSL issue date). GSC data prior to Apr 16 reflects the old Wix site. **Remaining:** confirm sitemap.xml submitted under Sitemaps tab, baseline Performance numbers (clicks/impressions/CTR/position), review Pages tab for any unexpected "Not indexed" entries.
+
+3a. **Post-migration GSC health check (do within 2 weeks)** — New Next.js site launched Apr 16, 2026. Google needs 2–4 weeks to fully recrawl. Tasks:
+   - [ ] **Submit sitemap.xml** in GSC Sitemaps tab if not already submitted (accelerates discovery of all 47 new URLs)
+   - [ ] **Check Pages tab** weekly — target: 40–47 of 47 sitemap URLs showing as "Indexed" within 4 weeks
+   - [ ] **Look for 404s on old Wix URLs** in "Not indexed" tab. If any old URLs appear that aren't already handled by our 6 legacy 301 redirects in `next.config.js`, add new redirects before the next deploy. Current redirects: `/scheduleservicecall`, `/installation`, `/iaq`, `/ducting`, `/seasonalmaintenance`, `/testresults`.
+   - [ ] **Use URL Inspection → Request Indexing** for top ~10 high-value pages (home, top 5 city pages by population, top service pages, /request-service) to accelerate recrawl from weeks → days.
+   - [ ] **Capture baseline Performance numbers** (clicks / impressions / avg CTR / avg position) on Apr 20, 2026 into the Performance Scorecard so we can measure meta-description rewrite impact later.
+   - [ ] **Clean comparison date** — wait until ~May 14, 2026 (28 days post-launch), then do "May new site vs March Wix site" 28-day comparison. Document in scorecard.
+   - **Launch date reference:** Apr 16, 2026 (per Let's Encrypt SSL cert issue date).
 
 4. **Pre-launch verification** — Mobile responsiveness testing, cross-browser testing, all phone links work, check for broken links across all pages.
 
