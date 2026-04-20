@@ -127,7 +127,84 @@ This kills search CTR (users see the same blurb multiple times in one SERP), sig
 
 ---
 
-### P1.6 — GA4 conversion event setup
+### P1.6 — Page-by-page ranking factor audit ⭐ SYSTEMATIC SWEEP
+
+**Why this exists:** Meta descriptions (P1.1) drive CTR but are **not a ranking factor**. To actually move rankings we have to audit the factors Google *does* weight. This task is a per-page matrix so nothing gets missed across the ~47 indexed URLs (home + about + 7 services + 27 cities + 5 utility pages + blog, etc.).
+
+**Reference source:** Based on the Apr 20, 2026 agent-user conversation evaluating what Google actually uses vs. the meta description myth. Google has confirmed publicly (Mueller 2020; Search Central docs) that meta description is NOT a ranking factor — it influences CTR only. The factors below ARE ranking signals.
+
+**The 10 ranking factors — audit each, page by page:**
+
+| # | Factor | Is it a ranking signal? | Scope | Cross-ref |
+|---|--------|-------------------------|-------|-----------|
+| 1 | **Title tag** (`<title>`) | YES (strong) | Per-page audit: unique, front-loads city + primary keyword, <60 chars, no duplicates across 27 cities | NEW — highest priority sub-task |
+| 2 | **Page body content** | YES (strongest) | Depth, uniqueness, topical relevance, entity coverage. City pages need 300–500 words of unique copy. | Partly in P3 "Expand city page content" — promote to P1 |
+| 3 | **Google Business Profile** | YES (critical for local + map pack) | Claim, NAP, hours, services, photos, service-area cities, review response | P2.2 |
+| 4 | **Backlinks** | YES (strong) | Local + industry sources. Audit current profile (Ahrefs/Moz free tier), identify 10–20 realistic targets (local chambers, trade orgs, supplier sites, press) | NEW |
+| 5 | **Core Web Vitals** (LCP, INP, CLS) | YES (medium, INP replaced FID Mar 2024) | LCP + CLS currently passing. INP needs specific measurement (different from TBT). | Related to P2.4 TBT but INP audit is distinct |
+| 6 | **NAP consistency** | YES (local factor) | Name / Address / Phone identical across web (Yelp, BBB, Angi, Bing, Apple Maps) | P2.3 |
+| 7 | **Internal linking structure** | YES (medium) | Service ↔ city cross-links, descriptive anchors, no orphans | P1.4 (already captured) |
+| 8 | **Reviews** | YES (local factor) | Quantity + recency + response rate on GBP. Count + response cadence. | Partly in P2.2 — pull out as sub-task |
+| 9 | **Schema markup** | YES (medium — indirect via rich results eligibility) | LocalBusiness, Service, FAQ, BreadcrumbList per page. | Captured in P1.2 item 4, but needs per-page verification |
+| 10 | **Meta description** | NO (CTR only) | Covered in P1.1 — not a ranking factor but worth doing for CTR lift | P1.1 |
+
+**Sub-tasks to execute (in order of ROI):**
+
+**P1.7a — Title tag audit (highest leverage, easiest)**
+- Extract current `<title>` for all ~47 pages (scriptable via curl + cheerio or a quick Next.js build-time log)
+- Flag duplicates and over-60-char titles
+- Rewrite template (city pages): `[City] HVAC Repair & Installation | DFW HVAC`
+- Rewrite template (service pages): `[Service Name] in Dallas-Fort Worth | DFW HVAC`
+- Update `generateMetadata()` in `app/cities-served/[slug]/page.jsx` and `app/services/[category]/[slug]/page.jsx`
+- **Expected effort:** 1 hour. **Expected impact:** Can directly move rankings (unlike meta desc).
+
+**P1.7b — Body content depth audit (per city + per service)**
+- Grep current body word count per city page (target 300–500 unique words)
+- Identify pages with thin content or heavy reuse of boilerplate
+- Plan: add 1–2 unique paragraphs per city (local landmark, common HVAC issue in that zip, typical age of housing stock, etc.)
+- **Expected effort:** 4–6 hours (can batch via Sanity). **Expected impact:** High — this is the biggest untapped ranking lever after titles.
+
+**P1.7c — Backlink profile audit + target list**
+- Run free Ahrefs/Moz backlink checker on dfwhvac.com
+- Document current referring domains count + DA
+- Build target list: Coppell Chamber of Commerce, Dallas BBB, DFW trade associations, HVAC supplier "where to buy" pages, local news sites (PR angle: 3-generation family business story)
+- **Expected effort:** 2 hours audit + ongoing outreach. **Expected impact:** Medium-long term.
+
+**P1.7d — INP (Interaction to Next Paint) measurement**
+- Distinct from TBT (P2.4). INP is a field metric from real users via CrUX / GSC Core Web Vitals report.
+- Check GSC → Experience → Core Web Vitals for current INP status on mobile + desktop
+- If "Needs improvement" or "Poor," investigate input handlers (form inputs, button clicks, reCAPTCHA callbacks)
+- **Expected effort:** 30 min diagnosis + variable fix time. **Prerequisite:** Need 28 days of field data, so may not show for any new pages yet.
+
+**P1.7e — Review audit + response cadence**
+- Count current Google reviews on GBP (dashboard has 80+ reviews historically)
+- Check response rate (ideal: respond to 100%, priority negative/4-star)
+- Audit review freshness (Google weights recency)
+- Document cadence goal: 2–5 new reviews per month minimum
+- Cross-reference to P2.2 GBP setup.
+- **Expected effort:** 1 hour audit + ongoing. **User-controlled** (requires GBP admin access).
+
+**P1.7f — Schema markup per-page verification**
+- Use Google Rich Results Test or Schema.org validator on 5 sample pages (home, 1 service, 1 city, /contact, /about)
+- Verify: LocalBusiness on home + contact, Service schema on service pages, BreadcrumbList on deep pages, FAQ on /faq
+- Flag missing or invalid schema; remediate in component templates
+- **Expected effort:** 2 hours. **Expected impact:** Unlocks rich results (review stars, FAQ dropdowns) which lift CTR indirectly.
+
+**Deliverable:** `/app/frontend/internal/DFW_HVAC_Ranking_Factor_Audit_YYYY-MM-DD.md` with:
+- Matrix of all ~47 pages × 10 factors
+- Pass/fail per cell with evidence
+- Prioritized remediation queue
+- Baseline metrics (GSC avg position per query, CTR per page) captured at start of audit for later delta measurement
+
+**Total expected effort:** 10–15 hours, spread across sessions. Highest-ROI sub-tasks first (P1.7a titles, P1.7b body content).
+
+**Cadence:** First full pass now. Re-audit quarterly alongside P1.2 technical SEO audit.
+
+**Prerequisites:** Capture GSC baseline (P1.5) before making changes so delta is measurable.
+
+---
+
+### P1.7 — GA4 conversion event setup
 
 **Why:** GA4 is installed (`G-5MX2NE7C73`) but no conversion events configured. Without conversions, we can't measure:
 - Form submission rate per landing page
