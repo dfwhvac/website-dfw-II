@@ -87,6 +87,7 @@ Build a premium, conversion-focused website for DFW HVAC using Next.js frontend 
 13. Facebook Pixel setup
 14. GA4 conversion event setup (form submissions, click-to-call)
 15. **Next.js 15 → 16 upgrade (+ Sanity 3.50+)** — Revisit ~summer 2026 once Next 16.3+ ships with more bake time. Bundle with Sanity upgrade to clear React 19 peer-dep warnings. Expected effort: 30–60 min (async params already done, no middleware, no parallel routes). Trigger earlier if 15.x CVE isn't backported or we need 16-only features (Cache Components, View Transitions).
+16. **TBT optimization — lazy-load 3rd-party scripts** — Reduce TBT from ~2,300ms → ~400ms and Perf score 69 → 85+ by lazy-loading Google Maps (on form focus), reCAPTCHA (lazyOnload), GA4 (afterInteractive), and RealWork widget (IntersectionObserver). ~3 hrs. UX-only win (LCP + CLS already passing, so no SEO impact). Details in Action_Items.md item 13b.
 
 ### P3 — Backlog
 15. AI Readiness / AEO

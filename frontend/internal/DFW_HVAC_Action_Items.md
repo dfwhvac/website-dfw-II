@@ -45,6 +45,24 @@
    - **Trigger earlier if:** a CVE is disclosed on the 15.x line that isn't backported, OR we want to use View Transitions / Cache Components for a feature.
    - **Process:** same preview-branch workflow used for 14→15 (push to `nextjs-16-upgrade` branch → Vercel preview → smoke test → merge).
 
+13b. **TBT (Total Blocking Time) optimization — lazy-load third-party scripts** — Reduce main-thread blocking from **~2,300ms → ~400ms** (target <200ms). Lighthouse Performance score projected to lift from **69 → 85+**. Pre-existing issue unrelated to Next 15 upgrade.
+   - **Why defer, not urgent:** LCP (2.3s) and CLS (0) are both passing Google's Core Web Vitals thresholds, so this does NOT affect SEO rankings. Impact is UX-only (page is visible but unresponsive to clicks/scrolls/form input for ~2 sec on mobile).
+   - **Expected effort:** ~3 hours across 4 focused fixes.
+   - **Root causes (in priority order):**
+     1. **Google Maps JavaScript API** (~1.2 MB gzipped) — loaded eagerly on every form page for Address Autocomplete. Biggest offender.
+     2. **Google reCAPTCHA v3** (~150 KB + continuous background fingerprinting) — loaded site-wide.
+     3. **Google Analytics 4 / gtag** (~50 KB) — loaded eagerly.
+     4. **RealWork widget** (`/recent-projects` only) — third-party React bundle.
+   - **Fixes with expected wins:**
+     | Fix | Effort | Expected TBT reduction |
+     |-----|--------|------------------------|
+     | Lazy-load Google Maps script on form focus (not page load) | 1 hr | ~800–1,200ms |
+     | `next/script strategy="lazyOnload"` for reCAPTCHA | 30 min | ~300–500ms |
+     | `next/script strategy="afterInteractive"` for GA4 | 15 min | ~100–200ms |
+     | Load RealWork widget only when it scrolls into view (IntersectionObserver) | 30 min | ~200–400ms (`/recent-projects` only) |
+   - **Success criteria:** Post-change Lighthouse run shows TBT < 500ms avg across 13 pages and Performance score ≥ 85. Append measured numbers to scorecard as new "TBT-optimized" column.
+   - **Trigger earlier if:** we start paid ads (slow page feel hurts quality score), OR conversion-rate data shows drop-off during first 2 sec of load.
+
 ---
 
 ## P3 — Backlog
