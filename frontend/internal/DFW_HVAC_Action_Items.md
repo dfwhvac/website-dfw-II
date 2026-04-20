@@ -10,7 +10,7 @@
 
 2. **Audit site for speed, SEO, and conversion** — Run Lighthouse audit, analyze Core Web Vitals, review conversion funnel, identify optimization opportunities.
 
-3. **Google Search Console setup** — Verify domain ownership via DNS TXT record, submit sitemap, check indexing status, monitor crawl errors.
+3. **Google Search Console setup** — ✅ **MOSTLY DONE** (verified Apr 20, 2026). Domain property `dfwhvac.com` added Feb 20, 2026. Ownership verified, GA4 linked, robots.txt valid, 393 crawl requests in last 90 days. **Remaining:** confirm sitemap.xml submitted under Sitemaps tab, baseline Performance numbers (clicks/impressions/CTR/position), review Pages tab for any unexpected "Not indexed" entries.
 
 4. **Pre-launch verification** — Mobile responsiveness testing, cross-browser testing, all phone links work, check for broken links across all pages.
 
