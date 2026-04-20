@@ -94,6 +94,8 @@
 
 22. **Cancel Wix subscription** — After confirming new site is stable (1-2 weeks post-launch).
 
+23. **DNS records upgrade (Vercel-recommended)** — P3 low priority. Vercel dashboard shows "DNS Change Recommended" badge on both `dfwhvac.com` and `www.dfwhvac.com`. Current: apex uses A record `76.76.21.21` (valid but older style), www uses A record to an older Vercel IP. Vercel prefers CNAME → `cname.vercel-dns.com` for www and their updated A records for apex. Site works fine as-is; upgrade only reduces risk of a future outage if Vercel retires the current IPs. Do this next time in the GoDaddy DNS panel for another reason. ~10 min, low risk (5-min cutover, revertible).
+
 ---
 
 ## Recurring
