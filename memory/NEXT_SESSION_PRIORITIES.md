@@ -1000,6 +1000,7 @@ This kills search CTR (users see the same blurb multiple times in one SERP), sig
 
 ## 🔵 P3 — Backlog (wait until P1+P2 largely done)
 
+- **"Skip to main content" link (a11y polish)** — Added Apr 21, 2026 after PR #2 pushed Accessibility score from 87 → 95+. A single keyboard-focusable anchor at the very top of `<body>` that jumps past the header nav to `<main>`. Visually hidden until focused via Tab. Greatly improves keyboard-only and screen-reader navigation on every page. Could push Lighthouse Accessibility to a full 100. Implementation: ~15 min — add `<a href="#main" className="sr-only focus:not-sr-only ...">Skip to main content</a>` as first child of `<body>` in `app/layout.js`, and add `id="main"` to the `<main>` wrapper in each page/layout template. WCAG 2.1 Level A success criterion 2.4.1 (Bypass Blocks). Low priority because current a11y score is already well into 🟢, but worth doing when Phase A polish continues.
 - Next.js 15 → 16 upgrade (+ Sanity 3.50+) — revisit summer 2026
 - DNS records upgrade (Vercel CNAME-based) at GoDaddy — 10 min, low-risk
 - Expand city page content (300-500 words each) for better local SEO
