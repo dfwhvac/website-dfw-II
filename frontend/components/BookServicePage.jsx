@@ -108,7 +108,7 @@ const BookServicePage = () => {
                 {serviceTypes.map((service, index) => {
                   const IconComponent = service.icon
                   const colorClasses = {
-                    red: "bg-red-100 text-[#FF0000]",
+                    red: "bg-red-100 text-[#D30000]",
                     cyan: "bg-cyan-100 text-[#00B8FF]", 
                     orange: "bg-orange-100 text-orange-600",
                     green: "bg-green-100 text-green-600"
@@ -123,7 +123,7 @@ const BookServicePage = () => {
                         <div className="flex items-center gap-2">
                           <h3 className="font-semibold text-lg text-[#003153]">{service.title}</h3>
                           {service.urgent && (
-                            <span className="bg-red-100 text-[#FF0000] text-xs px-2 py-1 rounded-full font-medium">
+                            <span className="bg-red-100 text-[#D30000] text-xs px-2 py-1 rounded-full font-medium">
                               FAST
                             </span>
                           )}

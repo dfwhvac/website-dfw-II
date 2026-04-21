@@ -96,6 +96,7 @@ const TestimonialCarousel = ({ testimonials = [], maxDisplay = 12 }) => {
       <Button
         variant="outline"
         size="icon"
+        aria-label="Previous review"
         className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white shadow-lg hover:bg-gray-50 hidden md:flex"
         onClick={scrollPrev}
       >
@@ -105,6 +106,7 @@ const TestimonialCarousel = ({ testimonials = [], maxDisplay = 12 }) => {
       <Button
         variant="outline"
         size="icon"
+        aria-label="Next review"
         className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white shadow-lg hover:bg-gray-50 hidden md:flex"
         onClick={scrollNext}
       >
@@ -112,16 +114,28 @@ const TestimonialCarousel = ({ testimonials = [], maxDisplay = 12 }) => {
       </Button>
 
       {/* Dot Indicators */}
-      <div className="flex justify-center gap-2 mt-6">
-        {displayTestimonials.slice(0, Math.ceil(displayTestimonials.length / 3)).map((_, index) => (
-          <button
-            key={index}
-            className={`w-2 h-2 rounded-full transition-colors ${
-              Math.floor(selectedIndex / 3) === index ? 'bg-electric-blue' : 'bg-gray-300'
-            }`}
-            onClick={() => emblaApi?.scrollTo(index * 3)}
-          />
-        ))}
+      <div className="flex justify-center gap-1 mt-6">
+        {displayTestimonials.slice(0, Math.ceil(displayTestimonials.length / 3)).map((_, index) => {
+          const isActive = Math.floor(selectedIndex / 3) === index
+          return (
+            <button
+              key={index}
+              type="button"
+              aria-label={`Go to review slide ${index + 1}`}
+              aria-current={isActive ? 'true' : undefined}
+              className="w-6 h-6 flex items-center justify-center rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-electric-blue"
+              onClick={() => emblaApi?.scrollTo(index * 3)}
+              data-testid={`testimonial-dot-${index}`}
+            >
+              <span
+                aria-hidden="true"
+                className={`block w-2 h-2 rounded-full transition-colors ${
+                  isActive ? 'bg-electric-blue' : 'bg-gray-300'
+                }`}
+              />
+            </button>
+          )
+        })}
       </div>
     </div>
   )

@@ -160,7 +160,7 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
                 ) : (
                   <Link 
                     href={item.href} 
-                    className="px-4 py-2 text-sm font-medium hover:text-electric-blue transition-colors"
+                    className="inline-flex items-center min-h-[44px] px-4 py-2 text-sm font-medium hover:text-electric-blue transition-colors"
                   >
                     {item.label}
                   </Link>

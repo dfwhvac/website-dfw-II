@@ -214,7 +214,7 @@ const HomePage = ({
                       </ul>
                       <Button variant="outline" className="w-full" asChild>
                         <Link href={`/services/residential/${service.slug?.current || service.slug || (service.name || service.title || '').toLowerCase().replace(/\s+/g, '-')}`}>
-                          Learn More
+                          Explore {service.name || service.title}
                         </Link>
                       </Button>
                     </CardContent>
@@ -261,7 +261,7 @@ const HomePage = ({
                       </ul>
                       <Button variant="outline" className="w-full" asChild>
                         <Link href={`/services/commercial/${service.slug?.current || service.slug || (service.name || service.title || '').toLowerCase().replace(/\s+/g, '-')}`}>
-                          Learn More
+                          Explore {service.name || service.title}
                         </Link>
                       </Button>
                     </CardContent>

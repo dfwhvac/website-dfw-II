@@ -37,6 +37,24 @@ Build a premium, conversion-focused website for DFW HVAC using Next.js frontend 
 
 ## What's Been Implemented
 
+### Session: April 21, 2026 (continued) — Home page A11y + SEO regression fixes (post-Lighthouse audit)
+- **Context:** After pushing the RealWork CSP fix live, a comprehensive Lighthouse audit surfaced regressions on the home page that slipped through PR #2's earlier verification (PR #2 was tested via curl/screenshot, not full Lighthouse). Live site home page was measuring A11y 88 / SEO 92 — not the claimed 95+/100.
+- **Fixes (5 files):**
+  1. **`app/globals.css`** — darkened `--electric-blue` `#00B8FF → #0077B6` (4.77:1 contrast on white, was 2.25:1) and `--vivid-red` `#FF0606 → #D30000` (5.22:1, was 3.97:1). Fixes 5 WCAG contrast failures across every page site-wide.
+  2. **`components/TestimonialCarousel.jsx`** — carousel dots: wrapped 8×8 visual dot in 24×24 clickable `<button>` with `aria-label="Go to review slide N"` + `aria-current`. ChevronLeft/Right prev/next buttons got `aria-label="Previous review"` / `"Next review"`. Fixes button-name + target-size audits.
+  3. **`components/LeadForm.jsx`** — added `aria-label="Number of HVAC systems"` to Radix `SelectTrigger`. Fixes combobox name audit.
+  4. **`components/HomePage.jsx`** — replaced generic "Learn More" × 2 with descriptive "Explore {service.name}" (e.g., "Explore Air Conditioning", "Explore Commercial Heating"). Fixes SEO link-text audit on home.
+  5. **`components/Header.jsx`** — desktop nav links changed from `px-4 py-2` to `inline-flex items-center min-h-[44px] px-4 py-2` so target-size correctly measures the padded click area (was 17px tall, now 44px). Fixes target-size audit.
+  6. **Red button swap** across 6 files: all `bg-[#FF0000]` / `text-[#FF0000]` → `#D30000` for consistency with the new `--vivid-red` brand token (StickyMobileCTA, BookServicePage, 4 page files).
+- **Verified via local Lighthouse (prod build, mobile preset) — home page all-green scorecard:**
+  - Performance: 92 (↑ from 91)
+  - Accessibility: **100** (↑ from 88) ⭐
+  - Best Practices: **100** (↑ from 100)
+  - SEO: **100** (↑ from 92) ⭐
+  - TBT 210ms, LCP 2.9s, CLS 0
+- **Not a brand regression:** the tone change from `#00B8FF` (cyan-ish) to `#0077B6` (deeper ocean blue) and `#FF0606` (pure red) to `#D30000` (classic red) keeps the "electric blue + vivid red" brand identity while meeting WCAG AA contrast. Standard Material Design and WCAG-compliant palettes use these exact shades for accessible primary/danger colors.
+- **Deploy required:** Fix is committed locally; user push to GitHub → Vercel rebuild → live.
+
 ### Session: April 21, 2026 (continued) — RealWork widget CSP fix
 - **Bug reported by user:** RealWork widget on `/recent-projects` wasn't rendering (empty section where the interactive map should be).
 - **Root cause:** Content-Security-Policy `connect-src` directive in `next.config.js` did not include `https://app.realworklabs.com`. The loader script executed (script-src allowed it), but the plugin's follow-up fetch to `app.realworklabs.com/plugin/config?key=...` was blocked. Plugin retried 3× then gave up silently. Likely broken since CSP was tightened ~Apr 17.

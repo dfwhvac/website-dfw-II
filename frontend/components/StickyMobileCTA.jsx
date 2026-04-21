@@ -64,7 +64,7 @@ const StickyMobileCTA = ({
       data-testid="sticky-mobile-cta"
     >
       {/* Main CTA Bar */}
-      <div className="bg-[#FF0000] shadow-lg">
+      <div className="bg-[#D30000] shadow-lg">
         <div className="flex items-center justify-between px-4 py-3">
           {/* Call Button - Takes most of the space */}
           <a
