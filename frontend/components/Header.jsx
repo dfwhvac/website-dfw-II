@@ -118,7 +118,7 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
             <div className="flex items-center gap-4">
               <a href="tel:+19727772665" className="flex items-center gap-2 text-vivid-red font-semibold hover:underline">
                 <Phone className="w-4 h-4" />
-                <span>{phone} <span className="text-gray-400 font-normal text-xs">(2665)</span></span>
+                <span>{phone} <span className="text-gray-600 font-normal text-xs">(2665)</span></span>
               </a>
               <Button 
                 size="sm" 
@@ -199,6 +199,10 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
             size="icon"
             className="lg:hidden"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label={isMobileMenuOpen ? 'Close main menu' : 'Open main menu'}
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-menu"
+            data-testid="mobile-menu-toggle"
           >
             {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </Button>
@@ -207,7 +211,7 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden bg-white border-t border-gray-200">
+        <div id="mobile-menu" className="lg:hidden bg-white border-t border-gray-200">
           <div className="container mx-auto px-4 py-4 space-y-4">
             {navigation.map((item, index) => (
               <div key={item.href || index}>

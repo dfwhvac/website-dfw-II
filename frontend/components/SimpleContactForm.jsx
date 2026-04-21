@@ -77,6 +77,22 @@ const SimpleContactForm = ({
       const result = await response.json()
       
       if (result.success) {
+        // GA4 conversion event — track form submission as lead
+        // Added Apr 21, 2026 (PR #2, P1.7) for 70+ day baseline before Google Ads launch
+        try {
+          if (typeof window.gtag === 'function') {
+            window.gtag('event', 'form_submit_lead', {
+              form_name: 'contact_form',
+              lead_type: 'contact',
+              page_path: window.location.pathname,
+            })
+          }
+        } catch (err) {
+          if (process.env.NODE_ENV !== 'production') {
+            console.warn('form_submit_lead tracking failed:', err)
+          }
+        }
+
         toast.success("Thank you! We'll get back to you within 24 hours.")
         setFormData({
           firstName: '',
@@ -119,6 +135,7 @@ const SimpleContactForm = ({
               <Input
                 id="contactFirstName"
                 type="text"
+                autoComplete="name"
                 value={formData.firstName}
                 onChange={(e) => handleInputChange('firstName', e.target.value)}
                 required
@@ -135,6 +152,8 @@ const SimpleContactForm = ({
               <Input
                 id="contactPhone"
                 type="tel"
+                inputMode="tel"
+                autoComplete="tel"
                 value={formData.phone}
                 onChange={(e) => handleInputChange('phone', e.target.value)}
                 required
@@ -153,6 +172,8 @@ const SimpleContactForm = ({
             <Input
               id="contactEmail"
               type="email"
+              inputMode="email"
+              autoComplete="email"
               value={formData.email}
               onChange={(e) => handleInputChange('email', e.target.value)}
               required

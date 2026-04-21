@@ -140,7 +140,7 @@ export default async function CitiesServedPage() {
                             </span>
                           ))}
                           {city.zipCodes?.length > 4 && (
-                            <span className="text-gray-400 text-xs py-1">
+                            <span className="text-gray-600 text-xs py-1">
                               +{city.zipCodes.length - 4} more
                             </span>
                           )}
