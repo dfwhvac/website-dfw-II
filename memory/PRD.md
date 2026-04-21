@@ -1,6 +1,6 @@
 # DFW HVAC — Product Requirements Document
 
-**Last Updated:** April 20, 2026 (evening — strategic framing + conversion-focus backlog expansion; TBT PR #1 shipped)
+**Last Updated:** April 20, 2026 (evening — solo-operator phase reorganization: Phase A architecture / Phase B content / Phase C deferred. TBT PR #1 shipped.)
 
 ---
 

@@ -1,6 +1,8 @@
 # DFW HVAC — Prioritized Backlog (for next session)
 
-**Last updated:** April 20, 2026 (evening — strategic framing + conversion-focus backlog expansion)
+**Last updated:** April 20, 2026 (evening — solo-operator reorganization: Phase A / Phase B / Phase C grouping added. Original P1.x/P2.x/P3.x IDs preserved below for traceability.)
+
+**📍 Start here:** See the "**PHASE GROUPING & EXECUTION SEQUENCE**" section below for the authoritative execution order. Detailed task descriptions follow grouped by original priority tier.
 **Previous session accomplishments:** Next.js 14 → 15.5.9 + React 19 upgrade deployed, CVE-2025-66478 patched, www→apex 308 redirect live, `/_next/` robots.txt bug fixed and deployed, GSC sitemap cleaned up and resubmitted at apex URL, 10 priority URLs submitted for indexing, post-upgrade Lighthouse scorecard captured (performance-neutral as expected).
 
 **This session accomplishments (Apr 20 evening):** Click-to-call bug fix (5 files) • P1.1 meta descriptions via Path A code fallback (all 28 cities now use adaptive template) • TBT optimization PR #1 (reCAPTCHA removed from root, Maps `onFocus`, RealWork IntersectionObserver, "Powered by Google" attribution) • P1.6 ranking factor audit documented with 7 sub-tasks • P1.6g fallback data parity added after discovering stale values in `lib/metadata.js`.
@@ -26,6 +28,145 @@
 **Near-term focus (next 2 weeks):** 3 of the highest-leverage items are GBP optimization (biggest traffic), review-badge-everywhere + aggregateRating schema fix (biggest conversion), and progressive form (biggest on-site conversion lift). These 3 items likely 2–3× the combined impact of everything else on this backlog.
 
 ---
+
+## 🗂️ PHASE GROUPING & EXECUTION SEQUENCE (solo-operator reorganization — Apr 20, 2026 evening)
+
+**Operating reality:** This is a one-person team. Content production (writing, outreach, filming) is slow; code/infrastructure work is fast and agent-executable. Rather than running parallel tracks, **finish Phase A (code/infrastructure) completely before starting Phase B (content production)**. This prevents architectural bugs from surfacing mid-content-sprint and lets content work focus on quality without foundation anxiety.
+
+**The original P1.x / P2.x / P3.x IDs are preserved below for traceability.** This section re-groups the same items by workstream type. Each detailed task description lives in its original section below — use this as a navigation map.
+
+---
+
+### 🏗️ Phase A — Architecture Lock-In (code-heavy, agent-executable in focused sessions)
+
+**Goal:** Finish every code-based improvement and surface every lurking bug. When Phase A is complete, the platform is "content-ready" and no architectural surprises remain to derail content work.
+
+**A1 — Audit sweeps (find hidden bugs)**
+- **P1.2** — Deep technical SEO & architecture audit (13-category sweep) — 3–5 hrs
+- **P1.3** — Post-launch QA sweep (mobile / cross-browser / broken links) — 1–2 hrs
+- **P1.6a** — Title tag audit + rewrite — 1 hr
+- **P1.6d** — INP (Core Web Vitals) measurement — 30 min
+- **P1.6f** — Schema markup per-page verification — 2 hrs
+- **P1.6g** — `lib/metadata.js` fallback parity fix (stale 118 review count, wrong hours, 12-city areaServed) — 30 min
+
+**A2 — Measurement foundation (can't optimize blind)**
+- **P1.5** — GSC baseline capture + weekly indexing trend — 30 min + recurring
+- **P1.7** — GA4 conversion events (form_submit_lead, click_to_call, phone_click) — 1 hr
+
+**A3 — Schema + fallback integrity**
+- **P1.9a** — Fix `aggregateRating.reviewCount` schema globally (118 → 145 pulled from Sanity) — 30 min
+- **P1.1 (remainder)** — 7 service-page meta descriptions via code fallback (Path A) — 20 min
+
+**A4 — Conversion infrastructure (reusable UI components — code, not copy)**
+- **P1.9b** — Review badge component (used in every page hero) — 2 hrs
+- **P1.9e** — Footer + sticky bottom bar trust signals — 1 hr
+- **P1.9f / P1.11** — `/thanks` success page + email auto-reply infra (Resend) — 4 hrs (merged)
+- **P1.10** — Progressive form redesign (2-field → expand) — 4–6 hrs
+- **P2.13** — Exit intent capture modal — 3–4 hrs
+- **P2.12** — SMS text-back infrastructure (Twilio wiring; copy in Phase B) — 4–6 hrs
+
+**A5 — Mobile UX + hygiene (planned as PR #2)**
+- **P1.3-scoped** — Mobile form UX audit (Playwright viewport + code review) — 2 hrs
+- **P2.1** — "50+ cities" copy cleanup (actual = 28) — 30 min
+- **P1.4** — Internal linking matrix (implement as code lookup if possible) — 2–3 hrs
+
+**A6 — Deeper performance**
+- **P2.4b** — Server components migration + bundle reduction (reach 🟢 Good TBT) — 6–10 hrs
+- **P2.5** — Sanity webhook ISR revalidation (eliminate `force-dynamic` on public routes) — 4 hrs
+- **P2.7** — Code cleanup / unused dependency audit — 1–2 hrs
+
+**A7 — Operational/SEO polish**
+- **P1.6c** (audit half) — Backlink profile audit (Ahrefs/Moz free tier) — 2 hrs
+- **P2.3** — NAP consistency audit (Yelp, BBB, Angi, HomeAdvisor) — 2 hrs
+- **P2.6** — GTM + Facebook Pixel (if desired for retargeting) — 2 hrs
+
+**Phase A total estimated effort:** ~45–60 hrs of focused code sessions. At 2–3 hr blocks, 1–2 sessions per week → **realistic completion in 4–8 weeks.**
+
+---
+
+### ✍️ Phase B — Content Production (slow, user-led, agent-supported drafting)
+
+**Goal:** Fill the content vacuum. Weaponize the 145 reviews. Build topical authority. This is where most of DFW HVAC's ROI lives — but it requires consistent weekly effort over months, not a single sprint.
+
+**B1 — Weaponize reviews (content flows into Phase A's components)**
+- **P1.9c** — Inline review carousel (select/tag 12 rotating reviews with city metadata) — 1 hr content
+- **P1.9d** — City-filtered reviews page (tag existing 130 testimonials by city) — 3 hrs
+- **P1.6e** — Review response audit + ongoing reply cadence — 1 hr + recurring
+
+**B2 — Google Business Profile (biggest traffic lever — user-controlled)**
+- **P1.8** — GBP claim + full optimization + photos + weekly Posts cadence — 4 hrs + 30 min/week recurring
+
+**B3 — City page body content (biggest content effort on backlog)**
+- **P1.6b** — 300–500 unique words per city × 28 cities (local landmarks, housing stock, common HVAC issues) — 4–6 hrs
+- **P1.6c** (outreach half) — Backlink outreach to Chamber of Commerce, BBB, trade orgs, press angle for 3-gen family story — Ongoing
+
+**B4 — Conversion copy (fills infra built in Phase A)**
+- /thanks page copy + email auto-reply copy — 1 hr
+- SMS text-back message copy — 30 min
+- Progressive form field copy + helper text — 30 min
+- Exit intent modal copy — 30 min
+- **P2.14** — Urgency signals using real data (booked-this-week counts, weather-triggered banners) — 1 hr
+
+**B5 — Long-form content assets**
+- **P2.8** — Video testimonials (3 videos: owner intro + 2 customers; external filming) — 4 hrs on-site embed + $500–1,500 external
+- **P2.9** — Blog launch + 4 seasonal posts (3 hrs research + writing + editing per post) — 6 hrs infra + 12+ hrs content
+- **P2.10** — Lead magnets (AC age lookup, cost calculator, pre-summer checklist PDF) — 8–12 hrs each
+- **P2.11** — Financing page + service-page callouts (schema included) — 4 hrs
+
+**Phase B total:** Effectively ongoing — 3–6 months of weekly work at 1–2 hrs/week pace. Realistic for solo operator without burnout.
+
+---
+
+### 🔵 Phase C — Deferred / Strategic P3 (wait until Phase A+B momentum is strong)
+
+- Next.js 15 → 16 upgrade + Sanity 3.50+ (summer 2026 for stability)
+- DNS upgrade (GoDaddy A-records → Vercel CNAME)
+- Expanded city page content beyond P1.6b (neighborhood-specific sub-pages)
+- AI readiness / AEO (structured answers for AI Overviews, generative search)
+- Housecall Pro direct API integration (replace CSV flow)
+- Cancel Wix subscription (2+ weeks post-launch stability verified)
+
+---
+
+### 🏃 Recommended Sprint Sequence
+
+**Sprint 1 — Finish in-flight work (current session)**
+1. Ship PR #1 (TBT optimization) — ✅ Built, pending user merge
+2. Ship PR #2 — Mobile form UX audit + GA4 conversion events + P1.6g fallback fix + P1.1 service page meta descriptions — planned next
+3. Ship P1.9a — aggregateRating schema fix (30 min, folds naturally into PR #2)
+
+**Sprint 2 — Audit sweeps (find hidden bugs)**
+1. P1.2 — Technical SEO audit (13 categories)
+2. P1.3 — Post-launch QA sweep  
+3. P1.6a — Title tag audit
+4. P1.6f — Schema verification
+5. P1.6d — INP baseline
+
+**Sprint 3 — Reusable UI infrastructure**
+1. P1.9b — Review badge component
+2. P1.9e — Footer + sticky trust signals
+3. P1.10 — Progressive form
+4. P1.11 / P1.9f — /thanks page + email auto-reply
+
+**Sprint 4 — Deeper architecture + conversion infra**
+1. P2.4b — Server components + bundle reduction
+2. P2.5 — ISR caching
+3. P2.7 — Dependency audit
+4. P2.13 — Exit intent
+5. P2.12 — SMS text-back infra
+
+**Sprint 5 — SEO polish + final audits**
+1. P1.4 — Internal linking matrix
+2. P1.6c (audit half) — Backlink profile
+3. P2.3 — NAP consistency
+4. P2.1 — "50+ cities" copy cleanup
+5. P2.6 — GTM + FB Pixel (if desired)
+
+**After Sprint 5 → transition to Phase B content cadence.** Weekly rhythm: 1 GBP Post + 1 blog post draft per week, city body content as ongoing project, review responses ongoing.
+
+---
+
+
 
 ## 🔴 P1 — High Priority (pick these first)
 
