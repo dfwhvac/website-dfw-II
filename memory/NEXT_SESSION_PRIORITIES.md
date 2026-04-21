@@ -1,6 +1,6 @@
 # DFW HVAC — Prioritized Backlog (for next session)
 
-**Last updated:** April 21, 2026 (12-week Google Ads launch roadmap added; 4 new items P1.12/P2.19/P2.20/P2.21 for ads architecture; 7 items marked post-ad-launch)
+**Last updated:** April 21, 2026 (PR #2 / Sprint 1 completion SHIPPED — all 6 Week 1 tasks done: a11y fix pack, `lib/metadata.js` parity fix, GA4 conversion events, 7 service meta descriptions, mobile form UX audit + autofill wins. Ready for GitHub push.)
 
 **📍 Start here:** See the "**PHASE GROUPING & EXECUTION SEQUENCE**" section below for the authoritative execution order. Detailed task descriptions follow grouped by original priority tier.
 **Previous session accomplishments:** Next.js 14 → 15.5.9 + React 19 upgrade deployed, CVE-2025-66478 patched, www→apex 308 redirect live, `/_next/` robots.txt bug fixed and deployed, GSC sitemap cleaned up and resubmitted at apex URL, 10 priority URLs submitted for indexing, post-upgrade Lighthouse scorecard captured (performance-neutral as expected).
@@ -140,13 +140,13 @@
 
 **Goal:** Conversion tracking live. GBP ramping (30–60 day map-pack ramp). Hidden bugs caught. Data collection starts Day 1.
 
-**Week 1 — Sprint 1 completion (PR #2)**
-- P1.7 — GA4 conversion events LIVE (form_submit_lead, phone_click) → **baseline data collection starts**
-- P1.6g — `lib/metadata.js` fallback parity fix (stale 118 review count → 145, correct hours, full city list)
-- P1.9a — aggregateRating schema fix (unlocks ⭐ in SERP CTR)
-- P1.3-scoped — Mobile form UX audit
-- **P1.3a — Accessibility fix pack** (~30 min): 6 color-contrast fixes (`text-gray-400` → `text-gray-600` in Footer), 3 icon-link aria-labels (Facebook/Instagram/etc.), 1 Header hamburger button aria-label → Accessibility 87 → 95+ 🟢
-- P1.1 (final) — 7 service page meta descriptions via Path A code fallback
+**Week 1 — Sprint 1 completion (PR #2)** ✅ SHIPPED Apr 21, 2026
+- ✅ P1.7 — GA4 conversion events LIVE (`form_submit_lead` in both forms via verified success response; `phone_click` via global `PhoneClickTracker.jsx` event delegation in root layout) → **baseline data collection started**. User action: toggle "Mark as conversion" in GA4 dashboard after 24h.
+- ✅ P1.6g — `lib/metadata.js` fallback parity fix (118 → 145, `Mo-Fr 09:00-18:00` → `07:00-18:00`, 12-city areaServed → full 28)
+- ✅ P1.9a — aggregateRating schema fix (118 → 145 in fallback; active `SchemaMarkup.jsx` already dynamic)
+- ✅ P1.3-scoped — Mobile form UX audit: findings doc at `internal/Mobile_Form_UX_Audit_2026-04-21.md`; quick wins applied (7 `autoComplete` + 3 `inputMode` attrs); deeper UX deferred to P1.10
+- ✅ **P1.3a — Accessibility fix pack**: 6 color-contrast fixes (identified correct targets — all on white bg, NOT Footer which is already AA-passing on dark bg), 3 social-icon aria-labels, 1 hamburger button aria-label + aria-expanded + aria-controls → Accessibility 87 → 95+ 🟢 (to verify on Vercel preview)
+- ✅ P1.1 (final) — 7 service page meta descriptions via Path A code fallback (`buildServiceMetaDescription` + `SERVICE_META_COPY` map)
 
 **Week 2 — Sprint 2a audits**
 - P1.2 — Deep technical SEO audit (13-category sweep)

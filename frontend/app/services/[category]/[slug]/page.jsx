@@ -11,12 +11,51 @@ export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 // Generate metadata for SEO
+//
+// Meta description fallback strategy (Apr 21, 2026 — PR #2, P1.1 final):
+// If Sanity `metaDescription` is missing, generate a custom, service-specific
+// description via `buildServiceMetaDescription()`. This mirrors the Path A
+// pattern shipped for city pages on Apr 20 — eliminates the generic duplicate
+// fallback ("We offer comprehensive HVAC services...") that was hurting CTR
+// across all 7 service pages.
+//
+// Template: "[Service value prop + DFW/Texas hook]. Same-day service.
+//   Call (972) 777-2665. Licensed, family-owned."
+// Kept at <160 chars to avoid SERP truncation on desktop; mobile-safe too.
+const SERVICE_META_COPY = {
+  // Residential
+  'residential/air-conditioning':
+    'AC repair, installation & maintenance across Dallas-Fort Worth. Same-day service. Call (972) 777-2665. Licensed, family-owned.',
+  'residential/heating':
+    'Furnace & heat pump repair, installation & service in Dallas-Fort Worth. Same-day help. Call (972) 777-2665. Licensed, family-owned.',
+  'residential/indoor-air-quality':
+    'DFW indoor air quality: filtration, purifiers, humidifiers & duct solutions. Breathe cleaner. Call (972) 777-2665. Licensed, family-owned.',
+  'residential/preventative-maintenance':
+    'DFW HVAC tune-ups & preventative maintenance plans. Stop breakdowns before they start. Call (972) 777-2665. Licensed, family-owned.',
+  // Commercial
+  'commercial/commercial-air-conditioning':
+    'Commercial AC repair, installation & service for DFW businesses. Minimize downtime. Call (972) 777-2665. Licensed, family-owned.',
+  'commercial/commercial-heating':
+    'Commercial heating repair, installation & service for DFW businesses. Same-day response. Call (972) 777-2665. Licensed, family-owned.',
+  'commercial/commercial-maintenance':
+    'Commercial HVAC preventative maintenance for DFW businesses. Scheduled visits, flat pricing. Call (972) 777-2665. Licensed, family-owned.',
+}
+
+function buildServiceMetaDescription(category, slug, serviceTitle) {
+  const key = `${category}/${slug}`
+  if (SERVICE_META_COPY[key]) return SERVICE_META_COPY[key]
+  // Safe generic fallback for unknown future services (still service-named to
+  // avoid the "27-cities-share-one-description" anti-pattern).
+  return `${serviceTitle} in Dallas-Fort Worth. Same-day service available. Call (972) 777-2665. Licensed, family-owned.`
+}
+
 export async function generateMetadata({ params }) {
   const { category, slug } = await params
   const service = await client.fetch(
     `*[_type == "service" && category == $category && slug.current == $slug][0] {
       title,
-      description
+      description,
+      metaDescription
     }`,
     { category, slug }
   )
@@ -25,9 +64,13 @@ export async function generateMetadata({ params }) {
     return { title: 'Service Not Found' }
   }
   
+  const description =
+    service.metaDescription ||
+    buildServiceMetaDescription(category, slug, service.title)
+
   return {
     title: `${service.title} | DFW HVAC`,
-    description: service.description,
+    description,
     alternates: {
       canonical: `/services/${category}/${slug}`,
     },

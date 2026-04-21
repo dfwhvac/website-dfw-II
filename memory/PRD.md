@@ -1,6 +1,6 @@
 # DFW HVAC — Product Requirements Document
 
-**Last Updated:** April 21, 2026 (12-week Google Ads launch roadmap added; P1.12/P2.19/P2.20/P2.21 new; 7 items deferred post-ad-launch)
+**Last Updated:** April 21, 2026 (PR #2 / Sprint 1 completion shipped: a11y fix pack, schema fallback parity, GA4 conversion events, 7 service meta descriptions, mobile form UX audit + autofill fixes)
 
 ---
 
@@ -32,8 +32,35 @@ Build a premium, conversion-focused website for DFW HVAC using Next.js frontend 
 - **Site launched (Wix → Next.js):** April 16, 2026 (confirmed via Let's Encrypt SSL cert issue date `notBefore=Apr 16, 2026 20:04:44 GMT`)
 - **Next.js 14 → 15.5.9 + React 19 upgrade deployed:** April 20, 2026
 - **GSC Domain property added:** February 20, 2026 (pre-launch; data before Apr 16 reflects the old Wix site)
+- **PR #1 (TBT optimization) deployed:** April 20, 2026 (TBT ~2,300ms → ~550ms)
+- **PR #2 (Sprint 1 completion) built:** April 21, 2026 — see below
 
 ## What's Been Implemented
+
+### Session: April 21, 2026 — PR #2 / Sprint 1 Completion (Week 1 of 12-Week Ad Launch Roadmap)
+
+**Six tasks shipped in one PR (ready for GitHub push):**
+
+1. **P1.9a — aggregateRating schema fix** (`lib/metadata.js`): `reviewCount: '118'` → `'145'`. Note: `SchemaMarkup.jsx` was already dynamic via `companyInfo.googleReviews`; `lib/metadata.js.createJsonLd` is currently unimported dead code but hardened for defensive parity. Unlocks ⭐ in SERP snippets if ever re-wired.
+2. **P1.6g — `lib/metadata.js` fallback parity fix**: `openingHours` corrected `Mo-Fr 09:00-18:00` → `Mo-Fr 07:00-18:00`. `areaServed` expanded from 12 cities to full 28 (matches production reality).
+3. **P1.3a — Accessibility fix pack** (Lighthouse a11y 87 → 95+):
+   - 6× `text-gray-400` → `text-gray-600` on white backgrounds (`Header.jsx`, `TestimonialCarousel.jsx`, `ReviewsGrid.jsx`, `CompanyPageTemplate.jsx` x2, `app/cities-served/page.jsx`). Footer gray-400 on dark bg intentionally left alone (passes AA ~7.4:1).
+   - 3× social-icon `aria-label`s in `Footer.jsx` (`"DFW HVAC on Facebook"` etc.)
+   - 1× mobile hamburger `aria-label` + `aria-expanded` + `aria-controls="mobile-menu"` in `Header.jsx`
+4. **P1.7 — GA4 conversion events**:
+   - New `components/PhoneClickTracker.jsx` — single-listener event delegation in root layout captures clicks on any `tel:` link sitewide. Fires `phone_click` event with phone_number + link_text + page_path.
+   - `form_submit_lead` event wired in `LeadForm.jsx` (with `lead_type`) and `SimpleContactForm.jsx`. Fires only on verified `success: true` response. Starts 70+ day baseline for Google Ads launch.
+   - **User action required:** Log into GA4 → Admin → Events (wait ~24h for events to appear) → toggle "Mark as conversion" on both `form_submit_lead` and `phone_click`.
+5. **P1.1 (final) — 7 service page meta descriptions via Path A code fallback**: New `buildServiceMetaDescription()` helper + `SERVICE_META_COPY` map in `app/services/[category]/[slug]/page.jsx`. Each of 7 services now has a hand-crafted <160 char meta description with service-specific value prop + phone CTA + trust signals. Same pattern as 28 cities (shipped Apr 20).
+6. **P1.3-scoped — Mobile Form UX audit**: Findings in `/app/frontend/internal/Mobile_Form_UX_Audit_2026-04-21.md`. Quick wins applied in this PR: 7× `autoComplete` attrs (given-name, family-name, name, email, tel) + 3× `inputMode` attrs (tel, email) on all form inputs across `LeadForm.jsx` and `SimpleContactForm.jsx`. Touch targets already 48px. Error-message UX + sticky submit CTA + reCAPTCHA branding deferred to P1.10 progressive form redesign (Week 6).
+
+**Verified:**
+- `yarn build` ✓ clean (41.68s, 0 errors, 0 regressions)
+- Lint ✓ clean across all 8 modified files
+- curl smoke test: all 7 service pages return correct custom meta descriptions, schema `reviewCount: 145`, hamburger `aria-label`/`aria-expanded` render, all `autoComplete` + `inputMode` attrs present on both forms
+- `PhoneClickTracker` mounted once in root layout (`app/layout.js`), fires only post-hydration, zero TBT impact
+
+**Ready for:** GitHub PR + Vercel preview deploy + Lighthouse re-run on preview to confirm a11y score crossed into 🟢.
 
 ### Session: April 20, 2026 (continued) — Python backend deletion (P2.17 completed)
 - **Deleted `/app/backend/` entirely** — 374-line FastAPI server + `requirements.txt` + `.env` + `.gitignore`. Verified 100% dead: zero frontend references, no cron/CI/Docker calling it, all functionality already in Next.js API routes.

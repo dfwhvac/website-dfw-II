@@ -6,6 +6,7 @@ import { defaultMetadata } from '../lib/metadata'
 import ColorProvider from '../components/ColorProvider'
 import { getBrandColors } from '../lib/sanity'
 import StickyMobileCTA from '../components/StickyMobileCTA'
+import PhoneClickTracker from '../components/PhoneClickTracker'
 
 const GA_ID = 'G-5MX2NE7C73'
 
@@ -46,6 +47,7 @@ export default async function RootLayout({ children }) {
           {children}
         </ColorProvider>
         <Toaster />
+        <PhoneClickTracker />
         <StickyMobileCTA 
           phone="(972) 777-COOL"
           phoneNumber="+19727772665"

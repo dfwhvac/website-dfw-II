@@ -141,27 +141,43 @@ export function createJsonLd(data) {
         longitude: '-97.0195'
       },
       areaServed: [
-        'Dallas, TX',
-        'Fort Worth, TX',
+        'Allen, TX',
+        'Argyle, TX',
         'Arlington, TX',
-        'Plano, TX',
-        'Irving, TX',
-        'Garland, TX',
-        'Grand Prairie, TX',
-        'Mesquite, TX',
+        'Bedford, TX',
         'Carrollton, TX',
-        'Richardson, TX',
+        'Colleyville, TX',
+        'Coppell, TX',
+        'Dallas, TX',
+        'Denton, TX',
+        'Euless, TX',
+        'Farmers Branch, TX',
+        'Flower Mound, TX',
+        'Fort Worth, TX',
+        'Frisco, TX',
+        'Grapevine, TX',
+        'Haslet, TX',
+        'Hurst, TX',
+        'Irving, TX',
+        'Keller, TX',
+        'Lake Dallas, TX',
         'Lewisville, TX',
-        'Coppell, TX'
+        'Mansfield, TX',
+        'North Richland Hills, TX',
+        'Plano, TX',
+        'Richardson, TX',
+        'Roanoke, TX',
+        'Southlake, TX',
+        'The Colony, TX'
       ],
       openingHours: [
-        'Mo-Fr 09:00-18:00'
+        'Mo-Fr 07:00-18:00'
       ],
       priceRange: '$$',
       aggregateRating: {
         '@type': 'AggregateRating',
         ratingValue: '5.0',
-        reviewCount: '118'
+        reviewCount: '145'
       },
       hasOfferCatalog: {
         '@type': 'OfferCatalog',

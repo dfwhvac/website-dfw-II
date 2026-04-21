@@ -88,6 +88,22 @@ const LeadForm = ({
       const result = await response.json()
       
       if (result.success) {
+        // GA4 conversion event — track form submission as lead
+        // Added Apr 21, 2026 (PR #2, P1.7) for 70+ day baseline before Google Ads launch
+        try {
+          if (typeof window.gtag === 'function') {
+            window.gtag('event', 'form_submit_lead', {
+              form_name: 'lead_form',
+              lead_type: leadType,
+              page_path: window.location.pathname,
+            })
+          }
+        } catch (err) {
+          if (process.env.NODE_ENV !== 'production') {
+            console.warn('form_submit_lead tracking failed:', err)
+          }
+        }
+
         toast.success(successMessage)
         // Reset form
         setFormData({
@@ -134,6 +150,7 @@ const LeadForm = ({
               <Input
                 id="firstName"
                 type="text"
+                autoComplete="given-name"
                 value={formData.firstName}
                 onChange={(e) => handleInputChange('firstName', e.target.value)}
                 required
@@ -148,6 +165,7 @@ const LeadForm = ({
               <Input
                 id="lastName"
                 type="text"
+                autoComplete="family-name"
                 value={formData.lastName}
                 onChange={(e) => handleInputChange('lastName', e.target.value)}
                 required
@@ -167,6 +185,8 @@ const LeadForm = ({
               <Input
                 id="email"
                 type="email"
+                inputMode="email"
+                autoComplete="email"
                 value={formData.email}
                 onChange={(e) => handleInputChange('email', e.target.value)}
                 required
@@ -182,6 +202,8 @@ const LeadForm = ({
               <Input
                 id="phone"
                 type="tel"
+                inputMode="tel"
+                autoComplete="tel"
                 value={formData.phone}
                 onChange={(e) => handleInputChange('phone', e.target.value)}
                 required

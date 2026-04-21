@@ -195,7 +195,7 @@ const CompanyPageTemplate = ({
                     <div>
                       <h3 className="font-semibold text-gray-900">Phone</h3>
                       <p className="text-gray-600">{phone}</p>
-                      <p className="text-sm text-gray-400">(972) 777-2665</p>
+                      <p className="text-sm text-gray-600">(972) 777-2665</p>
                     </div>
                   </div>
                   
@@ -294,7 +294,7 @@ const CompanyPageTemplate = ({
                         <div className="text-right">
                           <p className="text-sm text-electric-blue font-medium">{testimonial.service}</p>
                           {testimonial.timeAgo && (
-                            <p className="text-xs text-gray-400">{testimonial.timeAgo}</p>
+                            <p className="text-xs text-gray-600">{testimonial.timeAgo}</p>
                           )}
                         </div>
                       </div>

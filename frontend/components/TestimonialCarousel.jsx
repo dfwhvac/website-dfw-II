@@ -82,7 +82,7 @@ const TestimonialCarousel = ({ testimonials = [], maxDisplay = 12 }) => {
                       <div className="text-sm text-electric-blue font-medium">{testimonial.services}</div>
                     )}
                     {testimonial.date && (
-                      <div className="text-xs text-gray-400 mt-1">{testimonial.date}</div>
+                      <div className="text-xs text-gray-600 mt-1">{testimonial.date}</div>
                     )}
                   </div>
                 </CardContent>

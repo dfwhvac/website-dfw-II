@@ -122,17 +122,24 @@ const Footer = ({ companyInfo = {}, siteSettings = null }) => {
               {footerTagline}
             </p>
             <div className="flex space-x-4">
-              {socialLinks.map((social, index) => (
-                <a 
-                  key={social.platform || index}
-                  href={social.url || '#'}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-electric-blue transition-colors"
-                >
-                  <SocialIcon platform={social.platform} className="w-8 h-8" />
-                </a>
-              ))}
+              {socialLinks.map((social, index) => {
+                const platformName = social.platform
+                  ? social.platform.charAt(0).toUpperCase() + social.platform.slice(1)
+                  : 'Social media'
+                return (
+                  <a
+                    key={social.platform || index}
+                    href={social.url || '#'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`DFW HVAC on ${platformName}`}
+                    data-testid={`footer-social-${social.platform || 'link'}`}
+                    className="text-gray-400 hover:text-electric-blue transition-colors"
+                  >
+                    <SocialIcon platform={social.platform} className="w-8 h-8" />
+                  </a>
+                )
+              })}
             </div>
           </div>
 
