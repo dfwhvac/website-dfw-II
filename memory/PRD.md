@@ -37,6 +37,14 @@ Build a premium, conversion-focused website for DFW HVAC using Next.js frontend 
 
 ## What's Been Implemented
 
+### Session: April 21, 2026 (continued) — UX-1 polish fix (iPhone 16 Pro header cramping)
+- **Issue:** User reported on iPhone 16 Pro (393px) that the header top bar stacked the phone number `(972) 777-COOL` across 3–4 lines — "Three Generations..." tagline + vanity phone + Call Now button were all competing for mobile real estate. Looked amateur. Escalated from the P1.3 QA sweep's UX-1 finding (I'd originally called this "low severity"; user feedback correctly re-rated it).
+- **Fix:** Added `hidden sm:flex` to the top bar wrapper in `components/Header.jsx` (line 114). Top bar is now invisible below 640px, unchanged on tablet/desktop.
+- **Why this is lossless on mobile:** `StickyMobileCTA.jsx` already provides a persistent bottom-of-screen phone CTA (fixed position, appears after 100px scroll, `lg:hidden`). Plus the hero's own "Call (972) 777-COOL" primary button, plus the phone link inside the hero section. Mobile users had 3 call paths without the top bar; removing it just eliminates the broken one.
+- **Verified:** Playwright screenshots at 3 viewports confirmed top bar HIDDEN at 393px / VISIBLE at 640px / VISIBLE at 1920px. Above-the-fold hero content now starts ~90px higher on mobile (bonus conversion benefit).
+- **Backlog added:** New P2 item — "Dark mode support (intentional)". User noted browser force-dark (Brave Night Mode) is producing inconsistent rendering; tracking as 6–10 hr effort scheduled for after Week 8 TBT optimizations.
+- **Build + lint:** clean.
+
 ### Session: April 21, 2026 (continued) — Branding correction: retire "since 1972" shorthand
 - **Problem identified by user:** Marketing copy was using "since 1972" as shorthand for the family HVAC legacy. Technically misleading — DFW HVAC itself was founded in 2020; 1972 is when the *grandfather's different company* (A-1 Air Conditioning) was started. The shorthand implies DFW HVAC has operated continuously since 1972, which is inaccurate.
 - **New canonical tagline:** "Keeping it Cool — For Three Generations."

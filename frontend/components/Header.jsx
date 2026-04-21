@@ -109,9 +109,9 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
   return (
     <header className="bg-white shadow-lg border-b-2 border-electric-blue sticky top-0 z-50">
       <div className="container mx-auto px-4">
-        {/* Top Bar */}
+        {/* Top Bar (hidden on mobile — redundant with StickyMobileCTA; see QA Sweep UX-1) */}
         {showHeaderTagline && (
-          <div className="flex justify-between items-center py-2 text-sm border-b border-gray-200">
+          <div className="hidden sm:flex justify-between items-center py-2 text-sm border-b border-gray-200">
             <Link href="/about" className="text-gray-600 hover:text-electric-blue transition-colors">
               {headerTagline}
             </Link>
