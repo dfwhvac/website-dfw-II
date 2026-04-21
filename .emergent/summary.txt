@@ -1,58 +1,62 @@
 <analysis>**original_problem_statement:** 
-The user wants to finalize a premium Next.js/Sanity website for DFW HVAC. The primary goal for the incoming agent was to execute a major framework upgrade from Next.js 14 to Next.js 15 to resolve high-severity security vulnerabilities, track SEO and performance baselines, and ensure Google Search Console (GSC) is correctly monitoring the site post-launch (the site went live ~April 16, 2026).
+The user wants to finalize a premium Next.js/Sanity website for DFW HVAC. The primary goal is executing a 12-Week Google Ads Launch Roadmap focusing on deep SEO, Accessibility, Core Web Vitals, and conversion rate optimization. 
 
-PRODUCT REQUIREMENTS: Maintain a high-converting, secure, and performant HVAC lead generation funnel. Forms are protected by reCAPTCHA v3. The site relies on a headless Sanity CMS and native Next.js API routes connected to MongoDB and Resend.
+PRODUCT REQUIREMENTS: Maintain a high-converting, secure, and performant HVAC lead generation funnel. The application is a single-stack Next.js app (Node.js) connected to a Headless Sanity CMS and MongoDB. The business is a 3rd-generation family business founded in 2020 (do NOT claim serving since 1972, though the family legacy of craftsmanship dates to 1972). Forms are protected by reCAPTCHA v3.
 
-**User's preferred language**: English
-(INSTRUCT next agent to respond in English only)
+**User's preferred language**: English (INSTRUCT next agent to respond in English only)
 
 **what currently exists?** 
-A live Next.js 15.5.9 application with React 19.2.5 and a Sanity CMS, deployed to Vercel (apex domain). The site is fully upgraded, with critical CVEs patched. Forms () are protected via Google reCAPTCHA v3, IP rate limiting, and sanitization. A 308 redirect from  to the apex domain is configured in Vercel.  has been optimized for Googlebot rendering. Google Search Console is actively tracking the site. 
+A live Next.js 15.5.9 application with React 19.2.5. The site boasts an A-grade (96/100) technical SEO score. City and Service pages dynamically generate JSON-LD schema, breadcrumbs, and cross-linking (hub-and-spoke architecture). GA4 event tracking is wired (, ). Accessibility is 95+ (all contrast and ARIA issues resolved). The site's branding is fully accurate (Keeping it Cool — For Three Generations), and a custom endpoint () provides live company descriptions for external directory syncing. The mobile header has been optimized to hide the top bar for a cleaner UI.
 
 **Last working item**: 
-- **Last item agent was working:** Preparing the handoff for the next session by creating a highly detailed, context-rich backlog document (). Prior to this, the agent successfully fixed a  anti-pattern, updated GSC settings, and requested indexing for 10 priority URLs.
-- **Status:** NONE (Handoff preparation is complete).
-- **Agent Testing Done:** Y (Testing agent was used after Next.js 15 upgrade; Lighthouse was run for performance baselines; curl tests verified redirects and ).
+- **Last item agent was working:** Optimizing the mobile header UI (UX-1) by hiding the top bar below 640px () to fix cramped layout on devices like the iPhone 16 Pro. The agent then logged Dark Mode support to the P2 backlog and prepared a clean fork for the next session.
+- **Status:** NONE (Cleanly finished and verified. Ready for next roadmap items).
+- **Agent Testing Done:** Y (Built successfully, tested via bash curl commands, and screenshot tool across multiple breakpoints).
 - **Which testing method agent to use?** both
-- **User Testing Done:** Y (User verified GSC configuration and Vercel Domain routing).
+- **User Testing Done:** Y (User verified live site changes).
 
 **All Pending/In progress Issue list**: 
-*(No active bugs or issues. The site is healthy and production-ready. All work is now feature/SEO enhancement based.)*
+*(No active bugs in codebase. Remaining items are roadmap features or user-led verifications.)*
+Issue 1: User-led GA4 Toggle Activation (Priority: P0 for User)
+- Description: User needs to log into GA4 and toggle Mark as conversion for  and  events.
+- Status: USER VERIFICATION PENDING (Scheduled for after 1:00 AM April 22).
+
+Issue 2: User-led M1-M5 Device QA (Priority: P1 for User)
+- Description: User needs to do physical device checks (iOS Safari, Android Chrome, and Maps address autocomplete testing) as automated tests cannot bypass API referrer restrictions reliably.
+- Status: USER VERIFICATION PENDING.
 
 **In progress Task List**: 
-*(No active mid-code tasks; the session was cleanly wrapped up to prepare for SEO feature work).*
+*(Clean slate. Sprint 1 and Sprint 2a audits/fixes are complete).*
 
 **Upcoming and Future Tasks**:
-*Note: Full context, templates, and reasoning for these tasks are preserved in .*
+*Note: Full context and the 12-Week Roadmap are preserved in .*
 
-Upcoming Tasks:
-- **Custom meta descriptions for 27 city + 7 service pages (P1 - HIGHEST PRIORITY):** The Denton city page has the correct template. Remaining pages currently use a generic duplicate fallback. This is the highest-leverage SEO task to tackle next.
-- **Deep technical SEO & architecture audit (P1):** A 13-category sweep to catch legacy anti-patterns.
-- **Post-launch QA sweep (P1):** Mobile responsive, cross-browser, broken-link scan.
-- **Internal linking audit (P1):** Cross-link services and cities for SEO equity.
-- **Post-migration GSC health check (P1):** Weekly indexing trend watch.
-- **GA4 conversion event setup (P1):** Track forms and click-to-call actions.
+Upcoming Tasks (Week 3 - Sprint 2b):
+- **P1.6a — Title tag audit + rewrite (P1 - HIGHEST PRIORITY):** Title tags are a direct ranking factor. Current titles across 47 pages need to be audited and rewritten to front-load keywords and city names.
+- **P1.6f — Google Rich Results validation (P1):** User-led validation of the newly added JSON-LD schemas using Google's Rich Results Testing tool.
+- **P1.8 — Google Business Profile optimization (P1):** The single biggest traffic lever remaining. Prep the full claim checklist, photo shot-list, and post-cadence template.
 
-Future Tasks:
-- **50+ cities copy cleanup (P2):** Audit and correct the hardcoded claim across the site.
-- **Google Business Profile & Local Citations (P2)**
-- **TBT (Total Blocking Time) optimization (P2):** Lazy-load Google Maps, reCAPTCHA, GA4, and RealWork scripts to improve the current ~2.3s TBT.
-- **Production caching mode (P2):** Webhook revalidation for Sanity updates.
-- **Next.js 16 upgrade + Sanity 3.50+ (P3):** Deferred until Summer 2026 for stability.
-- **DNS records upgrade (P3):** Switch GoDaddy A-records to Vercel CNAME.
+Future Tasks (Weeks 4-12):
+- **P1.9b-f — Review badge components, inline carousels, sticky trust signals (P1)**
+- **P1.10 — Progressive form redesign (2-field -> expand) (P1)**
+- **P2 — Add intentional Dark Mode support (P2 - Just added)**
+- **P2.4b — Server components migration + bundle reduction (P2)**
+- **P2.5 — Sanity webhook ISR revalidation (P2)**
+- **P3 — Skip to main content link (a11y polish) (P3)**
 
 **Completed work in this session**
-- Upgraded Next.js 14.2.35 → 15.5.9 and React 18 → 19.2.5 (DONE)
-- Patched critical CVE-2025-66478 (10.0 RCE) and CVE-2025-67779 (DONE)
-- Captured post-upgrade Lighthouse scorecard (no regressions) (DONE)
-- Configured  to apex 308 redirect in Vercel (DONE)
-- Cleaned up GSC sitemaps and resubmitted apex sitemap (DONE)
-- Fixed  bug (removed ) to allow Googlebot to render CSS/JS (DONE)
-- Requested Google indexing for 10 priority URLs (DONE)
-- Created  to preserve P1/P2 task context (DONE)
+- PR #2: A11y fix pack (contrast & aria-labels), GA4 events wired, Service meta descriptions code fallback added, Mobile Form UX (autocomplete/inputMode attributes). (DONE)
+- PR #3: JSON-LD schema added to 34 City/Service pages, Service<->City cross-linking grids implemented, Branded  created. (DONE)
+- QA Fix: Standardized all  links to E.164 format (). (DONE)
+- Branding Rewrite: Removed false serving since 1972 claims. Adopted Keeping it Cool — For Three Generations. Removed  from schema/scripts. Built  endpoint. Migrated live Sanity DB documents. (DONE)
+- UX-1 Fix: Hid top bar on mobile headers () to resolve content cramping. (DONE)
 
 **Earlier issues found/mentioned but not fixed**
-None. Agent successfully logged all remaining requests systematically.
+Issue 1: 
+- Debug checklist: React oversized components (, , ,  all > 300 lines). Index-as-key anti-patterns in 44 instances.  POST route complexity is high.
+- Why to solve this issue and what will be achieved with this? Improves maintainability and React rendering performance.
+- Should Test frontend/backend/both after fix: Frontend
+- Is recurring issue? Y (Documented under P2.15, P2.16, P2.18 for later cleanup).
 
 **Known issue recurrence from previous fork**
 - Issue recurrence in previous fork: None
@@ -63,52 +67,53 @@ None. Agent successfully logged all remaining requests systematically.
 
 
 **Key Technical Concepts**
-- Next.js App Router (v15.5.9), React 19.2.5
+- Next.js App Router (v15.5.9), React 19.2.5 (Single-stack, NO PYTHON BACKEND)
 - Sanity.io Headless CMS
 - Vercel deployments & Cron Jobs
-- Google reCAPTCHA v3 integrated for form spam protection
-- SEO Canonicalization (Apex domain preferred,  redirects via 308)
+- SEO Canonicalization & JSON-LD Structured Data
+- Tailwind CSS
 
 **key DB schema**
 -  (MongoDB): 
 
 **changes in tech stack**
-- Major version bump: Next.js 15.5.9 and React 19.2.5 installed and verified.
+- The legacy Python backend was previously deleted. The app is strictly a single-stack Next.js (Node.js) application. 
 
 **All files of reference**
--  (CRITICAL: Start here. Contains full context/templates for P1 & P2 tasks)
--  (Updated)
--  (Updated to allow crawler rendering)
--  (Updated)
--  (Updated)
+-  (CRITICAL: Primary source of truth for the 12-Week Roadmap)
+-  (Canonical product specs and brand messaging)
+-  (Instructions for user GA4 toggles)
+-  (Detailed 13-category SEO audit results)
+-  (Device QA checklist)
+-  (Generates up-to-date business desc)
 
 **Areas that need refactoring**:
-- TBT Optimization (lazy-loading 3rd-party scripts like Google Maps and reCAPTCHA) is needed to improve Lighthouse performance scores. Tracked as a P2 task.
+- Component decomposition needed for >300 line components.
+- Bundle reduction (unused  icons and  components) needed for TBT gains (Tracked in P2.7).
 
 **key api endpoints**
--  (Protected by reCAPTCHA, rate limits, and HTML escaping).
+-  (Protected by reCAPTCHA, rate limits, HTML escaping).
 -  (Requires ).
+-  (Returns dynamic business description, tagline, and latest review count from Sanity).
 
 **Critical Info for New Agent**
-- **IMMEDIATE TASK:** The user explicitly requested that context for P1 & P2 items be strictly preserved. Your FIRST action must be to read . 
-- The highest priority task (P1.1) is **Custom meta descriptions for 27 cities and 7 services**. The exact template you must follow (the Denton template) is documented inside .
-- **THE SITE IS LIVE.** It was launched ~April 16, 2026. Do not use generic fallback data. Ensure all SEO/Content changes reflect real business context.
-- Use standard Vercel configuration/URLs or  for testing.
+- **IMMEDIATE TASK:** The highest priority next step is **P1.6a Title tag audit + rewrite**. Consult the roadmap in .
+- **THE SITE IS LIVE.** Do not use generic fallback data. All SEO work must reflect the real business. 
+- **NO PYTHON BACKEND:** The old backend was deleted. Do not try to debug or run Python backend servers.
+- The company was founded in 2020. The family *legacy* dates back to 1972. Ensure you never write Serving since 1972. Use the canonical description from .
+- ANY third-party integrations (like auth, SMS, etc.) MUST be passed through the  subagent. 
 
 **documents and test reports created in this job**
 - 
 - 
 - 
+- 
 
 **Last 10 User Messages and any pending HUMAN messages**
-- **User:** What is this (Git conflict warning)? (Status: Agent explained PR workflow for conflict resolution)
-- **User:** How do I merge the new one robot.txt-fix with main? (Status: Agent walked user through GitHub PR merge)
-- **User:** Proceed [with merge]. (Status: Agent verified deployment and  crawlability via curl)
-- **User:** How close to the token limit is this session? (Status: Agent explained ~63% context remains, recommended forking for clean context on next SEO tasks)
-- **User:** Will tokens refresh on break or should I fork? (Status: Agent advised forking)
-- **User:** Do I continue requesting GSC indexing? (Status: Agent explained Google's daily quota limit and advised stopping for now)
-- **User:** Show prioritized to do list. (Status: Agent displayed list)
-- **User:** I want this list readily available to the next agent after fork without context loss. (Status: PENDING NEXT AGENT - Agent created  to perfectly save context, then prepared to fork).
+- **User:** Pointed out that the mobile header stacked phone numbers and looked amateur on iPhone 16 Pro; asked to remove top bar. (Status: Resolved - Agent hid top bar )
+- **User:** Approved Option 1 (hide top bar) and Option B (log dark mode to P2). (Status: Resolved - Implemented and logged)
+- **User:** Acknowledged the implementation was live. (Status: Resolved - Agent verified live site)
+- **User:** Agreed to pause and fork the session for a clean start. (Status: Resolved - Handoff prepared).
 
 **Project Health Check:**
 - **Broken:** None.
@@ -120,19 +125,19 @@ None. Agent successfully logged all remaining requests systematically.
 - MongoDB Atlas (Cloud Database)
 - Google Places API & Maps JavaScript API (requires User API Key)
 - Resend (Email API - requires User API Key)
-- Google Analytics 4 (GA4 Tracking)
+- Google Analytics 4 (GA4 Tracking - Client Side)
 - Google Search Console (SEO Tracking)
 - Google reCAPTCHA v3 (Spam Protection - requires User API Key)
 - RealWork Widget (External plugin - requires )
 
 **Testing status**
-- Testing agent used after significant changes: YES (Testing agent v3 fork verified 26/26 backend and frontend tests passed after Next.js 15 upgrade).
+- Testing agent used after significant changes: NO (Playwright subagent was skipped to save time and context, as changes were additive SEO tweaks and simple CSS display modifications. Bash curl, bash scripts, and the screenshot tool were heavily utilized).
 - Troubleshoot agent used after agent stuck in loop: NO
-- Test files created: None required natively; Pytest tests maintained by testing subagent.
+- Test files created: None
 - Known regressions: None
 
 **Credentials to test flow:**
 - All API keys are securely stored in Vercel and locally in .
 
 **What agent forgot to execute**
-- Nothing. Clean handoff. The agent deliberately paused before starting the massive SEO Meta Description rewrite to ensure the next agent had full context window available.</analysis>
+- Clean handoff. The agent deliberately paused before starting the P1.6a Title Tag audit to preserve context for the next session.</analysis>
