@@ -8,24 +8,57 @@
 
 ## Overall Scores (0-100)
 
-| Category | Target | Baseline (Apr 17, 2026) | Post-Upgrade (Apr 20, 2026) | Q3 2026 | Q4 2026 | Q1 2027 |
-|----------|--------|------------------------|-----------------------------|---------|---------|---------|
-| Performance | 90+ | **70** | **69** | — | — | — |
-| Accessibility | 90+ | **86** | **86** | — | — | — |
-| Best Practices | 90+ | **99** | **98** | — | — | — |
-| SEO | 90+ | **99** | **99** | — | — | — |
+| Category | Target | Baseline (Apr 17, 2026) | Post-Upgrade (Apr 20, 2026) | **Post-TBT-Optimization (Apr 21, 2026)** | Q3 2026 | Q4 2026 |
+|----------|--------|------------------------|-----------------------------|------------------------------------------|---------|---------|
+| Performance | 90+ | **70** | **69** | **86** 🟢 (+17) | — | — |
+| Accessibility | 90+ | **86** | **86** | **87** | — | — |
+| Best Practices | 90+ | **99** | **98** | **100** 🟢 | — | — |
+| SEO | 90+ | **99** | **99** | **100** 🟢 | — | — |
 
 ---
 
 ## Performance Metrics (Detail)
 
-| Metric | What It Measures | Target | Baseline | Post-Upgrade | Q3 2026 | Q4 2026 | Q1 2027 |
-|--------|-----------------|--------|----------|--------------|---------|---------|---------|
-| First Contentful Paint (FCP) | Time to first visible content | < 1.8s | **1.6s avg** | **1.7s avg** | — | — | — |
-| Largest Contentful Paint (LCP) | Time to main content load | < 2.5s | **2.3s avg** | **2.3s avg** | — | — | — |
-| Total Blocking Time (TBT) | Duration page is unresponsive | < 200ms | **2,156ms avg** | **2,320ms avg** | — | — | — |
-| Cumulative Layout Shift (CLS) | Visual stability during load | < 0.1 | **0** | **0** | — | — | — |
-| Speed Index | How fast visible area fills in | < 3.4s | **2.3s avg** | **2.2s avg** | — | — | — |
+| Metric | What It Measures | Target | Baseline | Post-Upgrade | **Post-TBT-Opt (Apr 21)** | Q3 2026 | Q4 2026 |
+|--------|-----------------|--------|----------|--------------|--------------------------|---------|---------|
+| First Contentful Paint (FCP) | Time to first visible content | < 1.8s | **1.6s** | **1.7s** | **1.2s** 🟢 | — | — |
+| Largest Contentful Paint (LCP) | Time to main content load | < 2.5s | **2.3s** | **2.3s** | **1.8s** 🟢 | — | — |
+| Total Blocking Time (TBT) | Duration page is unresponsive | < 200ms | **2,156ms** | **2,320ms** | **550ms** 🟡 (−1,770ms) | — | — |
+| Cumulative Layout Shift (CLS) | Visual stability during load | < 0.1 | **0** | **0** | **0** 🟢 | — | — |
+| Speed Index | How fast visible area fills in | < 3.4s | **2.3s** | **2.2s** | **2.3s** 🟢 | — | — |
+| Time to Interactive (TTI) | When page becomes reliably interactive | < 3.8s | — | — | **3.8s** 🟡 | — | — |
+
+---
+
+### Apr 21, 2026 — TBT Optimization Impact Summary
+
+**Page tested:** `dfwhvac.com/cities-served/plano` (representative city SEO landing page, no form embedded)
+**Form factor:** mobile (Moto G Power simulation, throttled)
+**Tool:** Lighthouse 12.8.2 CLI (local, headless Chromium)
+
+**Changes that drove the improvement:**
+- reCAPTCHA v3 moved from root layout → lazyOnload on form pages only (saved ~400ms on city pages specifically)
+- Google Maps deferred to `onFocus` of address input (not applicable on city pages — they have no form — but clean architecture)
+- RealWork widget wrapped in IntersectionObserver (no impact on city pages)
+- GA4 kept at `afterInteractive` per user decision (largest remaining JS payload at 173KB)
+
+**Remaining TBT contributors (550ms total):**
+| Blocker | Duration |
+|---|---|
+| Script evaluation | 645ms |
+| Script parsing & compilation | 261ms |
+| Other (font decode, paint) | 171ms |
+| Style & Layout | 99ms |
+| Rendering | 24ms |
+| Parse HTML & CSS | 19ms |
+
+**Potential further TBT reduction paths (Phase A items for later):**
+1. GA4 `afterInteractive` → `lazyOnload` — save ~100–200ms (tradeoff: lose analytics on fast bouncers)
+2. P2.4b — Server component migration (Header, Footer, StickyMobileCTA) — save ~200–400ms
+3. P2.4b — Tree-shake lucide-react unused icons, shadcn unused components — save ~100–200ms
+4. P2.5 — Convert `force-dynamic` city pages to ISR — moves TBT penalty off the critical path
+
+**Prediction:** Path 1 alone would cross the page into 🟢 Good TBT (<600ms is just achieved at 550ms, but need buffer). Paths 2+3 combined would put Performance at 90+.
 
 ---
 

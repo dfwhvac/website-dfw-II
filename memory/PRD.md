@@ -1,6 +1,6 @@
 # DFW HVAC — Product Requirements Document
 
-**Last Updated:** April 20, 2026 (evening — solo-operator phase reorganization: Phase A architecture / Phase B content / Phase C deferred. TBT PR #1 shipped.)
+**Last Updated:** April 21, 2026 (12-week Google Ads launch roadmap added; P1.12/P2.19/P2.20/P2.21 new; 7 items deferred post-ad-launch)
 
 ---
 
