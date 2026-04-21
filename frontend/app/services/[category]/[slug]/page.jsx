@@ -2,13 +2,22 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ServiceTemplate from '@/components/ServiceTemplate'
 import { client } from '@/lib/sanity'
-import { getCompanyInfo, getTestimonials, getSiteSettings } from '@/lib/sanity'
+import { getCompanyInfo, getTestimonials, getSiteSettings, getCityPages } from '@/lib/sanity'
 import { companyInfo as mockCompanyInfo, testimonials as mockTestimonials } from '@/lib/mockData'
+import { LocalBusinessSchema, BreadcrumbListSchema, ServiceSchema } from '@/components/SchemaMarkup'
+import Link from 'next/link'
+import { ArrowRight } from 'lucide-react'
 import { notFound } from 'next/navigation'
 
 // Disable caching for instant Sanity updates
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
+
+// Category label map for breadcrumb + anchor text
+const CATEGORY_LABEL = {
+  residential: 'Residential',
+  commercial: 'Commercial',
+}
 
 // Generate metadata for SEO
 //
@@ -122,6 +131,16 @@ export default async function ServicePage({ params }) {
   
   // Fetch site settings
   const siteSettings = await getSiteSettings()
+
+  // Fetch full city list for hub-and-spoke internal linking + schema areaServed.
+  // Added PR #3, R1.2 (Apr 21, 2026). Falls back gracefully if Sanity errors.
+  let cityPages = []
+  try {
+    cityPages = await getCityPages()
+    if (!Array.isArray(cityPages)) cityPages = []
+  } catch {
+    cityPages = []
+  }
   
   // Transform service data to match template structure
   const serviceData = {
@@ -197,6 +216,24 @@ export default async function ServicePage({ params }) {
   
   return (
     <div className="min-h-screen">
+      {/* JSON-LD schema — added PR #3, R1.1 (Apr 21, 2026) */}
+      <LocalBusinessSchema companyInfo={companyInfo} cityPages={cityPages} />
+      <ServiceSchema
+        serviceName={service.title}
+        serviceDescription={service.description}
+        category={category}
+        companyInfo={companyInfo}
+        areaServedCities={cityPages}
+      />
+      <BreadcrumbListSchema
+        items={[
+          { name: 'Home', url: 'https://dfwhvac.com' },
+          { name: 'Services', url: 'https://dfwhvac.com/services' },
+          { name: CATEGORY_LABEL[category] || category, url: `https://dfwhvac.com/services/${category}` },
+          { name: service.title, url: `https://dfwhvac.com/services/${category}/${slug}` },
+        ]}
+      />
+
       <Header companyInfo={companyInfo} siteSettings={siteSettings} />
       <main>
         <ServiceTemplate 
@@ -205,6 +242,44 @@ export default async function ServicePage({ params }) {
           testimonials={testimonials}
           maintenanceSignup={slug === 'preventative-maintenance'}
         />
+
+        {/* Cities served grid — hub-and-spoke internal linking back to
+            every DFW city page with service-specific anchor text.
+            Added PR #3, R1.2 (Apr 21, 2026). */}
+        {cityPages.length > 0 && (
+          <section className="bg-gray-50 py-16 border-t" aria-labelledby="cities-heading">
+            <div className="container mx-auto px-4">
+              <div className="max-w-5xl mx-auto">
+                <h2 id="cities-heading" className="text-2xl md:text-3xl font-bold text-[#003153] mb-3 text-center">
+                  {service.title} Across the DFW Metroplex
+                </h2>
+                <p className="text-gray-600 text-center mb-10 max-w-2xl mx-auto">
+                  We deliver same-day {service.title.toLowerCase()} to homes and businesses in every city below. Tap your city to see local details, zip-code coverage, and customer reviews.
+                </p>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                  {cityPages.map((cp) => (
+                    <Link
+                      key={cp.slug}
+                      href={`/cities-served/${cp.slug}`}
+                      className="group flex items-center justify-between bg-white border border-gray-200 text-[#003153] px-4 py-3 rounded-lg hover:border-[#00B8FF] hover:shadow-md transition-all"
+                      data-testid={`service-city-link-${cp.slug}`}
+                    >
+                      <span className="font-medium text-sm">
+                        {service.title.split(' ').slice(0, 2).join(' ')} in {cp.cityName}
+                      </span>
+                      <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-[#00B8FF] transition-colors flex-shrink-0 ml-2" />
+                    </Link>
+                  ))}
+                </div>
+                <div className="text-center mt-8">
+                  <Link href="/cities-served" className="text-[#00B8FF] font-semibold hover:underline">
+                    View all DFW cities we serve →
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
       </main>
       <Footer companyInfo={companyInfo} siteSettings={siteSettings} />
     </div>

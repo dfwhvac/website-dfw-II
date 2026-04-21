@@ -182,3 +182,130 @@ export function ReviewSchema({ companyInfo, reviewCount }) {
     />
   )
 }
+
+/**
+ * BreadcrumbListSchema — structured data for site breadcrumb navigation.
+ *
+ * Required by Google Rich Results for breadcrumb display in SERP snippets.
+ * Pass an ordered array of `{ name, url }` items (first = root, last = current page).
+ * URLs should be absolute (https://dfwhvac.com/...).
+ *
+ * Added Apr 21, 2026 (PR #3, R1.1) for city + service page schema coverage.
+ */
+export function BreadcrumbListSchema({ items }) {
+  if (!items || items.length === 0) return null
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": items.map((item, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "name": item.name,
+      "item": item.url,
+    })),
+  }
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: safeJsonLd(schema) }}
+    />
+  )
+}
+
+/**
+ * CityServiceSchema — Service schema anchored to a specific DFW city.
+ *
+ * Used on city pages (/cities-served/[slug]) to signal that DFW HVAC offers
+ * HVAC services within that specific city. Combines `@type: Service` with
+ * an `areaServed` City pointer and `provider` reference to the LocalBusiness.
+ *
+ * Added Apr 21, 2026 (PR #3, R1.1).
+ */
+export function CityServiceSchema({ cityName, zipCodes = [], companyInfo }) {
+  if (!cityName || !companyInfo) return null
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": "HVAC",
+    "name": `HVAC Services in ${cityName}, TX`,
+    "description": `Professional heating, air conditioning, and indoor air quality services in ${cityName}, Texas. Same-day service, licensed, family-owned.`,
+    "provider": {
+      "@type": "HVACBusiness",
+      "name": companyInfo.name || "DFW HVAC",
+      "telephone": companyInfo.phoneDisplay || "+1-972-777-2665",
+      "url": "https://dfwhvac.com",
+    },
+    "areaServed": {
+      "@type": "City",
+      "name": `${cityName}, TX`,
+      ...(zipCodes.length > 0 && { "postalCode": zipCodes }),
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": `HVAC Services Offered in ${cityName}`,
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Air Conditioning Repair" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Heating Installation & Repair" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Indoor Air Quality Solutions" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Preventative Maintenance" } },
+      ],
+    },
+  }
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: safeJsonLd(schema) }}
+    />
+  )
+}
+
+/**
+ * ServiceSchema — Service schema for a single HVAC service type.
+ *
+ * Used on service pages (/services/[category]/[slug]) to declare the specific
+ * service (AC Repair, Heating Install, etc.) that DFW HVAC offers across the
+ * full DFW metro. Combines `@type: Service` with a DFW-wide `areaServed` and
+ * an `HVACBusiness` provider.
+ *
+ * Added Apr 21, 2026 (PR #3, R1.1).
+ */
+export function ServiceSchema({ serviceName, serviceDescription, category, companyInfo, areaServedCities = [] }) {
+  if (!serviceName || !companyInfo) return null
+
+  const areasServed = areaServedCities.length > 0
+    ? areaServedCities.map(c => ({ "@type": "City", "name": `${c.cityName}, TX` }))
+    : [{ "@type": "AdministrativeArea", "name": "Dallas-Fort Worth Metroplex, TX" }]
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": category === "commercial" ? "Commercial HVAC" : "HVAC",
+    "name": serviceName,
+    "description": serviceDescription || `${serviceName} in Dallas-Fort Worth. Same-day service, licensed, family-owned.`,
+    "provider": {
+      "@type": "HVACBusiness",
+      "name": companyInfo.name || "DFW HVAC",
+      "telephone": companyInfo.phoneDisplay || "+1-972-777-2665",
+      "url": "https://dfwhvac.com",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": (companyInfo.googleRating || 5.0).toString(),
+        "reviewCount": (companyInfo.googleReviews || 145).toString(),
+        "bestRating": "5",
+        "worstRating": "1",
+      },
+    },
+    "areaServed": areasServed,
+  }
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: safeJsonLd(schema) }}
+    />
+  )
+}

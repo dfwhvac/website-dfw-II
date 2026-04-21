@@ -997,3 +997,4 @@ credentials.json
 *.pem
 *.key
 .credentials
+frontend/.next/cache/webpack/server-production/4.pack

@@ -2,6 +2,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { client, getCompanyInfo, getSiteSettings, getTrustSignals } from '@/lib/sanity'
 import { companyInfo as mockCompanyInfo } from '@/lib/mockData'
+import { LocalBusinessSchema, BreadcrumbListSchema, CityServiceSchema } from '@/components/SchemaMarkup'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { Phone, MapPin, CheckCircle, ArrowRight, Clock, Shield, Star, Award, Users, Calendar, TrendingUp } from 'lucide-react'
@@ -10,6 +11,19 @@ import ServiceFirstCTA from '@/components/ServiceFirstCTA'
 // Disable caching for instant Sanity updates
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
+
+// Full list of HVAC services offered in every DFW city — used for
+// hub-and-spoke internal linking from city pages back to deep service pages.
+// Maps to PR #3, R1.2 (Apr 21, 2026 — closes audit finding from P1.2).
+const ALL_SERVICES = [
+  { title: 'Air Conditioning Repair & Install', href: '/services/residential/air-conditioning', blurb: 'Same-day AC diagnosis, repair, and full-system replacement.' },
+  { title: 'Heating & Furnace Service', href: '/services/residential/heating', blurb: 'Furnace, heat pump, and gas line repair and installation.' },
+  { title: 'Indoor Air Quality', href: '/services/residential/indoor-air-quality', blurb: 'Filtration, purifiers, humidifiers, and duct solutions.' },
+  { title: 'Preventative Maintenance', href: '/services/residential/preventative-maintenance', blurb: 'Tune-ups and maintenance plans that prevent breakdowns.' },
+  { title: 'Commercial Air Conditioning', href: '/services/commercial/commercial-air-conditioning', blurb: 'Rooftop unit and split-system service for DFW businesses.' },
+  { title: 'Commercial Heating', href: '/services/commercial/commercial-heating', blurb: 'Commercial furnace, boiler, and heat pump service.' },
+  { title: 'Commercial Maintenance', href: '/services/commercial/commercial-maintenance', blurb: 'Scheduled preventative service agreements for commercial HVAC.' },
+]
 
 async function getCityPage(slug) {
   try {
@@ -163,17 +177,19 @@ export default async function CityPage({ params }) {
   const whyChooseUs = city.whyChooseUs ||
     `When you choose DFW HVAC for your ${city.cityName} home or business, you're choosing a company with a three-generation family commitment to trustworthy, high-quality service. We provide honest assessments, transparent pricing with no hidden fees, and stand behind our work with comprehensive warranties.`
 
-  const defaultServices = [
-    { title: 'Air Conditioning Repair', description: 'Fast, same-day AC repair services', link: '/services/residential/air-conditioning' },
-    { title: 'Heating Services', description: 'Furnace repair, maintenance & installation', link: '/services/residential/heating' },
-    { title: 'HVAC Installation', description: 'New system installation & replacement', link: '/services/residential/air-conditioning' },
-    { title: 'Maintenance Plans', description: 'Preventive maintenance to extend system life', link: '/services/residential/air-conditioning' },
-  ]
-  
-  const featuredServices = city.featuredServices?.length > 0 ? city.featuredServices : defaultServices
-
   return (
     <div className="min-h-screen bg-white">
+      {/* JSON-LD schema — added PR #3, R1.1 (Apr 21, 2026) */}
+      <LocalBusinessSchema companyInfo={companyInfo} />
+      <CityServiceSchema cityName={city.cityName} zipCodes={city.zipCodes} companyInfo={companyInfo} />
+      <BreadcrumbListSchema
+        items={[
+          { name: 'Home', url: 'https://dfwhvac.com' },
+          { name: 'Cities Served', url: 'https://dfwhvac.com/cities-served' },
+          { name: city.cityName, url: `https://dfwhvac.com/cities-served/${slug}` },
+        ]}
+      />
+
       <Header companyInfo={companyInfo} siteSettings={siteSettings} />
       
       {/* Hero Section */}
@@ -291,7 +307,9 @@ export default async function CityPage({ params }) {
               </div>
             )}
             
-            {/* Services */}
+            {/* Services (hub-and-spoke — links to ALL 7 services with
+                city-specific anchor text for local SEO internal linking).
+                Added PR #3, R1.2 (Apr 21, 2026). */}
             <div className="mb-12">
               <h2 className="text-2xl font-bold text-[#003153] mb-6">
                 HVAC Services in {city.cityName}
@@ -300,18 +318,23 @@ export default async function CityPage({ params }) {
                 {servicesHighlight}
               </p>
               <div className="grid md:grid-cols-2 gap-6">
-                {featuredServices.map((service, index) => (
+                {ALL_SERVICES.map((service) => (
                   <Link
-                    key={index}
-                    href={service.link || '/contact'}
+                    key={service.href}
+                    href={service.href}
                     className="group bg-white border border-gray-200 rounded-xl p-6 hover:border-[#00B8FF] hover:shadow-lg transition-all"
+                    data-testid={`city-service-link-${service.href.split('/').pop()}`}
                   >
                     <h3 className="text-lg font-bold text-[#003153] group-hover:text-[#00B8FF] mb-2">
-                      {service.title}
+                      {service.title} in {city.cityName}, TX
                     </h3>
                     <p className="text-gray-600 text-sm">
-                      {service.description}
+                      {service.blurb}
                     </p>
+                    <span className="mt-3 inline-flex items-center gap-1 text-[#00B8FF] text-sm font-semibold">
+                      Learn more
+                      <ArrowRight className="w-4 h-4" />
+                    </span>
                   </Link>
                 ))}
               </div>
