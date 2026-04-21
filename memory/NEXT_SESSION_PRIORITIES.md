@@ -1,7 +1,11 @@
 # DFW HVAC — Prioritized Backlog (for next session)
 
-**Last updated:** April 20, 2026
+**Last updated:** April 20, 2026 (evening — solo-operator reorganization: Phase A / Phase B / Phase C grouping added. Original P1.x/P2.x/P3.x IDs preserved below for traceability.)
+
+**📍 Start here:** See the "**PHASE GROUPING & EXECUTION SEQUENCE**" section below for the authoritative execution order. Detailed task descriptions follow grouped by original priority tier.
 **Previous session accomplishments:** Next.js 14 → 15.5.9 + React 19 upgrade deployed, CVE-2025-66478 patched, www→apex 308 redirect live, `/_next/` robots.txt bug fixed and deployed, GSC sitemap cleaned up and resubmitted at apex URL, 10 priority URLs submitted for indexing, post-upgrade Lighthouse scorecard captured (performance-neutral as expected).
+
+**This session accomplishments (Apr 20 evening):** Click-to-call bug fix (5 files) • P1.1 meta descriptions via Path A code fallback (all 28 cities now use adaptive template) • TBT optimization PR #1 (reCAPTCHA removed from root, Maps `onFocus`, RealWork IntersectionObserver, "Powered by Google" attribution) • P1.6 ranking factor audit documented with 7 sub-tasks • P1.6g fallback data parity added after discovering stale values in `lib/metadata.js`.
 
 **Site launch date:** April 16, 2026 (Wix → Next.js migration). GSC data before Apr 16 reflects the old Wix site.
 
@@ -9,9 +13,164 @@
 
 ---
 
+## 🎯 PRIME DIRECTIVE & STRATEGIC FRAMING
+
+**Business goal:** Pull relevant (high-intent, local) traffic → convert into form fills / phone calls.
+
+**The unique strategic asset:** **145 five-star Google reviews, zero negative.** This is outlier-tier social proof — most 4.7-rated local HVAC companies have 1-star reviews dragging them down. DFW HVAC has essentially a unicorn review profile. **It should be pervasive across the site, in schema markup, in SERP snippets, and weaponized in every conversion moment.** Today it's mostly hidden on `/reviews` and under-represented in schema (wrong count in fallback).
+
+**The two pillars:**
+1. **Traffic pillar:** Get found by people one phone call away from buying. GBP + local SEO + city-specific content + title tags with review signal.
+2. **Conversion pillar:** Turn found-and-aware visitors into submits before they comparison shop. Review social proof sitewide + progressive forms + urgency signals + clear "what happens next" + financing visibility.
+
+**What "relevant" traffic means here:** `"ac repair plano"`, `"hvac near me"`, `"emergency ac [city]"`, `"furnace not working [city]"`, `"[city] hvac company"` — purchase-intent + local. NOT `"how does HVAC work"` (top-of-funnel, low conversion).
+
+**Near-term focus (next 2 weeks):** 3 of the highest-leverage items are GBP optimization (biggest traffic), review-badge-everywhere + aggregateRating schema fix (biggest conversion), and progressive form (biggest on-site conversion lift). These 3 items likely 2–3× the combined impact of everything else on this backlog.
+
+---
+
+## 🗂️ PHASE GROUPING & EXECUTION SEQUENCE (solo-operator reorganization — Apr 20, 2026 evening)
+
+**Operating reality:** This is a one-person team. Content production (writing, outreach, filming) is slow; code/infrastructure work is fast and agent-executable. Rather than running parallel tracks, **finish Phase A (code/infrastructure) completely before starting Phase B (content production)**. This prevents architectural bugs from surfacing mid-content-sprint and lets content work focus on quality without foundation anxiety.
+
+**The original P1.x / P2.x / P3.x IDs are preserved below for traceability.** This section re-groups the same items by workstream type. Each detailed task description lives in its original section below — use this as a navigation map.
+
+---
+
+### 🏗️ Phase A — Architecture Lock-In (code-heavy, agent-executable in focused sessions)
+
+**Goal:** Finish every code-based improvement and surface every lurking bug. When Phase A is complete, the platform is "content-ready" and no architectural surprises remain to derail content work.
+
+**A1 — Audit sweeps (find hidden bugs)**
+- **P1.2** — Deep technical SEO & architecture audit (13-category sweep) — 3–5 hrs
+- **P1.3** — Post-launch QA sweep (mobile / cross-browser / broken links) — 1–2 hrs
+- **P1.6a** — Title tag audit + rewrite — 1 hr
+- **P1.6d** — INP (Core Web Vitals) measurement — 30 min
+- **P1.6f** — Schema markup per-page verification — 2 hrs
+- **P1.6g** — `lib/metadata.js` fallback parity fix (stale 118 review count, wrong hours, 12-city areaServed) — 30 min
+
+**A2 — Measurement foundation (can't optimize blind)**
+- **P1.5** — GSC baseline capture + weekly indexing trend — 30 min + recurring
+- **P1.7** — GA4 conversion events (form_submit_lead, click_to_call, phone_click) — 1 hr
+
+**A3 — Schema + fallback integrity**
+- **P1.9a** — Fix `aggregateRating.reviewCount` schema globally (118 → 145 pulled from Sanity) — 30 min
+- **P1.1 (remainder)** — 7 service-page meta descriptions via code fallback (Path A) — 20 min
+
+**A4 — Conversion infrastructure (reusable UI components — code, not copy)**
+- **P1.9b** — Review badge component (used in every page hero) — 2 hrs
+- **P1.9e** — Footer + sticky bottom bar trust signals — 1 hr
+- **P1.9f / P1.11** — `/thanks` success page + email auto-reply infra (Resend) — 4 hrs (merged)
+- **P1.10** — Progressive form redesign (2-field → expand) — 4–6 hrs
+- **P2.13** — Exit intent capture modal — 3–4 hrs
+- **P2.12** — SMS text-back infrastructure (Twilio wiring; copy in Phase B) — 4–6 hrs
+
+**A5 — Mobile UX + hygiene (planned as PR #2)**
+- **P1.3-scoped** — Mobile form UX audit (Playwright viewport + code review) — 2 hrs
+- **P2.1** — "50+ cities" copy cleanup (actual = 28) — 30 min
+- **P1.4** — Internal linking matrix (implement as code lookup if possible) — 2–3 hrs
+
+**A6 — Deeper performance**
+- **P2.4b** — Server components migration + bundle reduction (reach 🟢 Good TBT) — 6–10 hrs
+- **P2.5** — Sanity webhook ISR revalidation (eliminate `force-dynamic` on public routes) — 4 hrs
+- **P2.7** — Code cleanup / unused dependency audit — 1–2 hrs
+
+**A7 — Operational/SEO polish**
+- **P1.6c** (audit half) — Backlink profile audit (Ahrefs/Moz free tier) — 2 hrs
+- **P2.3** — NAP consistency audit (Yelp, BBB, Angi, HomeAdvisor) — 2 hrs
+- **P2.6** — GTM + Facebook Pixel (if desired for retargeting) — 2 hrs
+
+**Phase A total estimated effort:** ~45–60 hrs of focused code sessions. At 2–3 hr blocks, 1–2 sessions per week → **realistic completion in 4–8 weeks.**
+
+---
+
+### ✍️ Phase B — Content Production (slow, user-led, agent-supported drafting)
+
+**Goal:** Fill the content vacuum. Weaponize the 145 reviews. Build topical authority. This is where most of DFW HVAC's ROI lives — but it requires consistent weekly effort over months, not a single sprint.
+
+**B1 — Weaponize reviews (content flows into Phase A's components)**
+- **P1.9c** — Inline review carousel (select/tag 12 rotating reviews with city metadata) — 1 hr content
+- **P1.9d** — City-filtered reviews page (tag existing 130 testimonials by city) — 3 hrs
+- **P1.6e** — Review response audit + ongoing reply cadence — 1 hr + recurring
+
+**B2 — Google Business Profile (biggest traffic lever — user-controlled)**
+- **P1.8** — GBP claim + full optimization + photos + weekly Posts cadence — 4 hrs + 30 min/week recurring
+
+**B3 — City page body content (biggest content effort on backlog)**
+- **P1.6b** — 300–500 unique words per city × 28 cities (local landmarks, housing stock, common HVAC issues) — 4–6 hrs
+- **P1.6c** (outreach half) — Backlink outreach to Chamber of Commerce, BBB, trade orgs, press angle for 3-gen family story — Ongoing
+
+**B4 — Conversion copy (fills infra built in Phase A)**
+- /thanks page copy + email auto-reply copy — 1 hr
+- SMS text-back message copy — 30 min
+- Progressive form field copy + helper text — 30 min
+- Exit intent modal copy — 30 min
+- **P2.14** — Urgency signals using real data (booked-this-week counts, weather-triggered banners) — 1 hr
+
+**B5 — Long-form content assets**
+- **P2.8** — Video testimonials (3 videos: owner intro + 2 customers; external filming) — 4 hrs on-site embed + $500–1,500 external
+- **P2.9** — Blog launch + 4 seasonal posts (3 hrs research + writing + editing per post) — 6 hrs infra + 12+ hrs content
+- **P2.10** — Lead magnets (AC age lookup, cost calculator, pre-summer checklist PDF) — 8–12 hrs each
+- **P2.11** — Financing page + service-page callouts (schema included) — 4 hrs
+
+**Phase B total:** Effectively ongoing — 3–6 months of weekly work at 1–2 hrs/week pace. Realistic for solo operator without burnout.
+
+---
+
+### 🔵 Phase C — Deferred / Strategic P3 (wait until Phase A+B momentum is strong)
+
+- Next.js 15 → 16 upgrade + Sanity 3.50+ (summer 2026 for stability)
+- DNS upgrade (GoDaddy A-records → Vercel CNAME)
+- Expanded city page content beyond P1.6b (neighborhood-specific sub-pages)
+- AI readiness / AEO (structured answers for AI Overviews, generative search)
+- Housecall Pro direct API integration (replace CSV flow)
+- Cancel Wix subscription (2+ weeks post-launch stability verified)
+
+---
+
+### 🏃 Recommended Sprint Sequence
+
+**Sprint 1 — Finish in-flight work (current session)**
+1. Ship PR #1 (TBT optimization) — ✅ Built, pending user merge
+2. Ship PR #2 — Mobile form UX audit + GA4 conversion events + P1.6g fallback fix + P1.1 service page meta descriptions — planned next
+3. Ship P1.9a — aggregateRating schema fix (30 min, folds naturally into PR #2)
+
+**Sprint 2 — Audit sweeps (find hidden bugs)**
+1. P1.2 — Technical SEO audit (13 categories)
+2. P1.3 — Post-launch QA sweep  
+3. P1.6a — Title tag audit
+4. P1.6f — Schema verification
+5. P1.6d — INP baseline
+
+**Sprint 3 — Reusable UI infrastructure**
+1. P1.9b — Review badge component
+2. P1.9e — Footer + sticky trust signals
+3. P1.10 — Progressive form
+4. P1.11 / P1.9f — /thanks page + email auto-reply
+
+**Sprint 4 — Deeper architecture + conversion infra**
+1. P2.4b — Server components + bundle reduction
+2. P2.5 — ISR caching
+3. P2.7 — Dependency audit
+4. P2.13 — Exit intent
+5. P2.12 — SMS text-back infra
+
+**Sprint 5 — SEO polish + final audits**
+1. P1.4 — Internal linking matrix
+2. P1.6c (audit half) — Backlink profile
+3. P2.3 — NAP consistency
+4. P2.1 — "50+ cities" copy cleanup
+5. P2.6 — GTM + FB Pixel (if desired)
+
+**After Sprint 5 → transition to Phase B content cadence.** Weekly rhythm: 1 GBP Post + 1 blog post draft per week, city body content as ongoing project, review responses ongoing.
+
+---
+
+
+
 ## 🔴 P1 — High Priority (pick these first)
 
-### P1.1 — Custom meta descriptions for 27 cities + 7 service pages ⭐ TOP PICK
+### P1.1 — Custom meta descriptions for 27 cities + 7 service pages ✅ SHIPPED (Apr 20, 2026 — 27 cities done via Path A code fallback; 7 service pages pending)
 
 **Why this is #1:** This is the single highest-leverage SEO task on the board. We discovered during the GSC audit that 27 of 28 city pages share an **identical generic fallback** description:
 > *"We offer comprehensive HVAC services including AC repair, heating system installation, preventive maintenance, and indoor air quality solutions. As a three-..."*
@@ -235,6 +394,111 @@ This kills search CTR (users see the same blurb multiple times in one SERP), sig
 
 ---
 
+### P1.8 — Google Business Profile (GBP) full optimization ⭐ BIGGEST TRAFFIC LEVER (promoted from P2.2 on Apr 20, 2026)
+
+**Why this is P1 now:** Previous prioritization had GBP at P2. Re-evaluating holistically as an SEO/conversion expert: for a local home-services company, GBP drives **40–60% of all clicks** via the Google Maps pack on "[service] near me" and "[city] [service]" queries. This is THE biggest traffic lever on the entire backlog. On-site SEO cannot out-perform a missing/weak GBP listing.
+
+**Actions (owner: user for GBP admin; agent for content/strategy):**
+- Claim or verify existing GBP for `556 S Coppell Rd Ste 103, Coppell, TX 75019`
+- Verify NAP matches site + schema exactly: `DFW HVAC` / full address / `(972) 777-2665` (dialable) + `(972) 777-COOL` (vanity in description)
+- Business hours: Mon–Fri 7AM–6PM (matches site)
+- Services list: full 7 (residential AC, heating, IAQ, prev maintenance + 3 commercial) — match site exactly
+- Service area: list all 28 cities
+- Photos: upload 20+ (before/after jobs, trucks, techs, office, team, equipment brands)
+- Attributes: "family-owned", "woman-owned" (if applicable), "licensed", "online appointments", "identifies as LGBTQ+ friendly" if applicable
+- Weekly GBP Posts cadence: seasonal tips, recent job highlights, review responses, offers — 1-per-week minimum
+- Respond to 100% of reviews (you have 145 — catch up in batches if response rate is low today)
+- Enable GBP Messages — respond within 4 business hours
+- Set up GBP Insights tracking; review monthly
+
+**Expected effort:** 4 hrs initial setup + 30 min/week ongoing.
+**Expected impact:** Measurable via GBP Insights (Impressions, Direction requests, Calls). Typical uplift: 30–80% total local traffic within 60 days.
+
+---
+
+### P1.9 — Leverage the 145 five-star reviews sitewide ⭐ BIGGEST ON-SITE CONVERSION LEVER (new Apr 20, 2026)
+
+**Why this is P1:** DFW HVAC's reviews profile is outlier-tier (5.0 with 145 reviews, zero negative). On the current site this asset is essentially hidden on `/reviews` — the page most visitors never reach. Meanwhile schema has stale count (118 in `lib/metadata.js`). This is the biggest unused conversion weapon.
+
+**Actions (ranked by effort):**
+
+**P1.9a — Fix schema count globally (30 min)**
+- `lib/metadata.js` hardcoded `aggregateRating.reviewCount: '118'` → dynamic from `companyInfo.googleReviews` (currently 145)
+- Verify `SchemaMarkup.jsx` aggregateRating pulls from Sanity field
+- Test with Google Rich Results Test on 5 sample pages
+- **Impact:** Unlocks ⭐ stars in SERP snippets across all pages where schema applies → measurable CTR lift in GSC within 2–4 weeks
+
+**P1.9b — Review badge in every page hero (2 hrs)**
+- Design a compact trust badge: `⭐⭐⭐⭐⭐ 5.0 · 145 Google Reviews · Licensed & Family-Owned`
+- Place directly below H1 on: home, every service page (7), every city page (28), /about
+- Link to `/reviews` (eventually to filtered view — see P1.9d)
+- Consumer psychology: social proof adjacent to primary CTA = measurable conversion lift
+
+**P1.9c — Inline review carousel near every form (2 hrs)**
+- 3 rotating reviews with name + city + date (e.g., "Danny C., Dallas · Dec 2025")
+- Appears above or beside `LeadForm.jsx` and `SimpleContactForm.jsx`
+- Uses existing Sanity `testimonials` data (130 already in mockData)
+
+**P1.9d — City-filtered reviews page (3 hrs)**
+- `/reviews#plano` → auto-scrolls + filters to reviews from Plano customers
+- Each city page's trust badge links here
+- Huge for city SEO + hyper-local conversion ("real Plano customers love them")
+- If testimonials lack city data, use last installation city from job metadata
+
+**P1.9e — Footer + sticky bottom bar trust signal (1 hr)**
+- Footer: "⭐⭐⭐⭐⭐ 5.0 from 145 Google Reviews · (972) 777-2665"
+- Update `StickyMobileCTA` to include `⭐ 5.0 · 145 reviews` prefix on mobile
+
+**P1.9f — Post-submit success page (3 hrs)**
+- Replace toast with a success page at `/thanks` showing: "You're joining 145+ happy DFW HVAC customers in DFW" + rotating review + "What happens next: we'll call within 2 business hours"
+- Tie into P1.7 GA4 conversion event on page load
+- Tie into P1.11 — combined flow improvement
+
+**Total effort across P1.9:** ~11 hrs of focused work.
+**Expected impact:** 15–25% conversion-rate lift sitewide. Measurable once P1.7 GA4 events are live.
+
+---
+
+### P1.10 — Progressive form redesign ⭐ CONVERSION LIFT (new Apr 20, 2026)
+
+**Why:** `LeadForm.jsx` currently asks 7 fields upfront (firstName, lastName, email, phone, serviceAddress, numSystems, problemDescription). For HVAC emergency visitors on mobile in 100°F heat, that's too much friction. Industry data: 2-field → expand forms convert **30–50% better** than 7-field one-shot forms.
+
+**Actions:**
+- Step 1: Name + phone (2 fields, most essential) → "Submit" CTA becomes "Continue"
+- Step 2 (optional expansion): Email + address + problem detail → "Complete Request" 
+- After step 1 fields valid, submit immediately to `/api/leads` as a "quick-lead" with partial data. If user abandons step 2, you still have a contact to follow up on.
+- Keep existing 7-field form as an option on `/request-service` for users who prefer it, OR replace entirely based on A/B measurement.
+- Also: move `AddressAutocomplete` into step 2 so Maps JS loads even later (additional TBT win).
+- Mobile-first: single-column, 48px+ touch targets (partially done), large "Continue" button at thumb reach.
+
+**Expected effort:** 4–6 hrs.
+**Expected impact:** 30–50% form submission lift. This alone likely adds more leads/month than most of the SEO work combined.
+
+---
+
+### P1.11 — "What happens next" post-submit flow (new Apr 20, 2026)
+
+**Why:** Current flow: user submits → toast notification → nothing. User is left uncertain whether the form worked, when they'll hear back, or what to expect. Conversion isn't complete until the call/visit happens; every step of silence is a chance for them to call a competitor.
+
+**Actions:**
+- New `/thanks` success page (see P1.9f overlap — implement together):
+  - Clear confirmation: "We got your request, [firstName]"
+  - Expected response time: "We'll call you within 2 business hours (Mon–Fri 7AM–6PM)"
+  - Emergency override: "Urgent? Call us now: (972) 777-COOL"
+  - Rotating review: "While you wait, here's what other [city] customers say..."
+  - Next steps list: "1. We review your request. 2. A tech calls to schedule. 3. We arrive on-time, diagnose, quote, fix."
+  - Secondary CTA: "Add our number to your phone" (click-to-save contact)
+- **Email auto-reply** via Resend (uses existing lead infra): same content, hits inbox within 60s of submit. Builds trust that the form worked.
+- **SMS auto-reply** (future — requires Twilio or similar): "DFW HVAC got your request. Tech will call within 2 business hrs. Urgent? Call (972) 777-2665." Differentiator — most HVAC companies don't text back.
+- Redirect `LeadForm.jsx` and `SimpleContactForm.jsx` to `/thanks` instead of toast
+- GA4 conversion event fires on `/thanks` page load (ties to P1.7)
+
+**Expected effort:** 4 hrs (web page + email auto-reply). SMS auto-reply is a follow-up.
+**Expected impact:** Measurable reduction in "ghosted after submit" leads (conversion cleanup, not funnel-top lift). Also feeds P1.7 GA4 conversion tracking cleanly.
+
+---
+
+
 ## 🟡 P2 — Important (but wait until P1 is largely done)
 
 ### P2.1 — "50+ cities" copy cleanup
@@ -253,7 +517,9 @@ This kills search CTR (users see the same blurb multiple times in one SERP), sig
 
 ---
 
-### P2.2 — Google Business Profile (GBP) setup + optimization
+### P2.2 — Google Business Profile (GBP) setup + optimization ⬆️ PROMOTED to P1.8 (Apr 20, 2026)
+
+**See P1.8 for current scope.** Kept stub here for historical traceability; new work tracked under P1.8.
 
 **Why:** GBP is the #1 driver of local SEO traffic for home services. Without it, you're invisible in the Google Maps pack for "HVAC near me" searches.
 
@@ -284,7 +550,9 @@ This kills search CTR (users see the same blurb multiple times in one SERP), sig
 
 ---
 
-### P2.4 — TBT optimization (lazy-load third-party scripts)
+### P2.4 — TBT optimization (lazy-load third-party scripts) ✅ SHIPPED Apr 20, 2026 (PR #1)
+
+**Shipped:** reCAPTCHA removed from root layout + `RecaptchaScript.jsx` lazy-load only on form pages (`lazyOnload`). Google Maps deferred to `onFocus` in `AddressAutocomplete.jsx`. RealWork widget wrapped in IntersectionObserver. "Powered by Google" attribution added (compliance). GA4 left as `afterInteractive` (already optimal). Expected TBT: 2,300ms → ~1,100–1,900ms (varies by page). Perf score 69 → ~75–85. Full parity 🟢 Good TBT would require further architectural work (server components, bundle reduction) — deferred to new P2.4b.
 
 **Why this is P2, not P1:** Google's Core Web Vitals signals for ranking are LCP and CLS — both passing. TBT is a UX concern (page unresponsive for ~2 sec on mobile) but not directly an SEO ranking factor. Fix when conversion-rate data shows slow-page drop-off, OR when starting paid ads.
 
@@ -337,6 +605,219 @@ This kills search CTR (users see the same blurb multiple times in one SERP), sig
 **Expected effort:** 1-2 hours.
 
 ---
+
+### P2.4b — Deeper TBT optimization (architectural — to reach 🟢 Good <200ms)
+
+**Why:** PR #1 (Apr 20) took TBT from ~2,300ms → ~1,100–1,900ms. Still in 🔴 Poor range on most pages because the remaining TBT is not 3rd-party scripts — it's framework JS, hydration, and bundle size. Deferred here because the biggest ROI lever is elsewhere (P1.8 GBP, P1.9 reviews, P1.10 progressive form), but worth tackling once those ship.
+
+**Scope:**
+- Migrate Header, Footer, StickyMobileCTA, and brand color hydration to **React Server Components** where possible
+- Run `@next/bundle-analyzer` — identify heaviest client modules (likely lucide-react tree-shaking, shadcn over-inclusion, Sanity client)
+- Tree-shake unused lucide-react icons (~20 of ~50 imported likely unused)
+- Audit shadcn/ui imports — remove components not actually rendered
+- Consider replacing `Card` + `Button` wrappers with native HTML + Tailwind where no interactive state is needed
+- Split `/studio` (Sanity admin, 932KB) behind a dynamic import so public routes don't load it
+
+**Expected effort:** 6–10 hrs.
+**Expected impact:** TBT 1,100–1,900ms → ~400–700ms (borderline 🟡 Needs Improvement). Real 🟢 Good likely needs P2.5 (ISR) combined.
+
+---
+
+### P2.8 — Video testimonials (new Apr 20, 2026)
+
+**Why:** Text reviews work but video testimonials convert ~5× better. For a 3-generation family business with 145 perfect reviews, 1–2 video testimonials anchor trust on key pages.
+
+**Scope:**
+- Film 3 videos (30–60s each): Owner intro (Jonathan, the 3-gen family story) + 2 happy customer testimonials (pick from top reviews — already have 145)
+- Host on YouTube (bonus: YouTube search traffic as a second channel)
+- Embed on home hero (owner intro), `/about` (family story), `/reviews` (customer testimonials)
+- Thumbnail optimization for YouTube + on-site
+- Schema: `VideoObject` markup for rich results eligibility
+
+**Expected effort:** ~4 hrs on-site (embed + schema); filming + editing done by a local videographer (~$500–1,500).
+
+---
+
+### P2.9 — Blog / content hub launch with seasonal posts (new Apr 20, 2026)
+
+**Why:** Zero blog content currently. Content marketing captures informational queries (high volume, lower intent) and builds topical authority that lifts commercial-intent rankings. Seasonal content is free link bait.
+
+**Scope (first 4 posts):**
+1. "How to prepare your DFW HVAC for summer heat waves (Texas-specific)"
+2. "Why does my AC freeze up in July? Common DFW issues + fixes"
+3. "When to replace vs. repair: DFW HVAC cost calculator"
+4. "How the 2021 Texas freeze changed HVAC best practices in DFW"
+- Each 1,200–1,800 words, with embedded CTAs, city-specific examples, linked to service pages
+- Add `/blog` route + Sanity `blogPost` schema
+- Quarterly cadence thereafter: 3 posts per quarter minimum
+
+**Expected effort:** 6 hrs (route + schema + templates); ~3 hrs/post writing (drafted + reviewed by user).
+
+---
+
+### P2.10 — Lead magnets for top-of-funnel capture (new Apr 20, 2026)
+
+**Why:** Single funnel today: page → form → call. HVAC is a considered purchase ($5–15k for replacement) that takes weeks. Capture email from consideration-stage visitors who aren't ready to call yet; nurture via email.
+
+**Ideas (pick 1–2):**
+- **"AC Age & Efficiency Lookup"** — enter make/model → email result with replacement recommendation
+- **"DFW HVAC Replacement Cost Calculator"** — square footage + system type → estimate range + email PDF
+- **"Free Pre-Summer HVAC Check Checklist"** — PDF download after email capture
+- All tied to email list + automated nurture sequence (Resend already integrated)
+
+**Expected effort:** 8–12 hrs per lead magnet (UX + logic + email automation).
+
+---
+
+### P2.11 — Financing prominence on service pages (new Apr 20, 2026; split from old P3 case-studies + financing)
+
+**Why:** HVAC replacement is $5k–$15k+. Financing availability is frequently the deciding factor between "get a quote" and "delay the purchase". Current site doesn't surface financing prominently on service pages where replacement decisions happen.
+
+**Scope:**
+- `/financing` page — explain options (Wells Fargo, Synchrony, or whichever partner DFW HVAC uses; confirm with user)
+- Prominent callout on `/services/residential/air-conditioning` and `/services/residential/heating` — "Financing available — monthly payments as low as $X"
+- Footer link to `/financing`
+- Schema: `FinancialProduct` or `Offer` for rich results
+
+**Expected effort:** ~4 hrs (page + callouts); financing partner enrollment done by user.
+
+---
+
+### P2.12 — SMS text-back / chat capture (new Apr 20, 2026)
+
+**Why:** Immediate text-back after a form submit = huge trust builder + differentiator (most HVAC competitors don't do this). Also, live chat (even a simple one) captures visitors who won't fill a form.
+
+**Scope:**
+- SMS: integrate Twilio or similar; send auto-reply within 60 seconds of `/api/leads` submission
+- Chat: consider a lightweight option (Crisp, Tawk, or custom simple chat modal); can be user-staffed during business hours
+- NOT a full chatbot — human-first or AI fallback only when off-hours
+
+**Expected effort:** 4–6 hrs SMS; 6–10 hrs chat depending on approach.
+**External cost:** Twilio ~$0.0075/SMS; Crisp/Tawk free tier available.
+
+---
+
+### P2.13 — Exit intent capture (new Apr 20, 2026)
+
+**Why:** Users moving mouse toward the browser close/back button = strong leave signal. Last-chance offer modal converts 3–8% of exit-intent users.
+
+**Scope:**
+- Detect mouse exit on desktop (tricky on mobile — trigger on scroll-up-at-top or after inactivity)
+- Modal: "Before you go — free 10-minute phone consultation, no obligation" + name/phone form
+- Show at most once per visitor per 7 days
+- Tie into GA4 event tracking
+
+**Expected effort:** 3–4 hrs.
+
+---
+
+### P2.14 — Urgency / scarcity signals (new Apr 20, 2026)
+
+**Why:** HVAC breakdowns on hot days are urgent. Surfaced urgency signals nudge hesitant visitors toward submit-now.
+
+**Scope (honest, not fabricated — use real data):**
+- "Most forms get a call-back within 90 minutes today" (if true — measurable)
+- Seasonal banner: "⚡ 100°F expected Thursday — book same-day before slots fill"
+- "[N] Dallas customers booked service this week" (pull real number from `/api/leads` in last 7 days, rounded/capped)
+- No fake scarcity — false urgency erodes trust especially for local businesses
+
+**Expected effort:** 3–4 hrs.
+
+---
+
+
+
+### P2.15 — Oversized component decomposition (from Apr 20 code review)
+
+**Why:** 4 components exceed 300 lines — too large for easy maintenance, testing, and memoization-based re-render optimization. Adds to Phase A architecture backlog.
+
+**Scope:**
+- `components/ServiceTemplate.jsx` (450 lines) → extract: `ServiceHero`, `ServiceFeatures`, `ServiceFAQ`, `ServiceCTA`
+- `components/CompanyPageTemplate.jsx` (406 lines) → extract: `CompanyHero`, `CompanyAbout`, `CompanyServices`, `CompanyCTA`
+- `components/HomePage.jsx` (378 lines) → extract: `HomeHero`, `HomeServices`, `HomeStats`, `HomeTestimonials`
+- `app/cities-served/[slug]/page.jsx` CityPage (318 lines) → extract: `CityHero`, `CityServices`, `CityCTA`
+
+**Approach:** Extract sections as server components where possible (additional TBT win per P2.4b). Maintain functional parity — no behavioral changes. Lint + visual check per extracted component.
+
+**Expected effort:** 2–3 hrs per component = 8–12 hrs total. Do as a dedicated "refactor sprint" rather than piecemeal.
+
+**Phase:** A4 (UI infrastructure). Good pairing with P2.4b server components migration.
+
+---
+
+### P2.16 — `/api/leads` POST handler complexity reduction (from Apr 20 code review)
+
+**Why:** Current implementation: 107 lines, cyclomatic complexity 23. The function handles validation, recaptcha, rate limiting, sanitization, MongoDB write, and Resend email — all inline. Hard to test individual steps, hard to trace failures.
+
+**Scope:**
+- Extract `validateLeadPayload(body)` — returns `{valid, errors}`
+- Extract `checkRecaptcha(token)` — returns `{score, skipped}`
+- Extract `checkRateLimit(ip)` — returns `{ok, retryAfter}`
+- Extract `sanitizeLead(raw)` — returns escaped/normalized fields
+- Extract `sendLeadEmail(lead)` — Resend call with error handling
+- POST handler becomes orchestration only (~30 lines, complexity <10)
+
+**Approach:** Test-driven refactor — add unit tests for each extracted function in `tests/test_lead_validation.py` before extracting. Keep `POST` signature unchanged so consumers don't break.
+
+**Expected effort:** 3–4 hrs.
+
+**Phase:** A4. Pairs naturally with P1.11 (post-submit flow) refactor.
+
+---
+
+### P2.17 — Python backend (`/app/backend/server.py`) decommission decision ✅ COMPLETED Apr 20, 2026
+
+**Decision:** Deleted entirely. Verified 100% dead code:
+- Zero frontend references to `localhost:8001`, `fastapi`, or `/app/backend/`
+- Vercel cron job hits a Next.js API route, not the Python backend
+- No GitHub Actions, no Docker, no supervisor config referenced it
+- All functionality (leads, reviews sync, places API, rate limiting) already implemented in Next.js API routes
+- All `.env` keys were duplicates of `/app/frontend/.env.local` (except `CORS_ORIGINS` which was only needed by the deleted Python server)
+
+**What was done:**
+- Moved `backend/tests/test_dfw_hvac.py` → `frontend/tests/test_dfw_hvac.py` via `git mv` (preserves history). This is the legitimate Next.js API integration test despite its original location.
+- `git rm -rf backend/` — removed `server.py` (374 lines), `requirements.txt`, `.env`, `.gitignore`.
+- Next.js build verified clean post-deletion (30s, no regressions).
+
+**Result:** Codebase is now single-stack (Next.js only). No more Python dependency burden or CVE surface from the Python side.
+
+**Why:** `/app/backend/server.py` is a FastAPI app that's NOT called by the Next.js site (no frontend references to `localhost:8001` / FastAPI endpoints). It appears to be legacy from the Wix→Next.js migration. The code review flagged quality issues (122-line `submit_lead` function, 56-line `sync_google_reviews_to_sanity`, 5-level nesting, 11.1% type hint coverage).
+
+**Decision needed from user:**
+- **Option A — Decommission:** Delete `/app/backend/` entirely. Simplifies codebase. Safe if truly unused.
+- **Option B — Revive/use:** If there's a planned use case (admin panel? cron jobs? webhooks?), invest in the quality issues.
+- **Option C — Keep idle:** Accept the dead code; don't invest in quality but don't delete either.
+
+**Before deciding:** Verify nothing in Vercel cron, GitHub Actions, or external integrations calls the Python backend. Check Sanity Studio routes, Housecall Pro API plans, etc.
+
+**If Option A:** `rm -rf /app/backend/` — saves ~1MB repo size, removes dead code, removes Python dependency burden.
+
+**Expected effort:** 30 min investigation + 15 min delete (if Option A) or 6–10 hrs refactor (if Option B).
+
+**Phase:** Pre-A1 audit work (should decide before any more audits happen).
+
+---
+
+### P2.18 — Index-as-key cleanup in reorderable/stateful lists (from Apr 20 code review)
+
+**Why:** 44 instances of `key={index}` flagged. Most are in static lists (features, service bullets) where index keys cause no bugs — but a few are in components with internal state or sortable data where index keys can cause lost input focus and incorrect reconciliation.
+
+**Scope:**
+- Audit each of the 44 instances — classify as "static list, safe" vs. "stateful, needs stable ID"
+- Stateful instances to fix (sample — need full audit):
+  - `components/ServiceTemplate.jsx:76,134,161,180,207,227` (11 instances) — if data comes from Sanity, use `_key` or `slug`
+  - `components/HomePage.jsx:137,209,256,336` (4 instances) — check if feature lists or testimonials
+  - `components/DynamicPage.jsx:29,104,118` (3 instances) — dynamic blocks should have `_key` from Sanity Portable Text
+- Leave static decorative lists as-is
+- Document decisions in a `KEYS_AUDIT.md` for future reference
+
+**Expected effort:** 2 hrs.
+
+**Phase:** A5 (hygiene).
+
+---
+
+
 
 ## 🔵 P3 — Backlog (wait until P1+P2 largely done)
 

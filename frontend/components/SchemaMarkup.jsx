@@ -3,6 +3,25 @@
 // Schema markup component that generates JSON-LD structured data
 // All values are pulled from Sanity companyInfo
 
+/**
+ * Safely stringify schema data for injection into a <script type="application/ld+json"> tag.
+ *
+ * Why this helper:
+ * - JSON.stringify does NOT escape `</script>` inside string values. If any string value in
+ *   the schema data contained `</script>`, it could break out of the <script> tag context.
+ * - Our schema data currently comes exclusively from Sanity (CMS-controlled content, not user
+ *   input), so the real attack surface is near-zero — but this is a cheap defensive measure
+ *   that also satisfies static analyzers flagging dangerouslySetInnerHTML.
+ * - We escape `<` globally (not just `</script>`) because it's the simplest, catches HTML-like
+ *   payloads that might appear in descriptions/FAQs, and Google's JSON-LD parser accepts
+ *   unicode escapes like \u003c identically to `<`.
+ *
+ * This is the canonical safe JSON-LD pattern for Next.js / React.
+ */
+function safeJsonLd(data) {
+  return JSON.stringify(data).replace(/</g, '\\u003c')
+}
+
 export function LocalBusinessSchema({ companyInfo, cityPages = [] }) {
   if (!companyInfo) return null
 
@@ -93,7 +112,7 @@ export function LocalBusinessSchema({ companyInfo, cityPages = [] }) {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      dangerouslySetInnerHTML={{ __html: safeJsonLd(schema) }}
     />
   )
 }
@@ -117,7 +136,7 @@ export function FAQSchema({ faqs }) {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      dangerouslySetInnerHTML={{ __html: safeJsonLd(schema) }}
     />
   )
 }
@@ -159,7 +178,7 @@ export function ReviewSchema({ companyInfo, reviewCount }) {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      dangerouslySetInnerHTML={{ __html: safeJsonLd(schema) }}
     />
   )
 }
