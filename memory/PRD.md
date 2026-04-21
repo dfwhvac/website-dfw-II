@@ -37,6 +37,15 @@ Build a premium, conversion-focused website for DFW HVAC using Next.js frontend 
 
 ## What's Been Implemented
 
+### Session: April 21, 2026 (continued) — P1.2 Deep Technical Audit
+- **Completed 13-category technical SEO & architecture audit** — findings preserved at `/app/frontend/internal/DFW_HVAC_Technical_Audit_2026-04-21.md`. Overall grade 🟡 B+ (89/100). Site fundamentals strong (robots/sitemap/canonicals/security headers/redirects all 🟢); three high-priority gaps found.
+- **Top 3 findings (prioritized):**
+  1. 🔴 **R1.1 — JSON-LD schema missing on 27 city + 7 service pages.** Home has HVACBusiness schema; deep pages have zero structured data. Blocks rich-result eligibility across 34 pages. Maps to existing P1.6f.
+  2. 🔴 **R1.2 — Zero service→city internal linking.** Service pages have 20 internal links but 0 to city pages. Hub-and-spoke architecture broken. Maps to existing P1.4.
+  3. 🟡 **R2.1 — No branded `app/not-found.jsx`.** 404s currently show Next.js built-in message. Minor UX/conversion issue.
+- **Also confirmed:** zero secret leakage in client bundles, all 6 security headers present, all 6 legacy Wix redirects working (308 permanent), all canonicals apex + unique.
+- **Sanity Studio deps account for all 28 High CVEs** (dev/admin tooling, not user-facing). Accept risk until Sanity 3.50+ upgrade (summer 2026, P3).
+
 ### Session: April 21, 2026 — PR #2 / Sprint 1 Completion (Week 1 of 12-Week Ad Launch Roadmap)
 
 **Six tasks shipped in one PR (ready for GitHub push):**

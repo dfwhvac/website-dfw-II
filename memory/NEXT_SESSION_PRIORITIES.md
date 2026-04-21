@@ -149,7 +149,10 @@
 - ✅ P1.1 (final) — 7 service page meta descriptions via Path A code fallback (`buildServiceMetaDescription` + `SERVICE_META_COPY` map)
 
 **Week 2 — Sprint 2a audits**
-- P1.2 — Deep technical SEO audit (13-category sweep)
+- ✅ P1.2 — Deep technical SEO audit (13-category sweep) **COMPLETE Apr 21, 2026** — findings at `/app/frontend/internal/DFW_HVAC_Technical_Audit_2026-04-21.md`. Overall grade 🟡 B+. Three high-priority gaps uncovered:
+    1. 🔴 **R1.1** — JSON-LD schema missing on 27 city + 7 service pages (home has it; deep pages don't). Blocks rich-result eligibility. Maps to existing P1.6f.
+    2. 🔴 **R1.2** — Zero service→city internal linking. Hub-and-spoke architecture broken. Maps to existing P1.4.
+    3. 🟡 **R2.1** — No branded `app/not-found.jsx` page (users get Next.js built-in 404).
 - P1.3 — Post-launch QA sweep (mobile/cross-browser/broken links)
 
 **Week 3 — Sprint 2b audits**
