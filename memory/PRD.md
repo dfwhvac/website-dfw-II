@@ -37,6 +37,27 @@ Build a premium, conversion-focused website for DFW HVAC using Next.js frontend 
 
 ## What's Been Implemented
 
+### Session: April 21, 2026 (continued) — PR #3 (Sprint 2a code response to P1.2 audit)
+- **Shipped all 3 high-priority audit findings** in a single PR (~3 hrs code):
+  1. ✅ **R1.1 JSON-LD schema on deep pages.** New schema helpers added to `components/SchemaMarkup.jsx`: `BreadcrumbListSchema`, `CityServiceSchema`, `ServiceSchema`. City pages (`app/cities-served/[slug]/page.jsx`) now render HVACBusiness + city-scoped Service + BreadcrumbList. Service pages (`app/services/[category]/[slug]/page.jsx`) now render HVACBusiness (with areaServed = 28 cities) + Service (with provider aggregateRating) + BreadcrumbList.
+  2. ✅ **R1.2 Hub-and-spoke internal linking.** City page: replaced 4 generic `featuredServices` fallback links with an `ALL_SERVICES` grid (7 deep service links, city-specific anchor text like "Air Conditioning Repair in Plano, TX"). Service page: added new "Across the DFW Metroplex" section with 28 city links using service-specific anchor text ("Heating in Plano"). Data flows via `getCityPages()` helper from `lib/sanity.js`.
+  3. ✅ **R2.1 Branded `app/not-found.jsx`.** Replaces Next.js default 404 with conversion-first page: 5-star trust bar, prominent phone CTA ((972) 777-2665), 4 destination links (Home/Services/Cities/Reviews), tertiary request-service link. No Sanity fetch = loads instantly even during CMS outages. Correct `robots: { index: false, follow: true }` metadata. HTTP 404 status preserved.
+- **Verified on local `next start`:**
+  - Plano city page: 3 JSON-LD blocks (HVACBusiness, Service, BreadcrumbList), 7 deep service links.
+  - Heating service page: 3 JSON-LD blocks (HVACBusiness w/ 28 areas, Service "Heating", BreadcrumbList), 28 deep city links.
+  - 404 page: HTTP 404 + all 6 branded content markers + phone CTA + 4 nav links.
+- **Build + lint:** clean (49.83s, 0 errors).
+- **Audit grade expected to shift:** 🟡 B+ (89/100) → 🟢 A (96/100) once Vercel deploys. Remaining yellow items (OG meta parity, Sanity CVE cleanup, nonce-based CSP, skip-to-main link) are all explicitly deferred / tracked.
+
+### Session: April 21, 2026 (continued) — P1.2 Deep Technical Audit
+- **Completed 13-category technical SEO & architecture audit** — findings preserved at `/app/frontend/internal/DFW_HVAC_Technical_Audit_2026-04-21.md`. Overall grade 🟡 B+ (89/100). Site fundamentals strong (robots/sitemap/canonicals/security headers/redirects all 🟢); three high-priority gaps found.
+- **Top 3 findings (prioritized):**
+  1. 🔴 **R1.1 — JSON-LD schema missing on 27 city + 7 service pages.** Home has HVACBusiness schema; deep pages have zero structured data. Blocks rich-result eligibility across 34 pages. Maps to existing P1.6f.
+  2. 🔴 **R1.2 — Zero service→city internal linking.** Service pages have 20 internal links but 0 to city pages. Hub-and-spoke architecture broken. Maps to existing P1.4.
+  3. 🟡 **R2.1 — No branded `app/not-found.jsx`.** 404s currently show Next.js built-in message. Minor UX/conversion issue.
+- **Also confirmed:** zero secret leakage in client bundles, all 6 security headers present, all 6 legacy Wix redirects working (308 permanent), all canonicals apex + unique.
+- **Sanity Studio deps account for all 28 High CVEs** (dev/admin tooling, not user-facing). Accept risk until Sanity 3.50+ upgrade (summer 2026, P3).
+
 ### Session: April 21, 2026 — PR #2 / Sprint 1 Completion (Week 1 of 12-Week Ad Launch Roadmap)
 
 **Six tasks shipped in one PR (ready for GitHub push):**

@@ -149,8 +149,12 @@
 - ✅ P1.1 (final) — 7 service page meta descriptions via Path A code fallback (`buildServiceMetaDescription` + `SERVICE_META_COPY` map)
 
 **Week 2 — Sprint 2a audits**
-- P1.2 — Deep technical SEO audit (13-category sweep)
-- P1.3 — Post-launch QA sweep (mobile/cross-browser/broken links)
+- ✅ P1.2 — Deep technical SEO audit (13-category sweep) **COMPLETE Apr 21, 2026** — findings at `/app/frontend/internal/DFW_HVAC_Technical_Audit_2026-04-21.md`. Overall grade 🟡 B+. Three high-priority gaps uncovered → all closed via PR #3 below.
+- ✅ **PR #3 SHIPPED Apr 21, 2026** — closes audit findings R1.1 + R1.2 + R2.1:
+    1. ✅ **R1.1 — JSON-LD schema on city + service pages.** City pages now render 3 blocks (HVACBusiness + city-scoped Service + BreadcrumbList). Service pages now render 3 blocks (HVACBusiness with all 28 cities in areaServed + Service with provider rating + BreadcrumbList). New schema components added to `components/SchemaMarkup.jsx`: `BreadcrumbListSchema`, `CityServiceSchema`, `ServiceSchema`.
+    2. ✅ **R1.2 — Hub-and-spoke internal linking.** City pages now link to all 7 services with city-specific anchor text ("AC Repair in Plano, TX"). Service pages now link to all 28 cities with service-specific anchor text ("Heating in Plano"). Closes the biggest local-SEO structural gap.
+    3. ✅ **R2.1 — Branded `app/not-found.jsx`.** Replaces Next.js generic "page not found" with conversion-first 404: big phone CTA, 5-star trust bar, 4 popular destination links (Home / Services / Cities / Reviews), tertiary request-service link. Returns proper HTTP 404 status.
+- P1.3 — Post-launch QA sweep (mobile/cross-browser/broken links) — still pending
 
 **Week 3 — Sprint 2b audits**
 - P1.6a — Title tag audit + rewrite (titles ARE a ranking factor, unlike meta desc)
@@ -1000,6 +1004,7 @@ This kills search CTR (users see the same blurb multiple times in one SERP), sig
 
 ## 🔵 P3 — Backlog (wait until P1+P2 largely done)
 
+- **"Skip to main content" link (a11y polish)** — Added Apr 21, 2026 after PR #2 pushed Accessibility score from 87 → 95+. A single keyboard-focusable anchor at the very top of `<body>` that jumps past the header nav to `<main>`. Visually hidden until focused via Tab. Greatly improves keyboard-only and screen-reader navigation on every page. Could push Lighthouse Accessibility to a full 100. Implementation: ~15 min — add `<a href="#main" className="sr-only focus:not-sr-only ...">Skip to main content</a>` as first child of `<body>` in `app/layout.js`, and add `id="main"` to the `<main>` wrapper in each page/layout template. WCAG 2.1 Level A success criterion 2.4.1 (Bypass Blocks). Low priority because current a11y score is already well into 🟢, but worth doing when Phase A polish continues.
 - Next.js 15 → 16 upgrade (+ Sanity 3.50+) — revisit summer 2026
 - DNS records upgrade (Vercel CNAME-based) at GoDaddy — 10 min, low-risk
 - Expand city page content (300-500 words each) for better local SEO
