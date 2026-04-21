@@ -37,6 +37,17 @@ Build a premium, conversion-focused website for DFW HVAC using Next.js frontend 
 
 ## What's Been Implemented
 
+### Session: April 21, 2026 (continued) — reCAPTCHA focus-gated loading (perf fix pack)
+- **Context:** Tier 1 Lighthouse audit surfaced two findings on production: home mobile BP 93 (was 100) and service pages mobile Perf 80–84 with TBT 590–710ms. Root-caused both to reCAPTCHA v3's main-thread bootup (~840–1,077ms) running too eagerly via `strategy="lazyOnload"` on every form page, plus reCAPTCHA's embedded google.com iframe triggering a benign report-only `frame-ancestors` CSP violation that Lighthouse penalizes.
+- **Fix:** Refactored `components/RecaptchaScript.jsx` from an always-rendering `<Script>` to an exported imperative `loadRecaptchaOnce()` helper (idempotent, SSR-safe, no-op without site key). Wired `<form onSubmit={handleSubmit} onFocus={loadRecaptchaOnce}>` on `LeadForm.jsx` + `SimpleContactForm.jsx` so reCAPTCHA only downloads when the user actually focuses a field. Same deferred-load pattern already used for Google Maps (`AddressAutocomplete.jsx` onFocus). Preserves existing graceful fallback (submit without token if user submits before script loads → `/api/leads` handles `recaptcha.skipped` via IP rate limiting).
+- **Verified end-to-end locally (prod build):**
+  - 0 reCAPTCHA scripts in DOM on mount • 2 scripts after first field focus • 2 scripts after second focus (idempotent)
+  - `window.grecaptcha` = `undefined` before focus, `object` after — confirms execution ready for submit handler
+  - Service page `/services/residential/air-conditioning` Lighthouse post-fix: **TBT 710ms → 330ms (-54%)**, bootup time 1.9s → 0.8s (-58%), main-thread work 3.0s → 1.5s (-50%), 0 reCAPTCHA network requests at page load
+  - Home `/` Lighthouse post-fix: **BP 93 → 100** (reCAPTCHA iframe no longer embedded on mount → Google's report-only `frame-ancestors` violation eliminated), A11y + SEO stay at 100
+  - No spurious regressions; CLS 0; A11y 98–100 across service pages + home
+- **Deploy required.** When live, expected mobile Core Web Vitals improvement on all 11 form-bearing pages (home + 7 services + 3 forms). No behavior changes for users who submit — reCAPTCHA still executes normally; they just didn't pay the tax if they never clicked into the form.
+
 ### Session: April 21, 2026 (continued) — Brand color migration completion (follow-up fix)
 - **Problem uncovered by user:** Two issues that turned out to be the same root cause:
   1. Brand colors weren't updated everywhere (some elements still rendered old `#00B8FF` cyan)
