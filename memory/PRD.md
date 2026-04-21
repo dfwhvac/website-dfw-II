@@ -35,6 +35,12 @@ Build a premium, conversion-focused website for DFW HVAC using Next.js frontend 
 
 ## What's Been Implemented
 
+### Session: April 20, 2026 (continued) — Python backend deletion (P2.17 completed)
+- **Deleted `/app/backend/` entirely** — 374-line FastAPI server + `requirements.txt` + `.env` + `.gitignore`. Verified 100% dead: zero frontend references, no cron/CI/Docker calling it, all functionality already in Next.js API routes.
+- **Preserved the integration test** — `git mv backend/tests/test_dfw_hvac.py → frontend/tests/test_dfw_hvac.py` (history preserved). This test covers the Next.js API despite its original Python location.
+- **Post-deletion verification:** `yarn build` ✓ 30s clean, no regressions. Codebase is now single-stack (Next.js only).
+- **Benefits:** ~400 lines of dead code removed, Python dependency burden eliminated (no more FastAPI/Motor/Pydantic CVE alerts), cleaner repo, no more Python complexity noise in future code reviews.
+
 ### Session: April 20, 2026 (continued) — Code Review Response
 - **Applied (legitimate fixes):**
   - `components/SchemaMarkup.jsx` — added `safeJsonLd()` helper that escapes `<` to `\u003c` before injection. Prevents theoretical `</script>` breakout from CMS-sourced strings. All 3 JSON-LD sites (`LocalBusinessSchema`, `FAQSchema`, `ReviewSchema`) use the helper. JSON-LD still parses correctly across home, /about, city pages, /services (verified via curl, 0 literal `</script>` in any rendered schema).

@@ -765,7 +765,21 @@ This kills search CTR (users see the same blurb multiple times in one SERP), sig
 
 ---
 
-### P2.17 — Python backend (`/app/backend/server.py`) decommission decision (from Apr 20 code review)
+### P2.17 — Python backend (`/app/backend/server.py`) decommission decision ✅ COMPLETED Apr 20, 2026
+
+**Decision:** Deleted entirely. Verified 100% dead code:
+- Zero frontend references to `localhost:8001`, `fastapi`, or `/app/backend/`
+- Vercel cron job hits a Next.js API route, not the Python backend
+- No GitHub Actions, no Docker, no supervisor config referenced it
+- All functionality (leads, reviews sync, places API, rate limiting) already implemented in Next.js API routes
+- All `.env` keys were duplicates of `/app/frontend/.env.local` (except `CORS_ORIGINS` which was only needed by the deleted Python server)
+
+**What was done:**
+- Moved `backend/tests/test_dfw_hvac.py` → `frontend/tests/test_dfw_hvac.py` via `git mv` (preserves history). This is the legitimate Next.js API integration test despite its original location.
+- `git rm -rf backend/` — removed `server.py` (374 lines), `requirements.txt`, `.env`, `.gitignore`.
+- Next.js build verified clean post-deletion (30s, no regressions).
+
+**Result:** Codebase is now single-stack (Next.js only). No more Python dependency burden or CVE surface from the Python side.
 
 **Why:** `/app/backend/server.py` is a FastAPI app that's NOT called by the Next.js site (no frontend references to `localhost:8001` / FastAPI endpoints). It appears to be legacy from the Wix→Next.js migration. The code review flagged quality issues (122-line `submit_lead` function, 56-line `sync_google_reviews_to_sanity`, 5-level nesting, 11.1% type hint coverage).
 
