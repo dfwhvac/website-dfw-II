@@ -1,31 +1,39 @@
 'use client'
 
-import Script from 'next/script'
-
 const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''
+let loadStarted = false
 
 /**
- * Loads the Google reCAPTCHA v3 script lazily.
+ * Injects the Google reCAPTCHA v3 script into the DOM exactly once, on demand.
  *
- * Strategy: include this component only inside form components (LeadForm,
- * SimpleContactForm). Pages without forms never load the reCAPTCHA script,
- * and pages WITH forms defer the load until after the page is interactive.
+ * Strategy: forms call this on first `onFocus` of any field instead of loading
+ * reCAPTCHA on every page mount. Users who land on a form page but bounce
+ * without interacting never pay the ~600–1,000ms TBT cost that reCAPTCHA's
+ * bootup imposes. Same trade-off we already apply to Google Maps (onFocus gate
+ * in AddressAutocomplete).
  *
- * Same id across instances so next/script dedupes when multiple forms appear
- * on the same page (e.g., a service detail page embedding LeadForm twice).
+ * Idempotent: subsequent calls are no-ops. Safe to attach to `<form onFocus>`
+ * because focus events bubble from every child input.
  *
  * Graceful fallback: form submit handlers check `window.grecaptcha` before
- * calling `.execute()` — if the script hasn't finished loading yet (fast user,
- * slow network), the request proceeds without a token. The /api/leads endpoint
- * already handles `recaptcha.skipped` and falls back to IP rate limiting.
+ * calling `.execute()`. If a fast user submits before the script finishes
+ * loading, the request proceeds without a token; /api/leads handles
+ * `recaptcha.skipped` and falls back to IP rate limiting.
  */
+export function loadRecaptchaOnce() {
+  if (loadStarted) return
+  if (!RECAPTCHA_SITE_KEY) return
+  if (typeof window === 'undefined') return
+  loadStarted = true
+  const script = document.createElement('script')
+  script.src = `https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`
+  script.async = true
+  script.defer = true
+  document.body.appendChild(script)
+}
+
+// Default export retained so existing imports keep working but render nothing.
+// Call loadRecaptchaOnce() from an onFocus handler instead of rendering this.
 export default function RecaptchaScript() {
-  if (!RECAPTCHA_SITE_KEY) return null
-  return (
-    <Script
-      id="recaptcha-v3"
-      src={`https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`}
-      strategy="lazyOnload"
-    />
-  )
+  return null
 }
