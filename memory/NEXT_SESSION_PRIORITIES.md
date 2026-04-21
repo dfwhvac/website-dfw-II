@@ -1,6 +1,6 @@
 # DFW HVAC — Prioritized Backlog (for next session)
 
-**Last updated:** April 20, 2026 (evening — solo-operator reorganization: Phase A / Phase B / Phase C grouping added. Original P1.x/P2.x/P3.x IDs preserved below for traceability.)
+**Last updated:** April 21, 2026 (12-week Google Ads launch roadmap added; 4 new items P1.12/P2.19/P2.20/P2.21 for ads architecture; 7 items marked post-ad-launch)
 
 **📍 Start here:** See the "**PHASE GROUPING & EXECUTION SEQUENCE**" section below for the authoritative execution order. Detailed task descriptions follow grouped by original priority tier.
 **Previous session accomplishments:** Next.js 14 → 15.5.9 + React 19 upgrade deployed, CVE-2025-66478 patched, www→apex 308 redirect live, `/_next/` robots.txt bug fixed and deployed, GSC sitemap cleaned up and resubmitted at apex URL, 10 priority URLs submitted for indexing, post-upgrade Lighthouse scorecard captured (performance-neutral as expected).
@@ -128,41 +128,112 @@
 
 ---
 
-### 🏃 Recommended Sprint Sequence
+### 🏃 12-WEEK AD LAUNCH ROADMAP (Apr 21, 2026 — replaces prior generic sprint sequence)
 
-**Sprint 1 — Finish in-flight work (current session)**
-1. Ship PR #1 (TBT optimization) — ✅ Built, pending user merge
-2. Ship PR #2 — Mobile form UX audit + GA4 conversion events + P1.6g fallback fix + P1.1 service page meta descriptions — planned next
-3. Ship P1.9a — aggregateRating schema fix (30 min, folds naturally into PR #2)
+**Strategic context:** User plans to launch Google Ads in ~12 weeks. This roadmap sequences architecture, content, data tracking, and ads-specific infrastructure so that Day 1 of ad spend lands on a fully instrumented, <200ms TBT, content-rich site with 70+ days of GA4 baseline data. See also: P1.12, P2.19, P2.20, P2.21 (new Google Ads-specific items).
 
-**Sprint 2 — Audit sweeps (find hidden bugs)**
-1. P1.2 — Technical SEO audit (13 categories)
-2. P1.3 — Post-launch QA sweep  
-3. P1.6a — Title tag audit
-4. P1.6f — Schema verification
-5. P1.6d — INP baseline
+**Core principle:** Instrument everything before optimizing anything. GA4 conversion events in Week 1 = 70+ days of baseline data by ad launch. Without that, every ad decision is a guess.
 
-**Sprint 3 — Reusable UI infrastructure**
-1. P1.9b — Review badge component
-2. P1.9e — Footer + sticky trust signals
-3. P1.10 — Progressive form
-4. P1.11 / P1.9f — /thanks page + email auto-reply
+---
 
-**Sprint 4 — Deeper architecture + conversion infra**
-1. P2.4b — Server components + bundle reduction
-2. P2.5 — ISR caching
-3. P2.7 — Dependency audit
-4. P2.13 — Exit intent
-5. P2.12 — SMS text-back infra
+#### Month 1 — Foundation + Measurement + GBP Head-Start (Weeks 1–4)
 
-**Sprint 5 — SEO polish + final audits**
-1. P1.4 — Internal linking matrix
-2. P1.6c (audit half) — Backlink profile
-3. P2.3 — NAP consistency
-4. P2.1 — "50+ cities" copy cleanup
-5. P2.6 — GTM + FB Pixel (if desired)
+**Goal:** Conversion tracking live. GBP ramping (30–60 day map-pack ramp). Hidden bugs caught. Data collection starts Day 1.
 
-**After Sprint 5 → transition to Phase B content cadence.** Weekly rhythm: 1 GBP Post + 1 blog post draft per week, city body content as ongoing project, review responses ongoing.
+**Week 1 — Sprint 1 completion (PR #2)**
+- P1.7 — GA4 conversion events LIVE (form_submit_lead, phone_click) → **baseline data collection starts**
+- P1.6g — `lib/metadata.js` fallback parity fix (stale 118 review count → 145, correct hours, full city list)
+- P1.9a — aggregateRating schema fix (unlocks ⭐ in SERP CTR)
+- P1.3-scoped — Mobile form UX audit
+- P1.1 (final) — 7 service page meta descriptions via Path A code fallback
+
+**Week 2 — Sprint 2a audits**
+- P1.2 — Deep technical SEO audit (13-category sweep)
+- P1.3 — Post-launch QA sweep (mobile/cross-browser/broken links)
+
+**Week 3 — Sprint 2b audits**
+- P1.6a — Title tag audit + rewrite (titles ARE a ranking factor, unlike meta desc)
+- P1.6f — Schema markup per-page verification
+
+**Week 4 — P1.8 GBP optimization kickoff**
+- **Start the 30–60 day map-pack ramp ASAP.** Claim, verify NAP, photos (20+), services, attributes
+- Begin weekly GBP Posts cadence
+- Respond to all 145 reviews
+
+**Content cadence Month 1:** 1 city page body content rewrite per week (P1.6b). 4 cities done by end of Month 1.
+
+---
+
+#### Month 2 — Architecture to <200ms TBT + Content Rhythm (Weeks 5–8)
+
+**Goal:** Site becomes ad-ready from performance perspective. Review social proof pervasive. Content cadence humming.
+
+**Week 5 — Sprint 3a review leverage UI**
+- P1.9b — Review badge component (used in every page hero, footer, sticky CTA)
+- P1.9e — Footer + sticky bottom bar trust signals
+
+**Week 6 — Sprint 3b conversion UI**
+- P1.10 — Progressive form (2-field → expand, expected 30–50% form submit lift)
+- P1.11 / P1.9f — `/thanks` success page + email auto-reply infra (Resend)
+
+**Week 7 — Sprint 4a TBT path to 🟢 Good**
+- **P2.4b** Server components migration (Header, Footer, StickyMobileCTA, heroes, card grids) — Path 2, expected −300–400ms TBT
+- **P2.15** component decomposition folded in (ServiceTemplate, CompanyPageTemplate, HomePage, CityPage → split into smaller server-first components)
+- **P2.7** bundle reduction (lucide-react tree-shake, shadcn audit, Sanity Studio chunk isolation) — Path 3, expected −100–200ms TBT
+
+**Week 8 — Sprint 4b ISR + re-measure**
+- **P2.5** ISR for city + service pages (Sanity webhook revalidation, eliminate `force-dynamic`) — Path 4
+- **Re-run Lighthouse on /cities-served/plano** → verify <200ms TBT achieved. If not, tune bundle reduction further.
+- Update `DFW_HVAC_Performance_Scorecard.md` with post-Sprint-4 numbers
+
+**Content cadence Month 2:** 1 city per week + 1 blog post (P2.9 launch). 8 cities + 1 blog post by end of Month 2.
+
+---
+
+#### Month 3 — Ad-Readiness Polish + Dry Run (Weeks 9–12)
+
+**Goal:** Google Ads-specific architecture live. Trial campaign validates tracking before full ad spend.
+
+**Week 9 — Sprint 5 SEO polish**
+- P1.4 — Internal linking matrix (service ↔ city cross-links)
+- P2.3 — NAP consistency audit (Yelp, BBB, Angi, HomeAdvisor)
+- P2.1 — "50+ cities" copy cleanup (actual = 28)
+
+**Week 10 — P1.12 Google Ads architecture kickoff**
+- Dedicated ad landing pages (2–3 templates: `/quote-ac-repair`, `/quote-furnace-install`, `/emergency-hvac-dfw`) — one per ad group, higher Quality Score
+- GCLID capture + storage in MongoDB lead records
+- UTM parameter preservation through form submission flow
+- Landing page QS checklist validation (above-the-fold CTA, relevant H1, social proof, trust signals)
+
+**Week 11 — P2.19 + P2.20 conversion accuracy**
+- **P2.19** CallRail (or equivalent) call tracking — 40–60% of HVAC conversions are phone calls, NOT form fills
+- **P2.20** Enhanced Conversions (hashed email/phone → Google Ads conversion API) + Offline Conversion Upload setup (when a lead becomes a customer, upload back to Google Ads with GCLID)
+
+**Week 12 — Pre-launch dry run**
+- Trial campaign at $10/day for 3–5 days → validate tracking, landing page QS, conversion events fire correctly
+- Fix anything broken
+- Document baseline CPCs per keyword group
+- Capture pre-launch GSC + GA4 metrics snapshot for post-launch comparison
+
+**Content cadence Month 3:** 1 city + 1 blog per 2 weeks. **By Week 12: all 28 cities rewritten, 4 blog posts live, 60–70+ days of GA4 data accumulated.**
+
+---
+
+#### Post-Launch (Month 4+) — expand as ads scale
+
+Only revisit these once ads are running at stable spend:
+- **P2.21** Server-Side GTM — reconsider if ad-blocker data loss >10% after 60 days
+- **P2.8** Video testimonials
+- **P2.9** Blog cadence continued (1 post per 2 weeks)
+- **P2.10** Lead magnets (AC age lookup, replacement calculator)
+- **P2.11** Financing prominence
+- **P2.12** SMS text-back
+- **P2.13** Exit intent
+- **P2.14** Urgency signals
+- **P2.16** `/api/leads` POST refactor
+- **P2.18** Index-as-key audit
+
+---
 
 ---
 
@@ -498,6 +569,113 @@ This kills search CTR (users see the same blurb multiple times in one SERP), sig
 
 ---
 
+### P1.12 — Google Ads architecture readiness (new Apr 21, 2026)
+
+**Why:** User plans Google Ads in ~12 weeks. Site architecture needs to support paid campaigns before first dollar spent. Core reality: faster TBT + better landing page relevance = higher Quality Score = lower CPC. On $1K/mo spend, TBT <200ms vs. 2,300ms saves ~$150–300/mo in CPC alone.
+
+**Scope (parent task covering sub-work Weeks 10–12 of the 12-week roadmap):**
+
+**P1.12a — Dedicated ad landing pages** (Week 10)
+- 2–3 templates, one per ad group: `/quote-ac-repair`, `/quote-furnace-install`, `/emergency-hvac-dfw`
+- Each page: single-focus H1 matching ad copy, above-the-fold CTA, review badge prominent, progressive form, trust signals, phone in multiple placements
+- Avoid generic `/request-service` for ads — QS drops when landing page doesn't match ad intent
+- Build as a parameterized template in `app/(ads)/[campaign]/page.jsx` so adding new campaigns is copy-paste
+
+**P1.12b — Attribution plumbing** (Week 10)
+- Capture `gclid` from URL on landing, store in sessionStorage + lead record
+- Capture full UTM set (`utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term`)
+- Persist through multi-step form flow and into MongoDB lead document
+- Update `/api/leads` schema to include these fields
+- Add Google Ads conversion tag: `gtag('event', 'conversion', { send_to: 'AW-XXX/YYY', value: X })`
+
+**P1.12c — Landing page QS validation** (Week 10)
+- Checklist per landing page: H1 matches ad copy, load <3s on mobile 4G, trust signals visible, contact info prominent, no intrusive popups
+- Run each landing page through Google Ads Quality Score simulator
+- Fix any reds before launching campaigns
+
+**Expected effort:** 8–12 hrs across sub-items.
+**Expected impact:** Quality Score 7+/10 at launch (vs. 4–5 on generic `/request-service`) = 30–50% CPC reduction.
+
+---
+
+### P2.19 — CallRail (or equivalent) call tracking integration (new Apr 21, 2026)
+
+**Why:** For local service businesses like HVAC, 40–60% of conversions are phone calls, not form fills. GA4 alone cannot attribute phone calls to specific Google Ads keywords. Without call tracking, you're flying blind on most of your ad ROI.
+
+**Options:**
+- **CallRail** — industry standard for local business call tracking. Dynamic Number Insertion (DNI) swaps phone numbers based on traffic source. ~$45/mo.
+- **Twilio custom DNI** — cheaper (~$15/mo) but 8 hrs of build work for equivalent functionality.
+- **Marchex / Invoca** — enterprise options, overkill at this scale.
+
+**Recommendation:** CallRail for the first 12 months. Migrate to Twilio if spend grows and ~$500/yr savings justify custom work.
+
+**Scope:**
+- Sign up for CallRail, provision a pool of tracking numbers
+- Add CallRail JS snippet to the site (load via `next/script strategy="lazyOnload"` to preserve TBT)
+- DNI rules: organic = normal number, Google Ads = tracking number per campaign, direct = normal number
+- Wire up CallRail → Google Ads conversion import so calls count as conversions in Smart Bidding
+- Track minimum call duration (e.g., 60+ seconds) to filter spam calls from qualified leads
+
+**Expected effort:** 2–3 hrs integration + ongoing $45/mo.
+**Expected impact:** 40–60% of conversions now attributable. Smart Bidding optimizes on real revenue, not just form fills.
+
+---
+
+### P2.20 — Enhanced Conversions + Offline Conversion Upload (new Apr 21, 2026)
+
+**Why:** Google Ads Smart Bidding is only as smart as the conversion signals it gets. Two advanced features dramatically improve bidding accuracy:
+
+**Enhanced Conversions:**
+- When a lead submits the form, hash their email + phone client-side (SHA-256) and pass to Google Ads conversion tag
+- Google uses this to match the lead to the user's Google account (if any) → better attribution across devices, Safari ITP-resistant
+- Typically +5–15% conversions recovered that otherwise go unattributed
+- Privacy-safe: hashed data, not plaintext
+
+**Offline Conversion Upload:**
+- When a lead → paying customer (tracked in Housecall Pro or manual), upload that as a conversion back to Google Ads with the original GCLID
+- Google Smart Bidding learns WHICH clicks actually make money vs. which just submit forms and ghost
+- CPC drops 20–40% as bidding gets smarter about real-customer signals
+- Requires: capture GCLID at landing, pass through to lead record, upload via Google Ads API when customer converts
+
+**Scope:**
+- Enhanced Conversions (Week 11):
+  - Add SHA-256 hashing in `LeadForm.jsx` + `SimpleContactForm.jsx` on submit
+  - Pass hashed values to `gtag('event', 'conversion', { user_data: { email: hashedEmail, phone_number: hashedPhone } })`
+  - Verify in Google Ads → Conversions → Diagnostics
+- Offline Conversion Upload (Week 11, or post-launch):
+  - Scheduled job (Vercel cron or manual) that reads closed deals from Housecall Pro (or a Sanity `deals` document initially)
+  - Calls Google Ads API `UploadClickConversion` with original GCLID + conversion value
+  - Requires Google Ads API credentials (OAuth)
+
+**Expected effort:** 2 hrs Enhanced Conversions + 3 hrs Offline Conversion Upload scaffold.
+**Expected impact:** 20–40% CPC reduction after 30–60 days of data accumulation. Compounds with P2.19 CallRail integration.
+
+---
+
+### P2.21 — Server-Side Google Tag Manager (SS-GTM) — POST-LAUNCH decision (new Apr 21, 2026)
+
+**Why:** Moves gtag.js processing from the browser to a server endpoint. Benefits: less client-side JS (TBT win), bypasses ad-blockers (data recovery), first-party cookies (iOS/Safari ITP friendly). Essentially "the way serious advertisers do tracking."
+
+**Deferred to Month 4+ (after first 60 days of ad spend).** Rationale:
+- At <$3,000/mo ad spend, client-side gtag is fine
+- SS-GTM is operational complexity (hosting, monitoring, debugging) — premature optimization before spend justifies it
+- Revisit if ad-blocker data loss >10% measured after 60 days of campaigns
+
+**Scope (when triggered):**
+- Set up GTM Server-Side Container (Vercel Edge Function or Google Cloud Run)
+- Migrate existing GA4 + Google Ads tags from client-side GTM → SS-GTM
+- Configure first-party custom domain (e.g., `track.dfwhvac.com`) pointing to SS-GTM
+- Test attribution parity (client vs. server) for 2 weeks before full cutover
+
+**Expected effort:** 4–8 hrs setup + $10–40/mo hosting.
+**Expected impact:** +5–15% recovered tracking data (ad-blocker bypass) + additional −100–150ms TBT (less client-side JS).
+
+**Related:** extends existing P2.6 (GTM + Facebook Pixel) to server-side.
+
+---
+
+
+
 
 ## 🟡 P2 — Important (but wait until P1 is largely done)
 
@@ -623,7 +801,7 @@ This kills search CTR (users see the same blurb multiple times in one SERP), sig
 
 ---
 
-### P2.8 — Video testimonials (new Apr 20, 2026)
+### P2.8 — Video testimonials ⏳ POST-AD-LAUNCH (deferred Apr 21, 2026 — not blocking ads)
 
 **Why:** Text reviews work but video testimonials convert ~5× better. For a 3-generation family business with 145 perfect reviews, 1–2 video testimonials anchor trust on key pages.
 
@@ -655,7 +833,7 @@ This kills search CTR (users see the same blurb multiple times in one SERP), sig
 
 ---
 
-### P2.10 — Lead magnets for top-of-funnel capture (new Apr 20, 2026)
+### P2.10 — Lead magnets for top-of-funnel capture ⏳ POST-AD-LAUNCH (deferred Apr 21, 2026)
 
 **Why:** Single funnel today: page → form → call. HVAC is a considered purchase ($5–15k for replacement) that takes weeks. Capture email from consideration-stage visitors who aren't ready to call yet; nurture via email.
 
@@ -683,7 +861,7 @@ This kills search CTR (users see the same blurb multiple times in one SERP), sig
 
 ---
 
-### P2.12 — SMS text-back / chat capture (new Apr 20, 2026)
+### P2.12 — SMS text-back / chat capture ⏳ POST-AD-LAUNCH (deferred Apr 21, 2026)
 
 **Why:** Immediate text-back after a form submit = huge trust builder + differentiator (most HVAC competitors don't do this). Also, live chat (even a simple one) captures visitors who won't fill a form.
 
@@ -697,7 +875,7 @@ This kills search CTR (users see the same blurb multiple times in one SERP), sig
 
 ---
 
-### P2.13 — Exit intent capture (new Apr 20, 2026)
+### P2.13 — Exit intent capture ⏳ POST-AD-LAUNCH (deferred Apr 21, 2026)
 
 **Why:** Users moving mouse toward the browser close/back button = strong leave signal. Last-chance offer modal converts 3–8% of exit-intent users.
 
@@ -711,7 +889,7 @@ This kills search CTR (users see the same blurb multiple times in one SERP), sig
 
 ---
 
-### P2.14 — Urgency / scarcity signals (new Apr 20, 2026)
+### P2.14 — Urgency / scarcity signals ⏳ POST-AD-LAUNCH (deferred Apr 21, 2026)
 
 **Why:** HVAC breakdowns on hot days are urgent. Surfaced urgency signals nudge hesitant visitors toward submit-now.
 
@@ -745,7 +923,7 @@ This kills search CTR (users see the same blurb multiple times in one SERP), sig
 
 ---
 
-### P2.16 — `/api/leads` POST handler complexity reduction (from Apr 20 code review)
+### P2.16 — `/api/leads` POST handler complexity reduction ⏳ POST-AD-LAUNCH (from Apr 20 code review)
 
 **Why:** Current implementation: 107 lines, cyclomatic complexity 23. The function handles validation, recaptcha, rate limiting, sanitization, MongoDB write, and Resend email — all inline. Hard to test individual steps, hard to trace failures.
 
@@ -798,7 +976,7 @@ This kills search CTR (users see the same blurb multiple times in one SERP), sig
 
 ---
 
-### P2.18 — Index-as-key cleanup in reorderable/stateful lists (from Apr 20 code review)
+### P2.18 — Index-as-key cleanup in reorderable/stateful lists ⏳ POST-AD-LAUNCH (from Apr 20 code review)
 
 **Why:** 44 instances of `key={index}` flagged. Most are in static lists (features, service bullets) where index keys cause no bugs — but a few are in components with internal state or sortable data where index keys can cause lost input focus and incorrect reconciliation.
 
