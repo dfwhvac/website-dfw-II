@@ -37,6 +37,25 @@ Build a premium, conversion-focused website for DFW HVAC using Next.js frontend 
 
 ## What's Been Implemented
 
+### Session: April 21, 2026 (continued) — Server Components migration (P2.4b early batch)
+- **Context:** While investigating whether `<CityHubSpokeGrid>` could be converted to a server component as the cheapest path to getting service-page mobile TBT under the 🟢 Good 200ms threshold, discovered that (1) the city grid is already inlined in a server component (zero client cost today), AND (2) the four largest page templates in the codebase — `ServiceTemplate.jsx` (474 lines), `CompanyPageTemplate.jsx` (431 lines), `HomePage.jsx` (405 lines), `DynamicPage.jsx` (318 lines) — were all unnecessarily marked `'use client'`. A leftover from initial scaffolding.
+- **Evidence for each of the 4 templates:** Zero React hooks (`useState`, `useEffect`, `useRef`, `useCallback`, `useMemo`, `useContext`). Zero event handlers (`onClick`, `onChange`, `onFocus`, `onSubmit`, `onBlur`). Zero function props passed to children. Zero browser-only API usage (`window`, `document`, `localStorage`). Pure presentational.
+- **Fix:** Removed `'use client'` directive from all 4 templates, turning them into React Server Components. Interactive children (LeadForm, Accordion via Radix, AddressAutocomplete, Button variants) remain client components — Radix Accordion and all other client-boundary children continue to function because `@radix-ui/react-accordion/dist/index.mjs` self-declares `"use client"` at the top of its own files, so the client boundary is preserved by the children regardless of the parent.
+- **Verified end-to-end (Playwright smoke test on `/services/residential/air-conditioning`):**
+  - H1 renders correctly, 28 city hub-spoke links all render (server-rendered)
+  - 4 FAQ Accordion triggers present + click toggles `data-state` (Radix client boundary intact)
+  - reCAPTCHA focus gate continues working: 0 scripts on mount → 2 after field focus, `window.grecaptcha` = object
+  - Red CTA button renders in new `#D30000`, inputs use new `#0077B6` focus ring (brand tokens intact)
+- **Local Lighthouse measured improvement on service page:**
+  - Perf 86 → **91** (+5)
+  - TBT **330ms → 290ms** (-12%)
+  - Bootup time **0.8s → 0.6s** (-25%)
+  - Main-thread work 1.5s → 1.4s (-7%)
+  - LCP 3.2s → 2.6s (local variance, partly network)
+- **Other pages verified no regression:** `/about` (CompanyPageTemplate), `/contact` (DynamicPage — local mobile TBT 170ms, already 🟢 Good), home (TBT 200ms).
+- **Build impact:** Build completes cleanly in 34s, all routes rebuilt. Incremental client-JS reduction that will compound with P2.4b's planned lucide-react tree-shaking + Radix primitive pruning in Week 7.
+- **Deploy required.** Projected production TBT on service pages: current 260ms (post-reCAPTCHA fix) × ~88% (local delta ratio) ≈ **230ms** — closer to 🟢 Good band. Exact prod delta measurable after push.
+
 ### Session: April 21, 2026 (continued) — reCAPTCHA focus-gated loading (perf fix pack)
 - **Context:** Tier 1 Lighthouse audit surfaced two findings on production: home mobile BP 93 (was 100) and service pages mobile Perf 80–84 with TBT 590–710ms. Root-caused both to reCAPTCHA v3's main-thread bootup (~840–1,077ms) running too eagerly via `strategy="lazyOnload"` on every form page, plus reCAPTCHA's embedded google.com iframe triggering a benign report-only `frame-ancestors` CSP violation that Lighthouse penalizes.
 - **Fix:** Refactored `components/RecaptchaScript.jsx` from an always-rendering `<Script>` to an exported imperative `loadRecaptchaOnce()` helper (idempotent, SSR-safe, no-op without site key). Wired `<form onSubmit={handleSubmit} onFocus={loadRecaptchaOnce}>` on `LeadForm.jsx` + `SimpleContactForm.jsx` so reCAPTCHA only downloads when the user actually focuses a field. Same deferred-load pattern already used for Google Maps (`AddressAutocomplete.jsx` onFocus). Preserves existing graceful fallback (submit without token if user submits before script loads → `/api/leads` handles `recaptcha.skipped` via IP rate limiting).
