@@ -154,7 +154,7 @@
     1. ✅ **R1.1 — JSON-LD schema on city + service pages.** City pages now render 3 blocks (HVACBusiness + city-scoped Service + BreadcrumbList). Service pages now render 3 blocks (HVACBusiness with all 28 cities in areaServed + Service with provider rating + BreadcrumbList). New schema components added to `components/SchemaMarkup.jsx`: `BreadcrumbListSchema`, `CityServiceSchema`, `ServiceSchema`.
     2. ✅ **R1.2 — Hub-and-spoke internal linking.** City pages now link to all 7 services with city-specific anchor text ("AC Repair in Plano, TX"). Service pages now link to all 28 cities with service-specific anchor text ("Heating in Plano"). Closes the biggest local-SEO structural gap.
     3. ✅ **R2.1 — Branded `app/not-found.jsx`.** Replaces Next.js generic "page not found" with conversion-first 404: big phone CTA, 5-star trust bar, 4 popular destination links (Home / Services / Cities / Reviews), tertiary request-service link. Returns proper HTTP 404 status.
-- P1.3 — Post-launch QA sweep (mobile/cross-browser/broken links) — still pending
+- P1.3 — Post-launch QA sweep (mobile/cross-browser/broken links) **COMPLETE Apr 21, 2026** — findings at `/app/frontend/internal/DFW_HVAC_QA_Sweep_2026-04-21.md`. Overall 🟢 PASS. 0 broken links across 46 internal URLs. Form endpoint healthy. Found + fixed 1 click-to-call regression (2 pages using non-E.164 `tel:` format). Logged 1 minor mobile UX issue (UX-1: header top bar cramped at ≤375px — 5 min polish fix queued). Device-based validation (M1–M5) handed back to user.
 
 **Week 3 — Sprint 2b audits**
 - P1.6a — Title tag audit + rewrite (titles ARE a ranking factor, unlike meta desc)

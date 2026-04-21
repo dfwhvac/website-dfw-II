@@ -37,6 +37,19 @@ Build a premium, conversion-focused website for DFW HVAC using Next.js frontend 
 
 ## What's Been Implemented
 
+### Session: April 21, 2026 (continued) — P1.3 Post-Launch QA Sweep
+- **Completed formal QA sweep** — findings at `/app/frontend/internal/DFW_HVAC_QA_Sweep_2026-04-21.md`. 🟢 PASS overall.
+- **Automated results:**
+  - Broken-link scan: 0/47 sitemap URLs + 0/46 internal hrefs broken
+  - Form endpoint: `POST /api/leads` returns 200 + persisted lead_id
+  - Static assets (favicon, OG image, apple-touch-icon, logo): all 200
+  - Multi-viewport screenshots captured (375/768/1920): form interactable at all three
+- **Bug found + fixed during audit:**
+  - `app/services/page.jsx:256` and `app/cities-served/page.jsx:98` rendered `tel:(972) 777-2665` (with spaces/parens). Fixed to hardcoded `tel:+19727772665` E.164 matching the 22 other tel: links sitewide. Build + lint clean.
+- **UX finding (queued for polish PR):**
+  - UX-1: Header top bar cramped at ≤375px (iPhone SE). Tagline + phone + Call Now compete for space. 5-min fix: hide tagline below `sm:` breakpoint.
+- **Handed back to user (device-based):** iOS Safari / Android Chrome spot-checks, AddressAutocomplete live trial, end-to-end mobile form submission, cross-browser matrix. Items M1–M5 in QA report.
+
 ### Session: April 21, 2026 (continued) — PR #3 (Sprint 2a code response to P1.2 audit)
 - **Shipped all 3 high-priority audit findings** in a single PR (~3 hrs code):
   1. ✅ **R1.1 JSON-LD schema on deep pages.** New schema helpers added to `components/SchemaMarkup.jsx`: `BreadcrumbListSchema`, `CityServiceSchema`, `ServiceSchema`. City pages (`app/cities-served/[slug]/page.jsx`) now render HVACBusiness + city-scoped Service + BreadcrumbList. Service pages (`app/services/[category]/[slug]/page.jsx`) now render HVACBusiness (with areaServed = 28 cities) + Service (with provider aggregateRating) + BreadcrumbList.
