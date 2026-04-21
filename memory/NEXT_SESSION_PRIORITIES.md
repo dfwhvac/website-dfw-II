@@ -145,6 +145,7 @@
 - P1.6g — `lib/metadata.js` fallback parity fix (stale 118 review count → 145, correct hours, full city list)
 - P1.9a — aggregateRating schema fix (unlocks ⭐ in SERP CTR)
 - P1.3-scoped — Mobile form UX audit
+- **P1.3a — Accessibility fix pack** (~30 min): 6 color-contrast fixes (`text-gray-400` → `text-gray-600` in Footer), 3 icon-link aria-labels (Facebook/Instagram/etc.), 1 Header hamburger button aria-label → Accessibility 87 → 95+ 🟢
 - P1.1 (final) — 7 service page meta descriptions via Path A code fallback
 
 **Week 2 — Sprint 2a audits**
@@ -181,10 +182,10 @@
 - **P2.15** component decomposition folded in (ServiceTemplate, CompanyPageTemplate, HomePage, CityPage → split into smaller server-first components)
 - **P2.7** bundle reduction (lucide-react tree-shake, shadcn audit, Sanity Studio chunk isolation) — Path 3, expected −100–200ms TBT
 
-**Week 8 — Sprint 4b ISR + re-measure**
+**Week 8 — Sprint 4b ISR + re-measure + all-green verification**
 - **P2.5** ISR for city + service pages (Sanity webhook revalidation, eliminate `force-dynamic`) — Path 4
-- **Re-run Lighthouse on /cities-served/plano** → verify <200ms TBT achieved. If not, tune bundle reduction further.
-- Update `DFW_HVAC_Performance_Scorecard.md` with post-Sprint-4 numbers
+- **P2.4c — Lighthouse "all-green" verification milestone:** Re-run Lighthouse on `/cities-served/plano` (mobile + desktop) and `/request-service` (mobile + desktop). Success criteria: Performance 90+, TBT <200ms, TTI <3.8s, Accessibility 90+, Best Practices 90+, SEO 100. If any metric misses, tune before Week 9. **This is the architectural quality gate — without passing it, the ad-readiness work in Weeks 10–12 sits on a weaker foundation.**
+- Update `DFW_HVAC_Performance_Scorecard.md` with post-Sprint-4 numbers + declare "Architecture Lock-In" complete
 
 **Content cadence Month 2:** 1 city per week + 1 blog post (P2.9 launch). 8 cities + 1 blog post by end of Month 2.
 
