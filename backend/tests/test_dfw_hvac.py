@@ -113,7 +113,7 @@ def test_leads_valid_payload_returns_success():
     r = requests.post(f"{NEXT_API_URL}/api/leads", json=_valid_payload("-happy"), timeout=30)
     assert r.status_code == 200, f"Got {r.status_code}: {r.text[:500]}"
     body = r.json()
-    assert body.get("success") is True, f"success not True: {body}"
+    assert body.get("success"), f"success not True: {body}"
     assert "lead_id" in body or "leadId" in body or "id" in body, f"No lead id in: {body}"
 
 
@@ -125,7 +125,7 @@ def test_leads_html_sanitization():
     r = requests.post(f"{NEXT_API_URL}/api/leads", json=payload, timeout=30)
     assert r.status_code == 200, f"Got {r.status_code}: {r.text[:300]}"
     body = r.json()
-    assert body.get("success") is True
+    assert body.get("success")
     # The response should not echo raw <script> back
     assert "<script>" not in r.text.lower(), "Raw <script> found in response"
 

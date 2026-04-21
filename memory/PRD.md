@@ -35,6 +35,25 @@ Build a premium, conversion-focused website for DFW HVAC using Next.js frontend 
 
 ## What's Been Implemented
 
+### Session: April 20, 2026 (continued) — Code Review Response
+- **Applied (legitimate fixes):**
+  - `components/SchemaMarkup.jsx` — added `safeJsonLd()` helper that escapes `<` to `\u003c` before injection. Prevents theoretical `</script>` breakout from CMS-sourced strings. All 3 JSON-LD sites (`LocalBusinessSchema`, `FAQSchema`, `ReviewSchema`) use the helper. JSON-LD still parses correctly across home, /about, city pages, /services (verified via curl, 0 literal `</script>` in any rendered schema).
+  - `backend/tests/test_dfw_hvac.py` — converted `assert body.get("success") is True` → truthy check `assert body.get("success")`. The reviewer's suggested `== True` is itself flagged by ruff as E712 anti-pattern; truthy check is the Pythonic fix.
+- **Declined (false positives / wrong fixes):**
+  - `<script>{JSON.stringify(data)}</script>` alternative — React escapes JSX children, which would BREAK schema markup (invalid JSON-LD, Google can't parse)
+  - DOMPurify — wrong tool (for HTML, not JSON)
+  - React state setters in hook dep arrays — `useState` setters are guaranteed stable by contract; adding them is noise
+  - Module constants (`DFW_LAT`, `REALWORK_ID`, etc.) in hook deps — they never change; adding them is noise
+  - WebAPI globals (`IntersectionObserver`, `sessionStorage`) in hook deps — not deps per React rules
+  - Refs (`containerRef`) in hook deps — per React docs, refs shouldn't be in dep arrays
+  - Mass index-as-key rewrites for static non-reorderable lists — no actual bug
+  - ColorProvider `hex`/`root` "missing" deps — `root` is local to the effect, `hex` is property access on `colors` which IS in deps
+- **Added to backlog (legitimate but needs thoughtful work, not drive-by fixes):**
+  - **P2.15** Oversized component decomposition (ServiceTemplate 450L, CompanyPageTemplate 406L, HomePage 378L, CityPage 318L) → 8–12 hrs
+  - **P2.16** `/api/leads` POST refactor (complexity 23 → <10 via extracted validators) → 3–4 hrs
+  - **P2.17** Python backend decommission decision (`/app/backend/server.py` is NOT called by Next.js — legacy from Wix migration)
+  - **P2.18** Index-as-key audit — classify 44 instances as safe-static vs. stateful-needs-fixing → 2 hrs
+
 ### Session: April 20, 2026 (continued) — TBT Optimization (PR #1 of 2 for performance sprint)
 - **Scope:** Lazy-load 3 third-party scripts (Maps, reCAPTCHA, RealWork). GA4 already on `afterInteractive` — left as-is per user decision.
 - **Fixes:**

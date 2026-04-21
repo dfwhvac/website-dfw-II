@@ -727,6 +727,84 @@ This kills search CTR (users see the same blurb multiple times in one SERP), sig
 
 
 
+### P2.15 — Oversized component decomposition (from Apr 20 code review)
+
+**Why:** 4 components exceed 300 lines — too large for easy maintenance, testing, and memoization-based re-render optimization. Adds to Phase A architecture backlog.
+
+**Scope:**
+- `components/ServiceTemplate.jsx` (450 lines) → extract: `ServiceHero`, `ServiceFeatures`, `ServiceFAQ`, `ServiceCTA`
+- `components/CompanyPageTemplate.jsx` (406 lines) → extract: `CompanyHero`, `CompanyAbout`, `CompanyServices`, `CompanyCTA`
+- `components/HomePage.jsx` (378 lines) → extract: `HomeHero`, `HomeServices`, `HomeStats`, `HomeTestimonials`
+- `app/cities-served/[slug]/page.jsx` CityPage (318 lines) → extract: `CityHero`, `CityServices`, `CityCTA`
+
+**Approach:** Extract sections as server components where possible (additional TBT win per P2.4b). Maintain functional parity — no behavioral changes. Lint + visual check per extracted component.
+
+**Expected effort:** 2–3 hrs per component = 8–12 hrs total. Do as a dedicated "refactor sprint" rather than piecemeal.
+
+**Phase:** A4 (UI infrastructure). Good pairing with P2.4b server components migration.
+
+---
+
+### P2.16 — `/api/leads` POST handler complexity reduction (from Apr 20 code review)
+
+**Why:** Current implementation: 107 lines, cyclomatic complexity 23. The function handles validation, recaptcha, rate limiting, sanitization, MongoDB write, and Resend email — all inline. Hard to test individual steps, hard to trace failures.
+
+**Scope:**
+- Extract `validateLeadPayload(body)` — returns `{valid, errors}`
+- Extract `checkRecaptcha(token)` — returns `{score, skipped}`
+- Extract `checkRateLimit(ip)` — returns `{ok, retryAfter}`
+- Extract `sanitizeLead(raw)` — returns escaped/normalized fields
+- Extract `sendLeadEmail(lead)` — Resend call with error handling
+- POST handler becomes orchestration only (~30 lines, complexity <10)
+
+**Approach:** Test-driven refactor — add unit tests for each extracted function in `tests/test_lead_validation.py` before extracting. Keep `POST` signature unchanged so consumers don't break.
+
+**Expected effort:** 3–4 hrs.
+
+**Phase:** A4. Pairs naturally with P1.11 (post-submit flow) refactor.
+
+---
+
+### P2.17 — Python backend (`/app/backend/server.py`) decommission decision (from Apr 20 code review)
+
+**Why:** `/app/backend/server.py` is a FastAPI app that's NOT called by the Next.js site (no frontend references to `localhost:8001` / FastAPI endpoints). It appears to be legacy from the Wix→Next.js migration. The code review flagged quality issues (122-line `submit_lead` function, 56-line `sync_google_reviews_to_sanity`, 5-level nesting, 11.1% type hint coverage).
+
+**Decision needed from user:**
+- **Option A — Decommission:** Delete `/app/backend/` entirely. Simplifies codebase. Safe if truly unused.
+- **Option B — Revive/use:** If there's a planned use case (admin panel? cron jobs? webhooks?), invest in the quality issues.
+- **Option C — Keep idle:** Accept the dead code; don't invest in quality but don't delete either.
+
+**Before deciding:** Verify nothing in Vercel cron, GitHub Actions, or external integrations calls the Python backend. Check Sanity Studio routes, Housecall Pro API plans, etc.
+
+**If Option A:** `rm -rf /app/backend/` — saves ~1MB repo size, removes dead code, removes Python dependency burden.
+
+**Expected effort:** 30 min investigation + 15 min delete (if Option A) or 6–10 hrs refactor (if Option B).
+
+**Phase:** Pre-A1 audit work (should decide before any more audits happen).
+
+---
+
+### P2.18 — Index-as-key cleanup in reorderable/stateful lists (from Apr 20 code review)
+
+**Why:** 44 instances of `key={index}` flagged. Most are in static lists (features, service bullets) where index keys cause no bugs — but a few are in components with internal state or sortable data where index keys can cause lost input focus and incorrect reconciliation.
+
+**Scope:**
+- Audit each of the 44 instances — classify as "static list, safe" vs. "stateful, needs stable ID"
+- Stateful instances to fix (sample — need full audit):
+  - `components/ServiceTemplate.jsx:76,134,161,180,207,227` (11 instances) — if data comes from Sanity, use `_key` or `slug`
+  - `components/HomePage.jsx:137,209,256,336` (4 instances) — check if feature lists or testimonials
+  - `components/DynamicPage.jsx:29,104,118` (3 instances) — dynamic blocks should have `_key` from Sanity Portable Text
+- Leave static decorative lists as-is
+- Document decisions in a `KEYS_AUDIT.md` for future reference
+
+**Expected effort:** 2 hrs.
+
+**Phase:** A5 (hygiene).
+
+---
+
+
+
 ## 🔵 P3 — Backlog (wait until P1+P2 largely done)
 
 - Next.js 15 → 16 upgrade (+ Sanity 3.50+) — revisit summer 2026
