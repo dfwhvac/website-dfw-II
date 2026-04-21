@@ -37,6 +37,14 @@ Build a premium, conversion-focused website for DFW HVAC using Next.js frontend 
 
 ## What's Been Implemented
 
+### Session: April 21, 2026 (continued) — RealWork widget CSP fix
+- **Bug reported by user:** RealWork widget on `/recent-projects` wasn't rendering (empty section where the interactive map should be).
+- **Root cause:** Content-Security-Policy `connect-src` directive in `next.config.js` did not include `https://app.realworklabs.com`. The loader script executed (script-src allowed it), but the plugin's follow-up fetch to `app.realworklabs.com/plugin/config?key=...` was blocked. Plugin retried 3× then gave up silently. Likely broken since CSP was tightened ~Apr 17.
+- **Fix (1-line in `next.config.js`):** Added `https://app.realworklabs.com` to both `connect-src` (for config fetch) and `img-src` (for project photos once config loads). `script-src` + `frame-src` already allowed it.
+- **Verified:** `yarn build` clean (19.83s, 0 errors). CSP header programmatically confirmed to include new origin on both directives.
+- **Deploy required:** Fix only activates once Vercel rebuilds from main.
+- **Important caveat flagged to user — TBT impact:** The claimed ~500–800ms TBT on `/recent-projects` post-PR #1 was partially artificial because the widget's expensive map/marker/photo rendering never executed. Other 12 pages unaffected. Expected regression on `/recent-projects` only: +500–1,500ms TBT. User chose Option A (push as-is, measure honest post-deploy TBT, decide on click-gated fallback later if needed).
+
 ### Session: April 21, 2026 (continued) — UX-1 polish fix (iPhone 16 Pro header cramping)
 - **Issue:** User reported on iPhone 16 Pro (393px) that the header top bar stacked the phone number `(972) 777-COOL` across 3–4 lines — "Three Generations..." tagline + vanity phone + Call Now button were all competing for mobile real estate. Looked amateur. Escalated from the P1.3 QA sweep's UX-1 finding (I'd originally called this "low severity"; user feedback correctly re-rated it).
 - **Fix:** Added `hidden sm:flex` to the top bar wrapper in `components/Header.jsx` (line 114). Top bar is now invisible below 640px, unchanged on tablet/desktop.
