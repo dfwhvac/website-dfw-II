@@ -73,7 +73,7 @@ export default async function RequestServicePage() {
                     </p>
                     <a 
                       href={`tel:${phoneNumber}`}
-                      className="block w-full bg-[#FF0000] hover:bg-red-700 text-white font-semibold py-3 px-4 rounded-lg text-center transition-colors"
+                      className="block w-full bg-[#D30000] hover:bg-red-700 text-white font-semibold py-3 px-4 rounded-lg text-center transition-colors"
                     >
                       Call {phone}
                     </a>

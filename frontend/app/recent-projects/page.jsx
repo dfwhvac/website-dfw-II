@@ -54,7 +54,7 @@ export default async function RecentProjectsPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="tel:+19727772665"
-                className="inline-flex items-center justify-center gap-2 bg-[#FF0000] hover:bg-red-600 text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors"
+                className="inline-flex items-center justify-center gap-2 bg-[#D30000] hover:bg-red-600 text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors"
                 data-testid="hero-call-btn"
               >
                 <Phone className="w-5 h-5" />
@@ -104,7 +104,7 @@ export default async function RecentProjectsPage() {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <Award className="w-8 h-8 text-[#FF0000]" />
+              <Award className="w-8 h-8 text-[#D30000]" />
               <div>
                 <div className="text-2xl font-bold text-[#003153]">3 Generations</div>
                 <div className="text-sm text-gray-600">of Excellence</div>

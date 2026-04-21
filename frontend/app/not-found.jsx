@@ -53,7 +53,7 @@ export default function NotFound() {
             </p>
             <a
               href="tel:+19727772665"
-              className="inline-flex items-center justify-center gap-3 bg-[#FF0000] hover:bg-red-600 text-white text-xl md:text-2xl font-bold px-8 py-4 rounded-lg transition-colors"
+              className="inline-flex items-center justify-center gap-3 bg-[#D30000] hover:bg-red-600 text-white text-xl md:text-2xl font-bold px-8 py-4 rounded-lg transition-colors"
               data-testid="not-found-call-cta"
             >
               <Phone className="w-6 h-6" />

@@ -20,8 +20,8 @@ code {
   :root {
         /* DFW HVAC Brand Colors - Dynamic from Sanity */
         --prussian-blue: #003153;
-        --electric-blue: #00B8FF;
-        --vivid-red: #FF0606;
+        --electric-blue: #0077B6; /* WCAG AA 4.77:1 on white — was #00B8FF (2.25:1 fail) */
+        --vivid-red: #D30000; /* WCAG AA 5.22:1 on white — was #FF0606 (3.97:1 fail) */
         --lime-green: #00FF00;
         --gold-amber: #F77F00;
         --charcoal: #2D3748;
