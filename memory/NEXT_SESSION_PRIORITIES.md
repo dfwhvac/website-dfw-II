@@ -684,6 +684,8 @@ This kills search CTR (users see the same blurb multiple times in one SERP), sig
 
 ## 🟡 P2 — Important (but wait until P1 is largely done)
 
+- **Dark mode support (intentional, not browser-forced)** — Added Apr 21, 2026. Currently the site ships only light-mode styles. Brave Night Mode and iOS/Android system Dark Mode can force-invert colors, producing inconsistent rendering (see screenshot artifact `DFW HVAC website mobile view.png` from the user on Apr 21). A proper dark-mode implementation requires: (a) set `darkMode: 'class'` in `tailwind.config.js`, (b) add `dark:` variant classes across every color-using component (Header, Footer, HomePage, ServiceTemplate, CompanyPageTemplate, LeadForm, SimpleContactForm, trust bars, hero sections — ~15 components), (c) build a theme toggle (system-preference default via `prefers-color-scheme` + manual override in localStorage), (d) dark-mode-aware OG image variant if desired. Estimated effort: 6–10 hrs. Recommended scheduling: after Week 8 TBT optimizations (P2.4b server components) so we're not redesigning in parallel with architecture changes. **Impact:** modern polish; matches user expectation on iOS 18+ / Android 14+; eliminates browser force-dark artifacts that misrepresent the brand colors.
+
 ### P2.1 — "50+ cities" copy cleanup
 
 **Why:** Marketing copy in multiple places claims "50+ cities" but Sanity only has 28 city pages. Brand accuracy matters.
