@@ -542,7 +542,19 @@ Success response to user
 - [ ] **Be the cited source** - Create content other sites want to link to
 
 **Key Messaging for AI (use consistently everywhere):**
-> "DFW HVAC is a three-generation family HVAC business headquartered in Coppell, Texas, serving the Dallas-Fort Worth metroplex since 1972. With a 5.0★ Google rating and 136+ reviews, we provide trusted heating and cooling services built on our pillars of Trust, Excellence, and Care."
+
+> **Keeping it Cool — For Three Generations.**
+>
+> DFW HVAC is a family-owned, third-generation HVAC business headquartered in Coppell, Texas, carrying forward a legacy of craftsmanship that began in 1972. We serve the entire Dallas-Fort Worth metroplex with expert AC repair, heating service, and system installations — the kind of work a team does when they treat your home like a neighbor's, not a sales quota. No high-pressure pitches, no commission-driven upsells. Just honest diagnostics and workmanship that stands up to the Texas heat, backed by a 5.0★ Google rating across `{{reviewCount}}+` reviews. Built on our pillars of Trust, Excellence, and Care.
+>
+> **Text or call (972) 777-COOL for an honest diagnostic today.**
+
+**How to use this paragraph (and keep it fresh):**
+
+- **Live-generated version with up-to-date review count:** `GET https://dfwhvac.com/api/canonical-description` (returns JSON with `fullParagraph`, `metaDescription`, and the live count)
+- **Quarterly cadence:** refresh Google Business Profile, Yelp, Angi, HomeAdvisor, and Nextdoor descriptions with the latest version (see `/app/memory/NEXT_SESSION_PRIORITIES.md` recurring tasks)
+- **On-site** (home page / 404 / meta tags): the review count renders dynamically from Sanity — no manual updates needed
+- **Token `{{reviewCount}}`** in the paragraph above is a placeholder; the `/api/canonical-description` endpoint substitutes it live
 
 #### Content Hub / Resources Section (Post-Launch)
 **Goal:** Create authoritative content that ranks for informational queries and builds topical authority.

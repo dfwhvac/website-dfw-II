@@ -1002,6 +1002,18 @@ This kills search CTR (users see the same blurb multiple times in one SERP), sig
 
 
 
+## 🔁 Recurring maintenance tasks
+
+- **Quarterly (every 3 months):** Refresh external business listings using `GET https://dfwhvac.com/api/canonical-description`
+  - Copy `fullParagraph` → Google Business Profile / About section
+  - Copy `fullParagraph` → Yelp business description
+  - Copy `fullParagraph` → Angi / HomeAdvisor business profile
+  - Copy `fullParagraph` → Nextdoor business page (if claimed)
+  - Copy `metaDescription` → any platform with a short-description slot
+  - Next scheduled: **July 21, 2026** · subsequent: Oct 21 · Jan 21, 2027 · Apr 21, 2027
+- **Quarterly:** Re-run P1.2 Technical SEO Audit + P1.3 QA Sweep (next: July 21, 2026)
+- **Daily (automated):** `/api/cron/sync-reviews` pulls Google review count → Sanity → all on-site surfaces auto-update
+
 ## 🔵 P3 — Backlog (wait until P1+P2 largely done)
 
 - **"Skip to main content" link (a11y polish)** — Added Apr 21, 2026 after PR #2 pushed Accessibility score from 87 → 95+. A single keyboard-focusable anchor at the very top of `<body>` that jumps past the header nav to `<main>`. Visually hidden until focused via Tab. Greatly improves keyboard-only and screen-reader navigation on every page. Could push Lighthouse Accessibility to a full 100. Implementation: ~15 min — add `<a href="#main" className="sr-only focus:not-sr-only ...">Skip to main content</a>` as first child of `<body>` in `app/layout.js`, and add `id="main"` to the `<main>` wrapper in each page/layout template. WCAG 2.1 Level A success criterion 2.4.1 (Bypass Blocks). Low priority because current a11y score is already well into 🟢, but worth doing when Phase A polish continues.

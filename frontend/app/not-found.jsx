@@ -49,7 +49,7 @@ export default function NotFound() {
               Call now for same-day service
             </h2>
             <p className="text-blue-100 mb-6">
-              Family-owned. Licensed. Serving Dallas-Fort Worth since 1972.
+              Keeping it Cool — For Three Generations.
             </p>
             <a
               href="tel:+19727772665"

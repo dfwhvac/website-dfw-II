@@ -223,7 +223,7 @@ const trustSignalsContent = {
     { 
       _key: 'why1', 
       title: 'Three-Generation Legacy', 
-      description: 'A family commitment to HVAC excellence since 1972', 
+      description: 'Keeping it Cool — For Three Generations', 
       icon: 'years', 
       order: 1 
     },
@@ -280,7 +280,6 @@ const siteSettingsUpdates = {
   legacyStatement: 'A three-generation family commitment to trustworthy HVAC service',
   missionStatement: 'DFW HVAC delivers expert HVAC service with integrity and care—earning trust and long-term customer satisfaction through quality workmanship.',
   companyFoundedYear: '2020',
-  legacyStartYear: '1972',
   headerTagline: 'Three Generations of Trusted HVAC Service in DFW',
   footerTagline: 'Expert HVAC service with integrity and care. A three-generation family commitment to quality workmanship in Dallas-Fort Worth.',
   defaultMetaDescription: 'DFW HVAC delivers expert HVAC service with integrity and care. Three generations of trusted heating & cooling service in Dallas-Fort Worth. Call (972) 777-COOL.',
@@ -299,7 +298,7 @@ const homepageUpdates = {
     { 
       _key: 'item1',
       title: 'Three-Generation Legacy', 
-      description: 'A family commitment to HVAC excellence since 1972', 
+      description: 'Keeping it Cool — For Three Generations', 
       icon: 'years' 
     },
     { 
@@ -329,7 +328,6 @@ const homepageUpdates = {
 const companyInfoUpdates = {
   tagline: 'Three Generations of Trusted Service',
   established: '2020',
-  legacyStartYear: '1972',
   legacyDescription: 'A three-generation family commitment to trustworthy, high-quality HVAC service in the Dallas–Fort Worth Metroplex.',
   description: 'DFW HVAC delivers expert HVAC service with integrity and care—earning trust and long-term customer satisfaction through quality workmanship.',
 }
