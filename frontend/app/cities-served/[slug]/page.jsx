@@ -263,19 +263,19 @@ export default async function CityPage({ params }) {
             {trustBadges.map((badge, index) => {
               const IconComponent = iconMap[badge.icon] || CheckCircle
               const iconColors = {
-                'clock': 'text-[#00B8FF]',
-                'shield': 'text-[#00B8FF]',
+                'clock': 'text-[#0077B6]',
+                'shield': 'text-[#0077B6]',
                 'star': 'text-[#F77F00]',
                 'check-circle': 'text-[#32CD32]',
-                'award': 'text-[#00B8FF]',
-                'users': 'text-[#00B8FF]',
-                'phone': 'text-[#00B8FF]',
-                'calendar': 'text-[#00B8FF]',
+                'award': 'text-[#0077B6]',
+                'users': 'text-[#0077B6]',
+                'phone': 'text-[#0077B6]',
+                'calendar': 'text-[#0077B6]',
                 'trending-up': 'text-[#32CD32]',
               }
               return (
                 <div key={index} className="flex items-center gap-2">
-                  <IconComponent className={`w-5 h-5 ${iconColors[badge.icon] || 'text-[#00B8FF]'}`} />
+                  <IconComponent className={`w-5 h-5 ${iconColors[badge.icon] || 'text-[#0077B6]'}`} />
                   <span>{badge.text}</span>
                 </div>
               )
@@ -322,16 +322,16 @@ export default async function CityPage({ params }) {
                   <Link
                     key={service.href}
                     href={service.href}
-                    className="group bg-white border border-gray-200 rounded-xl p-6 hover:border-[#00B8FF] hover:shadow-lg transition-all"
+                    className="group bg-white border border-gray-200 rounded-xl p-6 hover:border-[#0077B6] hover:shadow-lg transition-all"
                     data-testid={`city-service-link-${service.href.split('/').pop()}`}
                   >
-                    <h3 className="text-lg font-bold text-[#003153] group-hover:text-[#00B8FF] mb-2">
+                    <h3 className="text-lg font-bold text-[#003153] group-hover:text-[#0077B6] mb-2">
                       {service.title} in {city.cityName}, TX
                     </h3>
                     <p className="text-gray-600 text-sm">
                       {service.blurb}
                     </p>
-                    <span className="mt-3 inline-flex items-center gap-1 text-[#00B8FF] text-sm font-semibold">
+                    <span className="mt-3 inline-flex items-center gap-1 text-[#0077B6] text-sm font-semibold">
                       Learn more
                       <ArrowRight className="w-4 h-4" />
                     </span>
@@ -410,7 +410,7 @@ export default async function CityPage({ params }) {
         title={`Need HVAC Service in ${city.cityName}?`}
         description="Our team is ready to help with all your heating and cooling needs. Expert service with integrity and care—that's our commitment to you."
         variant="blue"
-        className="bg-[#00B8FF]"
+        className="bg-[#0077B6]"
       />
 
       {/* Other Cities */}
@@ -426,7 +426,7 @@ export default async function CityPage({ params }) {
                   <Link
                     key={otherCity.slug}
                     href={`/cities-served/${otherCity.slug}`}
-                    className="bg-white border border-gray-200 text-[#003153] px-4 py-2 rounded-lg hover:border-[#00B8FF] hover:text-[#00B8FF] transition-colors"
+                    className="bg-white border border-gray-200 text-[#003153] px-4 py-2 rounded-lg hover:border-[#0077B6] hover:text-[#0077B6] transition-colors"
                   >
                     {otherCity.cityName}
                   </Link>
@@ -435,7 +435,7 @@ export default async function CityPage({ params }) {
               <div className="text-center mt-6">
                 <Link
                   href="/cities-served"
-                  className="text-[#00B8FF] font-semibold hover:underline"
+                  className="text-[#0077B6] font-semibold hover:underline"
                 >
                   View All Cities →
                 </Link>

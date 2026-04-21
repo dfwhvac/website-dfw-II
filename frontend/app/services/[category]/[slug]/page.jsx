@@ -261,18 +261,18 @@ export default async function ServicePage({ params }) {
                     <Link
                       key={cp.slug}
                       href={`/cities-served/${cp.slug}`}
-                      className="group flex items-center justify-between bg-white border border-gray-200 text-[#003153] px-4 py-3 rounded-lg hover:border-[#00B8FF] hover:shadow-md transition-all"
+                      className="group flex items-center justify-between bg-white border border-gray-200 text-[#003153] px-4 py-3 rounded-lg hover:border-[#0077B6] hover:shadow-md transition-all"
                       data-testid={`service-city-link-${cp.slug}`}
                     >
                       <span className="font-medium text-sm">
                         {service.title.split(' ').slice(0, 2).join(' ')} in {cp.cityName}
                       </span>
-                      <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-[#00B8FF] transition-colors flex-shrink-0 ml-2" />
+                      <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-[#0077B6] transition-colors flex-shrink-0 ml-2" />
                     </Link>
                   ))}
                 </div>
                 <div className="text-center mt-8">
-                  <Link href="/cities-served" className="text-[#00B8FF] font-semibold hover:underline">
+                  <Link href="/cities-served" className="text-[#0077B6] font-semibold hover:underline">
                     View all DFW cities we serve →
                   </Link>
                 </div>

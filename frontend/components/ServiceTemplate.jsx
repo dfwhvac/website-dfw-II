@@ -359,7 +359,7 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [], mainten
       </section>
 
       {/* CTA Section - Phone-first strategy */}
-      <section className="py-16" style={{background: 'linear-gradient(to right, #003153, #00B8FF)'}}>
+      <section className="py-16" style={{background: 'linear-gradient(to right, #003153, #0077B6)'}}>
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-white mb-4">
             {maintenanceSignup ? 'Ready to Protect Your HVAC Investment?' : 'Need HVAC Service? We\'re Ready.'}

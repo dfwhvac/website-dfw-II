@@ -37,6 +37,18 @@ Build a premium, conversion-focused website for DFW HVAC using Next.js frontend 
 
 ## What's Been Implemented
 
+### Session: April 21, 2026 (continued) — Brand color migration completion (follow-up fix)
+- **Problem uncovered by user:** Two issues that turned out to be the same root cause:
+  1. Brand colors weren't updated everywhere (some elements still rendered old `#00B8FF` cyan)
+  2. Desktop `/` Lighthouse A11y was 96, not 100 — one remaining color-contrast failure
+- **Root cause:** Earlier brand migration updated the CSS token `--electric-blue` in `globals.css` (cascades to `.text-electric-blue`/`.bg-electric-blue` utilities) but missed **21 hardcoded hex references to `#00B8FF`** across 13 component + 7 app files. The Header's "Request Service" outline button in `components/ui/button.jsx` used `text-[#00B8FF]` (2.25:1 on white) — that's what Lighthouse flagged. Also `ColorProvider.jsx` still had old hex in its `defaultColors` fallback — a time bomb that could silently revert the change at runtime if Sanity's `brandColors` doc ever got populated with old values.
+- **Fix sweep (20 files):**
+  - `sed` replacement: `#00B8FF` → `#0077B6` in 13 component files + 7 app page files
+  - `ColorProvider.jsx` `defaultColors` updated: `electricBlue: #00B8FF → #0077B6`, `vividRed: #FF0606 → #D30000` (with comment linking to globals.css source of truth)
+- **Verified locally:**
+  - Rendered HTML: 0 `#00B8FF` + 0 `#FF0606` remaining; 16 `#0077B6` + 2 `#D30000` present
+  - Lighthouse desktop `/`: **Perf 100 · A11y 100 · BP 100 · SEO 100** (TBT 40ms, LCP 0.7s, CLS 0) — A11y now matches mobile
+
 ### Session: April 21, 2026 (continued) — Home page A11y + SEO regression fixes (post-Lighthouse audit)
 - **Context:** After pushing the RealWork CSP fix live, a comprehensive Lighthouse audit surfaced regressions on the home page that slipped through PR #2's earlier verification (PR #2 was tested via curl/screenshot, not full Lighthouse). Live site home page was measuring A11y 88 / SEO 92 — not the claimed 95+/100.
 - **Fixes (5 files):**

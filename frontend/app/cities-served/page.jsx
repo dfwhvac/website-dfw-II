@@ -77,7 +77,7 @@ export default async function CitiesServedPage() {
             </p>
             <div className="flex flex-wrap justify-center gap-6 text-lg">
               <div className="flex items-center gap-2">
-                <MapPin className="w-6 h-6 text-[#00B8FF]" />
+                <MapPin className="w-6 h-6 text-[#0077B6]" />
                 <span><strong>{cities.length}</strong> Cities</span>
               </div>
               <div className="flex items-center gap-2">
@@ -90,7 +90,7 @@ export default async function CitiesServedPage() {
       </section>
 
       {/* Quick CTA */}
-      <section className="bg-[#00B8FF] py-4">
+      <section className="bg-[#0077B6] py-4">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center justify-center gap-4 text-white">
             <span className="font-semibold">Not sure if we serve your area?</span>
@@ -123,11 +123,11 @@ export default async function CitiesServedPage() {
                   <Link
                     key={city.slug}
                     href={`/cities-served/${city.slug}`}
-                    className="group bg-white border border-gray-200 rounded-xl p-6 hover:border-[#00B8FF] hover:shadow-lg transition-all duration-300"
+                    className="group bg-white border border-gray-200 rounded-xl p-6 hover:border-[#0077B6] hover:shadow-lg transition-all duration-300"
                   >
                     <div className="flex items-start justify-between">
                       <div>
-                        <h3 className="text-xl font-bold text-[#003153] group-hover:text-[#00B8FF] transition-colors">
+                        <h3 className="text-xl font-bold text-[#003153] group-hover:text-[#0077B6] transition-colors">
                           {city.cityName}
                         </h3>
                         <div className="flex flex-wrap gap-2 mt-3">
@@ -146,7 +146,7 @@ export default async function CitiesServedPage() {
                           )}
                         </div>
                       </div>
-                      <ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-[#00B8FF] transition-colors" />
+                      <ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-[#0077B6] transition-colors" />
                     </div>
                   </Link>
                 ))}

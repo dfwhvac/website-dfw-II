@@ -69,7 +69,7 @@ const BookServicePage = () => {
             Request a free estimate from Dallas-Fort Worth's most trusted 
             heating and cooling experts. Honest assessments, transparent pricing.
           </p>
-          <div className="flex items-center justify-center gap-2 text-[#00B8FF]">
+          <div className="flex items-center justify-center gap-2 text-[#0077B6]">
             <Phone className="w-5 h-5" />
             <span className="text-lg">Need immediate service?</span>
             <a href="tel:+19727772665" className="text-white font-bold hover:underline">
@@ -109,7 +109,7 @@ const BookServicePage = () => {
                   const IconComponent = service.icon
                   const colorClasses = {
                     red: "bg-red-100 text-[#D30000]",
-                    cyan: "bg-cyan-100 text-[#00B8FF]", 
+                    cyan: "bg-cyan-100 text-[#0077B6]", 
                     orange: "bg-orange-100 text-orange-600",
                     green: "bg-green-100 text-green-600"
                   }
@@ -150,7 +150,7 @@ const BookServicePage = () => {
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <Clock className="w-5 h-5 text-[#00B8FF] flex-shrink-0" />
+                    <Clock className="w-5 h-5 text-[#0077B6] flex-shrink-0" />
                     <span className="text-gray-700">
                       <strong>Fast Response</strong> — Contact within 24 hours
                     </span>
@@ -175,7 +175,7 @@ const BookServicePage = () => {
             <Card className="shadow-lg border-0">
               <CardHeader>
                 <CardTitle className="text-xl text-[#003153] flex items-center gap-2">
-                  <MapPin className="w-5 h-5 text-[#00B8FF]" />
+                  <MapPin className="w-5 h-5 text-[#0077B6]" />
                   Service Areas
                 </CardTitle>
               </CardHeader>
@@ -186,14 +186,14 @@ const BookServicePage = () => {
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm mb-4">
                   {majorCities.map((city, index) => (
                     <div key={index} className="text-gray-700 flex items-center gap-1">
-                      <CheckCircle className="w-3 h-3 text-[#00B8FF] flex-shrink-0" />
+                      <CheckCircle className="w-3 h-3 text-[#0077B6] flex-shrink-0" />
                       {city}
                     </div>
                   ))}
                 </div>
                 <Link 
                   href="/cities-served"
-                  className="inline-flex items-center gap-2 text-[#00B8FF] hover:text-[#003153] font-medium transition-colors"
+                  className="inline-flex items-center gap-2 text-[#0077B6] hover:text-[#003153] font-medium transition-colors"
                 >
                   View all cities we serve
                   <ArrowRight className="w-4 h-4" />

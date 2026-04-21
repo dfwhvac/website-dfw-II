@@ -228,7 +228,7 @@ const CompanyPageTemplate = ({
                 {serviceAreas.length > 0 && (
                   <div className="mt-8">
                     <h3 className="font-semibold text-gray-900 mb-3">
-                      <Link href="/cities-served" className="hover:text-[#00B8FF]">
+                      <Link href="/cities-served" className="hover:text-[#0077B6]">
                         Service Areas
                       </Link>
                     </h3>
