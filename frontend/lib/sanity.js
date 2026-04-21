@@ -299,7 +299,6 @@ export const queries = {
     legacyStatement,
     missionStatement,
     companyFoundedYear,
-    legacyStartYear,
     headerTagline,
     headerCtaText,
     showHeaderTagline,

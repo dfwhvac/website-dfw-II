@@ -37,6 +37,20 @@ Build a premium, conversion-focused website for DFW HVAC using Next.js frontend 
 
 ## What's Been Implemented
 
+### Session: April 21, 2026 (continued) — Branding correction: retire "since 1972" shorthand
+- **Problem identified by user:** Marketing copy was using "since 1972" as shorthand for the family HVAC legacy. Technically misleading — DFW HVAC itself was founded in 2020; 1972 is when the *grandfather's different company* (A-1 Air Conditioning) was started. The shorthand implies DFW HVAC has operated continuously since 1972, which is inaccurate.
+- **New canonical tagline:** "Keeping it Cool — For Three Generations."
+- **3 user-facing rewrites shipped:**
+  1. Home page `whyUsItems` Three-Generation Legacy card — patched in Sanity CMS via `scripts/migrate-since-1972.mjs` (also updated code fallback in `components/HomePage.jsx` + seed script)
+  2. Branded 404 page (`app/not-found.jsx`)
+  3. Sanity seed script (`scripts/seed-brand-content.js`) — 2 occurrences
+- **About page narrative preserved** (factually accurate: "began in 1972 when my grandfather, Garland Nevil, started A-1 Air Conditioning & Heating, and continued through my father, Ronny Grubb…").
+- **Data cleanup — removed orphaned `legacyStartYear` field entirely:** The field had zero UI consumers. Removed from `sanity/schemas/companyInfo.js`, `sanity/schemas/siteSettings.js`, `lib/sanity.js` GROQ query, `lib/mockData.js` fallback, and `scripts/seed-brand-content.js` (3 spots). Prevents future re-introduction of the shorthand.
+- **New API: `GET /api/canonical-description`** — returns a JSON blob with the live paragraph, `{{reviewCount}}+` substituted in from Sanity (synced daily via cron). Solves the "how does the paragraph stay fresh as reviews grow?" problem for external copy-paste destinations (GBP, Yelp, Angi, HomeAdvisor). Returns `{ tagline, fullParagraph, metaDescription, reviewCount, rating, asOfDate, source }`.
+- **Canonical paragraph in `internal/PRD.md` rewritten** with the new tagline, honest 1972 origin framing, live review count token, and "Text or call" CTA.
+- **Quarterly recurring task added to `NEXT_SESSION_PRIORITIES.md`** — refresh external listings (GBP/Yelp/Angi/Nextdoor) from the new endpoint every 3 months. Next: July 21, 2026.
+- **Verified:** 0 instances of "since 1972" across 21 sampled pages; About page narrative intact; `/api/canonical-description` returns `reviewCount: 145` with `source: sanity`. Build + lint clean.
+
 ### Session: April 21, 2026 (continued) — P1.3 Post-Launch QA Sweep
 - **Completed formal QA sweep** — findings at `/app/frontend/internal/DFW_HVAC_QA_Sweep_2026-04-21.md`. 🟢 PASS overall.
 - **Automated results:**
