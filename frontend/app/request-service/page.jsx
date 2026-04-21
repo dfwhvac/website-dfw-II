@@ -65,7 +65,7 @@ export default async function RequestServicePage() {
                   {/* Quick Call Option */}
                   <div className="bg-white rounded-lg shadow-lg p-6">
                     <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
-                      <Phone className="w-5 h-5 text-[#00B8FF]" />
+                      <Phone className="w-5 h-5 text-[#0077B6]" />
                       Need Faster Service?
                     </h3>
                     <p className="text-gray-600 text-sm mb-4">
@@ -88,7 +88,7 @@ export default async function RequestServicePage() {
                         <span className="text-sm text-gray-600">Three generations of trusted service</span>
                       </li>
                       <li className="flex items-start gap-3">
-                        <Clock className="w-5 h-5 text-[#00B8FF] flex-shrink-0 mt-0.5" />
+                        <Clock className="w-5 h-5 text-[#0077B6] flex-shrink-0 mt-0.5" />
                         <span className="text-sm text-gray-600">Fast response within 2 business hours</span>
                       </li>
                       <li className="flex items-start gap-3">
@@ -109,7 +109,7 @@ export default async function RequestServicePage() {
                   {/* Business Hours */}
                   <div className="bg-white rounded-lg shadow-lg p-6">
                     <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
-                      <Clock className="w-5 h-5 text-[#00B8FF]" />
+                      <Clock className="w-5 h-5 text-[#0077B6]" />
                       Business Hours
                     </h3>
                     <div className="text-sm text-gray-600 space-y-1">

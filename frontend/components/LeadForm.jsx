@@ -268,7 +268,7 @@ const LeadForm = ({
             type="submit"
             disabled={isSubmitting}
             className="w-full h-12 text-white font-semibold text-lg transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-            style={{background: 'linear-gradient(to right, #00B8FF, #003153)', '--hover-bg': 'linear-gradient(to right, #003153, #00B8FF)'}}
+            style={{background: 'linear-gradient(to right, #0077B6, #003153)', '--hover-bg': 'linear-gradient(to right, #003153, #0077B6)'}}
           >
             {isSubmitting ? "Submitting..." : buttonText}
           </Button>

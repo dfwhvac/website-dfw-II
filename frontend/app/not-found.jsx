@@ -25,7 +25,7 @@ export default function NotFound() {
       <main className="flex-1 flex items-center justify-center px-4 py-16">
         <div className="max-w-3xl w-full text-center" data-testid="not-found-page">
           {/* Subtle 404 marker */}
-          <div className="text-[#00B8FF] font-semibold tracking-widest text-sm mb-4">
+          <div className="text-[#0077B6] font-semibold tracking-widest text-sm mb-4">
             404 · PAGE NOT FOUND
           </div>
 
@@ -68,7 +68,7 @@ export default function NotFound() {
           <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-3 mb-8">
             <Link
               href="/"
-              className="group flex items-center justify-center gap-2 bg-white border-2 border-gray-200 text-[#003153] px-4 py-4 rounded-lg hover:border-[#00B8FF] hover:text-[#00B8FF] transition-colors font-medium"
+              className="group flex items-center justify-center gap-2 bg-white border-2 border-gray-200 text-[#003153] px-4 py-4 rounded-lg hover:border-[#0077B6] hover:text-[#0077B6] transition-colors font-medium"
               data-testid="not-found-home-link"
             >
               <Home className="w-5 h-5" />
@@ -76,7 +76,7 @@ export default function NotFound() {
             </Link>
             <Link
               href="/services"
-              className="group flex items-center justify-center gap-2 bg-white border-2 border-gray-200 text-[#003153] px-4 py-4 rounded-lg hover:border-[#00B8FF] hover:text-[#00B8FF] transition-colors font-medium"
+              className="group flex items-center justify-center gap-2 bg-white border-2 border-gray-200 text-[#003153] px-4 py-4 rounded-lg hover:border-[#0077B6] hover:text-[#0077B6] transition-colors font-medium"
               data-testid="not-found-services-link"
             >
               <Wrench className="w-5 h-5" />
@@ -84,7 +84,7 @@ export default function NotFound() {
             </Link>
             <Link
               href="/cities-served"
-              className="group flex items-center justify-center gap-2 bg-white border-2 border-gray-200 text-[#003153] px-4 py-4 rounded-lg hover:border-[#00B8FF] hover:text-[#00B8FF] transition-colors font-medium"
+              className="group flex items-center justify-center gap-2 bg-white border-2 border-gray-200 text-[#003153] px-4 py-4 rounded-lg hover:border-[#0077B6] hover:text-[#0077B6] transition-colors font-medium"
               data-testid="not-found-cities-link"
             >
               <MapPin className="w-5 h-5" />
@@ -92,7 +92,7 @@ export default function NotFound() {
             </Link>
             <Link
               href="/reviews"
-              className="group flex items-center justify-center gap-2 bg-white border-2 border-gray-200 text-[#003153] px-4 py-4 rounded-lg hover:border-[#00B8FF] hover:text-[#00B8FF] transition-colors font-medium"
+              className="group flex items-center justify-center gap-2 bg-white border-2 border-gray-200 text-[#003153] px-4 py-4 rounded-lg hover:border-[#0077B6] hover:text-[#0077B6] transition-colors font-medium"
               data-testid="not-found-reviews-link"
             >
               <Star className="w-5 h-5" />
@@ -103,7 +103,7 @@ export default function NotFound() {
           {/* Tertiary: explicit request-service path */}
           <Link
             href="/request-service"
-            className="inline-flex items-center gap-2 text-[#00B8FF] hover:text-[#003153] font-semibold transition-colors"
+            className="inline-flex items-center gap-2 text-[#0077B6] hover:text-[#003153] font-semibold transition-colors"
             data-testid="not-found-request-service-link"
           >
             Request service online

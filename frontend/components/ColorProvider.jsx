@@ -3,10 +3,12 @@
 import { useEffect } from 'react'
 
 // Default brand colors (fallback when Sanity data unavailable)
+// Values MUST match /app/globals.css token definitions — both updated Apr 21, 2026
+// for WCAG AA contrast (electricBlue was #00B8FF = 2.25:1 fail; vividRed was #FF0606 = 3.97:1 fail).
 const defaultColors = {
   prussianBlue: { hex: '#003153' },
-  electricBlue: { hex: '#00B8FF' },
-  vividRed: { hex: '#FF0606' },
+  electricBlue: { hex: '#0077B6' },
+  vividRed: { hex: '#D30000' },
   limeGreen: { hex: '#00FF00' },
   goldAmber: { hex: '#F77F00' },
   charcoal: { hex: '#2D3748' },

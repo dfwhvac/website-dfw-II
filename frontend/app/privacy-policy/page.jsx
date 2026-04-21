@@ -139,8 +139,8 @@ export default async function PrivacyPolicyPage() {
             <div className="bg-gray-50 p-6 rounded-lg">
               <p className="font-semibold text-[#003153] text-lg mb-4">DFW HVAC, LLC</p>
               <div className="space-y-2 text-gray-600">
-                <p><strong>Phone:</strong> <a href="tel:+19727772665" className="text-[#00B8FF] hover:underline">(972) 777-2665</a></p>
-                <p><strong>Email:</strong> <a href="mailto:web@dfwhvac.com" className="text-[#00B8FF] hover:underline">web@dfwhvac.com</a></p>
+                <p><strong>Phone:</strong> <a href="tel:+19727772665" className="text-[#0077B6] hover:underline">(972) 777-2665</a></p>
+                <p><strong>Email:</strong> <a href="mailto:web@dfwhvac.com" className="text-[#0077B6] hover:underline">web@dfwhvac.com</a></p>
                 <p><strong>Address:</strong> 556 S. Coppell Rd, Suite 103, Coppell TX 75019</p>
               </div>
             </div>

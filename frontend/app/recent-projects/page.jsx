@@ -83,7 +83,7 @@ export default async function RecentProjectsPage() {
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap justify-center gap-8 md:gap-16 text-center">
             <div className="flex items-center gap-3">
-              <Briefcase className="w-8 h-8 text-[#00B8FF]" />
+              <Briefcase className="w-8 h-8 text-[#0077B6]" />
               <div>
                 <div className="text-2xl font-bold text-[#003153]">500+</div>
                 <div className="text-sm text-gray-600">Projects Completed</div>
@@ -152,7 +152,7 @@ export default async function RecentProjectsPage() {
                 <Link
                   key={city.slug}
                   href={`/cities-served/${city.slug}`}
-                  className="bg-white border border-gray-200 text-[#003153] px-4 py-2 rounded-lg hover:border-[#00B8FF] hover:text-[#00B8FF] transition-colors text-sm font-medium"
+                  className="bg-white border border-gray-200 text-[#003153] px-4 py-2 rounded-lg hover:border-[#0077B6] hover:text-[#0077B6] transition-colors text-sm font-medium"
                 >
                   {city.name}
                 </Link>
@@ -161,7 +161,7 @@ export default async function RecentProjectsPage() {
             <div className="mt-6">
               <Link
                 href="/cities-served"
-                className="text-[#00B8FF] font-semibold hover:underline"
+                className="text-[#0077B6] font-semibold hover:underline"
               >
                 View All Cities →
               </Link>
