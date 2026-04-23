@@ -17,6 +17,7 @@
 
 | File | Date | Scope | Grade / Result |
 |---|---|---|---|
+| [`2026-04-23_GSC_Indexing_Tracker.md`](./2026-04-23_GSC_Indexing_Tracker.md) | Apr 23, 2026 | **Living** — manual indexing request tracker (Days 1–7 sprint plan) | 🟡 19/47 submitted (40%); full plan through 4/30 |
 | [`2026-04-23_Legacy_URL_Redirect_Map.md`](./2026-04-23_Legacy_URL_Redirect_Map.md) | Apr 23, 2026 | Full legacy Wix URL inventory → 301 + 410 map (20 URLs) | ✅ Deployed — all 18 curl tests pass |
 | [`2026-04-22_Competitor_Title_Audit.md`](./2026-04-22_Competitor_Title_Audit.md) | Apr 22, 2026 | Title-tag + trust-signal competitive audit (A#1 Air, Milestone, Coppell AC, Andy's Sprinkler) | 🎯 Informs P1.6a rewrite — industry-wide review-count blind spot identified |
 | [`DFW_HVAC_Technical_Audit_2026-04-21.md`](./DFW_HVAC_Technical_Audit_2026-04-21.md) | Apr 21, 2026 | 13-category technical SEO + architecture sweep | 🟡 B+ (89/100) at capture time → 🟢 A (96/100) expected post-PR#3 |
