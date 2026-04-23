@@ -1,48 +1,48 @@
 URL,Page Tier,Format,Current Title,Current Length,Recommended Title,Rec Length,Notes
 /,Home,B,"DFW HVAC | Trusted Air Conditioning & Heating Experts",53,"AC Repair in DFW | 147 Five-Star Reviews | DFW HVAC",51,Keyword-first + review badge
-/about,Utility,A,"About Us | DFW HVAC - Three Generations of Trusted Service",58,"About DFW HVAC - 3 Generations of Texas HVAC",44,Brand story page
-/contact,Utility,D,"Contact Us | DFW HVAC - Expert HVAC Service",43,"Contact DFW HVAC - Coppell, TX Office",37,Brand already at start - no trailing pipe needed
-/request-service,Utility,D,"Request HVAC Service | DFW HVAC | Dallas-Fort Worth",51,"Book Same-Day HVAC Service in DFW | DFW HVAC",44,Bottom-funnel conversion
-/estimate,Utility,D,"Free HVAC Estimate | DFW HVAC | Dallas-Fort Worth",49,"Free Written HVAC Estimate in DFW | DFW HVAC",44,Bottom-funnel conversion
-/recent-projects,Utility,A,"Our Work | Recent HVAC Projects in Dallas-Fort Worth | DFW HVAC",63,"Recent HVAC Projects in Dallas-Fort Worth | DFW HVAC",52,Was OVERFLOW (>60) - now fits
-/reviews,Utility,B,"5-Star HVAC Reviews Dallas | Customer Testimonials | DFW HVAC",61,"147 Five-Star Google Reviews | DFW HVAC",39,Was OVERFLOW (>60) - minimalist version
+/about,Utility,A,"About Us | DFW HVAC - Three Generations of Trusted Service",58,"About DFW HVAC - 3 Generations of Texas HVAC",44,Brand story page (no badge - wrong-shape)
+/contact,Utility,D,"Contact Us | DFW HVAC - Expert HVAC Service",43,"Contact DFW HVAC - Coppell, TX Office",37,Brand already at start - no trailing pipe
+/request-service,Utility,D,"Request HVAC Service | DFW HVAC | Dallas-Fort Worth",51,"Book Same-Day HVAC Service in DFW | DFW HVAC",44,Urgency modifier for conversion
+/estimate,Utility,D,"Free HVAC Estimate | DFW HVAC | Dallas-Fort Worth",49,"Free Written HVAC Estimate in DFW | DFW HVAC",44,Conversion-focused
+/recent-projects,Utility,B,"Our Work | Recent HVAC Projects in Dallas-Fort Worth | DFW HVAC",63,"Recent HVAC Projects | 147 Five-Star Reviews | DFW HVAC",55,Was OVERFLOW (>60) - now has badge
+/reviews,Utility,B,"5-Star HVAC Reviews Dallas | Customer Testimonials | DFW HVAC",61,"147 Five-Star Google Reviews | DFW HVAC",39,Was OVERFLOW - minimalist version
 /faq,Utility,A,"HVAC FAQ Dallas | Common Questions | DFW HVAC",45,"HVAC FAQ - Repair, Install, Maintenance | DFW HVAC",50,AEO citation target
-/privacy-policy,Legal,A,"Privacy Policy | DFW HVAC",25,"Privacy Policy | DFW HVAC",25,No change needed
-/terms-of-service,Legal,A,"Terms of Service | DFW HVAC",27,"Terms of Service | DFW HVAC",27,No change needed
+/privacy-policy,Legal,A,"Privacy Policy | DFW HVAC",25,"Privacy Policy | DFW HVAC",25,No change
+/terms-of-service,Legal,A,"Terms of Service | DFW HVAC",27,"Terms of Service | DFW HVAC",27,No change
 /services,Service Hub,C,"HVAC Services | DFW HVAC - Heating & Air Conditioning",53,"AC, Heating & HVAC Services in DFW | DFW HVAC",45,Topical expansion for hub
 /cities-served,Hub,C,"Cities We Serve | DFW HVAC",26,"HVAC Service Areas - 28 DFW Cities | DFW HVAC",45,Topical expansion + specific count
-/services/residential/air-conditioning,Service - Residential,B,"Air Conditioning | DFW HVAC",27,"AC Repair in DFW | 147 Five-Star Reviews | DFW HVAC",51,Tier 1 - top residential service
-/services/residential/heating,Service - Residential,B,"Heating | DFW HVAC",18,"Heating Repair in DFW | 147 Five-Star Reviews",46,Tier 1 - was severely under-optimized (18 chars)
-/services/residential/indoor-air-quality,Service - Residential,A,"Indoor Air Quality | DFW HVAC",29,"Indoor Air Quality & Air Purifier Install | DFW HVAC",52,REME Halo destination
-/services/residential/preventative-maintenance,Service - Residential,A,"Preventative Maintenance | DFW HVAC",35,"HVAC Tune-Up & Preventative Maintenance | DFW HVAC",50,Recurring-revenue service
-/services/commercial/commercial-air-conditioning,Service - Commercial,A,"Commercial Air Conditioning | DFW HVAC",38,"Commercial AC Repair & Installation in DFW | DFW HVAC",53,Higher-ticket commercial
-/services/commercial/commercial-heating,Service - Commercial,A,"Commercial Heating | DFW HVAC",29,"Commercial Heating Repair & Install in DFW | DFW HVAC",53,Higher-ticket commercial
-/services/commercial/commercial-maintenance,Service - Commercial,A,"Commercial Maintenance | DFW HVAC",33,"Commercial HVAC Maintenance & Service | DFW HVAC",48,Recurring commercial revenue
-/cities-served/allen,City,A,"HVAC Services in Allen, TX | DFW HVAC",37,"Allen AC Repair & HVAC Services | DFW HVAC",42,
-/cities-served/argyle,City,A,"HVAC Services in Argyle, TX | DFW HVAC",38,"Argyle AC Repair & HVAC Services | DFW HVAC",43,Previously in 'Crawled not indexed' bucket
-/cities-served/arlington,City,B,"HVAC Services in Arlington, TX | DFW HVAC",41,"Arlington AC Repair | 147 Five-Star Reviews | DFW HVAC",54,Tier 1 - major market
-/cities-served/bedford,City,A,"HVAC Services in Bedford, TX | DFW HVAC",39,"Bedford AC Repair & HVAC Services | DFW HVAC",44,
-/cities-served/carrollton,City,A,"HVAC Services in Carrollton, TX | DFW HVAC",42,"Carrollton AC Repair & HVAC Services | DFW HVAC",47,Growing residential market
-/cities-served/colleyville,City,A,"HVAC Services in Colleyville, TX | DFW HVAC",43,"Colleyville AC Repair & HVAC Services | DFW HVAC",48,Upscale market
-/cities-served/coppell,City,B,"HVAC Services in Coppell, TX | DFW HVAC",39,"Coppell AC Repair | 147 Five-Star Reviews | DFW HVAC",52,Tier 1 - HOMETOWN page
-/cities-served/dallas,City,B,"HVAC Services in Dallas, TX | DFW HVAC",38,"Dallas AC Repair | 147 Five-Star Reviews | DFW HVAC",51,Tier 1 - HIGH VOLUME
-/cities-served/denton,City,A,"HVAC Services in Denton, TX | DFW HVAC",38,"Denton AC Repair & HVAC Services | DFW HVAC",43,
-/cities-served/euless,City,A,"HVAC Services in Euless, TX | DFW HVAC",38,"Euless AC Repair & HVAC Services | DFW HVAC",43,
-/cities-served/farmers-branch,City,A,"HVAC Services in Farmers Branch, TX | DFW HVAC",46,"Farmers Branch AC Repair & HVAC | DFW HVAC",42,Long city name - dropped 'Services' for char budget
-/cities-served/flower-mound,City,A,"HVAC Services in Flower Mound, TX | DFW HVAC",44,"Flower Mound AC Repair & HVAC Services | DFW HVAC",49,Upscale market
-/cities-served/fort-worth,City,B,"HVAC Services in Fort Worth, TX | DFW HVAC",42,"Fort Worth AC Repair | 147 Five-Star Reviews | DFW HVAC",55,Tier 1 - HIGH VOLUME
-/cities-served/frisco,City,B,"HVAC Services in Frisco, TX | DFW HVAC",38,"Frisco AC Repair | 147 Five-Star Reviews | DFW HVAC",51,Tier 1 - HIGHEST SUBURB VOLUME
-/cities-served/grapevine,City,A,"HVAC Services in Grapevine, TX | DFW HVAC",41,"Grapevine AC Repair & HVAC Services | DFW HVAC",46,
-/cities-served/haslet,City,A,"HVAC Services in Haslet, TX | DFW HVAC",38,"Haslet AC Repair & HVAC Services | DFW HVAC",43,
-/cities-served/hurst,City,A,"HVAC Services in Hurst, TX | DFW HVAC",37,"Hurst AC Repair & HVAC Services | DFW HVAC",42,
-/cities-served/irving,City,A,"HVAC Services in Irving, TX | DFW HVAC",38,"Irving AC Repair & HVAC Services | DFW HVAC",43,
-/cities-served/keller,City,A,"HVAC Services in Keller, TX | DFW HVAC",38,"Keller AC Repair & HVAC Services | DFW HVAC",43,
-/cities-served/lake-dallas,City,A,"HVAC Services in Lake Dallas, TX | DFW HVAC",43,"Lake Dallas AC Repair & HVAC Services | DFW HVAC",48,
-/cities-served/lewisville,City,A,"HVAC Services in Lewisville, TX | DFW HVAC",42,"Lewisville AC Repair & HVAC Services | DFW HVAC",47,Major market (already indexed)
-/cities-served/mansfield,City,A,"HVAC Services in Mansfield, TX | DFW HVAC",41,"Mansfield AC Repair & HVAC Services | DFW HVAC",46,Growing S-DFW market
-/cities-served/north-richland-hills,City,A,"HVAC Services in North Richland Hills, TX | DFW HVAC",52,"North Richland Hills AC Repair | DFW HVAC",41,Longest city name - dropped '& HVAC Services'
-/cities-served/plano,City,B,"HVAC Services in Plano, TX | DFW HVAC",37,"Plano AC Repair | 147 Five-Star Reviews | DFW HVAC",50,Tier 1 - HIGHEST SUBURB VOLUME
-/cities-served/richardson,City,A,"HVAC Services in Richardson, TX | DFW HVAC",42,"Richardson AC Repair & HVAC Services | DFW HVAC",47,Major market
-/cities-served/roanoke,City,A,"HVAC Services in Roanoke, TX | DFW HVAC",39,"Roanoke AC Repair & HVAC Services | DFW HVAC",44,
-/cities-served/southlake,City,A,"HVAC Services in Southlake, TX | DFW HVAC",41,"Southlake AC Repair & HVAC Services | DFW HVAC",46,Upscale market
-/cities-served/the-colony,City,A,"HVAC Services in The Colony, TX | DFW HVAC",42,"The Colony AC Repair & HVAC Services | DFW HVAC",47,
+/services/residential/air-conditioning,Service - Residential,B,"Air Conditioning | DFW HVAC",27,"AC Repair in DFW | 147 Five-Star Reviews | DFW HVAC",51,Top residential service
+/services/residential/heating,Service - Residential,B,"Heating | DFW HVAC",18,"Heating Repair in DFW | 147 Five-Star Reviews | DFW HVAC",55,Was under-optimized (18 chars)
+/services/residential/indoor-air-quality,Service - Residential,B,"Indoor Air Quality | DFW HVAC",29,"Indoor Air Quality | 147 Five-Star Reviews | DFW HVAC",53,REME Halo destination
+/services/residential/preventative-maintenance,Service - Residential,B,"Preventative Maintenance | DFW HVAC",35,"HVAC Tune-Up | 147 Five-Star Reviews | DFW HVAC",47,Recurring-revenue service
+/services/commercial/commercial-air-conditioning,Service - Commercial,B,"Commercial Air Conditioning | DFW HVAC",38,"Commercial AC Repair | 147 Five-Star Reviews | DFW HVAC",55,Higher-ticket commercial
+/services/commercial/commercial-heating,Service - Commercial,B,"Commercial Heating | DFW HVAC",29,"Commercial Heating | 147 Five-Star Reviews | DFW HVAC",53,Higher-ticket commercial
+/services/commercial/commercial-maintenance,Service - Commercial,B,"Commercial Maintenance | DFW HVAC",33,"Commercial HVAC Service | 147 Five-Star Reviews | DFW HVAC",57,Recurring commercial revenue
+/cities-served/allen,City,B,"HVAC Services in Allen, TX | DFW HVAC",37,"Allen AC Repair | 147 Five-Star Reviews | DFW HVAC",50,
+/cities-served/argyle,City,B,"HVAC Services in Argyle, TX | DFW HVAC",38,"Argyle AC Repair | 147 Five-Star Reviews | DFW HVAC",51,Previously Crawled-not-indexed
+/cities-served/arlington,City,B,"HVAC Services in Arlington, TX | DFW HVAC",41,"Arlington AC Repair | 147 Five-Star Reviews | DFW HVAC",54,Major market
+/cities-served/bedford,City,B,"HVAC Services in Bedford, TX | DFW HVAC",39,"Bedford AC Repair | 147 Five-Star Reviews | DFW HVAC",52,
+/cities-served/carrollton,City,B,"HVAC Services in Carrollton, TX | DFW HVAC",42,"Carrollton AC Repair | 147 Five-Star Reviews | DFW HVAC",55,Growing residential
+/cities-served/colleyville,City,B,"HVAC Services in Colleyville, TX | DFW HVAC",43,"Colleyville AC Repair | 147 Five-Star Reviews | DFW HVAC",55,Upscale market
+/cities-served/coppell,City,B,"HVAC Services in Coppell, TX | DFW HVAC",39,"Coppell AC Repair | 147 Five-Star Reviews | DFW HVAC",52,HOMETOWN page
+/cities-served/dallas,City,B,"HVAC Services in Dallas, TX | DFW HVAC",38,"Dallas AC Repair | 147 Five-Star Reviews | DFW HVAC",51,HIGH VOLUME
+/cities-served/denton,City,B,"HVAC Services in Denton, TX | DFW HVAC",38,"Denton AC Repair | 147 Five-Star Reviews | DFW HVAC",51,
+/cities-served/euless,City,B,"HVAC Services in Euless, TX | DFW HVAC",38,"Euless AC Repair | 147 Five-Star Reviews | DFW HVAC",51,
+/cities-served/farmers-branch,City,B,"HVAC Services in Farmers Branch, TX | DFW HVAC",46,"Farmers Branch AC Repair | 147 Five-Star Reviews | DFW HVAC",58,Long name - tight but fits
+/cities-served/flower-mound,City,B,"HVAC Services in Flower Mound, TX | DFW HVAC",44,"Flower Mound AC Repair | 147 Five-Star Reviews | DFW HVAC",56,Upscale market
+/cities-served/fort-worth,City,B,"HVAC Services in Fort Worth, TX | DFW HVAC",42,"Fort Worth AC Repair | 147 Five-Star Reviews | DFW HVAC",55,HIGH VOLUME
+/cities-served/frisco,City,B,"HVAC Services in Frisco, TX | DFW HVAC",38,"Frisco AC Repair | 147 Five-Star Reviews | DFW HVAC",51,HIGHEST SUBURB VOLUME
+/cities-served/grapevine,City,B,"HVAC Services in Grapevine, TX | DFW HVAC",41,"Grapevine AC Repair | 147 Five-Star Reviews | DFW HVAC",54,
+/cities-served/haslet,City,B,"HVAC Services in Haslet, TX | DFW HVAC",38,"Haslet AC Repair | 147 Five-Star Reviews | DFW HVAC",51,
+/cities-served/hurst,City,B,"HVAC Services in Hurst, TX | DFW HVAC",37,"Hurst AC Repair | 147 Five-Star Reviews | DFW HVAC",50,
+/cities-served/irving,City,B,"HVAC Services in Irving, TX | DFW HVAC",38,"Irving AC Repair | 147 Five-Star Reviews | DFW HVAC",51,
+/cities-served/keller,City,B,"HVAC Services in Keller, TX | DFW HVAC",38,"Keller AC Repair | 147 Five-Star Reviews | DFW HVAC",51,
+/cities-served/lake-dallas,City,B,"HVAC Services in Lake Dallas, TX | DFW HVAC",43,"Lake Dallas AC Repair | 147 Five-Star Reviews | DFW HVAC",55,
+/cities-served/lewisville,City,B,"HVAC Services in Lewisville, TX | DFW HVAC",42,"Lewisville AC Repair | 147 Five-Star Reviews | DFW HVAC",55,Major market
+/cities-served/mansfield,City,B,"HVAC Services in Mansfield, TX | DFW HVAC",41,"Mansfield AC Repair | 147 Five-Star Reviews | DFW HVAC",54,Growing S-DFW market
+/cities-served/north-richland-hills,City,B,"HVAC Services in North Richland Hills, TX | DFW HVAC",52,"North Richland Hills AC Repair | 147 Five-Star Reviews",54,LONGEST city - drops brand to fit
+/cities-served/plano,City,B,"HVAC Services in Plano, TX | DFW HVAC",37,"Plano AC Repair | 147 Five-Star Reviews | DFW HVAC",50,HIGHEST SUBURB VOLUME
+/cities-served/richardson,City,B,"HVAC Services in Richardson, TX | DFW HVAC",42,"Richardson AC Repair | 147 Five-Star Reviews | DFW HVAC",55,Major market
+/cities-served/roanoke,City,B,"HVAC Services in Roanoke, TX | DFW HVAC",39,"Roanoke AC Repair | 147 Five-Star Reviews | DFW HVAC",52,
+/cities-served/southlake,City,B,"HVAC Services in Southlake, TX | DFW HVAC",41,"Southlake AC Repair | 147 Five-Star Reviews | DFW HVAC",54,Upscale market
+/cities-served/the-colony,City,B,"HVAC Services in The Colony, TX | DFW HVAC",42,"The Colony AC Repair | 147 Five-Star Reviews | DFW HVAC",55,
