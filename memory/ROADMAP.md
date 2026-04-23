@@ -1,6 +1,6 @@
 # DFW HVAC — Roadmap
 
-**Last reviewed:** April 22, 2026
+**Last reviewed:** April 23, 2026
 **⚠️ Read `/app/memory/00_START_HERE.md` first for the Agent SOP.**
 
 This file contains ONLY future-facing work. Shipped items live in `/app/memory/CHANGELOG.md`.
@@ -92,6 +92,35 @@ Only revisit once ads running at stable spend:
 ---
 
 ## 🔴 P1 — High Priority
+
+### P1.17 — GSC Indexing Recovery Sprint ⭐ NEW P0 — INDEXING RATE 57% → 80%+
+- **Status:** Started Apr 23 — diagnosis complete, execution in progress.
+- **Diagnosis:** GSC shows 27 of 47 sitemap URLs indexed (57%). The 34 "not indexed" URLs break down as: 27 "Discovered – currently not indexed" (all with **Last Crawled: N/A** — Google has NEVER crawled them), 3 "Page with redirect" (optimal — canonical variants), 2 "Crawled – currently not indexed" (1 legacy URL + 1 pre-push-snapshot), 1 "Excluded by noindex" (old Wix PDF, harmless), 1 "Not Found 404" (`/servicecall` legacy Wix URL). Root cause is **crawl budget, not content quality** — Google's bot hasn't gotten to the 27 discovered URLs yet after the Apr 21 burst added them to the queue.
+- **Full list of 27 stuck URLs captured** in `/app/memory/audits/2026-04-23_GSC_Indexing_Diagnosis.md` (to be written next session). High-business-value entries: `/about`, `/reviews`, `/faq`, `/services/residential/air-conditioning`, `/services/residential/heating`, `/services/residential/indoor-air-quality`, `/services/commercial/commercial-air-conditioning`, `/services/commercial/commercial-heating`, plus 18 city pages including Frisco, Lewisville, Richardson, Irving, Mansfield, North Richland Hills.
+
+**P1.17a — Manual indexing requests (user-led, ~90 min, 3-day cadence)**
+- Cap is ~10 requests/day per site. Spread 27 URLs across 3 days.
+- Day 1 — high-value (10): /about, /reviews, /faq, both residential service AC+Heating+IAQ, both commercial service AC+Heating, /cities-served/frisco, /cities-served/lewisville
+- Day 2 — next 10 cities: richardson, irving, mansfield, carrollton, colleyville, flower-mound, grapevine, north-richland-hills, hurst, the-colony
+- Day 3 — remaining 7: bedford, euless, haslet, lake-dallas, roanoke, /recent-projects, /privacy-policy
+- **Expected outcome:** 60–80% of these indexed within 7 days of request.
+
+**P1.17b — Crawl-budget lift (compounding signal upgrades)**
+- **Tie into P1.8 GBP kickoff** — GBP verification alone typically doubles crawl rate in 60 days. Biggest single lever.
+- **P2.3 NAP consistency audit → move up** — Yelp, BBB, Angi, HomeAdvisor, Nextdoor citations each feed a backlink and authority signal that Google uses to budget crawl.
+- **Freeze sitemap submissions for 2–3 weeks** — repeated resubmission resets discovery queue. Let current push digest before adding P1.13–P1.16 pages.
+- Server response already optimized (CWV 🟢); no action there.
+
+**P1.17c — Internal linking audit on the 27 stuck URLs**
+- For each un-crawled URL: verify ≥3 inbound internal links from established pages (home, services hub, cities hub, sibling pages).
+- Expected finding: the Apr 21 PR #3 cross-linking grid already covers most cases; 2–3 outliers likely need reinforcement.
+- **Effort:** 1–2 hrs scripted audit + spot fixes.
+
+**P1.17d — Legacy Wix URL redirect + 410 fixes**
+- Confirmed bugs: `/aboutus` (404 — was legacy Wix `/aboutus`, should 301 → `/about`), `/servicecall` (404 — legacy Wix, should 301 → `/request-service`), `/_files/ugd/*` (Wix CDN phantom PDFs — should return 410 Gone to clear forever).
+- **Blocker:** Need full list of legacy Wix slugs. Wix site is offline but user retains admin access. Next step = extract the Page list + Redirect Manager + Media Manager exports from Wix admin.
+- **Implementation:** single `next.config.js` redirect block + a catch-all rewrite for `/_files/ugd/*` returning 410. 30-min code change once legacy list is in hand.
+- **Impact:** Recovers backlink equity from old URLs + clears at least 3 of the 34 "not indexed" entries + proactively prevents future "Not Found" reports as Google re-discovers other Wix paths.
 
 ### P1.6a — Title tag audit + rewrite ⭐ NEXT TASK (code execution deferred pending sitemap sign-off)
 - **Status:** Strategy locked Apr 22 — competitor audit done, Appointment-First framework drafted, formulas ready. Code execution deferred so the title rewrite covers new pages (P1.13–P1.16) in a single deploy.
