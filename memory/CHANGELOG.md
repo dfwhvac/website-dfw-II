@@ -1,11 +1,25 @@
 # DFW HVAC — Changelog
 
-**Last reviewed:** April 21, 2026
+**Last reviewed:** April 22, 2026
 **⚠️ Read `/app/memory/00_START_HERE.md` first for the Agent SOP.**
 
 Reverse-chronological record of everything shipped to production. When adding entries, append to the top of the appropriate session block (newest first).
 
 ---
+
+## April 22, 2026 — Strategic planning session — Sitemap expansion + competitor audit
+
+- **Saved competitor title-tag + trust-signal audit** at `/app/memory/audits/2026-04-22_Competitor_Title_Audit.md`. Re-crawled A#1 Air, Milestone, Coppell AC, and Andy's Sprinkler homepages. Key finding: **industry-wide blind spot — none of the 4 put their star rating + review count in the `<title>` tag.** DFW HVAC's 145/145 five-star reviews (zero negatives) is an unclaimed CTR weapon. Three of four competitors also exceed the 60-char SERP limit. Coppell AC (our direct geo rival) has a 93-char keyword-stuffed title with zero review signal — materially weaker than anything we're about to publish.
+- **Published color-coded internal sitemap preview** at `/app/frontend/public/sitemap-preview.html` — self-contained HTML with brand styling (Prussian / Electric Blue / Vivid Red), sticky TOC nav, color-coded legend (🟢 LIVE / 🟡 EDIT / 🔴 NEW / 🔵 STUB), full ASCII tree, Mermaid mind map (CDN), summary table, and strategic notes. Set to `noindex, nofollow`. Reachable at `{preview-url}/sitemap-preview.html`. Meant for user review only.
+- **Roadmap expanded with four new P1 items** (see ROADMAP.md): P1.13 `/services/system-replacement` dedicated replacement page, P1.14 `/estimator` multi-step pricing tool (lead-gated at results step), P1.15 `/repair-or-replace` AEO decision-framework article, P1.16 `/financing` page (promoted from P2 backlog — replacement conversion depends on it). `/pricing` reserved as STUB under P2 — URL locked, content Phase 2.
+- **Strategic notes captured during session:**
+  - Company does NOT offer 24/7 service — language is "same-day when available" + "within 24 hours response." All keyword recommendations updated to honor this.
+  - Actual service architecture: 7 service pages + 2 category hubs + 1 services hub = 10 service-related pages (was misstated as 7 earlier). Residential: air-conditioning, heating, indoor-air-quality, maintenance-plans. Commercial: commercial-hvac, commercial-maintenance, new-construction.
+  - System replacement is the under-weighted revenue center on the current site (5–15× service-call ticket). Free-estimate offer is currently a hidden asset. Both get promoted in the new sitemap.
+  - Keyword framework established: **Appointment-First** (transactional intent → AEO question-twin → first-100-words proof-point with `145 ★★★★★`). Documented in conversation; to be formalized on the eventual pricing/services refresh.
+  - Top-line nav grows by only 1 item ("Estimator"). Everything else lives inside existing dropdowns / footer / inline. 7 → 8 nav items.
+- **P1.6a (Title tag audit + rewrite) status:** strategy locked (audit complete, formulas drafted), code execution **deferred** pending user sign-off on sitemap expansion. Once sitemap is approved, P1.6a title rewrites will cover the new pages as well, single deploy.
+- **Files shipped:** `/app/memory/audits/2026-04-22_Competitor_Title_Audit.md`, `/app/frontend/public/sitemap-preview.html`, `/app/memory/audits/README.md` (index updated), `/app/memory/ROADMAP.md` (new P1 items), `/app/memory/CHANGELOG.md` (this entry).
 
 ## April 21, 2026 — Late evening — Documentation system migration
 

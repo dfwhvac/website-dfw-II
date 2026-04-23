@@ -1,6 +1,6 @@
 # DFW HVAC — Roadmap
 
-**Last reviewed:** April 21, 2026
+**Last reviewed:** April 22, 2026
 **⚠️ Read `/app/memory/00_START_HERE.md` first for the Agent SOP.**
 
 This file contains ONLY future-facing work. Shipped items live in `/app/memory/CHANGELOG.md`.
@@ -30,7 +30,11 @@ User plans Google Ads in ~12 weeks. Sequence architecture → content → data �
 - **Week 1 — Sprint 1** ✅ SHIPPED Apr 21, 2026
 - **Week 2 — Sprint 2a audits** ✅ SHIPPED Apr 21, 2026 (P1.2 technical audit, PR #3 closing R1.1/R1.2/R2.1)
 - **Week 3 — Sprint 2b audits** 🟡 IN FLIGHT
-  - **P1.6a** — Title tag audit + rewrite ⭐ NEXT HIGHEST-LEVERAGE (titles ARE a ranking factor; meta desc isn't)
+  - **P1.6a** — Title tag audit + rewrite ⭐ Strategy locked Apr 22; code execution deferred until sitemap sign-off (so P1.13–P1.16 pages get titles in single deploy)
+  - **P1.13** — `/services/system-replacement` new page (pending user approval of sitemap)
+  - **P1.14** — `/estimator` pricing tool (pending user approval + pricing matrix)
+  - **P1.15** — `/repair-or-replace` AEO article (pending user approval)
+  - **P1.16** — `/financing` page promoted from P2 (pending financing partner confirmation)
   - **P1.6f** — Google Rich Results validation on the new JSON-LD schemas (user-led)
 - **Week 4 — P1.8 GBP optimization kickoff**
   - Claim, verify NAP, upload 20+ photos, populate services + service area
@@ -89,13 +93,52 @@ Only revisit once ads running at stable spend:
 
 ## 🔴 P1 — High Priority
 
-### P1.6a — Title tag audit + rewrite ⭐ NEXT TASK
-- **Scope:** Extract `<title>` for all ~47 pages (home + 7 service + 28 city + utility). Flag duplicates + >60 char titles. Rewrite via `generateMetadata()` code-fallback pattern same as meta descriptions.
-- **Template (city):** `[City] HVAC Repair & Installation | DFW HVAC`
+### P1.6a — Title tag audit + rewrite ⭐ NEXT TASK (code execution deferred pending sitemap sign-off)
+- **Status:** Strategy locked Apr 22 — competitor audit done, Appointment-First framework drafted, formulas ready. Code execution deferred so the title rewrite covers new pages (P1.13–P1.16) in a single deploy.
+- **Scope:** Extract `<title>` for all live pages (home + 10 service + 28 city + utility) PLUS new P1.13–P1.16 pages once built. Flag duplicates + >60 char titles. Rewrite via `generateMetadata()` code-fallback pattern same as meta descriptions.
+- **Template (city):** `[City] AC Repair & HVAC Services | DFW HVAC`
 - **Template (service):** `[Service] in Dallas-Fort Worth | DFW HVAC`
-- **Deliverable:** Code changes + audit doc at `/app/memory/audits/YYYY-MM-DD_Title_Tag_Audit.md`
-- **Effort:** 1 hr
-- **Impact:** Direct ranking-factor lever (unlike meta descriptions)
+- **Review-count variant (home + top 3 city + top 2 service):** `[Keyword+Geo] | 145 ★★★★★ Reviews | DFW HVAC`
+- **Deliverable:** Code changes + audit CSV at `/app/memory/audits/YYYY-MM-DD_Title_Tag_Audit.csv`
+- **Effort:** 1.5 hrs (up from 1 hr — additional pages)
+- **Impact:** Direct ranking-factor lever + weaponizes the industry-wide review-count blind spot documented in `/app/memory/audits/2026-04-22_Competitor_Title_Audit.md`
+
+### P1.13 — `/services/system-replacement` dedicated page ⭐ NEW REVENUE CENTER
+- **Why:** Replacement is 5–15× the ticket of a service call. Currently has no dedicated page. Free-estimate offer is a hidden asset. Biggest single-conversion-surface gap on the site.
+- **Scope:** New page at `/services/system-replacement`. Sections: "Is it time to replace?" decision block · "What affects replacement cost" value-proof (no $ yet) · "Free written estimate" primary CTA · financing preview linking to `/financing` · city-served cross-links · FAQ schema.
+- **Deliverables:** Next.js page + Sanity `systemReplacement` schema (or reuse existing `companyPage` if matched) + nav/header update (inside Residential dropdown) + hero block on `/services`.
+- **Effort:** 4–6 hrs
+- **Impact:** Directly captures the highest-ticket buyer journey. Combined with estimator (P1.14) + financing (P1.16) = complete replacement funnel.
+
+### P1.14 — Pricing Estimator Tool ⭐ NEW P1 (solves the "not ready to publish prices" constraint)
+- **Why:** User wants groundwork for transparent pricing without committing to published numbers yet. Estimator gives users a RANGE from factor inputs, captures a lead at the results step, and serves as AEO citation bait (AI engines cite interactive cost tools over static articles).
+- **Scope:** New top-line nav item `/estimator` — multi-step wizard with 4 flows:
+  - `/estimator/service-call`
+  - `/estimator/repair`
+  - `/estimator/replacement` ★ (highest-value flow — feeds P1.13)
+  - `/estimator/maintenance`
+  - `/estimator/results/[id]` (shareable, ISR-cached, emailed via Resend)
+- **UX pattern:** Open exploration (3–5 factor questions, sessionStorage autosave) → **gate at results step** (name/email/phone required before showing range) → lead written to MongoDB with all inputs + computed range + email PDF.
+- **Technical:** Client wizard component + `POST /api/estimator/calculate` (pricing matrix in JSON config, server-side compute so formula isn't exposed) + `POST /api/estimator/lead` (MongoDB write + Resend email).
+- **Scope options:**
+  - MVP (~6–8 hrs): 3 calculators — Service Call, Repair, Replacement
+  - Standard (~12–16 hrs): + Maintenance, more inputs (system age, home size, brand tier), PDF email, shareable link
+  - Advanced (~24–32 hrs): + financing monthly-payment calc, photo upload, embedded scheduler
+- **Requires from user:** pricing matrix (dollar ranges). Tool is buildable without it; calibration needs user domain input.
+- **Impact:** Every completion = qualified lead. AEO gold on `"[service] cost dfw"` queries. Differentiator — no competitor has this.
+
+### P1.15 — `/repair-or-replace` decision-framework article ⭐ NEW AEO ambush
+- **Why:** "Should I repair or replace my AC?" is a top-volume commercial-investigation query in the DFW market. AI Overviews cite decision-framework content, and no local competitor answers it on-page. Low direct conversion, but captures top-of-funnel replacement shoppers and routes them down to P1.13.
+- **Scope:** Single long-form article page. Sections: cost-benefit table (repair vs replace at various ages), "5 signs it's time to replace," decision flowchart, call-to-book-estimate. Schema: `Article` + `FAQPage`.
+- **Effort:** 3–4 hrs
+- **Impact:** AI Overviews citation surface + internal routing to `/services/system-replacement` and `/estimator/replacement`.
+
+### P1.16 — `/financing` page — PROMOTED from P2 to P1
+- **Why:** Replacement conversion ($6K–$18K tickets) depends heavily on "can I afford it this month" — financing availability is the make-or-break moment. No sense shipping `/services/system-replacement` or `/estimator/replacement` without financing reachable in one click.
+- **Scope:** New page at `/financing` — partner info, "as low as $X/month" calculator preview, application link. Schema: `FinancialProduct`.
+- **Requires from user:** Confirmed financing partner + terms.
+- **Effort:** 4 hrs
+- **Impact:** Unlocks replacement conversion; promotes credibility on every service page via inline callouts.
 
 ### P1.6b — City page body content depth (300–500 unique words × 28 cities)
 - Local landmarks, housing stock, common HVAC issues, zip-specific context
@@ -196,6 +239,13 @@ Only revisit once ads running at stable spend:
 - Audit: hero components, footer, About page, service-area descriptions in Sanity
 - Fix: "28+ DFW cities" or "across the DFW Metroplex"
 - **Effort:** 30 min
+
+### P2.2 — `/pricing` page (STUB now, launch later)
+- **Status:** URL reserved by STUB route that returns `noindex,nofollow`. Architecture slot protected.
+- **Phase 2 launch:** Single source-of-truth transparent pricing directory — full services with "starting from $X" + filtering + `Offer`/`PriceSpecification` schema for AEO citation. Every service page + estimator pulls from this as shared data.
+- **Dependencies:** User ready to publish numbers + internal pricing sheet locked down.
+- **Effort:** 4–6 hrs once user green-lights.
+- **Impact:** Definitive AI Overview citation + conversion trust lever.
 
 ### P2.3 — NAP consistency audit
 - Yelp, BBB, Angi, HomeAdvisor, Thumbtack, Nextdoor, Bing Places, Apple Maps
