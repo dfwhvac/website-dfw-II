@@ -53,6 +53,13 @@ export default {
       type: 'number',
     },
     {
+      name: 'fiveStarReviewCount',
+      title: 'Five-Star Review Count (safety-net)',
+      type: 'number',
+      description: 'Manually curated count of five-star reviews. Used in page titles as a fallback when googleRating drops below 4.95 (Option C hybrid logic). Keep this at or near the latest true 5-star count so the badge stays accurate if the rating ever dips. Default seed: 150.',
+      validation: Rule => Rule.min(0),
+    },
+    {
       name: 'established',
       title: 'Year Established',
       type: 'string',

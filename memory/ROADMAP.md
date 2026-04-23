@@ -30,7 +30,7 @@ User plans Google Ads in ~12 weeks. Sequence architecture → content → data �
 - **Week 1 — Sprint 1** ✅ SHIPPED Apr 21, 2026
 - **Week 2 — Sprint 2a audits** ✅ SHIPPED Apr 21, 2026 (P1.2 technical audit, PR #3 closing R1.1/R1.2/R2.1)
 - **Week 3 — Sprint 2b audits** 🟡 IN FLIGHT
-  - **P1.6a** — Title tag audit + rewrite ⭐ Strategy locked Apr 22; code execution deferred until sitemap sign-off (so P1.13–P1.16 pages get titles in single deploy)
+  - **P1.6a** — Title tag audit + rewrite ✅ SHIPPED Apr 23, 2026 — all 47 titles live, Option C hybrid review-count logic, `fiveStarReviewCount` seeded at 150 in Sanity
   - **P1.13** — `/services/system-replacement` new page (pending user approval of sitemap)
   - **P1.14** — `/estimator` pricing tool (pending user approval + pricing matrix)
   - **P1.15** — `/repair-or-replace` AEO article (pending user approval)
@@ -121,15 +121,10 @@ Only revisit once ads running at stable spend:
 - **Resolution:** Single deploy covering all 20 legacy Wix URLs. See `/app/memory/audits/2026-04-23_Legacy_URL_Redirect_Map.md` for full mapping, verification log, and source data. `next.config.js` expanded with 5 new 301s (11 total); new `middleware.js` handles 410 Gone responses for non-applicable URLs + catch-all patterns (`/copy-of-*`, `/_files/ugd/*`, `/post/*`, `/blog/*`). All 18 curl verification tests passed.
 - **TODO:** update `/installation` + `/ducting` 308 targets when P1.13 `/services/system-replacement` (or dedicated install/ducting pages) ship.
 
-### P1.6a — Title tag audit + rewrite ⭐ NEXT TASK (code execution deferred pending sitemap sign-off)
-- **Status:** Strategy locked Apr 22 — competitor audit done, Appointment-First framework drafted, formulas ready. Code execution deferred so the title rewrite covers new pages (P1.13–P1.16) in a single deploy.
-- **Scope:** Extract `<title>` for all live pages (home + 10 service + 28 city + utility) PLUS new P1.13–P1.16 pages once built. Flag duplicates + >60 char titles. Rewrite via `generateMetadata()` code-fallback pattern same as meta descriptions.
-- **Template (city):** `[City] AC Repair & HVAC Services | DFW HVAC`
-- **Template (service):** `[Service] in Dallas-Fort Worth | DFW HVAC`
-- **Review-count variant (home + top 3 city + top 2 service):** `[Keyword+Geo] | 145 ★★★★★ Reviews | DFW HVAC`
-- **Deliverable:** Code changes + audit CSV at `/app/memory/audits/YYYY-MM-DD_Title_Tag_Audit.csv`
-- **Effort:** 1.5 hrs (up from 1 hr — additional pages)
-- **Impact:** Direct ranking-factor lever + weaponizes the industry-wide review-count blind spot documented in `/app/memory/audits/2026-04-22_Competitor_Title_Audit.md`
+### P1.6a — Title tag audit + rewrite ✅ SHIPPED Apr 23, 2026
+- **Delivered:** All 47 finalized titles live per `/app/memory/audits/2026-04-23_Title_Tag_Final.csv`. Option C hybrid review-count logic (rating ≥ 4.95 → live `googleReviews`; else → Sanity `fiveStarReviewCount`; else → no badge). `fiveStarReviewCount` seeded at 150.
+- **Key helpers:** `lib/metadata.js::getReviewBadgeCount()`, `lib/metadata.js::buildTitleWithBadge()`. Title-prefix maps live inside `app/services/[category]/[slug]/page.jsx` (SERVICE_TITLE_PREFIX) and `app/cities-served/[slug]/page.jsx` (CITY_PREFIX_OVERRIDES + dallas/north-richland-hills brand-drop exceptions).
+- **Follow-up:** Quarterly GSC CTR review scheduled July 23, 2026 (item Q4 in `/app/memory/RECURRING_MAINTENANCE.md`). Monthly `fiveStarReviewCount` drift audit (item M2).
 
 ### P1.13 — `/services/system-replacement` dedicated page ⭐ NEW REVENUE CENTER
 - **Why:** Replacement is 5–15× the ticket of a service call. Currently has no dedicated page. Free-estimate offer is a hidden asset. Biggest single-conversion-surface gap on the site.
@@ -294,6 +289,13 @@ Only revisit once ads running at stable spend:
 - `/api/revalidate` route with secret token
 - Sanity webhook → `/api/revalidate` on publish
 - **Effort:** 2–3 hrs
+- **Sub-item (Apr 23, 2026):** Migrate all title-bearing pages from `force-dynamic` → `revalidate: 86400` once webhook path is in place. Keeps Option C review-count badges fresh within 24h, cuts per-request Sanity fetches by ~97%. Low-risk because the daily `/api/cron/sync-reviews` already aligns with a 24h cadence.
+
+### P2.17 — Deprecate / remove Sanity `metaTitle` field (title rewrite cleanup)
+- **Context:** P1.6a (Apr 23, 2026) made the code-side titles the single authoritative source. The Sanity `metaTitle` field on homepage/aboutPage/contactPage/faqPage/reviewsPage/companyPage/cityPage/service is no longer read by any route.
+- **Scope:** Remove the `metaTitle` field from all Sanity schemas (or mark `readOnly: true` + `hidden: true`) and drop it from GROQ projections in `lib/sanity.js`. Document the removal in CHANGELOG + audits.
+- **Effort:** 30 min
+- **Impact:** Prevents future content editors from accidentally overriding the audited titles. Eliminates schema drift confusion.
 
 ### P2.6 — GTM + Facebook Pixel
 - When paid social campaign warrants it

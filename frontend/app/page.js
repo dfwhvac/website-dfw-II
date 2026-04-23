@@ -4,16 +4,27 @@ import HomePage from '../components/HomePage'
 import { LocalBusinessSchema } from '../components/SchemaMarkup'
 import { getCompanyInfo, getServices, getSiteSettings, getHomepage, getAllTestimonials } from '../lib/sanity'
 import { companyInfo as mockCompanyInfo, services as mockServices, testimonials as mockTestimonials } from '../lib/mockData'
-import { buildPageMetadata } from '../lib/metadata'
+import { buildPageMetadata, getReviewBadgeCount, buildTitleWithBadge } from '../lib/metadata'
 
 // Force dynamic rendering to always fetch fresh Sanity content
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 export async function generateMetadata() {
-  const homepage = await getHomepage()
+  // P1.6a title rewrite (Apr 23, 2026) — GSC-refined keyword-first title.
+  // Brand dropped; surfaces via breadcrumb. CSV row 2.
+  const [homepage, companyInfo] = await Promise.all([
+    getHomepage(),
+    getCompanyInfo(),
+  ])
+  const count = getReviewBadgeCount(companyInfo)
+  const title = buildTitleWithBadge({
+    prefix: 'AC, HVAC & Furnace Repair',
+    count,
+    includeBrand: false,
+  })
   return buildPageMetadata({
-    title: homepage?.metaTitle || 'DFW HVAC | Trusted Air Conditioning & Heating Experts',
+    title,
     description: homepage?.metaDescription || 'Family-owned HVAC contractor serving Dallas-Fort Worth. AC and heating diagnosis, repair, installation and maintenance. Call (972) 777-COOL.',
     path: '/',
   })

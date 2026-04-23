@@ -6,13 +6,21 @@ import Link from 'next/link'
 import { Phone, MapPin, CheckCircle, ArrowRight, Briefcase, Calendar, Award } from 'lucide-react'
 import ServiceFirstCTA from '@/components/ServiceFirstCTA'
 import RealWorkWidget from '@/components/RealWorkWidget'
+import { getReviewBadgeCount, buildTitleWithBadge } from '@/lib/metadata'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
-export function generateMetadata() {
+export async function generateMetadata() {
+  // P1.6a title rewrite (Apr 23, 2026) — overflow fix; review badge keeps under 60 chars. CSV row 7.
+  const companyInfo = await getCompanyInfo()
+  const count = getReviewBadgeCount(companyInfo)
+  const title = buildTitleWithBadge({
+    prefix: 'Recent HVAC Projects',
+    count,
+  })
   return {
-    title: 'Our Work | Recent HVAC Projects in Dallas-Fort Worth | DFW HVAC',
+    title,
     description: 'View completed HVAC installations across the DFW metroplex. AC repairs, heating systems, and air quality solutions in Dallas, Irving, Coppell, Carrollton & surrounding cities.',
     alternates: {
       canonical: '/recent-projects',

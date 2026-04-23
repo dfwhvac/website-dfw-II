@@ -11,12 +11,10 @@ export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 export async function generateMetadata() {
-  const siteSettings = await getSiteSettings()
-  const companyName = siteSettings?.companyName || 'DFW HVAC'
-  
+  // P1.6a title rewrite (Apr 23, 2026) — topical expansion + specific count. CSV row 13.
   return {
-    title: `Cities We Serve | ${companyName}`,
-    description: `${companyName} provides professional HVAC services across the Dallas-Fort Worth metroplex. Find heating and air conditioning services in your city.`,
+    title: 'HVAC Service Areas - 28 DFW Cities | DFW HVAC',
+    description: 'DFW HVAC provides professional HVAC services across 28 cities in the Dallas-Fort Worth metroplex. Find heating and air conditioning services in your city.',
     alternates: {
       canonical: '/cities-served',
     },

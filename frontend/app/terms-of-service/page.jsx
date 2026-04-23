@@ -7,12 +7,10 @@ export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 export async function generateMetadata() {
-  const siteSettings = await getSiteSettings()
-  const companyName = siteSettings?.companyName || 'DFW HVAC'
-  
+  // P1.6a title rewrite (Apr 23, 2026) — no change from existing. CSV row 11.
   return {
-    title: `Terms of Service | ${companyName}`,
-    description: `Terms of Service for ${companyName}. Review the terms and conditions governing your use of our website and HVAC services.`,
+    title: 'Terms of Service | DFW HVAC',
+    description: 'Terms of Service for DFW HVAC. Review the terms and conditions governing your use of our website and HVAC services.',
     alternates: {
       canonical: '/terms-of-service',
     },

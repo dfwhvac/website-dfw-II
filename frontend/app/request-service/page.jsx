@@ -8,9 +8,10 @@ export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 export function generateMetadata() {
+  // P1.6a title rewrite (Apr 23, 2026) — full geo removes "in DFW | DFW HVAC" redundancy, urgency modifier retained. CSV row 5.
   return {
-    title: 'Request HVAC Service | DFW HVAC | Dallas-Fort Worth',
-    description: 'Request HVAC service from DFW HVAC. Fast response, licensed technicians, upfront pricing. Serving Dallas-Fort Worth. Call (972) 777-COOL or fill out our form.',
+    title: 'Same-Day HVAC Service in Dallas-Fort Worth | DFW HVAC',
+    description: 'Request same-day HVAC service from DFW HVAC. Fast response, licensed technicians, upfront pricing. Serving Dallas-Fort Worth. Call (972) 777-COOL or fill out our form.',
     keywords: 'request hvac service, schedule ac repair, hvac service request, dallas hvac service, fort worth ac repair',
     alternates: {
       canonical: '/request-service',

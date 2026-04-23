@@ -3,6 +3,69 @@
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://dfwhvac.com'
 
 /**
+ * Option C hybrid review-count logic — shipped with P1.6a (Apr 23, 2026).
+ *
+ * The page title badge "{N} Five-Star Reviews" is a major CTR driver and must
+ * never go stale or embarrassing. Source-of-truth priority:
+ *
+ *   1. If googleRating >= 4.95 → use live googleReviews count (synced daily
+ *      via /api/cron/sync-reviews from Google Places API).
+ *   2. Else → fall back to manually-curated fiveStarReviewCount (seeded at 150,
+ *      editable in Sanity Studio).
+ *   3. Else → return null. Caller should render title WITHOUT the badge.
+ *
+ * The rationale: as long as the true average stays at or near 5.0, every review
+ * is effectively a five-star review, so the total count equals the five-star
+ * count. If a 4-star or lower review lands and the rating dips, the total no
+ * longer equals the five-star count, so we read from a human-maintained field.
+ *
+ * @param {Object|null} companyInfo - Sanity companyInfo doc with googleRating, googleReviews, fiveStarReviewCount
+ * @returns {number|null} Count to display in title, or null if no valid count available
+ */
+export function getReviewBadgeCount(companyInfo) {
+  if (!companyInfo) return null
+  const rating = typeof companyInfo.googleRating === 'number' ? companyInfo.googleRating : null
+  const total = typeof companyInfo.googleReviews === 'number' ? companyInfo.googleReviews : null
+  const fiveStar = typeof companyInfo.fiveStarReviewCount === 'number' ? companyInfo.fiveStarReviewCount : null
+
+  if (rating !== null && rating >= 4.95 && total !== null && total > 0) {
+    return total
+  }
+  if (fiveStar !== null && fiveStar > 0) {
+    return fiveStar
+  }
+  return null
+}
+
+/**
+ * Compose a page title with an optional review-count badge, following the
+ * formats finalized in /app/memory/audits/2026-04-23_Title_Tag_Final.csv.
+ *
+ * Canonical shape:  "{prefix} | {N} Five-Star Reviews | {brand}"
+ * When count is null the badge segment is omitted: "{prefix} | {brand}"
+ * When includeBrand is false the brand segment is omitted (used for longest
+ * city titles like North Richland Hills and the GSC-refined /, /dallas rows
+ * where the brand is dropped to keep under 60 chars).
+ *
+ * @param {Object} opts
+ * @param {string} opts.prefix - Keyword-first segment (e.g. "Dallas AC Repair")
+ * @param {number|null} opts.count - Review count from getReviewBadgeCount()
+ * @param {boolean} [opts.includeBrand=true] - Append "| DFW HVAC" suffix
+ * @param {string} [opts.brand='DFW HVAC'] - Brand suffix text
+ * @returns {string}
+ */
+export function buildTitleWithBadge({ prefix, count, includeBrand = true, brand = 'DFW HVAC' }) {
+  const parts = [prefix]
+  if (count && Number.isFinite(count) && count > 0) {
+    parts.push(`${count} Five-Star Reviews`)
+  }
+  if (includeBrand) {
+    parts.push(brand)
+  }
+  return parts.join(' | ')
+}
+
+/**
  * Default metadata for the root layout.
  * Individual pages should use generateMetadata() with buildPageMetadata().
  */

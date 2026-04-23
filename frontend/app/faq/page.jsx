@@ -12,9 +12,10 @@ export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 export async function generateMetadata() {
+  // P1.6a title rewrite (Apr 23, 2026) — AEO-friendly, topical expansion. CSV row 9.
   const faqPage = await getFaqPage()
   return {
-    title: faqPage?.metaTitle || 'FAQ | DFW HVAC | Frequently Asked Questions',
+    title: 'HVAC FAQ - Repair, Install, Maintenance | DFW HVAC',
     description: faqPage?.metaDescription || 'Find answers to common questions about HVAC services, pricing, scheduling, equipment, and maintenance from DFW HVAC - serving Dallas-Fort Worth.',
     alternates: {
       canonical: '/faq',

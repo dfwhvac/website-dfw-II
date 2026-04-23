@@ -10,9 +10,10 @@ export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 export async function generateMetadata() {
+  // P1.6a title rewrite (Apr 23, 2026) — brand-story page, no badge. CSV row 3.
   const aboutPage = await getAboutPage()
   return buildPageMetadata({
-    title: aboutPage?.metaTitle || 'About Us | DFW HVAC - Three Generations of Trust',
+    title: 'About DFW HVAC - 3 Generations of Texas HVAC',
     description: aboutPage?.metaDescription || 'Learn about DFW HVAC - a three-generation family commitment to trustworthy, high-quality HVAC service in Dallas-Fort Worth.',
     path: '/about',
   })

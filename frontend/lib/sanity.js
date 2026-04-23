@@ -49,6 +49,7 @@ export const queries = {
     description,
     googleRating,
     googleReviews,
+    fiveStarReviewCount,
     established,
     businessHours,
     serviceAreas
