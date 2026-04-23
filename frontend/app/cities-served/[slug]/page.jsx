@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { Phone, MapPin, CheckCircle, ArrowRight, Clock, Shield, Star, Award, Users, Calendar, TrendingUp } from 'lucide-react'
 import ServiceFirstCTA from '@/components/ServiceFirstCTA'
+import { getReviewBadgeCount, buildTitleWithBadge } from '@/lib/metadata'
 
 // Disable caching for instant Sanity updates
 export const dynamic = 'force-dynamic'
@@ -100,15 +101,30 @@ function buildCityMetaDescription(cityName, zipCodes) {
 
 export async function generateMetadata({ params }) {
   const { slug } = await params
-  const city = await getCityPage(slug)
-  
+  const [city, companyInfo] = await Promise.all([
+    getCityPage(slug),
+    getCompanyInfo(),
+  ])
+
   if (!city) {
     return { title: 'City Not Found' }
   }
-  
-  const title = city.metaTitle || `HVAC Services in ${city.cityName}, TX | DFW HVAC`
+
+  // P1.6a title rewrite (Apr 23, 2026) — keyword-first prefix + dynamic review badge.
+  // Two exceptions drop the brand suffix to stay under 60 chars / match GSC-refined CSV:
+  //   • dallas (GSC-refined "Dallas HVAC & AC Repair" — "HVAC" is the dominant keyword)
+  //   • north-richland-hills (longest city name — can't fit "| DFW HVAC")
+  // All other 26 cities use the standard "{City} AC Repair | {N} Five-Star Reviews | DFW HVAC" shape.
+  const count = getReviewBadgeCount(companyInfo)
+  const CITY_PREFIX_OVERRIDES = {
+    dallas: 'Dallas HVAC & AC Repair',
+  }
+  const prefix = CITY_PREFIX_OVERRIDES[slug] || `${city.cityName} AC Repair`
+  const includeBrand = slug !== 'dallas' && slug !== 'north-richland-hills'
+  const title = buildTitleWithBadge({ prefix, count, includeBrand })
+
   const description = city.metaDescription || buildCityMetaDescription(city.cityName, city.zipCodes)
-  
+
   return {
     title,
     description,

@@ -10,9 +10,10 @@ export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 export async function generateMetadata() {
+  // P1.6a title rewrite (Apr 23, 2026) — brand-first, no trailing pipe. CSV row 4.
   const contactPage = await getContactPage()
   return buildPageMetadata({
-    title: contactPage?.metaTitle || 'Contact Us | DFW HVAC - Expert HVAC Service',
+    title: 'Contact DFW HVAC - Coppell, TX Office',
     description: contactPage?.metaDescription || 'Contact DFW HVAC for expert heating and cooling services in Dallas-Fort Worth. Same-day service available Monday-Friday. Call (972) 777-COOL.',
     path: '/contact',
   })

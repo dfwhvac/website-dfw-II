@@ -8,6 +8,7 @@ import { LocalBusinessSchema, BreadcrumbListSchema, ServiceSchema } from '@/comp
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { notFound } from 'next/navigation'
+import { getReviewBadgeCount, buildTitleWithBadge } from '@/lib/metadata'
 
 // Disable caching for instant Sanity updates
 export const dynamic = 'force-dynamic'
@@ -17,6 +18,21 @@ export const revalidate = 0
 const CATEGORY_LABEL = {
   residential: 'Residential',
   commercial: 'Commercial',
+}
+
+// P1.6a title prefix map (Apr 23, 2026) — keyword-first per finalized CSV
+// (/app/memory/audits/2026-04-23_Title_Tag_Final.csv). The prefix replaces the
+// raw service.title in titles so "Heating" becomes "Furnace & Heating Repair",
+// "Preventative Maintenance" becomes "HVAC Maintenance" (GSC-refined), etc.
+// Pipes through buildTitleWithBadge() → "{prefix} | {count} Five-Star Reviews | DFW HVAC".
+const SERVICE_TITLE_PREFIX = {
+  'residential/air-conditioning': 'AC Repair in DFW',
+  'residential/heating': 'Furnace & Heating Repair',
+  'residential/indoor-air-quality': 'Indoor Air Quality',
+  'residential/preventative-maintenance': 'HVAC Maintenance',
+  'commercial/commercial-air-conditioning': 'Commercial AC Repair',
+  'commercial/commercial-heating': 'Commercial Heating',
+  'commercial/commercial-maintenance': 'Commercial HVAC Service',
 }
 
 // Generate metadata for SEO
@@ -60,25 +76,34 @@ function buildServiceMetaDescription(category, slug, serviceTitle) {
 
 export async function generateMetadata({ params }) {
   const { category, slug } = await params
-  const service = await client.fetch(
-    `*[_type == "service" && category == $category && slug.current == $slug][0] {
-      title,
-      description,
-      metaDescription
-    }`,
-    { category, slug }
-  )
-  
+  const [service, companyInfo] = await Promise.all([
+    client.fetch(
+      `*[_type == "service" && category == $category && slug.current == $slug][0] {
+        title,
+        description,
+        metaDescription
+      }`,
+      { category, slug }
+    ),
+    getCompanyInfo(),
+  ])
+
   if (!service) {
     return { title: 'Service Not Found' }
   }
-  
+
   const description =
     service.metaDescription ||
     buildServiceMetaDescription(category, slug, service.title)
 
+  // P1.6a title rewrite (Apr 23, 2026) — keyword-first prefix + dynamic review badge. CSV rows 14–20.
+  const key = `${category}/${slug}`
+  const prefix = SERVICE_TITLE_PREFIX[key] || service.title
+  const count = getReviewBadgeCount(companyInfo)
+  const title = buildTitleWithBadge({ prefix, count })
+
   return {
-    title: `${service.title} | DFW HVAC`,
+    title,
     description,
     alternates: {
       canonical: `/services/${category}/${slug}`,

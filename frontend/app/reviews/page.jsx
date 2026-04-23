@@ -5,19 +5,28 @@ import { ReviewSchema } from '@/components/SchemaMarkup'
 import { getCompanyInfo, getSiteSettings, getReviewsPage, getAllTestimonials } from '@/lib/sanity'
 import { companyInfo as mockCompanyInfo, testimonials as mockTestimonials } from '@/lib/mockData'
 import { Shield, Award, Star } from 'lucide-react'
+import { getReviewBadgeCount } from '@/lib/metadata'
 
 // ISR: Revalidate every hour
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 export async function generateMetadata() {
-  const reviewsPage = await getReviewsPage()
-  const companyInfo = await getCompanyInfo()
-  const reviewCount = companyInfo?.googleReviews || 135
-  
+  // P1.6a title rewrite (Apr 23, 2026) — minimalist, overflow fix, leads with count. CSV row 8.
+  const [reviewsPage, companyInfo] = await Promise.all([
+    getReviewsPage(),
+    getCompanyInfo(),
+  ])
+  const count = getReviewBadgeCount(companyInfo)
+  // If the count is unavailable fall back to a static headline so the title never
+  // reads "undefined Five-Star Google Reviews | DFW HVAC".
+  const title = count
+    ? `${count} Five-Star Google Reviews | DFW HVAC`
+    : 'Five-Star Google Reviews | DFW HVAC'
+  const countForDesc = count || companyInfo?.googleReviews || 145
   return {
-    title: reviewsPage?.metaTitle || '5-Star HVAC Reviews Dallas | Customer Testimonials | DFW HVAC',
-    description: reviewsPage?.metaDescription || `Read ${reviewCount}+ 5-star reviews from real DFW HVAC customers. Three generations of trusted HVAC service in Dallas-Fort Worth.`,
+    title,
+    description: reviewsPage?.metaDescription || `Read ${countForDesc}+ 5-star reviews from real DFW HVAC customers. Three generations of trusted HVAC service in Dallas-Fort Worth.`,
     alternates: {
       canonical: '/reviews',
     },

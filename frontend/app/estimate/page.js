@@ -8,9 +8,10 @@ export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 export function generateMetadata() {
+  // P1.6a title rewrite (Apr 23, 2026) — full geo removes "in DFW | DFW HVAC" redundancy. CSV row 6.
   return {
-    title: 'Free HVAC Estimate | DFW HVAC | Dallas-Fort Worth',
-    description: 'Request a free HVAC estimate from DFW HVAC. Expert heating and cooling services in Dallas-Fort Worth. Honest assessments, transparent pricing.',
+    title: 'Free Written HVAC Estimate in Dallas-Fort Worth | DFW HVAC',
+    description: 'Request a free written HVAC estimate from DFW HVAC. Expert heating and cooling services in Dallas-Fort Worth. Honest assessments, transparent pricing.',
     keywords: 'free hvac estimate, ac repair quote, dallas hvac estimate, fort worth heating estimate',
     alternates: {
       canonical: '/estimate',

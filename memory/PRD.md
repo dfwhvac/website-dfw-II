@@ -42,7 +42,7 @@ Build a premium, conversion-focused website for DFW HVAC using Next.js frontend 
 - **Tagline:** "Keeping it Cool — For Three Generations."
 - **Founded:** 2020 (do NOT claim "serving since 1972"). Family-legacy craftsmanship dates to 1972; three-generation story is accurate.
 - **Headquartered:** Coppell, TX. Serves full DFW metroplex.
-- **Reviews:** 5.0★ with 145 Google reviews (live from Sanity, auto-synced daily)
+- **Reviews:** 5.0★ with 147 Google reviews (live from Sanity, auto-synced daily). Page titles use Option C hybrid logic — see `lib/metadata.js::getReviewBadgeCount` and `fiveStarReviewCount` safety-net field (seeded at 150).
 - **Live description endpoint:** `GET https://dfwhvac.com/api/canonical-description`
 
 ## Critical Context for New Agents

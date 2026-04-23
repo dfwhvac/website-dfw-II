@@ -10,8 +10,9 @@ export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 export function generateMetadata() {
+  // P1.6a title rewrite (Apr 23, 2026) — topical expansion for service hub. CSV row 12.
   return {
-    title: 'HVAC Services | DFW HVAC - Heating & Air Conditioning',
+    title: 'AC, Heating & HVAC Services in DFW | DFW HVAC',
     description: 'Professional HVAC services in Dallas-Fort Worth. Residential & commercial air conditioning, heating, indoor air quality, and maintenance. Expert service with integrity and care.',
     alternates: {
       canonical: '/services',
