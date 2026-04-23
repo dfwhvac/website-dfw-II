@@ -9,6 +9,8 @@ export default function robots() {
         disallow: [
           '/studio/',      // Sanity Studio admin UI - no SEO value
           '/api/',         // API routes (leads, cron) - never index
+          '/internal/',    // Internal review/planning files (audits, previews) - noindex
+          '/sitemap-preview.html', // Internal sitemap preview - noindex
           // NOTE: /_next/ intentionally NOT blocked.
           // Next.js serves CSS, JS, images, and fonts from /_next/static/.
           // Googlebot needs these to render pages properly for indexing,
