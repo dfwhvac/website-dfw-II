@@ -47,36 +47,79 @@ const nextConfig = {
     return [
       // ============================================
       // PERMANENT REDIRECTS (301) - Old Wix URLs → New Next.js URLs
-      // These preserve SEO value from the old site
+      // These preserve SEO value from the old Wix site.
+      // Last updated: Apr 23, 2026 — legacy URL audit (see /app/memory/audits/2026-04-23_Legacy_URL_Redirect_Map.md)
       // ============================================
+
+      // Brand/About
+      {
+        source: '/aboutus',
+        destination: '/about',
+        permanent: true,
+      },
+
+      // Service-call intent → book a technician
+      {
+        source: '/servicecall',
+        destination: '/request-service',
+        permanent: true,
+      },
       {
         source: '/scheduleservicecall',
         destination: '/request-service',
         permanent: true,
       },
+
+      // System-level work (installation, ducting) → free estimate is the first-step conversion
+      // TODO: When P1.13 /services/system-replacement (or dedicated /services/system-installation) ships,
+      // update /installation + /ducting to point there.
       {
         source: '/installation',
         destination: '/estimate',
         permanent: true,
       },
       {
+        source: '/ducting',
+        destination: '/estimate',
+        permanent: true,
+      },
+
+      // Indoor Air Quality cluster
+      {
         source: '/iaq',
         destination: '/services/residential/indoor-air-quality',
         permanent: true,
       },
       {
-        source: '/ducting',
+        source: '/testresults',
         destination: '/services/residential/indoor-air-quality',
         permanent: true,
       },
+      {
+        source: '/haloled',
+        destination: '/services/residential/indoor-air-quality',
+        permanent: true,
+      },
+
+      // Maintenance (Wix had 'seasonalmaintenance', current slug is 'preventative-maintenance')
       {
         source: '/seasonalmaintenance',
         destination: '/services/residential/preventative-maintenance',
         permanent: true,
       },
+
+      // Wix auto-generated duplicate page that was legitimately redirected by the prior admin.
+      // Preserve the intent with a single-hop redirect straight to the current target.
       {
-        source: '/testresults',
-        destination: '/services/residential/indoor-air-quality',
+        source: '/copy-of-ac-furnace-repair',
+        destination: '/services/residential/preventative-maintenance',
+        permanent: true,
+      },
+
+      // Products page on old site → services hub on current site
+      {
+        source: '/products',
+        destination: '/services',
         permanent: true,
       },
     ]

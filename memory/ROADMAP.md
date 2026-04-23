@@ -116,11 +116,10 @@ Only revisit once ads running at stable spend:
 - Expected finding: the Apr 21 PR #3 cross-linking grid already covers most cases; 2–3 outliers likely need reinforcement.
 - **Effort:** 1–2 hrs scripted audit + spot fixes.
 
-**P1.17d — Legacy Wix URL redirect + 410 fixes**
+**P1.17d — Legacy Wix URL redirect + 410 fixes** ✅ **COMPLETED Apr 23, 2026**
 - Confirmed bugs: `/aboutus` (404 — was legacy Wix `/aboutus`, should 301 → `/about`), `/servicecall` (404 — legacy Wix, should 301 → `/request-service`), `/_files/ugd/*` (Wix CDN phantom PDFs — should return 410 Gone to clear forever).
-- **Blocker:** Need full list of legacy Wix slugs. Wix site is offline but user retains admin access. Next step = extract the Page list + Redirect Manager + Media Manager exports from Wix admin.
-- **Implementation:** single `next.config.js` redirect block + a catch-all rewrite for `/_files/ugd/*` returning 410. 30-min code change once legacy list is in hand.
-- **Impact:** Recovers backlink equity from old URLs + clears at least 3 of the 34 "not indexed" entries + proactively prevents future "Not Found" reports as Google re-discovers other Wix paths.
+- **Resolution:** Single deploy covering all 20 legacy Wix URLs. See `/app/memory/audits/2026-04-23_Legacy_URL_Redirect_Map.md` for full mapping, verification log, and source data. `next.config.js` expanded with 5 new 301s (11 total); new `middleware.js` handles 410 Gone responses for non-applicable URLs + catch-all patterns (`/copy-of-*`, `/_files/ugd/*`, `/post/*`, `/blog/*`). All 18 curl verification tests passed.
+- **TODO:** update `/installation` + `/ducting` 308 targets when P1.13 `/services/system-replacement` (or dedicated install/ducting pages) ship.
 
 ### P1.6a — Title tag audit + rewrite ⭐ NEXT TASK (code execution deferred pending sitemap sign-off)
 - **Status:** Strategy locked Apr 22 — competitor audit done, Appointment-First framework drafted, formulas ready. Code execution deferred so the title rewrite covers new pages (P1.13–P1.16) in a single deploy.

@@ -1,11 +1,29 @@
 # DFW HVAC — Changelog
 
-**Last reviewed:** April 22, 2026
+**Last reviewed:** April 23, 2026
 **⚠️ Read `/app/memory/00_START_HERE.md` first for the Agent SOP.**
 
 Reverse-chronological record of everything shipped to production. When adding entries, append to the top of the appropriate session block (newest first).
 
 ---
+
+## April 23, 2026 — Legacy Wix URL redirect + 410 deployment (P1.17d complete)
+
+- **Shipped full legacy URL redirect map.** Extracted the complete inventory of 14 pages from the offline Wix admin (via user-provided SEO Settings + Site Menu + URL Redirect Manager screenshots), cross-referenced with user's intent decisions on 6 ambiguous mappings, and deployed a single-pass fix covering every known legacy Wix URL. All 18 verification test cases passed.
+- **`next.config.js`** — added 5 new 301 redirects: `/aboutus` → `/about`, `/servicecall` → `/request-service`, `/haloled` → `/services/residential/indoor-air-quality`, `/copy-of-ac-furnace-repair` → `/services/residential/preventative-maintenance`, `/products` → `/services`. Flagged `/installation` + `/ducting` with `// TODO` comments to update when P1.13 `/services/system-replacement` / dedicated install or ducting pages ship. Total: 11 permanent redirects in config.
+- **`middleware.js`** — new file. Returns HTTP 410 Gone (stronger-than-404 permanent-removal signal) with a branded helpful HTML body + `X-Robots-Tag: noindex, nofollow` for: `/equipment`, `/signup`, `/login`, `/my-account`, `/copy-of-*` (except the explicit 301), `/_files/ugd/*` (Wix CDN PDF phantoms catch-all), `/post/*`, `/blog/*` (blog never existed; 3 Wix-era test posts permanently killed).
+- **Rebuilt + restarted** cleanly. Middleware compiled at 34.7 kB. All existing routes unchanged.
+- **Files shipped:** `/app/frontend/next.config.js`, `/app/frontend/middleware.js` (new), `/app/memory/audits/2026-04-23_Legacy_URL_Redirect_Map.md` (new audit doc with full verification log), `/app/memory/CHANGELOG.md` (this), `/app/memory/ROADMAP.md` (P1.17d marked done), `/app/memory/audits/README.md` (index updated).
+- **Expected SEO impact:** Clears at least 2 URLs from the "Crawled – currently not indexed" GSC bucket (`/aboutus`) + "Not Found 404" bucket (`/servicecall`). Recovers backlink equity from any external sites still pointing at legacy Wix URLs. Wix CDN phantoms auto-prune from Google's memory over 60–180 days as crawler re-hits them and sees 410s. Branding consistency restored — legacy URLs now 301 to current DFW HVAC pages, no more "Alpine HVAC Pros" titles in search snippets.
+- **Still outstanding (P1.17a, user-led):** Manual indexing requests for the 27 "Discovered – currently not indexed" URLs in GSC. Separate workstream, not addressed by this redirect fix.
+
+## April 23, 2026 — GSC indexing diagnosis + P1.17 Indexing Recovery Sprint added to roadmap
+
+- **Diagnosed GSC indexing state.** 27 of 47 sitemap URLs indexed (57%) vs 80%+ target. Root cause identified as crawl budget (not content quality) — 27 URLs in the "Discovered – currently not indexed" bucket all show `Last Crawled: N/A`, meaning Google has never crawled them. The Apr 21 content push added URLs to the discovery queue faster than Google could process them.
+- **Key finding on the "5 reasons" breakdown:** only 2 URLs are "Crawled – currently not indexed" (actual quality judgments) — `/cities-served/argyle` (judged pre-Apr-21 snapshot, will re-index on next crawl) and `www.dfwhvac.com/aboutus` (legacy Wix URL, fixed via redirect in the Apr 23 legacy redirect deploy).
+- **Captured full 27-URL list** of stuck pages including high-value entries: `/about`, `/reviews`, `/faq`, both residential AC+Heating+IAQ service pages, both commercial service pages, 18 city pages incl Frisco/Lewisville/Richardson/Irving/Mansfield.
+- **Roadmap updated** with new P1.17 Indexing Recovery Sprint containing four sub-tasks: P1.17a (user-led manual indexing requests — 90 min over 3 days), P1.17b (crawl budget lift via GBP + NAP consistency), P1.17c (internal linking audit), P1.17d (legacy Wix URL redirects — completed same day, see separate entry above).
+- **Discovered legacy Wix branding** — old entity "Alpine HVAC Pros" has been abandoned per user; confirmed not to associate going forward. All redirect targets point to current DFW HVAC pages.
 
 ## April 22, 2026 — Strategic planning session — Sitemap expansion + competitor audit
 
