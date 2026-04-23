@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>DFW HVAC — Proposed Sitemap (Internal Review)</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+  :root {
+    --prussian: #003153;
+    --prussian-dark: #00213a;
+    --electric-blue: #0077B6;
+    --vivid-red: #D62828;
+    --lime-green: #84cc16;
+    --slate-50: #f8fafc;
+    --slate-100: #f1f5f9;
+    --slate-200: #e2e8f0;
+    --slate-400: #94a3b8;
+    --slate-600: #475569;
+    --slate-700: #334155;
+    --slate-900: #0f172a;
+    --status-live: #10b981;
+    --status-edit: #f59e0b;
+    --status-new: #ef4444;
+    --status-stub: #6366f1;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+    background: var(--slate-50);
+    color: var(--slate-900);
+    line-height: 1.6;
+  }
+  header.top {
+    background: linear-gradient(135deg, var(--prussian) 0%, var(--prussian-dark) 100%);
+    color: white;
+    padding: 3rem 1.5rem 2rem;
+  }
+  header.top .inner { max-width: 1400px; margin: 0 auto; }
+  .tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--electric-blue);
+    background: rgba(255,255,255,0.08);
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+  h1 { font-size: clamp(1.8rem, 3.5vw, 2.75rem); font-weight: 800; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  header.top p { color: rgba(255,255,255,0.75); font-size: 1.05rem; max-width: 780px; }
+  header.top .meta { margin-top: 1rem; color: rgba(255,255,255,0.55); font-size: 0.85rem; }
+
+  main { max-width: 1400px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+
+  section { margin-bottom: 3.5rem; }
+  section h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--prussian);
+    margin-bottom: 1rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 3px solid var(--electric-blue);
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  section h2 .num {
+    background: var(--electric-blue); color: white;
+    width: 32px; height: 32px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 0.95rem; font-weight: 700;
+  }
+
+  /* LEGEND */
+  .legend {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0.85rem;
+    margin-bottom: 2rem;
+  }
+  .legend-item {
+    background: white;
+    border: 1px solid var(--slate-200);
+    border-left: 6px solid var(--slate-400);
+    padding: 0.9rem 1.1rem;
+    border-radius: 0.6rem;
+    display: flex; align-items: flex-start; gap: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  }
+  .legend-item.live  { border-left-color: var(--status-live); }
+  .legend-item.edit  { border-left-color: var(--status-edit); }
+  .legend-item.new   { border-left-color: var(--status-new); }
+  .legend-item.stub  { border-left-color: var(--status-stub); }
+  .legend-dot {
+    width: 12px; height: 12px; border-radius: 50%;
+    margin-top: 0.4rem; flex-shrink: 0;
+  }
+  .legend-item.live  .legend-dot { background: var(--status-live); }
+  .legend-item.edit  .legend-dot { background: var(--status-edit); }
+  .legend-item.new   .legend-dot { background: var(--status-new); }
+  .legend-item.stub  .legend-dot { background: var(--status-stub); }
+  .legend-body .code {
+    font-family: "SF Mono", Monaco, Consolas, monospace;
+    font-weight: 700; font-size: 0.85rem;
+    color: var(--slate-900);
+  }
+  .legend-body .desc { color: var(--slate-600); font-size: 0.88rem; }
+
+  /* TREE */
+  .tree-wrapper {
+    background: var(--slate-900);
+    color: #e2e8f0;
+    padding: 1.75rem;
+    border-radius: 0.9rem;
+    overflow-x: auto;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  }
+  .tree {
+    font-family: "SF Mono", Monaco, "Cascadia Mono", Consolas, monospace;
+    font-size: 0.86rem;
+    line-height: 1.7;
+    white-space: pre;
+  }
+  .tree .branch { color: var(--slate-400); }
+  .tree .path { color: #7dd3fc; font-weight: 600; }
+  .tree .label { color: #e2e8f0; }
+  .tree .comment { color: var(--slate-400); font-style: italic; }
+  .tree .bullet { color: #c4b5fd; }
+  .tree .section-header {
+    color: #fde68a; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    font-size: 0.78rem;
+  }
+  .tree .live  { color: #6ee7b7; }
+  .tree .edit  { color: #fbbf24; }
+  .tree .new   { color: #fca5a5; font-weight: 700; }
+  .tree .stub  { color: #a5b4fc; }
+  .tree .star  { color: #f59e0b; }
+
+  /* MINDMAP */
+  .mermaid-wrapper {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.9rem;
+    border: 1px solid var(--slate-200);
+    overflow-x: auto;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .mermaid { text-align: center; }
+
+  /* TABLE */
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: white;
+    border-radius: 0.6rem;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    border: 1px solid var(--slate-200);
+  }
+  thead { background: var(--prussian); color: white; }
+  th, td { padding: 0.85rem 1.1rem; text-align: left; font-size: 0.92rem; }
+  th { font-weight: 600; font-size: 0.82rem; letter-spacing: 0.04em; text-transform: uppercase; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+  tbody tr { border-top: 1px solid var(--slate-200); }
+  tbody tr:hover { background: var(--slate-50); }
+  tbody tr.total { background: var(--slate-100); font-weight: 700; }
+  tbody tr.total td { color: var(--prussian); border-top: 2px solid var(--prussian); }
+
+  /* NOTES */
+  .notes {
+    background: white;
+    border: 1px solid var(--slate-200);
+    border-radius: 0.9rem;
+    padding: 1.5rem 1.75rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .notes ol { padding-left: 1.25rem; }
+  .notes li { margin-bottom: 0.75rem; }
+  .notes li strong { color: var(--prussian); }
+
+  /* FOOTER */
+  footer.bottom {
+    max-width: 1400px; margin: 2rem auto 0; padding: 1.5rem;
+    color: var(--slate-400); font-size: 0.82rem; text-align: center;
+    border-top: 1px solid var(--slate-200);
+  }
+  footer.bottom strong { color: var(--slate-600); }
+
+  /* TOC NAV */
+  .toc {
+    position: sticky; top: 1rem; z-index: 10;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--slate-200);
+    border-radius: 0.6rem;
+    padding: 0.6rem 1rem;
+    margin-bottom: 2rem;
+    display: flex; gap: 1.25rem; flex-wrap: wrap;
+    font-size: 0.85rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .toc a { color: var(--prussian); text-decoration: none; font-weight: 500; }
+  .toc a:hover { color: var(--electric-blue); text-decoration: underline; }
+
+  @media (max-width: 640px) {
+    .tree { font-size: 0.72rem; }
+    th, td { padding: 0.65rem 0.6rem; font-size: 0.82rem; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="inner">
+    <span class="tag">Internal Review · Not Indexed</span>
+    <h1>DFW HVAC — Proposed Sitemap</h1>
+    <p>Current structure + proposed additions for the system replacement, pricing estimator, and AEO expansion work. Color-coded, responsive, reviewable on any screen.</p>
+    <div class="meta">Generated Apr 22, 2026 · <strong>10 new pages</strong> · <strong>2 stubs reserved</strong> · <strong>+1 top-line nav item</strong></div>
+  </div>
+</header>
+
+<main>
+
+  <nav class="toc" aria-label="On-page navigation">
+    <a href="#legend">Legend</a>
+    <a href="#tree">Tree View</a>
+    <a href="#mindmap">Mind Map</a>
+    <a href="#summary">Summary Table</a>
+    <a href="#notes">Strategic Notes</a>
+  </nav>
+
+  <!-- LEGEND -->
+  <section id="legend">
+    <h2><span class="num">1</span>Legend</h2>
+    <div class="legend">
+      <div class="legend-item live">
+        <span class="legend-dot"></span>
+        <div class="legend-body">
+          <div class="code">🟢 LIVE</div>
+          <div class="desc">Exists today — unchanged</div>
+        </div>
+      </div>
+      <div class="legend-item edit">
+        <span class="legend-dot"></span>
+        <div class="legend-body">
+          <div class="code">🟡 EDIT</div>
+          <div class="desc">Exists — content or strategy update proposed</div>
+        </div>
+      </div>
+      <div class="legend-item new">
+        <span class="legend-dot"></span>
+        <div class="legend-body">
+          <div class="code">🔴 NEW</div>
+          <div class="desc">Net-new page to build this sprint</div>
+        </div>
+      </div>
+      <div class="legend-item stub">
+        <span class="legend-dot"></span>
+        <div class="legend-body">
+          <div class="code">🔵 STUB</div>
+          <div class="desc">URL reserved, <code>noindex</code>, populated later</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TREE -->
+  <section id="tree">
+    <h2><span class="num">2</span>Tree View</h2>
+    <div class="tree-wrapper">
+<pre class="tree"><span class="path">dfwhvac.com</span>
+<span class="branch">│</span>
+<span class="branch">├──</span> <span class="live">🟢</span> <span class="path">/</span>  <span class="comment">............................................ Home</span>
+<span class="branch">│</span>
+<span class="branch">├──</span> <span class="live">🟢</span> <span class="path">/about</span>  <span class="comment">....................................... About — 3 generations story</span>
+<span class="branch">│</span>
+<span class="branch">├──</span> <span class="section-header">SERVICES ─────────────────────────────────────────────</span>
+<span class="branch">│   ├──</span> <span class="edit">🟡</span> <span class="path">/services</span>  <span class="comment">................................ Services hub (add replacement hero + estimator CTA)</span>
+<span class="branch">│   │</span>
+<span class="branch">│   ├──</span> <span class="new">🔴</span> <span class="path">/services/system-replacement</span> <span class="star">★</span>  <span class="comment">...... NEW P1 — dedicated replacement page</span>
+<span class="branch">│   │       │</span>                                             <span class="comment">(highest-ticket surface; free estimate + financing)</span>
+<span class="branch">│   │       └──</span> <span class="comment">Sections: Is-it-time-to-replace · cost factors · free estimate · financing · city links · FAQ</span>
+<span class="branch">│   │</span>
+<span class="branch">│   ├──</span> <span class="new">🔴</span> <span class="path">/repair-or-replace</span> <span class="star">★</span>  <span class="comment">................. NEW — decision-framework article (AEO target)</span>
+<span class="branch">│   │                                                   </span> <span class="comment">Answers "should I repair or replace my AC?"</span>
+<span class="branch">│   │</span>
+<span class="branch">│   ├──</span> <span class="live">🟢</span> <span class="path">/services/residential</span>  <span class="comment">.................... Residential category hub</span>
+<span class="branch">│   │   ├──</span> <span class="edit">🟡</span> <span class="path">/residential/air-conditioning</span> <span class="comment">......... Add "planning to replace?" block + estimator link</span>
+<span class="branch">│   │   ├──</span> <span class="edit">🟡</span> <span class="path">/residential/heating</span> <span class="comment">................... Same pattern</span>
+<span class="branch">│   │   ├──</span> <span class="live">🟢</span> <span class="path">/residential/indoor-air-quality</span>
+<span class="branch">│   │   └──</span> <span class="live">🟢</span> <span class="path">/residential/maintenance-plans</span>
+<span class="branch">│   │</span>
+<span class="branch">│   └──</span> <span class="live">🟢</span> <span class="path">/services/commercial</span>  <span class="comment">..................... Commercial category hub</span>
+<span class="branch">│       ├──</span> <span class="live">🟢</span> <span class="path">/commercial/commercial-hvac</span>
+<span class="branch">│       ├──</span> <span class="live">🟢</span> <span class="path">/commercial/commercial-maintenance</span>
+<span class="branch">│       └──</span> <span class="live">🟢</span> <span class="path">/commercial/new-construction</span>
+<span class="branch">│</span>
+<span class="branch">├──</span> <span class="section-header">PRICING &amp; ESTIMATOR ──────────────────────────────────</span>
+<span class="branch">│   ├──</span> <span class="new">🔴</span> <span class="path">/estimator</span> <span class="star">★</span>  <span class="comment">..................... NEW P1 — Pricing Estimator Tool (wizard hub)</span>
+<span class="branch">│   │       │                                              </span> <span class="comment">Multi-step; lead-gated at results step</span>
+<span class="branch">│   │       ├──</span> <span class="new">🔴</span> <span class="path">/estimator/service-call</span>
+<span class="branch">│   │       ├──</span> <span class="new">🔴</span> <span class="path">/estimator/repair</span>
+<span class="branch">│   │       ├──</span> <span class="new">🔴</span> <span class="path">/estimator/replacement</span> <span class="star">★</span>  <span class="comment">......... Highest-value flow</span>
+<span class="branch">│   │       ├──</span> <span class="new">🔴</span> <span class="path">/estimator/maintenance</span>
+<span class="branch">│   │       └──</span> <span class="new">🔴</span> <span class="path">/estimator/results/[id]</span>  <span class="comment">........ Shareable results page (ISR, emailed copy)</span>
+<span class="branch">│   │</span>
+<span class="branch">│   └──</span> <span class="stub">🔵</span> <span class="path">/pricing</span>  <span class="comment">...................................... STUB — URL reserved, noindex</span>
+<span class="branch">│                                                              </span> <span class="comment">Single source-of-truth pricing page (Phase 2)</span>
+<span class="branch">│</span>
+<span class="branch">├──</span> <span class="edit">🟡</span> <span class="path">/financing</span>  <span class="comment">..................................... PROMOTED to live P1 (was backlog)</span>
+<span class="branch">│                                                          </span> <span class="comment">Supports /system-replacement + estimator CTAs</span>
+<span class="branch">│</span>
+<span class="branch">├──</span> <span class="section-header">CONVERSION FUNNEL ────────────────────────────────────</span>
+<span class="branch">│   ├──</span> <span class="live">🟢</span> <span class="path">/contact</span>
+<span class="branch">│   ├──</span> <span class="edit">🟡</span> <span class="path">/estimate</span>  <span class="comment">................................. Retitle + hero tie-in to replacement funnel</span>
+<span class="branch">│   ├──</span> <span class="live">🟢</span> <span class="path">/request-service</span>
+<span class="branch">│   └──</span> <span class="new">🔴</span> <span class="path">/thanks</span> <span class="star">★</span>  <span class="comment">........................... NEW — post-submit page (was P1.11)</span>
+<span class="branch">│</span>
+<span class="branch">├──</span> <span class="section-header">CITIES SERVED ────────────────────────────────────────</span>
+<span class="branch">│   ├──</span> <span class="live">🟢</span> <span class="path">/cities-served</span>  <span class="comment">................................ Directory hub</span>
+<span class="branch">│   ├──</span> <span class="live">🟢</span> <span class="path">/cities-served/[slug]</span>  <span class="comment">........................ 28 city pages (all live)</span>
+<span class="branch">│   │       </span><span class="comment">allen · arlington · carrollton · coppell · dallas</span>
+<span class="branch">│   │       </span><span class="comment">denton · euless · flower-mound · fort-worth · frisco</span>
+<span class="branch">│   │       </span><span class="comment">garland · grapevine · haltom-city · hurst · irving</span>
+<span class="branch">│   │       </span><span class="comment">keller · lewisville · mckinney · mesquite</span>
+<span class="branch">│   │       </span><span class="comment">north-richland-hills · plano · richardson</span>
+<span class="branch">│   │       </span><span class="comment">rockwall · rowlett · southlake · the-colony</span>
+<span class="branch">│   │       </span><span class="comment">trophy-club · watauga</span>
+<span class="branch">│   │</span>
+<span class="branch">│   └──</span> <span class="stub">🔵</span> <span class="path">/cities-served/[slug]/replacement</span>  <span class="comment">........ STUB — Phase 2, data-driven</span>
+<span class="branch">│</span>
+<span class="branch">├──</span> <span class="section-header">TRUST &amp; SOCIAL PROOF ─────────────────────────────────</span>
+<span class="branch">│   ├──</span> <span class="live">🟢</span> <span class="path">/reviews</span>  <span class="comment">..................................... 145 ★★★★★</span>
+<span class="branch">│   ├──</span> <span class="live">🟢</span> <span class="path">/recent-projects</span>  <span class="comment">............................. Project gallery (RealWork)</span>
+<span class="branch">│   └──</span> <span class="live">🟢</span> <span class="path">/faq</span>
+<span class="branch">│</span>
+<span class="branch">├──</span> <span class="section-header">LEGAL ────────────────────────────────────────────────</span>
+<span class="branch">│   ├──</span> <span class="live">🟢</span> <span class="path">/privacy-policy</span>
+<span class="branch">│   └──</span> <span class="live">🟢</span> <span class="path">/terms-of-service</span>
+<span class="branch">│</span>
+<span class="branch">├──</span> <span class="section-header">ADMIN ────────────────────────────────────────────────</span>
+<span class="branch">│   └──</span> <span class="live">🟢</span> <span class="path">/studio</span>  <span class="comment">........................................ Sanity admin (noindex, auth)</span>
+<span class="branch">│</span>
+<span class="branch">└──</span> <span class="section-header">API &amp; UTILITY ────────────────────────────────────────</span>
+    <span class="branch">├──</span> <span class="live">🟢</span> <span class="path">/api/leads</span>
+    <span class="branch">├──</span> <span class="live">🟢</span> <span class="path">/api/canonical-description</span>
+    <span class="branch">├──</span> <span class="live">🟢</span> <span class="path">/api/cron/sync-reviews</span>
+    <span class="branch">├──</span> <span class="new">🔴</span> <span class="path">/api/estimator/calculate</span>  <span class="comment">...................... NEW — estimator matrix compute</span>
+    <span class="branch">└──</span> <span class="new">🔴</span> <span class="path">/api/estimator/lead</span>  <span class="comment">........................... NEW — save completion as lead</span></pre>
+    </div>
+  </section>
+
+  <!-- MINDMAP -->
+  <section id="mindmap">
+    <h2><span class="num">3</span>Mind Map</h2>
+    <div class="mermaid-wrapper">
+      <div class="mermaid">
+mindmap
+  root((dfwhvac.com))
+    Home
+    About
+      3 Generations
+    Services Hub
+      System Replacement NEW
+        Free Estimate
+        Financing preview
+        City links
+      Repair-or-Replace NEW
+        AEO decision framework
+      Residential
+        Air Conditioning
+        Heating
+        Indoor Air Quality
+        Maintenance Plans
+      Commercial
+        Commercial HVAC
+        Commercial Maintenance
+        New Construction
+    Estimator Tool NEW
+      Service Call flow
+      Repair flow
+      Replacement flow
+      Maintenance flow
+      Results page
+    Financing PROMOTED
+      Monthly payments
+      Replacement support
+    Pricing STUB
+      URL reserved
+      Phase 2
+    Cities Served
+      Directory
+      28 city pages
+      Per-city replacement STUB
+    Conversion
+      Contact
+      Estimate form
+      Request Service
+      Thanks NEW
+    Trust
+      Reviews
+      Recent Projects
+      FAQ
+    Legal
+      Privacy
+      Terms
+      </div>
+    </div>
+  </section>
+
+  <!-- SUMMARY -->
+  <section id="summary">
+    <h2><span class="num">4</span>Summary Table</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th class="num">Live Today</th>
+          <th class="num">New (🔴)</th>
+          <th class="num">Stubs (🔵)</th>
+          <th class="num">Total After</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Top-level marketing pages</td>
+          <td class="num">10</td>
+          <td class="num">3</td>
+          <td class="num">1</td>
+          <td class="num">14</td>
+        </tr>
+        <tr>
+          <td>Service pages (incl. hubs)</td>
+          <td class="num">9</td>
+          <td class="num">2</td>
+          <td class="num">0</td>
+          <td class="num">11</td>
+        </tr>
+        <tr>
+          <td>Estimator sub-pages</td>
+          <td class="num">0</td>
+          <td class="num">5</td>
+          <td class="num">0</td>
+          <td class="num">5</td>
+        </tr>
+        <tr>
+          <td>City pages</td>
+          <td class="num">28</td>
+          <td class="num">0</td>
+          <td class="num">28*</td>
+          <td class="num">28</td>
+        </tr>
+        <tr>
+          <td>API routes</td>
+          <td class="num">3</td>
+          <td class="num">2</td>
+          <td class="num">0</td>
+          <td class="num">5</td>
+        </tr>
+        <tr class="total">
+          <td>Net-new pages this sprint</td>
+          <td class="num">—</td>
+          <td class="num">12</td>
+          <td class="num">2</td>
+          <td class="num">—</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="margin-top: 0.85rem; color: var(--slate-600); font-size: 0.85rem;">
+      *Per-city replacement pages are Phase-2 stubs gated on GSC demand data. Not building in this sprint.
+    </p>
+  </section>
+
+  <!-- NOTES -->
+  <section id="notes">
+    <h2><span class="num">5</span>Strategic Notes</h2>
+    <div class="notes">
+      <ol>
+        <li><strong>/system-replacement is the new revenue center.</strong> Everything points here: service pages cross-link, estimator funnel, financing support. Highest-ticket conversion surface on the site.</li>
+        <li><strong>/repair-or-replace is an AEO ambush.</strong> Decision-framework content — exactly what AI Overviews cite. Low direct conversion; catches top-of-funnel replacement shoppers and routes them downward.</li>
+        <li><strong>/estimator solves the "not ready to publish prices" constraint.</strong> Users get a range without you committing to a fixed price. Every completion = a qualified lead.</li>
+        <li><strong>/financing promoted from backlog.</strong> Replacement conversion depends on it — no point building the replacement page if financing isn't reachable in one click.</li>
+        <li><strong>Stubs aren't wasted work.</strong> URL structure reserved now prevents painful migrations later. <code>noindex</code> until ready.</li>
+        <li><strong>Top-line nav grows by only 1 item</strong> (+ "Estimator"). System Replacement lives inside the Residential dropdown + as a hero on /services. Financing + repair-or-replace live in footer / inline.</li>
+        <li><strong>City-level replacement pages are Phase 2.</strong> Build 1 prototype, measure 28-day GSC demand, then scale — don't pre-build 28 pages without data.</li>
+      </ol>
+    </div>
+  </section>
+
+</main>
+
+<footer class="bottom">
+  <strong>Internal review only</strong> · page is set to <code>noindex,nofollow</code> · generated for DFW HVAC roadmap planning Apr 22, 2026
+</footer>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'default',
+    themeVariables: {
+      primaryColor: '#0077B6',
+      primaryTextColor: '#0f172a',
+      primaryBorderColor: '#003153',
+      lineColor: '#475569',
+      secondaryColor: '#f1f5f9',
+      tertiaryColor: '#ffffff'
+    },
+    mindmap: { padding: 10, maxNodeWidth: 200 }
+  });
+</script>
+
+</body>
+</html>
