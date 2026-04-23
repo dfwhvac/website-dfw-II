@@ -357,15 +357,18 @@ Only revisit once ads running at stable spend:
 
 ## 🔁 Recurring Maintenance
 
-| Cadence | Task |
+**Full checklist:** → `/app/memory/RECURRING_MAINTENANCE.md` (living document — 20+ tasks across Daily / Weekly / Monthly / Quarterly / Semi-annual / Annual / Ad-hoc cadences)
+
+Summary of cadences:
+| Cadence | Headline examples |
 |---|---|
-| Daily (automated) | `/api/cron/sync-reviews` — Google Places API → Sanity → all on-site surfaces |
-| Weekly | GBP Posts (once P1.8 live) |
-| Monthly | Lighthouse scorecard (save to `/app/memory/audits/`) |
-| Quarterly | P1.2 Technical SEO Audit re-run — next July 21, 2026 |
-| Quarterly | P1.3 Post-launch QA Sweep re-run — next July 21, 2026 |
-| Quarterly | External business listings refresh via `GET /api/canonical-description` (GBP, Yelp, Angi, HomeAdvisor, Nextdoor). Next: July 21, 2026 |
-| Annual | Fallback/seed data review (`lib/mockData.js` vs Sanity + Google) |
+| Daily (automated) | `/api/cron/sync-reviews` |
+| Weekly | GBP Posts, GBP review-reply SLA, CrUX glance |
+| Monthly | Lighthouse, review-count drift audit, GSC not-indexed review, Places API billing, M1–M5 device matrix, GA4 conversion fire check |
+| Quarterly | Tech SEO audit, QA sweep, listings description refresh, title-tag CTR review, Rich Results validation, sitemap/robots scan, competitor audit |
+| Semi-annual | NAP consistency audit, seasonal title/promo refresh, broken internal link crawl |
+| Annual | Seed/mock data review, API key rotation, Sanity dataset backup, 301/410 prune, MongoDB retention review, Maps API referrer allowlist |
+| Ad-hoc | After any form edit — re-verify `/api/leads` + reCAPTCHA + GA4 |
 
 ---
 
