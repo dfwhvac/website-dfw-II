@@ -1,6 +1,6 @@
 # DFW HVAC — Audit Archive
 
-**Last reviewed:** April 21, 2026
+**Last reviewed:** April 22, 2026
 **Location rule:** Every new audit artifact (Lighthouse run, technical SEO audit, QA sweep, security scan, accessibility report, bundle analysis, etc.) goes HERE with filename `YYYY-MM-DD_descriptor.{md|csv|xlsx|json}`.
 
 ## Naming convention
@@ -17,6 +17,7 @@
 
 | File | Date | Scope | Grade / Result |
 |---|---|---|---|
+| [`2026-04-22_Competitor_Title_Audit.md`](./2026-04-22_Competitor_Title_Audit.md) | Apr 22, 2026 | Title-tag + trust-signal competitive audit (A#1 Air, Milestone, Coppell AC, Andy's Sprinkler) | 🎯 Informs P1.6a rewrite — industry-wide review-count blind spot identified |
 | [`DFW_HVAC_Technical_Audit_2026-04-21.md`](./DFW_HVAC_Technical_Audit_2026-04-21.md) | Apr 21, 2026 | 13-category technical SEO + architecture sweep | 🟡 B+ (89/100) at capture time → 🟢 A (96/100) expected post-PR#3 |
 | [`2026-04-20_DFW_HVAC_Action_Items.md`](./2026-04-20_DFW_HVAC_Action_Items.md) | Apr 20, 2026 | Master task list pre-roadmap migration | Reference archive |
 | [`2026-04-20_DFW_HVAC_Site_Audit.xlsx`](./2026-04-20_DFW_HVAC_Site_Audit.xlsx) | Apr 20, 2026 | SEO status spreadsheet (meta desc drafts, cities, services) | Reference archive |
