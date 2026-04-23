@@ -1,5 +1,5 @@
 URL,Page Tier,Format,Current Title,Current Length,Recommended Title,Rec Length,Notes
-/,Home,B,"DFW HVAC | Trusted Air Conditioning & Heating Experts",53,"AC Repair in DFW | 147 Five-Star Reviews | DFW HVAC",51,Keyword-first + review badge
+/,Home,B,"DFW HVAC | Trusted Air Conditioning & Heating Experts",53,"AC, HVAC & Furnace Repair | 147 Five-Star Reviews",51,"GSC-refined: captures 3 dominant keyword clusters (ac repair, hvac, furnace). Brand dropped — surfaces via breadcrumb."
 /about,Utility,A,"About Us | DFW HVAC - Three Generations of Trusted Service",58,"About DFW HVAC - 3 Generations of Texas HVAC",44,Brand story page (no badge - wrong-shape)
 /contact,Utility,D,"Contact Us | DFW HVAC - Expert HVAC Service",43,"Contact DFW HVAC - Coppell, TX Office",37,Brand already at start - no trailing pipe
 /request-service,Utility,D,"Request HVAC Service | DFW HVAC | Dallas-Fort Worth",51,"Book Same-Day HVAC Service in DFW | DFW HVAC",44,Urgency modifier for conversion
@@ -12,9 +12,9 @@ URL,Page Tier,Format,Current Title,Current Length,Recommended Title,Rec Length,N
 /services,Service Hub,C,"HVAC Services | DFW HVAC - Heating & Air Conditioning",53,"AC, Heating & HVAC Services in DFW | DFW HVAC",45,Topical expansion for hub
 /cities-served,Hub,C,"Cities We Serve | DFW HVAC",26,"HVAC Service Areas - 28 DFW Cities | DFW HVAC",45,Topical expansion + specific count
 /services/residential/air-conditioning,Service - Residential,B,"Air Conditioning | DFW HVAC",27,"AC Repair in DFW | 147 Five-Star Reviews | DFW HVAC",51,Top residential service
-/services/residential/heating,Service - Residential,B,"Heating | DFW HVAC",18,"Heating Repair in DFW | 147 Five-Star Reviews | DFW HVAC",55,Was under-optimized (18 chars)
+/services/residential/heating,Service - Residential,B,"Heating | DFW HVAC",18,"Furnace & Heating Repair | 147 Five-Star Reviews | DFW HVAC",57,"GSC-refined: ""furnace"" has 400+ monthly impressions — captures higher-volume term than ""install"""
 /services/residential/indoor-air-quality,Service - Residential,B,"Indoor Air Quality | DFW HVAC",29,"Indoor Air Quality | 147 Five-Star Reviews | DFW HVAC",53,REME Halo destination
-/services/residential/preventative-maintenance,Service - Residential,B,"Preventative Maintenance | DFW HVAC",35,"HVAC Tune-Up | 147 Five-Star Reviews | DFW HVAC",47,Recurring-revenue service
+/services/residential/preventative-maintenance,Service - Residential,B,"Preventative Maintenance | DFW HVAC",35,"HVAC Maintenance | 147 Five-Star Reviews | DFW HVAC",51,"GSC-refined: ""maintenance"" = 450+ monthly imp; ""tune-up"" = zero"
 /services/commercial/commercial-air-conditioning,Service - Commercial,B,"Commercial Air Conditioning | DFW HVAC",38,"Commercial AC Repair | 147 Five-Star Reviews | DFW HVAC",55,Higher-ticket commercial
 /services/commercial/commercial-heating,Service - Commercial,B,"Commercial Heating | DFW HVAC",29,"Commercial Heating | 147 Five-Star Reviews | DFW HVAC",53,Higher-ticket commercial
 /services/commercial/commercial-maintenance,Service - Commercial,B,"Commercial Maintenance | DFW HVAC",33,"Commercial HVAC Service | 147 Five-Star Reviews | DFW HVAC",57,Recurring commercial revenue
@@ -25,7 +25,7 @@ URL,Page Tier,Format,Current Title,Current Length,Recommended Title,Rec Length,N
 /cities-served/carrollton,City,B,"HVAC Services in Carrollton, TX | DFW HVAC",42,"Carrollton AC Repair | 147 Five-Star Reviews | DFW HVAC",55,Growing residential
 /cities-served/colleyville,City,B,"HVAC Services in Colleyville, TX | DFW HVAC",43,"Colleyville AC Repair | 147 Five-Star Reviews | DFW HVAC",55,Upscale market
 /cities-served/coppell,City,B,"HVAC Services in Coppell, TX | DFW HVAC",39,"Coppell AC Repair | 147 Five-Star Reviews | DFW HVAC",52,HOMETOWN page
-/cities-served/dallas,City,B,"HVAC Services in Dallas, TX | DFW HVAC",38,"Dallas AC Repair | 147 Five-Star Reviews | DFW HVAC",51,HIGH VOLUME
+/cities-served/dallas,City,B,"HVAC Services in Dallas, TX | DFW HVAC",38,"Dallas HVAC & AC Repair | 147 Five-Star Reviews",50,"GSC-refined: ""hvac dallas"" + ""dallas hvac"" = 1,021 imp. HVAC is dominant keyword. Brand dropped."
 /cities-served/denton,City,B,"HVAC Services in Denton, TX | DFW HVAC",38,"Denton AC Repair | 147 Five-Star Reviews | DFW HVAC",51,
 /cities-served/euless,City,B,"HVAC Services in Euless, TX | DFW HVAC",38,"Euless AC Repair | 147 Five-Star Reviews | DFW HVAC",51,
 /cities-served/farmers-branch,City,B,"HVAC Services in Farmers Branch, TX | DFW HVAC",46,"Farmers Branch AC Repair | 147 Five-Star Reviews | DFW HVAC",58,Long name - tight but fits
