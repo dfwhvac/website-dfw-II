@@ -15,6 +15,8 @@ export default async function sitemap() {
     { url: '/faq', priority: 0.6, changeFrequency: 'monthly' },
     { url: '/estimate', priority: 0.8, changeFrequency: 'monthly' },
     { url: '/financing', priority: 0.7, changeFrequency: 'monthly' },
+    { url: '/services/system-replacement', priority: 0.9, changeFrequency: 'monthly' },
+    { url: '/repair-or-replace', priority: 0.7, changeFrequency: 'monthly' },
     // /recent-projects is live with RealWork widget
     { url: '/recent-projects', priority: 0.7, changeFrequency: 'weekly' },
     { url: '/cities-served', priority: 0.8, changeFrequency: 'monthly' },

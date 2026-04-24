@@ -7,7 +7,43 @@ Reverse-chronological record of everything shipped to production. When adding en
 
 ---
 
-### April 24, 2026 — P1.16 sandbox deploy live, awaiting user QA
+### April 24, 2026 — P1.13 `/services/system-replacement` + P1.15 `/repair-or-replace` shipped
+
+- **Two new revenue-center pages** shipped together. Both follow the exact same architecture pattern as `/financing` (server component, Sanity fallback for companyInfo, Option C review-badge title, BreadcrumbList schema, footer integration, sitemap entry, `dynamic = 'force-dynamic'`). They cross-link to each other and both funnel into `/estimate` + `/financing` for conversion.
+
+- **`/services/system-replacement`** (P1.13) — the replacement revenue center. 10 sections: hero with dual CTA → "Is it time to replace?" 6-signal grid → "What affects the cost" 6-factor value-proof block (no $ figures, per user pricing-not-published constraint) → 4-step replacement process → 24-month 0% financing preview linking to `/financing` → 12-city service area strip with `/cities-served` link → 5-question replacement FAQ → final dual-CTA. Title: `HVAC System Replacement — Free Written Estimate | 147 Five-Star Reviews | DFW HVAC`. Priority 0.9 in sitemap (highest-ticket page). Route at `/services/system-replacement/page.jsx` — Next.js static-segment priority ensures it wins over the dynamic `[category]/[slug]` route.
+
+- **`/repair-or-replace`** (P1.15) — AEO decision-framework article. 7 sections: hero → lime-strip "Short Answer" TL;DR → "5 Signs It's Time to Replace" numbered list → cost-benefit age-bracket table (0–7 / 8–11 / 12–15 / 16+ years) → 5-step decision flow with ✓/✗ visual branches → "Still uncertain?" free-estimate callout → 6-question FAQ → final CTA with inline cross-links to `/services/system-replacement` + `/financing`. Title: `Repair or Replace Your HVAC? A DFW Decision Guide | 147 Five-Star Reviews | DFW HVAC`. Schema: `Article` + `FAQPage` (via `FAQSchema` helper) + `BreadcrumbList`. Priority 0.7. Route at top level `/repair-or-replace/page.jsx` for SEO clarity (matches the raw search query).
+
+- **Cross-linking shipped:** `/services/system-replacement` has "Not sure yet? Use our repair-or-replace decision guide →" below the 6-signal grid; `/repair-or-replace` has two cross-links below the final CTA ("Explore system replacement →" and "See financing options →"). Closes the replacement-consideration funnel.
+
+- **Legacy-redirect update:** `next.config.js` — `/installation` now 308-redirects to `/services/system-replacement` (previously pointed to `/estimate` as a placeholder). Old `TODO` comment removed. `/ducting` stays at `/estimate` until a dedicated duct page ships (future P2). Verified live: `curl /installation → HTTP 308 location: /services/system-replacement`.
+
+- **Footer updated:** "Our Services" section gained "System Replacement"; "Quick Links" gained "Repair or Replace?". Both live sitewide on every page.
+
+- **Sitemap updated:** Both pages registered with appropriate priorities (0.9 / 0.7) and monthly change frequency.
+
+- **Verified:** `next build` clean — `/services/system-replacement` and `/repair-or-replace` both at 1.87 kB / 127 kB first-load JS (identical to `/financing`). HTTP 200 + title + sitemap + redirect all confirmed via curl. Desktop screenshots at 1920×800 confirm hero composition, lime-on-navy emphasis treatment, and decision-flow visual branching. ESLint clean on both files.
+
+- **Shipped on existing `preview` branch** (stacked with `/financing`, preview-env guards, and FAQ rp3 rewrite). Next push to `preview` will trigger a fresh Vercel preview deploy covering all 5 changes.
+
+- **Files shipped:**
+  - `/app/frontend/app/services/system-replacement/page.jsx` (new, 332 lines)
+  - `/app/frontend/app/repair-or-replace/page.jsx` (new, 376 lines)
+  - `/app/frontend/app/sitemap.js` (2 entries added)
+  - `/app/frontend/components/Footer.jsx` (2 links added)
+  - `/app/frontend/next.config.js` (`/installation` target updated, TODO removed)
+
+- **Expected SEO impact:** `/repair-or-replace` targets a top-volume AEO decision-framework query ("should I repair or replace my ac/hvac/furnace") with structured answers, tables, flow steps, and `Article`+`FAQPage` schema — high odds of AI Overview citation. `/services/system-replacement` captures the highest-ticket commercial-investigation queries ("hvac replacement dallas", "new furnace dfw", "ac replacement cost") and now has a proper conversion page rather than dumping traffic into the generic `/estimate` form. The two pages combine with `/financing` to form a complete replacement funnel (decision → page → financing → estimate).
+
+- **Next user actions:**
+  1. Push to GitHub `preview` branch (via Save to Github) → Vercel auto-builds a new preview URL.
+  2. QA the new routes: `/services/system-replacement`, `/repair-or-replace`, `/installation` (should 308 redirect).
+  3. Verify `/repair-or-replace` passes the [Google Rich Results Test](https://search.google.com/test/rich-results) for `Article` + `FAQPage` schemas — AI Overview eligibility depends on this.
+  4. Merge `preview` → `main` (single merge ships all 5 Apr 24 changes together).
+  5. Submit both new URLs to GSC URL Inspector for indexing (continues the P1.17a sprint).
+
+## April 24, 2026 — P1.16 sandbox deploy live, awaiting user QA
 
 - **Pushed `/financing` to a `preview` branch** on GitHub (`dfwhvac/website-dfw-II`). Vercel auto-built the preview deployment (visible in the repo's Deployments sidebar, 5 min after push). Preview URL pattern: `https://website-dfw-ii-git-preview-<team>.vercel.app/financing`.
 - **Session paused here** — user will resume QA on the preview URL on their own schedule. No code changes pending on this branch; guards + financing page + FAQ link all bundled in the same branch push.
