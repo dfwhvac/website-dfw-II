@@ -250,9 +250,10 @@ Only revisit once ads running at stable spend:
 - Not automatable reliably (API referrer restrictions)
 - **Effort:** 1 hr. User-led.
 
-### P1.7 — GA4 conversion toggle
-- Toggle "Mark as conversion" on `form_submit_lead` and `phone_click` events in GA4 dashboard
-- **Effort:** 5 min. User-led.
+### P1.7 — GA4 key event toggle
+- ✅ **Apr 24, 2026** — `generate_lead` marked as key event. (GA4 "Modify event" rule renames our code-side `form_submit_lead` → `generate_lead`, Google's recommended event name — kept the rename for Smart Bidding ML affinity.)
+- 🟡 **Pending user** — `phone_click` confirmed firing in GA4 Realtime Apr 24, but not yet in the Events report (24–48 hr ingestion lag). Toggle "Mark as key event" on `phone_click` once it appears in **Admin → Events**. Do NOT rename to `contact` — per agent guidance, specificity beats the recommended-event label here; aggregate at the Ads-side via a Conversion Goal if needed.
+- **Effort:** 2 min remaining. User-led.
 
 ---
 

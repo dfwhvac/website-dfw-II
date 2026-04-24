@@ -7,6 +7,15 @@ Reverse-chronological record of everything shipped to production. When adding en
 
 ---
 
+## April 24, 2026 — GA4 key-event activation (P1.7 partial)
+
+- **User flipped `generate_lead` → "Mark as key event: ON"** in GA4 (Admin → Events). This is the code-side `form_submit_lead` event renamed by a pre-existing GA4 Modify Event rule (Data Stream → Events → Modify events). Kept the rename intentionally — `generate_lead` is one of Google's recommended event names, so Ads Smart Bidding treats it as a first-class signal.
+- **Verified `phone_click` firing in GA4 Realtime** (tap of `tel:+19727772665` in production header produced event within ~30 sec). Not yet visible in the **Admin → Events** list — normal 24–48 hr ingestion lag. User to flip its toggle once it appears.
+- **Decision logged:** NOT renaming `phone_click` → `contact`. Specificity (per-channel breakdown for future email/chat additions) beats the marginal recommended-event ML uplift. If Ads needs a bundled signal, we'll aggregate `generate_lead` + `phone_click` under a single Conversion Goal at Ads-side import time.
+- **Diagnostic trail:** Confirmed production bundles (`/_next/static/chunks/*.js`) contain both `form_submit_lead` and `phone_click` strings — code is deployed. Tracked renaming mystery to the GA4 Modify Event rule (not a code bug). Baseline clock resumes: 70+ days of conversion data runway until Google Ads launch.
+- **Files touched (tracking only, no code):** `/app/memory/ROADMAP.md` (P1.7 updated), `/app/memory/RECURRING_MAINTENANCE.md` (M6 last-done stamped), `/app/memory/CHANGELOG.md` (this), `/app/memory/POST_DEPLOY_ACTION_ITEMS_PR2.md` (Steps 1–2 checked off, Step 2 partially complete).
+- **Next user action (P1.7 tail):** Check GA4 → Admin → Events in 24–48 hrs → when `phone_click` appears, flip "Mark as key event" → ON. Then close out P1.7 entirely.
+
 ## April 23, 2026 — P1.6a Title Tag Rewrite shipped (47 pages, Option C hybrid review-count logic)
 
 - **Shipped all 47 finalized SEO titles** per `/app/memory/audits/2026-04-23_Title_Tag_Final.csv` (home + 11 utility + 2 hubs + 7 services + 28 cities). All CTR-sensitive pages (38 of 47) now carry a dynamic "{N} Five-Star Reviews" badge that reads live from Sanity `companyInfo.googleReviews` when `googleRating >= 4.95`, with fallback to manually-curated `fiveStarReviewCount`.
