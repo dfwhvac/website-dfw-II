@@ -24,6 +24,36 @@ This file contains ONLY future-facing work. Shipped items live in `/app/memory/C
 
 ---
 
+## ⏭️ Queued Merge + Post-Merge Actions (Apr 24, 2026 preview stack)
+
+The `preview` branch carries 5 stacked Apr 24 shipments: preview-env guards + `/financing` + FAQ rp3 rewrite + `/services/system-replacement` + `/repair-or-replace`. Remaining user-led sequence once the user pushes to GitHub:
+
+- **M1 — Sandbox QA on the Vercel preview URL (~10 min)**
+  - Test `/services/system-replacement`, `/repair-or-replace`, `/financing` — visual + CTA routing
+  - Confirm `/installation` returns HTTP 308 → `/services/system-replacement`
+  - Confirm footer shows "System Replacement" (Our Services) and "Repair or Replace?" (Quick Links) sitewide
+  - Confirm FAQ rp3 ("Do you offer financing for new HVAC systems?") renders Wisetack copy + "Learn more about our financing options →" internal link
+  - Confirm "Pre-Qualify Now" on `/financing` routes to the live Wisetack URL (since `NEXT_PUBLIC_WISETACK_APPLY_URL` was set in Vercel env on Apr 24)
+
+- **M2 — Google Rich Results validation on `/repair-or-replace` (~5 min, user-led)**
+  - [search.google.com/test/rich-results](https://search.google.com/test/rich-results) → paste the preview URL
+  - Verify eligibility for both `Article` schema and `FAQPage` schema. AEO citation in AI Overviews depends on both being valid.
+  - If validation fails, escalate back to agent for schema fix before merge.
+
+- **M3 — Merge `preview` → `main` (~2 min)**
+  - One merge ships all 5 Apr 24 changes to production simultaneously.
+  - Vercel auto-builds and deploys to dfwhvac.com.
+
+- **M4 — GSC URL Inspector submissions for the 3 new URLs (~3 min, user-led)**
+  - `/financing`, `/services/system-replacement`, `/repair-or-replace`
+  - Google Search Console → URL Inspection → "Request Indexing" for each
+  - Counts against the P1.17a 10/day manual-indexing cap. These 3 absorb Day 1's budget; remaining 24 stuck URLs fill Days 2–3 per the P1.17a plan.
+
+- **M5 — Log Apr 24 baseline in CHANGELOG (~automatic via agent)**
+  - Agent marks P1.13, P1.15, P1.16 as ✅ in production the next session after merge is confirmed.
+
+---
+
 ## 🎯 Prime Directive
 
 **Business goal:** Pull high-intent local traffic → convert into form fills / phone calls.
@@ -267,10 +297,14 @@ Only revisit once ads running at stable spend:
 - Not automatable reliably (API referrer restrictions)
 - **Effort:** 1 hr. User-led.
 
-### P1.7 — GA4 key event toggle
-- ✅ **Apr 24, 2026** — `generate_lead` marked as key event. (GA4 "Modify event" rule renames our code-side `form_submit_lead` → `generate_lead`, Google's recommended event name — kept the rename for Smart Bidding ML affinity.)
-- 🟡 **Pending user** — `phone_click` confirmed firing in GA4 Realtime Apr 24, but not yet in the Events report (24–48 hr ingestion lag). Toggle "Mark as key event" on `phone_click` once it appears in **Admin → Events**. Do NOT rename to `contact` — per agent guidance, specificity beats the recommended-event label here; aggregate at the Ads-side via a Conversion Goal if needed.
-- **Effort:** 2 min remaining. User-led.
+### P1.7 — GA4 key event toggle ✅ COMPLETE Apr 24, 2026
+- ✅ `generate_lead` marked as key event Apr 24. (GA4 "Modify event" rule renames our code-side `form_submit_lead` → `generate_lead`, Google's recommended event name — kept the rename for Smart Bidding ML affinity.)
+- ✅ `phone_click` marked as key event Apr 24 (same session, after Realtime confirmation + ingestion).
+- **Future key events to toggle when the backing feature ships:**
+  - `thanks_page_view` — when P1.11 `/thanks` ships
+  - `form_step_1_complete` — when P1.10 progressive form ships
+  - `estimator_complete` — when P1.14 `/estimator` ships
+  - Do NOT toggle preemptively. GA4 requires an event to fire at least once before the toggle is available.
 
 ---
 
