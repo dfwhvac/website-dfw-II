@@ -1,11 +1,28 @@
 # DFW HVAC — Changelog
 
-**Last reviewed:** April 23, 2026
+**Last reviewed:** April 24, 2026
 **⚠️ Read `/app/memory/00_START_HERE.md` first for the Agent SOP.**
 
 Reverse-chronological record of everything shipped to production. When adding entries, append to the top of the appropriate session block (newest first).
 
 ---
+
+## April 24, 2026 — Preview-env guards shipped (sandbox workflow prereq)
+
+- **GA4 preview-env guard** — added `ga-preview-guard` inline `<Script strategy="beforeInteractive">` at the top of `<head>` in `/app/frontend/app/layout.js`. Uses Google's documented opt-out flag (`window['ga-disable-G-5MX2NE7C73'] = true`) set before `gtag.js` evaluates its `config` call, so all non-production hosts (Vercel preview URLs, localhost, any future staging domain) are fully muted at the SDK level. Production allow-list is a narrow `hostname === 'www.dfwhvac.com' || hostname === 'dfwhvac.com'` match. Zero hits reach GA4 property `G-5MX2NE7C73` from sandboxes — baseline data integrity preserved during the 70-day pre-Ads-launch window.
+- **Resend preview-env guard** — added server-side `VERCEL_ENV === 'production'` check in `/app/frontend/app/api/leads/route.js`. On preview/dev, the lead is still persisted to MongoDB (full pipeline verification remains possible) but `resend.emails.send` is skipped and a structured `console.log` records what *would* have been sent (recipient, leadId, leadType, fullName). Escape hatch: set `FORCE_LEAD_EMAIL_IN_PREVIEW=true` in a specific Vercel env to force real send from a preview branch (e.g., for end-to-end email template QA).
+- **Verified:** `next build` succeeded; grep confirms `ga-disable-G-5MX2NE7C73` baked into static HTML output; runtime curl on the dev server confirms both `ga-preview-guard` script ID and the disable flag render in every served page's `<head>`.
+- **Files shipped:** `/app/frontend/app/layout.js` (GA4 guard), `/app/frontend/app/api/leads/route.js` (Resend guard + env var constants).
+- **Why shipped now:** unblocks the approved sandbox workflow for upcoming P1.13–P1.16 pages. Each new page will now land on a feature branch, auto-deploy to a Vercel preview URL, and be QA'd on real devices with zero contamination of production analytics or inbox.
+
+## April 24, 2026 — GA4 key-event activation (P1.7 partial)
+
+- **User flipped `generate_lead` → "Mark as key event: ON"** in GA4 (Admin → Events). This is the code-side `form_submit_lead` event renamed by a pre-existing GA4 Modify Event rule (Data Stream → Events → Modify events). Kept the rename intentionally — `generate_lead` is one of Google's recommended event names, so Ads Smart Bidding treats it as a first-class signal.
+- **Verified `phone_click` firing in GA4 Realtime** (tap of `tel:+19727772665` in production header produced event within ~30 sec). Not yet visible in the **Admin → Events** list — normal 24–48 hr ingestion lag. User to flip its toggle once it appears.
+- **Decision logged:** NOT renaming `phone_click` → `contact`. Specificity (per-channel breakdown for future email/chat additions) beats the marginal recommended-event ML uplift. If Ads needs a bundled signal, we'll aggregate `generate_lead` + `phone_click` under a single Conversion Goal at Ads-side import time.
+- **Diagnostic trail:** Confirmed production bundles (`/_next/static/chunks/*.js`) contain both `form_submit_lead` and `phone_click` strings — code is deployed. Tracked renaming mystery to the GA4 Modify Event rule (not a code bug). Baseline clock resumes: 70+ days of conversion data runway until Google Ads launch.
+- **Files touched (tracking only, no code):** `/app/memory/ROADMAP.md` (P1.7 updated), `/app/memory/RECURRING_MAINTENANCE.md` (M6 last-done stamped), `/app/memory/CHANGELOG.md` (this), `/app/memory/POST_DEPLOY_ACTION_ITEMS_PR2.md` (Steps 1–2 checked off, Step 2 partially complete).
+- **Next user action (P1.7 tail):** Check GA4 → Admin → Events in 24–48 hrs → when `phone_click` appears, flip "Mark as key event" → ON. Then close out P1.7 entirely.
 
 ## April 23, 2026 — P1.6a Title Tag Rewrite shipped (47 pages, Option C hybrid review-count logic)
 

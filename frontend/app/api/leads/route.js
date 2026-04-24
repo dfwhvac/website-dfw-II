@@ -10,6 +10,16 @@ const NOTIFICATION_EMAIL = process.env.NOTIFICATION_EMAIL || 'support@dfwhvac.co
 const RECAPTCHA_SECRET_KEY = process.env.RECAPTCHA_SECRET_KEY || ''
 const RECAPTCHA_THRESHOLD = 0.4
 
+// Preview-env guard (Apr 24, 2026). Vercel sets VERCEL_ENV to 'production' |
+// 'preview' | 'development'. On non-production (preview branches, local dev) we
+// short-circuit the Resend send so test submissions from sandbox branches never
+// hit the real service@ / estimate@ / contact@ inboxes. Lead is still written to
+// MongoDB so the full form pipeline can be verified. To force a real send from
+// a preview branch, set FORCE_LEAD_EMAIL_IN_PREVIEW=true in Vercel env.
+const IS_PRODUCTION_DEPLOY = process.env.VERCEL_ENV === 'production'
+const FORCE_PREVIEW_EMAIL = process.env.FORCE_LEAD_EMAIL_IN_PREVIEW === 'true'
+const SHOULD_SEND_LEAD_EMAIL = IS_PRODUCTION_DEPLOY || FORCE_PREVIEW_EMAIL
+
 // In-memory rate limiter: max 5 submissions per IP per 15 minutes
 const RATE_LIMIT_MAX = 5
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000
@@ -200,7 +210,14 @@ export async function POST(request) {
 
     // Send email notification
     const emailConfig = LEAD_EMAIL_CONFIG[leadType] || LEAD_EMAIL_CONFIG.service
-    if (RESEND_API_KEY) {
+    if (!SHOULD_SEND_LEAD_EMAIL) {
+      // Preview / non-production environment — skip real email delivery.
+      // Lead is already persisted in MongoDB above; log what would have been sent
+      // so sandbox QA can confirm routing logic is correct.
+      console.log(
+        `[leads][${process.env.VERCEL_ENV || 'local'}] Skipping Resend send. Would route leadId=${leadId} type=${leadType} to=${emailConfig.to} name="${fullName}"`
+      )
+    } else if (RESEND_API_KEY) {
       try {
         const resend = new Resend(RESEND_API_KEY)
 

@@ -36,7 +36,7 @@
 | M3 | GSC "Discovered – currently not indexed" URL review — resubmit any new stuck URLs via URL Inspect tool | GSC → Pages → not-indexed → cross-ref `/app/memory/audits/2026-04-23_GSC_Indexing_Tracker.md` | — |
 | M4 | Google Places API billing / quota check in Google Cloud Console | GCP → Billing → Alerts | — |
 | M5 | Physical device QA matrix (M1–M5) — iOS Safari + Android Chrome + Maps autocomplete | Per `/app/memory/audits/DFW_HVAC_QA_Sweep_2026-04-21.md` | — |
-| M6 | GA4 conversion events sanity check — confirm `form_submit_lead` + `phone_click` still firing and marked as conversions | GA4 → DebugView → submit real test lead | — |
+| M6 | GA4 key-events sanity check — confirm `generate_lead` (renamed from code-side `form_submit_lead` via GA4 Modify Event rule) and `phone_click` still firing and flagged as key events | GA4 → DebugView → submit real test lead + tap a phone link → verify both events land and show key-event badge in Admin → Events | April 24, 2026 (partial: `generate_lead` marked; `phone_click` toggle pending ingestion) |
 
 ---
 

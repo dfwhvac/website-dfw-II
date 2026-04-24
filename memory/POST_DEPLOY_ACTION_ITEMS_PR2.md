@@ -18,28 +18,29 @@ Smart Bidding (once Google Ads launches in ~11 weeks) can optimize on them.
 ## ✅ Checklist (do after 1 AM on Apr 22, 2026)
 
 ### Step 0 — Verify the PR is actually live on production
-- [ ] Visit `https://dfwhvac.com` → hard refresh (Cmd+Shift+R / Ctrl+Shift+R)
-- [ ] Open browser DevTools → Network tab → filter for `collect?v=2` (GA4 requests)
-- [ ] Click any `tel:` link in the header or footer → you should see a `collect?...&en=phone_click` request fire
-- [ ] Submit a test form (fake data is fine — use `(555) 555-5555` and a throwaway email) → you should see a `collect?...&en=form_submit_lead` request fire
+- [x] Visit `https://dfwhvac.com` → hard refresh (Cmd+Shift+R / Ctrl+Shift+R)
+- [x] Open browser DevTools → Network tab → filter for `collect?v=2` (GA4 requests)
+- [x] Click any `tel:` link in the header or footer → you should see a `collect?...&en=phone_click` request fire — ✅ Confirmed Apr 24, 2026 in GA4 Realtime
+- [x] Submit a test form (fake data is fine — use `(555) 555-5555` and a throwaway email) → you should see a `collect?...&en=form_submit_lead` request fire — ✅ Confirmed via 3 production form submissions (landing in GA4 as `generate_lead` due to a Modify Event rule — see Step 2 note)
 - If either event does NOT fire: STOP, something is wrong with the deploy. Do not proceed to Step 1 until fixed.
 
 ### Step 1 — Confirm events appear in GA4
-- [ ] Log into https://analytics.google.com
-- [ ] Select the **DFW HVAC** property (GA4 ID: `G-5MX2NE7C73`)
-- [ ] Left sidebar → **Reports** → **Realtime** (top of list)
-- [ ] Trigger another test event on the live site (tap a phone link, submit a form)
-- [ ] Confirm you see `phone_click` and/or `form_submit_lead` show up within ~30 seconds in the "Event count by Event name" card
+- [x] Log into https://analytics.google.com
+- [x] Select the **DFW HVAC** property (GA4 ID: `G-5MX2NE7C73`)
+- [x] Left sidebar → **Reports** → **Realtime** (top of list)
+- [x] Trigger another test event on the live site (tap a phone link, submit a form)
+- [x] Confirm you see `phone_click` and/or `form_submit_lead` show up within ~30 seconds in the "Event count by Event name" card — ✅ `phone_click` confirmed in Realtime Apr 24, 2026
 - If events show in Realtime but you want to skip waiting 24h, you can proceed to Step 2 immediately. Realtime confirmation means they'll definitely show in the Events dashboard within 24h.
 
-### Step 2 — Mark both as conversions
-- [ ] In GA4 left sidebar → click the **gear icon (⚙ Admin)** at bottom left
-- [ ] In the **Property** column → **Events**
-- [ ] You should see a list of all event names firing. Look for:
-  - `form_submit_lead`
-  - `phone_click`
-- [ ] For each one, find the **"Mark as conversion"** toggle on the right side of the row → flip to **ON** (blue)
-- [ ] Wait 2-3 minutes, then refresh. Both events should now appear in the **Conversions** sub-menu as well.
+### Step 2 — Mark both as key events (GA4 renamed "conversions" → "key events" in Mar 2024)
+- [x] In GA4 left sidebar → click the **gear icon (⚙ Admin)** at bottom left
+- [x] In the **Property** column → **Events**
+- [x] You should see a list of all event names firing. Look for:
+  - `generate_lead` ← **this is `form_submit_lead` after GA4's Modify Event rule renames it** (kept intentionally — Google's recommended event name for Smart Bidding)
+  - `phone_click` ← not yet visible; 24–48 hr ingestion lag after first Realtime fire
+- [x] **`generate_lead` → "Mark as key event" toggle ON** ✅ Apr 24, 2026
+- [ ] **`phone_click` → "Mark as key event" toggle ON** — pending ingestion (check back Apr 25–26, 2026)
+- [x] Wait 2-3 minutes, then refresh. Both events should now appear in the **Key events** sub-menu as well — `generate_lead` confirmed listed.
 
 ### Step 3 — (Optional but recommended) Set up a custom dashboard
 - [ ] GA4 → **Reports** → **Library** (bottom left)

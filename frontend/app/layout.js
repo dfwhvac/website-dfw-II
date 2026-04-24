@@ -34,6 +34,14 @@ export default async function RootLayout({ children }) {
             and SimpleContactForm.jsx with strategy="lazyOnload" so pages without
             forms (home, about, reviews, cities, etc.) don't incur the TBT hit.
             See: TBT optimization, Apr 20 2026. */}
+        {/* GA4 preview-env guard (Apr 24, 2026). Uses Google's official opt-out
+            flag window['ga-disable-<ID>'] = true to mute hits on Vercel preview
+            URLs, localhost, and any non-production host. Runs inline (beforeInteractive)
+            so it's set BEFORE the gtag script evaluates its config call.
+            Production host allow-list is kept narrow on purpose. */}
+        <Script id="ga-preview-guard" strategy="beforeInteractive">
+          {`(function(){try{var h=location.hostname;var ok=(h==='www.dfwhvac.com'||h==='dfwhvac.com');if(!ok){window['ga-disable-${GA_ID}']=true;}}catch(e){}})();`}
+        </Script>
         <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="afterInteractive" />
         <Script id="gtag-init" strategy="afterInteractive">
           {`window.dataLayer = window.dataLayer || [];

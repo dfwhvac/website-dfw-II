@@ -1,9 +1,26 @@
 # DFW HVAC — Roadmap
 
-**Last reviewed:** April 23, 2026
+**Last reviewed:** April 24, 2026
 **⚠️ Read `/app/memory/00_START_HERE.md` first for the Agent SOP.**
 
 This file contains ONLY future-facing work. Shipped items live in `/app/memory/CHANGELOG.md`.
+
+---
+
+## 🧪 Sandbox Workflow (adopted Apr 24, 2026)
+
+**Default for all new pages and non-trivial UI changes:** build on a feature branch → Vercel Preview Deployment → user QA on phone + desktop + Lighthouse → merge to `main` for production.
+
+| Guardrail | Status | Ref |
+|---|---|---|
+| GA4 preview-env mute (no hits to `G-5MX2NE7C73` from preview URLs) | ✅ Shipped Apr 24, 2026 | `app/layout.js` `ga-preview-guard` |
+| Resend preview-env mute (no real emails from preview lead submissions) | ✅ Shipped Apr 24, 2026 | `app/api/leads/route.js` `SHOULD_SEND_LEAD_EMAIL` |
+| Vercel auto-`noindex` on preview URLs | ✅ Vercel default | No code required |
+| Sanity dataset isolation (preview vs. production content) | ⏸️ Not needed yet — would be Option 3 | Deferred until content-experiment pain emerges |
+
+**Escape hatch:** set `FORCE_LEAD_EMAIL_IN_PREVIEW=true` in a Vercel preview env to force real email send (useful for end-to-end email template QA).
+
+**First sandbox build:** P1.16 `/financing` page (branch `feat/p1-16-financing-page`).
 
 ---
 
@@ -250,9 +267,10 @@ Only revisit once ads running at stable spend:
 - Not automatable reliably (API referrer restrictions)
 - **Effort:** 1 hr. User-led.
 
-### P1.7 — GA4 conversion toggle
-- Toggle "Mark as conversion" on `form_submit_lead` and `phone_click` events in GA4 dashboard
-- **Effort:** 5 min. User-led.
+### P1.7 — GA4 key event toggle
+- ✅ **Apr 24, 2026** — `generate_lead` marked as key event. (GA4 "Modify event" rule renames our code-side `form_submit_lead` → `generate_lead`, Google's recommended event name — kept the rename for Smart Bidding ML affinity.)
+- 🟡 **Pending user** — `phone_click` confirmed firing in GA4 Realtime Apr 24, but not yet in the Events report (24–48 hr ingestion lag). Toggle "Mark as key event" on `phone_click` once it appears in **Admin → Events**. Do NOT rename to `contact` — per agent guidance, specificity beats the recommended-event label here; aggregate at the Ads-side via a Conversion Goal if needed.
+- **Effort:** 2 min remaining. User-led.
 
 ---
 
