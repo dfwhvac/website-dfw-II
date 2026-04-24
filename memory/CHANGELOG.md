@@ -18,8 +18,17 @@ Reverse-chronological record of everything shipped to production. When adding en
 - **Sandbox workflow note:** Built on `main` but ready for deployment via a `feat/p1-16-financing-page` branch for Vercel preview QA. GA4 + Resend preview-env guards shipped earlier today ensure sandbox traffic won't contaminate analytics or inbox.
 - **Next user actions:**
   1. (Required before prod merge) Set `NEXT_PUBLIC_WISETACK_APPLY_URL` in Vercel env (all environments) to the live Wisetack merchant application URL. Until then, the "Pre-Qualify Now" CTA routes to `/estimate` as a safe fallback.
-  2. (Optional) Add an internal link from `/faq` answer rp3 ("Do you offer financing for new HVAC systems?") pointing to `/financing` for internal-link equity.
-  3. (Optional) Add a "Financing" card to the homepage services grid when the page is production-verified.
+  2. (Optional) Add a "Financing" card to the homepage services grid when the page is production-verified.
+
+### April 24, 2026 — Follow-up: /financing internal link from FAQ rp3
+
+- **Updated `/faq` page (Apr 24, 2026, Sprint 3b P1.16 polish).** Replaced the generic "we offer flexible financing" answer in FAQ rp3 (`Do you offer financing for new HVAC systems?`) with Wisetack-specific copy mentioning 24-month 0% APR, soft-credit pre-qualification, and a trailing link to `/financing`. Updated in two places to guarantee the answer ships correctly regardless of data source:
+  - `app/faq/page.jsx` `defaultFaqs[rp3]` — the fallback used when Sanity FAQs are empty.
+  - `app/faq/page.jsx` runtime override block — detects any FAQ whose question contains "financing" and swaps the answer at fetch time, ensuring Sanity-sourced FAQs are also upgraded without waiting for a Sanity edit.
+- **Generalized `FAQAccordion.jsx` `renderAnswerWithLinks`** from a single hardcoded pattern to a `LINK_RULES` array supporting multiple phrase → link rules. Added a `"Learn more about our financing options at /financing"` rule alongside the existing cities-served rule. Any future FAQ-embedded internal link can be added with a new `{ pattern, linkText }` entry.
+- **Verified:** rebuilt + restarted; curl-grep on `/faq` HTML confirms `Wisetack`, `Learn more about our financing`, and `href="/financing"` all present. ESLint clean.
+- **Files shipped:** `/app/frontend/app/faq/page.jsx`, `/app/frontend/components/FAQAccordion.jsx`.
+- **SEO impact:** creates the first intra-site inbound link to `/financing` from a page that already ranks and has internal link authority, helping the new page index faster + pass topical relevance to its first GSC impressions.
 
 ## April 24, 2026 — Preview-env guards shipped (sandbox workflow prereq)
 

@@ -5,26 +5,37 @@ import Link from 'next/link'
 import { ChevronDown } from 'lucide-react'
 
 // Helper function to render answer with links
+// Supports multiple phrase → internal-link patterns. Each rule maps a regex
+// match to the linked text + href that should render in its place.
+const LINK_RULES = [
+  {
+    pattern: /View all cities we serve at (\/[a-z-]+)/i,
+    linkText: 'View all cities we serve →',
+  },
+  {
+    pattern: /Learn more about our financing options at (\/[a-z-]+)/i,
+    linkText: 'Learn more about our financing options →',
+  },
+]
+
 const renderAnswerWithLinks = (answer) => {
-  // Check if answer contains a link pattern like "View all cities we serve at /cities-served"
-  const linkPattern = /View all cities we serve at (\/[a-z-]+)/i
-  const match = answer.match(linkPattern)
-  
-  if (match) {
-    const [fullMatch, href] = match
-    const beforeLink = answer.substring(0, answer.indexOf(fullMatch))
-    const afterLink = answer.substring(answer.indexOf(fullMatch) + fullMatch.length)
-    return (
-      <>
-        {beforeLink}
-        <Link href={href} className="text-electric-blue hover:underline font-medium">
-          View all cities we serve →
-        </Link>
-        {afterLink}
-      </>
-    )
+  for (const rule of LINK_RULES) {
+    const match = answer.match(rule.pattern)
+    if (match) {
+      const [fullMatch, href] = match
+      const beforeLink = answer.substring(0, answer.indexOf(fullMatch))
+      const afterLink = answer.substring(answer.indexOf(fullMatch) + fullMatch.length)
+      return (
+        <>
+          {beforeLink}
+          <Link href={href} className="text-electric-blue hover:underline font-medium">
+            {rule.linkText}
+          </Link>
+          {afterLink}
+        </>
+      )
+    }
   }
-  
   return answer
 }
 
