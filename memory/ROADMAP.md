@@ -51,7 +51,7 @@ User plans Google Ads in ~12 weeks. Sequence architecture → content → data �
   - **P1.13** — `/services/system-replacement` new page (pending user approval of sitemap)
   - **P1.14** — `/estimator` pricing tool (pending user approval + pricing matrix)
   - **P1.15** — `/repair-or-replace` AEO article (pending user approval)
-  - **P1.16** — `/financing` page promoted from P2 (pending financing partner confirmation)
+  - **P1.16** — `/financing` page ✅ SHIPPED Apr 24, 2026 (Wisetack partner, 0% for 24mo headline, CTA stubbed behind `NEXT_PUBLIC_WISETACK_APPLY_URL` env var pending live merchant URL)
   - **P1.6f** — Google Rich Results validation on the new JSON-LD schemas (user-led)
 - **Week 4 — P1.8 GBP optimization kickoff**
   - Claim, verify NAP, upload 20+ photos, populate services + service area

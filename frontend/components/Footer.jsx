@@ -25,6 +25,7 @@ const defaultFooterSections = [
       // Re-add when static Showcase Projects page is built (see PRD.md)
       { label: 'Customer Reviews', href: '/reviews' },
       { label: 'Cities Served', href: '/cities-served' },
+      { label: 'Financing', href: '/financing' },
       { label: 'FAQ', href: '/faq' },
       { label: 'Contact', href: '/contact' },
     ]

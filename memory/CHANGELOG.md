@@ -7,6 +7,20 @@ Reverse-chronological record of everything shipped to production. When adding en
 
 ---
 
+## April 24, 2026 — P1.16 /financing page shipped
+
+- **New page `/financing`** — full Wisetack-powered financing marketing page with hero, benefits, 3-step process, eligible-project list, FAQ-lite (5 Q&A), final CTA section, and legal disclosure footer. Designed for highest-intent financing searches ("hvac financing dallas", "0% hvac financing dfw") and on-page conversion via soft-credit pre-qualification flow.
+- **Key specs per user:** Wisetack as financing partner; "Up to 24 Months 0% Financing" as headline promo; "Subject to approval through financing partner" as credit-framing copy; no monthly payment calculator; primary CTA stubbed behind `NEXT_PUBLIC_WISETACK_APPLY_URL` env var with a safe fallback to `/estimate` until the live Wisetack merchant link is dropped into Vercel env.
+- **SEO** — `generateMetadata()` uses the Option C review-badge helper for the title `"HVAC Financing — 0% for 24 Months | 147 Five-Star Reviews | DFW HVAC"`. BreadcrumbList JSON-LD schema included. Page registered in `sitemap.xml` at priority 0.7. Footer "Quick Links" section now includes a Financing entry on every page sitewide.
+- **Legal disclosures** baked in both inline (hero subtext) and in a dedicated grey disclosure strip above the footer: Wisetack is the lender, DFW HVAC is not; pre-qualification is a soft credit check (no score impact); hard pull only upon offer acceptance; 0% APR is promotional, subject to credit approval; rates/amounts/terms vary.
+- **Files shipped:** `/app/frontend/app/financing/page.jsx` (new, 312 lines with inline Benefit/Step/Faq subcomponents), `/app/frontend/app/sitemap.js` (entry added), `/app/frontend/components/Footer.jsx` (Quick Links entry added).
+- **Verified:** `next build` clean, `/financing` route size 1.87 kB / 127 kB first-load JS, curl returns HTTP 200 + correct `<title>`, sitemap includes `<loc>https://dfwhvac.com/financing</loc>`, ESLint clean. Desktop screenshot at 1920x800 confirms hero composition, lime-on-navy emphasis treatment matching `/reviews` / `/cities-served` hero pattern, and CTA button hierarchy.
+- **Sandbox workflow note:** Built on `main` but ready for deployment via a `feat/p1-16-financing-page` branch for Vercel preview QA. GA4 + Resend preview-env guards shipped earlier today ensure sandbox traffic won't contaminate analytics or inbox.
+- **Next user actions:**
+  1. (Required before prod merge) Set `NEXT_PUBLIC_WISETACK_APPLY_URL` in Vercel env (all environments) to the live Wisetack merchant application URL. Until then, the "Pre-Qualify Now" CTA routes to `/estimate` as a safe fallback.
+  2. (Optional) Add an internal link from `/faq` answer rp3 ("Do you offer financing for new HVAC systems?") pointing to `/financing` for internal-link equity.
+  3. (Optional) Add a "Financing" card to the homepage services grid when the page is production-verified.
+
 ## April 24, 2026 — Preview-env guards shipped (sandbox workflow prereq)
 
 - **GA4 preview-env guard** — added `ga-preview-guard` inline `<Script strategy="beforeInteractive">` at the top of `<head>` in `/app/frontend/app/layout.js`. Uses Google's documented opt-out flag (`window['ga-disable-G-5MX2NE7C73'] = true`) set before `gtag.js` evaluates its `config` call, so all non-production hosts (Vercel preview URLs, localhost, any future staging domain) are fully muted at the SDK level. Production allow-list is a narrow `hostname === 'www.dfwhvac.com' || hostname === 'dfwhvac.com'` match. Zero hits reach GA4 property `G-5MX2NE7C73` from sandboxes — baseline data integrity preserved during the 70-day pre-Ads-launch window.
