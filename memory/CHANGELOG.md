@@ -1,11 +1,19 @@
 # DFW HVAC — Changelog
 
-**Last reviewed:** April 23, 2026
+**Last reviewed:** April 24, 2026
 **⚠️ Read `/app/memory/00_START_HERE.md` first for the Agent SOP.**
 
 Reverse-chronological record of everything shipped to production. When adding entries, append to the top of the appropriate session block (newest first).
 
 ---
+
+## April 24, 2026 — Preview-env guards shipped (sandbox workflow prereq)
+
+- **GA4 preview-env guard** — added `ga-preview-guard` inline `<Script strategy="beforeInteractive">` at the top of `<head>` in `/app/frontend/app/layout.js`. Uses Google's documented opt-out flag (`window['ga-disable-G-5MX2NE7C73'] = true`) set before `gtag.js` evaluates its `config` call, so all non-production hosts (Vercel preview URLs, localhost, any future staging domain) are fully muted at the SDK level. Production allow-list is a narrow `hostname === 'www.dfwhvac.com' || hostname === 'dfwhvac.com'` match. Zero hits reach GA4 property `G-5MX2NE7C73` from sandboxes — baseline data integrity preserved during the 70-day pre-Ads-launch window.
+- **Resend preview-env guard** — added server-side `VERCEL_ENV === 'production'` check in `/app/frontend/app/api/leads/route.js`. On preview/dev, the lead is still persisted to MongoDB (full pipeline verification remains possible) but `resend.emails.send` is skipped and a structured `console.log` records what *would* have been sent (recipient, leadId, leadType, fullName). Escape hatch: set `FORCE_LEAD_EMAIL_IN_PREVIEW=true` in a specific Vercel env to force real send from a preview branch (e.g., for end-to-end email template QA).
+- **Verified:** `next build` succeeded; grep confirms `ga-disable-G-5MX2NE7C73` baked into static HTML output; runtime curl on the dev server confirms both `ga-preview-guard` script ID and the disable flag render in every served page's `<head>`.
+- **Files shipped:** `/app/frontend/app/layout.js` (GA4 guard), `/app/frontend/app/api/leads/route.js` (Resend guard + env var constants).
+- **Why shipped now:** unblocks the approved sandbox workflow for upcoming P1.13–P1.16 pages. Each new page will now land on a feature branch, auto-deploy to a Vercel preview URL, and be QA'd on real devices with zero contamination of production analytics or inbox.
 
 ## April 24, 2026 — GA4 key-event activation (P1.7 partial)
 
