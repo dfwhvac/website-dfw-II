@@ -7,6 +7,22 @@ Reverse-chronological record of everything shipped to production. When adding en
 
 ---
 
+### April 24, 2026 — P1.16 sandbox deploy live, awaiting user QA
+
+- **Pushed `/financing` to a `preview` branch** on GitHub (`dfwhvac/website-dfw-II`). Vercel auto-built the preview deployment (visible in the repo's Deployments sidebar, 5 min after push). Preview URL pattern: `https://website-dfw-ii-git-preview-<team>.vercel.app/financing`.
+- **Session paused here** — user will resume QA on the preview URL on their own schedule. No code changes pending on this branch; guards + financing page + FAQ link all bundled in the same branch push.
+- **What's on `preview` branch but NOT yet on `main`:**
+  1. GA4 preview-env guard (`app/layout.js` — `ga-preview-guard` script)
+  2. Resend preview-env guard (`app/api/leads/route.js` — `SHOULD_SEND_LEAD_EMAIL` check)
+  3. `/financing` page (`app/financing/page.jsx` + sitemap entry + footer Quick Links entry)
+  4. FAQ rp3 Wisetack rewrite + internal link to `/financing` (`app/faq/page.jsx` override + generalized `FAQAccordion.jsx` link rules)
+- **When user resumes, next steps in order:**
+  1. User opens preview URL → QAs `/financing`, `/faq`, hero CTA fallback routing, footer link, sitemap entry.
+  2. User sets `NEXT_PUBLIC_WISETACK_APPLY_URL` in Vercel env (all environments) to the live Wisetack merchant application URL. Without this, the "Pre-Qualify Now" CTA falls back to `/estimate` — safe but not functional for lead generation.
+  3. User opens the GitHub "Compare & pull request" button → merges `preview` → `main` → production deploy fires.
+  4. User submits `/financing` to GSC URL Inspector for indexing.
+  5. User flips `phone_click` "Mark as key event" toggle in GA4 Admin → Events (expected to appear Apr 25–26 after 24–48 hr ingestion lag from the Apr 24 first fire).
+
 ## April 24, 2026 — P1.16 /financing page shipped
 
 - **New page `/financing`** — full Wisetack-powered financing marketing page with hero, benefits, 3-step process, eligible-project list, FAQ-lite (5 Q&A), final CTA section, and legal disclosure footer. Designed for highest-intent financing searches ("hvac financing dallas", "0% hvac financing dfw") and on-page conversion via soft-credit pre-qualification flow.

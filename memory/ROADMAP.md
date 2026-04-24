@@ -20,7 +20,7 @@ This file contains ONLY future-facing work. Shipped items live in `/app/memory/C
 
 **Escape hatch:** set `FORCE_LEAD_EMAIL_IN_PREVIEW=true` in a Vercel preview env to force real email send (useful for end-to-end email template QA).
 
-**First sandbox build:** P1.16 `/financing` page (branch `feat/p1-16-financing-page`).
+**First sandbox build:** P1.16 `/financing` page (branch `preview`, deployed Apr 24, 2026 — awaiting user QA before merge to `main`).
 
 ---
 
