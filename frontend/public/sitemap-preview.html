@@ -220,7 +220,7 @@
     <span class="tag">Internal Review · Not Indexed</span>
     <h1>DFW HVAC — Proposed Sitemap</h1>
     <p>Current structure + proposed additions for the system replacement, pricing estimator, and AEO expansion work. Color-coded, responsive, reviewable on any screen.</p>
-    <div class="meta">Updated Apr 24, 2026 · <strong>3 pages shipped to preview branch</strong> (financing, system-replacement, repair-or-replace) · <strong>7 new pages remaining</strong> · <strong>2 stubs reserved</strong></div>
+    <div class="meta">Updated Apr 24, 2026 · <strong>4 pages + 2 APIs shipped to preview branch</strong> (financing, system-replacement, repair-or-replace, replacement-estimator) · <strong>3 new pages remaining</strong> (/thanks, /pricing stub, estimator sibling flows) · <strong>2 stubs reserved</strong></div>
   </div>
 </header>
 
@@ -301,13 +301,9 @@
 <span class="branch">│       └──</span> <span class="live">🟢</span> <span class="path">/commercial/commercial-maintenance</span>
 <span class="branch">│</span>
 <span class="branch">├──</span> <span class="section-header">PRICING &amp; ESTIMATOR ──────────────────────────────────</span>
-<span class="branch">│   ├──</span> <span class="new">🔴</span> <span class="path">/estimator</span> <span class="star">★</span>  <span class="comment">..................... NEW P1 — Pricing Estimator Tool (wizard hub)</span>
-<span class="branch">│   │       │                                              </span> <span class="comment">Multi-step; lead-gated at results step</span>
-<span class="branch">│   │       ├──</span> <span class="new">🔴</span> <span class="path">/estimator/service-call</span>
-<span class="branch">│   │       ├──</span> <span class="new">🔴</span> <span class="path">/estimator/repair</span>
-<span class="branch">│   │       ├──</span> <span class="new">🔴</span> <span class="path">/estimator/replacement</span> <span class="star">★</span>  <span class="comment">......... Highest-value flow</span>
-<span class="branch">│   │       ├──</span> <span class="new">🔴</span> <span class="path">/estimator/maintenance</span>
-<span class="branch">│   │       └──</span> <span class="new">🔴</span> <span class="path">/estimator/results/[id]</span>  <span class="comment">........ Shareable results page (ISR, emailed copy)</span>
+<span class="branch">│   ├──</span> <span class="live">🟢</span> <span class="path">/replacement-estimator</span> <span class="star">★</span>  <span class="comment">......... SHIPPED Apr 24 (on preview branch, pending merge)</span>
+<span class="branch">│   │                                                 </span> <span class="comment">5-step wizard · Option C hybrid · inline range + soft opt-in</span>
+<span class="branch">│   │                                                 </span> <span class="comment">(Service/repair/maintenance flows deferred; replacement-only scope)</span>
 <span class="branch">│   │</span>
 <span class="branch">│   └──</span> <span class="stub">🔵</span> <span class="path">/pricing</span>  <span class="comment">...................................... STUB — URL reserved, noindex</span>
 <span class="branch">│                                                              </span> <span class="comment">Single source-of-truth pricing page (Phase 2)</span>
@@ -350,8 +346,8 @@
     <span class="branch">├──</span> <span class="live">🟢</span> <span class="path">/api/leads</span>
     <span class="branch">├──</span> <span class="live">🟢</span> <span class="path">/api/canonical-description</span>
     <span class="branch">├──</span> <span class="live">🟢</span> <span class="path">/api/cron/sync-reviews</span>
-    <span class="branch">├──</span> <span class="new">🔴</span> <span class="path">/api/estimator/calculate</span>  <span class="comment">...................... NEW — estimator matrix compute</span>
-    <span class="branch">└──</span> <span class="new">🔴</span> <span class="path">/api/estimator/lead</span>  <span class="comment">........................... NEW — save completion as lead</span></pre>
+    <span class="branch">├──</span> <span class="live">🟢</span> <span class="path">/api/estimator/calculate</span>  <span class="comment">........... SHIPPED Apr 24 — matrix compute</span>
+    <span class="branch">└──</span> <span class="live">🟢</span> <span class="path">/api/estimator/lead</span>  <span class="comment">................ SHIPPED Apr 24 — soft opt-in save</span></pre>
     </div>
   </section>
 
@@ -443,10 +439,10 @@ mindmap
         </tr>
         <tr>
           <td>Estimator sub-pages</td>
+          <td class="num">1</td>
           <td class="num">0</td>
-          <td class="num">5</td>
           <td class="num">0</td>
-          <td class="num">5</td>
+          <td class="num">1</td>
         </tr>
         <tr>
           <td>City pages</td>
@@ -457,14 +453,14 @@ mindmap
         </tr>
         <tr>
           <td>API routes</td>
-          <td class="num">3</td>
-          <td class="num">2</td>
+          <td class="num">5</td>
+          <td class="num">0</td>
           <td class="num">0</td>
           <td class="num">5</td>
         </tr>
         <tr class="total">
           <td>Shipped Apr 24 (preview branch)</td>
-          <td class="num">3</td>
+          <td class="num">4</td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">—</td>
@@ -472,7 +468,7 @@ mindmap
         <tr class="total">
           <td>Net-new pages still to build</td>
           <td class="num">—</td>
-          <td class="num">7</td>
+          <td class="num">3</td>
           <td class="num">2</td>
           <td class="num">—</td>
         </tr>
@@ -502,7 +498,7 @@ mindmap
 </main>
 
 <footer class="bottom">
-  <strong>Internal review only</strong> · page is set to <code>noindex,nofollow</code> · originally generated Apr 22, 2026 · last updated Apr 24, 2026 (3 pages shipped to <code>preview</code> branch)
+  <strong>Internal review only</strong> · page is set to <code>noindex,nofollow</code> · originally generated Apr 22, 2026 · last updated Apr 24, 2026 (4 pages + 2 APIs shipped to <code>preview</code> branch)
 </footer>
 
 <script>

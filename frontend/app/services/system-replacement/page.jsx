@@ -166,10 +166,23 @@ export default async function SystemReplacementPage() {
                 </div>
               ))}
             </div>
-            <div className="mt-10 text-center">
+            <div className="mt-10 text-center space-y-3">
+              <div>
+                <Link
+                  href="/replacement-estimator"
+                  className="inline-flex items-center gap-2 bg-lime-400 hover:bg-lime-300 text-[#003153] font-bold px-6 py-3 rounded-md shadow-md transition-colors"
+                  data-testid="system-replacement-estimator-link"
+                >
+                  <Sparkles className="w-5 h-5" aria-hidden="true" />
+                  See Your Replacement Cost Range →
+                </Link>
+                <p className="text-sm text-gray-500 mt-2">
+                  Free instant estimator · No email required · Under 60 seconds
+                </p>
+              </div>
               <Link
                 href="/repair-or-replace"
-                className="text-[#0077B6] hover:underline font-semibold text-lg"
+                className="text-[#0077B6] hover:underline font-semibold text-lg block"
                 data-testid="system-replacement-decision-link"
               >
                 Not sure yet? Use our repair-or-replace decision guide →

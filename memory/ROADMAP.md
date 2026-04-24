@@ -50,7 +50,13 @@ The `preview` branch carries 5 stacked Apr 24 shipments: preview-env guards + `/
   - Counts against the P1.17a 10/day manual-indexing cap. These 3 absorb Day 1's budget; remaining 24 stuck URLs fill Days 2–3 per the P1.17a plan.
 
 - **M5 — Log Apr 24 baseline in CHANGELOG (~automatic via agent)**
-  - Agent marks P1.13, P1.15, P1.16 as ✅ in production the next session after merge is confirmed.
+  - Agent marks P1.13, P1.14, P1.15, P1.16 as ✅ in production the next session after merge is confirmed.
+
+- **M6 — Header nav reorg** (30–45 min, agent-led, separate PR on new branch after M3 merge)
+  - Currently the 4 Apr 24 pages are discoverable via footer links, cross-links, and direct URL only. Header nav unchanged.
+  - Planned: reorganize **Residential Services** dropdown into two visual groups — "Services" (AC, Heating, Preventative Maintenance, IAQ) above a divider, and "Planning to Replace?" (System Replacement · Replacement Estimator · Repair or Replace? · Financing Options) below. No new top-level nav items.
+  - File: `components/Header.jsx` — data-shape change to `dropdownItems` + small render tweak in `NavDropdown` for section headers and dividers.
+  - Deferred to post-merge so the 5 preview-stack changes ship cleanly first.
 
 ---
 
@@ -79,7 +85,7 @@ User plans Google Ads in ~12 weeks. Sequence architecture → content → data �
 - **Week 3 — Sprint 2b audits** 🟡 IN FLIGHT
   - **P1.6a** — Title tag audit + rewrite ✅ SHIPPED Apr 23, 2026 — all 47 titles live, Option C hybrid review-count logic, `fiveStarReviewCount` seeded at 150 in Sanity
   - **P1.13** — `/services/system-replacement` new page ✅ SHIPPED Apr 24, 2026 (on `preview` branch, stacked with P1.16)
-  - **P1.14** — `/estimator` pricing tool (pending user approval + pricing matrix)
+  - **P1.14** — `/replacement-estimator` pricing tool ✅ SHIPPED Apr 24, 2026 (MVP scope: replacement-only, Option C hybrid, inline range display + soft opt-in). Pricing matrix uses conservative DFW placeholders; user to override via `/app/memory/ESTIMATOR_PRICING_SHEET_TEMPLATE.md`.
   - **P1.15** — `/repair-or-replace` AEO article ✅ SHIPPED Apr 24, 2026 (on `preview` branch, stacked with P1.16 + P1.13)
   - **P1.16** — `/financing` page ✅ SHIPPED Apr 24, 2026 (Wisetack partner, 0% for 24mo headline, `NEXT_PUBLIC_WISETACK_APPLY_URL` env var now set in Vercel)
   - **P1.6f** — Google Rich Results validation on the new JSON-LD schemas (user-led)

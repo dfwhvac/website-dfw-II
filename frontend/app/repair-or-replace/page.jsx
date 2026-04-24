@@ -372,6 +372,9 @@ export default async function RepairOrReplacePage() {
               </a>
             </div>
             <div className="mt-8 flex flex-col sm:flex-row gap-6 justify-center text-sm text-blue-200">
+              <Link href="/replacement-estimator" className="hover:text-white underline inline-flex items-center gap-1">
+                Try our replacement estimator <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
+              </Link>
               <Link href="/services/system-replacement" className="hover:text-white underline inline-flex items-center gap-1">
                 Explore system replacement <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
               </Link>

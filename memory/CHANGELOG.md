@@ -7,7 +7,42 @@ Reverse-chronological record of everything shipped to production. When adding en
 
 ---
 
-### April 24, 2026 — P1.13 `/services/system-replacement` + P1.15 `/repair-or-replace` shipped
+### April 24, 2026 — P1.14 `/replacement-estimator` shipped (scope-narrowed MVP)
+
+- **Interactive 5-field cost estimator** shipped to the `preview` branch. Route: `/replacement-estimator` (top-level, keyword-rich URL per user direction). Scope narrowed per user request from the original 4-flow plan to **replacement-only**: service-call, repair, and maintenance calculators deferred to future P2. No PDF generation. **Option C hybrid:** range displays on screen immediately, soft opt-in ("Book my free on-site estimate") appears below the range for voluntary lead capture.
+- **Wizard UX:** server-component shell with client `EstimatorWizard.jsx` for state. Progress bar across the top (`Step N of 5 · XX% complete`), question card with help copy, radio-group styled as large touch targets with selected-state animations. Back button active from step 2 onward. Final step CTA says "See My Range" with a calculating-spinner loading state. Error state on validation failure.
+- **5 questions:** Home sqft (5 buckets) → System type (6 options incl. "not sure") → Equipment tier (value/standard/premium/not sure) → Efficiency SEER2 (baseline/mid/high/not sure) → Ductwork condition (5 options incl. "don't know"). All fields include a "not sure" escape so the wizard never dead-ends a user.
+- **Results screen:** 3 sections stacked. (1) **Range hero** — navy-to-cyan gradient background with giant lime-accented `$X,XXX – $Y,YYY` figure, "Based on your answers" caption, disclaimer. (2) **"Why we gave you this range"** — factor-by-factor breakdown of the 5 inputs (builds trust, explains the variance). (3) **CTAs grid** — 3 buttons: Book Free Written Estimate (routes to `/estimate`) · Call (972) 777-COOL · See Financing Options (routes to `/financing`). Below the grid: **soft opt-in accordion** that expands into a 3-field form (first name + phone required, email optional). Submitted state shows a green lime confirmation card. "Start over with different answers" reset button at the bottom.
+- **Pricing matrix:** kept server-side in `/app/frontend/lib/estimator-matrix.js`. Six sections (A: sqft→tonnage, B: system-type base $/ton, C: stage multiplier, D: SEER flat-add, E: duct condition low/high add, F: global ±8% variance band). Example for 4-ton standard-matched mid-SEER older-OK-ducts: **$11,800 – $19,400** (verified via curl). Current values are conservative DFW-market placeholders; user will override with their own numbers via the Google Sheet template.
+- **Pricing matrix Google Sheet template** shipped at `/app/memory/ESTIMATOR_PRICING_SHEET_TEMPLATE.md`. Six tables mapping 1:1 to the six sections of `estimator-matrix.js`, worked example showing how the numbers combine, edit checklist for the user. Total user edit time: ~30 minutes. Agent re-imports into the matrix file, rebuilds, user verifies on preview.
+- **API routes:**
+  - `POST /api/estimator/calculate` — validates all 5 inputs against server-side enum sets, rejects unknown keys, returns `{ low, high, tonnage, breakdown }`. Pricing matrix never touches the client bundle.
+  - `POST /api/estimator/lead` — soft opt-in save. Minimal required fields (firstName + phone); email + estimate + wizard-answers are optional/bundled. Persists to MongoDB `leads` collection with `leadType: 'estimator_replacement'`. Preview-env guard (same `SHOULD_SEND_LEAD_EMAIL` pattern as `/api/leads`) skips Resend on non-production. Rich HTML email on production containing contact, range, tonnage, and full wizard answer trace for the tech prepping the on-site visit.
+- **GA4 events added:** `estimator_complete` fires on range display (not key event yet — mark when ingested, ~24–48 hr lag). `estimator_opt_in` fires when soft-opt-in form submits (same note). Both gated by `typeof window.gtag === 'function'` — preview-env guard already mutes them on non-production hostnames.
+- **Cross-linking:** `/services/system-replacement` gained a prominent lime "See Your Replacement Cost Range →" CTA below the "Is it time to replace?" signal grid, with "Free instant estimator · No email required · Under 60 seconds" subtext. `/repair-or-replace` final-CTA section gained a third inline link "Try our replacement estimator →" alongside the existing system-replacement and financing links. Both cross-links verified live via curl.
+- **Sitemap updated:** `/replacement-estimator` registered at priority 0.8 (high — competes with `/estimate` for interactive-tool keyword cluster).
+- **Color-coded sitemap** (`/public/sitemap-preview.html`) updated: four original estimator sub-flows (`/estimator/service-call`, `/repair`, `/replacement`, `/maintenance`, `/results/[id]`) collapsed into the single `/replacement-estimator` row marked 🟢 LIVE; two API routes marked 🟢 LIVE; summary table updated (shipped count: 3 → 4; remaining: 7 → 3); header meta strip + footer timestamp bumped.
+- **Nav deferred** per plan: Header reorg with "Planning to Replace?" grouped dropdown deferred to a follow-up PR to avoid shipping mid-progress. Footer already covers estimator discovery via "Our Services" → "System Replacement" (which now cross-links to the estimator). Direct `/replacement-estimator` discovery routes available via sitemap, cross-links from 2 existing Apr 24 pages, and the footer path.
+- **Verified:** `next build` clean — `/replacement-estimator` at 7.31 kB route / 133 kB first-load JS (well under 180 kB pre-merge gate). HTTP 200 + correct title. API calc returns sensible ranges + validates inputs (rejects unknown enum values with a clear error message). API lead POST persists to Mongo + skips Resend on preview (guard working). ESLint clean on all 4 new files. Screenshot confirms hero composition, progress bar, and radio group styling.
+- **Files shipped:**
+  - `/app/frontend/lib/estimator-matrix.js` (new, 97 lines — server-only pricing config)
+  - `/app/frontend/app/api/estimator/calculate/route.js` (new, 42 lines)
+  - `/app/frontend/app/api/estimator/lead/route.js` (new, 121 lines)
+  - `/app/frontend/app/replacement-estimator/page.jsx` (new, 47 lines — server shell)
+  - `/app/frontend/app/replacement-estimator/EstimatorWizard.jsx` (new, 411 lines — client wizard + results + opt-in)
+  - `/app/frontend/app/sitemap.js` (entry added)
+  - `/app/frontend/public/sitemap-preview.html` (updated)
+  - `/app/frontend/app/services/system-replacement/page.jsx` (prominent lime estimator CTA added)
+  - `/app/frontend/app/repair-or-replace/page.jsx` (third inline cross-link added)
+  - `/app/memory/ESTIMATOR_PRICING_SHEET_TEMPLATE.md` (new, Google Sheet template for the user)
+
+- **Next user actions:**
+  1. Push `preview` branch to GitHub → Vercel auto-builds a fresh preview deploy covering today's full stack (5 pages + 3 APIs + guards + sitemap + FAQ rewrite + cross-links).
+  2. QA `/replacement-estimator` on phone + desktop: run through 3–5 answer combinations, confirm ranges feel credible for DFW, verify soft opt-in form submits without sending an email (preview env guard).
+  3. Open `/app/memory/ESTIMATOR_PRICING_SHEET_TEMPLATE.md` and fill the 6 tables with your real numbers. Send back. Agent imports, you verify, merge.
+  4. When `estimator_complete` appears in GA4 Events (24–48 hrs after first preview QA submission with `FORCE_LEAD_EMAIL_IN_PREVIEW=true`, or after merge to prod), flip "Mark as key event" toggle.
+
+## April 24, 2026 — P1.13 `/services/system-replacement` + P1.15 `/repair-or-replace` shipped
 
 - **Two new revenue-center pages** shipped together. Both follow the exact same architecture pattern as `/financing` (server component, Sanity fallback for companyInfo, Option C review-badge title, BreadcrumbList schema, footer integration, sitemap entry, `dynamic = 'force-dynamic'`). They cross-link to each other and both funnel into `/estimate` + `/financing` for conversion.
 
