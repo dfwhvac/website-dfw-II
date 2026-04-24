@@ -181,7 +181,7 @@
 
 ## Quick Reference
 
-**Preview URL:** https://hvac-lead-gen-1.preview.emergentagent.com  
+**Preview URL:** https://hvac-conversion-hub.preview.emergentagent.com  
 **Vercel Deploy Hook:** See PRD.md for URL  
 **Domain Registrar:** GoDaddy  
 **Current Hosting:** Wix (to be migrated)  
