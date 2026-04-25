@@ -1,10 +1,10 @@
 # GSC Manual Indexing Tracker
 **Purpose:** Living record of every URL submitted to Google Search Console URL Inspection → Request Indexing. Updated as submissions happen.
 
-**Total sitemap URLs:** 47
-**Submitted so far:** 19 (10 on 4/21 + 9 on 4/23)
-**Remaining to submit/verify:** 28
-**Currently verified indexed via URL Inspection:** `/cities-served/lewisville` (confirmed 4/23)
+**Total sitemap URLs:** 47 (rising to 51 once Apr 24 stack merges: +/financing, /services/system-replacement, /repair-or-replace, /replacement-estimator)
+**Submitted so far:** 29 (10 on 4/21 + 9 on 4/23 + 10 on 4/24)
+**Remaining to submit/verify:** 22 (5 in Day-4 bucket + 4 brand-new Apr 24 pages awaiting merge + 13 spot-check)
+**Currently verified indexed via URL Inspection:** `/cities-served/lewisville` (4/23), `/cities-served/grapevine` (4/24)
 **Note:** GSC aggregate "Page Indexing" report is 3–7 days lagged; URL Inspection is real-time ground truth. Always inspect before re-requesting.
 
 ---
@@ -44,39 +44,50 @@
 
 ---
 
-## 🔴 Day 3 — Next Submission (target: 4/24/2026) — 10 URLs
+## ✅ Day 3 — Submitted 4/24/2026 (10 URLs — 9 from Day 3 list + 1 promoted from Day 4)
 
-**HIGHEST priority.** All were in the "Discovered – currently not indexed" bucket OR the "Crawled – currently not indexed" bucket on 4/23 morning. Inspect each via URL Inspection FIRST — if already indexed, skip. Remaining slots should be used on other Day-3 entries.
+| # | URL | Result |
+|---|---|:-:|
+| 1 | `https://dfwhvac.com/services/commercial/commercial-heating` | ✅ Submitted |
+| 2 | `https://dfwhvac.com/cities-served/argyle` | ✅ Submitted |
+| 3 | `https://dfwhvac.com/recent-projects` | ✅ Submitted |
+| 4 | `https://dfwhvac.com/cities-served/north-richland-hills` | ✅ Submitted |
+| 5 | `https://dfwhvac.com/cities-served/hurst` | ✅ Submitted |
+| 6 | `https://dfwhvac.com/cities-served/carrollton` | ✅ Submitted |
+| 7 | `https://dfwhvac.com/cities-served/flower-mound` | ✅ Submitted |
+| 8 | `https://dfwhvac.com/cities-served/grapevine` | 🟢 Already indexed — slot freed |
+| 9 | `https://dfwhvac.com/cities-served/euless` | ✅ Submitted |
+| 10 | `https://dfwhvac.com/cities-served/bedford` | ✅ Submitted |
+| ↳ promoted from Day 4 (filled grapevine's slot) | `https://dfwhvac.com/cities-served/colleyville` | ✅ Submitted |
 
-| Order | URL | Priority reason |
-|:-:|---|---|
-| 1 | `https://dfwhvac.com/services/commercial/commercial-heating` | 🔥 Missed from Day 2; high-ticket commercial |
-| 2 | `https://dfwhvac.com/cities-served/argyle` | 🔥 Only URL in "Crawled – not indexed" bucket; re-evaluate vs current schema-rich content |
-| 3 | `https://dfwhvac.com/recent-projects` | 🔥 145+ completed jobs visible; trust asset + AEO target |
-| 4 | `https://dfwhvac.com/cities-served/north-richland-hills` | Major mid-cities market |
-| 5 | `https://dfwhvac.com/cities-served/hurst` | Major mid-cities market |
-| 6 | `https://dfwhvac.com/cities-served/carrollton` | Major market, growing residential |
-| 7 | `https://dfwhvac.com/cities-served/flower-mound` | Upscale market, high-ticket installs |
-| 8 | `https://dfwhvac.com/cities-served/grapevine` | Tourist + residential overlap |
-| 9 | `https://dfwhvac.com/cities-served/euless` | Mid-cities market |
-| 10 | `https://dfwhvac.com/cities-served/bedford` | Mid-cities market |
+**Net:** 10 URLs submitted to Google, 1 confirmed-indexed (grapevine), 0 daily-quota wasted.
 
 ---
 
-## 🟡 Day 4 — Submission (target: 4/25/2026) — 6 URLs
+## 🟡 Day 4 — Next Submission (target: 4/25/2026) — 5 URLs remaining
 
-Finishing the "Discovered – currently not indexed" bucket.
+Colleyville was promoted into Day 3 slot, leaving 5 in the bucket. Plenty of headroom for the 4 brand-new Apr 24 pages once `preview` merges to `main`.
 
 | Order | URL | Priority reason |
 |:-:|---|---|
-| 1 | `https://dfwhvac.com/cities-served/colleyville` | Upscale market |
-| 2 | `https://dfwhvac.com/cities-served/the-colony` | Growing N-DFW market |
-| 3 | `https://dfwhvac.com/cities-served/lake-dallas` | Small market, captured for completeness |
-| 4 | `https://dfwhvac.com/cities-served/haslet` | Small market, captured for completeness |
-| 5 | `https://dfwhvac.com/cities-served/roanoke` | Growing market |
-| 6 | `https://dfwhvac.com/privacy-policy` | Utility — low conversion value but low cost to submit |
+| 1 | `https://dfwhvac.com/cities-served/the-colony` | Growing N-DFW market |
+| 2 | `https://dfwhvac.com/cities-served/lake-dallas` | Small market, captured for completeness |
+| 3 | `https://dfwhvac.com/cities-served/haslet` | Small market, captured for completeness |
+| 4 | `https://dfwhvac.com/cities-served/roanoke` | Growing market |
+| 5 | `https://dfwhvac.com/privacy-policy` | Utility — low conversion value but low cost to submit |
 
-After Day 4 completes, **every URL from the "Discovered – not indexed" bucket + the "Crawled – not indexed" bucket will have been submitted.**
+### 🆕 Apr 24 stack — submit AFTER `preview` → `main` merge (4 URLs, fits in same Day 4 budget)
+
+| Order | URL | Priority reason |
+|:-:|---|---|
+| 6 | `https://dfwhvac.com/services/system-replacement` | 🔥 Replacement revenue center |
+| 7 | `https://dfwhvac.com/replacement-estimator` | 🔥 Interactive tool, AEO ammo |
+| 8 | `https://dfwhvac.com/repair-or-replace` | 🔥 AEO decision article, schema-rich |
+| 9 | `https://dfwhvac.com/financing` | 🟡 Funnel support |
+
+**Day 4 total:** 9 URLs (under the 10-URL daily cap; 1 slot reserved for any fresh "discovered not-indexed" surfacing in GSC overnight).
+
+After Day 4 completes, **every URL from the "Discovered – not indexed" bucket + the "Crawled – not indexed" bucket + the entire Apr 24 release will have been submitted.**
 
 ---
 
@@ -114,10 +125,13 @@ After Day 4 completes, **every URL from the "Discovered – not indexed" bucket 
 
 | Status | Count | % of 47 sitemap URLs |
 |---|---:|---:|
-| Submitted so far (4/21 + 4/23) | 19 | 40% |
-| Remaining to submit (Days 3–4, all confirmed un-indexed) | 16 | 34% |
+| Submitted so far (4/21 + 4/23 + 4/24) | 29 | 62% |
+| Confirmed-indexed without submission needed (lewisville 4/23, grapevine 4/24) | 2 | 4% |
+| Remaining to submit (Day 4 leftovers + 4 Apr 24 new pages) | 9 | 19%* |
 | Remaining to spot-check (Day 5–7, likely already indexed) | 12 | 26% |
-| **Total sitemap** | **47** | **100%** |
+| **Total sitemap (47 today, 51 post-merge)** | **47** | **100%** |
+
+*4 of the remaining 9 are not in the 47-URL count yet — they're the Apr 24 stack pending production merge.
 
 **At completion of Day 4:** every URL flagged as "not indexed" by GSC will have been requested.
 **At completion of Day 7:** every sitemap URL will have been either requested or confirmed-indexed via URL Inspection.
@@ -145,3 +159,4 @@ After Day 4 completes, **every URL from the "Discovered – not indexed" bucket 
 | Date | Change |
 |---|---|
 | 4/23/2026 | Document created. Day 1 + Day 2 submissions logged. Day 3–7 plan published. |
+| 4/24/2026 | Day 3 submitted (10 URLs). `/cities-served/grapevine` was already indexed → freed slot used to promote `/cities-served/colleyville` from Day 4. Day 4 bucket now has 5 URLs + 4 Apr 24 pages awaiting merge. Running indexed-or-submitted = 31 of 47 (66%). |

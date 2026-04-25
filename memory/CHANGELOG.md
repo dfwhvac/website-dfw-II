@@ -7,7 +7,15 @@ Reverse-chronological record of everything shipped to production. When adding en
 
 ---
 
-### April 24, 2026 — P1.14 `/replacement-estimator` shipped (scope-narrowed MVP)
+### April 24, 2026 — P1.17a GSC indexing — Day 3 sprint executed
+
+- **User submitted Day 3 batch to Google Search Console URL Inspector** — 10 URLs total. From the planned Day 3 list: 9 of 10 went through, `cities-served/grapevine` was already indexed (no submission needed). Slot freed by grapevine was used to promote `cities-served/colleyville` from Day 4.
+- **Submitted (10):** `/services/commercial/commercial-heating`, `/cities-served/argyle`, `/recent-projects`, `/cities-served/north-richland-hills`, `/cities-served/hurst`, `/cities-served/carrollton`, `/cities-served/flower-mound`, `/cities-served/euless`, `/cities-served/bedford`, `/cities-served/colleyville`.
+- **Confirmed indexed without submission:** `/cities-served/grapevine` (joins `/cities-served/lewisville` from 4/23 as the second self-indexed city).
+- **Running totals:** 29 of 47 sitemap URLs submitted (62%); 2 confirmed-indexed-without-submission; 16 remaining (5 Day-4 leftovers + 4 brand-new Apr 24 pages awaiting merge + 7 to-spot-check).
+- **Tracker updated:** `/app/memory/audits/2026-04-23_GSC_Indexing_Tracker.md` — Day 3 results logged, Day 4 bucket reorganized with the 4 brand-new Apr 24 URLs queued behind the 5 leftover entries, running summary table refreshed.
+
+## April 24, 2026 — P1.14 `/replacement-estimator` shipped (scope-narrowed MVP)
 
 - **Interactive 5-field cost estimator** shipped to the `preview` branch. Route: `/replacement-estimator` (top-level, keyword-rich URL per user direction). Scope narrowed per user request from the original 4-flow plan to **replacement-only**: service-call, repair, and maintenance calculators deferred to future P2. No PDF generation. **Option C hybrid:** range displays on screen immediately, soft opt-in ("Book my free on-site estimate") appears below the range for voluntary lead capture.
 - **Wizard UX:** server-component shell with client `EstimatorWizard.jsx` for state. Progress bar across the top (`Step N of 5 · XX% complete`), question card with help copy, radio-group styled as large touch targets with selected-state animations. Back button active from step 2 onward. Final step CTA says "See My Range" with a calculating-spinner loading state. Error state on validation failure.
