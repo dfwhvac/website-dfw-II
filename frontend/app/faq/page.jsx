@@ -51,7 +51,7 @@ const defaultFaqs = [
     answer: 'We accept all major credit cards (Visa, MasterCard, American Express, Discover), checks, and cash. For larger installations, we also offer financing options with approved credit to help make your investment more manageable.' },
   { _id: 'rp3', category: 'residential-pricing', order: 3,
     question: 'Do you offer financing for new HVAC systems?',
-    answer: 'Yes, we offer flexible financing options for qualified buyers. This allows you to replace your aging system with a new, energy-efficient unit and pay over time with affordable monthly payments. Ask our team about current financing promotions and terms.' },
+    answer: 'Yes — we partner with Wisetack to offer flexible financing on qualifying new HVAC installations, including up to 24 months at 0% APR for approved buyers. Pre-qualification takes under a minute with a soft credit check that won\u2019t impact your credit score. Learn more about our financing options at /financing' },
   { _id: 'rp4', category: 'residential-pricing', order: 4,
     question: 'How much does a new AC unit cost?',
     answer: 'The cost of a new AC system varies based on the size of your home, system efficiency rating (SEER), brand, and any additional work needed. Residential systems typically range from $4,500 to $12,000+ installed. We provide detailed quotes after assessing your specific needs.' },
@@ -157,6 +157,13 @@ export default async function FAQPage() {
         return {
           ...faq,
           answer: 'We proudly serve the Dallas-Fort Worth metroplex from our Coppell headquarters, including Dallas, Irving, Carrollton, Lewisville, Grapevine, Flower Mound, Plano, Frisco, Southlake, and surrounding communities. View all cities we serve at /cities-served.'
+        }
+      }
+      // Override financing FAQ with Wisetack-specific copy + link to /financing (P1.16, Apr 24, 2026)
+      if (faq.question && faq.question.toLowerCase().includes('financing')) {
+        return {
+          ...faq,
+          answer: 'Yes — we partner with Wisetack to offer flexible financing on qualifying new HVAC installations, including up to 24 months at 0% APR for approved buyers. Pre-qualification takes under a minute with a soft credit check that won\u2019t impact your credit score. Learn more about our financing options at /financing'
         }
       }
       return faq
