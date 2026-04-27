@@ -218,9 +218,9 @@
 <header class="top">
   <div class="inner">
     <span class="tag">Internal Review · Not Indexed</span>
-    <h1>DFW HVAC — Proposed Sitemap</h1>
-    <p>Current structure + proposed additions for the system replacement, pricing estimator, and AEO expansion work. Color-coded, responsive, reviewable on any screen.</p>
-    <div class="meta">Updated Apr 24, 2026 · <strong>4 pages + 2 APIs shipped to preview branch</strong> (financing, system-replacement, repair-or-replace, replacement-estimator) · <strong>3 new pages remaining</strong> (/thanks, /pricing stub, estimator sibling flows) · <strong>2 stubs reserved</strong></div>
+    <h1>DFW HVAC — Live Sitemap</h1>
+    <p>Production URL inventory + schema, AI-crawler, and lastmod posture. Color-coded, responsive, reviewable on any screen.</p>
+    <div class="meta">Updated Apr 27, 2026 (PM) · <strong>51 URLs in <code>/sitemap.xml</code></strong> · <strong>4 funnel pages live</strong> (financing, system-replacement, repair-or-replace, replacement-estimator) · <strong>15 AI crawlers explicitly allowed</strong> · <strong>1 net-new page remaining</strong> (/thanks) · <strong>2 stubs reserved</strong></div>
   </div>
 </header>
 
@@ -231,6 +231,7 @@
     <a href="#tree">Tree View</a>
     <a href="#mindmap">Mind Map</a>
     <a href="#summary">Summary Table</a>
+    <a href="#schema">Schema &amp; AEO Posture</a>
     <a href="#notes">Strategic Notes</a>
   </nav>
 
@@ -282,12 +283,10 @@
 <span class="branch">├──</span> <span class="section-header">SERVICES ─────────────────────────────────────────────</span>
 <span class="branch">│   ├──</span> <span class="edit">🟡</span> <span class="path">/services</span>  <span class="comment">................................ Services hub (add replacement hero + estimator CTA)</span>
 <span class="branch">│   │</span>
-<span class="branch">│   ├──</span> <span class="live">🟢</span> <span class="path">/services/system-replacement</span> <span class="star">★</span>  <span class="comment">...... SHIPPED Apr 24 (on preview branch, pending merge)</span>
-<span class="branch">│   │       │</span>                                             <span class="comment">Revenue center; free estimate + financing funnel</span>
+<span class="branch">│   ├──</span> <span class="live">🟢</span> <span class="path">/services/system-replacement</span> <span class="star">★</span>  <span class="comment">...... LIVE — revenue center; free estimate + financing funnel</span>
 <span class="branch">│   │       └──</span> <span class="comment">Sections: Is-it-time-to-replace · cost factors · 4-step process · financing · city links · FAQ</span>
 <span class="branch">│   │</span>
-<span class="branch">│   ├──</span> <span class="live">🟢</span> <span class="path">/repair-or-replace</span> <span class="star">★</span>  <span class="comment">................. SHIPPED Apr 24 (on preview branch, pending merge)</span>
-<span class="branch">│   │                                                   </span> <span class="comment">AEO decision-framework article · Article + FAQPage schema</span>
+<span class="branch">│   ├──</span> <span class="live">🟢</span> <span class="path">/repair-or-replace</span> <span class="star">★</span>  <span class="comment">................. LIVE — AEO decision-framework · Article + FAQPage schema</span>
 <span class="branch">│   │</span>
 <span class="branch">│   ├──</span> <span class="live">🟢</span> <span class="path">/services/residential</span>  <span class="comment">.................... Residential category hub</span>
 <span class="branch">│   │   ├──</span> <span class="edit">🟡</span> <span class="path">/residential/air-conditioning</span> <span class="comment">......... Add "planning to replace?" block + estimator link</span>
@@ -297,36 +296,33 @@
 <span class="branch">│   │</span>
 <span class="branch">│   └──</span> <span class="live">🟢</span> <span class="path">/services/commercial</span>  <span class="comment">..................... Commercial category hub</span>
 <span class="branch">│       ├──</span> <span class="live">🟢</span> <span class="path">/commercial/commercial-air-conditioning</span>
-<span class="branch">│       ├──</span> <span class="live">🟢</span> <span class="path">/commercial/commercial-heating</span>
+<span class="branch">│       ├──</span> <span class="live">🟢</span> <span class="path">/commercial/commercial-heating</span> <span class="star">★</span>  <span class="comment">..... A4 differentiated Apr 27 (12 fields, 6 commercial FAQs · FAQPage schema live)</span>
 <span class="branch">│       └──</span> <span class="live">🟢</span> <span class="path">/commercial/commercial-maintenance</span>
 <span class="branch">│</span>
 <span class="branch">├──</span> <span class="section-header">PRICING &amp; ESTIMATOR ──────────────────────────────────</span>
-<span class="branch">│   ├──</span> <span class="live">🟢</span> <span class="path">/replacement-estimator</span> <span class="star">★</span>  <span class="comment">......... SHIPPED Apr 24 (on preview branch, pending merge)</span>
-<span class="branch">│   │                                                 </span> <span class="comment">5-step wizard · Option C hybrid · inline range + soft opt-in</span>
+<span class="branch">│   ├──</span> <span class="live">🟢</span> <span class="path">/replacement-estimator</span> <span class="star">★</span>  <span class="comment">......... LIVE — 5-step wizard · Option C hybrid · WebApplication + HowTo schema</span>
 <span class="branch">│   │                                                 </span> <span class="comment">(Service/repair/maintenance flows deferred; replacement-only scope)</span>
 <span class="branch">│   │</span>
 <span class="branch">│   └──</span> <span class="stub">🔵</span> <span class="path">/pricing</span>  <span class="comment">...................................... STUB — URL reserved, noindex</span>
 <span class="branch">│                                                              </span> <span class="comment">Single source-of-truth pricing page (Phase 2)</span>
 <span class="branch">│</span>
-<span class="branch">├──</span> <span class="live">🟢</span> <span class="path">/financing</span>  <span class="comment">..................................... SHIPPED Apr 24 (on preview branch, pending merge)</span>
-<span class="branch">│                                                          </span> <span class="comment">Wisetack · 24mo 0% APR · soft credit check</span>
+<span class="branch">├──</span> <span class="live">🟢</span> <span class="path">/financing</span>  <span class="comment">..................................... LIVE — Wisetack · 24mo 0% APR · soft credit check</span>
 <span class="branch">│</span>
 <span class="branch">├──</span> <span class="section-header">CONVERSION FUNNEL ────────────────────────────────────</span>
 <span class="branch">│   ├──</span> <span class="live">🟢</span> <span class="path">/contact</span>
 <span class="branch">│   ├──</span> <span class="edit">🟡</span> <span class="path">/estimate</span>  <span class="comment">................................. Retitle + hero tie-in to replacement funnel</span>
 <span class="branch">│   ├──</span> <span class="live">🟢</span> <span class="path">/request-service</span>
-<span class="branch">│   └──</span> <span class="new">🔴</span> <span class="path">/thanks</span> <span class="star">★</span>  <span class="comment">........................... NEW — post-submit page (was P1.11)</span>
+<span class="branch">│   └──</span> <span class="new">🔴</span> <span class="path">/thanks</span> <span class="star">★</span>  <span class="comment">........................... NEW — post-submit page (P1.11, Phase 3)</span>
 <span class="branch">│</span>
 <span class="branch">├──</span> <span class="section-header">CITIES SERVED ────────────────────────────────────────</span>
 <span class="branch">│   ├──</span> <span class="live">🟢</span> <span class="path">/cities-served</span>  <span class="comment">................................ Directory hub</span>
-<span class="branch">│   ├──</span> <span class="live">🟢</span> <span class="path">/cities-served/[slug]</span>  <span class="comment">........................ 28 city pages (all live)</span>
-<span class="branch">│   │       </span><span class="comment">allen · arlington · carrollton · coppell · dallas</span>
-<span class="branch">│   │       </span><span class="comment">denton · euless · flower-mound · fort-worth · frisco</span>
-<span class="branch">│   │       </span><span class="comment">garland · grapevine · haltom-city · hurst · irving</span>
-<span class="branch">│   │       </span><span class="comment">keller · lewisville · mckinney · mesquite</span>
-<span class="branch">│   │       </span><span class="comment">north-richland-hills · plano · richardson</span>
-<span class="branch">│   │       </span><span class="comment">rockwall · rowlett · southlake · the-colony</span>
-<span class="branch">│   │       </span><span class="comment">trophy-club · watauga</span>
+<span class="branch">│   ├──</span> <span class="live">🟢</span> <span class="path">/cities-served/[slug]</span>  <span class="comment">........................ 28 city pages live (CityServiceSchema + Breadcrumb)</span>
+<span class="branch">│   │       </span><span class="comment">allen · argyle · arlington · bedford · carrollton</span>
+<span class="branch">│   │       </span><span class="comment">colleyville · coppell · dallas · denton · euless</span>
+<span class="branch">│   │       </span><span class="comment">farmers-branch · flower-mound · fort-worth · frisco</span>
+<span class="branch">│   │       </span><span class="comment">grapevine · haslet · hurst · irving · keller</span>
+<span class="branch">│   │       </span><span class="comment">lake-dallas · lewisville · mansfield · north-richland-hills</span>
+<span class="branch">│   │       </span><span class="comment">plano · richardson · roanoke · southlake · the-colony</span>
 <span class="branch">│   │</span>
 <span class="branch">│   └──</span> <span class="stub">🔵</span> <span class="path">/cities-served/[slug]/replacement</span>  <span class="comment">........ STUB — Phase 2, data-driven</span>
 <span class="branch">│</span>
@@ -336,18 +332,18 @@
 <span class="branch">│   └──</span> <span class="live">🟢</span> <span class="path">/faq</span>
 <span class="branch">│</span>
 <span class="branch">├──</span> <span class="section-header">LEGAL ────────────────────────────────────────────────</span>
-<span class="branch">│   ├──</span> <span class="live">🟢</span> <span class="path">/privacy-policy</span>
-<span class="branch">│   └──</span> <span class="live">🟢</span> <span class="path">/terms-of-service</span>
+<span class="branch">│   ├──</span> <span class="live">🟢</span> <span class="path">/privacy-policy</span>  <span class="comment">.............................. lastmod pinned (S7) — Apr 27, 2026</span>
+<span class="branch">│   └──</span> <span class="live">🟢</span> <span class="path">/terms-of-service</span>  <span class="comment">............................ lastmod pinned (S7) — Apr 27, 2026</span>
 <span class="branch">│</span>
 <span class="branch">├──</span> <span class="section-header">ADMIN ────────────────────────────────────────────────</span>
 <span class="branch">│   └──</span> <span class="live">🟢</span> <span class="path">/studio</span>  <span class="comment">........................................ Sanity admin (noindex, auth)</span>
 <span class="branch">│</span>
 <span class="branch">└──</span> <span class="section-header">API &amp; UTILITY ────────────────────────────────────────</span>
-    <span class="branch">├──</span> <span class="live">🟢</span> <span class="path">/api/leads</span>
+    <span class="branch">├──</span> <span class="live">🟢</span> <span class="path">/api/leads</span>  <span class="comment">.................................. Form lead handler · reCAPTCHA v3 · preview-env mute</span>
     <span class="branch">├──</span> <span class="live">🟢</span> <span class="path">/api/canonical-description</span>
-    <span class="branch">├──</span> <span class="live">🟢</span> <span class="path">/api/cron/sync-reviews</span>
-    <span class="branch">├──</span> <span class="live">🟢</span> <span class="path">/api/estimator/calculate</span>  <span class="comment">........... SHIPPED Apr 24 — matrix compute</span>
-    <span class="branch">└──</span> <span class="live">🟢</span> <span class="path">/api/estimator/lead</span>  <span class="comment">................ SHIPPED Apr 24 — soft opt-in save</span></pre>
+    <span class="branch">├──</span> <span class="live">🟢</span> <span class="path">/api/cron/sync-reviews</span>  <span class="comment">..................... Daily Google Places API sync</span>
+    <span class="branch">├──</span> <span class="live">🟢</span> <span class="path">/api/estimator/calculate</span>  <span class="comment">................... Matrix compute (server-side)</span>
+    <span class="branch">└──</span> <span class="live">🟢</span> <span class="path">/api/estimator/lead</span>  <span class="comment">........................ Estimator soft opt-in save</span></pre>
     </div>
   </section>
 
@@ -362,12 +358,13 @@ mindmap
     About
       3 Generations
     Services Hub
-      System Replacement SHIPPED
+      System Replacement
         Free Estimate
-        Financing preview
+        Financing
         City links
-      Repair-or-Replace SHIPPED
+      Repair-or-Replace
         AEO decision framework
+        Article + FAQPage schema
       Residential
         Air Conditioning
         Heating
@@ -375,15 +372,14 @@ mindmap
         Preventative Maintenance
       Commercial
         Commercial AC
-        Commercial Heating
+        Commercial Heating A4 differentiated
         Commercial Maintenance
-    Estimator Tool NEW
-      Service Call flow
-      Repair flow
-      Replacement flow
-      Maintenance flow
-      Results page
-    Financing SHIPPED
+    Estimator Tool
+      5-step replacement wizard
+      WebApplication + HowTo schema
+      Option C lead gate
+      Service / Repair / Maintenance flows future
+    Financing
       Wisetack 24mo 0 APR
       Replacement support
     Pricing STUB
@@ -397,14 +393,22 @@ mindmap
       Contact
       Estimate form
       Request Service
-      Thanks NEW
+      Thanks NEW Phase 3
     Trust
-      Reviews
-      Recent Projects
+      Reviews 145
+      Recent Projects RealWork
       FAQ
     Legal
       Privacy
       Terms
+    AEO Posture
+      15 AI crawlers allowed
+      LocalBusiness sitewide
+      WebApplication estimator
+      HowTo estimator
+      FAQPage commercial-heating
+      FAQPage repair-or-replace
+      Article repair-or-replace
       </div>
     </div>
   </section>
@@ -425,20 +429,20 @@ mindmap
       <tbody>
         <tr>
           <td>Top-level marketing pages</td>
-          <td class="num">10</td>
+          <td class="num">11</td>
           <td class="num">1</td>
           <td class="num">1</td>
-          <td class="num">12</td>
+          <td class="num">13</td>
         </tr>
         <tr>
           <td>Service pages (incl. hubs)</td>
-          <td class="num">9</td>
+          <td class="num">11</td>
           <td class="num">0</td>
           <td class="num">0</td>
           <td class="num">11</td>
         </tr>
         <tr>
-          <td>Estimator sub-pages</td>
+          <td>Estimator pages</td>
           <td class="num">1</td>
           <td class="num">0</td>
           <td class="num">0</td>
@@ -459,16 +463,23 @@ mindmap
           <td class="num">5</td>
         </tr>
         <tr class="total">
-          <td>Shipped Apr 24 (preview branch)</td>
-          <td class="num">4</td>
+          <td>URLs in <code>/sitemap.xml</code> today</td>
+          <td class="num">51</td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">—</td>
         </tr>
         <tr class="total">
+          <td>Indexed in Google (Apr 27 audit)</td>
+          <td class="num">42</td>
+          <td class="num">—</td>
+          <td class="num">—</td>
+          <td class="num">89.4%</td>
+        </tr>
+        <tr class="total">
           <td>Net-new pages still to build</td>
           <td class="num">—</td>
-          <td class="num">3</td>
+          <td class="num">1</td>
           <td class="num">2</td>
           <td class="num">—</td>
         </tr>
@@ -479,18 +490,121 @@ mindmap
     </p>
   </section>
 
+  <!-- SCHEMA & AEO POSTURE -->
+  <section id="schema">
+    <h2><span class="num">5</span>Schema &amp; AEO Posture</h2>
+    <table>
+      <thead>
+        <tr><th>Surface</th><th>Schema types emitted</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Sitewide</strong> (every page)</td>
+          <td><code>HVACBusiness</code> (LocalBusiness extension), <code>BreadcrumbList</code></td>
+          <td><span style="color: var(--status-live); font-weight: 700;">🟢 Live</span></td>
+        </tr>
+        <tr>
+          <td><code>/replacement-estimator</code></td>
+          <td><code>WebApplication</code>, <code>HowTo</code> (6 steps), <code>BreadcrumbList</code></td>
+          <td><span style="color: var(--status-live); font-weight: 700;">🟢 S2 — Apr 27</span></td>
+        </tr>
+        <tr>
+          <td><code>/repair-or-replace</code></td>
+          <td><code>Article</code>, <code>FAQPage</code> (6 Qs), <code>BreadcrumbList</code></td>
+          <td><span style="color: var(--status-live); font-weight: 700;">🟢 Live</span></td>
+        </tr>
+        <tr>
+          <td><code>/services/[category]/[slug]</code></td>
+          <td><code>Service</code>, <code>BreadcrumbList</code> · <strong><code>FAQPage</code> conditional on Sanity FAQs</strong></td>
+          <td><span style="color: var(--status-live); font-weight: 700;">🟢 S2 — Apr 27</span></td>
+        </tr>
+        <tr>
+          <td><code>/services/commercial/commercial-heating</code></td>
+          <td>+ <code>FAQPage</code> with 6 commercial Qs</td>
+          <td><span style="color: var(--status-live); font-weight: 700;">🟢 A4 — Apr 27</span></td>
+        </tr>
+        <tr>
+          <td><code>/cities-served/[slug]</code></td>
+          <td><code>CityServiceSchema</code> (Service anchored to city), <code>BreadcrumbList</code></td>
+          <td><span style="color: var(--status-live); font-weight: 700;">🟢 Live</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="margin-top: 1.75rem; font-size: 1.1rem; color: var(--prussian); margin-bottom: 0.75rem;">AI Crawler Policy (S1 · Apr 27)</h3>
+    <table>
+      <thead>
+        <tr><th>UA family</th><th>User agents</th><th>Policy</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>OpenAI</td>
+          <td><code>GPTBot</code>, <code>ChatGPT-User</code>, <code>OAI-SearchBot</code></td>
+          <td><span style="color: var(--status-live); font-weight: 700;">Allow /</span></td>
+        </tr>
+        <tr>
+          <td>Anthropic</td>
+          <td><code>ClaudeBot</code>, <code>Claude-Web</code>, <code>anthropic-ai</code></td>
+          <td><span style="color: var(--status-live); font-weight: 700;">Allow /</span></td>
+        </tr>
+        <tr>
+          <td>Perplexity</td>
+          <td><code>PerplexityBot</code>, <code>Perplexity-User</code></td>
+          <td><span style="color: var(--status-live); font-weight: 700;">Allow /</span></td>
+        </tr>
+        <tr>
+          <td>Google AI / Bard / Gemini</td>
+          <td><code>Google-Extended</code></td>
+          <td><span style="color: var(--status-live); font-weight: 700;">Allow /</span></td>
+        </tr>
+        <tr>
+          <td>Apple Intelligence / Siri</td>
+          <td><code>Applebot-Extended</code></td>
+          <td><span style="color: var(--status-live); font-weight: 700;">Allow /</span></td>
+        </tr>
+        <tr>
+          <td>Common Crawl / training pipelines</td>
+          <td><code>CCBot</code>, <code>Bytespider</code>, <code>Diffbot</code>, <code>FacebookBot</code>, <code>Meta-ExternalAgent</code></td>
+          <td><span style="color: var(--status-live); font-weight: 700;">Allow /</span></td>
+        </tr>
+        <tr>
+          <td>All others (default <code>*</code>)</td>
+          <td>Wildcard</td>
+          <td><span style="color: var(--status-live); font-weight: 700;">Allow / (with /studio, /api, /internal blocked)</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="margin-top: 0.85rem; color: var(--slate-600); font-size: 0.85rem;">
+      Posture: choose visibility. Most agencies block these by default; for a local-services brand, citation in AI answer engines is high-leverage top-of-funnel. Reversal is a one-line edit in <code>app/robots.js</code>.
+    </p>
+
+    <h3 style="margin-top: 1.75rem; font-size: 1.1rem; color: var(--prussian); margin-bottom: 0.75rem;">Sitemap Lastmod Tiering (S7 · Apr 27)</h3>
+    <table>
+      <thead>
+        <tr><th>Page tier</th><th>lastmod source</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Homepage + actively-maintained static</td><td><code>currentDate</code> at build (true freshness signal)</td></tr>
+        <tr><td>Sanity-driven (services, cities)</td><td><code>_updatedAt</code> per-document (per-page freshness)</td></tr>
+        <tr><td><code>/privacy-policy</code> + <code>/terms-of-service</code></td><td>Pinned <code>POLICY_LASTMOD</code> = <code>2026-04-27T00:00:00.000Z</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
   <!-- NOTES -->
   <section id="notes">
-    <h2><span class="num">5</span>Strategic Notes</h2>
+    <h2><span class="num">6</span>Strategic Notes</h2>
     <div class="notes">
       <ol>
-        <li><strong>/system-replacement is the new revenue center.</strong> Everything points here: service pages cross-link, estimator funnel, financing support. Highest-ticket conversion surface on the site.</li>
-        <li><strong>/repair-or-replace is an AEO ambush.</strong> Decision-framework content — exactly what AI Overviews cite. Low direct conversion; catches top-of-funnel replacement shoppers and routes them downward.</li>
-        <li><strong>/estimator solves the "not ready to publish prices" constraint.</strong> Users get a range without you committing to a fixed price. Every completion = a qualified lead.</li>
-        <li><strong>/financing promoted from backlog.</strong> Replacement conversion depends on it — no point building the replacement page if financing isn't reachable in one click.</li>
+        <li><strong>/system-replacement is the revenue center.</strong> Everything points here: service pages cross-link, estimator funnel, financing support. Highest-ticket conversion surface on the site.</li>
+        <li><strong>/repair-or-replace is an AEO ambush.</strong> Decision-framework content with Article + FAQPage schema — exactly what AI Overviews cite. Low direct conversion; catches top-of-funnel replacement shoppers and routes them downward.</li>
+        <li><strong>/replacement-estimator solves the "not ready to publish prices" constraint.</strong> Users get a range without you committing to a fixed price. Every completion = a qualified lead. <code>WebApplication</code> + <code>HowTo</code> schema (S2, Apr 27) makes it eligible for AI-engine citation when answering "how to estimate hvac replacement cost dallas" queries.</li>
+        <li><strong>/financing is reachable in one click from every replacement surface.</strong> Replacement conversion depends on it.</li>
+        <li><strong>commercial-heating differentiation (A4, Apr 27)</strong> closes the only page Google explicitly rejected. 12 fields populated in Sanity + 6 commercial-only FAQs — RTU, boiler, VAV, NTE, COIs vocabulary now distinguishes it from the residential/heating sibling.</li>
+        <li><strong>AI crawlers (S1, Apr 27) are explicitly allowed.</strong> 15 named UAs across OpenAI, Anthropic, Perplexity, Google AI, Apple Intelligence, Common Crawl, Meta. Most agencies block these by default; we opt in for top-of-funnel visibility.</li>
         <li><strong>Stubs aren't wasted work.</strong> URL structure reserved now prevents painful migrations later. <code>noindex</code> until ready.</li>
-        <li><strong>Top-line nav grows by only 1 item</strong> (+ "Estimator"). System Replacement lives inside the Residential dropdown + as a hero on /services. Financing + repair-or-replace live in footer / inline.</li>
         <li><strong>City-level replacement pages are Phase 2.</strong> Build 1 prototype, measure 28-day GSC demand, then scale — don't pre-build 28 pages without data.</li>
+        <li><strong>Sitemap freshness signal is honest.</strong> Policy pages pinned to <code>POLICY_LASTMOD</code>; Sanity-driven pages use <code>_updatedAt</code>; static-but-maintained pages stamp at build (S7, Apr 27).</li>
       </ol>
       <div style="margin-top: 2rem; padding: 1.25rem 1.5rem; background: #f1f5f9; border-left: 4px solid #0077B6; border-radius: 6px;">
         <p style="margin: 0; font-weight: 600; color: #0f172a;">📎 Pricing matrix template (CSV)</p>
@@ -500,13 +614,21 @@ mindmap
           <a href="/internal/estimator-pricing-template.csv" download style="color: #0077B6; font-weight: 600;">/internal/estimator-pricing-template.csv ↓</a>
         </p>
       </div>
+      <div style="margin-top: 1rem; padding: 1.25rem 1.5rem; background: #f0f9ff; border-left: 4px solid #003153; border-radius: 6px;">
+        <p style="margin: 0; font-weight: 600; color: #0f172a;">📊 Companion: full strategic roadmap</p>
+        <p style="margin: 0.5rem 0 0 0; font-size: 0.925rem; color: #475569;">
+          5-priority framework, KPI baselines, action items per priority:
+          <br>
+          <a href="/internal/roadmap-preview.html" style="color: #0077B6; font-weight: 600;">/internal/roadmap-preview.html →</a>
+        </p>
+      </div>
     </div>
   </section>
 
 </main>
 
 <footer class="bottom">
-  <strong>Internal review only</strong> · page is set to <code>noindex,nofollow</code> · originally generated Apr 22, 2026 · last updated Apr 24, 2026 (4 pages + 2 APIs shipped to <code>preview</code> branch)
+  <strong>Internal review only</strong> · page is set to <code>noindex,nofollow</code> · originally generated Apr 22, 2026 · last updated Apr 27, 2026 PM (Phase 2a SEO/AEO 8 of 12 shipped: A4, S1, S2, S5, S6, S7, P2.1)
 </footer>
 
 <script>
