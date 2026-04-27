@@ -358,7 +358,7 @@ const HomePage = ({
       </section>
 
       {/* CTA Section - Phone-first strategy */}
-      <section className="py-20" style={{background: 'linear-gradient(to right, #003153, #0077B6)'}}>
+      <section className="py-20 bg-gradient-to-r from-prussian-blue to-electric-blue">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl font-bold text-white mb-4">
             Need HVAC Service? We're Ready.
@@ -381,7 +381,7 @@ const HomePage = ({
             <Button 
               variant="outline" 
               size="lg" 
-              className="border-2 border-white text-white hover:bg-white hover:text-[#003153] font-semibold px-8 py-4 text-lg h-auto"
+              className="border-2 border-white text-white hover:bg-white hover:text-prussian-blue font-semibold px-8 py-4 text-lg h-auto"
               asChild
             >
               <Link href="/request-service">

@@ -209,7 +209,7 @@ export default async function CityPage({ params }) {
       <Header companyInfo={companyInfo} siteSettings={siteSettings} />
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-[#003153] to-[#00213a] text-white py-16 md:py-20">
+      <section className="bg-gradient-to-br from-prussian-blue to-electric-blue text-white py-16 md:py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             {/* Breadcrumb */}
@@ -257,7 +257,7 @@ export default async function CityPage({ params }) {
               </a>
               <Link
                 href="/request-service"
-                className="inline-flex items-center justify-center gap-2 bg-white text-[#003153] px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors"
+                className="inline-flex items-center justify-center gap-2 bg-white text-prussian-blue px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors"
               >
                 Request Service
                 <ArrowRight className="w-5 h-5" />
@@ -279,19 +279,19 @@ export default async function CityPage({ params }) {
             {trustBadges.map((badge, index) => {
               const IconComponent = iconMap[badge.icon] || CheckCircle
               const iconColors = {
-                'clock': 'text-[#0077B6]',
-                'shield': 'text-[#0077B6]',
+                'clock': 'text-electric-blue',
+                'shield': 'text-electric-blue',
                 'star': 'text-[#F77F00]',
                 'check-circle': 'text-[#32CD32]',
-                'award': 'text-[#0077B6]',
-                'users': 'text-[#0077B6]',
-                'phone': 'text-[#0077B6]',
-                'calendar': 'text-[#0077B6]',
+                'award': 'text-electric-blue',
+                'users': 'text-electric-blue',
+                'phone': 'text-electric-blue',
+                'calendar': 'text-electric-blue',
                 'trending-up': 'text-[#32CD32]',
               }
               return (
                 <div key={index} className="flex items-center gap-2">
-                  <IconComponent className={`w-5 h-5 ${iconColors[badge.icon] || 'text-[#0077B6]'}`} />
+                  <IconComponent className={`w-5 h-5 ${iconColors[badge.icon] || 'text-electric-blue'}`} />
                   <span>{badge.text}</span>
                 </div>
               )
@@ -314,7 +314,7 @@ export default async function CityPage({ params }) {
             {/* City Description */}
             {city.cityDescription && (
               <div className="bg-gray-50 rounded-xl p-8 mb-12">
-                <h2 className="text-2xl font-bold text-[#003153] mb-4">
+                <h2 className="text-2xl font-bold text-prussian-blue mb-4">
                   About {city.cityName}, Texas
                 </h2>
                 <p className="text-gray-700 leading-relaxed">
@@ -327,7 +327,7 @@ export default async function CityPage({ params }) {
                 city-specific anchor text for local SEO internal linking).
                 Added PR #3, R1.2 (Apr 21, 2026). */}
             <div className="mb-12">
-              <h2 className="text-2xl font-bold text-[#003153] mb-6">
+              <h2 className="text-2xl font-bold text-prussian-blue mb-6">
                 HVAC Services in {city.cityName}
               </h2>
               <p className="text-gray-700 mb-8">
@@ -338,16 +338,16 @@ export default async function CityPage({ params }) {
                   <Link
                     key={service.href}
                     href={service.href}
-                    className="group bg-white border border-gray-200 rounded-xl p-6 hover:border-[#0077B6] hover:shadow-lg transition-all"
+                    className="group bg-white border border-gray-200 rounded-xl p-6 hover:border-electric-blue hover:shadow-lg transition-all"
                     data-testid={`city-service-link-${service.href.split('/').pop()}`}
                   >
-                    <h3 className="text-lg font-bold text-[#003153] group-hover:text-[#0077B6] mb-2">
+                    <h3 className="text-lg font-bold text-prussian-blue group-hover:text-electric-blue mb-2">
                       {service.title} in {city.cityName}, TX
                     </h3>
                     <p className="text-gray-600 text-sm">
                       {service.blurb}
                     </p>
-                    <span className="mt-3 inline-flex items-center gap-1 text-[#0077B6] text-sm font-semibold">
+                    <span className="mt-3 inline-flex items-center gap-1 text-electric-blue text-sm font-semibold">
                       Learn more
                       <ArrowRight className="w-4 h-4" />
                     </span>
@@ -358,7 +358,7 @@ export default async function CityPage({ params }) {
             
             {/* Why Choose Us */}
             <div className="mb-12">
-              <h2 className="text-2xl font-bold text-[#003153] mb-4">
+              <h2 className="text-2xl font-bold text-prussian-blue mb-4">
                 Why {city.cityName} Homeowners Choose Us
               </h2>
               <p className="text-gray-700 mb-6">
@@ -383,7 +383,7 @@ export default async function CityPage({ params }) {
             
             {/* Local Testimonial */}
             {city.localTestimonial?.quote && (
-              <div className="bg-[#003153] text-white rounded-xl p-8 mb-12">
+              <div className="bg-prussian-blue text-white rounded-xl p-8 mb-12">
                 <div className="flex gap-1 mb-4">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="w-5 h-5 fill-[#F77F00] text-[#F77F00]" />
@@ -403,14 +403,14 @@ export default async function CityPage({ params }) {
             
             {/* Zip Codes Served */}
             <div className="bg-gray-50 rounded-xl p-8 mb-12">
-              <h2 className="text-2xl font-bold text-[#003153] mb-4">
+              <h2 className="text-2xl font-bold text-prussian-blue mb-4">
                 Zip Codes We Serve in {city.cityName}
               </h2>
               <div className="flex flex-wrap gap-3">
                 {city.zipCodes?.map((zip) => (
                   <span 
                     key={zip}
-                    className="bg-white border border-gray-200 text-[#003153] font-semibold px-4 py-2 rounded-lg"
+                    className="bg-white border border-gray-200 text-prussian-blue font-semibold px-4 py-2 rounded-lg"
                   >
                     {zip}
                   </span>
@@ -426,7 +426,7 @@ export default async function CityPage({ params }) {
         title={`Need HVAC Service in ${city.cityName}?`}
         description="Our team is ready to help with all your heating and cooling needs. Expert service with integrity and care—that's our commitment to you."
         variant="blue"
-        className="bg-[#0077B6]"
+        className="bg-electric-blue"
       />
 
       {/* Other Cities */}
@@ -434,7 +434,7 @@ export default async function CityPage({ params }) {
         <section className="py-16 bg-gray-50">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
-              <h2 className="text-2xl font-bold text-[#003153] mb-6 text-center">
+              <h2 className="text-2xl font-bold text-prussian-blue mb-6 text-center">
                 We Also Serve These Cities
               </h2>
               <div className="flex flex-wrap justify-center gap-3">
@@ -442,7 +442,7 @@ export default async function CityPage({ params }) {
                   <Link
                     key={otherCity.slug}
                     href={`/cities-served/${otherCity.slug}`}
-                    className="bg-white border border-gray-200 text-[#003153] px-4 py-2 rounded-lg hover:border-[#0077B6] hover:text-[#0077B6] transition-colors"
+                    className="bg-white border border-gray-200 text-prussian-blue px-4 py-2 rounded-lg hover:border-electric-blue hover:text-electric-blue transition-colors"
                   >
                     {otherCity.cityName}
                   </Link>
@@ -451,7 +451,7 @@ export default async function CityPage({ params }) {
               <div className="text-center mt-6">
                 <Link
                   href="/cities-served"
-                  className="text-[#0077B6] font-semibold hover:underline"
+                  className="text-electric-blue font-semibold hover:underline"
                 >
                   View All Cities →
                 </Link>

@@ -32,7 +32,7 @@ export default async function RequestServicePage() {
       
       <main className="flex-grow">
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-[#003153] to-[#00496e] text-white py-12">
+        <section className="bg-gradient-to-br from-prussian-blue to-electric-blue text-white py-12">
           <div className="container mx-auto px-4 text-center">
             <h1 className="text-3xl md:text-4xl font-bold mb-4">
               Request HVAC Service
@@ -66,7 +66,7 @@ export default async function RequestServicePage() {
                   {/* Quick Call Option */}
                   <div className="bg-white rounded-lg shadow-lg p-6">
                     <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
-                      <Phone className="w-5 h-5 text-[#0077B6]" />
+                      <Phone className="w-5 h-5 text-electric-blue" />
                       Need Faster Service?
                     </h3>
                     <p className="text-gray-600 text-sm mb-4">
@@ -89,11 +89,11 @@ export default async function RequestServicePage() {
                         <span className="text-sm text-gray-600">Three generations of trusted service</span>
                       </li>
                       <li className="flex items-start gap-3">
-                        <Clock className="w-5 h-5 text-[#0077B6] flex-shrink-0 mt-0.5" />
+                        <Clock className="w-5 h-5 text-electric-blue flex-shrink-0 mt-0.5" />
                         <span className="text-sm text-gray-600">Fast response within 2 business hours</span>
                       </li>
                       <li className="flex items-start gap-3">
-                        <Shield className="w-5 h-5 text-[#003153] flex-shrink-0 mt-0.5" />
+                        <Shield className="w-5 h-5 text-prussian-blue flex-shrink-0 mt-0.5" />
                         <span className="text-sm text-gray-600">Licensed & insured technicians</span>
                       </li>
                       <li className="flex items-start gap-3">
@@ -110,7 +110,7 @@ export default async function RequestServicePage() {
                   {/* Business Hours */}
                   <div className="bg-white rounded-lg shadow-lg p-6">
                     <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
-                      <Clock className="w-5 h-5 text-[#0077B6]" />
+                      <Clock className="w-5 h-5 text-electric-blue" />
                       Business Hours
                     </h3>
                     <div className="text-sm text-gray-600 space-y-1">

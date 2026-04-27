@@ -64,8 +64,7 @@ export default async function SystemReplacementPage() {
 
       {/* Hero */}
       <section
-        className="relative py-20 lg:py-28 text-white overflow-hidden"
-        style={{ background: 'linear-gradient(135deg, #003153 0%, #0077B6 100%)' }}
+        className="relative py-20 lg:py-28 text-white overflow-hidden bg-gradient-to-br from-prussian-blue to-electric-blue"
         data-testid="system-replacement-hero"
       >
         <div className="container mx-auto px-4 relative z-10">
@@ -76,7 +75,7 @@ export default async function SystemReplacementPage() {
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
               Time for a New<br />
-              <span className="text-lime-300">AC or Furnace?</span>
+              <span className="text-growth-green">AC or Furnace?</span>
             </h1>
             <p className="text-lg lg:text-xl text-blue-100 mb-8 leading-relaxed">
               Full HVAC replacements done right the first time — right-sized for your
@@ -86,7 +85,7 @@ export default async function SystemReplacementPage() {
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
                 href="/estimate"
-                className="inline-flex items-center justify-center gap-2 bg-lime-400 hover:bg-lime-300 text-[#003153] font-bold px-8 py-4 rounded-md text-lg shadow-lg transition-colors"
+                className="inline-flex items-center justify-center gap-2 bg-growth-green hover:bg-growth-green/90 text-prussian-blue font-bold px-8 py-4 rounded-md text-lg shadow-lg transition-colors"
                 data-testid="system-replacement-estimate-cta"
               >
                 <Calendar className="w-5 h-5" aria-hidden="true" />
@@ -156,8 +155,8 @@ export default async function SystemReplacementPage() {
                 },
               ].map(({ icon: Icon, title, body }) => (
                 <div key={title} className="flex gap-4 p-5 rounded-lg border border-gray-200 bg-white shadow-sm">
-                  <div className="shrink-0 w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center border border-[#0077B6]/20">
-                    <Icon className="w-6 h-6 text-[#0077B6]" aria-hidden="true" />
+                  <div className="shrink-0 w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center border border-electric-blue/20">
+                    <Icon className="w-6 h-6 text-electric-blue" aria-hidden="true" />
                   </div>
                   <div>
                     <h3 className="font-bold text-gray-900 mb-1">{title}</h3>
@@ -170,7 +169,7 @@ export default async function SystemReplacementPage() {
               <div>
                 <Link
                   href="/replacement-estimator"
-                  className="inline-flex items-center gap-2 bg-lime-400 hover:bg-lime-300 text-[#003153] font-bold px-6 py-3 rounded-md shadow-md transition-colors"
+                  className="inline-flex items-center gap-2 bg-growth-green hover:bg-growth-green/90 text-prussian-blue font-bold px-6 py-3 rounded-md shadow-md transition-colors"
                   data-testid="system-replacement-estimator-link"
                 >
                   <Sparkles className="w-5 h-5" aria-hidden="true" />
@@ -182,7 +181,7 @@ export default async function SystemReplacementPage() {
               </div>
               <Link
                 href="/repair-or-replace"
-                className="text-[#0077B6] hover:underline font-semibold text-lg block"
+                className="text-electric-blue hover:underline font-semibold text-lg block"
                 data-testid="system-replacement-decision-link"
               >
                 Not sure yet? Use our repair-or-replace decision guide →
@@ -263,7 +262,7 @@ export default async function SystemReplacementPage() {
       <section className="py-16 lg:py-20 bg-blue-50">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <Award className="w-12 h-12 mx-auto mb-6 text-[#0077B6]" aria-hidden="true" />
+            <Award className="w-12 h-12 mx-auto mb-6 text-electric-blue" aria-hidden="true" />
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
               Up to 24 Months 0% APR on Approved Credit
             </h2>
@@ -274,7 +273,7 @@ export default async function SystemReplacementPage() {
             </p>
             <Link
               href="/financing"
-              className="inline-flex items-center justify-center gap-2 bg-[#0077B6] hover:bg-[#003153] text-white font-bold px-8 py-4 rounded-md text-lg shadow-md transition-colors"
+              className="inline-flex items-center justify-center gap-2 bg-electric-blue hover:bg-prussian-blue text-white font-bold px-8 py-4 rounded-md text-lg shadow-md transition-colors"
               data-testid="system-replacement-financing-link"
             >
               Learn More About Financing →
@@ -304,7 +303,7 @@ export default async function SystemReplacementPage() {
                 </div>
               ))}
             </div>
-            <Link href="/cities-served" className="text-[#0077B6] hover:underline font-semibold">
+            <Link href="/cities-served" className="text-electric-blue hover:underline font-semibold">
               View all 28 cities we serve →
             </Link>
           </div>
@@ -345,13 +344,10 @@ export default async function SystemReplacementPage() {
       </section>
 
       {/* Final CTA */}
-      <section
-        className="py-16 lg:py-20 text-white"
-        style={{ background: 'linear-gradient(135deg, #003153 0%, #0077B6 100%)' }}
-      >
+      <section className="py-16 lg:py-20 text-white bg-gradient-to-br from-prussian-blue to-electric-blue">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
-            <CheckCircle2 className="w-12 h-12 mx-auto mb-6 text-lime-300" aria-hidden="true" />
+            <CheckCircle2 className="w-12 h-12 mx-auto mb-6 text-growth-green" aria-hidden="true" />
             <h2 className="text-3xl lg:text-4xl font-bold mb-4">Start With a Free Estimate</h2>
             <p className="text-lg text-blue-100 mb-8">
               No obligation, no pushy sales. A licensed tech visits your home, assesses
@@ -360,7 +356,7 @@ export default async function SystemReplacementPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/estimate"
-                className="inline-flex items-center justify-center gap-2 bg-lime-400 hover:bg-lime-300 text-[#003153] font-bold px-8 py-4 rounded-md text-lg shadow-lg transition-colors"
+                className="inline-flex items-center justify-center gap-2 bg-growth-green hover:bg-growth-green/90 text-prussian-blue font-bold px-8 py-4 rounded-md text-lg shadow-lg transition-colors"
                 data-testid="system-replacement-final-estimate-cta"
               >
                 <Calendar className="w-5 h-5" aria-hidden="true" />
@@ -396,7 +392,7 @@ function CostFactor({ title, body }) {
 function Step({ number, title, body }) {
   return (
     <div className="relative bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-      <div className="absolute -top-4 left-6 w-10 h-10 bg-[#003153] text-white rounded-full flex items-center justify-center font-bold text-lg shadow-md">
+      <div className="absolute -top-4 left-6 w-10 h-10 bg-prussian-blue text-white rounded-full flex items-center justify-center font-bold text-lg shadow-md">
         {number}
       </div>
       <h3 className="text-lg font-bold text-gray-900 mt-4 mb-2">{title}</h3>
@@ -410,7 +406,7 @@ function Faq({ q, a }) {
     <details className="group bg-white rounded-lg border border-gray-200 p-5 shadow-sm">
       <summary className="cursor-pointer font-semibold text-gray-900 text-lg flex items-start justify-between gap-4">
         <span>{q}</span>
-        <span className="text-[#0077B6] text-2xl leading-none group-open:rotate-45 transition-transform shrink-0" aria-hidden="true">+</span>
+        <span className="text-electric-blue text-2xl leading-none group-open:rotate-45 transition-transform shrink-0" aria-hidden="true">+</span>
       </summary>
       <p className="text-gray-600 mt-3 leading-relaxed">{a}</p>
     </details>

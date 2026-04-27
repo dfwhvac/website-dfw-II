@@ -25,11 +25,11 @@ export default function NotFound() {
       <main className="flex-1 flex items-center justify-center px-4 py-16">
         <div className="max-w-3xl w-full text-center" data-testid="not-found-page">
           {/* Subtle 404 marker */}
-          <div className="text-[#0077B6] font-semibold tracking-widest text-sm mb-4">
+          <div className="text-electric-blue font-semibold tracking-widest text-sm mb-4">
             404 · PAGE NOT FOUND
           </div>
 
-          <h1 className="text-4xl md:text-5xl font-bold text-[#003153] mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-prussian-blue mb-4">
             We couldn&apos;t find that page
           </h1>
 
@@ -38,7 +38,7 @@ export default function NotFound() {
           </p>
 
           {/* Primary conversion: phone call */}
-          <div className="bg-gradient-to-br from-[#003153] to-[#00213a] text-white rounded-2xl p-8 md:p-10 mb-10 shadow-xl">
+          <div className="bg-gradient-to-br from-prussian-blue to-electric-blue text-white rounded-2xl p-8 md:p-10 mb-10 shadow-xl">
             <div className="flex items-center justify-center gap-1 mb-3">
               {[...Array(5)].map((_, i) => (
                 <Star key={i} className="w-5 h-5 fill-[#F77F00] text-[#F77F00]" />
@@ -62,13 +62,13 @@ export default function NotFound() {
           </div>
 
           {/* Secondary navigation — popular destinations */}
-          <h3 className="text-[#003153] font-semibold text-lg mb-4">
+          <h3 className="text-prussian-blue font-semibold text-lg mb-4">
             Or pick up where you left off
           </h3>
           <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-3 mb-8">
             <Link
               href="/"
-              className="group flex items-center justify-center gap-2 bg-white border-2 border-gray-200 text-[#003153] px-4 py-4 rounded-lg hover:border-[#0077B6] hover:text-[#0077B6] transition-colors font-medium"
+              className="group flex items-center justify-center gap-2 bg-white border-2 border-gray-200 text-prussian-blue px-4 py-4 rounded-lg hover:border-electric-blue hover:text-electric-blue transition-colors font-medium"
               data-testid="not-found-home-link"
             >
               <Home className="w-5 h-5" />
@@ -76,7 +76,7 @@ export default function NotFound() {
             </Link>
             <Link
               href="/services"
-              className="group flex items-center justify-center gap-2 bg-white border-2 border-gray-200 text-[#003153] px-4 py-4 rounded-lg hover:border-[#0077B6] hover:text-[#0077B6] transition-colors font-medium"
+              className="group flex items-center justify-center gap-2 bg-white border-2 border-gray-200 text-prussian-blue px-4 py-4 rounded-lg hover:border-electric-blue hover:text-electric-blue transition-colors font-medium"
               data-testid="not-found-services-link"
             >
               <Wrench className="w-5 h-5" />
@@ -84,7 +84,7 @@ export default function NotFound() {
             </Link>
             <Link
               href="/cities-served"
-              className="group flex items-center justify-center gap-2 bg-white border-2 border-gray-200 text-[#003153] px-4 py-4 rounded-lg hover:border-[#0077B6] hover:text-[#0077B6] transition-colors font-medium"
+              className="group flex items-center justify-center gap-2 bg-white border-2 border-gray-200 text-prussian-blue px-4 py-4 rounded-lg hover:border-electric-blue hover:text-electric-blue transition-colors font-medium"
               data-testid="not-found-cities-link"
             >
               <MapPin className="w-5 h-5" />
@@ -92,7 +92,7 @@ export default function NotFound() {
             </Link>
             <Link
               href="/reviews"
-              className="group flex items-center justify-center gap-2 bg-white border-2 border-gray-200 text-[#003153] px-4 py-4 rounded-lg hover:border-[#0077B6] hover:text-[#0077B6] transition-colors font-medium"
+              className="group flex items-center justify-center gap-2 bg-white border-2 border-gray-200 text-prussian-blue px-4 py-4 rounded-lg hover:border-electric-blue hover:text-electric-blue transition-colors font-medium"
               data-testid="not-found-reviews-link"
             >
               <Star className="w-5 h-5" />
@@ -103,7 +103,7 @@ export default function NotFound() {
           {/* Tertiary: explicit request-service path */}
           <Link
             href="/request-service"
-            className="inline-flex items-center gap-2 text-[#0077B6] hover:text-[#003153] font-semibold transition-colors"
+            className="inline-flex items-center gap-2 text-electric-blue hover:text-prussian-blue font-semibold transition-colors"
             data-testid="not-found-request-service-link"
           >
             Request service online

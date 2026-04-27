@@ -277,7 +277,7 @@ const DynamicPage = ({ page, companyInfo, testimonials = [] }) => {
 
       {/* CTA Banner */}
       {showCtaBanner !== false && (
-        <section className="py-20" style={{ background: 'linear-gradient(to right, #003153, #0077B6)' }}>
+        <section className="py-20 bg-gradient-to-r from-prussian-blue to-electric-blue">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-4xl font-bold text-white mb-4">Ready to Get Started?</h2>
             <p className="text-xl text-white opacity-90 mb-8 max-w-2xl mx-auto">

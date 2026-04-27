@@ -1,0 +1,67 @@
+{
+  "summary": "Frontend-only regression testing of Phase-7 brand cohesion refactor (CSS-variable design tokens). 40/41 pytest cases pass; all 47 sitemap pages return HTTP 200; hero gradients, growth-green funnel accents, header dropdown (8 links in 2 sections), footer 2-icon scheme (red phone + blue mail/location/clock), mobile menu, /api/leads submission, /api/estimator/calculate (5-Q wizard), and estimator UI end-to-end all verified. One real refactor-miss confirmed: homepage star ratings still use text-yellow-500 instead of text-alert-amber.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "HomePage.jsx (lines 133 & 332)",
+        "issue": "Homepage Google-rating stars use `text-yellow-500` instead of the canonical `text-alert-amber` token. /reviews page correctly uses alert-amber; only homepage was missed in the refactor. Verified both in HTML (class='... text-yellow-500 ...') and in the visual screenshot (yellow stars on / vs amber on /reviews).",
+        "selector": ".flex.items-center.justify-center.gap-1.text-yellow-500 (wrapping <svg class='lucide-star'>)",
+        "priority": "HIGH"
+      },
+      {
+        "component": "HomePage.jsx (line 145)",
+        "issue": "Clock trust-icon uses legacy alias `text-lime-green`. design_guidelines.md §1 Legacy aliases table says 'Always prefer the new semantic names' — should be `text-growth-green` (or whichever semantic role applies).",
+        "selector": "Clock icon in the Trust Indicators grid on homepage",
+        "priority": "MEDIUM"
+      },
+      {
+        "component": "EstimatorWizard.jsx (lines 398-418)",
+        "issue": "The 'Start over with different answers' reset button (data-testid='estimator-reset') is rendered ONLY inside the `leadSubmitted` branch. When a visitor sees the calculated range but does NOT opt in, there is no visible way to reset the wizard and try different inputs. The review-request explicitly listed 'test Reset button' as a required flow after range displays.",
+        "selector": "[data-testid='estimator-reset'] (only visible post-opt-in)",
+        "priority": "MEDIUM"
+      }
+    ],
+    "integration_issues": [],
+    "design_issues": [
+      {
+        "screen": "Homepage (/)",
+        "issues": [
+          "Star icons in both the hero trust-indicator (149 Reviews) and the 'What Our Customers Say' Google Rating badge render in yellow, visually inconsistent with amber stars elsewhere on the site."
+        ]
+      }
+    ]
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_brand_refactor.py",
+    "/app/test_reports/pytest/pytest_brand_refactor.xml"
+  ],
+  "action_items": [
+    "In /app/frontend/components/HomePage.jsx, change `text-yellow-500` → `text-alert-amber` on lines 133 and 332 (star wrappers) so homepage matches /reviews and design_guidelines.md §1 alert-amber rule.",
+    "In /app/frontend/components/HomePage.jsx line 145, replace legacy alias `text-lime-green` with the semantic token (`text-growth-green` or the intended successor).",
+    "In /app/frontend/app/replacement-estimator/EstimatorWizard.jsx, expose a reset/Start-Over button on the range-result screen (outside the `leadSubmitted` branch) so users can try different answers without opting in first. Currently the estimator-reset testid is only reachable after submitting the soft opt-in lead form.",
+    "OPTIONAL (carry-over from iteration 1): Add `name` + `data-testid` attributes to LeadForm/SimpleContactForm inputs to improve test robustness. Most inputs currently only have `id=` and a placeholder."
+  ],
+  "critical_code_review_comments": [
+    "Brand refactor miss: star color token was not applied in HomePage.jsx (2 call sites with `text-yellow-500`). grep across the codebase shows all OTHER Star usages correctly use `text-alert-amber` (ServiceTemplate.jsx, ReviewsGrid.jsx, CompanyPageTemplate.jsx, AboutPageTemplate.jsx). A codemod/lint rule forbidding `text-yellow-` would prevent this regression.",
+    "HomePage.jsx still references a legacy alias (`text-lime-green`). Legacy aliases are kept for back-compat but design_guidelines.md §1 explicitly says new code must prefer the semantic token.",
+    "EstimatorWizard reset-button placement is a UX gap (reset only visible after lead opt-in). Not a brand-token issue, but surfaced during the flow test specified by the review request.",
+    "No broken pages or hydration errors. All 47 sitemap URLs return 200, the canonical `from-prussian-blue to-electric-blue` gradient class is present on all 12 hero pages checked, funnel pages (/financing, /replacement-estimator, /repair-or-replace) all carry the `growth-green` token, footer icons scheme reduced exactly to {red phone, blue mail/location/clock} with zero yellow/green icons, star amber applied everywhere except homepage, and the 3 canonical button variants (urgency/primary/growth) render without errors."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_brand_refactor.py (created)"
+  ],
+  "success_rate": {
+    "backend": "N/A (Next.js app, no Python backend; /api/leads + /api/estimator/calculate tested via internal loopback: 100%)",
+    "frontend": "97% (40/41 pytest; 6/6 critical UI flows passing; 1 star-color refactor miss on homepage)"
+  },
+  "test_credentials": "N/A (no auth in this flow)",
+  "seed_data_creation": "2 TEST_ leads created via /api/leads (one via pytest, one via UI homepage form). Per prior-iteration precedent, NOT deleted.",
+  "retest_needed": true,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Tests live at /app/backend/tests/test_brand_refactor.py (41 cases, parametrized over sitemap + hero/funnel pages + CTA labels + footer icons + /api/leads + /api/estimator/calculate happy/invalid). Next.js API routes are only reachable at http://localhost:3000 from inside the container (the preview ingress reroutes /api/* to FastAPI for external callers) — the test file already handles this by using INTERNAL=http://localhost:3000 for API calls. The estimator payload contract: {sqft, systemType, stage, seer, ducts} with specific enum values defined in /app/frontend/app/api/estimator/calculate/route.js line 10. Homepage form placeholders: 'Enter your first name', 'Enter your last name', 'your@email.com', '(555) 123-4567', '123 Main St, Dallas, TX 75201'. Reset in EstimatorWizard sits behind leadSubmitted branch (line 398+).",
+  "rca of the issue": "RCA for the primary (HIGH) finding: During the Phase-7 brand cohesion refactor, the author swept most Star components to `text-alert-amber` but missed HomePage.jsx — two star clusters still have `text-yellow-500` on their wrapper divs (lines 133 and 332). The Star svgs themselves use `fill-current`, so the wrapper's text color is what the viewer sees. Reproduction: curl https://dfw-hvac-preview-2.preview.emergentagent.com/ | grep -o 'text-yellow-[0-9]*' shows matches; /reviews has none. Mitigation: Replace both `text-yellow-500` occurrences with `text-alert-amber` in HomePage.jsx. Verification: after fix, re-run `pytest backend/tests/test_brand_refactor.py::test_stars_use_alert_amber_not_yellow -v` — the `/` case should go green."
+}

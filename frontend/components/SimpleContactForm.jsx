@@ -201,8 +201,7 @@ const SimpleContactForm = ({
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="w-full h-12 text-white font-semibold text-lg transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-            style={{background: 'linear-gradient(to right, #0077B6, #003153)'}}
+            className="w-full h-12 text-white font-semibold text-lg transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none bg-gradient-to-r from-electric-blue to-prussian-blue"
             data-testid="contact-submit-button"
           >
             {isSubmitting ? "Sending..." : "Send Message"}

@@ -211,8 +211,7 @@ export default function EstimatorWizard() {
       <>
         {/* Results hero */}
         <section
-          className="py-14 lg:py-20 text-white"
-          style={{ background: 'linear-gradient(135deg, #003153 0%, #0077B6 100%)' }}
+          className="py-14 lg:py-20 text-white bg-gradient-to-br from-prussian-blue to-electric-blue"
           data-testid="estimator-result"
         >
           <div className="container mx-auto px-4">
@@ -223,11 +222,11 @@ export default function EstimatorWizard() {
               </div>
               <p className="text-lg text-blue-100 mb-2">Based on your answers</p>
               <p className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-none mb-4">
-                <span className="text-lime-300">
+                <span className="text-growth-green">
                   ${result.low.toLocaleString()}
                 </span>
                 <span className="text-3xl sm:text-4xl lg:text-5xl text-blue-200 mx-3">–</span>
-                <span className="text-lime-300">
+                <span className="text-growth-green">
                   ${result.high.toLocaleString()}
                 </span>
               </p>
@@ -254,7 +253,7 @@ export default function EstimatorWizard() {
                 <BreakdownRow label="Ductwork" value={labelFor('ducts', answers.ducts)} />
               </div>
               <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-5 flex gap-3">
-                <Info className="w-5 h-5 text-[#0077B6] shrink-0 mt-0.5" aria-hidden="true" />
+                <Info className="w-5 h-5 text-electric-blue shrink-0 mt-0.5" aria-hidden="true" />
                 <p className="text-sm text-gray-700 leading-relaxed">
                   These figures are estimates based on DFW market averages and your answers. The
                   actual installed price depends on attic access, electrical panel capacity,
@@ -277,7 +276,7 @@ export default function EstimatorWizard() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
                 <Link
                   href="/estimate"
-                  className="inline-flex flex-col items-center justify-center gap-2 bg-[#003153] hover:bg-[#0077B6] text-white font-bold px-6 py-6 rounded-md text-base shadow-lg transition-colors text-center"
+                  className="inline-flex flex-col items-center justify-center gap-2 bg-prussian-blue hover:bg-electric-blue text-white font-bold px-6 py-6 rounded-md text-base shadow-lg transition-colors text-center"
                   data-testid="estimator-book-estimate"
                 >
                   <Calendar className="w-6 h-6" aria-hidden="true" />
@@ -285,7 +284,7 @@ export default function EstimatorWizard() {
                 </Link>
                 <a
                   href={PHONE_TEL}
-                  className="inline-flex flex-col items-center justify-center gap-2 bg-white hover:bg-gray-50 text-[#003153] font-bold px-6 py-6 rounded-md text-base shadow-md border-2 border-[#003153] transition-colors text-center"
+                  className="inline-flex flex-col items-center justify-center gap-2 bg-white hover:bg-gray-50 text-prussian-blue font-bold px-6 py-6 rounded-md text-base shadow-md border-2 border-prussian-blue transition-colors text-center"
                   data-testid="estimator-call"
                 >
                   <Phone className="w-6 h-6" aria-hidden="true" />
@@ -293,7 +292,7 @@ export default function EstimatorWizard() {
                 </a>
                 <Link
                   href="/financing"
-                  className="inline-flex flex-col items-center justify-center gap-2 bg-lime-400 hover:bg-lime-300 text-[#003153] font-bold px-6 py-6 rounded-md text-base shadow-md transition-colors text-center"
+                  className="inline-flex flex-col items-center justify-center gap-2 bg-growth-green hover:bg-growth-green/90 text-prussian-blue font-bold px-6 py-6 rounded-md text-base shadow-md transition-colors text-center"
                   data-testid="estimator-financing"
                 >
                   <Sparkles className="w-6 h-6" aria-hidden="true" />
@@ -318,7 +317,7 @@ export default function EstimatorWizard() {
                           Optional — we&apos;ll reach out within one business day. No obligation.
                         </p>
                       </div>
-                      <ArrowRight className="w-5 h-5 text-[#0077B6] shrink-0 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+                      <ArrowRight className="w-5 h-5 text-electric-blue shrink-0 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                     </button>
                   ) : (
                     <form onSubmit={handleLeadSubmit} className="space-y-4" data-testid="estimator-optin-form">
@@ -340,7 +339,7 @@ export default function EstimatorWizard() {
                             required
                             value={leadForm.firstName}
                             onChange={(e) => setLeadForm({ ...leadForm, firstName: e.target.value })}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0077B6]"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-blue"
                             data-testid="estimator-optin-firstname"
                           />
                         </div>
@@ -354,7 +353,7 @@ export default function EstimatorWizard() {
                             required
                             value={leadForm.phone}
                             onChange={(e) => setLeadForm({ ...leadForm, phone: e.target.value })}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0077B6]"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-blue"
                             data-testid="estimator-optin-phone"
                           />
                         </div>
@@ -368,7 +367,7 @@ export default function EstimatorWizard() {
                           type="email"
                           value={leadForm.email}
                           onChange={(e) => setLeadForm({ ...leadForm, email: e.target.value })}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0077B6]"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-blue"
                           data-testid="estimator-optin-email"
                         />
                       </div>
@@ -379,7 +378,7 @@ export default function EstimatorWizard() {
                         <button
                           type="submit"
                           disabled={leadSubmitting}
-                          className="flex-1 inline-flex items-center justify-center gap-2 bg-[#003153] hover:bg-[#0077B6] disabled:bg-gray-400 text-white font-bold px-6 py-3 rounded-md transition-colors"
+                          className="flex-1 inline-flex items-center justify-center gap-2 bg-prussian-blue hover:bg-electric-blue disabled:bg-gray-400 text-white font-bold px-6 py-3 rounded-md transition-colors"
                           data-testid="estimator-optin-submit"
                         >
                           {leadSubmitting && <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />}
@@ -397,8 +396,8 @@ export default function EstimatorWizard() {
                   )}
                 </div>
               ) : (
-                <div className="bg-lime-50 border border-lime-200 rounded-xl p-6 text-center" data-testid="estimator-optin-success">
-                  <CheckCircle2 className="w-12 h-12 mx-auto mb-3 text-lime-600" aria-hidden="true" />
+                <div className="bg-growth-green/10 border border-growth-green/30 rounded-xl p-6 text-center" data-testid="estimator-optin-success">
+                  <CheckCircle2 className="w-12 h-12 mx-auto mb-3 text-success-green" aria-hidden="true" />
                   <h3 className="text-xl font-bold text-gray-900 mb-1">You&apos;re on the schedule.</h3>
                   <p className="text-gray-700">
                     Thanks, {leadForm.firstName}! We&apos;ll call you within one business day to
@@ -410,7 +409,7 @@ export default function EstimatorWizard() {
               <div className="mt-8 text-center">
                 <button
                   onClick={handleReset}
-                  className="inline-flex items-center gap-2 text-gray-600 hover:text-[#003153] font-medium"
+                  className="inline-flex items-center gap-2 text-gray-600 hover:text-prussian-blue font-medium"
                   data-testid="estimator-reset"
                 >
                   <RotateCcw className="w-4 h-4" aria-hidden="true" />
@@ -428,10 +427,7 @@ export default function EstimatorWizard() {
   return (
     <>
       {/* Hero */}
-      <section
-        className="py-12 lg:py-16 text-white"
-        style={{ background: 'linear-gradient(135deg, #003153 0%, #0077B6 100%)' }}
-      >
+      <section className="py-12 lg:py-16 text-white bg-gradient-to-br from-prussian-blue to-electric-blue">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full text-sm font-medium border border-white/20 mb-6">
@@ -439,7 +435,7 @@ export default function EstimatorWizard() {
               Free Instant Estimate · No Signup
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight mb-4">
-              HVAC Replacement <span className="text-lime-300">Cost Estimator</span>
+              HVAC Replacement <span className="text-growth-green">Cost Estimator</span>
             </h1>
             <p className="text-lg text-blue-100 leading-relaxed">
               Answer 5 quick questions and see your installed-price range on screen in under a minute.
@@ -463,7 +459,7 @@ export default function EstimatorWizard() {
               </div>
               <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-[#0077B6] to-lime-400 transition-all duration-300"
+                  className="h-full bg-gradient-to-r from-electric-blue to-growth-green transition-all duration-300"
                   style={{ width: `${progressPct}%` }}
                 />
               </div>
@@ -489,7 +485,7 @@ export default function EstimatorWizard() {
                       onClick={() => handleSelect(opt.value)}
                       className={`w-full text-left px-4 py-3 rounded-lg border-2 transition-all ${
                         selected
-                          ? 'bg-blue-50 border-[#0077B6] text-[#003153] font-semibold shadow-sm'
+                          ? 'bg-blue-50 border-electric-blue text-prussian-blue font-semibold shadow-sm'
                           : 'bg-white border-gray-200 text-gray-700 hover:border-gray-400 hover:bg-gray-50'
                       }`}
                       data-testid={`estimator-option-${currentQuestion.id}-${opt.value}`}
@@ -497,7 +493,7 @@ export default function EstimatorWizard() {
                       <div className="flex items-center gap-3">
                         <span
                           className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${
-                            selected ? 'border-[#0077B6] bg-[#0077B6]' : 'border-gray-300 bg-white'
+                            selected ? 'border-electric-blue bg-electric-blue' : 'border-gray-300 bg-white'
                           }`}
                           aria-hidden="true"
                         >
@@ -520,7 +516,7 @@ export default function EstimatorWizard() {
               <button
                 onClick={handleBack}
                 disabled={stepIndex === 0 || loading}
-                className="inline-flex items-center gap-2 px-5 py-2.5 text-gray-600 hover:text-[#003153] font-medium disabled:opacity-40 disabled:cursor-not-allowed"
+                className="inline-flex items-center gap-2 px-5 py-2.5 text-gray-600 hover:text-prussian-blue font-medium disabled:opacity-40 disabled:cursor-not-allowed"
                 data-testid="estimator-back"
               >
                 <ArrowLeft className="w-4 h-4" aria-hidden="true" />
@@ -529,7 +525,7 @@ export default function EstimatorWizard() {
               <button
                 onClick={handleNext}
                 disabled={!canAdvance || loading}
-                className="inline-flex items-center gap-2 bg-[#003153] hover:bg-[#0077B6] disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-bold px-6 py-3 rounded-md shadow-md transition-colors"
+                className="inline-flex items-center gap-2 bg-prussian-blue hover:bg-electric-blue disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-bold px-6 py-3 rounded-md shadow-md transition-colors"
                 data-testid="estimator-next"
               >
                 {loading ? (

@@ -27,7 +27,7 @@ const ReviewsGrid = ({ testimonials = [], googleReviews = 145 }) => {
           <div className="text-center mb-12">
             <div className="flex items-center justify-center gap-2 mb-4">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-8 h-8 fill-current text-yellow-400" />
+                <Star key={i} className="w-8 h-8 fill-current text-alert-amber" />
               ))}
             </div>
             <p className="text-2xl font-bold text-gray-900">5.0 out of 5</p>
@@ -46,7 +46,7 @@ const ReviewsGrid = ({ testimonials = [], googleReviews = 145 }) => {
                 <CardContent className="p-6">
                   <div className="flex items-center gap-1 mb-4">
                     {[...Array(testimonial.rating || 5)].map((_, i) => (
-                      <Star key={i} className="w-5 h-5 fill-current text-yellow-400" />
+                      <Star key={i} className="w-5 h-5 fill-current text-alert-amber" />
                     ))}
                   </div>
                   <p className="text-gray-700 mb-4 text-lg">"{testimonial.text}"</p>

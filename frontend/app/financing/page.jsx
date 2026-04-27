@@ -55,8 +55,7 @@ export default async function FinancingPage() {
 
       {/* Hero */}
       <section
-        className="relative py-20 lg:py-28 text-white overflow-hidden"
-        style={{ background: 'linear-gradient(135deg, #003153 0%, #0077B6 100%)' }}
+        className="relative py-20 lg:py-28 text-white overflow-hidden bg-gradient-to-br from-prussian-blue to-electric-blue"
         data-testid="financing-hero"
       >
         <div className="container mx-auto px-4 relative z-10">
@@ -66,7 +65,7 @@ export default async function FinancingPage() {
               Flexible HVAC Financing in Dallas-Fort Worth
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-              Up to <span className="text-lime-300">24 Months 0% APR</span><br />
+              Up to <span className="text-growth-green">24 Months 0% APR</span><br />
               on a New HVAC System
             </h1>
             <p className="text-lg lg:text-xl text-blue-100 mb-8 leading-relaxed">
@@ -79,7 +78,7 @@ export default async function FinancingPage() {
                 href={WISETACK_APPLY_URL}
                 target={WISETACK_APPLY_URL.startsWith('http') ? '_blank' : undefined}
                 rel={WISETACK_APPLY_URL.startsWith('http') ? 'noopener noreferrer' : undefined}
-                className="inline-flex items-center justify-center gap-2 bg-lime-400 hover:bg-lime-300 text-[#003153] font-bold px-8 py-4 rounded-md text-lg shadow-lg transition-colors"
+                className="inline-flex items-center justify-center gap-2 bg-growth-green hover:bg-growth-green/90 text-prussian-blue font-bold px-8 py-4 rounded-md text-lg shadow-lg transition-colors"
                 data-testid="financing-apply-cta"
               >
                 Pre-Qualify Now
@@ -193,7 +192,7 @@ export default async function FinancingPage() {
                   key={item}
                   className="flex items-start gap-3 bg-blue-50/50 border border-blue-100 rounded-lg p-4"
                 >
-                  <CheckCircle2 className="w-5 h-5 text-lime-600 shrink-0 mt-0.5" aria-hidden="true" />
+                  <CheckCircle2 className="w-5 h-5 text-success-green shrink-0 mt-0.5" aria-hidden="true" />
                   <span className="text-gray-800 font-medium">{item}</span>
                 </div>
               ))}
@@ -236,13 +235,10 @@ export default async function FinancingPage() {
       </section>
 
       {/* Final CTA */}
-      <section
-        className="py-16 lg:py-20 text-white"
-        style={{ background: 'linear-gradient(135deg, #003153 0%, #0077B6 100%)' }}
-      >
+      <section className="py-16 lg:py-20 text-white bg-gradient-to-br from-prussian-blue to-electric-blue">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
-            <MessageSquare className="w-12 h-12 mx-auto mb-6 text-lime-300" aria-hidden="true" />
+            <MessageSquare className="w-12 h-12 mx-auto mb-6 text-growth-green" aria-hidden="true" />
             <h2 className="text-3xl lg:text-4xl font-bold mb-4">
               Ready to See Your Options?
             </h2>
@@ -254,7 +250,7 @@ export default async function FinancingPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/estimate"
-                className="inline-flex items-center justify-center gap-2 bg-lime-400 hover:bg-lime-300 text-[#003153] font-bold px-8 py-4 rounded-md text-lg shadow-lg transition-colors"
+                className="inline-flex items-center justify-center gap-2 bg-growth-green hover:bg-growth-green/90 text-prussian-blue font-bold px-8 py-4 rounded-md text-lg shadow-lg transition-colors"
                 data-testid="financing-estimate-cta"
               >
                 Get a Free Estimate
@@ -303,8 +299,8 @@ export default async function FinancingPage() {
 function Benefit({ icon: Icon, title, body }) {
   return (
     <div className="text-center p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-      <div className="w-14 h-14 mx-auto mb-4 bg-blue-50 rounded-full flex items-center justify-center border border-[#0077B6]/20">
-        <Icon className="w-7 h-7 text-[#0077B6]" aria-hidden="true" />
+      <div className="w-14 h-14 mx-auto mb-4 bg-blue-50 rounded-full flex items-center justify-center border border-electric-blue/20">
+        <Icon className="w-7 h-7 text-electric-blue" aria-hidden="true" />
       </div>
       <h3 className="text-xl font-bold text-gray-900 mb-2">{title}</h3>
       <p className="text-gray-600 leading-relaxed">{body}</p>
@@ -315,7 +311,7 @@ function Benefit({ icon: Icon, title, body }) {
 function Step({ number, title, body }) {
   return (
     <div className="relative bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-      <div className="absolute -top-4 left-6 w-10 h-10 bg-[#003153] text-white rounded-full flex items-center justify-center font-bold text-lg shadow-md">
+      <div className="absolute -top-4 left-6 w-10 h-10 bg-prussian-blue text-white rounded-full flex items-center justify-center font-bold text-lg shadow-md">
         {number}
       </div>
       <h3 className="text-xl font-bold text-gray-900 mt-4 mb-3">{title}</h3>
@@ -329,7 +325,7 @@ function Faq({ q, a }) {
     <details className="group bg-white rounded-lg border border-gray-200 p-5 shadow-sm">
       <summary className="cursor-pointer font-semibold text-gray-900 text-lg flex items-start justify-between gap-4">
         <span>{q}</span>
-        <span className="text-[#0077B6] text-2xl leading-none group-open:rotate-45 transition-transform shrink-0" aria-hidden="true">+</span>
+        <span className="text-electric-blue text-2xl leading-none group-open:rotate-45 transition-transform shrink-0" aria-hidden="true">+</span>
       </summary>
       <p className="text-gray-600 mt-3 leading-relaxed">{a}</p>
     </details>

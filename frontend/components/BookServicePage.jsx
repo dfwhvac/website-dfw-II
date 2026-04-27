@@ -60,7 +60,7 @@ const BookServicePage = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-[#003153] to-[#00213a] text-white py-12">
+      <section className="bg-gradient-to-br from-prussian-blue to-prussian-blue text-white py-12">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-3xl md:text-4xl font-bold mb-4">
             Get Your Free HVAC Estimate
@@ -69,7 +69,7 @@ const BookServicePage = () => {
             Request a free estimate from Dallas-Fort Worth's most trusted 
             heating and cooling experts. Honest assessments, transparent pricing.
           </p>
-          <div className="flex items-center justify-center gap-2 text-[#0077B6]">
+          <div className="flex items-center justify-center gap-2 text-electric-blue">
             <Phone className="w-5 h-5" />
             <span className="text-lg">Need immediate service?</span>
             <a href="tel:+19727772665" className="text-white font-bold hover:underline">
@@ -99,7 +99,7 @@ const BookServicePage = () => {
             {/* Service Types */}
             <Card className="shadow-lg border-0">
               <CardHeader>
-                <CardTitle className="text-2xl text-[#003153]">Our Services</CardTitle>
+                <CardTitle className="text-2xl text-prussian-blue">Our Services</CardTitle>
                 <CardDescription>
                   Professional HVAC services for all your heating and cooling needs
                 </CardDescription>
@@ -109,7 +109,7 @@ const BookServicePage = () => {
                   const IconComponent = service.icon
                   const colorClasses = {
                     red: "bg-red-100 text-[#D30000]",
-                    cyan: "bg-cyan-100 text-[#0077B6]", 
+                    cyan: "bg-blue-50 text-electric-blue", 
                     orange: "bg-orange-100 text-orange-600",
                     green: "bg-green-100 text-green-600"
                   }
@@ -121,7 +121,7 @@ const BookServicePage = () => {
                       </div>
                       <div className="flex-1">
                         <div className="flex items-center gap-2">
-                          <h3 className="font-semibold text-lg text-[#003153]">{service.title}</h3>
+                          <h3 className="font-semibold text-lg text-prussian-blue">{service.title}</h3>
                           {service.urgent && (
                             <span className="bg-red-100 text-[#D30000] text-xs px-2 py-1 rounded-full font-medium">
                               FAST
@@ -139,7 +139,7 @@ const BookServicePage = () => {
             {/* Service Guarantees */}
             <Card className="shadow-lg border-0">
               <CardHeader>
-                <CardTitle className="text-xl text-[#003153]">Why Choose DFW HVAC?</CardTitle>
+                <CardTitle className="text-xl text-prussian-blue">Why Choose DFW HVAC?</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
@@ -150,13 +150,13 @@ const BookServicePage = () => {
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <Clock className="w-5 h-5 text-[#0077B6] flex-shrink-0" />
+                    <Clock className="w-5 h-5 text-electric-blue flex-shrink-0" />
                     <span className="text-gray-700">
                       <strong>Fast Response</strong> — Contact within 24 hours
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <Shield className="w-5 h-5 text-[#003153] flex-shrink-0" />
+                    <Shield className="w-5 h-5 text-prussian-blue flex-shrink-0" />
                     <span className="text-gray-700">
                       <strong>Licensed & Insured</strong> — Fully certified technicians
                     </span>
@@ -174,8 +174,8 @@ const BookServicePage = () => {
             {/* Service Areas */}
             <Card className="shadow-lg border-0">
               <CardHeader>
-                <CardTitle className="text-xl text-[#003153] flex items-center gap-2">
-                  <MapPin className="w-5 h-5 text-[#0077B6]" />
+                <CardTitle className="text-xl text-prussian-blue flex items-center gap-2">
+                  <MapPin className="w-5 h-5 text-electric-blue" />
                   Service Areas
                 </CardTitle>
               </CardHeader>
@@ -186,14 +186,14 @@ const BookServicePage = () => {
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm mb-4">
                   {majorCities.map((city, index) => (
                     <div key={index} className="text-gray-700 flex items-center gap-1">
-                      <CheckCircle className="w-3 h-3 text-[#0077B6] flex-shrink-0" />
+                      <CheckCircle className="w-3 h-3 text-electric-blue flex-shrink-0" />
                       {city}
                     </div>
                   ))}
                 </div>
                 <Link 
                   href="/cities-served"
-                  className="inline-flex items-center gap-2 text-[#0077B6] hover:text-[#003153] font-medium transition-colors"
+                  className="inline-flex items-center gap-2 text-electric-blue hover:text-prussian-blue font-medium transition-colors"
                 >
                   View all cities we serve
                   <ArrowRight className="w-4 h-4" />

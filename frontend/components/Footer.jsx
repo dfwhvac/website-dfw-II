@@ -179,13 +179,13 @@ const Footer = ({ companyInfo = {}, siteSettings = null }) => {
               </a>
               {showServiceAreas && (
                 <div className="flex items-center gap-3 text-sm">
-                  <MapPin className="w-4 h-4 text-lime-green" />
+                  <MapPin className="w-4 h-4 text-electric-blue" />
                   <span className="text-gray-300">{address}</span>
                 </div>
               )}
               {showBusinessHours && businessHours && (
                 <div className="flex items-center gap-3 text-sm">
-                  <Clock className="w-4 h-4 text-yellow-500" />
+                  <Clock className="w-4 h-4 text-electric-blue" />
                   <div className="text-gray-300">
                     <div>Mon-Fri: {businessHours.monday}</div>
                     <div>Sat-Sun: Closed</div>

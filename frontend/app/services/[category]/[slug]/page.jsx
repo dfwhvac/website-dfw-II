@@ -275,7 +275,7 @@ export default async function ServicePage({ params }) {
           <section className="bg-gray-50 py-16 border-t" aria-labelledby="cities-heading">
             <div className="container mx-auto px-4">
               <div className="max-w-5xl mx-auto">
-                <h2 id="cities-heading" className="text-2xl md:text-3xl font-bold text-[#003153] mb-3 text-center">
+                <h2 id="cities-heading" className="text-2xl md:text-3xl font-bold text-prussian-blue mb-3 text-center">
                   {service.title} Across the DFW Metroplex
                 </h2>
                 <p className="text-gray-600 text-center mb-10 max-w-2xl mx-auto">
@@ -286,18 +286,18 @@ export default async function ServicePage({ params }) {
                     <Link
                       key={cp.slug}
                       href={`/cities-served/${cp.slug}`}
-                      className="group flex items-center justify-between bg-white border border-gray-200 text-[#003153] px-4 py-3 rounded-lg hover:border-[#0077B6] hover:shadow-md transition-all"
+                      className="group flex items-center justify-between bg-white border border-gray-200 text-prussian-blue px-4 py-3 rounded-lg hover:border-electric-blue hover:shadow-md transition-all"
                       data-testid={`service-city-link-${cp.slug}`}
                     >
                       <span className="font-medium text-sm">
                         {service.title.split(' ').slice(0, 2).join(' ')} in {cp.cityName}
                       </span>
-                      <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-[#0077B6] transition-colors flex-shrink-0 ml-2" />
+                      <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-electric-blue transition-colors flex-shrink-0 ml-2" />
                     </Link>
                   ))}
                 </div>
                 <div className="text-center mt-8">
-                  <Link href="/cities-served" className="text-[#0077B6] font-semibold hover:underline">
+                  <Link href="/cities-served" className="text-electric-blue font-semibold hover:underline">
                     View all DFW cities we serve →
                   </Link>
                 </div>

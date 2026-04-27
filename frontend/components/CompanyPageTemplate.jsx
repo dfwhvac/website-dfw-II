@@ -62,7 +62,7 @@ const CompanyPageTemplate = ({
                 <span>Three-Generation Legacy</span>
               </div>
               <div className="flex items-center gap-2">
-                <Star className="w-5 h-5 fill-current text-yellow-400" />
+                <Star className="w-5 h-5 fill-current text-alert-amber" />
                 <span>5.0 Rating • {googleReviews} Reviews</span>
               </div>
             </div>
@@ -226,7 +226,7 @@ const CompanyPageTemplate = ({
                 {serviceAreas.length > 0 && (
                   <div className="mt-8">
                     <h3 className="font-semibold text-gray-900 mb-3">
-                      <Link href="/cities-served" className="hover:text-[#0077B6]">
+                      <Link href="/cities-served" className="hover:text-electric-blue">
                         Service Areas
                       </Link>
                     </h3>
@@ -266,7 +266,7 @@ const CompanyPageTemplate = ({
               <div className="text-center mb-12">
                 <div className="flex items-center justify-center gap-2 mb-4">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-8 h-8 fill-current text-yellow-400" />
+                    <Star key={i} className="w-8 h-8 fill-current text-alert-amber" />
                   ))}
                 </div>
                 <p className="text-2xl font-bold text-gray-900">5.0 out of 5</p>
@@ -280,7 +280,7 @@ const CompanyPageTemplate = ({
                     <CardContent className="p-6">
                       <div className="flex items-center gap-1 mb-4">
                         {[...Array(testimonial.rating || 5)].map((_, i) => (
-                          <Star key={i} className="w-5 h-5 fill-current text-yellow-400" />
+                          <Star key={i} className="w-5 h-5 fill-current text-alert-amber" />
                         ))}
                       </div>
                       <p className="text-gray-700 mb-4 text-lg">"{testimonial.text}"</p>
@@ -363,7 +363,7 @@ const CompanyPageTemplate = ({
                   <CardContent className="p-6">
                     <div className="flex items-center gap-1 mb-3">
                       {[...Array(testimonial.rating || 5)].map((_, i) => (
-                        <Star key={i} className="w-4 h-4 fill-current text-yellow-400" />
+                        <Star key={i} className="w-4 h-4 fill-current text-alert-amber" />
                       ))}
                     </div>
                     <p className="text-gray-600 mb-4 text-sm">"{testimonial.text}"</p>
