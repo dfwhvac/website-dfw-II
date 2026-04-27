@@ -11,7 +11,9 @@ Reverse-chronological record of everything shipped to production. When adding en
 
 - **SecurityHeaders.com graded `https://dfwhvac.com` an `A`** post-deploy (capped at A solely by the documented `unsafe-inline`/`unsafe-eval` accepted-risk warning on `script-src`). Path to A+ is the queued **F3c** ticket (CSP nonce migration via Next.js middleware).
 - **`poweredByHeader: false` shipped** in `next.config.js` to strip the `X-Powered-By: Next.js` framework-fingerprint leak that the same report flagged. Trivial defense-in-depth.
-- **KPI Baseline §1.5 updated** — Grade A logged as the post-F3 baseline; `X-Powered-By` row added.
+- **Re-verified live Apr 27, 20:24 UTC** — securityheaders.com Raw Headers no longer list `x-powered-by`; "Additional Information" hardening tip for it has dropped off the report.
+- **C8 ticket added to ROADMAP.md** Priority 3 — "🔒 Secured" footer trust microcopy (30 min, soft trust signal targeting hesitant homeowners on financing/contact forms).
+- **KPI Baseline §1.5 updated** — Grade A logged as the post-F3 baseline; `X-Powered-By` row updated with verification timestamp.
 
 ---
 
