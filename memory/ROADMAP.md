@@ -128,6 +128,13 @@ Document captures live in `/app/memory/audits/2026-04-27_KPI_Baseline.md`.
 | ✅ P1.17a | Manual GSC indexing requests (~95% of sitemap submitted) | Apr 21–27, 2026 |
 | ✅ Apr 27 audit | Site-wide indexing audit completed (89.4% indexed, 93.6% effective) | Apr 27, 2026 |
 | ✅ A1, A2 | `the-colony` + `commercial-heating` GSC re-submitted | Apr 27, 2026 |
+| ✅ A4 + P1.4 | Commercial-heating Sanity content fully populated (12 fields written: 5 hero benefits, 8 what-we-do items, 5 process steps, 6 why-choose-us, emergency block, 6 commercial FAQs) — kills the duplicate-content rejection | Apr 27, 2026 |
+| ✅ S1 | AI crawler robots.txt explicit allow (GPTBot, ChatGPT-User, OAI-SearchBot, ClaudeBot, Claude-Web, anthropic-ai, PerplexityBot, Perplexity-User, Google-Extended, Applebot-Extended, CCBot, Bytespider, Diffbot, FacebookBot, Meta-ExternalAgent) | Apr 27, 2026 |
+| ✅ S2 | Schema audit + completion: WebApplication + HowTo (6-step) on `/replacement-estimator`; FAQPage emitted from `ServiceTemplate` for any service with FAQs (`commercial-heating` now ships 6 commercial FAQs as JSON-LD) | Apr 27, 2026 |
+| ✅ S5 | Image alt-text audit — codebase clean (no `<img>` tags, no empty `alt=""`, all images use Next.js `<Image>` with alt) | Apr 27, 2026 |
+| ✅ S6 | OG / Twitter card defaults enriched in `lib/metadata.js` (default image, dimensions, alt, twitter site/creator/card, og url + locale + type) | Apr 27, 2026 |
+| ✅ S7 | Sitemap lastmod tiering — stable policy pages pinned to `POLICY_LASTMOD` constant, Sanity-driven pages use `_updatedAt` correctly | Apr 27, 2026 |
+| ✅ P2.1 | "50+ cities" copy cleanup — confirmed no false claims; "50+" only appears as "50+ Years of Family Legacy" (correct, three-generation business) | Apr 27, 2026 |
 
 ## P2.B — KPI baseline (capture in Phase 2a)
 
@@ -161,18 +168,10 @@ Document captures live in `/app/memory/audits/2026-04-27_KPI_Baseline.md`.
 
 | # | ID | Item | Effort |
 |---|---|---|---|
-| 1 | A4 | `commercial-heating` content differentiation + internal linking (the only page Google explicitly rejected) | 45 min |
-| 2 | S1 | **AI crawler robots.txt policy** — verify GPTBot, ClaudeBot, PerplexityBot, Google-Extended `Allow: /` | 30 min |
-| 3 | S2 | Schema audit + completion (esp. `WebApplication`/`HowTo` on `/replacement-estimator`) | 2 hrs |
-| 4 | P1.6f | Rich Results validation on home, plano, AC, contact, repair-or-replace | 30 min |
-| 5 | P1.4 | Internal linking matrix (overlaps with A4) | 2–3 hrs |
-| 6 | S3 | AEO citation tracking baseline — 15–20 queries logged | 1 hr |
-| 7 | P1.5 | GSC baseline capture + weekly trend doc | 30 min |
-| 8 | A3 | May 5 GSC re-audit (re-export 6 reports → diff vs Apr 27 baseline) | 10 min user + 30 min agent |
-| 9 | P2.1 | "50+ cities" copy cleanup (actual = 28) | 30 min |
-| 10 | S5 | Image alt-text sitewide audit (LLM-assisted) | 1 hr |
-| 11 | S6 | OG / Twitter card audit | 1 hr |
-| 12 | S7 | Sitemap priority + lastmod accuracy | 1 hr |
+| 1 | P1.6f | Rich Results validation on home, plano, AC, contact, repair-or-replace, **commercial-heating, replacement-estimator** (manual user QA on https://search.google.com/test/rich-results — verify FAQPage / WebApplication / HowTo / Service / LocalBusiness / BreadcrumbList all parse) | 30 min |
+| 2 | S3 | AEO citation tracking baseline — 15–20 queries logged | 1 hr |
+| 3 | P1.5 | GSC baseline capture + weekly trend doc | 30 min |
+| 4 | A3 | May 5 GSC re-audit (re-export 6 reports → diff vs Apr 27 baseline) | 10 min user + 30 min agent |
 
 ### Phase 2b: SEO Content Cadence (weeks 4–24, runs parallel to Phase 3)
 

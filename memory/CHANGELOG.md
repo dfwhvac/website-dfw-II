@@ -7,6 +7,49 @@ Reverse-chronological record of everything shipped to production. When adding en
 
 ---
 
+## April 27, 2026 — Phase 2a SEO/AEO Quick Wins shipped (Batch 1 + 2)
+
+**8 of 12 Phase 2a items shipped in one pass.** Remaining 4 require user data (GSC export, AEO query runs) or calendar-gated re-audit; queued for Phase 2a residual work.
+
+### A4 + P1.4 — Commercial-heating differentiation
+- Sanity `commercial-heating` document was 75% empty (only 4 of 16 fields populated). Page was rendering near-duplicate to siblings; the single URL Google explicitly rejected ("Crawled — currently not indexed") in the Apr 27 indexing audit.
+- Created `frontend/scripts/patch-commercial-heating.js` (idempotent, dotenv-based) and committed 12 fields of differentiated, B2B-keyword-rich commercial-only content: 5 hero benefits (RTU, after-hours, multi-zone, COIs), 8 what-we-do items (RTUs, gas-fired furnaces, boilers, VAV, BACnet), 5 process steps (triage, on-site diagnosis, NTE-friendly written quote, repair/staged replacement, handoff), 6 why-choose-us, dedicated emergency block, **6 commercial-only FAQs** (after-hours, COIs, NTE thresholds, response time, contracts).
+- ServiceTemplate page at `app/services/[category]/[slug]/page.jsx` now imports `FAQSchema` and conditionally emits `FAQPage` JSON-LD when the service has FAQs — **all service pages with FAQs are now FAQPage rich-result eligible** (commercial-heating immediately benefits with 6 questions).
+- Verified live: 9 distinct commercial-only phrases (rooftop, RTU, boiler, NTE, VAV, after-hours, COI, property manager, three-generation) confirmed in rendered HTML.
+
+### S1 — AI crawler `robots.txt` opened up
+- `app/robots.js` rewritten. Default `User-agent: *` retains the prior allow/disallow list. Added 15 named UAs with explicit `Allow: /` blocks: GPTBot, ChatGPT-User, OAI-SearchBot, ClaudeBot, Claude-Web, anthropic-ai, PerplexityBot, Perplexity-User, Google-Extended, Applebot-Extended, CCBot, Bytespider, Diffbot, FacebookBot, Meta-ExternalAgent.
+- Posture: most agencies block these by default. We choose visibility — AI answer engines are an emerging top-of-funnel channel for "hvac contractor near me" / "best ac repair dallas" queries. Self-documenting comment in code lays out reversal procedure if business decision changes.
+
+### S2 — Schema completion
+- `/replacement-estimator` gained two new JSON-LD blocks: **WebApplication** (signals interactive in-browser tool, `applicationCategory: UtilitiesApplication`, `isAccessibleForFree: true`, `audience` scoped to DFW homeowners) and **HowTo** (6-step procedure: home size → system type → tier → SEER2 → ductwork → see range; `totalTime: PT1M`, `estimatedCost: $6k–$25k`).
+- FAQPage now emitted from `ServiceTemplate` (see A4 above).
+- All schemas validated via Python `json.loads()` post-render: commercial-heating now ships 4 valid JSON-LD blocks (HVACBusiness, Service, FAQPage with 6 Q's, BreadcrumbList); estimator ships 3 (BreadcrumbList, WebApplication, HowTo with 6 steps).
+
+### S5 — Alt-text audit
+- Sitewide grep for `<img>` tags and empty `alt=""` returned ZERO matches. Codebase already passes — all images use Next.js `<Image>` with non-empty alt. Closed.
+
+### S6 — OG / Twitter card defaults enriched
+- `lib/metadata.js` `defaultMetadata.openGraph` and `defaultMetadata.twitter` now include default `images` (1200×630, alt set), `url`, `siteName`, `locale`, default title + description, `twitter.card: 'summary_large_image'`, `twitter.site` + `twitter.creator`. Pages that don't call `buildPageMetadata()` now produce complete cards on Facebook/LinkedIn/Slack/iMessage shares.
+- Verified live on `/`: 7 `og:*` meta tags + 4 `twitter:*` meta tags rendered correctly.
+
+### S7 — Sitemap lastmod tiering
+- `app/sitemap.js`: pinned `POLICY_LASTMOD = '2026-04-27T00:00:00.000Z'` constant for `/privacy-policy` and `/terms-of-service`. Reason: when EVERY URL in a sitemap shows lastmod = today, Google's sitemap parser tends to ignore lastmod as a freshness signal. Tiering preserves the signal for pages that genuinely changed.
+- Sitemap still emits 51 URLs total. Sanity-driven pages keep using `_updatedAt`.
+
+### P2.1 — "50+ cities" copy cleanup
+- False alarm. Sitewide grep for "50+" surfaces only "50+ Years of Family Legacy" — accurate (three-generation family business). No claims about city count to fix. Closed.
+
+### Files touched (memory only — code already deployed)
+- `frontend/app/robots.js` (rewrite)
+- `frontend/app/replacement-estimator/page.jsx` (+ WebApplication + HowTo schema)
+- `frontend/app/services/[category]/[slug]/page.jsx` (+ conditional FAQPage)
+- `frontend/lib/metadata.js` (defaultMetadata enriched)
+- `frontend/app/sitemap.js` (POLICY_LASTMOD tier)
+- `frontend/scripts/patch-commercial-heating.js` (new, run once)
+
+---
+
 ## April 27, 2026 — F3 verified live + `X-Powered-By` stripped
 
 - **SecurityHeaders.com graded `https://dfwhvac.com` an `A`** post-deploy (capped at A solely by the documented `unsafe-inline`/`unsafe-eval` accepted-risk warning on `script-src`). Path to A+ is the queued **F3c** ticket (CSP nonce migration via Next.js middleware).

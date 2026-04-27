@@ -4,7 +4,7 @@ import ServiceTemplate from '@/components/ServiceTemplate'
 import { client } from '@/lib/sanity'
 import { getCompanyInfo, getTestimonials, getSiteSettings, getCityPages } from '@/lib/sanity'
 import { companyInfo as mockCompanyInfo, testimonials as mockTestimonials } from '@/lib/mockData'
-import { LocalBusinessSchema, BreadcrumbListSchema, ServiceSchema } from '@/components/SchemaMarkup'
+import { LocalBusinessSchema, BreadcrumbListSchema, ServiceSchema, FAQSchema } from '@/components/SchemaMarkup'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { notFound } from 'next/navigation'
@@ -241,7 +241,7 @@ export default async function ServicePage({ params }) {
   
   return (
     <div className="min-h-screen">
-      {/* JSON-LD schema — added PR #3, R1.1 (Apr 21, 2026) */}
+      {/* JSON-LD schema — added PR #3, R1.1 (Apr 21, 2026); FAQSchema added S2, Apr 27, 2026 */}
       <LocalBusinessSchema companyInfo={companyInfo} cityPages={cityPages} />
       <ServiceSchema
         serviceName={service.title}
@@ -250,6 +250,9 @@ export default async function ServicePage({ params }) {
         companyInfo={companyInfo}
         areaServedCities={cityPages}
       />
+      {service.faqs && service.faqs.length > 0 && (
+        <FAQSchema faqs={service.faqs} />
+      )}
       <BreadcrumbListSchema
         items={[
           { name: 'Home', url: 'https://dfwhvac.com' },
