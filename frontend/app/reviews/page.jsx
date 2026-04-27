@@ -86,7 +86,7 @@ export default async function ReviewsPage() {
                   <span>Three-Generation Legacy</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Star className="w-5 h-5 fill-current text-yellow-400" />
+                  <Star className="w-5 h-5 fill-current text-alert-amber" />
                   <span>5.0 Rating • {googleReviews} Reviews</span>
                 </div>
               </div>

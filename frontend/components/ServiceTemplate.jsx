@@ -129,7 +129,7 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [], mainten
                 <p className="text-lg opacity-90">Licensed & Insured Technicians</p>
                 <div className="mt-6 flex items-center justify-center gap-1">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 fill-current text-yellow-400" />
+                    <Star key={i} className="w-5 h-5 fill-current text-alert-amber" />
                   ))}
                   <span className="ml-2 font-semibold">5.0 Rating • {googleReviews}+ Reviews</span>
                 </div>
@@ -357,7 +357,7 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [], mainten
       </section>
 
       {/* CTA Section - Phone-first strategy */}
-      <section className="py-16" style={{background: 'linear-gradient(to right, #003153, #0077B6)'}}>
+      <section className="py-16 bg-gradient-to-r from-prussian-blue to-electric-blue">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-white mb-4">
             {maintenanceSignup ? 'Ready to Protect Your HVAC Investment?' : 'Need HVAC Service? We\'re Ready.'}
@@ -421,7 +421,7 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [], mainten
               <span>Three-Generation Legacy</span>
             </div>
             <div className="flex items-center gap-2 text-white">
-              <Star className="w-5 h-5 fill-current text-yellow-400" />
+              <Star className="w-5 h-5 fill-current text-alert-amber" />
               <span>5.0 Google Rating</span>
             </div>
           </div>

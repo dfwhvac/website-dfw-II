@@ -123,8 +123,7 @@ export default async function RepairOrReplacePage() {
 
       {/* Hero */}
       <section
-        className="py-16 lg:py-24 text-white"
-        style={{ background: 'linear-gradient(135deg, #003153 0%, #0077B6 100%)' }}
+        className="py-16 lg:py-24 text-white bg-gradient-to-br from-prussian-blue to-electric-blue"
         data-testid="repair-or-replace-hero"
       >
         <div className="container mx-auto px-4">
@@ -134,8 +133,8 @@ export default async function RepairOrReplacePage() {
               Decision Guide for DFW Homeowners
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-              Should You <span className="text-lime-300">Repair</span> or
-              <span className="text-lime-300"> Replace</span> Your HVAC?
+              Should You <span className="text-growth-green">Repair</span> or
+              <span className="text-growth-green"> Replace</span> Your HVAC?
             </h1>
             <p className="text-lg lg:text-xl text-blue-100 leading-relaxed">
               A straightforward framework built from three generations of HVAC work
@@ -147,10 +146,10 @@ export default async function RepairOrReplacePage() {
       </section>
 
       {/* TL;DR */}
-      <section className="py-10 bg-lime-50 border-y border-lime-200">
+      <section className="py-10 bg-growth-green/10 border-y border-growth-green/30">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-sm font-semibold text-lime-800 uppercase tracking-wider mb-2">
+            <h2 className="text-sm font-semibold text-prussian-blue uppercase tracking-wider mb-2">
               The Short Answer
             </h2>
             <p className="text-lg text-gray-800 leading-relaxed">
@@ -218,7 +217,7 @@ export default async function RepairOrReplacePage() {
             </p>
             <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm bg-white">
               <table className="w-full text-left">
-                <thead className="bg-[#003153] text-white">
+                <thead className="bg-prussian-blue text-white">
                   <tr>
                     <th className="px-5 py-4 text-sm font-semibold">System Age</th>
                     <th className="px-5 py-4 text-sm font-semibold">Typical Best Move</th>
@@ -229,25 +228,25 @@ export default async function RepairOrReplacePage() {
                   <TableRow
                     age="0–7 years"
                     move="Repair"
-                    moveColor="text-lime-700"
+                    moveColor="text-success-green"
                     why="Under warranty or near it. Parts are cheap, refrigerant is modern, efficiency is still competitive."
                   />
                   <TableRow
                     age="8–11 years"
                     move="Usually repair"
-                    moveColor="text-lime-700"
+                    moveColor="text-success-green"
                     why="Evaluate using the age × quote ÷ $5,000 rule. Capacitors, contactors, and thermostat work almost always worth repairing at this age."
                   />
                   <TableRow
                     age="12–15 years"
                     move="Case-by-case"
-                    moveColor="text-amber-600"
+                    moveColor="text-alert-amber"
                     why="Small repairs OK. Big-ticket repairs (compressor, evaporator coil, heat exchanger) — strongly consider replacement, especially if efficiency and refrigerant are outdated."
                   />
                   <TableRow
                     age="16+ years"
                     move="Replace"
-                    moveColor="text-red-600"
+                    moveColor="text-vivid-red"
                     why="Parts availability drops, warranty is long gone, SEER ratings are obsolete, and the next failure is a matter of when — not if."
                   />
                 </tbody>
@@ -270,39 +269,39 @@ export default async function RepairOrReplacePage() {
                 title="Is your system under 8 years old?"
                 result="Yes → Repair. Move on with your day."
                 resultIcon={CheckCircle2}
-                resultColor="text-lime-600"
+                resultColor="text-success-green"
               />
               <FlowStep
                 step="2"
                 title="Does it use R-22 refrigerant?"
                 result="Yes → Replace. Repairs will keep getting more expensive every year."
                 resultIcon={XCircle}
-                resultColor="text-red-600"
+                resultColor="text-vivid-red"
               />
               <FlowStep
                 step="3"
                 title="Is the repair quote × age greater than $5,000?"
                 result="Yes → Replace. The math doesn't recover."
                 resultIcon={XCircle}
-                resultColor="text-red-600"
+                resultColor="text-vivid-red"
               />
               <FlowStep
                 step="4"
                 title="Has it needed two or more repairs in the last 12 months?"
                 result="Yes → Replace. You're buying a new system in installments — better to get the efficiency gains up front."
                 resultIcon={XCircle}
-                resultColor="text-red-600"
+                resultColor="text-vivid-red"
               />
               <FlowStep
                 step="5"
                 title="None of the above true?"
                 result="Repair — and start budgeting for replacement inside 3 years."
                 resultIcon={CheckCircle2}
-                resultColor="text-lime-600"
+                resultColor="text-success-green"
               />
             </ol>
             <div className="mt-10 bg-blue-50 border border-blue-200 rounded-lg p-6 flex gap-4">
-              <AlertTriangle className="w-6 h-6 text-[#0077B6] shrink-0 mt-1" aria-hidden="true" />
+              <AlertTriangle className="w-6 h-6 text-electric-blue shrink-0 mt-1" aria-hidden="true" />
               <div>
                 <p className="font-semibold text-gray-900 mb-1">
                   Still uncertain? That&apos;s what the free estimate is for.
@@ -330,7 +329,7 @@ export default async function RepairOrReplacePage() {
                 <details key={faq._id} className="group bg-white rounded-lg border border-gray-200 p-5 shadow-sm">
                   <summary className="cursor-pointer font-semibold text-gray-900 text-lg flex items-start justify-between gap-4">
                     <span>{faq.question}</span>
-                    <span className="text-[#0077B6] text-2xl leading-none group-open:rotate-45 transition-transform shrink-0" aria-hidden="true">+</span>
+                    <span className="text-electric-blue text-2xl leading-none group-open:rotate-45 transition-transform shrink-0" aria-hidden="true">+</span>
                   </summary>
                   <p className="text-gray-600 mt-3 leading-relaxed">{faq.answer}</p>
                 </details>
@@ -341,10 +340,7 @@ export default async function RepairOrReplacePage() {
       </section>
 
       {/* Final CTA */}
-      <section
-        className="py-16 lg:py-20 text-white"
-        style={{ background: 'linear-gradient(135deg, #003153 0%, #0077B6 100%)' }}
-      >
+      <section className="py-16 lg:py-20 text-white bg-gradient-to-br from-prussian-blue to-electric-blue">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl lg:text-4xl font-bold mb-4">Ready for a Real Answer?</h2>
@@ -356,7 +352,7 @@ export default async function RepairOrReplacePage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/estimate"
-                className="inline-flex items-center justify-center gap-2 bg-lime-400 hover:bg-lime-300 text-[#003153] font-bold px-8 py-4 rounded-md text-lg shadow-lg transition-colors"
+                className="inline-flex items-center justify-center gap-2 bg-growth-green hover:bg-growth-green/90 text-prussian-blue font-bold px-8 py-4 rounded-md text-lg shadow-lg transition-colors"
                 data-testid="ror-final-estimate-cta"
               >
                 <Calendar className="w-5 h-5" aria-hidden="true" />
@@ -394,7 +390,7 @@ export default async function RepairOrReplacePage() {
 function Sign({ number, title, body }) {
   return (
     <li className="flex gap-5">
-      <div className="shrink-0 w-12 h-12 rounded-full bg-[#003153] text-white flex items-center justify-center font-bold text-lg shadow-md">
+      <div className="shrink-0 w-12 h-12 rounded-full bg-prussian-blue text-white flex items-center justify-center font-bold text-lg shadow-md">
         {number}
       </div>
       <div>
@@ -419,7 +415,7 @@ function FlowStep({ step, title, result, resultIcon: ResultIcon, resultColor }) 
   return (
     <li className="bg-white rounded-lg border border-gray-200 p-5 shadow-sm">
       <div className="flex items-start gap-4">
-        <div className="shrink-0 w-8 h-8 rounded-full bg-blue-50 border border-[#0077B6] text-[#0077B6] flex items-center justify-center font-bold text-sm">
+        <div className="shrink-0 w-8 h-8 rounded-full bg-blue-50 border border-electric-blue text-electric-blue flex items-center justify-center font-bold text-sm">
           {step}
         </div>
         <div className="flex-1">

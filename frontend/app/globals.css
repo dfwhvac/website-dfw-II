@@ -18,15 +18,34 @@ code {
 
 @layer base {
   :root {
-        /* DFW HVAC Brand Colors - Dynamic from Sanity */
-        --prussian-blue: #003153;
-        --electric-blue: #0077B6; /* WCAG AA 4.77:1 on white — was #00B8FF (2.25:1 fail) */
-        --vivid-red: #D30000; /* WCAG AA 5.22:1 on white — was #FF0606 (3.97:1 fail) */
-        --lime-green: #00FF00;
-        --gold-amber: #F77F00;
-        --charcoal: #2D3748;
-        --light-gray: #F7FAFC;
-        
+        /* ============================================
+         * DFW HVAC BRAND TOKENS
+         * Source of truth for all colors. Sanity-pipelined.
+         * Reference: /app/design_guidelines.md
+         * ============================================ */
+
+        /* Brand anchors */
+        --prussian-blue:  #003153;  /* deep authority, hero gradients */
+        --electric-blue:  #0077B6;  /* interactive primary, links (WCAG AA 4.77:1) */
+        --vivid-red:      #D30000;  /* urgency, phone CTAs (WCAG AA 5.22:1) */
+
+        /* Funnel / decision palette (Apr 27, 2026) */
+        --growth-green:   #84CC16;  /* funnel CTAs, financing, estimator (Tailwind lime-500) */
+        --success-green:  #16A34A;  /* checkmarks, confirmations, "indexed" states */
+
+        /* Semantic neutrals & accents */
+        --neutral-text:   #2D3748;  /* body text default */
+        --surface-soft:   #F7FAFC;  /* alternating section backgrounds */
+        --alert-amber:    #F59E0B;  /* review stars, callouts (Tailwind amber-500) */
+
+        /* Legacy aliases — DO NOT USE IN NEW CODE.
+         * Kept temporarily for any third-party Sanity content that references them.
+         * Will be retired in next major refactor. */
+        --lime-green:     var(--success-green);
+        --gold-amber:     var(--alert-amber);
+        --charcoal:       var(--neutral-text);
+        --light-gray:     var(--surface-soft);
+
         --background: 0 0% 100%;
         --foreground: 0 0% 3.9%;
         --card: 0 0% 100%;
@@ -90,7 +109,7 @@ code {
     }
 }
 
-/* DFW HVAC Brand Colors - Using CSS Variables (Dynamic from Sanity) */
+/* DFW HVAC Brand Color Utility Classes — Driven by CSS Variables */
 .bg-prussian-blue { background-color: var(--prussian-blue); }
 .text-prussian-blue { color: var(--prussian-blue); }
 .border-prussian-blue { border-color: var(--prussian-blue); }
@@ -103,27 +122,46 @@ code {
 .text-vivid-red { color: var(--vivid-red); }
 .border-vivid-red { border-color: var(--vivid-red); }
 
-.bg-lime-green { background-color: var(--lime-green); }
-.text-lime-green { color: var(--lime-green); }
-.border-lime-green { border-color: var(--lime-green); }
+.bg-growth-green { background-color: var(--growth-green); }
+.text-growth-green { color: var(--growth-green); }
+.border-growth-green { border-color: var(--growth-green); }
 
-.bg-gold-amber { background-color: var(--gold-amber); }
-.text-gold-amber { color: var(--gold-amber); }
-.border-gold-amber { border-color: var(--gold-amber); }
+.bg-success-green { background-color: var(--success-green); }
+.text-success-green { color: var(--success-green); }
+.border-success-green { border-color: var(--success-green); }
 
-.bg-charcoal { background-color: var(--charcoal); }
-.text-charcoal { color: var(--charcoal); }
-.border-charcoal { border-color: var(--charcoal); }
+.bg-alert-amber { background-color: var(--alert-amber); }
+.text-alert-amber { color: var(--alert-amber); }
+.border-alert-amber { border-color: var(--alert-amber); }
 
-.bg-light-gray { background-color: var(--light-gray); }
-.text-light-gray { color: var(--light-gray); }
-.border-light-gray { border-color: var(--light-gray); }
+.bg-neutral-text { background-color: var(--neutral-text); }
+.text-neutral-text { color: var(--neutral-text); }
+.border-neutral-text { border-color: var(--neutral-text); }
+
+.bg-surface-soft { background-color: var(--surface-soft); }
+.text-surface-soft { color: var(--surface-soft); }
+.border-surface-soft { border-color: var(--surface-soft); }
+
+/* Legacy aliases — kept for backward compat. Prefer the semantic names above. */
+.bg-lime-green { background-color: var(--success-green); }
+.text-lime-green { color: var(--success-green); }
+.border-lime-green { border-color: var(--success-green); }
+.bg-gold-amber { background-color: var(--alert-amber); }
+.text-gold-amber { color: var(--alert-amber); }
+.border-gold-amber { border-color: var(--alert-amber); }
+.bg-charcoal { background-color: var(--neutral-text); }
+.text-charcoal { color: var(--neutral-text); }
+.border-charcoal { border-color: var(--neutral-text); }
+.bg-light-gray { background-color: var(--surface-soft); }
+.text-light-gray { color: var(--surface-soft); }
+.border-light-gray { border-color: var(--surface-soft); }
 
 /* Hover variants */
 .hover\:bg-prussian-blue:hover { background-color: var(--prussian-blue); }
 .hover\:bg-electric-blue:hover { background-color: var(--electric-blue); }
 .hover\:bg-vivid-red:hover { background-color: var(--vivid-red); }
-.hover\:bg-lime-green:hover { background-color: var(--lime-green); }
-.hover\:bg-gold-amber:hover { background-color: var(--gold-amber); }
+.hover\:bg-growth-green:hover { background-color: var(--growth-green); }
+.hover\:bg-success-green:hover { background-color: var(--success-green); }
 .hover\:text-electric-blue:hover { color: var(--electric-blue); }
 .hover\:text-vivid-red:hover { color: var(--vivid-red); }
+.hover\:text-growth-green:hover { color: var(--growth-green); }

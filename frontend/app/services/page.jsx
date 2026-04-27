@@ -67,7 +67,7 @@ export default async function ServicesPage() {
       <Header companyInfo={companyInfo} siteSettings={siteSettings} />
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-[#003153] to-[#00213a] text-white py-16 md:py-20">
+      <section className="bg-gradient-to-br from-prussian-blue to-electric-blue text-white py-16 md:py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
@@ -81,15 +81,15 @@ export default async function ServicesPage() {
             {/* Trust Badges */}
             <div className="flex flex-wrap justify-center gap-6 text-sm">
               <div className="flex items-center gap-2">
-                <Shield className="w-5 h-5 text-[#0077B6]" />
+                <Shield className="w-5 h-5 text-electric-blue" />
                 <span>Licensed & Insured</span>
               </div>
               <div className="flex items-center gap-2">
-                <Award className="w-5 h-5 text-[#0077B6]" />
+                <Award className="w-5 h-5 text-electric-blue" />
                 <span>Three-Generation Legacy</span>
               </div>
               <div className="flex items-center gap-2">
-                <Star className="w-5 h-5 text-yellow-400" />
+                <Star className="w-5 h-5 text-alert-amber" />
                 <span>5.0 Google Rating</span>
               </div>
             </div>

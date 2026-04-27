@@ -16,7 +16,7 @@ export default function LinkedCityList({ cities = [], className = '' }) {
         <Link
           key={city.slug}
           href={`/cities-served/${city.slug}`}
-          className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm hover:bg-[#0077B6] hover:text-white transition-colors"
+          className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm hover:bg-electric-blue hover:text-white transition-colors"
         >
           {city.cityName}
         </Link>
@@ -37,7 +37,7 @@ export function LinkedCityText({ cities = [], separator = ', ' }) {
         <span key={city.slug}>
           <Link
             href={`/cities-served/${city.slug}`}
-            className="text-[#0077B6] hover:underline"
+            className="text-electric-blue hover:underline"
           >
             {city.cityName}
           </Link>

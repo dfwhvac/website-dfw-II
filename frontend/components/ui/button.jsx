@@ -16,16 +16,28 @@ const buttonVariants = cva(
         outline:
           "border border-input shadow-sm hover:bg-accent hover:text-accent-foreground",
         outlineBlue:
-          "border-2 border-[#0077B6] bg-transparent text-[#0077B6] shadow-sm hover:bg-[#0077B6] hover:text-white",
+          "border-2 border-electric-blue bg-transparent text-electric-blue shadow-sm hover:bg-electric-blue hover:text-white",
         secondary:
           "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        // ============================================
+        // DFW HVAC CANONICAL CTA VARIANTS
+        // Use these for all marketing CTAs site-wide.
+        // See /app/design_guidelines.md for selection logic.
+        // ============================================
+        urgency:
+          "bg-vivid-red text-white font-semibold shadow hover:bg-vivid-red/90",
+        primary:
+          "bg-electric-blue text-white font-semibold shadow hover:bg-prussian-blue",
+        growth:
+          "bg-growth-green text-prussian-blue font-bold shadow-lg hover:bg-growth-green/90",
       },
       size: {
         default: "h-9 px-4 py-2",
         sm: "h-8 rounded-md px-3 text-xs",
         lg: "h-10 rounded-md px-8",
+        xl: "h-auto px-8 py-4 text-lg",
         icon: "h-9 w-9",
       },
     },

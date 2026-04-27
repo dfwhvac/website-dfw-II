@@ -15,14 +15,21 @@ module.exports = {
                 },
                 colors: {
                         // Official DFW HVAC Brand Colors - Dynamic from Sanity via CSS Variables
+                        // Source of truth: app/globals.css
+                        // Reference: /app/design_guidelines.md
                         'prussian-blue': 'var(--prussian-blue)',
                         'electric-blue': 'var(--electric-blue)',
                         'vivid-red': 'var(--vivid-red)',
-                        'lime-green': 'var(--lime-green)',
-                        // Additional Colors
-                        'gold-amber': 'var(--gold-amber)',
-                        'charcoal': 'var(--charcoal)',
-                        'light-gray': 'var(--light-gray)',
+                        'growth-green': 'var(--growth-green)',
+                        'success-green': 'var(--success-green)',
+                        'alert-amber': 'var(--alert-amber)',
+                        'neutral-text': 'var(--neutral-text)',
+                        'surface-soft': 'var(--surface-soft)',
+                        // Legacy aliases — kept for backward compat. Prefer the semantic names above.
+                        'lime-green': 'var(--success-green)',
+                        'gold-amber': 'var(--alert-amber)',
+                        'charcoal': 'var(--neutral-text)',
+                        'light-gray': 'var(--surface-soft)',
                         // Shadcn UI Colors
                         background: 'hsl(var(--background))',
                         foreground: 'hsl(var(--foreground))',

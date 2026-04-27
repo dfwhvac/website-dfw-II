@@ -41,7 +41,7 @@ export default async function RecentProjectsPage() {
       <Header companyInfo={companyInfo} siteSettings={siteSettings} />
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-[#003153] to-[#00213a] text-white py-16 md:py-20">
+      <section className="bg-gradient-to-br from-prussian-blue to-electric-blue text-white py-16 md:py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             {/* Breadcrumb */}
@@ -70,7 +70,7 @@ export default async function RecentProjectsPage() {
               </a>
               <Link
                 href="/request-service"
-                className="inline-flex items-center justify-center gap-2 bg-white text-[#003153] px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors"
+                className="inline-flex items-center justify-center gap-2 bg-white text-prussian-blue px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors"
                 data-testid="hero-request-btn"
               >
                 Request Service
@@ -91,30 +91,30 @@ export default async function RecentProjectsPage() {
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap justify-center gap-8 md:gap-16 text-center">
             <div className="flex items-center gap-3">
-              <Briefcase className="w-8 h-8 text-[#0077B6]" />
+              <Briefcase className="w-8 h-8 text-electric-blue" />
               <div>
-                <div className="text-2xl font-bold text-[#003153]">500+</div>
+                <div className="text-2xl font-bold text-prussian-blue">500+</div>
                 <div className="text-sm text-gray-600">Projects Completed</div>
               </div>
             </div>
             <div className="flex items-center gap-3">
               <MapPin className="w-8 h-8 text-[#32CD32]" />
               <div>
-                <div className="text-2xl font-bold text-[#003153]">DFW</div>
+                <div className="text-2xl font-bold text-prussian-blue">DFW</div>
                 <div className="text-sm text-gray-600">Metroplex Coverage</div>
               </div>
             </div>
             <div className="flex items-center gap-3">
               <Calendar className="w-8 h-8 text-[#F77F00]" />
               <div>
-                <div className="text-2xl font-bold text-[#003153]">Family Owned</div>
+                <div className="text-2xl font-bold text-prussian-blue">Family Owned</div>
                 <div className="text-sm text-gray-600">Three Generations</div>
               </div>
             </div>
             <div className="flex items-center gap-3">
               <Award className="w-8 h-8 text-[#D30000]" />
               <div>
-                <div className="text-2xl font-bold text-[#003153]">3 Generations</div>
+                <div className="text-2xl font-bold text-prussian-blue">3 Generations</div>
                 <div className="text-sm text-gray-600">of Excellence</div>
               </div>
             </div>
@@ -123,7 +123,7 @@ export default async function RecentProjectsPage() {
       </section>
 
       {/* RealWork Widget Section */}
-      <section className="py-12 md:py-16 bg-[#003153]">
+      <section className="py-12 md:py-16 bg-prussian-blue">
         <div className="container mx-auto px-4">
           <div className="max-w-7xl mx-auto">
             {/* RealWork Widget */}
@@ -136,7 +136,7 @@ export default async function RecentProjectsPage() {
       <section className="py-12 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-2xl font-bold text-[#003153] mb-6">
+            <h2 className="text-2xl font-bold text-prussian-blue mb-6">
               Areas We Serve
             </h2>
             <p className="text-gray-600 mb-8">
@@ -160,7 +160,7 @@ export default async function RecentProjectsPage() {
                 <Link
                   key={city.slug}
                   href={`/cities-served/${city.slug}`}
-                  className="bg-white border border-gray-200 text-[#003153] px-4 py-2 rounded-lg hover:border-[#0077B6] hover:text-[#0077B6] transition-colors text-sm font-medium"
+                  className="bg-white border border-gray-200 text-prussian-blue px-4 py-2 rounded-lg hover:border-electric-blue hover:text-electric-blue transition-colors text-sm font-medium"
                 >
                   {city.name}
                 </Link>
@@ -169,7 +169,7 @@ export default async function RecentProjectsPage() {
             <div className="mt-6">
               <Link
                 href="/cities-served"
-                className="text-[#0077B6] font-semibold hover:underline"
+                className="text-electric-blue font-semibold hover:underline"
               >
                 View All Cities →
               </Link>
@@ -189,7 +189,7 @@ export default async function RecentProjectsPage() {
       <section className="py-12 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-2xl font-bold text-[#003153] mb-6 text-center">
+            <h2 className="text-2xl font-bold text-prussian-blue mb-6 text-center">
               Why Choose DFW HVAC?
             </h2>
             <div className="grid md:grid-cols-2 gap-6">
@@ -202,7 +202,7 @@ export default async function RecentProjectsPage() {
                 <div key={index} className="flex gap-4">
                   <CheckCircle className="w-6 h-6 text-[#32CD32] flex-shrink-0 mt-1" />
                   <div>
-                    <h3 className="font-semibold text-[#003153] mb-1">{item.title}</h3>
+                    <h3 className="font-semibold text-prussian-blue mb-1">{item.title}</h3>
                     <p className="text-gray-600 text-sm">{item.desc}</p>
                   </div>
                 </div>
