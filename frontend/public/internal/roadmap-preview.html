@@ -358,7 +358,7 @@
     <h1>DFW HVAC — Strategic Roadmap</h1>
     <p>Future-facing work organized by 5-priority business framework. Each priority requires its own KPI baseline and reevaluation cadence. Ship in order; advance only when the previous layer is healthy.</p>
     <div class="meta">
-      Last reviewed: April 27, 2026 ·
+      Last reviewed: April 27, 2026 (PM) — Phase 1 complete · Phase 2a 8/12 shipped ·
       Source: <code>/app/memory/ROADMAP.md</code> ·
       Companion: <a href="/sitemap-preview.html" style="color:rgba(255,255,255,0.85);">sitemap preview</a>
     </div>
@@ -390,9 +390,23 @@
   <div class="stats">
     <div class="stat"><div class="num">5</div><div class="label">Priorities</div></div>
     <div class="stat"><div class="num">~85 hrs</div><div class="label">Phase 1–4 effort</div></div>
-    <div class="stat"><div class="num">~25 hrs</div><div class="label">Saved vs. prior plan</div></div>
     <div class="stat"><div class="num">93.6%</div><div class="label">Effective indexing rate</div></div>
+    <div class="stat"><div class="num">A</div><div class="label">SecurityHeaders grade</div></div>
+    <div class="stat"><div class="num">172 kB</div><div class="label">Homepage First Load JS</div></div>
     <div class="stat"><div class="num">145</div><div class="label">Five-star reviews</div></div>
+  </div>
+
+  <div class="card" style="background:rgba(22,163,74,0.08); border-color:rgba(22,163,74,0.35);">
+    <strong style="color:var(--success-green);">Phase 1 Foundation locked in (Apr 27, 2026 PM).</strong>
+    <p style="margin-top:0.4rem; color:var(--slate-700); font-size:0.9rem; line-height:1.55;">
+      F0 KPI baseline · F5 Vercel Analytics + Speed Insights · F1 mobile UX (sticky CTA, 44px tap targets, inputMode/autoComplete) · F2 image audit + LCP <code>priority</code> · P2.4b bundle reduction (180→172 kB) · F3 Security headers hardened (HSTS+preload, COOP, CORP, CSP <code>frame-ancestors</code>/<code>form-action</code>/<code>upgrade-insecure-requests</code>) · <code>X-Powered-By</code> stripped — all shipped &amp; verified live.
+    </p>
+  </div>
+  <div class="card" style="background:rgba(0,119,182,0.08); border-color:rgba(0,119,182,0.35); margin-top:0.75rem;">
+    <strong style="color:var(--electric-blue);">Phase 2a Quick Wins — 8 of 12 shipped (Apr 27, 2026 PM).</strong>
+    <p style="margin-top:0.4rem; color:var(--slate-700); font-size:0.9rem; line-height:1.55;">
+      A4+P1.4 commercial-heating Sanity content (12 fields, 6 commercial FAQs) · S1 robots.txt explicit allow for 15 AI crawlers · S2 WebApplication + HowTo schema on /replacement-estimator + conditional FAQPage in ServiceTemplate · S5 alt-text audit (clean) · S6 OG/Twitter card defaults · S7 sitemap lastmod tiering · P2.1 "50+" claim validated. <strong>Residuals (need user data):</strong> P1.6f Rich Results manual QA · S3 AEO citation baseline · P1.5 GSC weekly trend doc · A3 May 5 GSC re-audit.
+    </p>
   </div>
 
   <div class="legend">
@@ -416,13 +430,13 @@
       <div class="step-num">1</div>
       <h4>Foundation Lock-In</h4>
       <p>15–20 hrs · 2–3 weeks · agent-led</p>
-      <p style="margin-top:0.4rem; color:var(--prussian); font-weight:600; font-size:0.75rem;">EXIT: P1 KPIs measured</p>
+      <p style="margin-top:0.4rem; color:var(--success-green); font-weight:700; font-size:0.75rem;">✅ COMPLETE Apr 27</p>
     </div>
     <div class="phase-step">
       <div class="step-num">2a</div>
       <h4>SEO/AEO Quick Wins</h4>
       <p>~5 hrs · 1 week · agent-led</p>
-      <p style="margin-top:0.4rem; color:var(--electric-blue); font-weight:600; font-size:0.75rem;">EXIT: AI crawlers verified open</p>
+      <p style="margin-top:0.4rem; color:var(--success-green); font-weight:700; font-size:0.75rem;">✅ 8/12 SHIPPED · 4 user-data</p>
     </div>
     <div class="phase-step">
       <div class="step-num">3</div>
@@ -467,6 +481,13 @@
       <tr><td>Header nav reorg (M6)</td><td><span class="badge badge-shipped">Apr 27, 2026</span></td></tr>
       <tr><td>WCAG AA contrast fixes (electric-blue, vivid-red)</td><td><span class="badge badge-shipped">Apr 21, 2026</span></td></tr>
       <tr><td><code>design_guidelines.md</code> published</td><td><span class="badge badge-shipped">Apr 27, 2026</span></td></tr>
+      <tr><td><strong>F0</strong> — KPI baseline file (<code>audits/2026-04-27_KPI_Baseline.md</code>)</td><td><span class="badge badge-shipped">Apr 27, 2026</span></td></tr>
+      <tr><td><strong>F5</strong> — Vercel Analytics + Speed Insights enabled</td><td><span class="badge badge-shipped">Apr 27, 2026</span></td></tr>
+      <tr><td><strong>F1</strong> — Mobile UX deep audit + fixes (44px tap targets, inputMode/autoComplete, safe-area-inset)</td><td><span class="badge badge-shipped">Apr 27, 2026</span></td></tr>
+      <tr><td><strong>F2</strong> — Image audit + LCP <code>priority</code> on Header logo + 1.4 MB unused PNGs purged</td><td><span class="badge badge-shipped">Apr 27, 2026</span></td></tr>
+      <tr><td><strong>P2.4b</strong> — Bundle reduction (homepage 180 → 172 kB; 38 shadcn + 27 npm deps removed)</td><td><span class="badge badge-shipped">Apr 27, 2026</span></td></tr>
+      <tr><td><strong>F3</strong> — Security headers hardened (HSTS+preload, COOP, CORP, CSP <code>frame-ancestors</code>/<code>form-action</code>/<code>upgrade-insecure-requests</code>) — <strong>SecurityHeaders.com grade A live</strong></td><td><span class="badge badge-shipped">Apr 27, 2026</span></td></tr>
+      <tr><td><code>X-Powered-By</code> framework leak stripped (<code>poweredByHeader: false</code>)</td><td><span class="badge badge-shipped">Apr 27, 2026</span></td></tr>
     </tbody>
   </table>
 
@@ -485,6 +506,11 @@
       <tr><td>Error rate</td><td class="kpi-target"><strong>&lt;0.1%</strong> requests</td><td>Vercel Analytics</td></tr>
       <tr><td>Build time</td><td class="kpi-target"><strong>&lt;30s</strong> (currently 22.7s ✅)</td><td><code>yarn build</code></td></tr>
       <tr><td>Uptime</td><td class="kpi-target"><strong>99.95%+</strong></td><td>Vercel SLA</td></tr>
+      <tr><td>SecurityHeaders.com grade</td><td class="kpi-target">currently <strong>A</strong> · target <strong>A+</strong> (needs F3c CSP nonce migration)</td><td>securityheaders.com</td></tr>
+      <tr><td>Mozilla Observatory grade</td><td class="kpi-target">target <strong>A or higher</strong></td><td>observatory.mozilla.org</td></tr>
+      <tr><td>SSL Labs TLS grade</td><td class="kpi-target">target <strong>A or higher</strong></td><td>ssllabs.com</td></tr>
+      <tr><td>Dependency vulns (high+critical)</td><td class="kpi-target"><strong>0</strong></td><td>Dependabot / <code>yarn audit</code></td></tr>
+      <tr><td>Public secret leaks</td><td class="kpi-target"><strong>0</strong></td><td>gitleaks scan</td></tr>
     </tbody>
   </table>
 
@@ -497,25 +523,23 @@
   </div>
 
   <h3>Action Items (in execution order)</h3>
+  <p class="subhead" style="font-size:0.88rem; margin-top:-0.5rem; margin-bottom:1rem; color:var(--slate-600);">Phase 1 foundation items have shipped. Remaining items below are P1 polish, security follow-ups, and recurring/optional gates.</p>
   <table>
     <thead><tr><th>#</th><th>ID</th><th>Item</th><th>Effort</th><th>Owner</th></tr></thead>
     <tbody>
-      <tr><td class="num-cell">1</td><td class="id-cell">F0</td><td><strong>Create KPI baseline file</strong> capturing all P1/P2/P3 starting numbers</td><td>1 hr</td><td>Agent</td></tr>
-      <tr><td class="num-cell">2</td><td class="id-cell">F5</td><td>Vercel Analytics RUM enabled</td><td>30 min</td><td>Agent</td></tr>
-      <tr><td class="num-cell">3</td><td class="id-cell">F1</td><td><strong>Mobile UX deep audit + fixes</strong> — tap targets, mobile keyboards, AddressAutocomplete on touch, sticky-CTA collisions</td><td>2–3 hrs</td><td>Agent + user device QA</td></tr>
-      <tr><td class="num-cell">4</td><td class="id-cell">F2</td><td>Image optimization audit — Next.js <code>&lt;Image&gt;</code>, sizes, lazy-load, AVIF/WebP, alt text</td><td>1–2 hrs</td><td>Agent</td></tr>
-      <tr><td class="num-cell">5</td><td class="id-cell">F3</td><td>Security headers audit — securityheaders.com</td><td>1 hr</td><td>Agent</td></tr>
-      <tr><td class="num-cell">6</td><td class="id-cell">P2.4b</td><td>Bundle reduction — lucide tree-shake, Radix audit, /studio dynamic-split</td><td>4–6 hrs</td><td>Agent</td></tr>
-      <tr><td class="num-cell">7</td><td class="id-cell">P2.7</td><td>Code cleanup / unused dep audit</td><td>1–2 hrs</td><td>Agent</td></tr>
-      <tr><td class="num-cell">8</td><td class="id-cell">P2.15</td><td>Component decomposition (templates &gt;300 lines)</td><td>variable</td><td>Agent</td></tr>
-      <tr><td class="num-cell">9</td><td class="id-cell">P2.4c</td><td>Lighthouse all-green verification</td><td>1 hr</td><td>Agent</td></tr>
-      <tr><td class="num-cell">10</td><td class="id-cell">P3-a11y</td><td>Skip-to-main content link (push A11y to 100)</td><td>15 min</td><td>Agent</td></tr>
-      <tr><td class="num-cell">11</td><td class="id-cell">F6</td><td>404 page UX upgrade — popular pages, search, CTA</td><td>1 hr</td><td>Agent</td></tr>
-      <tr><td class="num-cell">12</td><td class="id-cell">F4</td><td>Backup/disaster recovery checklist documented</td><td>1 hr</td><td>Agent</td></tr>
-      <tr><td class="num-cell">13</td><td class="id-cell">F8</td><td>Dependency security scan (Dependabot/Snyk)</td><td>15 min</td><td>User</td></tr>
-      <tr><td class="num-cell">14</td><td class="id-cell">F7</td><td>Lighthouse CI gate (optional)</td><td>2 hrs</td><td>Agent</td></tr>
-      <tr><td class="num-cell">15</td><td class="id-cell">P1.6d</td><td>INP field measurement after CrUX populates</td><td>30 min + variable</td><td>Agent</td></tr>
-      <tr><td class="num-cell">16</td><td class="id-cell">P1.3</td><td>User-led device QA: iOS Safari, Android Chrome</td><td>1 hr</td><td>User</td></tr>
+      <tr><td class="num-cell">1</td><td class="id-cell">P2.7</td><td>Code cleanup / unused dep audit (<code>yarn depcheck</code>, dead <code>mockData.js</code>)</td><td>1–2 hrs</td><td>Agent</td></tr>
+      <tr><td class="num-cell">2</td><td class="id-cell">P2.15</td><td>Component decomposition (templates &gt;300 lines)</td><td>variable</td><td>Agent</td></tr>
+      <tr><td class="num-cell">3</td><td class="id-cell">P2.4c</td><td>Lighthouse all-green verification</td><td>1 hr</td><td>Agent</td></tr>
+      <tr><td class="num-cell">4</td><td class="id-cell">P3-a11y</td><td>Skip-to-main content link (push A11y to 100)</td><td>15 min</td><td>Agent</td></tr>
+      <tr><td class="num-cell">5</td><td class="id-cell">F6</td><td>404 page UX upgrade — popular pages, search, CTA</td><td>1 hr</td><td>Agent</td></tr>
+      <tr><td class="num-cell">6</td><td class="id-cell">F4</td><td>Backup/disaster recovery checklist documented</td><td>1 hr</td><td>Agent</td></tr>
+      <tr><td class="num-cell">7</td><td class="id-cell">F8</td><td><strong>Dependency security scan</strong> — Dependabot + <code>gitleaks</code> GH Action</td><td>30 min</td><td>User + agent</td></tr>
+      <tr><td class="num-cell">8</td><td class="id-cell">F3b</td><td><strong>HSTS Preload List submission</strong> — submit <code>dfwhvac.com</code> to hstspreload.org once headers verified live for 30+ days</td><td>10 min</td><td>User</td></tr>
+      <tr><td class="num-cell">9</td><td class="id-cell">F3c</td><td><strong>CSP nonce migration</strong> (retire <code>unsafe-inline</code> on script-src) — Next.js middleware-injected nonces · path to A+ grade</td><td>4–6 hrs</td><td>Agent (Phase 4 candidate)</td></tr>
+      <tr><td class="num-cell">10</td><td class="id-cell">F3d</td><td><strong><code>yarn audit</code> CI gate</strong> — fail build on high/critical advisories</td><td>30 min</td><td>Agent</td></tr>
+      <tr><td class="num-cell">11</td><td class="id-cell">F7</td><td>Lighthouse CI gate (optional)</td><td>2 hrs</td><td>Agent</td></tr>
+      <tr><td class="num-cell">12</td><td class="id-cell">P1.6d</td><td>INP field measurement after CrUX populates (28+ days)</td><td>30 min + variable</td><td>Agent</td></tr>
+      <tr><td class="num-cell">13</td><td class="id-cell">P1.3</td><td>User-led device QA: iOS Safari, Android Chrome</td><td>1 hr</td><td>User</td></tr>
     </tbody>
   </table>
 </section>
@@ -534,7 +558,14 @@
       <tr><td>Title tag audit (47 finalized titles, Option C hybrid review-count)</td><td><span class="badge badge-shipped">Apr 23</span></td></tr>
       <tr><td>Manual GSC indexing requests (~95% of sitemap submitted)</td><td><span class="badge badge-shipped">Apr 21–27</span></td></tr>
       <tr><td>Site-wide indexing audit (89.4% indexed; 93.6% effective)</td><td><span class="badge badge-shipped">Apr 27</span></td></tr>
-      <tr><td>A1, A2: <code>the-colony</code> + <code>commercial-heating</code> re-submitted</td><td><span class="badge badge-shipped">Apr 27</span></td></tr>
+      <tr><td>A1, A2: <code>the-colony</code> + <code>commercial-heating</code> re-submitted to GSC</td><td><span class="badge badge-shipped">Apr 27</span></td></tr>
+      <tr><td><strong>A4 + P1.4</strong> — <code>commercial-heating</code> Sanity content fully populated (12 fields, 6 commercial FAQs, RTU/boiler/VAV/NTE/COIs vocabulary)</td><td><span class="badge badge-shipped">Apr 27 PM</span></td></tr>
+      <tr><td><strong>S1</strong> — AI crawler robots.txt explicit allow (15 UAs: GPTBot, ChatGPT-User, OAI-SearchBot, ClaudeBot, Claude-Web, anthropic-ai, PerplexityBot, Perplexity-User, Google-Extended, Applebot-Extended, CCBot, Bytespider, Diffbot, FacebookBot, Meta-ExternalAgent)</td><td><span class="badge badge-shipped">Apr 27 PM</span></td></tr>
+      <tr><td><strong>S2</strong> — Schema completion: WebApplication + HowTo (6 steps) on <code>/replacement-estimator</code>; conditional FAQPage emitted from ServiceTemplate</td><td><span class="badge badge-shipped">Apr 27 PM</span></td></tr>
+      <tr><td><strong>S5</strong> — Image alt-text audit (codebase clean: zero <code>&lt;img&gt;</code> tags, zero empty <code>alt=""</code>)</td><td><span class="badge badge-shipped">Apr 27 PM</span></td></tr>
+      <tr><td><strong>S6</strong> — OG / Twitter card defaults enriched (default 1200×630 image, alt, twitter <code>summary_large_image</code>, site/creator)</td><td><span class="badge badge-shipped">Apr 27 PM</span></td></tr>
+      <tr><td><strong>S7</strong> — Sitemap lastmod tiering (policy pages pinned to <code>POLICY_LASTMOD</code>; Sanity pages use <code>_updatedAt</code>)</td><td><span class="badge badge-shipped">Apr 27 PM</span></td></tr>
+      <tr><td><strong>P2.1</strong> — "50+ cities" copy claim audited — false alarm; only "50+ Years of Family Legacy" usage exists (correct)</td><td><span class="badge badge-shipped">Apr 27 PM</span></td></tr>
     </tbody>
   </table>
 
@@ -565,22 +596,15 @@
     <div class="cadence-row"><span class="freq">Semi-annual</span><span class="actions">Title-tag CTR review · full SEO audit refresh</span></div>
   </div>
 
-  <h3>Phase 2a — Quick Wins (~5 hrs, ship next)</h3>
+  <h3>Phase 2a — Residuals (need user data; 4 of 12 remaining)</h3>
+  <p class="subhead" style="font-size:0.88rem; margin-top:-0.5rem; margin-bottom:1rem; color:var(--slate-600);">A4 + P1.4 + S1 + S2 + S5 + S6 + S7 + P2.1 shipped Apr 27 PM. The 4 below require data captures or calendar gates that only the user can run.</p>
   <table>
-    <thead><tr><th>#</th><th>ID</th><th>Item</th><th>Effort</th></tr></thead>
+    <thead><tr><th>#</th><th>ID</th><th>Item</th><th>Effort</th><th>Owner</th></tr></thead>
     <tbody>
-      <tr><td class="num-cell">1</td><td class="id-cell">A4</td><td><code>commercial-heating</code> content differentiation + internal linking</td><td>45 min</td></tr>
-      <tr><td class="num-cell">2</td><td class="id-cell">S1</td><td><strong>AI crawler robots.txt policy</strong> — verify GPTBot, ClaudeBot, PerplexityBot, Google-Extended <code>Allow: /</code></td><td>30 min</td></tr>
-      <tr><td class="num-cell">3</td><td class="id-cell">S2</td><td>Schema audit + completion (esp. <code>WebApplication</code>/<code>HowTo</code> on /replacement-estimator)</td><td>2 hrs</td></tr>
-      <tr><td class="num-cell">4</td><td class="id-cell">P1.6f</td><td>Rich Results validation on home, plano, AC, contact, repair-or-replace</td><td>30 min</td></tr>
-      <tr><td class="num-cell">5</td><td class="id-cell">P1.4</td><td>Internal linking matrix (overlaps with A4)</td><td>2–3 hrs</td></tr>
-      <tr><td class="num-cell">6</td><td class="id-cell">S3</td><td>AEO citation tracking baseline — 15–20 queries logged</td><td>1 hr</td></tr>
-      <tr><td class="num-cell">7</td><td class="id-cell">P1.5</td><td>GSC baseline capture + weekly trend doc</td><td>30 min</td></tr>
-      <tr><td class="num-cell">8</td><td class="id-cell">A3</td><td>May 5 GSC re-audit (export 6 reports → diff vs Apr 27)</td><td>10 min user + 30 min agent</td></tr>
-      <tr><td class="num-cell">9</td><td class="id-cell">P2.1</td><td>"50+ cities" copy cleanup (actual = 28)</td><td>30 min</td></tr>
-      <tr><td class="num-cell">10</td><td class="id-cell">S5</td><td>Image alt-text sitewide audit (LLM-assisted)</td><td>1 hr</td></tr>
-      <tr><td class="num-cell">11</td><td class="id-cell">S6</td><td>OG / Twitter card audit</td><td>1 hr</td></tr>
-      <tr><td class="num-cell">12</td><td class="id-cell">S7</td><td>Sitemap priority + lastmod accuracy</td><td>1 hr</td></tr>
+      <tr><td class="num-cell">1</td><td class="id-cell">P1.6f</td><td>Rich Results manual QA on 7 pages (home, plano, AC, contact, repair-or-replace, <strong>commercial-heating</strong>, <strong>replacement-estimator</strong>) — paste into <code>search.google.com/test/rich-results</code>; verify FAQPage / WebApplication / HowTo / Service / LocalBusiness / BreadcrumbList all parse green</td><td>10 min</td><td>User</td></tr>
+      <tr><td class="num-cell">2</td><td class="id-cell">S3</td><td>AEO citation tracking baseline — manually run 15–20 queries across ChatGPT / Perplexity / Gemini, log who cites DFW HVAC</td><td>1 hr</td><td>User</td></tr>
+      <tr><td class="num-cell">3</td><td class="id-cell">P1.5</td><td>GSC baseline capture + weekly trend doc (needs first GSC export)</td><td>30 min</td><td>User</td></tr>
+      <tr><td class="num-cell">4</td><td class="id-cell">A3</td><td>May 5 GSC re-audit — re-export 6 reports → diff vs Apr 27 baseline</td><td>10 min user + 30 min agent</td><td>User + agent</td></tr>
     </tbody>
   </table>
 
@@ -666,10 +690,11 @@
       <tr><td class="num-cell">13</td><td class="id-cell">C5</td><td>A/B testing framework — Vercel Edge Config or Sanity variants</td><td>2 hrs</td></tr>
       <tr><td class="num-cell">14</td><td class="id-cell">C3</td><td>Estimator pricing matrix populated with REAL DFW numbers</td><td>30 min user + 30 min agent</td></tr>
       <tr><td class="num-cell">15</td><td class="id-cell">C6</td><td>Mobile sticky-CTA conversion lift verification</td><td>30 min</td></tr>
-      <tr><td class="num-cell">16</td><td class="id-cell">P2.10</td><td>Lead magnets (defer until P3 KPIs trending)</td><td>8–12 hrs each</td></tr>
-      <tr><td class="num-cell">17</td><td class="id-cell">P2.13</td><td>Exit intent modal (defer)</td><td>3–4 hrs</td></tr>
-      <tr><td class="num-cell">18</td><td class="id-cell">P2.14</td><td>Urgency signals (defer)</td><td>3–4 hrs</td></tr>
-      <tr><td class="num-cell">19</td><td class="id-cell">P2.12</td><td>SMS text-back via Twilio (defer post-ad-launch)</td><td>4–6 hrs</td></tr>
+      <tr><td class="num-cell">16</td><td class="id-cell">C8</td><td><strong>"🔒 Secured" footer trust microcopy</strong> — small lock icon + "Your information is secure" in <code>Footer.jsx</code> · tooltip → <code>/privacy-policy</code> · zero bundle cost (lucide <code>Lock</code> already in tree) · A/B-testable post-C5</td><td>30 min</td></tr>
+      <tr><td class="num-cell">17</td><td class="id-cell">P2.10</td><td>Lead magnets (defer until P3 KPIs trending)</td><td>8–12 hrs each</td></tr>
+      <tr><td class="num-cell">18</td><td class="id-cell">P2.13</td><td>Exit intent modal (defer)</td><td>3–4 hrs</td></tr>
+      <tr><td class="num-cell">19</td><td class="id-cell">P2.14</td><td>Urgency signals (defer)</td><td>3–4 hrs</td></tr>
+      <tr><td class="num-cell">20</td><td class="id-cell">P2.12</td><td>SMS text-back via Twilio (defer post-ad-launch)</td><td>4–6 hrs</td></tr>
     </tbody>
   </table>
 </section>
