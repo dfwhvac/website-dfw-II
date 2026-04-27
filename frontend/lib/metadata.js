@@ -90,14 +90,42 @@ export const defaultMetadata = {
       'max-snippet': -1,
     },
   },
+  // S6 (Apr 27, 2026) — defaults enriched so any page that does NOT call
+  // buildPageMetadata() still produces a complete OG/Twitter card on social
+  // shares (Facebook, LinkedIn, iMessage, Slack, X). Page-level metadata in
+  // generateMetadata() can override these per-route.
   twitter: {
     card: 'summary_large_image',
+    site: '@dfwhvac',
     creator: '@dfwhvac',
+    title: 'DFW HVAC — Three-Generation HVAC Service in Dallas-Fort Worth',
+    description:
+      'Same-day HVAC repair, installation & maintenance across Dallas-Fort Worth. Licensed, family-owned, 145+ five-star reviews. Call (972) 777-COOL.',
+    images: [
+      {
+        url: '/images/dfwhvac-og.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'DFW HVAC — Dallas-Fort Worth HVAC Experts',
+      },
+    ],
   },
   openGraph: {
     siteName: 'DFW HVAC',
     locale: 'en_US',
     type: 'website',
+    url: BASE_URL,
+    title: 'DFW HVAC — Three-Generation HVAC Service in Dallas-Fort Worth',
+    description:
+      'Same-day HVAC repair, installation & maintenance across Dallas-Fort Worth. Licensed, family-owned, 145+ five-star reviews. Call (972) 777-COOL.',
+    images: [
+      {
+        url: '/images/dfwhvac-og.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'DFW HVAC — Dallas-Fort Worth HVAC Experts',
+      },
+    ],
   },
 }
 
