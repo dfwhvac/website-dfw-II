@@ -25,18 +25,32 @@ const nextConfig = {
           { key: 'X-Content-Type-Options', value: 'nosniff' },
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+          // HSTS: 2-year max-age + includeSubDomains + preload (HSTS preload list eligible).
+          // Note: Vercel injects HSTS automatically; this declaration ensures parity across hosts.
+          { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
+          // Cross-origin isolation hardening (COEP intentionally omitted — `require-corp` would break
+          // cross-origin Maps tiles, GTM, Sanity CDN). COOP + CORP cover Spectre / tabnapping vectors.
+          { key: 'Cross-Origin-Opener-Policy', value: 'same-origin' },
+          { key: 'Cross-Origin-Resource-Policy', value: 'same-site' },
+          // Block legacy DNS prefetch leaks; we control prefetching explicitly via <link rel="preconnect">.
+          { key: 'X-DNS-Prefetch-Control', value: 'on' },
           {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
+              // 'unsafe-inline' + 'unsafe-eval' retained for Next.js inline RSC payloads + GTM/GA.
+              // Tracked as accepted risk in /app/memory/audits/2026-04-27_KPI_Baseline.md (Security section).
               "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com https://www.gstatic.com https://www.googletagmanager.com https://app.realworklabs.com https://maps.googleapis.com",
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "img-src 'self' data: blob: https://cdn.sanity.io https://images.unsplash.com https://maps.googleapis.com https://maps.gstatic.com https://*.google.com https://*.googleusercontent.com https://app.realworklabs.com",
               "font-src 'self' https://fonts.gstatic.com",
-              "connect-src 'self' https://iar2b790.api.sanity.io https://iar2b790.apicdn.sanity.io https://www.google.com https://maps.googleapis.com https://www.google-analytics.com https://www.googletagmanager.com https://app.realworklabs.com",
+              "connect-src 'self' https://iar2b790.api.sanity.io https://iar2b790.apicdn.sanity.io https://www.google.com https://maps.googleapis.com https://www.google-analytics.com https://www.googletagmanager.com https://app.realworklabs.com https://vitals.vercel-insights.com https://vercel.live",
               "frame-src 'self' https://www.google.com https://app.realworklabs.com",
+              "frame-ancestors 'none'",
+              "form-action 'self'",
               "object-src 'none'",
               "base-uri 'self'",
+              "upgrade-insecure-requests",
             ].join('; ')
           },
         ],

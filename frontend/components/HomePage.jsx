@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Button } from './ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card'
 import LeadForm from './LeadForm'
-import TestimonialCarousel from './TestimonialCarousel'
+import TestimonialCarouselClient from './TestimonialCarouselClient'
 import { 
   Phone, 
   Shield, 
@@ -346,7 +346,7 @@ const HomePage = ({
 
           {/* Testimonial Carousel */}
           <div className="max-w-6xl mx-auto px-8">
-            <TestimonialCarousel testimonials={testimonials} maxDisplay={testimonialsSection.maxDisplay} />
+            <TestimonialCarouselClient testimonials={testimonials} maxDisplay={testimonialsSection.maxDisplay} />
           </div>
 
           <div className="text-center mt-12">

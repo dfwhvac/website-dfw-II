@@ -5,8 +5,10 @@ import { Toaster } from '../components/ui/sonner'
 import { defaultMetadata } from '../lib/metadata'
 import ColorProvider from '../components/ColorProvider'
 import { getBrandColors } from '../lib/sanity'
-import StickyMobileCTA from '../components/StickyMobileCTA'
+import StickyMobileCTAClient from '../components/StickyMobileCTAClient'
 import PhoneClickTracker from '../components/PhoneClickTracker'
+import { Analytics } from '@vercel/analytics/next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 const GA_ID = 'G-5MX2NE7C73'
 
@@ -56,11 +58,16 @@ export default async function RootLayout({ children }) {
         </ColorProvider>
         <Toaster />
         <PhoneClickTracker />
-        <StickyMobileCTA 
+        <StickyMobileCTAClient 
           phone="(972) 777-COOL"
           phoneNumber="+19727772665"
           ctaText="Call Now for Service"
         />
+        {/* Vercel Analytics + Speed Insights — RUM for CWV (LCP/INP/CLS p75 in field).
+            Free on hobby + pro plans. Auto-disabled on preview URLs by Vercel.
+            See: P1 Foundation, F5, Apr 27 2026. */}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )

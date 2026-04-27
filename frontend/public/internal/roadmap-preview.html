@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>DFW HVAC — Roadmap (Internal Review)</title>
+<style>
+  :root {
+    --prussian: #003153;
+    --prussian-dark: #00213a;
+    --electric-blue: #0077B6;
+    --vivid-red: #D62828;
+    --growth-green: #84CC16;
+    --success-green: #16A34A;
+    --alert-amber: #F59E0B;
+    --slate-50: #f8fafc;
+    --slate-100: #f1f5f9;
+    --slate-200: #e2e8f0;
+    --slate-300: #cbd5e1;
+    --slate-400: #94a3b8;
+    --slate-600: #475569;
+    --slate-700: #334155;
+    --slate-900: #0f172a;
+    --status-shipped: #16A34A;
+    --status-pending: #F59E0B;
+    --status-blocked: #D62828;
+    --status-defer: #6B7280;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+    background: var(--slate-50);
+    color: var(--slate-900);
+    line-height: 1.6;
+  }
+  header.top {
+    background: linear-gradient(135deg, var(--prussian) 0%, var(--electric-blue) 100%);
+    color: white;
+    padding: 3rem 1.5rem 2.5rem;
+  }
+  header.top .inner { max-width: 1400px; margin: 0 auto; }
+  .tag {
+    display: inline-block;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--growth-green);
+    background: rgba(255,255,255,0.08);
+    padding: 0.4rem 0.85rem;
+    border-radius: 999px;
+    margin-bottom: 1rem;
+    font-weight: 700;
+  }
+  h1 { font-size: clamp(1.9rem, 3.5vw, 2.85rem); font-weight: 800; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  header.top p { color: rgba(255,255,255,0.78); font-size: 1.05rem; max-width: 820px; }
+  header.top .meta { margin-top: 1rem; color: rgba(255,255,255,0.55); font-size: 0.85rem; }
+
+  nav.toc {
+    background: white;
+    border-bottom: 1px solid var(--slate-200);
+    padding: 1rem 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  nav.toc .inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  nav.toc a {
+    color: var(--slate-700);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.45rem 0.9rem;
+    border-radius: 8px;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+  nav.toc a:hover { background: var(--slate-100); color: var(--prussian); }
+  nav.toc a.active { background: var(--prussian); color: white; }
+  nav.toc .label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--slate-400);
+    font-weight: 700;
+    margin-right: 0.5rem;
+  }
+
+  main { max-width: 1400px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+  section { margin-bottom: 3.5rem; scroll-margin-top: 80px; }
+
+  h2 {
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: var(--prussian);
+    margin-bottom: 0.4rem;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: baseline;
+    gap: 0.65rem;
+  }
+  h2 .num {
+    font-size: 0.9rem;
+    color: white;
+    background: var(--electric-blue);
+    padding: 0.2rem 0.55rem;
+    border-radius: 6px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+  h2 .num.p1 { background: var(--prussian); }
+  h2 .num.p2 { background: var(--electric-blue); }
+  h2 .num.p3 { background: var(--success-green); }
+  h2 .num.p4 { background: var(--alert-amber); }
+  h2 .num.p5 { background: var(--vivid-red); }
+  .subhead {
+    font-size: 0.95rem;
+    color: var(--slate-600);
+    margin-bottom: 1.5rem;
+    max-width: 900px;
+  }
+  h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--slate-900);
+    margin-top: 1.5rem;
+    margin-bottom: 0.85rem;
+    letter-spacing: -0.005em;
+  }
+
+  .card {
+    background: white;
+    border: 1px solid var(--slate-200);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .card.priority {
+    border-left: 4px solid var(--electric-blue);
+  }
+  .card.p1-card { border-left-color: var(--prussian); }
+  .card.p2-card { border-left-color: var(--electric-blue); }
+  .card.p3-card { border-left-color: var(--success-green); }
+  .card.p4-card { border-left-color: var(--alert-amber); }
+  .card.p5-card { border-left-color: var(--vivid-red); }
+
+  .definition {
+    font-size: 0.95rem;
+    color: var(--slate-700);
+    margin-bottom: 1rem;
+    padding: 0.85rem 1rem;
+    background: var(--slate-100);
+    border-radius: 8px;
+    border-left: 3px solid var(--slate-400);
+  }
+  .definition strong { color: var(--slate-900); }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.5rem 0 1.25rem;
+    font-size: 0.9rem;
+    background: white;
+  }
+  th {
+    text-align: left;
+    padding: 0.7rem 0.85rem;
+    background: var(--slate-100);
+    font-weight: 700;
+    color: var(--slate-700);
+    border-bottom: 2px solid var(--slate-200);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  td {
+    padding: 0.7rem 0.85rem;
+    border-bottom: 1px solid var(--slate-200);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover { background: var(--slate-50); }
+  td.id-cell { font-weight: 700; color: var(--electric-blue); white-space: nowrap; font-size: 0.82rem; }
+  td.center { text-align: center; }
+  td.num-cell { color: var(--slate-400); font-weight: 700; text-align: center; width: 40px; font-size: 0.85rem; }
+
+  .badge {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.18rem 0.55rem;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  .badge-shipped { background: rgba(22, 163, 74, 0.12); color: var(--status-shipped); }
+  .badge-pending { background: rgba(245, 158, 11, 0.12); color: var(--status-pending); }
+  .badge-blocked { background: rgba(214, 40, 40, 0.12); color: var(--status-blocked); }
+  .badge-defer { background: rgba(107, 114, 128, 0.15); color: var(--status-defer); }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .stat {
+    background: white;
+    border: 1px solid var(--slate-200);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+  }
+  .stat .num { font-size: 1.75rem; font-weight: 800; color: var(--prussian); line-height: 1; }
+  .stat .label { font-size: 0.78rem; color: var(--slate-600); margin-top: 0.4rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+
+  .phase-flow {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.75rem;
+    margin: 1.5rem 0;
+  }
+  .phase-step {
+    background: white;
+    border: 1px solid var(--slate-200);
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+    position: relative;
+  }
+  .phase-step .step-num {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--electric-blue);
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+  .phase-step:nth-child(1) .step-num { background: var(--prussian); }
+  .phase-step:nth-child(2) .step-num { background: var(--electric-blue); }
+  .phase-step:nth-child(3) .step-num { background: var(--success-green); }
+  .phase-step:nth-child(4) .step-num { background: var(--alert-amber); }
+  .phase-step:nth-child(5) .step-num { background: var(--vivid-red); }
+  .phase-step h4 { font-size: 0.92rem; font-weight: 700; color: var(--slate-900); margin: 0.5rem 0 0.3rem; }
+  .phase-step p { font-size: 0.78rem; color: var(--slate-600); line-height: 1.4; }
+  @media (max-width: 900px) {
+    .phase-flow { grid-template-columns: 1fr 1fr; }
+  }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem;
+    background: white;
+    border: 1px solid var(--slate-200);
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+  }
+  .legend-item { display: flex; align-items: center; gap: 0.4rem; color: var(--slate-700); }
+  .legend-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+  .legend-dot.p1 { background: var(--prussian); }
+  .legend-dot.p2 { background: var(--electric-blue); }
+  .legend-dot.p3 { background: var(--success-green); }
+  .legend-dot.p4 { background: var(--alert-amber); }
+  .legend-dot.p5 { background: var(--vivid-red); }
+
+  .kpi-target {
+    color: var(--slate-600);
+    font-size: 0.85rem;
+  }
+  .kpi-target strong { color: var(--success-green); font-weight: 700; }
+
+  .cadence-row { display: grid; grid-template-columns: 100px 1fr; gap: 1rem; padding: 0.5rem 0; border-bottom: 1px dashed var(--slate-200); font-size: 0.88rem; }
+  .cadence-row:last-child { border-bottom: none; }
+  .cadence-row .freq { font-weight: 700; color: var(--prussian); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; }
+  .cadence-row .actions { color: var(--slate-700); }
+
+  .rule-list {
+    list-style: none;
+    counter-reset: rule;
+    padding: 0;
+  }
+  .rule-list li {
+    counter-increment: rule;
+    padding: 0.85rem 1rem 0.85rem 3rem;
+    background: white;
+    border: 1px solid var(--slate-200);
+    border-radius: 8px;
+    margin-bottom: 0.6rem;
+    position: relative;
+    font-size: 0.9rem;
+    color: var(--slate-700);
+  }
+  .rule-list li::before {
+    content: counter(rule);
+    position: absolute;
+    left: 0.75rem;
+    top: 0.85rem;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--vivid-red);
+    color: white;
+    font-weight: 800;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .rule-list li strong { color: var(--prussian); }
+
+  .dropped-table th { background: rgba(107, 114, 128, 0.08); color: var(--slate-600); }
+  .dropped-table td { color: var(--slate-600); font-size: 0.85rem; }
+  .dropped-table td:first-child { font-weight: 600; color: var(--slate-700); }
+
+  footer.bottom {
+    border-top: 1px solid var(--slate-200);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    color: var(--slate-400);
+    font-size: 0.85rem;
+    background: white;
+  }
+  footer.bottom a { color: var(--electric-blue); text-decoration: none; }
+  footer.bottom a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="inner">
+    <div class="tag">Internal Review · Roadmap</div>
+    <h1>DFW HVAC — Strategic Roadmap</h1>
+    <p>Future-facing work organized by 5-priority business framework. Each priority requires its own KPI baseline and reevaluation cadence. Ship in order; advance only when the previous layer is healthy.</p>
+    <div class="meta">
+      Last reviewed: April 27, 2026 ·
+      Source: <code>/app/memory/ROADMAP.md</code> ·
+      Companion: <a href="/sitemap-preview.html" style="color:rgba(255,255,255,0.85);">sitemap preview</a>
+    </div>
+  </div>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <span class="label">Jump to</span>
+    <a href="#overview">Overview</a>
+    <a href="#phases">Phases</a>
+    <a href="#p1">P1 — Foundation</a>
+    <a href="#p2">P2 — SEO/AEO</a>
+    <a href="#p3">P3 — Conversion</a>
+    <a href="#p4">P4 — Ad Infra</a>
+    <a href="#p5">P5 — Ads Live</a>
+    <a href="#maintenance">Maintenance</a>
+    <a href="#dropped">Dropped</a>
+    <a href="#rules">Rules</a>
+  </div>
+</nav>
+
+<main>
+
+<section id="overview">
+  <h2>Overview</h2>
+  <p class="subhead">The site goal is <strong>organic traffic that converts</strong>. Paid ads are a force multiplier on a foundation-strong site, NOT a substitute for one.</p>
+
+  <div class="stats">
+    <div class="stat"><div class="num">5</div><div class="label">Priorities</div></div>
+    <div class="stat"><div class="num">~85 hrs</div><div class="label">Phase 1–4 effort</div></div>
+    <div class="stat"><div class="num">~25 hrs</div><div class="label">Saved vs. prior plan</div></div>
+    <div class="stat"><div class="num">93.6%</div><div class="label">Effective indexing rate</div></div>
+    <div class="stat"><div class="num">145</div><div class="label">Five-star reviews</div></div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><span class="legend-dot p1"></span>P1 Foundation</div>
+    <div class="legend-item"><span class="legend-dot p2"></span>P2 SEO + AEO</div>
+    <div class="legend-item"><span class="legend-dot p3"></span>P3 Conversion</div>
+    <div class="legend-item"><span class="legend-dot p4"></span>P4 Ad Infrastructure</div>
+    <div class="legend-item"><span class="legend-dot p5"></span>P5 Launch + Track</div>
+    <div class="legend-item"><span class="badge badge-shipped">Shipped</span></div>
+    <div class="legend-item"><span class="badge badge-pending">Pending</span></div>
+    <div class="legend-item"><span class="badge badge-defer">Deferred</span></div>
+  </div>
+</section>
+
+<section id="phases">
+  <h2>Phase Sequencing</h2>
+  <p class="subhead">Each phase has a hard exit criterion. No phase skips ahead.</p>
+
+  <div class="phase-flow">
+    <div class="phase-step">
+      <div class="step-num">1</div>
+      <h4>Foundation Lock-In</h4>
+      <p>15–20 hrs · 2–3 weeks · agent-led</p>
+      <p style="margin-top:0.4rem; color:var(--prussian); font-weight:600; font-size:0.75rem;">EXIT: P1 KPIs measured</p>
+    </div>
+    <div class="phase-step">
+      <div class="step-num">2a</div>
+      <h4>SEO/AEO Quick Wins</h4>
+      <p>~5 hrs · 1 week · agent-led</p>
+      <p style="margin-top:0.4rem; color:var(--electric-blue); font-weight:600; font-size:0.75rem;">EXIT: AI crawlers verified open</p>
+    </div>
+    <div class="phase-step">
+      <div class="step-num">3</div>
+      <h4>Conversion Optimization</h4>
+      <p>~25 hrs · runs parallel w/ Phase 2b</p>
+      <p style="margin-top:0.4rem; color:var(--success-green); font-weight:600; font-size:0.75rem;">EXIT: P3 KPIs trending up</p>
+    </div>
+    <div class="phase-step">
+      <div class="step-num">4</div>
+      <h4>Ad Infrastructure</h4>
+      <p>~25 hrs · only after Phase 3</p>
+      <p style="margin-top:0.4rem; color:var(--alert-amber); font-weight:600; font-size:0.75rem;">EXIT: P4 100% pass</p>
+    </div>
+    <div class="phase-step">
+      <div class="step-num">5</div>
+      <h4>Launch + Track</h4>
+      <p>Ongoing · daily/weekly cadence</p>
+      <p style="margin-top:0.4rem; color:var(--vivid-red); font-weight:600; font-size:0.75rem;">EXIT: never; permanent loop</p>
+    </div>
+  </div>
+
+  <div class="card" style="background:#fef3c7; border-color:#fcd34d;">
+    <strong style="color:#92400e;">Phase 2b runs PARALLEL with Phase 3.</strong>
+    <p style="margin-top:0.4rem; color:#78350f; font-size:0.9rem;">SEO content cadence (28 city pages × 1/week = 28 weeks) is bandwidth-throttled; conversion fixes ship in parallel during weeks 4–24.</p>
+  </div>
+</section>
+
+<!-- ============ P1 ============ -->
+<section id="p1">
+  <h2><span class="num p1">P1</span> High-Performing Website Foundation</h2>
+  <div class="definition">
+    <strong>Definition.</strong> Site loads fast, never breaks, fully accessible, mobile-perfect, zero architectural debt.
+  </div>
+
+  <h3>Already Shipped</h3>
+  <table>
+    <thead><tr><th>Item</th><th>Date</th></tr></thead>
+    <tbody>
+      <tr><td>Brand cohesion refactor (M7)</td><td><span class="badge badge-shipped">Apr 27, 2026</span></td></tr>
+      <tr><td>RSC conversion (60% TBT savings)</td><td><span class="badge badge-shipped">Apr 21, 2026</span></td></tr>
+      <tr><td>Legacy URL redirects (20 URLs)</td><td><span class="badge badge-shipped">Apr 23, 2026</span></td></tr>
+      <tr><td>Header nav reorg (M6)</td><td><span class="badge badge-shipped">Apr 27, 2026</span></td></tr>
+      <tr><td>WCAG AA contrast fixes (electric-blue, vivid-red)</td><td><span class="badge badge-shipped">Apr 21, 2026</span></td></tr>
+      <tr><td><code>design_guidelines.md</code> published</td><td><span class="badge badge-shipped">Apr 27, 2026</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3>KPI Baseline Targets</h3>
+  <table>
+    <thead><tr><th>KPI</th><th>Target</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td>Lighthouse Performance (mobile)</td><td class="kpi-target"><strong>≥90</strong> on key pages</td><td>Lighthouse mobile</td></tr>
+      <tr><td>Lighthouse Accessibility</td><td class="kpi-target"><strong>≥95</strong> sitewide</td><td>Lighthouse</td></tr>
+      <tr><td>Lighthouse SEO</td><td class="kpi-target"><strong>100</strong> sitewide</td><td>Lighthouse</td></tr>
+      <tr><td>CWV LCP p75</td><td class="kpi-target"><strong>&lt;2.5s</strong></td><td>GSC Experience (CrUX)</td></tr>
+      <tr><td>CWV INP p75</td><td class="kpi-target"><strong>&lt;200ms</strong></td><td>GSC Experience</td></tr>
+      <tr><td>CWV CLS p75</td><td class="kpi-target"><strong>&lt;0.1</strong></td><td>GSC Experience</td></tr>
+      <tr><td>First Load JS (homepage)</td><td class="kpi-target"><strong>&lt;150 kB</strong></td><td><code>yarn build</code></td></tr>
+      <tr><td>TBT (lab)</td><td class="kpi-target"><strong>&lt;200ms</strong></td><td>Lighthouse</td></tr>
+      <tr><td>Error rate</td><td class="kpi-target"><strong>&lt;0.1%</strong> requests</td><td>Vercel Analytics</td></tr>
+      <tr><td>Build time</td><td class="kpi-target"><strong>&lt;30s</strong> (currently 22.7s ✅)</td><td><code>yarn build</code></td></tr>
+      <tr><td>Uptime</td><td class="kpi-target"><strong>99.95%+</strong></td><td>Vercel SLA</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Reevaluation Cadence</h3>
+  <div class="card p1-card">
+    <div class="cadence-row"><span class="freq">Weekly</span><span class="actions">Vercel Analytics RUM glance + GSC Experience report</span></div>
+    <div class="cadence-row"><span class="freq">Monthly</span><span class="actions">Full Lighthouse audit on 5 key pages; compare to baseline</span></div>
+    <div class="cadence-row"><span class="freq">Quarterly</span><span class="actions">Comprehensive tech-SEO sweep; bundle analyzer; bundle-size delta tracked</span></div>
+    <div class="cadence-row"><span class="freq">Per-PR</span><span class="actions">Lighthouse CI auto-check (if F7 installed)</span></div>
+  </div>
+
+  <h3>Action Items (in execution order)</h3>
+  <table>
+    <thead><tr><th>#</th><th>ID</th><th>Item</th><th>Effort</th><th>Owner</th></tr></thead>
+    <tbody>
+      <tr><td class="num-cell">1</td><td class="id-cell">F0</td><td><strong>Create KPI baseline file</strong> capturing all P1/P2/P3 starting numbers</td><td>1 hr</td><td>Agent</td></tr>
+      <tr><td class="num-cell">2</td><td class="id-cell">F5</td><td>Vercel Analytics RUM enabled</td><td>30 min</td><td>Agent</td></tr>
+      <tr><td class="num-cell">3</td><td class="id-cell">F1</td><td><strong>Mobile UX deep audit + fixes</strong> — tap targets, mobile keyboards, AddressAutocomplete on touch, sticky-CTA collisions</td><td>2–3 hrs</td><td>Agent + user device QA</td></tr>
+      <tr><td class="num-cell">4</td><td class="id-cell">F2</td><td>Image optimization audit — Next.js <code>&lt;Image&gt;</code>, sizes, lazy-load, AVIF/WebP, alt text</td><td>1–2 hrs</td><td>Agent</td></tr>
+      <tr><td class="num-cell">5</td><td class="id-cell">F3</td><td>Security headers audit — securityheaders.com</td><td>1 hr</td><td>Agent</td></tr>
+      <tr><td class="num-cell">6</td><td class="id-cell">P2.4b</td><td>Bundle reduction — lucide tree-shake, Radix audit, /studio dynamic-split</td><td>4–6 hrs</td><td>Agent</td></tr>
+      <tr><td class="num-cell">7</td><td class="id-cell">P2.7</td><td>Code cleanup / unused dep audit</td><td>1–2 hrs</td><td>Agent</td></tr>
+      <tr><td class="num-cell">8</td><td class="id-cell">P2.15</td><td>Component decomposition (templates &gt;300 lines)</td><td>variable</td><td>Agent</td></tr>
+      <tr><td class="num-cell">9</td><td class="id-cell">P2.4c</td><td>Lighthouse all-green verification</td><td>1 hr</td><td>Agent</td></tr>
+      <tr><td class="num-cell">10</td><td class="id-cell">P3-a11y</td><td>Skip-to-main content link (push A11y to 100)</td><td>15 min</td><td>Agent</td></tr>
+      <tr><td class="num-cell">11</td><td class="id-cell">F6</td><td>404 page UX upgrade — popular pages, search, CTA</td><td>1 hr</td><td>Agent</td></tr>
+      <tr><td class="num-cell">12</td><td class="id-cell">F4</td><td>Backup/disaster recovery checklist documented</td><td>1 hr</td><td>Agent</td></tr>
+      <tr><td class="num-cell">13</td><td class="id-cell">F8</td><td>Dependency security scan (Dependabot/Snyk)</td><td>15 min</td><td>User</td></tr>
+      <tr><td class="num-cell">14</td><td class="id-cell">F7</td><td>Lighthouse CI gate (optional)</td><td>2 hrs</td><td>Agent</td></tr>
+      <tr><td class="num-cell">15</td><td class="id-cell">P1.6d</td><td>INP field measurement after CrUX populates</td><td>30 min + variable</td><td>Agent</td></tr>
+      <tr><td class="num-cell">16</td><td class="id-cell">P1.3</td><td>User-led device QA: iOS Safari, Android Chrome</td><td>1 hr</td><td>User</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============ P2 ============ -->
+<section id="p2">
+  <h2><span class="num p2">P2</span> SEO + AEO</h2>
+  <div class="definition">
+    <strong>Definition.</strong> Maximum organic discoverability across Google search, Google AI Overviews, ChatGPT, Perplexity, Gemini, GBP, Bing, Apple Maps.
+  </div>
+
+  <h3>Already Shipped</h3>
+  <table>
+    <thead><tr><th>Item</th><th>Date</th></tr></thead>
+    <tbody>
+      <tr><td>Title tag audit (47 finalized titles, Option C hybrid review-count)</td><td><span class="badge badge-shipped">Apr 23</span></td></tr>
+      <tr><td>Manual GSC indexing requests (~95% of sitemap submitted)</td><td><span class="badge badge-shipped">Apr 21–27</span></td></tr>
+      <tr><td>Site-wide indexing audit (89.4% indexed; 93.6% effective)</td><td><span class="badge badge-shipped">Apr 27</span></td></tr>
+      <tr><td>A1, A2: <code>the-colony</code> + <code>commercial-heating</code> re-submitted</td><td><span class="badge badge-shipped">Apr 27</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3>KPI Baseline Targets</h3>
+  <table>
+    <thead><tr><th>KPI</th><th>Current</th><th>Target</th></tr></thead>
+    <tbody>
+      <tr><td>Sitemap indexing rate</td><td>89.4% (42/47)</td><td class="kpi-target"><strong>100% by Jul 1</strong></td></tr>
+      <tr><td>GSC impressions (28-day)</td><td>TBD</td><td class="kpi-target"><strong>+30% in 90 days</strong></td></tr>
+      <tr><td>GSC clicks (28-day)</td><td>TBD</td><td class="kpi-target"><strong>+50% in 90 days</strong></td></tr>
+      <tr><td>GSC avg position (top 20 queries)</td><td>TBD</td><td class="kpi-target"><strong>top 10 / ≥50% branded</strong></td></tr>
+      <tr><td>Backlink count (DR≥20)</td><td>TBD</td><td class="kpi-target"><strong>+15 in 6 months</strong></td></tr>
+      <tr><td>GBP impressions</td><td>TBD post-verify</td><td class="kpi-target"><strong>+50% in 60 days</strong></td></tr>
+      <tr><td>GBP calls</td><td>TBD</td><td class="kpi-target"><strong>+30% in 60 days</strong></td></tr>
+      <tr><td>Google reviews count</td><td>145</td><td class="kpi-target"><strong>165 by Sep 1</strong></td></tr>
+      <tr><td>Review response rate</td><td>TBD</td><td class="kpi-target"><strong>100%</strong></td></tr>
+      <tr><td>AEO citation rate (15–20 queries)</td><td>TBD</td><td class="kpi-target"><strong>5+/20 by Sep 1</strong></td></tr>
+      <tr><td>Featured snippets owned</td><td>0</td><td class="kpi-target"><strong>3–5 by Sep 1</strong></td></tr>
+      <tr><td>Schema coverage</td><td>TBD</td><td class="kpi-target"><strong>100% pages have ≥2 schema types</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Reevaluation Cadence</h3>
+  <div class="card p2-card">
+    <div class="cadence-row"><span class="freq">Weekly</span><span class="actions">GSC dashboard glance — impressions, indexed-URL count, errors</span></div>
+    <div class="cadence-row"><span class="freq">Monthly</span><span class="actions">Full GSC report deep-dive (Performance + Pages + Experience)</span></div>
+    <div class="cadence-row"><span class="freq">Quarterly</span><span class="actions">AEO citation audit · competitor audit · schema validation · NAP recheck · backlink growth</span></div>
+    <div class="cadence-row"><span class="freq">Semi-annual</span><span class="actions">Title-tag CTR review · full SEO audit refresh</span></div>
+  </div>
+
+  <h3>Phase 2a — Quick Wins (~5 hrs, ship next)</h3>
+  <table>
+    <thead><tr><th>#</th><th>ID</th><th>Item</th><th>Effort</th></tr></thead>
+    <tbody>
+      <tr><td class="num-cell">1</td><td class="id-cell">A4</td><td><code>commercial-heating</code> content differentiation + internal linking</td><td>45 min</td></tr>
+      <tr><td class="num-cell">2</td><td class="id-cell">S1</td><td><strong>AI crawler robots.txt policy</strong> — verify GPTBot, ClaudeBot, PerplexityBot, Google-Extended <code>Allow: /</code></td><td>30 min</td></tr>
+      <tr><td class="num-cell">3</td><td class="id-cell">S2</td><td>Schema audit + completion (esp. <code>WebApplication</code>/<code>HowTo</code> on /replacement-estimator)</td><td>2 hrs</td></tr>
+      <tr><td class="num-cell">4</td><td class="id-cell">P1.6f</td><td>Rich Results validation on home, plano, AC, contact, repair-or-replace</td><td>30 min</td></tr>
+      <tr><td class="num-cell">5</td><td class="id-cell">P1.4</td><td>Internal linking matrix (overlaps with A4)</td><td>2–3 hrs</td></tr>
+      <tr><td class="num-cell">6</td><td class="id-cell">S3</td><td>AEO citation tracking baseline — 15–20 queries logged</td><td>1 hr</td></tr>
+      <tr><td class="num-cell">7</td><td class="id-cell">P1.5</td><td>GSC baseline capture + weekly trend doc</td><td>30 min</td></tr>
+      <tr><td class="num-cell">8</td><td class="id-cell">A3</td><td>May 5 GSC re-audit (export 6 reports → diff vs Apr 27)</td><td>10 min user + 30 min agent</td></tr>
+      <tr><td class="num-cell">9</td><td class="id-cell">P2.1</td><td>"50+ cities" copy cleanup (actual = 28)</td><td>30 min</td></tr>
+      <tr><td class="num-cell">10</td><td class="id-cell">S5</td><td>Image alt-text sitewide audit (LLM-assisted)</td><td>1 hr</td></tr>
+      <tr><td class="num-cell">11</td><td class="id-cell">S6</td><td>OG / Twitter card audit</td><td>1 hr</td></tr>
+      <tr><td class="num-cell">12</td><td class="id-cell">S7</td><td>Sitemap priority + lastmod accuracy</td><td>1 hr</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Phase 2b — Content Cadence (parallel with Phase 3)</h3>
+  <table>
+    <thead><tr><th>#</th><th>ID</th><th>Item</th><th>Cadence</th></tr></thead>
+    <tbody>
+      <tr><td class="num-cell">13</td><td class="id-cell">P1.8</td><td><strong>Google Business Profile (start ASAP — 5–14 day verification)</strong></td><td>4 hrs initial + 30 min/wk</td></tr>
+      <tr><td class="num-cell">14</td><td class="id-cell">P1.6e</td><td>Review response audit + ongoing cadence (target 2–5 new/mo)</td><td>1 hr + ongoing</td></tr>
+      <tr><td class="num-cell">15</td><td class="id-cell">P1.6b</td><td>City page body content rewrite (28 cities × 300–500 words)</td><td>1–2 hrs/city × 28</td></tr>
+      <tr><td class="num-cell">16</td><td class="id-cell">P1.6c</td><td>Backlink profile audit + outreach</td><td>2 hrs + ongoing</td></tr>
+      <tr><td class="num-cell">17</td><td class="id-cell">P2.3</td><td>NAP consistency audit (Yelp, BBB, Angi, etc.)</td><td>3–4 hrs</td></tr>
+      <tr><td class="num-cell">18</td><td class="id-cell">S4</td><td>Programmatic SEO opportunity audit — (city × service) combos</td><td>2 hrs</td></tr>
+      <tr><td class="num-cell">19</td><td class="id-cell">S8</td><td>Featured snippet opportunity audit</td><td>2 hrs</td></tr>
+      <tr><td class="num-cell">20</td><td class="id-cell">S9</td><td>Bing Webmaster Tools + Apple Maps Connect setup</td><td>1 hr</td></tr>
+      <tr><td class="num-cell">21</td><td class="id-cell">P2.9</td><td>Blog launch + 4 seasonal posts (only after 28 city pages done)</td><td>6 hrs infra + 3/post</td></tr>
+      <tr><td class="num-cell">22</td><td class="id-cell">P2.2</td><td><code>/pricing</code> page launch (awaits user $ data)</td><td>4–6 hrs</td></tr>
+      <tr><td class="num-cell">23</td><td class="id-cell">S10</td><td>Quarterly competitor SEO audit</td><td>2 hrs/qtr</td></tr>
+      <tr><td class="num-cell">24</td><td class="id-cell">P2.17</td><td>Deprecate Sanity <code>metaTitle</code> field</td><td>30 min</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============ P3 ============ -->
+<section id="p3">
+  <h2><span class="num p3">P3</span> Conversion Optimization</h2>
+  <div class="definition">
+    <strong>Definition.</strong> Of every visitor reaching the site, the highest possible % takes a conversion action.
+  </div>
+
+  <h3>Already Shipped</h3>
+  <table>
+    <thead><tr><th>Item</th><th>Date</th></tr></thead>
+    <tbody>
+      <tr><td><code>/replacement-estimator</code> 5-step wizard with Option C hybrid lead gate</td><td><span class="badge badge-shipped">Apr 24</span></td></tr>
+      <tr><td><code>/financing</code> page (Wisetack, 0% APR 24mo)</td><td><span class="badge badge-shipped">Apr 24</span></td></tr>
+      <tr><td><code>/services/system-replacement</code> revenue center page</td><td><span class="badge badge-shipped">Apr 24</span></td></tr>
+      <tr><td><code>/repair-or-replace</code> AEO decision-framework article</td><td><span class="badge badge-shipped">Apr 24</span></td></tr>
+      <tr><td>GA4 key events: <code>generate_lead</code>, <code>phone_click</code></td><td><span class="badge badge-shipped">Apr 24</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3>KPI Baseline Targets</h3>
+  <table>
+    <thead><tr><th>KPI</th><th>Current</th><th>Target</th></tr></thead>
+    <tbody>
+      <tr><td>Overall conversion rate</td><td>TBD</td><td class="kpi-target"><strong>+25% by Sep 1</strong></td></tr>
+      <tr><td>Form submission rate</td><td>TBD</td><td class="kpi-target"><strong>+40% post P1.10</strong></td></tr>
+      <tr><td>Phone click rate</td><td>TBD</td><td class="kpi-target"><strong>+20% by Sep 1</strong></td></tr>
+      <tr><td>Mobile vs desktop conv. rate</td><td>TBD</td><td class="kpi-target"><strong>parity within 10%</strong></td></tr>
+      <tr><td>Estimator completion rate</td><td>TBD</td><td class="kpi-target"><strong>≥30% of starts</strong></td></tr>
+      <tr><td>Estimator → opt-in rate</td><td>TBD</td><td class="kpi-target"><strong>≥15% of completions</strong></td></tr>
+      <tr><td>Bounce rate (top 5 entry pages)</td><td>TBD</td><td class="kpi-target"><strong>&lt;60% each</strong></td></tr>
+      <tr><td>Time on page (key)</td><td>TBD</td><td class="kpi-target"><strong>&gt;45s service / &gt;2min estimator</strong></td></tr>
+      <tr><td>Lead → booked-job rate (operational)</td><td>TBD</td><td class="kpi-target">tracked for ad ROI</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Reevaluation Cadence</h3>
+  <div class="card p3-card">
+    <div class="cadence-row"><span class="freq">Weekly</span><span class="actions">GA4 Realtime + Conversions glance</span></div>
+    <div class="cadence-row"><span class="freq">Monthly</span><span class="actions">Full conversion review by-page, by-device, by-source; identify biggest drop-offs</span></div>
+    <div class="cadence-row"><span class="freq">Quarterly</span><span class="actions">A/B test cycle (1 test/month); review heatmaps; identify next bottleneck</span></div>
+    <div class="cadence-row"><span class="freq">Per-deploy</span><span class="actions">Verify GA4 events still firing within 48 hrs</span></div>
+  </div>
+
+  <h3>Action Items (in execution order)</h3>
+  <table>
+    <thead><tr><th>#</th><th>ID</th><th>Item</th><th>Effort</th></tr></thead>
+    <tbody>
+      <tr><td class="num-cell">1</td><td class="id-cell">C1</td><td><strong>Microsoft Clarity heatmap (FREE; install FIRST — needs 30+ days runtime)</strong></td><td>30 min</td></tr>
+      <tr><td class="num-cell">2</td><td class="id-cell">M5</td><td>Conversion baseline captured</td><td>30 min</td></tr>
+      <tr><td class="num-cell">3</td><td class="id-cell">P1.11</td><td><code>/thanks</code> post-submit page + Resend auto-reply</td><td>4 hrs</td></tr>
+      <tr><td class="num-cell">4</td><td class="id-cell">C7</td><td>"What happens next" copy below every form</td><td>1 hr</td></tr>
+      <tr><td class="num-cell">5</td><td class="id-cell">P1.10</td><td><strong>Progressive form redesign (30–50% submit lift)</strong></td><td>4–6 hrs</td></tr>
+      <tr><td class="num-cell">6</td><td class="id-cell">C4</td><td>Form abandonment tracking — GA4 events on field-blur</td><td>1 hr</td></tr>
+      <tr><td class="num-cell">7</td><td class="id-cell">P1.9b</td><td>Review badge in every page hero</td><td>2 hrs</td></tr>
+      <tr><td class="num-cell">8</td><td class="id-cell">P1.9e</td><td>Footer + sticky bottom-bar trust signals</td><td>1 hr</td></tr>
+      <tr><td class="num-cell">9</td><td class="id-cell">P1.9c</td><td>Inline review carousel near every form</td><td>2 hrs</td></tr>
+      <tr><td class="num-cell">10</td><td class="id-cell">P1.9d</td><td>City-filtered reviews page</td><td>3 hrs</td></tr>
+      <tr><td class="num-cell">11</td><td class="id-cell">P1.9f</td><td>Post-submit rotating review (merged with P1.11)</td><td>(combined)</td></tr>
+      <tr><td class="num-cell">12</td><td class="id-cell">C2</td><td>Click-to-call CTA placement audit</td><td>1 hr</td></tr>
+      <tr><td class="num-cell">13</td><td class="id-cell">C5</td><td>A/B testing framework — Vercel Edge Config or Sanity variants</td><td>2 hrs</td></tr>
+      <tr><td class="num-cell">14</td><td class="id-cell">C3</td><td>Estimator pricing matrix populated with REAL DFW numbers</td><td>30 min user + 30 min agent</td></tr>
+      <tr><td class="num-cell">15</td><td class="id-cell">C6</td><td>Mobile sticky-CTA conversion lift verification</td><td>30 min</td></tr>
+      <tr><td class="num-cell">16</td><td class="id-cell">P2.10</td><td>Lead magnets (defer until P3 KPIs trending)</td><td>8–12 hrs each</td></tr>
+      <tr><td class="num-cell">17</td><td class="id-cell">P2.13</td><td>Exit intent modal (defer)</td><td>3–4 hrs</td></tr>
+      <tr><td class="num-cell">18</td><td class="id-cell">P2.14</td><td>Urgency signals (defer)</td><td>3–4 hrs</td></tr>
+      <tr><td class="num-cell">19</td><td class="id-cell">P2.12</td><td>SMS text-back via Twilio (defer post-ad-launch)</td><td>4–6 hrs</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============ P4 ============ -->
+<section id="p4">
+  <h2><span class="num p4">P4</span> Ad-Measurable Infrastructure</h2>
+  <div class="definition">
+    <strong>Definition.</strong> Pre-launch measurement pipeline so every conversion path is attributable to source channel. Built BEFORE any ad dollar is spent.
+  </div>
+
+  <h3>KPI Baseline Targets (pre-launch validation)</h3>
+  <table>
+    <thead><tr><th>KPI</th><th>Pre-launch target</th></tr></thead>
+    <tbody>
+      <tr><td>CallRail/DNI installed and routing 100% of phone CTAs</td><td class="kpi-target"><strong>Yes</strong></td></tr>
+      <tr><td>GCLID capture rate on <code>/quote-*</code> LPs</td><td class="kpi-target"><strong>100% → MongoDB</strong></td></tr>
+      <tr><td>Enhanced Conversions match rate</td><td class="kpi-target"><strong>≥70%</strong> (Smart Bidding floor)</td></tr>
+      <tr><td>GA4 ↔ Google Ads link verified</td><td class="kpi-target"><strong>Yes</strong></td></tr>
+      <tr><td>GA4 ↔ Facebook Pixel parity</td><td class="kpi-target"><strong>&lt;10% delta</strong></td></tr>
+      <tr><td>Ad LPs Quality Score (lab)</td><td class="kpi-target"><strong>All ≥7/10</strong></td></tr>
+      <tr><td>Ad LPs Lighthouse Perf</td><td class="kpi-target"><strong>≥85 each</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Reevaluation Cadence</h3>
+  <div class="card p4-card">
+    <div class="cadence-row"><span class="freq">Pre-launch</span><span class="actions">100% test pass before any spend authorized</span></div>
+    <div class="cadence-row"><span class="freq">Daily</span><span class="actions">First 14 days: CallRail call quality, GCLID rate, conv events firing</span></div>
+    <div class="cadence-row"><span class="freq">Weekly</span><span class="actions">Full ad-platform reconciliation (GA4 ↔ Google Ads ↔ FB Ads)</span></div>
+  </div>
+
+  <h3>Action Items (only after Phase 3 baseline trending positive)</h3>
+  <table>
+    <thead><tr><th>#</th><th>ID</th><th>Item</th><th>Effort</th></tr></thead>
+    <tbody>
+      <tr><td class="num-cell">1</td><td class="id-cell">P2.19</td><td><strong>CallRail / Twilio DNI</strong> (60–80% of HVAC conversions are calls)</td><td>3–6 hrs</td></tr>
+      <tr><td class="num-cell">2</td><td class="id-cell">P2.20</td><td>Enhanced Conversions + Offline Conversion Upload</td><td>3–4 hrs</td></tr>
+      <tr><td class="num-cell">3</td><td class="id-cell">A1</td><td>GA4 Enhanced E-commerce event taxonomy</td><td>1 hr</td></tr>
+      <tr><td class="num-cell">4</td><td class="id-cell">P1.12a</td><td>Dedicated ad LP template</td><td>4–6 hrs</td></tr>
+      <tr><td class="num-cell">5</td><td class="id-cell">A4-LP</td><td><code>/quote-emergency-ac-repair</code>, <code>/quote-furnace-replacement</code>, <code>/quote-spring-tuneup</code></td><td>3 hrs each = 9 hrs</td></tr>
+      <tr><td class="num-cell">6</td><td class="id-cell">P1.12b</td><td>GCLID + UTM capture → MongoDB lead record</td><td>2–3 hrs</td></tr>
+      <tr><td class="num-cell">7</td><td class="id-cell">P1.12c</td><td>Landing page Quality Score validation</td><td>1 hr</td></tr>
+      <tr><td class="num-cell">8</td><td class="id-cell">P2.6</td><td>Google Tag Manager + Facebook Pixel</td><td>1–2 hrs</td></tr>
+      <tr><td class="num-cell">9</td><td class="id-cell">A3-fb</td><td>Facebook Pixel + Conversions API (server-side)</td><td>2 hrs</td></tr>
+      <tr><td class="num-cell">10</td><td class="id-cell">A5</td><td>UTM parameter standardization doc</td><td>1 hr</td></tr>
+      <tr><td class="num-cell">11</td><td class="id-cell">A6</td><td>Ad-budget tracking dashboard (Google Sheet)</td><td>2 hrs</td></tr>
+      <tr><td class="num-cell">12</td><td class="id-cell">M4</td><td><strong>Pre-launch deploy freeze policy formalized</strong> (10 days before Day 1)</td><td>30 min</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============ P5 ============ -->
+<section id="p5">
+  <h2><span class="num p5">P5</span> Launch + Track Ads</h2>
+  <div class="definition">
+    <strong>Definition.</strong> Spend live. Optimize ruthlessly on Priority 4's instrumentation.
+  </div>
+
+  <h3>KPI Baseline Targets</h3>
+  <table>
+    <thead><tr><th>KPI</th><th>Target</th></tr></thead>
+    <tbody>
+      <tr><td>CPC (Google Search)</td><td class="kpi-target"><strong>&lt;$8</strong> (HVAC DFW typical $4–$12)</td></tr>
+      <tr><td>CTR (Google Search)</td><td class="kpi-target"><strong>&gt;5%</strong></td></tr>
+      <tr><td>Conversion rate (LP → form/call)</td><td class="kpi-target"><strong>&gt;8%</strong></td></tr>
+      <tr><td>Cost per lead (CPL)</td><td class="kpi-target"><strong>&lt;$60</strong></td></tr>
+      <tr><td>Cost per booked job (CAC)</td><td class="kpi-target"><strong>&lt;$200</strong> (avg ticket &gt;$1,000)</td></tr>
+      <tr><td>Quality Score (Google)</td><td class="kpi-target"><strong>≥7</strong></td></tr>
+      <tr><td>Relevance Score (FB)</td><td class="kpi-target"><strong>≥7</strong></td></tr>
+      <tr><td>LTV : CAC ratio</td><td class="kpi-target"><strong>≥3:1</strong> within 90 days</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Reevaluation Cadence</h3>
+  <div class="card p5-card">
+    <div class="cadence-row"><span class="freq">Daily</span><span class="actions">First 14 days: spend pacing, anomalies, junk traffic</span></div>
+    <div class="cadence-row"><span class="freq">Daily</span><span class="actions">Always: budget alerts via Google Ads Scripts</span></div>
+    <div class="cadence-row"><span class="freq">Weekly</span><span class="actions">Negative keywords audit · ad copy refresh · audience refinement</span></div>
+    <div class="cadence-row"><span class="freq">Monthly</span><span class="actions">Full creative refresh · ROI review against P1–P3 KPIs</span></div>
+  </div>
+
+  <h3>Action Items</h3>
+  <table>
+    <thead><tr><th>#</th><th>ID</th><th>Item</th><th>When</th></tr></thead>
+    <tbody>
+      <tr><td class="num-cell">1</td><td class="id-cell">L1</td><td>$10/day Google Search dry run × 5 days</td><td>Week 1</td></tr>
+      <tr><td class="num-cell">2</td><td class="id-cell">L2</td><td>$10/day Facebook dry run × 5 days</td><td>Week 1</td></tr>
+      <tr><td class="num-cell">3</td><td class="id-cell">L3</td><td>Verify all attribution paths under live spend</td><td>Throughout dry run</td></tr>
+      <tr><td class="num-cell">4</td><td class="id-cell">L6</td><td>Toggle remaining GA4 key events (<code>thanks_page_view</code>, <code>form_step_1_complete</code>, <code>estimator_complete</code>)</td><td>After 24h spend</td></tr>
+      <tr><td class="num-cell">5</td><td class="id-cell">L4</td><td>Scale spend on winning ad sets</td><td>Week 2+</td></tr>
+      <tr><td class="num-cell">6</td><td class="id-cell">L5</td><td>Cull underperforming creative</td><td>Week 2+</td></tr>
+      <tr><td class="num-cell">7</td><td class="id-cell">L7</td><td>Negative keyword audit weekly (HVAC has heavy junk)</td><td>30 min/wk × 60 days</td></tr>
+      <tr><td class="num-cell">8</td><td class="id-cell">L8</td><td>Ad creative refresh — 30-day rotation</td><td>2 hrs/mo</td></tr>
+      <tr><td class="num-cell">9</td><td class="id-cell">L9</td><td>Lead-to-booked-job tracking — CRM tags → Offline Conv Upload</td><td>30 min/wk</td></tr>
+      <tr><td class="num-cell">10</td><td class="id-cell">L10</td><td>Monthly ad ROI review against P1–P3 KPIs</td><td>1 hr/mo</td></tr>
+      <tr><td class="num-cell">11</td><td class="id-cell">P2.21</td><td>Server-Side GTM (only if ad-blocker loss &gt;10% after 60 days)</td><td>Month 4+ contingency</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============ Maintenance ============ -->
+<section id="maintenance">
+  <h2>Recurring Maintenance</h2>
+  <p class="subhead">Full checklist: <code>/app/memory/RECURRING_MAINTENANCE.md</code></p>
+  <table>
+    <thead><tr><th>Cadence</th><th>Headline examples</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Daily (automated)</strong></td><td><code>/api/cron/sync-reviews</code></td></tr>
+      <tr><td><strong>Weekly</strong></td><td>GBP Posts · GBP review-reply SLA · CrUX glance · GSC dashboard glance · GA4 conversion check</td></tr>
+      <tr><td><strong>Monthly</strong></td><td>Lighthouse audit · review-count drift · GSC not-indexed review · Places API billing · M1–M5 device matrix · full conversion review</td></tr>
+      <tr><td><strong>Quarterly</strong></td><td>Tech-SEO audit · AEO citation audit · competitor SEO audit · listings refresh · title-tag CTR · schema validation · sitemap/robots scan</td></tr>
+      <tr><td><strong>Semi-annual</strong></td><td>NAP consistency audit · seasonal title/promo refresh · broken internal-link crawl</td></tr>
+      <tr><td><strong>Annual</strong></td><td>Seed/mock data review · API key rotation · Sanity dataset backup · 301/410 prune · MongoDB retention · Maps API allowlist</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============ Dropped ============ -->
+<section id="dropped">
+  <h2>Dropped from Active Roadmap</h2>
+  <p class="subhead">Items that don't materially serve any of the 5 priorities. Revisit only if context changes. Saved ~25 hours of capacity.</p>
+  <table class="dropped-table">
+    <thead><tr><th>Item</th><th>Reason</th></tr></thead>
+    <tbody>
+      <tr><td>Dark mode support</td><td>Zero SEO/conversion impact for HVAC audience (~6–10 hrs)</td></tr>
+      <tr><td>P2.8 Video testimonials</td><td>Marginal vs existing 145 reviews; capital-intensive ($500–1,500)</td></tr>
+      <tr><td>Next.js 15→16 upgrade</td><td>Premature; wait until forced by security or peer-dep</td></tr>
+      <tr><td>DNS GoDaddy → Vercel CNAME</td><td>Zero SEO/conversion impact; ops cleanup only</td></tr>
+      <tr><td>P2.5 Sanity webhook ISR</td><td>Optimization without measurable benefit; defer unless TTFB surfaces as CWV issue</td></tr>
+      <tr><td>P3 Housecall Pro API integration</td><td>Operations efficiency, not SEO/conversion</td></tr>
+      <tr><td>P2.21 Server-Side GTM</td><td>Correctly deferred to Month 4+ contingency</td></tr>
+      <tr><td>Wix subscription cancellation</td><td>Operational; user-led, no roadmap dependency</td></tr>
+      <tr><td>RealWork subscription evaluation</td><td>Operational; user decision</td></tr>
+      <tr><td>Case studies page, YouTube IAQ embed</td><td>P3 backlog; revisit after Phase 2b mature</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============ Rules ============ -->
+<section id="rules">
+  <h2>Critical Sequencing Rules</h2>
+  <ol class="rule-list">
+    <li><strong>GBP verification (P1.8) starts on Day 1 of Phase 2b.</strong> Verification takes 5–14 days, blocks the 60-day GBP uplift compounding window. Do not delay.</li>
+    <li><strong>Microsoft Clarity (C1) installs on Day 1 of Phase 3.</strong> Needs 30+ days runtime to produce useful heatmaps before P1.10/P1.9 changes ship.</li>
+    <li><strong>CallRail/DNI (P2.19) must be live before Day 1 of Phase 5.</strong> Without it, you'll optimize ads on 20–40% of conversion signal.</li>
+    <li><strong>Phase 2b runs PARALLEL with Phase 3.</strong> Don't wait for the 28-week city content sprint to finish before shipping conversion fixes.</li>
+    <li><strong>No two phases skip ahead.</strong> Phase 1 must complete (or have ticketed plan) before Phase 2a starts. Phase 4 must NOT start before Phase 3 baseline is trending positive.</li>
+  </ol>
+</section>
+
+</main>
+
+<footer class="bottom">
+  Internal review document · Not crawled (<code>noindex,nofollow</code>) · Source: <code>/app/memory/ROADMAP.md</code> · Companion: <a href="/sitemap-preview.html">sitemap-preview.html</a>
+</footer>
+
+<script>
+  // Active TOC link tracking
+  const sections = document.querySelectorAll('section[id]');
+  const tocLinks = document.querySelectorAll('nav.toc a');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + id));
+      }
+    });
+  }, { rootMargin: '-100px 0px -60% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>

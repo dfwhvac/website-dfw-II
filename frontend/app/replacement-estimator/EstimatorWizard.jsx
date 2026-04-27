@@ -344,10 +344,11 @@ export default function EstimatorWizard() {
                           <input
                             id="estim-fname"
                             type="text"
+                            autoComplete="given-name"
                             required
                             value={leadForm.firstName}
                             onChange={(e) => setLeadForm({ ...leadForm, firstName: e.target.value })}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-blue"
+                            className="w-full px-3 py-3 min-h-[44px] border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-blue"
                             data-testid="estimator-optin-firstname"
                           />
                         </div>
@@ -358,10 +359,12 @@ export default function EstimatorWizard() {
                           <input
                             id="estim-phone"
                             type="tel"
+                            inputMode="tel"
+                            autoComplete="tel"
                             required
                             value={leadForm.phone}
                             onChange={(e) => setLeadForm({ ...leadForm, phone: e.target.value })}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-blue"
+                            className="w-full px-3 py-3 min-h-[44px] border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-blue"
                             data-testid="estimator-optin-phone"
                           />
                         </div>
@@ -373,9 +376,11 @@ export default function EstimatorWizard() {
                         <input
                           id="estim-email"
                           type="email"
+                          inputMode="email"
+                          autoComplete="email"
                           value={leadForm.email}
                           onChange={(e) => setLeadForm({ ...leadForm, email: e.target.value })}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-blue"
+                          className="w-full px-3 py-3 min-h-[44px] border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-blue"
                           data-testid="estimator-optin-email"
                         />
                       </div>

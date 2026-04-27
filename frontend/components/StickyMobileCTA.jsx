@@ -64,23 +64,23 @@ const StickyMobileCTA = ({
       data-testid="sticky-mobile-cta"
     >
       {/* Main CTA Bar */}
-      <div className="bg-[#D30000] shadow-lg">
-        <div className="flex items-center justify-between px-4 py-3">
+      <div className="bg-vivid-red shadow-lg">
+        <div className="flex items-center justify-between px-4 py-3 min-h-[56px]">
           {/* Call Button - Takes most of the space */}
           <a
             href={`tel:${phoneNumber}`}
-            className="flex-1 flex items-center justify-center gap-3 text-white font-bold text-lg"
+            className="flex-1 flex items-center justify-center gap-3 text-white font-bold text-lg min-h-[44px]"
             data-testid="sticky-cta-call-btn"
           >
             <Phone className="w-6 h-6 animate-pulse" />
             <span>{ctaText}</span>
           </a>
           
-          {/* Dismiss Button */}
+          {/* Dismiss Button — 44x44 minimum tap target (WCAG / Apple HIG) */}
           <button
             onClick={handleDismiss}
-            className="ml-3 p-2 text-white/80 hover:text-white transition-colors"
-            aria-label="Dismiss"
+            className="ml-2 inline-flex items-center justify-center w-11 h-11 text-white/80 hover:text-white transition-colors"
+            aria-label="Dismiss call bar"
             data-testid="sticky-cta-dismiss-btn"
           >
             <X className="w-5 h-5" />
@@ -88,13 +88,13 @@ const StickyMobileCTA = ({
         </div>
         
         {/* Phone Number Display */}
-        <div className="bg-[#CC0000] text-white/90 text-center text-sm py-1 font-medium">
+        <div className="bg-vivid-red/90 text-white/90 text-center text-sm py-1 font-medium">
           {phone}
         </div>
       </div>
       
-      {/* Safe area padding for devices with home indicator */}
-      <div className="bg-[#CC0000] h-safe-area-inset-bottom" />
+      {/* Safe area padding for devices with home indicator (iOS) */}
+      <div className="bg-vivid-red/90" style={{ height: 'env(safe-area-inset-bottom)' }} />
     </div>
   )
 }

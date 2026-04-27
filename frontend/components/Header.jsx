@@ -200,6 +200,8 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
               width={60}
               height={60}
               className="rounded-lg"
+              priority
+              fetchPriority="high"
             />
             <div>
               <div className="text-xl font-bold text-gray-800">DFW HVAC</div>
