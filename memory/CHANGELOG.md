@@ -7,6 +7,14 @@ Reverse-chronological record of everything shipped to production. When adding en
 
 ---
 
+## April 27, 2026 — F3 verified live + `X-Powered-By` stripped
+
+- **SecurityHeaders.com graded `https://dfwhvac.com` an `A`** post-deploy (capped at A solely by the documented `unsafe-inline`/`unsafe-eval` accepted-risk warning on `script-src`). Path to A+ is the queued **F3c** ticket (CSP nonce migration via Next.js middleware).
+- **`poweredByHeader: false` shipped** in `next.config.js` to strip the `X-Powered-By: Next.js` framework-fingerprint leak that the same report flagged. Trivial defense-in-depth.
+- **KPI Baseline §1.5 updated** — Grade A logged as the post-F3 baseline; `X-Powered-By` row added.
+
+---
+
 ## April 27, 2026 — F3 Security Headers Hardened
 
 - **`next.config.js` `headers()` upgraded.** Closes the gaps surfaced in the F3 audit on the live `https://dfwhvac.com` response. SecurityHeaders.com / Mozilla Observatory grade target: **A+ / A**.

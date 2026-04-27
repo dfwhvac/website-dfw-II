@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // Strip `X-Powered-By: Next.js` — minor framework-fingerprint leak (flagged Apr 27 by securityheaders.com).
+  poweredByHeader: false,
   images: {
     domains: [
       'images.unsplash.com',

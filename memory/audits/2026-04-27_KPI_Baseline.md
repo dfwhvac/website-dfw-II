@@ -76,8 +76,9 @@
 
 | KPI | 2026-04-27 baseline | Target | Source |
 |---|:-:|:-:|---|
-| SecurityHeaders.com grade (live URL) | TBD post-deploy (was missing HSTS+COOP+CORP) | **A+** | securityheaders.com |
+| SecurityHeaders.com grade (live URL) | ✅ **A** (Apr 27 PM, post-F3 deploy) — capped at A by `unsafe-inline`/`unsafe-eval` warning | **A+** (requires F3c CSP nonce migration) | securityheaders.com |
 | Mozilla Observatory grade | TBD | **A or higher** | observatory.mozilla.org |
+| `X-Powered-By` leak | ✅ Stripped Apr 27 PM (`poweredByHeader: false`) | suppressed | Response header |
 | HSTS max-age | ✅ 63072000 (2 yr) + `includeSubDomains` + `preload` | preload-list eligible | Response header |
 | HSTS Preload List submission | ❌ NOT submitted | submitted by May 31 | hstspreload.org |
 | CSP — `frame-ancestors` | ✅ `'none'` (clickjacking lockdown) | enforced | Response header |
@@ -321,3 +322,4 @@ All P5 KPIs measured from Day 1 of spend. Listed here for completeness.
 | 2026-04-27 AM | File created. P1 build/bundle baseline captured. Sitemap, indexing rate, reviews count, F1 mobile findings + fixes all logged. P2/P3/P4/P5 baselines marked TBD pending user data captures. |
 | 2026-04-27 PM | F2 image audit + P2.4b bundle reduction shipped. Homepage First Load JS 180 → 172 kB. Removed 38 unused shadcn UI components + 27 unused npm deps. Deleted 1.4 MB unused PNGs. Added LCP `priority` to Header logo. Bundle target revised from aspirational <150 kB to industry-standard <244 kB. |
 | 2026-04-27 PM | **F3 Security Headers shipped.** HSTS upgraded to 2yr+includeSubDomains+preload. Added COOP `same-origin`, CORP `same-site`. CSP extended with `frame-ancestors 'none'`, `form-action 'self'`, `upgrade-insecure-requests`, Vercel Speed Insights endpoints. New §1.5 Security section captures targets (SecurityHeaders A+, Observatory A, SSL Labs A) + accepted risks (`unsafe-inline`/`unsafe-eval`/COEP-omit). Verified locally via `curl -I`. |
+| 2026-04-27 PM | **Production verified: SecurityHeaders.com Grade A** on live `https://dfwhvac.com` (capped at A by documented `unsafe-inline`/`unsafe-eval` warning; A+ requires F3c CSP nonce migration). `poweredByHeader: false` shipped to strip `X-Powered-By: Next.js` info-leak flagged in the same report. |
