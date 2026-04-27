@@ -53,11 +53,47 @@ The `preview` branch carries 5 stacked Apr 24 shipments: preview-env guards + `/
 - **M5 — Log Apr 24 baseline in CHANGELOG (~automatic via agent)**
   - Agent marks P1.13, P1.14, P1.15, P1.16 as ✅ in production the next session after merge is confirmed.
 
-- **M6 — Header nav reorg** (30–45 min, agent-led, separate PR on new branch after M3 merge)
-  - Currently the 4 Apr 24 pages are discoverable via footer links, cross-links, and direct URL only. Header nav unchanged.
-  - Planned: reorganize **Residential Services** dropdown into two visual groups — "Services" (AC, Heating, Preventative Maintenance, IAQ) above a divider, and "Planning to Replace?" (System Replacement · Replacement Estimator · Repair or Replace? · Financing Options) below. No new top-level nav items.
-  - File: `components/Header.jsx` — data-shape change to `dropdownItems` + small render tweak in `NavDropdown` for section headers and dividers.
-  - Deferred to post-merge so the 5 preview-stack changes ship cleanly first.
+- **M6 — Header nav reorg** ✅ SHIPPED Apr 27, 2026 (`components/Header.jsx`)
+  - Residential Services dropdown reorganized into two sections with headers + divider: "Services" (AC, Heating, Preventative Maintenance, IAQ) above, "Planning to Replace?" (System Replacement, Replacement Estimator, Repair or Replace?, Financing Options) below. Mobile menu mirrors the same grouping.
+  - Live on preview URL; verified all 8 dropdown links return 200.
+
+---
+
+## 🟢 GSC Indexing Action Items (Apr 27, 2026 audit)
+
+Authoritative source: `/app/memory/audits/2026-04-27_Site_Indexing_Audit.md`. Headline: **42 of 47 sitemap URLs indexed (89.4%); 44 effective (93.6%) per live URL Inspection.**
+
+### A1 — Submit `the-colony` to GSC (P1, ~30 sec, user-led)
+- **URL:** `https://dfwhvac.com/cities-served/the-colony`
+- **Bucket:** Discovered – currently not indexed (last_crawled: never)
+- **Action:** GSC → URL Inspection → paste URL → Request Indexing
+- **Why:** Last remaining un-submitted city page in the Day-4 backlog. Small market but completes geographic coverage for ad-targeting purposes.
+- **Status:** ⏳ Pending user
+
+### A2 — Submit `commercial-heating` to GSC (P1, ~30 sec, user-led)
+- **URL:** `https://dfwhvac.com/services/commercial/commercial-heating`
+- **Bucket:** Crawled – currently not indexed (Validation FAILED Apr 24)
+- **Action:** GSC → URL Inspection → paste URL → Request Indexing
+- **Why:** Google explicitly rejected this page on Apr 24 validation. A re-submit may push it through, but the long-term fix is content differentiation (see A4 below).
+- **Status:** ⏳ Pending user
+
+### A3 — May 5, 2026 indexing audit re-run (P1, ~10 min, agent-led)
+- **What:** Re-export the 6 GSC Pages reports (Indexed + 5 not-indexed buckets), diff against the Apr 27 baseline, update `/app/memory/audits/2026-04-27_Site_Indexing_Audit.md` (or create `2026-05-05_Site_Indexing_Audit.md` if material changes).
+- **Expected deltas:**
+  - Indexed: 50 → 54+ (Apr 24 stack lands once `preview → main` merges)
+  - Discovered – not indexed: 4 → 0–1 (haslet, the-colony, AC, IAQ should all clear)
+  - Crawled – not indexed: 2 → 0–1 (`/aboutus` should reclassify to Page-with-redirect; `commercial-heating` may stick if A4 not yet shipped)
+  - Page with redirect: 3 → 11+ (legacy www-prefixed Wix URLs reclassify here as Google recrawls them)
+- **Status:** 📅 Calendar reminder for May 5
+- **Inputs needed:** User exports the 6 reports (Indexed Table + 5 bucket Drilldowns) → uploads to chat → agent runs diff script.
+
+### A4 — Internal-linking audit + content differentiation for `commercial-heating` (P1, ~45 min, agent-led)
+- **Why:** Only sitemap page Google explicitly rejected as "not worth indexing." Likely too template-similar to `/services/commercial/commercial-air-conditioning` for Google's quality model.
+- **Scope:**
+  - **Content:** Audit `commercial-heating` body copy vs. `commercial-ac`. If >70% structural overlap, add 200–300 words of heating-specific content (boiler vs. furnace decision tree, commercial-grade BTU sizing, after-hours emergency tier-pricing).
+  - **Internal links:** Add inbound links from FAQ, `/services`, the City pages' "commercial services available" CTA, and `/repair-or-replace` (once that's merged).
+  - Tied to broader **P1.17c (internal-linking audit on stuck URLs)** — execute as one combined sweep.
+- **Status:** 📋 Queued; recommend executing post `preview → main` merge so we can include cross-links from the 4 new Apr 24 pages in the same pass.
 
 ---
 
