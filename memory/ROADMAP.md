@@ -181,6 +181,7 @@ Document captures live in `/app/memory/audits/2026-04-27_KPI_Baseline.md`.
 | 22 | P2.2 | `/pricing` page launch (currently STUB; awaits user $ data) | 4–6 hrs | Agent (when user ready) |
 | 23 | S10 | Quarterly competitor SEO audit | 2 hrs/qtr | Agent |
 | 24 | P2.17 | Deprecate Sanity `metaTitle` field (titles now code-side authoritative) | 30 min | Agent |
+| 25 | F9 | **Live KPI widget on roadmap-preview.html** — pull Vercel Speed Insights p75 (LCP/INP/CLS) + GA4 conversion rate via API; auto-replace "TBD" cells with live values. Phase 2b deliverable, after Vercel Analytics has 7+ days of RUM data. | 2 hrs | Agent |
 
 **Phase 2 exit criteria:** P2.B baseline captured + all targets either met or trending. Phase 2a fully complete; Phase 2b ongoing.
 
