@@ -72,7 +72,48 @@
 | Error rate | TBD | <0.1% | Vercel Analytics (just enabled) |
 | Lead-form-error rate | TBD | <2% | MongoDB query / GA4 |
 
-### 1.5 Mobile UX (F1 audit, Apr 27)
+### 1.5 Security (F3 audit, Apr 27 PM)
+
+| KPI | 2026-04-27 baseline | Target | Source |
+|---|:-:|:-:|---|
+| SecurityHeaders.com grade (live URL) | TBD post-deploy (was missing HSTS+COOP+CORP) | **A+** | securityheaders.com |
+| Mozilla Observatory grade | TBD | **A or higher** | observatory.mozilla.org |
+| HSTS max-age | ✅ 63072000 (2 yr) + `includeSubDomains` + `preload` | preload-list eligible | Response header |
+| HSTS Preload List submission | ❌ NOT submitted | submitted by May 31 | hstspreload.org |
+| CSP — `frame-ancestors` | ✅ `'none'` (clickjacking lockdown) | enforced | Response header |
+| CSP — `form-action` | ✅ `'self'` | enforced | Response header |
+| CSP — `upgrade-insecure-requests` | ✅ enabled | enforced | Response header |
+| CSP — `unsafe-inline` / `unsafe-eval` (script-src) | ⚠️ Retained — accepted risk | Document only; needed for Next.js RSC + GTM | Code audit |
+| Cross-Origin-Opener-Policy | ✅ `same-origin` | enforced | Response header |
+| Cross-Origin-Resource-Policy | ✅ `same-site` | enforced | Response header |
+| Cross-Origin-Embedder-Policy | ❌ Intentionally omitted (would break Maps/GTM/Sanity tiles) | n/a — accepted | Architecture decision |
+| Permissions-Policy | ✅ camera/mic/geolocation denied | maintain | Response header |
+| X-Frame-Options | ✅ DENY (legacy header; CSP `frame-ancestors` is authoritative) | maintain | Response header |
+| X-Content-Type-Options | ✅ nosniff | maintain | Response header |
+| Referrer-Policy | ✅ strict-origin-when-cross-origin | maintain | Response header |
+| TLS grade (Qualys SSL Labs) | TBD | **A or higher** | ssllabs.com |
+| Cookie security flags (HttpOnly, Secure, SameSite) on all set-cookie | TBD | 100% | Response audit |
+| Dependency vulnerabilities (high/critical) | TBD | 0 | GitHub Dependabot / `yarn audit` |
+| `yarn audit` clean? (advisory count) | TBD | 0 high+ | CI |
+| Public secret leaks (`gitleaks`) | TBD | 0 | gitleaks scan |
+| reCAPTCHA v3 score threshold | 0.5 (default) | maintain | `app/api/leads/route.js` |
+| Lead-form rate limit | NONE (Vercel function default) | 5 req/min/IP by Phase 4 | Future ticket |
+
+**F3 Hardening shipped (Apr 27 PM, `next.config.js`):**
+- ✅ HSTS upgraded to `max-age=63072000; includeSubDomains; preload` (was Vercel default ~63072000 only)
+- ✅ Added `Cross-Origin-Opener-Policy: same-origin` (Spectre / tabnapping protection)
+- ✅ Added `Cross-Origin-Resource-Policy: same-site` (cross-origin asset theft protection)
+- ✅ COEP intentionally omitted (would break Google Maps embed, GTM, Sanity CDN — accepted risk documented)
+- ✅ CSP extended: `frame-ancestors 'none'`, `form-action 'self'`, `upgrade-insecure-requests`
+- ✅ CSP `connect-src` extended for `vitals.vercel-insights.com` + `vercel.live` (Speed Insights compatibility)
+- ✅ Verified locally: `curl -I http://localhost:3000` returns all 9 hardened headers
+
+**Accepted risks (require quarterly revisit):**
+1. `script-src 'unsafe-inline' 'unsafe-eval'` — Next.js inline RSC payloads + GTM/GA tags require it. Mitigation path: nonce-based CSP via Next.js middleware (Phase 4+).
+2. `style-src 'unsafe-inline'` — Tailwind JIT + Next.js inline CSS. Mitigation: hash-based CSP at build time (low priority).
+3. COEP not enforced — would require self-hosting Maps tiles/GTM (operationally infeasible).
+
+### 1.6 Mobile UX (F1 audit, Apr 27)
 
 | Finding | Status |
 |---|---|
@@ -279,3 +320,4 @@ All P5 KPIs measured from Day 1 of spend. Listed here for completeness.
 |---|---|
 | 2026-04-27 AM | File created. P1 build/bundle baseline captured. Sitemap, indexing rate, reviews count, F1 mobile findings + fixes all logged. P2/P3/P4/P5 baselines marked TBD pending user data captures. |
 | 2026-04-27 PM | F2 image audit + P2.4b bundle reduction shipped. Homepage First Load JS 180 → 172 kB. Removed 38 unused shadcn UI components + 27 unused npm deps. Deleted 1.4 MB unused PNGs. Added LCP `priority` to Header logo. Bundle target revised from aspirational <150 kB to industry-standard <244 kB. |
+| 2026-04-27 PM | **F3 Security Headers shipped.** HSTS upgraded to 2yr+includeSubDomains+preload. Added COOP `same-origin`, CORP `same-site`. CSP extended with `frame-ancestors 'none'`, `form-action 'self'`, `upgrade-insecure-requests`, Vercel Speed Insights endpoints. New §1.5 Security section captures targets (SecurityHeaders A+, Observatory A, SSL Labs A) + accepted risks (`unsafe-inline`/`unsafe-eval`/COEP-omit). Verified locally via `curl -I`. |

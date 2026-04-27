@@ -1,9 +1,29 @@
 # DFW HVAC — Changelog
 
-**Last reviewed:** April 24, 2026
+**Last reviewed:** April 27, 2026
 **⚠️ Read `/app/memory/00_START_HERE.md` first for the Agent SOP.**
 
 Reverse-chronological record of everything shipped to production. When adding entries, append to the top of the appropriate session block (newest first).
+
+---
+
+## April 27, 2026 — F3 Security Headers Hardened
+
+- **`next.config.js` `headers()` upgraded.** Closes the gaps surfaced in the F3 audit on the live `https://dfwhvac.com` response. SecurityHeaders.com / Mozilla Observatory grade target: **A+ / A**.
+- **HSTS hardened to `max-age=63072000; includeSubDomains; preload`** (2 yr + apex+subdomains + preload-list eligible). Was previously `max-age=63072000` only (Vercel default).
+- **Cross-Origin-Opener-Policy: `same-origin`** added — blocks Spectre-class side-channel + cross-tab `window.opener` tabnapping.
+- **Cross-Origin-Resource-Policy: `same-site`** added — prevents same-document cross-origin asset leaks. Avoids `same-origin` because Next.js `_next/*` chunks are served from the same site but technically separate origins on Vercel.
+- **CSP extended:**
+  - `frame-ancestors 'none'` — clickjacking lockdown (CSP-level; supersedes legacy `X-Frame-Options: DENY` which is retained for IE/legacy UA defense-in-depth).
+  - `form-action 'self'` — locks down POST destinations to first-party only.
+  - `upgrade-insecure-requests` — auto-upgrades any stray `http://` resource references to HTTPS.
+  - `connect-src` extended for `vitals.vercel-insights.com` + `vercel.live` so Speed Insights RUM beacon doesn't trigger CSP violations now that `@vercel/speed-insights` is installed.
+- **COEP intentionally omitted.** `require-corp` would break Google Maps tiles, GTM, Sanity CDN, RealWorkLabs review widget. Documented as accepted architectural risk in `audits/2026-04-27_KPI_Baseline.md` §1.5.
+- **`unsafe-inline` + `unsafe-eval` retained on `script-src`.** Required by Next.js inline RSC payloads + GTM. Tracked as accepted risk; future migration path = nonce-based CSP via Next.js middleware (queued as **F3c** in roadmap, Phase 4 candidate).
+- **Verified locally:** `curl -I http://localhost:3000` returns all 9 hardened headers cleanly. Build time 19.15s (no regression).
+- **KPI Baseline §1.5 added** — captures SecurityHeaders/Observatory/SSL Labs grade targets, dependency-vuln target (0 high+), gitleaks target (0), reCAPTCHA score threshold, and lead-form rate-limit gap.
+- **Roadmap updated:** F3 marked shipped in P1.A. New P1.D action items queued: **F3b** (HSTS Preload List submission once headers verified live for 30+ days, user task), **F3c** (CSP nonce migration to retire `unsafe-inline`), **F3d** (`yarn audit` CI gate). Quarterly cadence in P1.C extended to require SecurityHeaders/Observatory/SSL Labs re-grade + CSP review + gitleaks scan.
+- **Files touched:** `frontend/next.config.js`, `memory/audits/2026-04-27_KPI_Baseline.md`, `memory/ROADMAP.md`, `memory/CHANGELOG.md`.
 
 ---
 

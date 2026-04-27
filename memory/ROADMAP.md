@@ -54,6 +54,12 @@ Each priority requires its own KPI baseline + reevaluation cadence. See `/app/me
 | ✅ | Header nav reorg (M6) | Apr 27, 2026 |
 | ✅ | WCAG AA contrast fixes on `electric-blue` + `vivid-red` | Apr 21, 2026 |
 | ✅ | `/app/design_guidelines.md` published | Apr 27, 2026 |
+| ✅ F0 | KPI baseline file `audits/2026-04-27_KPI_Baseline.md` | Apr 27, 2026 |
+| ✅ F5 | Vercel Analytics + Speed Insights enabled | Apr 27, 2026 |
+| ✅ F1 | Mobile UX deep audit + fixes (sticky CTA safe-area, 44px tap targets, inputMode/autoComplete) | Apr 27, 2026 |
+| ✅ F2 | Image audit + LCP `priority` on Header logo + 1.4 MB unused PNGs purged | Apr 27, 2026 |
+| ✅ P2.4b | Bundle reduction — homepage 180 → 172 kB, 38 shadcn + 27 npm deps removed | Apr 27, 2026 |
+| ✅ F3 | **Security headers hardened** — HSTS+preload, COOP/CORP, CSP `frame-ancestors`/`form-action`/`upgrade-insecure-requests` | Apr 27, 2026 |
 
 ## P1.B — KPI baseline (capture in Phase 1, week 1)
 
@@ -74,34 +80,37 @@ Document captures live in `/app/memory/audits/2026-04-27_KPI_Baseline.md`.
 | Build time | <30s | `yarn build` (currently 22.7s ✅) |
 | Uptime | 99.95%+ | Vercel SLA |
 | Mobile vs desktop CWV gap | <20% delta | CrUX |
+| **SecurityHeaders.com grade** | **A+** | securityheaders.com (post-deploy) |
+| **Mozilla Observatory grade** | **A or higher** | observatory.mozilla.org |
+| **Qualys SSL Labs TLS grade** | **A or higher** | ssllabs.com |
+| **Dependency vulns (high+critical)** | **0** | GitHub Dependabot / `yarn audit` |
+| **Public secret leaks (`gitleaks`)** | **0** | gitleaks scan |
 
 ## P1.C — Reevaluation cadence
 
 - **Weekly (5 min):** glance at Vercel Analytics RUM + GSC Experience
-- **Monthly (30 min):** full Lighthouse audit on 5 representative pages; compare to baseline
-- **Quarterly:** comprehensive tech-SEO sweep + bundle analyzer; bundle-size delta tracked
+- **Monthly (30 min):** full Lighthouse audit on 5 representative pages; compare to baseline; `yarn audit` deps scan
+- **Quarterly:** comprehensive tech-SEO sweep + bundle analyzer; bundle-size delta tracked; **SecurityHeaders.com + Mozilla Observatory + SSL Labs re-grade; CSP review (can `unsafe-inline` be retired via nonces?); gitleaks scan of repo**
+- **Annual:** API key rotation; HSTS Preload List re-verify
 - **Per-PR (if Lighthouse CI installed):** automated regression catch
 
 ## P1.D — Action items (in execution order)
 
 | # | ID | Item | Effort | Owner |
 |---|---|---|---|---|
-| 1 | F0 | **Create KPI baseline file** `/app/memory/audits/2026-04-27_KPI_Baseline.md` capturing all P1.B + P2.B + P3.B starting numbers | 1 hr | Agent |
-| 2 | F5 | Vercel Analytics RUM enabled (real-user CWV vs lab) | 30 min | Agent |
-| 3 | F1 | **Mobile UX deep audit + fixes** — tap targets, mobile form keyboard, AddressAutocomplete on touch, sticky-CTA / iOS Safari bottom-nav collision | 2–3 hrs | Agent + user device QA |
-| 4 | F2 | Image optimization audit — Next.js `<Image>` usage, sizes, lazy-loading, AVIF/WebP, alt text completeness | 1–2 hrs | Agent |
-| 5 | F3 | Security headers audit — securityheaders.com; add CSP, HSTS, X-Frame-Options if missing | 1 hr | Agent |
-| 6 | P2.4b | Bundle reduction — lucide-react tree-shake, Radix audit, /studio dynamic-split | 4–6 hrs | Agent |
-| 7 | P2.7 | Code cleanup / unused dep audit (`yarn depcheck`, dead `mockData.js`) | 1–2 hrs | Agent |
-| 8 | P2.15 | Component decomposition (templates >300 lines) | variable | Agent |
-| 9 | P2.4c | Lighthouse all-green verification on /cities-served/plano + /request-service | 1 hr | Agent |
-| 10 | P3-a11y | Skip-to-main content link (push A11y to 100) | 15 min | Agent |
-| 11 | F6 | 404 page UX upgrade — popular pages, search, CTA | 1 hr | Agent |
-| 12 | F4 | Backup/disaster recovery checklist documented in `RECURRING_MAINTENANCE.md` | 1 hr docs | Agent |
-| 13 | F8 | Dependency security scan — Dependabot or Snyk on GitHub repo | 15 min | User |
-| 14 | F7 | Lighthouse CI gate (optional) — Vercel build fails if Lighthouse drops below thresholds | 2 hrs | Agent |
-| 15 | P1.6d | INP field measurement after CrUX populates (28+ days) | 30 min + variable | Agent |
-| 16 | P1.3 | User-led device QA: iOS Safari, Android Chrome, address autocomplete | 1 hr | User |
+| 1 | P2.7 | Code cleanup / unused dep audit (`yarn depcheck`, dead `mockData.js`) | 1–2 hrs | Agent |
+| 2 | P2.15 | Component decomposition (templates >300 lines) | variable | Agent |
+| 3 | P2.4c | Lighthouse all-green verification on /cities-served/plano + /request-service | 1 hr | Agent |
+| 4 | P3-a11y | Skip-to-main content link (push A11y to 100) | 15 min | Agent |
+| 5 | F6 | 404 page UX upgrade — popular pages, search, CTA | 1 hr | Agent |
+| 6 | F4 | Backup/disaster recovery checklist documented in `RECURRING_MAINTENANCE.md` | 1 hr docs | Agent |
+| 7 | F8 | **Dependency security scan** — Dependabot + `gitleaks` GH Action on repo | 30 min | User + agent |
+| 8 | F3b | **HSTS Preload List submission** — submit `dfwhvac.com` to hstspreload.org once headers verified live for 30+ days | 10 min | User |
+| 9 | F3c | **CSP nonce migration** (retire `unsafe-inline` on script-src) — Next.js middleware-injected nonces | 4–6 hrs | Agent (Phase 4 candidate) |
+| 10 | F3d | **`yarn audit --groups dependencies` CI gate** — fail build on high/critical advisories | 30 min | Agent |
+| 11 | F7 | Lighthouse CI gate (optional) — Vercel build fails if Lighthouse drops below thresholds | 2 hrs | Agent |
+| 12 | P1.6d | INP field measurement after CrUX populates (28+ days) | 30 min + variable | Agent |
+| 13 | P1.3 | User-led device QA: iOS Safari, Android Chrome, address autocomplete | 1 hr | User |
 
 **Phase 1 exit criteria:** All P1.B KPIs measured + meet target (or have ticketed plan to meet). Site is bulletproof. Estimated 15–20 hrs total.
 
