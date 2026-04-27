@@ -70,12 +70,12 @@ const nextConfig = {
         permanent: true,
       },
 
-      // System-level work (installation, ducting) → free estimate is the first-step conversion
-      // TODO: When P1.13 /services/system-replacement (or dedicated /services/system-installation) ships,
-      // update /installation + /ducting to point there.
+      // System-level work (installation, ducting) → dedicated system-replacement page
+      // Apr 24, 2026: P1.13 shipped → /installation now targets /services/system-replacement.
+      // /ducting stays at /estimate until a dedicated duct page ships (future P2).
       {
         source: '/installation',
-        destination: '/estimate',
+        destination: '/services/system-replacement',
         permanent: true,
       },
       {

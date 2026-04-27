@@ -14,6 +14,7 @@ const defaultFooterSections = [
       { label: 'Heating Systems', href: '/services/residential/heating' },
       { label: 'Preventative Maintenance', href: '/services/residential/preventative-maintenance' },
       { label: 'Indoor Air Quality', href: '/services/residential/indoor-air-quality' },
+      { label: 'System Replacement', href: '/services/system-replacement' },
       { label: 'Commercial HVAC', href: '/services/commercial/commercial-air-conditioning' },
     ]
   },
@@ -25,6 +26,8 @@ const defaultFooterSections = [
       // Re-add when static Showcase Projects page is built (see PRD.md)
       { label: 'Customer Reviews', href: '/reviews' },
       { label: 'Cities Served', href: '/cities-served' },
+      { label: 'Repair or Replace?', href: '/repair-or-replace' },
+      { label: 'Financing', href: '/financing' },
       { label: 'FAQ', href: '/faq' },
       { label: 'Contact', href: '/contact' },
     ]

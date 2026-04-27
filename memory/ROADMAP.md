@@ -20,7 +20,76 @@ This file contains ONLY future-facing work. Shipped items live in `/app/memory/C
 
 **Escape hatch:** set `FORCE_LEAD_EMAIL_IN_PREVIEW=true` in a Vercel preview env to force real email send (useful for end-to-end email template QA).
 
-**First sandbox build:** P1.16 `/financing` page (branch `feat/p1-16-financing-page`).
+**First sandbox build:** P1.16 `/financing` page (branch `preview`, deployed Apr 24, 2026 — awaiting user QA before merge to `main`).
+
+---
+
+## ⏭️ Queued Merge + Post-Merge Actions (Apr 24, 2026 preview stack)
+
+The `preview` branch carries 5 stacked Apr 24 shipments: preview-env guards + `/financing` + FAQ rp3 rewrite + `/services/system-replacement` + `/repair-or-replace`. Remaining user-led sequence once the user pushes to GitHub:
+
+- **M1 — Sandbox QA on the Vercel preview URL (~10 min)**
+  - Test `/services/system-replacement`, `/repair-or-replace`, `/financing` — visual + CTA routing
+  - Confirm `/installation` returns HTTP 308 → `/services/system-replacement`
+  - Confirm footer shows "System Replacement" (Our Services) and "Repair or Replace?" (Quick Links) sitewide
+  - Confirm FAQ rp3 ("Do you offer financing for new HVAC systems?") renders Wisetack copy + "Learn more about our financing options →" internal link
+  - Confirm "Pre-Qualify Now" on `/financing` routes to the live Wisetack URL (since `NEXT_PUBLIC_WISETACK_APPLY_URL` was set in Vercel env on Apr 24)
+
+- **M2 — Google Rich Results validation on `/repair-or-replace` (~5 min, user-led)**
+  - [search.google.com/test/rich-results](https://search.google.com/test/rich-results) → paste the preview URL
+  - Verify eligibility for both `Article` schema and `FAQPage` schema. AEO citation in AI Overviews depends on both being valid.
+  - If validation fails, escalate back to agent for schema fix before merge.
+
+- **M3 — Merge `preview` → `main` (~2 min)**
+  - One merge ships all 5 Apr 24 changes to production simultaneously.
+  - Vercel auto-builds and deploys to dfwhvac.com.
+
+- **M4 — GSC URL Inspector submissions for the 4 new URLs (~3 min, user-led)** — queued for Day 4 of P1.17a sprint
+  - `/financing`, `/services/system-replacement`, `/repair-or-replace`, `/replacement-estimator`
+  - Slot in alongside the 5 Day-4 leftovers (the-colony, lake-dallas, haslet, roanoke, privacy-policy) — total 9 URLs, fits comfortably under the 10/day cap.
+  - **Submit AFTER `preview → main` merge completes and Vercel finishes propagating** (~5 min after merge); URL Inspector won't find them otherwise.
+  - Tracked in `/app/memory/audits/2026-04-23_GSC_Indexing_Tracker.md` Day 4 section.
+
+- **M5 — Log Apr 24 baseline in CHANGELOG (~automatic via agent)**
+  - Agent marks P1.13, P1.14, P1.15, P1.16 as ✅ in production the next session after merge is confirmed.
+
+- **M6 — Header nav reorg** ✅ SHIPPED Apr 27, 2026 (`components/Header.jsx`)
+  - Residential Services dropdown reorganized into two sections with headers + divider: "Services" (AC, Heating, Preventative Maintenance, IAQ) above, "Planning to Replace?" (System Replacement, Replacement Estimator, Repair or Replace?, Financing Options) below. Mobile menu mirrors the same grouping.
+  - Live on preview URL; verified all 8 dropdown links return 200.
+
+---
+
+## 🟢 GSC Indexing Action Items (Apr 27, 2026 audit)
+
+Authoritative source: `/app/memory/audits/2026-04-27_Site_Indexing_Audit.md`. Headline: **42 of 47 sitemap URLs indexed (89.4%); 44 effective (93.6%) per live URL Inspection.**
+
+### A1 — Submit `the-colony` to GSC ✅ COMPLETE Apr 27, 2026
+- **URL:** `https://dfwhvac.com/cities-served/the-colony`
+- **Bucket:** Discovered – currently not indexed (last_crawled: never)
+- **Status:** ✅ Submitted via URL Inspection. Awaiting Google's crawl response (typically 24–72 hrs).
+
+### A2 — Submit `commercial-heating` to GSC ✅ COMPLETE Apr 27, 2026
+- **URL:** `https://dfwhvac.com/services/commercial/commercial-heating`
+- **Bucket:** Crawled – currently not indexed (Validation FAILED Apr 24)
+- **Status:** ✅ Re-submitted via URL Inspection. If it slips back into "not indexed" again at the May 5 audit, A4 (content differentiation) becomes the actual fix.
+
+### A3 — May 5, 2026 indexing audit re-run (P1, ~10 min, agent-led)
+- **What:** Re-export the 6 GSC Pages reports (Indexed + 5 not-indexed buckets), diff against the Apr 27 baseline, update `/app/memory/audits/2026-04-27_Site_Indexing_Audit.md` (or create `2026-05-05_Site_Indexing_Audit.md` if material changes).
+- **Expected deltas:**
+  - Indexed: 50 → 54+ (Apr 24 stack lands once `preview → main` merges)
+  - Discovered – not indexed: 4 → 0–1 (haslet, the-colony, AC, IAQ should all clear)
+  - Crawled – not indexed: 2 → 0–1 (`/aboutus` should reclassify to Page-with-redirect; `commercial-heating` may stick if A4 not yet shipped)
+  - Page with redirect: 3 → 11+ (legacy www-prefixed Wix URLs reclassify here as Google recrawls them)
+- **Status:** 📅 Calendar reminder for May 5
+- **Inputs needed:** User exports the 6 reports (Indexed Table + 5 bucket Drilldowns) → uploads to chat → agent runs diff script.
+
+### A4 — Internal-linking audit + content differentiation for `commercial-heating` (P1, ~45 min, agent-led)
+- **Why:** Only sitemap page Google explicitly rejected as "not worth indexing." Likely too template-similar to `/services/commercial/commercial-air-conditioning` for Google's quality model.
+- **Scope:**
+  - **Content:** Audit `commercial-heating` body copy vs. `commercial-ac`. If >70% structural overlap, add 200–300 words of heating-specific content (boiler vs. furnace decision tree, commercial-grade BTU sizing, after-hours emergency tier-pricing).
+  - **Internal links:** Add inbound links from FAQ, `/services`, the City pages' "commercial services available" CTA, and `/repair-or-replace` (once that's merged).
+  - Tied to broader **P1.17c (internal-linking audit on stuck URLs)** — execute as one combined sweep.
+- **Status:** 📋 Queued; recommend executing post `preview → main` merge so we can include cross-links from the 4 new Apr 24 pages in the same pass.
 
 ---
 
@@ -48,10 +117,10 @@ User plans Google Ads in ~12 weeks. Sequence architecture → content → data �
 - **Week 2 — Sprint 2a audits** ✅ SHIPPED Apr 21, 2026 (P1.2 technical audit, PR #3 closing R1.1/R1.2/R2.1)
 - **Week 3 — Sprint 2b audits** 🟡 IN FLIGHT
   - **P1.6a** — Title tag audit + rewrite ✅ SHIPPED Apr 23, 2026 — all 47 titles live, Option C hybrid review-count logic, `fiveStarReviewCount` seeded at 150 in Sanity
-  - **P1.13** — `/services/system-replacement` new page (pending user approval of sitemap)
-  - **P1.14** — `/estimator` pricing tool (pending user approval + pricing matrix)
-  - **P1.15** — `/repair-or-replace` AEO article (pending user approval)
-  - **P1.16** — `/financing` page promoted from P2 (pending financing partner confirmation)
+  - **P1.13** — `/services/system-replacement` new page ✅ SHIPPED Apr 24, 2026 (on `preview` branch, stacked with P1.16)
+  - **P1.14** — `/replacement-estimator` pricing tool ✅ SHIPPED Apr 24, 2026 (MVP scope: replacement-only, Option C hybrid, inline range display + soft opt-in). Pricing matrix uses conservative DFW placeholders; user to override via `/app/memory/ESTIMATOR_PRICING_SHEET_TEMPLATE.md`.
+  - **P1.15** — `/repair-or-replace` AEO article ✅ SHIPPED Apr 24, 2026 (on `preview` branch, stacked with P1.16 + P1.13)
+  - **P1.16** — `/financing` page ✅ SHIPPED Apr 24, 2026 (Wisetack partner, 0% for 24mo headline, `NEXT_PUBLIC_WISETACK_APPLY_URL` env var now set in Vercel)
   - **P1.6f** — Google Rich Results validation on the new JSON-LD schemas (user-led)
 - **Week 4 — P1.8 GBP optimization kickoff**
   - Claim, verify NAP, upload 20+ photos, populate services + service area
@@ -115,12 +184,16 @@ Only revisit once ads running at stable spend:
 - **Diagnosis:** GSC shows 27 of 47 sitemap URLs indexed (57%). The 34 "not indexed" URLs break down as: 27 "Discovered – currently not indexed" (all with **Last Crawled: N/A** — Google has NEVER crawled them), 3 "Page with redirect" (optimal — canonical variants), 2 "Crawled – currently not indexed" (1 legacy URL + 1 pre-push-snapshot), 1 "Excluded by noindex" (old Wix PDF, harmless), 1 "Not Found 404" (`/servicecall` legacy Wix URL). Root cause is **crawl budget, not content quality** — Google's bot hasn't gotten to the 27 discovered URLs yet after the Apr 21 burst added them to the queue.
 - **Full list of 27 stuck URLs captured** in `/app/memory/audits/2026-04-23_GSC_Indexing_Diagnosis.md` (to be written next session). High-business-value entries: `/about`, `/reviews`, `/faq`, `/services/residential/air-conditioning`, `/services/residential/heating`, `/services/residential/indoor-air-quality`, `/services/commercial/commercial-air-conditioning`, `/services/commercial/commercial-heating`, plus 18 city pages including Frisco, Lewisville, Richardson, Irving, Mansfield, North Richland Hills.
 
-**P1.17a — Manual indexing requests (user-led, ~90 min, 3-day cadence)**
+**P1.17a — Manual indexing requests (user-led, ~90 min, 3-day cadence)** 🟡 IN PROGRESS
 - Cap is ~10 requests/day per site. Spread 27 URLs across 3 days.
-- Day 1 — high-value (10): /about, /reviews, /faq, both residential service AC+Heating+IAQ, both commercial service AC+Heating, /cities-served/frisco, /cities-served/lewisville
-- Day 2 — next 10 cities: richardson, irving, mansfield, carrollton, colleyville, flower-mound, grapevine, north-richland-hills, hurst, the-colony
-- Day 3 — remaining 7: bedford, euless, haslet, lake-dallas, roanoke, /recent-projects, /privacy-policy
-- **Expected outcome:** 60–80% of these indexed within 7 days of request.
+- Day 1 — high-value (10) ✅ SUBMITTED Apr 21, 2026: /, /services/residential/air-conditioning, /services/residential/heating, /request-service, /services/residential/indoor-air-quality, /services/residential/preventative-maintenance, /cities-served/coppell, /estimate, /cities-served/arlington, /contact
+- Day 2 — high-value batch 2 (9) ✅ SUBMITTED Apr 23, 2026: /reviews, /about, /faq, /services/commercial/commercial-air-conditioning, /cities-served/frisco, /cities-served/lewisville, /cities-served/richardson, /cities-served/irving, /cities-served/mansfield
+- Day 3 — mid-priority batch (10) ✅ SUBMITTED Apr 24, 2026: /services/commercial/commercial-heating, /cities-served/argyle, /recent-projects, /cities-served/north-richland-hills, /cities-served/hurst, /cities-served/carrollton, /cities-served/flower-mound, /cities-served/euless, /cities-served/bedford, /cities-served/colleyville. NOTE: `/cities-served/grapevine` from the Day 3 plan was already indexed → slot freed and used for Colleyville (promoted from Day 4).
+- Day 4 — remaining (target 4/25/2026) — 9 URLs: 5 leftover (/cities-served/the-colony, /lake-dallas, /haslet, /roanoke, /privacy-policy) + 4 brand-new Apr 24 production URLs once `preview` merges to `main` (/services/system-replacement, /replacement-estimator, /repair-or-replace, /financing).
+- Day 5–7 — spot-check batch (12 URLs): hubs (`/services`, `/cities-served`, `/terms-of-service`, `/services/commercial/commercial-maintenance`) + 8 high-volume cities (allen, dallas, denton, farmers-branch, fort-worth, keller, plano, southlake). Use URL Inspection only — submit only if result shows "URL is not on Google".
+- **Running totals (as of 4/24):** 29 of 47 sitemap URLs submitted (62%); 2 confirmed-indexed without submission needed (lewisville 4/23, grapevine 4/24); 16 remaining (5 Day-4 leftovers + 4 brand-new + 7 spot-check work).
+- **Tracker:** `/app/memory/audits/2026-04-23_GSC_Indexing_Tracker.md`
+- **Expected outcome:** 60–80% of submitted URLs indexed within 7 days of request. Final aggregate target: 80%+ indexing rate (38–44 of 47 URLs).
 
 **P1.17b — Crawl-budget lift (compounding signal upgrades)**
 - **Tie into P1.8 GBP kickoff** — GBP verification alone typically doubles crawl rate in 60 days. Biggest single lever.
@@ -267,10 +340,14 @@ Only revisit once ads running at stable spend:
 - Not automatable reliably (API referrer restrictions)
 - **Effort:** 1 hr. User-led.
 
-### P1.7 — GA4 key event toggle
-- ✅ **Apr 24, 2026** — `generate_lead` marked as key event. (GA4 "Modify event" rule renames our code-side `form_submit_lead` → `generate_lead`, Google's recommended event name — kept the rename for Smart Bidding ML affinity.)
-- 🟡 **Pending user** — `phone_click` confirmed firing in GA4 Realtime Apr 24, but not yet in the Events report (24–48 hr ingestion lag). Toggle "Mark as key event" on `phone_click` once it appears in **Admin → Events**. Do NOT rename to `contact` — per agent guidance, specificity beats the recommended-event label here; aggregate at the Ads-side via a Conversion Goal if needed.
-- **Effort:** 2 min remaining. User-led.
+### P1.7 — GA4 key event toggle ✅ COMPLETE Apr 24, 2026
+- ✅ `generate_lead` marked as key event Apr 24. (GA4 "Modify event" rule renames our code-side `form_submit_lead` → `generate_lead`, Google's recommended event name — kept the rename for Smart Bidding ML affinity.)
+- ✅ `phone_click` marked as key event Apr 24 (same session, after Realtime confirmation + ingestion).
+- **Future key events to toggle when the backing feature ships:**
+  - `thanks_page_view` — when P1.11 `/thanks` ships
+  - `form_step_1_complete` — when P1.10 progressive form ships
+  - `estimator_complete` — when P1.14 `/estimator` ships
+  - Do NOT toggle preemptively. GA4 requires an event to fire at least once before the toggle is available.
 
 ---
 

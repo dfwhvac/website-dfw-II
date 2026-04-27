@@ -7,6 +7,124 @@ Reverse-chronological record of everything shipped to production. When adding en
 
 ---
 
+### April 24, 2026 — P1.17a GSC indexing — Day 3 sprint executed
+
+- **User submitted Day 3 batch to Google Search Console URL Inspector** — 10 URLs total. From the planned Day 3 list: 9 of 10 went through, `cities-served/grapevine` was already indexed (no submission needed). Slot freed by grapevine was used to promote `cities-served/colleyville` from Day 4.
+- **Submitted (10):** `/services/commercial/commercial-heating`, `/cities-served/argyle`, `/recent-projects`, `/cities-served/north-richland-hills`, `/cities-served/hurst`, `/cities-served/carrollton`, `/cities-served/flower-mound`, `/cities-served/euless`, `/cities-served/bedford`, `/cities-served/colleyville`.
+- **Confirmed indexed without submission:** `/cities-served/grapevine` (joins `/cities-served/lewisville` from 4/23 as the second self-indexed city).
+- **Running totals:** 29 of 47 sitemap URLs submitted (62%); 2 confirmed-indexed-without-submission; 16 remaining (5 Day-4 leftovers + 4 brand-new Apr 24 pages awaiting merge + 7 to-spot-check).
+- **Tracker updated:** `/app/memory/audits/2026-04-23_GSC_Indexing_Tracker.md` — Day 3 results logged, Day 4 bucket reorganized with the 4 brand-new Apr 24 URLs queued behind the 5 leftover entries, running summary table refreshed.
+
+## April 24, 2026 — P1.14 `/replacement-estimator` shipped (scope-narrowed MVP)
+
+- **Interactive 5-field cost estimator** shipped to the `preview` branch. Route: `/replacement-estimator` (top-level, keyword-rich URL per user direction). Scope narrowed per user request from the original 4-flow plan to **replacement-only**: service-call, repair, and maintenance calculators deferred to future P2. No PDF generation. **Option C hybrid:** range displays on screen immediately, soft opt-in ("Book my free on-site estimate") appears below the range for voluntary lead capture.
+- **Wizard UX:** server-component shell with client `EstimatorWizard.jsx` for state. Progress bar across the top (`Step N of 5 · XX% complete`), question card with help copy, radio-group styled as large touch targets with selected-state animations. Back button active from step 2 onward. Final step CTA says "See My Range" with a calculating-spinner loading state. Error state on validation failure.
+- **5 questions:** Home sqft (5 buckets) → System type (6 options incl. "not sure") → Equipment tier (value/standard/premium/not sure) → Efficiency SEER2 (baseline/mid/high/not sure) → Ductwork condition (5 options incl. "don't know"). All fields include a "not sure" escape so the wizard never dead-ends a user.
+- **Results screen:** 3 sections stacked. (1) **Range hero** — navy-to-cyan gradient background with giant lime-accented `$X,XXX – $Y,YYY` figure, "Based on your answers" caption, disclaimer. (2) **"Why we gave you this range"** — factor-by-factor breakdown of the 5 inputs (builds trust, explains the variance). (3) **CTAs grid** — 3 buttons: Book Free Written Estimate (routes to `/estimate`) · Call (972) 777-COOL · See Financing Options (routes to `/financing`). Below the grid: **soft opt-in accordion** that expands into a 3-field form (first name + phone required, email optional). Submitted state shows a green lime confirmation card. "Start over with different answers" reset button at the bottom.
+- **Pricing matrix:** kept server-side in `/app/frontend/lib/estimator-matrix.js`. Six sections (A: sqft→tonnage, B: system-type base $/ton, C: stage multiplier, D: SEER flat-add, E: duct condition low/high add, F: global ±8% variance band). Example for 4-ton standard-matched mid-SEER older-OK-ducts: **$11,800 – $19,400** (verified via curl). Current values are conservative DFW-market placeholders; user will override with their own numbers via the Google Sheet template.
+- **Pricing matrix Google Sheet template** shipped at `/app/memory/ESTIMATOR_PRICING_SHEET_TEMPLATE.md`. Six tables mapping 1:1 to the six sections of `estimator-matrix.js`, worked example showing how the numbers combine, edit checklist for the user. Total user edit time: ~30 minutes. Agent re-imports into the matrix file, rebuilds, user verifies on preview.
+- **API routes:**
+  - `POST /api/estimator/calculate` — validates all 5 inputs against server-side enum sets, rejects unknown keys, returns `{ low, high, tonnage, breakdown }`. Pricing matrix never touches the client bundle.
+  - `POST /api/estimator/lead` — soft opt-in save. Minimal required fields (firstName + phone); email + estimate + wizard-answers are optional/bundled. Persists to MongoDB `leads` collection with `leadType: 'estimator_replacement'`. Preview-env guard (same `SHOULD_SEND_LEAD_EMAIL` pattern as `/api/leads`) skips Resend on non-production. Rich HTML email on production containing contact, range, tonnage, and full wizard answer trace for the tech prepping the on-site visit.
+- **GA4 events added:** `estimator_complete` fires on range display (not key event yet — mark when ingested, ~24–48 hr lag). `estimator_opt_in` fires when soft-opt-in form submits (same note). Both gated by `typeof window.gtag === 'function'` — preview-env guard already mutes them on non-production hostnames.
+- **Cross-linking:** `/services/system-replacement` gained a prominent lime "See Your Replacement Cost Range →" CTA below the "Is it time to replace?" signal grid, with "Free instant estimator · No email required · Under 60 seconds" subtext. `/repair-or-replace` final-CTA section gained a third inline link "Try our replacement estimator →" alongside the existing system-replacement and financing links. Both cross-links verified live via curl.
+- **Sitemap updated:** `/replacement-estimator` registered at priority 0.8 (high — competes with `/estimate` for interactive-tool keyword cluster).
+- **Color-coded sitemap** (`/public/sitemap-preview.html`) updated: four original estimator sub-flows (`/estimator/service-call`, `/repair`, `/replacement`, `/maintenance`, `/results/[id]`) collapsed into the single `/replacement-estimator` row marked 🟢 LIVE; two API routes marked 🟢 LIVE; summary table updated (shipped count: 3 → 4; remaining: 7 → 3); header meta strip + footer timestamp bumped.
+- **Nav deferred** per plan: Header reorg with "Planning to Replace?" grouped dropdown deferred to a follow-up PR to avoid shipping mid-progress. Footer already covers estimator discovery via "Our Services" → "System Replacement" (which now cross-links to the estimator). Direct `/replacement-estimator` discovery routes available via sitemap, cross-links from 2 existing Apr 24 pages, and the footer path.
+- **Verified:** `next build` clean — `/replacement-estimator` at 7.31 kB route / 133 kB first-load JS (well under 180 kB pre-merge gate). HTTP 200 + correct title. API calc returns sensible ranges + validates inputs (rejects unknown enum values with a clear error message). API lead POST persists to Mongo + skips Resend on preview (guard working). ESLint clean on all 4 new files. Screenshot confirms hero composition, progress bar, and radio group styling.
+- **Files shipped:**
+  - `/app/frontend/lib/estimator-matrix.js` (new, 97 lines — server-only pricing config)
+  - `/app/frontend/app/api/estimator/calculate/route.js` (new, 42 lines)
+  - `/app/frontend/app/api/estimator/lead/route.js` (new, 121 lines)
+  - `/app/frontend/app/replacement-estimator/page.jsx` (new, 47 lines — server shell)
+  - `/app/frontend/app/replacement-estimator/EstimatorWizard.jsx` (new, 411 lines — client wizard + results + opt-in)
+  - `/app/frontend/app/sitemap.js` (entry added)
+  - `/app/frontend/public/sitemap-preview.html` (updated)
+  - `/app/frontend/app/services/system-replacement/page.jsx` (prominent lime estimator CTA added)
+  - `/app/frontend/app/repair-or-replace/page.jsx` (third inline cross-link added)
+  - `/app/memory/ESTIMATOR_PRICING_SHEET_TEMPLATE.md` (new, Google Sheet template for the user)
+
+- **Next user actions:**
+  1. Push `preview` branch to GitHub → Vercel auto-builds a fresh preview deploy covering today's full stack (5 pages + 3 APIs + guards + sitemap + FAQ rewrite + cross-links).
+  2. QA `/replacement-estimator` on phone + desktop: run through 3–5 answer combinations, confirm ranges feel credible for DFW, verify soft opt-in form submits without sending an email (preview env guard).
+  3. Open `/app/memory/ESTIMATOR_PRICING_SHEET_TEMPLATE.md` and fill the 6 tables with your real numbers. Send back. Agent imports, you verify, merge.
+  4. When `estimator_complete` appears in GA4 Events (24–48 hrs after first preview QA submission with `FORCE_LEAD_EMAIL_IN_PREVIEW=true`, or after merge to prod), flip "Mark as key event" toggle.
+
+## April 24, 2026 — P1.13 `/services/system-replacement` + P1.15 `/repair-or-replace` shipped
+
+- **Two new revenue-center pages** shipped together. Both follow the exact same architecture pattern as `/financing` (server component, Sanity fallback for companyInfo, Option C review-badge title, BreadcrumbList schema, footer integration, sitemap entry, `dynamic = 'force-dynamic'`). They cross-link to each other and both funnel into `/estimate` + `/financing` for conversion.
+
+- **`/services/system-replacement`** (P1.13) — the replacement revenue center. 10 sections: hero with dual CTA → "Is it time to replace?" 6-signal grid → "What affects the cost" 6-factor value-proof block (no $ figures, per user pricing-not-published constraint) → 4-step replacement process → 24-month 0% financing preview linking to `/financing` → 12-city service area strip with `/cities-served` link → 5-question replacement FAQ → final dual-CTA. Title: `HVAC System Replacement — Free Written Estimate | 147 Five-Star Reviews | DFW HVAC`. Priority 0.9 in sitemap (highest-ticket page). Route at `/services/system-replacement/page.jsx` — Next.js static-segment priority ensures it wins over the dynamic `[category]/[slug]` route.
+
+- **`/repair-or-replace`** (P1.15) — AEO decision-framework article. 7 sections: hero → lime-strip "Short Answer" TL;DR → "5 Signs It's Time to Replace" numbered list → cost-benefit age-bracket table (0–7 / 8–11 / 12–15 / 16+ years) → 5-step decision flow with ✓/✗ visual branches → "Still uncertain?" free-estimate callout → 6-question FAQ → final CTA with inline cross-links to `/services/system-replacement` + `/financing`. Title: `Repair or Replace Your HVAC? A DFW Decision Guide | 147 Five-Star Reviews | DFW HVAC`. Schema: `Article` + `FAQPage` (via `FAQSchema` helper) + `BreadcrumbList`. Priority 0.7. Route at top level `/repair-or-replace/page.jsx` for SEO clarity (matches the raw search query).
+
+- **Cross-linking shipped:** `/services/system-replacement` has "Not sure yet? Use our repair-or-replace decision guide →" below the 6-signal grid; `/repair-or-replace` has two cross-links below the final CTA ("Explore system replacement →" and "See financing options →"). Closes the replacement-consideration funnel.
+
+- **Legacy-redirect update:** `next.config.js` — `/installation` now 308-redirects to `/services/system-replacement` (previously pointed to `/estimate` as a placeholder). Old `TODO` comment removed. `/ducting` stays at `/estimate` until a dedicated duct page ships (future P2). Verified live: `curl /installation → HTTP 308 location: /services/system-replacement`.
+
+- **Footer updated:** "Our Services" section gained "System Replacement"; "Quick Links" gained "Repair or Replace?". Both live sitewide on every page.
+
+- **Sitemap updated:** Both pages registered with appropriate priorities (0.9 / 0.7) and monthly change frequency.
+
+- **Verified:** `next build` clean — `/services/system-replacement` and `/repair-or-replace` both at 1.87 kB / 127 kB first-load JS (identical to `/financing`). HTTP 200 + title + sitemap + redirect all confirmed via curl. Desktop screenshots at 1920×800 confirm hero composition, lime-on-navy emphasis treatment, and decision-flow visual branching. ESLint clean on both files.
+
+- **Shipped on existing `preview` branch** (stacked with `/financing`, preview-env guards, and FAQ rp3 rewrite). Next push to `preview` will trigger a fresh Vercel preview deploy covering all 5 changes.
+
+- **Files shipped:**
+  - `/app/frontend/app/services/system-replacement/page.jsx` (new, 332 lines)
+  - `/app/frontend/app/repair-or-replace/page.jsx` (new, 376 lines)
+  - `/app/frontend/app/sitemap.js` (2 entries added)
+  - `/app/frontend/components/Footer.jsx` (2 links added)
+  - `/app/frontend/next.config.js` (`/installation` target updated, TODO removed)
+
+- **Expected SEO impact:** `/repair-or-replace` targets a top-volume AEO decision-framework query ("should I repair or replace my ac/hvac/furnace") with structured answers, tables, flow steps, and `Article`+`FAQPage` schema — high odds of AI Overview citation. `/services/system-replacement` captures the highest-ticket commercial-investigation queries ("hvac replacement dallas", "new furnace dfw", "ac replacement cost") and now has a proper conversion page rather than dumping traffic into the generic `/estimate` form. The two pages combine with `/financing` to form a complete replacement funnel (decision → page → financing → estimate).
+
+- **Next user actions:**
+  1. Push to GitHub `preview` branch (via Save to Github) → Vercel auto-builds a new preview URL.
+  2. QA the new routes: `/services/system-replacement`, `/repair-or-replace`, `/installation` (should 308 redirect).
+  3. Verify `/repair-or-replace` passes the [Google Rich Results Test](https://search.google.com/test/rich-results) for `Article` + `FAQPage` schemas — AI Overview eligibility depends on this.
+  4. Merge `preview` → `main` (single merge ships all 5 Apr 24 changes together).
+  5. Submit both new URLs to GSC URL Inspector for indexing (continues the P1.17a sprint).
+
+## April 24, 2026 — P1.16 sandbox deploy live, awaiting user QA
+
+- **Pushed `/financing` to a `preview` branch** on GitHub (`dfwhvac/website-dfw-II`). Vercel auto-built the preview deployment (visible in the repo's Deployments sidebar, 5 min after push). Preview URL pattern: `https://website-dfw-ii-git-preview-<team>.vercel.app/financing`.
+- **Session paused here** — user will resume QA on the preview URL on their own schedule. No code changes pending on this branch; guards + financing page + FAQ link all bundled in the same branch push.
+- **What's on `preview` branch but NOT yet on `main`:**
+  1. GA4 preview-env guard (`app/layout.js` — `ga-preview-guard` script)
+  2. Resend preview-env guard (`app/api/leads/route.js` — `SHOULD_SEND_LEAD_EMAIL` check)
+  3. `/financing` page (`app/financing/page.jsx` + sitemap entry + footer Quick Links entry)
+  4. FAQ rp3 Wisetack rewrite + internal link to `/financing` (`app/faq/page.jsx` override + generalized `FAQAccordion.jsx` link rules)
+- **When user resumes, next steps in order:**
+  1. User opens preview URL → QAs `/financing`, `/faq`, hero CTA fallback routing, footer link, sitemap entry.
+  2. User sets `NEXT_PUBLIC_WISETACK_APPLY_URL` in Vercel env (all environments) to the live Wisetack merchant application URL. Without this, the "Pre-Qualify Now" CTA falls back to `/estimate` — safe but not functional for lead generation.
+  3. User opens the GitHub "Compare & pull request" button → merges `preview` → `main` → production deploy fires.
+  4. User submits `/financing` to GSC URL Inspector for indexing.
+  5. User flips `phone_click` "Mark as key event" toggle in GA4 Admin → Events (expected to appear Apr 25–26 after 24–48 hr ingestion lag from the Apr 24 first fire).
+
+## April 24, 2026 — P1.16 /financing page shipped
+
+- **New page `/financing`** — full Wisetack-powered financing marketing page with hero, benefits, 3-step process, eligible-project list, FAQ-lite (5 Q&A), final CTA section, and legal disclosure footer. Designed for highest-intent financing searches ("hvac financing dallas", "0% hvac financing dfw") and on-page conversion via soft-credit pre-qualification flow.
+- **Key specs per user:** Wisetack as financing partner; "Up to 24 Months 0% Financing" as headline promo; "Subject to approval through financing partner" as credit-framing copy; no monthly payment calculator; primary CTA stubbed behind `NEXT_PUBLIC_WISETACK_APPLY_URL` env var with a safe fallback to `/estimate` until the live Wisetack merchant link is dropped into Vercel env.
+- **SEO** — `generateMetadata()` uses the Option C review-badge helper for the title `"HVAC Financing — 0% for 24 Months | 147 Five-Star Reviews | DFW HVAC"`. BreadcrumbList JSON-LD schema included. Page registered in `sitemap.xml` at priority 0.7. Footer "Quick Links" section now includes a Financing entry on every page sitewide.
+- **Legal disclosures** baked in both inline (hero subtext) and in a dedicated grey disclosure strip above the footer: Wisetack is the lender, DFW HVAC is not; pre-qualification is a soft credit check (no score impact); hard pull only upon offer acceptance; 0% APR is promotional, subject to credit approval; rates/amounts/terms vary.
+- **Files shipped:** `/app/frontend/app/financing/page.jsx` (new, 312 lines with inline Benefit/Step/Faq subcomponents), `/app/frontend/app/sitemap.js` (entry added), `/app/frontend/components/Footer.jsx` (Quick Links entry added).
+- **Verified:** `next build` clean, `/financing` route size 1.87 kB / 127 kB first-load JS, curl returns HTTP 200 + correct `<title>`, sitemap includes `<loc>https://dfwhvac.com/financing</loc>`, ESLint clean. Desktop screenshot at 1920x800 confirms hero composition, lime-on-navy emphasis treatment matching `/reviews` / `/cities-served` hero pattern, and CTA button hierarchy.
+- **Sandbox workflow note:** Built on `main` but ready for deployment via a `feat/p1-16-financing-page` branch for Vercel preview QA. GA4 + Resend preview-env guards shipped earlier today ensure sandbox traffic won't contaminate analytics or inbox.
+- **Next user actions:**
+  1. (Required before prod merge) Set `NEXT_PUBLIC_WISETACK_APPLY_URL` in Vercel env (all environments) to the live Wisetack merchant application URL. Until then, the "Pre-Qualify Now" CTA routes to `/estimate` as a safe fallback.
+  2. (Optional) Add a "Financing" card to the homepage services grid when the page is production-verified.
+
+### April 24, 2026 — Follow-up: /financing internal link from FAQ rp3
+
+- **Updated `/faq` page (Apr 24, 2026, Sprint 3b P1.16 polish).** Replaced the generic "we offer flexible financing" answer in FAQ rp3 (`Do you offer financing for new HVAC systems?`) with Wisetack-specific copy mentioning 24-month 0% APR, soft-credit pre-qualification, and a trailing link to `/financing`. Updated in two places to guarantee the answer ships correctly regardless of data source:
+  - `app/faq/page.jsx` `defaultFaqs[rp3]` — the fallback used when Sanity FAQs are empty.
+  - `app/faq/page.jsx` runtime override block — detects any FAQ whose question contains "financing" and swaps the answer at fetch time, ensuring Sanity-sourced FAQs are also upgraded without waiting for a Sanity edit.
+- **Generalized `FAQAccordion.jsx` `renderAnswerWithLinks`** from a single hardcoded pattern to a `LINK_RULES` array supporting multiple phrase → link rules. Added a `"Learn more about our financing options at /financing"` rule alongside the existing cities-served rule. Any future FAQ-embedded internal link can be added with a new `{ pattern, linkText }` entry.
+- **Verified:** rebuilt + restarted; curl-grep on `/faq` HTML confirms `Wisetack`, `Learn more about our financing`, and `href="/financing"` all present. ESLint clean.
+- **Files shipped:** `/app/frontend/app/faq/page.jsx`, `/app/frontend/components/FAQAccordion.jsx`.
+- **SEO impact:** creates the first intra-site inbound link to `/financing` from a page that already ranks and has internal link authority, helping the new page index faster + pass topical relevance to its first GSC impressions.
+
 ## April 24, 2026 — Preview-env guards shipped (sandbox workflow prereq)
 
 - **GA4 preview-env guard** — added `ga-preview-guard` inline `<Script strategy="beforeInteractive">` at the top of `<head>` in `/app/frontend/app/layout.js`. Uses Google's documented opt-out flag (`window['ga-disable-G-5MX2NE7C73'] = true`) set before `gtag.js` evaluates its `config` call, so all non-production hosts (Vercel preview URLs, localhost, any future staging domain) are fully muted at the SDK level. Production allow-list is a narrow `hostname === 'www.dfwhvac.com' || hostname === 'dfwhvac.com'` match. Zero hits reach GA4 property `G-5MX2NE7C73` from sandboxes — baseline data integrity preserved during the 70-day pre-Ads-launch window.

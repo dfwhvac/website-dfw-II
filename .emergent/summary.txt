@@ -1,62 +1,87 @@
-<analysis>**original_problem_statement:** 
+<analysis>**original_problem_statement**: 
 The user wants to finalize a premium Next.js/Sanity website for DFW HVAC. The primary goal is executing a 12-Week Google Ads Launch Roadmap focusing on deep SEO, Accessibility, Core Web Vitals, and conversion rate optimization. 
-
-PRODUCT REQUIREMENTS: Maintain a high-converting, secure, and performant HVAC lead generation funnel. The application is a single-stack Next.js app (Node.js) connected to a Headless Sanity CMS and MongoDB. The business is a 3rd-generation family business founded in 2020 (do NOT claim serving since 1972, though the family legacy of craftsmanship dates to 1972). Forms are protected by reCAPTCHA v3.
+PRODUCT REQUIREMENTS: Maintain a high-converting, secure, and performant HVAC lead generation funnel. The application is a single-stack Next.js app (Node.js) connected to a Headless Sanity CMS and MongoDB. The business is a 3rd-generation family business. Forms are protected by reCAPTCHA v3.
 
 **User's preferred language**: English (INSTRUCT next agent to respond in English only)
 
 **what currently exists?** 
-A live Next.js 15.5.9 application with React 19.2.5. The site boasts an A-grade (96/100) technical SEO score. City and Service pages dynamically generate JSON-LD schema, breadcrumbs, and cross-linking (hub-and-spoke architecture). GA4 event tracking is wired (, ). Accessibility is 95+ (all contrast and ARIA issues resolved). The site's branding is fully accurate (Keeping it Cool — For Three Generations), and a custom endpoint () provides live company descriptions for external directory syncing. The mobile header has been optimized to hide the top bar for a cleaner UI.
+A Next.js 15.5.9 app with React 19.2.5, Sanity CMS, and MongoDB. No Python backend. **CRITICAL STATE:** In this session, a massive amount of feature work was done on a separate  branch to implement a Sandbox Workflow. Four new pages (, , , ) and preview-environment guards (muting GA4 and skipping Resend emails on non-production URLs) were built. **These changes are currently on the  branch and await the user's QA on Vercel before being merged into .**
 
 **Last working item**: 
-- **Last item agent was working:** Optimizing the mobile header UI (UX-1) by hiding the top bar below 640px () to fix cramped layout on devices like the iPhone 16 Pro. The agent then logged Dark Mode support to the P2 backlog and prepared a clean fork for the next session.
-- **Status:** NONE (Cleanly finished and verified. Ready for next roadmap items).
-- **Agent Testing Done:** Y (Built successfully, tested via bash curl commands, and screenshot tool across multiple breakpoints).
-- **Which testing method agent to use?** both
-- **User Testing Done:** Y (User verified live site changes).
+- **Last item agent was working:** Updating the GSC Indexing Tracker () after the user manually submitted Batch 3 + 1 URL from Batch 4 to Google Search Console. Wrapping up documentation for the P1.14  build.
+- **Status:** USER VERIFICATION PENDING (User needs to QA the Vercel preview deployment and merge the  branch to ).
+- **Agent Testing Done:** Y
+- **Which testing method agent to use?** manual testing by curl / screenshot tool
+- **User Testing Done:** N
 
 **All Pending/In progress Issue list**: 
-*(No active bugs in codebase. Remaining items are roadmap features or user-led verifications.)*
-Issue 1: User-led GA4 Toggle Activation (Priority: P0 for User)
-- Description: User needs to log into GA4 and toggle Mark as conversion for  and  events.
-- Status: USER VERIFICATION PENDING (Scheduled for after 1:00 AM April 22).
+Issue 1: Merge  branch to  (Priority: P0)
+- Attempted fixes: Code is pushed to GitHub  branch.
+- Next debug checklist: User must review the Vercel preview URL. Once approved, merge to  to push the new funnel to production. 
+- Why fix this issue and what will be achieved with the fix? Unblocks 4 new pages and the preview-environment safety guards.
+- Status: USER VERIFICATION PENDING
+- Is recurring issue? N
+- Should Test frontend/backend/both after fix? NA
+- Blocked on other issue: User action
 
-Issue 2: User-led M1-M5 Device QA (Priority: P1 for User)
-- Description: User needs to do physical device checks (iOS Safari, Android Chrome, and Maps address autocomplete testing) as automated tests cannot bypass API referrer restrictions reliably.
-- Status: USER VERIFICATION PENDING.
+Issue 2: Set  in Vercel (Priority: P0)
+- Attempted fixes: User instructed to grab URL from Wisetack merchant portal and add to Vercel.
+- Next debug checklist: Verify the Pre-Qualify Now button on  links to Wisetack instead of falling back to .
+- Why fix this issue and what will be achieved with the fix? Makes the financing CTA functional.
+- Status: USER VERIFICATION PENDING
+- Is recurring issue? N
+- Should Test frontend/backend/both after fix? NA
+
+Issue 3: GA4 Key Event:  (Priority: P1)
+- Attempted fixes:  was successfully marked. Waiting for  to ingest into GA4.
+- Next debug checklist: User to check GA4 > Admin > Events in 24-48 hours and toggle Mark as key event.
+- Why fix this issue and what will be achieved with the fix? Accurate ad conversion tracking.
+- Status: USER VERIFICATION PENDING
+- Is recurring issue? N
+- Should Test frontend/backend/both after fix? NA
 
 **In progress Task List**: 
-*(Clean slate. Sprint 1 and Sprint 2a audits/fixes are complete).*
+Task 1: Populate Estimator Pricing Matrix (Priority: P1)
+- Where to resume: The agent generated . The user needs to download this from the preview URL, fill in their actual HVAC pricing numbers, and return it. Agent will then update .
+- What will be achieved with this? The  currently outputs conservative industry-average placeholder numbers. This will update it to the client's actual pricing.
+- Status: BLOCKED (Awaiting user's filled CSV values)
+- Should Test frontend/backend/both after fix? Backend
 
-**Upcoming and Future Tasks**:
-*Note: Full context and the 12-Week Roadmap are preserved in .*
+Task 2: Header Navigation Reorganization (Priority: P1)
+- Where to resume: Edit . Restructure the  dropdown into two distinct visual sections: SERVICES and PLANNING TO REPLACE?. Slot the new pages (, , , ) into the bottom section.
+- What will be achieved with this? Integrates the newly built pages into the global navigation without bloating the top-level header.
+- Status: NOT STARTED (Agent deferred this until after the estimator was built and user merged the preview branch).
+- Should Test frontend/backend/both after fix? Frontend
 
-Upcoming Tasks (Week 3 - Sprint 2b):
-- **P1.6a — Title tag audit + rewrite (P1 - HIGHEST PRIORITY):** Title tags are a direct ranking factor. Current titles across 47 pages need to be audited and rewritten to front-load keywords and city names.
-- **P1.6f — Google Rich Results validation (P1):** User-led validation of the newly added JSON-LD schemas using Google's Rich Results Testing tool.
-- **P1.8 — Google Business Profile optimization (P1):** The single biggest traffic lever remaining. Prep the full claim checklist, photo shot-list, and post-cadence template.
+**Upcoming and Future Tasks**
+Upcoming Tasks:
+- P1.17a: Manual GSC indexing requests for unindexed pages (User-led; tracker is at ). The user just finished Batch 3. Batch 4 and spot-checks remain. (P0)
+- Header Navigation Reorganization (Task 2 above) (P1)
+- P1.17c: Internal linking audit on the stuck URLs (P1)
+- P1.8: Google Business Profile optimization (P1)
 
-Future Tasks (Weeks 4-12):
-- **P1.9b-f — Review badge components, inline carousels, sticky trust signals (P1)**
-- **P1.10 — Progressive form redesign (2-field -> expand) (P1)**
-- **P2 — Add intentional Dark Mode support (P2 - Just added)**
-- **P2.4b — Server components migration + bundle reduction (P2)**
-- **P2.5 — Sanity webhook ISR revalidation (P2)**
-- **P3 — Skip to main content link (a11y polish) (P3)**
+Future Tasks:
+- P1.14 (Phase 2): Expand  to include Service Call, Repair, and Maintenance flows if the user desires (currently scoped specifically to Replacement-only).
+- P1.11:  post-submit success page + Resend auto-reply (P1)
+- P1.10: Progressive form redesign (P1)
+- P1.9b-f: Review badge components sitewide, inline carousels (P1)
+- P1.6b: City page body content depth (300-500 words per city) (P1)
 
 **Completed work in this session**
-- PR #2: A11y fix pack (contrast & aria-labels), GA4 events wired, Service meta descriptions code fallback added, Mobile Form UX (autocomplete/inputMode attributes). (DONE)
-- PR #3: JSON-LD schema added to 34 City/Service pages, Service<->City cross-linking grids implemented, Branded  created. (DONE)
-- QA Fix: Standardized all  links to E.164 format (). (DONE)
-- Branding Rewrite: Removed false serving since 1972 claims. Adopted Keeping it Cool — For Three Generations. Removed  from schema/scripts. Built  endpoint. Migrated live Sanity DB documents. (DONE)
-- UX-1 Fix: Hid top bar on mobile headers () to resolve content cramping. (DONE)
+- Preview-Env Guards: Added  script to  and a  check to  to skip GA4 and Resend emails on preview deployments. (DONE)
+- P1.16: Created  page and linked it from the  accordion. (DONE)
+- P1.13: Created  revenue center page. Redirected legacy  URL to it in . (DONE)
+- P1.15: Created  AEO decision-framework article. (DONE)
+- P1.14 (MVP): Created  5-step interactive wizard with a hybrid Option C lead gate (shows range ungated, soft opt-in for email/booking). Created  and  endpoints. (DONE)
+- Internal Documentation: Updated , generated , updated  and . (DONE)
+*(Note: All code changes exist on the  git branch).*
 
 **Earlier issues found/mentioned but not fixed**
 Issue 1: 
-- Debug checklist: React oversized components (, , ,  all > 300 lines). Index-as-key anti-patterns in 44 instances.  POST route complexity is high.
-- Why to solve this issue and what will be achieved with this? Improves maintainability and React rendering performance.
+- Debug checklist: React oversized components (, , ,  all > 300 lines). Index-as-key anti-patterns in 44 instances. 
+- Why to solve this issue and what will be achieved with this? Improves maintainability and React rendering performance. (Tracked under P2.15).
 - Should Test frontend/backend/both after fix: Frontend
-- Is recurring issue? Y (Documented under P2.15, P2.16, P2.18 for later cleanup).
+- Is recurring issue? Y 
 
 **Known issue recurrence from previous fork**
 - Issue recurrence in previous fork: None
@@ -69,75 +94,75 @@ Issue 1:
 **Key Technical Concepts**
 - Next.js App Router (v15.5.9), React 19.2.5 (Single-stack, NO PYTHON BACKEND)
 - Sanity.io Headless CMS
-- Vercel deployments & Cron Jobs
-- SEO Canonicalization & JSON-LD Structured Data
-- Tailwind CSS
+- Vercel deployments & Preview environments
+- Option C Estimator Logic: Server-side pricing calculation, ungated UI display, soft-opt-in lead capture.
 
 **key DB schema**
 -  (MongoDB): 
 
 **changes in tech stack**
-- The legacy Python backend was previously deleted. The app is strictly a single-stack Next.js (Node.js) application. 
+- None. 
 
 **All files of reference**
--  (CRITICAL: Primary source of truth for the 12-Week Roadmap)
--  (Canonical product specs and brand messaging)
--  (Instructions for user GA4 toggles)
--  (Detailed 13-category SEO audit results)
--  (Device QA checklist)
--  (Generates up-to-date business desc)
+-  (GA4 preview guard)
+-  (Resend preview guard)
+-  & 
+- 
+- 
+- 
+-  & 
+- 
 
 **Areas that need refactoring**:
-- Component decomposition needed for >300 line components.
-- Bundle reduction (unused  icons and  components) needed for TBT gains (Tracked in P2.7).
+-  requires reorganization to house the new funnel pages cleanly.
+- P2.15 Component decomposition needed for oversized components.
 
 **key api endpoints**
--  (Protected by reCAPTCHA, rate limits, HTML escaping).
--  (Requires ).
--  (Returns dynamic business description, tagline, and latest review count from Sanity).
+- 
+- 
+- 
 
 **Critical Info for New Agent**
-- **IMMEDIATE TASK:** The highest priority next step is **P1.6a Title tag audit + rewrite**. Consult the roadmap in .
-- **THE SITE IS LIVE.** Do not use generic fallback data. All SEO work must reflect the real business. 
-- **NO PYTHON BACKEND:** The old backend was deleted. Do not try to debug or run Python backend servers.
-- The company was founded in 2020. The family *legacy* dates back to 1972. Ensure you never write Serving since 1972. Use the canonical description from .
-- ANY third-party integrations (like auth, SMS, etc.) MUST be passed through the  subagent. 
+- **BRANCH CONTEXT CAUTION:** The previous agent pushed all work for , , , and  to a ** branch**. If these files are missing, it is because they have not yet been merged into . Verify your git branch state before starting new work or assuming code is lost.
+- **NO PYTHON BACKEND:** The app is purely Next.js/Node.js.
+- The  currently uses placeholder industry averages in . Do not modify the structure of this file until the user provides their filled-out CSV template.
 
 **documents and test reports created in this job**
 - 
 - 
-- 
-- 
 
 **Last 10 User Messages and any pending HUMAN messages**
-- **User:** Pointed out that the mobile header stacked phone numbers and looked amateur on iPhone 16 Pro; asked to remove top bar. (Status: Resolved - Agent hid top bar )
-- **User:** Approved Option 1 (hide top bar) and Option B (log dark mode to P2). (Status: Resolved - Implemented and logged)
-- **User:** Acknowledged the implementation was live. (Status: Resolved - Agent verified live site)
-- **User:** Agreed to pause and fork the session for a clean start. (Status: Resolved - Handoff prepared).
+- **User:** Batch 3 was submitted to Google... Update the documentation / roadmap accordingly. Then save for a fork. (Status: RESOLVED - Docs updated)
+- **User:** Display the list of URLs that remain to be submitted to Google. (Status: RESOLVED)
+- **User:** This doesn't seem to work. It's showing 404... (Status: RESOLVED - Agent explained Vercel commit hashes and to push again)
+- **User:** Proceed with option C (Status: RESOLVED - Generated CSV)
+- **User:** I don't see this file... Is that because it is only pushed to the preview branch? (Status: RESOLVED)
+- **User:** Proceed (Status: RESOLVED - Agent built estimator)
+- **User:** 1) replacement-estimator. Provide me with the list of the urls... (Status: RESOLVED)
+- **User:** 1) C 2) remind me plan for how to add the new pages into the site navigation? 3) Google sheet (Status: RESOLVED)
+- **User:** We want to focus only on the system replacement estimator for now... (Status: RESOLVED)
+- **User:** How much will the estimator impact the site performance scores? (Status: RESOLVED)
 
 **Project Health Check:**
-- **Broken:** None.
-- **Mocked:**  is intentionally maintained as a fail-safe fallback for Sanity CMS.
+- Broken: None
+- Mocked:  (Stubbed with placeholder pricing data pending user input).
 
 **3rd Party Integrations**
 - Sanity.io (Headless CMS)
-- Vercel (Hosting/Cron)
+- Vercel (Hosting/Preview Deploys)
 - MongoDB Atlas (Cloud Database)
-- Google Places API & Maps JavaScript API (requires User API Key)
-- Resend (Email API - requires User API Key)
-- Google Analytics 4 (GA4 Tracking - Client Side)
-- Google Search Console (SEO Tracking)
-- Google reCAPTCHA v3 (Spam Protection - requires User API Key)
-- RealWork Widget (External plugin - requires )
+- Google Places API, GA4, Search Console, reCAPTCHA v3
+- Resend (Email API)
+- Wisetack (Financing integration - link configurable via Env Var)
 
 **Testing status**
-- Testing agent used after significant changes: NO (Playwright subagent was skipped to save time and context, as changes were additive SEO tweaks and simple CSS display modifications. Bash curl, bash scripts, and the screenshot tool were heavily utilized).
+- Testing agent used after significant changes: NO (Used manual bash curl scripts and visual screenshots on local server prior to git commit).
 - Troubleshoot agent used after agent stuck in loop: NO
 - Test files created: None
 - Known regressions: None
 
 **Credentials to test flow:**
-- All API keys are securely stored in Vercel and locally in .
+- API keys securely stored in Vercel and locally in .
 
 **What agent forgot to execute**
-- Clean handoff. The agent deliberately paused before starting the P1.6a Title Tag audit to preserve context for the next session.</analysis>
+- The agent discussed reorganizing  to include the new pages but intentionally left it for the next session so it could be done as one clean PR after the estimator shipped. This still needs to be executed.</analysis>
