@@ -234,6 +234,14 @@ export default function EstimatorWizard() {
                 Ranges are installed cost estimates for DFW homeowners. Your actual quote is
                 confirmed at a free on-site visit — no surprise charges, no pressure.
               </p>
+              <button
+                onClick={handleReset}
+                className="mt-6 inline-flex items-center gap-2 text-sm text-blue-100 hover:text-white underline underline-offset-4 transition-colors"
+                data-testid="estimator-reset-hero"
+              >
+                <RotateCcw className="w-4 h-4" aria-hidden="true" />
+                Edit my answers
+              </button>
             </div>
           </div>
         </section>

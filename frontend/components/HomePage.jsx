@@ -130,7 +130,7 @@ const HomePage = ({
               {/* Trust Indicators */}
               <div className="grid grid-cols-3 gap-4 pt-8 border-t border-gray-200">
                 <div className="text-center">
-                  <div className="flex items-center justify-center gap-1 text-yellow-500 mb-2">
+                  <div className="flex items-center justify-center gap-1 text-alert-amber mb-2">
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} className="w-4 h-4 fill-current" />
                     ))}
@@ -142,7 +142,7 @@ const HomePage = ({
                   <p className="text-sm text-gray-600">Licensed & Insured</p>
                 </div>
                 <div className="text-center">
-                  <Clock className="w-8 h-8 text-lime-green mx-auto mb-2" />
+                  <Clock className="w-8 h-8 text-success-green mx-auto mb-2" />
                   <p className="text-sm text-gray-600">Fast Service</p>
                 </div>
               </div>
@@ -329,7 +329,7 @@ const HomePage = ({
             {/* Google Reviews Badge */}
             <div className="flex items-center justify-center gap-4 mt-8 p-6 bg-gray-50 rounded-lg max-w-md mx-auto">
               <div className="text-center">
-                <div className="flex items-center justify-center gap-1 text-yellow-500 mb-2">
+                <div className="flex items-center justify-center gap-1 text-alert-amber mb-2">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="w-6 h-6 fill-current" />
                   ))}

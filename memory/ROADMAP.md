@@ -57,6 +57,17 @@ The `preview` branch carries 5 stacked Apr 24 shipments: preview-env guards + `/
   - Residential Services dropdown reorganized into two sections with headers + divider: "Services" (AC, Heating, Preventative Maintenance, IAQ) above, "Planning to Replace?" (System Replacement, Replacement Estimator, Repair or Replace?, Financing Options) below. Mobile menu mirrors the same grouping.
   - Live on preview URL; verified all 8 dropdown links return 200.
 
+- **M7 — Brand Cohesion Refactor (Phases 1–7)** ✅ SHIPPED Apr 27, 2026
+  - **Token system overhaul** (`app/globals.css`, `tailwind.config.js`): added 5 new semantic tokens (`growth-green`, `success-green`, `neutral-text`, `surface-soft`, `alert-amber`); preserved legacy aliases for backward compat
+  - **Canonical Button variants** (`components/ui/button.jsx`): added `urgency` (red), `primary` (blue), `growth` (green) plus `xl` size for hero CTAs
+  - **Site-wide cleanup:** eliminated 50+ inline-hex literals, 18+ `lime-XXX` Tailwind palette uses, and 5 inline `linear-gradient` styles. All hero gradients now use the canonical `bg-gradient-to-br from-prussian-blue to-electric-blue` class
+  - **Footer cleanup:** reduced from 4 icon colors to 2 semantic colors (red action, blue info)
+  - **Star ratings:** migrated from `text-yellow-400/500` to `text-alert-amber` site-wide for warmer brand tone
+  - **EstimatorWizard UX fix:** added prominent "Edit my answers" reset link in result hero (testing-agent feedback)
+  - **Documentation:** created `/app/design_guidelines.md` as the canonical brand source of truth (sections: tokens, decision matrix, hero gradient, button system, typography, voice, iconography, accessibility, spacing, forms)
+  - Verified: `yarn build` clean (29.6s → 22.7s after fixes), all 47 sitemap pages return 200, 40/41 frontend pytest cases pass on first run, 41/41 after agent feedback applied
+  - Files touched: 22 files across `app/` and `components/` — zero functional changes, pure brand cohesion refactor
+
 ---
 
 ## 🟢 GSC Indexing Action Items (Apr 27, 2026 audit)
