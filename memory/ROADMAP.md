@@ -63,19 +63,15 @@ The `preview` branch carries 5 stacked Apr 24 shipments: preview-env guards + `/
 
 Authoritative source: `/app/memory/audits/2026-04-27_Site_Indexing_Audit.md`. Headline: **42 of 47 sitemap URLs indexed (89.4%); 44 effective (93.6%) per live URL Inspection.**
 
-### A1 — Submit `the-colony` to GSC (P1, ~30 sec, user-led)
+### A1 — Submit `the-colony` to GSC ✅ COMPLETE Apr 27, 2026
 - **URL:** `https://dfwhvac.com/cities-served/the-colony`
 - **Bucket:** Discovered – currently not indexed (last_crawled: never)
-- **Action:** GSC → URL Inspection → paste URL → Request Indexing
-- **Why:** Last remaining un-submitted city page in the Day-4 backlog. Small market but completes geographic coverage for ad-targeting purposes.
-- **Status:** ⏳ Pending user
+- **Status:** ✅ Submitted via URL Inspection. Awaiting Google's crawl response (typically 24–72 hrs).
 
-### A2 — Submit `commercial-heating` to GSC (P1, ~30 sec, user-led)
+### A2 — Submit `commercial-heating` to GSC ✅ COMPLETE Apr 27, 2026
 - **URL:** `https://dfwhvac.com/services/commercial/commercial-heating`
 - **Bucket:** Crawled – currently not indexed (Validation FAILED Apr 24)
-- **Action:** GSC → URL Inspection → paste URL → Request Indexing
-- **Why:** Google explicitly rejected this page on Apr 24 validation. A re-submit may push it through, but the long-term fix is content differentiation (see A4 below).
-- **Status:** ⏳ Pending user
+- **Status:** ✅ Re-submitted via URL Inspection. If it slips back into "not indexed" again at the May 5 audit, A4 (content differentiation) becomes the actual fix.
 
 ### A3 — May 5, 2026 indexing audit re-run (P1, ~10 min, agent-led)
 - **What:** Re-export the 6 GSC Pages reports (Indexed + 5 not-indexed buckets), diff against the Apr 27 baseline, update `/app/memory/audits/2026-04-27_Site_Indexing_Audit.md` (or create `2026-05-05_Site_Indexing_Audit.md` if material changes).
