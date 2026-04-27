@@ -78,7 +78,7 @@
 |---|:-:|:-:|---|
 | SecurityHeaders.com grade (live URL) | ✅ **A** (Apr 27 PM, post-F3 deploy) — capped at A by `unsafe-inline`/`unsafe-eval` warning | **A+** (requires F3c CSP nonce migration) | securityheaders.com |
 | Mozilla Observatory grade | TBD | **A or higher** | observatory.mozilla.org |
-| `X-Powered-By` leak | ✅ Stripped Apr 27 PM (`poweredByHeader: false`) | suppressed | Response header |
+| `X-Powered-By` leak | ✅ Stripped & **verified live Apr 27, 20:24 UTC** (`poweredByHeader: false`) — no longer in securityheaders.com Raw Headers or "Additional Information" hardening tips | suppressed | Response header |
 | HSTS max-age | ✅ 63072000 (2 yr) + `includeSubDomains` + `preload` | preload-list eligible | Response header |
 | HSTS Preload List submission | ❌ NOT submitted | submitted by May 31 | hstspreload.org |
 | CSP — `frame-ancestors` | ✅ `'none'` (clickjacking lockdown) | enforced | Response header |

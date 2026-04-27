@@ -251,12 +251,13 @@ Document captures live in `/app/memory/audits/2026-04-27_KPI_Baseline.md`.
 | 13 | C5 | A/B testing framework — Vercel Edge Config or Sanity-driven variants | 2 hrs | Agent |
 | 14 | C3 | Estimator pricing matrix populated with REAL DFW HVAC numbers (replace placeholders in `lib/estimator-matrix.js`) | 30 min user + 30 min agent | User → agent |
 | 15 | C6 | Mobile sticky-CTA conversion lift verification (already shipped; segment in GA4) | 30 min | Agent |
-| 16 | P2.10 | Lead magnets (AC age lookup, replacement timing calc) | 8–12 hrs each | Defer until Phase 3 KPIs trending |
-| 17 | P2.13 | Exit intent modal | 3–4 hrs | Defer until Phase 3 KPIs trending |
-| 18 | P2.14 | Urgency signals | 3–4 hrs | Defer until Phase 3 KPIs trending |
-| 19 | P2.12 | SMS text-back via Twilio | 4–6 hrs | Defer post-ad-launch |
+| 16 | **C8** | **"🔒 Secured" footer trust microcopy** — small lock icon + "Your information is secure" copy in `Footer.jsx`, with hover/tooltip linking to `/privacy-policy`. Targets hesitant homeowners on the financing CTA + contact form. Uses `lucide-react` `Lock` icon (already in bundle, zero cost). Worth A/B-testing against a no-trust-signal control if Vercel Edge Config A/B framework lands (C5). | 30 min | Agent |
+| 17 | P2.10 | Lead magnets (AC age lookup, replacement timing calc) | 8–12 hrs each | Defer until Phase 3 KPIs trending |
+| 18 | P2.13 | Exit intent modal | 3–4 hrs | Defer until Phase 3 KPIs trending |
+| 19 | P2.14 | Urgency signals | 3–4 hrs | Defer until Phase 3 KPIs trending |
+| 20 | P2.12 | SMS text-back via Twilio | 4–6 hrs | Defer post-ad-launch |
 
-**Phase 3 exit criteria:** P3.B baseline captured. P1.11 + P1.10 + P1.9b/c/d/e/f + C1–C7 all shipped. Conversion rate trending positive.
+**Phase 3 exit criteria:** P3.B baseline captured. P1.11 + P1.10 + P1.9b/c/d/e/f + C1–C8 all shipped. Conversion rate trending positive.
 
 ---
 
