@@ -10,7 +10,7 @@ import uuid
 import pytest
 import requests
 
-BASE_URL = os.environ.get("REACT_APP_BACKEND_URL", "https://hvac-conversion-hub.preview.emergentagent.com").rstrip("/")
+BASE_URL = os.environ.get("REACT_APP_BACKEND_URL", "https://dfw-hvac-preview-2.preview.emergentagent.com").rstrip("/")
 # NOTE: Preview ingress routes /api/* to the FastAPI backend on :8001, bypassing
 # Next.js API routes. For this Next.js-only app, hit localhost:3000 directly for
 # /api endpoints. Page tests still use the public URL.
