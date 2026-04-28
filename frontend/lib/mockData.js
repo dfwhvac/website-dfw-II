@@ -216,10 +216,13 @@ export const testimonials = [
   { id: 130, name: "Gentry Zacheis", rating: 5, date: "08/23/22", services: "", text: "Amazing service! Highly recommend." },
 ]
 
-// Mock form submission
+// Mock form submission — DEAD CODE as of Feb 28, 2026. Not imported anywhere
+// (verified by grep across /app/frontend). Slated for removal under P2.7
+// (code cleanup / unused dep audit). DO NOT depend on this — the live form
+// flow goes through /api/leads/route.js.
 export const submitLeadForm = async (formData) => {
   console.log("Mock lead form submission:", formData)
   // Simulate API call delay
   await new Promise(resolve => setTimeout(resolve, 1000))
-  return { success: true, message: "Thank you! We'll contact you within 2 business hours." }
+  return { success: true, message: "Thank you! We'll contact you within 1 business day." }
 }

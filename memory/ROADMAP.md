@@ -209,6 +209,8 @@ Document captures live in `/app/memory/audits/2026-04-27_KPI_Baseline.md`.
 | ✅ P1.13 | `/services/system-replacement` revenue-center page | Apr 24, 2026 |
 | ✅ P1.15 | `/repair-or-replace` AEO decision-framework article | Apr 24, 2026 |
 | ✅ P1.7 | GA4 key events: `generate_lead`, `phone_click` | Apr 24, 2026 |
+| ✅ P1.11 | `/thanks` post-submit page + Resend customer auto-reply (kills post-submit ghosting; type-aware copy: service/estimate/contact/estimator) | Feb 28, 2026 |
+| ✅ G1+G2 | GA4 Key Events marked: `phone_click`, `generate_lead` | Feb 28, 2026 (user) |
 
 ## P3.B — KPI baseline (capture in Phase 3 week 1)
 
@@ -270,7 +272,22 @@ Document captures live in `/app/memory/audits/2026-04-27_KPI_Baseline.md`.
 | ID | Item | Date |
 |---|---|---|
 | ✅ P1.7 | GA4 `generate_lead` + `phone_click` key events | Apr 24, 2026 |
-| ✅ P1.11 | `/thanks` post-submit page + Resend customer auto-reply (kills post-submit ghosting; type-aware copy: service/estimate/contact/estimator) | Feb 28, 2026 |
+| ✅ G1 | GA4 Key Event marked: `phone_click` | Feb 28, 2026 (user) |
+| ✅ G2 | GA4 Key Event marked: `generate_lead` | Feb 28, 2026 (user) |
+
+## P4.A.1 — GA4 Key Event TODOs (user action, no code work needed)
+
+GA4 → Admin → Events → toggle the "Mark as key event" switch for each. All three events are **already firing** from the live codebase; flipping the toggle just makes them eligible for Conversions reports + Smart Bidding optimization once Phase 5 ad spend goes live.
+
+| ID | Event | Where it fires | Why it matters |
+|---|---|---|---|
+| G3 | `form_submit_lead` | `LeadForm.jsx`, `SimpleContactForm.jsx` after successful `/api/leads` POST | Primary form conversion. Carries `lead_type` param for service/estimate/contact segmentation |
+| G4 | `thanks_page_view` | `/thanks` page hydration on any successful submission redirect | Durable conversion landmark. Reconciles against `form_submit_lead` to catch any drops; the one Smart Bidding leans on once Phase 5 spend goes live |
+| G5 | `estimator_opt_in` | `/replacement-estimator` when a user opts in for the on-site estimate after seeing their range (`EstimatorWizard.jsx:196`) | High-intent — wizard completion AND opt-in. Higher quality signal than a generic form submit |
+
+**Future events (mark as Key Events when they ship):**
+- `form_step_1_complete` — fires on first-section completion in the progressive form (P1.10, not shipped yet)
+- `estimator_complete` — fires when the wizard hits the result screen with or without opt-in (deferred; can derive from current funnel)
 
 ## P4.B — KPI baseline (pre-launch validation)
 

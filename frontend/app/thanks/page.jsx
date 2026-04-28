@@ -12,7 +12,7 @@ import ThanksAnalytics from './ThanksAnalytics'
 export const metadata = {
   title: "Thanks — We've Got Your Request | DFW HVAC",
   description:
-    "Your request was received. A DFW HVAC team member will call you within 2 business hours. In the meantime, here's what to expect.",
+    "Your request was received. The DFW HVAC team will be in touch shortly. In the meantime, here's what to expect.",
   alternates: { canonical: '/thanks' },
   robots: {
     index: false,
@@ -38,7 +38,7 @@ const TYPE_COPY = {
   contact: {
     badge: 'Message Received',
     headline: "Thanks — your message is in.",
-    sub: "Someone from our team will call or email you within 2 business hours during normal hours, or first thing the next business morning.",
+    sub: "Someone from our team will get back to you within 1 business day. If your matter is time-sensitive, please call us directly.",
   },
   estimator: {
     badge: 'Estimator Lead Received',
@@ -47,7 +47,12 @@ const TYPE_COPY = {
   },
 }
 
-const NEXT_STEPS = [
+// Next-steps cards split into two banks: the active-funnel set (service /
+// estimate / estimator) speaks to a tech callback within 2 business hours,
+// while the generic `contact` set speaks to a 1-business-day reply on
+// non-urgent inquiries. Keeps the post-submit promise aligned with the
+// expectation set on the form itself.
+const NEXT_STEPS_ACTIVE = [
   {
     icon: Phone,
     title: 'Expect a call within 2 business hours',
@@ -68,6 +73,27 @@ const NEXT_STEPS = [
   },
 ]
 
+const NEXT_STEPS_CONTACT = [
+  {
+    icon: Phone,
+    title: "We'll reply within 1 business day",
+    body:
+      "If your matter is time-sensitive — same-day repair, no-cool/no-heat — please call us directly. General inquiries are answered in the order they arrive.",
+  },
+  {
+    icon: Clock,
+    title: 'Mon–Fri, 7 AM – 6 PM (CT)',
+    body:
+      'Messages submitted outside those hours are queued for the next business morning. Weekend voicemails are returned Monday.',
+  },
+  {
+    icon: CheckCircle2,
+    title: 'Three-generation family business',
+    body:
+      "However your message is routed, it lands in front of a human on our team — not a chatbot, not an offshore call center, not a sales-incentive script.",
+  },
+]
+
 export default async function ThanksPage({ searchParams }) {
   const params = (await searchParams) || {}
   const rawType = typeof params.type === 'string' ? params.type : 'service'
@@ -77,6 +103,7 @@ export default async function ThanksPage({ searchParams }) {
   let companyInfo = await getCompanyInfo()
   if (!companyInfo) companyInfo = mockCompanyInfo
   const siteSettings = await getSiteSettings()
+  const nextSteps = leadType === 'contact' ? NEXT_STEPS_CONTACT : NEXT_STEPS_ACTIVE
 
   return (
     <div className="min-h-screen bg-white">
@@ -126,7 +153,7 @@ export default async function ThanksPage({ searchParams }) {
               You skipped the boilerplate "we'll get back to you eventually" — here's the actual playbook from this moment forward.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {NEXT_STEPS.map(({ icon: Icon, title, body }, i) => (
+              {nextSteps.map(({ icon: Icon, title, body }, i) => (
                 <div
                   key={title}
                   className="bg-white rounded-xl shadow-sm border border-gray-100 p-7 flex flex-col"

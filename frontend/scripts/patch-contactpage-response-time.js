@@ -19,8 +19,8 @@ const client = createClient({
 
 const patch = {
   formDescription:
-    "Fill out the form below and we'll get back to you within 2 business hours",
-  emailDescription: 'We respond within 2 business hours',
+    "Fill out the form below and we'll get back to you within 1 business day",
+  emailDescription: 'We respond within 1 business day',
 }
 
 async function run() {

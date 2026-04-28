@@ -114,7 +114,7 @@ function buildAutoReplyHtml({ fullName, leadType }) {
     estimate:
       "Our system replacement specialist will call you within 2 business hours to schedule your in-home assessment.",
     contact:
-      "Someone from our team will call or email you within 2 business hours during normal hours, or first thing the next business morning.",
+      "Someone from our team will get back to you within 1 business day. If your matter is time-sensitive, please call us directly.",
     estimator:
       "We'll follow up within 2 business hours with a detailed walk-through tailored to your home and system.",
   }

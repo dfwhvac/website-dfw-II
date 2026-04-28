@@ -13,7 +13,7 @@ import { loadRecaptchaOnce } from './RecaptchaScript'
 
 const SimpleContactForm = ({ 
   title = "Send Us a Message", 
-  description = "Fill out the form below and we'll get back to you within 2 business hours",
+  description = "Fill out the form below and we'll get back to you within 1 business day",
 }) => {
   const [formData, setFormData] = useState({
     firstName: '',
@@ -95,7 +95,7 @@ const SimpleContactForm = ({
           }
         }
 
-        toast.success("Thank you! We'll get back to you within 2 business hours.")
+        toast.success("Thank you! We'll get back to you within 1 business day.")
         setFormData({
           firstName: '',
           lastName: '',
@@ -212,7 +212,7 @@ const SimpleContactForm = ({
           </Button>
 
           <p className="text-center text-xs text-gray-500">
-            We'll get back to you within 2 business hours
+            We'll get back to you within 1 business day
           </p>
         </form>
       </CardContent>
