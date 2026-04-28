@@ -221,5 +221,5 @@ export const submitLeadForm = async (formData) => {
   console.log("Mock lead form submission:", formData)
   // Simulate API call delay
   await new Promise(resolve => setTimeout(resolve, 1000))
-  return { success: true, message: "Thank you! We'll contact you within one business day." }
+  return { success: true, message: "Thank you! We'll contact you within 2 business hours." }
 }
