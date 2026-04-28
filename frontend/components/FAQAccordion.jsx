@@ -16,6 +16,10 @@ const LINK_RULES = [
     pattern: /Learn more about our financing options at (\/[a-z-]+)/i,
     linkText: 'Learn more about our financing options →',
   },
+  {
+    pattern: /Read the whole three-generation history on our About page at (\/[a-z-]+)/i,
+    linkText: 'Read the whole three-generation history →',
+  },
 ]
 
 const renderAnswerWithLinks = (answer) => {
