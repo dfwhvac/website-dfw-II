@@ -12,7 +12,7 @@ import ThanksAnalytics from './ThanksAnalytics'
 export const metadata = {
   title: "Thanks — We've Got Your Request | DFW HVAC",
   description:
-    "Your request was received. A DFW HVAC team member will call you within 1 business hour. In the meantime, here's what to expect.",
+    "Your request was received. A DFW HVAC team member will call you within 2 business hours. In the meantime, here's what to expect.",
   alternates: { canonical: '/thanks' },
   robots: {
     index: false,
@@ -28,29 +28,29 @@ const TYPE_COPY = {
   service: {
     badge: 'Service Request Received',
     headline: "We've got your service request.",
-    sub: "A licensed technician will call you within 1 business hour to confirm details and book your visit.",
+    sub: "A licensed technician will call you within 2 business hours to confirm details and book your visit.",
   },
   estimate: {
     badge: 'Estimate Request Received',
     headline: "Your estimate request is in.",
-    sub: "Our system replacement specialist will call you within 1 business hour to schedule your in-home assessment.",
+    sub: "Our system replacement specialist will call you within 2 business hours to schedule your in-home assessment.",
   },
   contact: {
     badge: 'Message Received',
     headline: "Thanks — your message is in.",
-    sub: "We'll get back to you within 1 business hour during normal hours, or first thing the next business morning.",
+    sub: "Someone from our team will call or email you within 2 business hours during normal hours, or first thing the next business morning.",
   },
   estimator: {
     badge: 'Estimator Lead Received',
     headline: "Your estimate is on its way.",
-    sub: "We'll follow up within 1 business hour with a detailed walk-through tailored to your home and system.",
+    sub: "We'll follow up within 2 business hours with a detailed walk-through tailored to your home and system.",
   },
 }
 
 const NEXT_STEPS = [
   {
     icon: Phone,
-    title: 'Expect a call within 1 business hour',
+    title: 'Expect a call within 2 business hours',
     body:
       "Our dispatcher will confirm your address, the issue, and book the soonest visit window. If you missed our call, we'll text and try again.",
   },

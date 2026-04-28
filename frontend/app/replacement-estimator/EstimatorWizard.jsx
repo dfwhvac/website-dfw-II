@@ -322,7 +322,7 @@ export default function EstimatorWizard() {
                           Want us to call and schedule your free written estimate?
                         </h3>
                         <p className="text-sm text-gray-600 mt-1">
-                          Optional — we&apos;ll reach out within one business day. No obligation.
+                          Optional — we&apos;ll reach out within 2 business hours. No obligation.
                         </p>
                       </div>
                       <ArrowRight className="w-5 h-5 text-electric-blue shrink-0 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
@@ -333,7 +333,7 @@ export default function EstimatorWizard() {
                         Book My Free On-Site Estimate
                       </h3>
                       <p className="text-sm text-gray-600">
-                        We&apos;ll call within one business day to schedule. Your estimator
+                        We&apos;ll call within 2 business hours to schedule. Your estimator
                         answers come with us so the visit stays short.
                       </p>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -413,7 +413,7 @@ export default function EstimatorWizard() {
                   <CheckCircle2 className="w-12 h-12 mx-auto mb-3 text-success-green" aria-hidden="true" />
                   <h3 className="text-xl font-bold text-gray-900 mb-1">You&apos;re on the schedule.</h3>
                   <p className="text-gray-700">
-                    Thanks, {leadForm.firstName}! We&apos;ll call you within one business day to
+                    Thanks, {leadForm.firstName}! We&apos;ll call you within 2 business hours to
                     book your free on-site written estimate.
                   </p>
                 </div>

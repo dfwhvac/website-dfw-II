@@ -110,13 +110,13 @@ function buildAutoReplyHtml({ fullName, leadType }) {
   const safeName = escapeHtml(fullName.split(' ')[0] || 'there')
   const typeCopy = {
     service:
-      "Our dispatcher will call you within 1 business hour to confirm your service address and book the earliest visit window.",
+      "Our dispatcher will call you within 2 business hours to confirm your service address and book the earliest visit window.",
     estimate:
-      "Our system replacement specialist will call you within 1 business hour to schedule your in-home assessment.",
+      "Our system replacement specialist will call you within 2 business hours to schedule your in-home assessment.",
     contact:
-      "Someone from our team will call or email you within 1 business hour during normal hours, or first thing the next business morning.",
+      "Someone from our team will call or email you within 2 business hours during normal hours, or first thing the next business morning.",
     estimator:
-      "We'll follow up within 1 business hour with a detailed walk-through tailored to your home and system.",
+      "We'll follow up within 2 business hours with a detailed walk-through tailored to your home and system.",
   }
   const lead_label =
     typeCopy[leadType] ||

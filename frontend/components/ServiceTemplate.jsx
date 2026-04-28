@@ -435,7 +435,7 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [], mainten
             <div className="max-w-2xl mx-auto">
               <LeadForm 
                 title={`Schedule Your ${service.title} Service`}
-                description="Fill out the form below and we'll contact you within 24 hours to schedule your appointment"
+                description="Fill out the form below and we'll contact you within 2 business hours to schedule your appointment"
               />
             </div>
           </div>
