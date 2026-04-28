@@ -1,9 +1,29 @@
 # DFW HVAC — Changelog
 
-**Last reviewed:** April 27, 2026
+**Last reviewed:** February 28, 2026
 **⚠️ Read `/app/memory/00_START_HERE.md` first for the Agent SOP.**
 
 Reverse-chronological record of everything shipped to production. When adding entries, append to the top of the appropriate session block (newest first).
+
+---
+
+## February 28, 2026 — Phase 2a finish + Phase 3 first ship
+
+### A4 (round 2) — Commercial-cooling and commercial-maintenance differentiation
+- Same Sanity-vacuum issue that hit `commercial-heating` on Apr 27 was still live on `commercial-air-conditioning` and `commercial-maintenance` (only `title`/`description`/`heroBenefits` populated; every other field rendering generic template fallbacks). Both were near-duplicates to their residential siblings in Google's eyes.
+- Mirrored the Apr 27 `patch-commercial-heating.js` pattern with two new idempotent scripts: `frontend/scripts/patch-commercial-cooling.js` and `frontend/scripts/patch-commercial-maintenance.js`. Each writes 12 fields of differentiated B2B-keyword-rich content: cooling targets RTUs, chillers, VRF/VRV, EPA 608, mini-splits, refrigerant compliance; maintenance targets PM contracts, NTE thresholds, equipment inventories, priority dispatch, COIs, season-aware checklists.
+- Both pages now ship 6 service-specific FAQs each → automatically FAQPage-schema eligible via the existing `ServiceTemplate` conditional.
+- Verified live: cooling renders "Commercial AC Emergency Response", "EPA 608", "Refrigerant leak detection"; maintenance renders "Priority Dispatch for PM Contract", "Spring cooling-season tune-ups", "equipment inventory".
+- Phase 2a content cluster (commercial-heating, commercial-cooling, commercial-maintenance) now fully populated. Should clear the duplicate-content rejection signal for the entire commercial silo on the next GSC re-audit.
+
+### P1.11 — `/thanks` post-submit page + Resend customer auto-reply
+- New route `app/thanks/page.jsx` (server component) + `app/thanks/ThanksAnalytics.jsx` (small client component for GA4). Server-rendered, `noindex, follow` robots tag (post-conversion landmark, not an SEO target — but we want crawlers to follow internal links back into the site).
+- Three dynamic copy variants by `?type=` querystring: `service`, `estimate`, `contact`, `estimator`. Each variant gets a tailored badge, headline, and 1-business-hour expectation line. Falls back to `service` for unknown values.
+- Page sections: confirmation hero (gradient, badge, dynamic headline, prominent red phone CTA, queue-skip subhead) → "What happens next" 3-card explainer (call within 1 hr, same-day DFW, honest quote) → "While you wait" 4-link grid (`/repair-or-replace`, `/financing`, `/replacement-estimator`, `/reviews`) → back-to-home link.
+- `LeadForm.jsx` and `SimpleContactForm.jsx` now `router.push('/thanks?type={leadType}')` after successful submit. Both still fire `form_submit_lead` GA4 event before redirecting, so the conversion event is captured even if the redirect fails.
+- `ThanksAnalytics` fires a new `thanks_page_view` GA4 event on hydration with `lead_type` param — durable conversion landmark complementing `form_submit_lead`. Surfaces in P5.L6 ("Toggle remaining GA4 key events as they fire").
+- `app/api/leads/route.js` now sends a customer-facing auto-reply via Resend immediately after the internal lead notification. Plain CAN-SPAM-clean template: brand header, `Hi {firstName}` greeting, type-aware response-time copy, prominent click-to-call button, three-generation family pull-quote, NAP + license # footer. Wrapped in its own try/catch — if the customer email is malformed/bounced, the internal lead notification is unaffected. Same preview-env `IS_PRODUCTION_DEPLOY` guard as the internal email (preview branches and `localhost` skip Resend entirely; lead still persists to MongoDB).
+- Verified locally: `POST /api/leads` returns `{success:true, lead_id}`, MongoDB lead persisted, log line confirms Resend skipped on local. `/thanks?type=service|estimate|contact` all render correctly with `<meta name="robots" content="noindex, follow"/>`.
 
 ---
 

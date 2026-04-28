@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { Label } from './ui/label'
@@ -39,6 +40,7 @@ const LeadForm = ({
     problemDescription: ''
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const router = useRouter()
 
   const handleInputChange = (field, value) => {
     if (field === 'phone') {
@@ -115,6 +117,9 @@ const LeadForm = ({
           numSystems: '',
           problemDescription: ''
         })
+        // Redirect to /thanks (P1.11) — kills post-submit ghosting + creates
+        // a durable conversion landmark for GA4 / Google Ads.
+        router.push(`/thanks?type=${encodeURIComponent(leadType)}`)
       } else {
         toast.error(result.message || "Something went wrong. Please try again.")
       }

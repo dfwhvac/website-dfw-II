@@ -102,6 +102,57 @@ function escapeHtml(str) {
     .replace(/'/g, '&#039;')
 }
 
+// Customer-facing auto-reply email — shipped Feb 2026 (P1.11). Confirms the
+// submission, sets the response-time expectation explicitly, and gives the
+// customer multiple ways to reach us while they wait. Plain visual style,
+// brand colors only, no marketing fluff (CAN-SPAM-clean).
+function buildAutoReplyHtml({ fullName, leadType }) {
+  const safeName = escapeHtml(fullName.split(' ')[0] || 'there')
+  const typeCopy = {
+    service:
+      "Our dispatcher will call you within 1 business hour to confirm your service address and book the earliest visit window.",
+    estimate:
+      "Our system replacement specialist will call you within 1 business hour to schedule your in-home assessment.",
+    contact:
+      "Someone from our team will call or email you within 1 business hour during normal hours, or first thing the next business morning.",
+    estimator:
+      "We'll follow up within 1 business hour with a detailed walk-through tailored to your home and system.",
+  }
+  const lead_label =
+    typeCopy[leadType] ||
+    typeCopy.service
+
+  return `
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; max-width: 560px; margin: 0 auto; color: #1a2332;">
+      <div style="background-color: #003153; color: white; padding: 24px; text-align: center;">
+        <h1 style="margin: 0; font-size: 22px;">DFW HVAC</h1>
+        <p style="margin: 6px 0 0; font-size: 13px; color: #b8d4ff;">Three-Generation Family HVAC, Coppell TX</p>
+      </div>
+      <div style="padding: 28px 24px; background-color: #ffffff;">
+        <h2 style="color: #003153; margin: 0 0 14px; font-size: 20px;">Hi ${safeName} — we got your request.</h2>
+        <p style="font-size: 15px; line-height: 1.55; margin: 0 0 18px;">${lead_label}</p>
+        <p style="font-size: 15px; line-height: 1.55; margin: 0 0 18px;">
+          If you need us right now, just call us directly:
+        </p>
+        <p style="text-align: center; margin: 22px 0;">
+          <a href="tel:+19727772665" style="display: inline-block; background-color: #FF0000; color: white; font-weight: 600; font-size: 17px; padding: 12px 28px; border-radius: 6px; text-decoration: none;">Call (972) 777-COOL</a>
+        </p>
+        <div style="background-color: #f5f8fc; border-left: 3px solid #00B8FF; padding: 14px 16px; margin: 22px 0; border-radius: 4px;">
+          <p style="margin: 0; font-size: 13px; line-height: 1.5; color: #4a5568;">
+            <strong style="color: #003153;">A note from the family:</strong> we've been doing HVAC work in DFW for three generations. The same techs who answer your call today will still be here next year. No bait-and-switch, no commission-driven sales.
+          </p>
+        </div>
+        <p style="font-size: 13px; color: #6b7280; line-height: 1.5; margin: 0 0 6px;">
+          You're receiving this because you submitted a request on dfwhvac.com. We will not share your information.
+        </p>
+      </div>
+      <div style="background-color: #f5f8fc; color: #6b7280; padding: 16px 24px; text-align: center; font-size: 12px; line-height: 1.5;">
+        <p style="margin: 0;">DFW HVAC · 556 S Coppell Rd Ste 103, Coppell TX 75019</p>
+        <p style="margin: 4px 0 0;">License # TACLA00010147E</p>
+      </div>
+    </div>`
+}
+
 function buildEmailHtml({ lead, leadId, fullName, actionText, highlightColor, emailConfig }) {
   const safeName = escapeHtml(fullName)
   const safePhone = escapeHtml(lead.phone)
@@ -253,6 +304,24 @@ export async function POST(request) {
             subject,
             html: buildEmailHtml({ lead: { ...lead, leadType }, leadId, fullName, actionText, highlightColor, emailConfig }),
           })
+
+          // Customer auto-reply (P1.11, Feb 2026) — confirms submission and
+          // sets the 1-hour response-time expectation. Wrapped in its own
+          // try/catch so a customer-side delivery failure (e.g. typo'd
+          // email) never poisons the internal lead notification flow.
+          if (lead.email) {
+            try {
+              await resend.emails.send({
+                from: 'DFW HVAC <leads@dfwhvac.com>',
+                to: [lead.email],
+                replyTo: emailConfig.to,
+                subject: "We got your request — DFW HVAC will be in touch shortly",
+                html: buildAutoReplyHtml({ fullName, leadType }),
+              })
+            } catch (autoReplyError) {
+              console.error('Customer auto-reply send failed (non-fatal):', autoReplyError)
+            }
+          }
         }
       } catch (emailError) {
         console.error('Failed to send email notification:', emailError)

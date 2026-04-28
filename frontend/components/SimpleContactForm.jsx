@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { Label } from './ui/label'
@@ -22,6 +23,7 @@ const SimpleContactForm = ({
     message: ''
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const router = useRouter()
 
   const handleInputChange = (field, value) => {
     if (field === 'phone') {
@@ -101,6 +103,8 @@ const SimpleContactForm = ({
           phone: '',
           message: ''
         })
+        // Redirect to /thanks (P1.11) — durable post-submit landmark.
+        router.push('/thanks?type=contact')
       } else {
         toast.error(result.message || "Something went wrong. Please try again.")
       }
