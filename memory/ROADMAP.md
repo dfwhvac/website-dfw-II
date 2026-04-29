@@ -236,6 +236,14 @@ Document captures live in `/app/memory/audits/2026-04-27_KPI_Baseline.md`.
 
 ## P3.D — Action items (in execution order)
 
+> 🟡 **S-FOOTER-1 (USER ACTION NEEDED, P0)** — Provide live URLs for the three footer social icons:
+>
+> 1. **Facebook** — *currently placeholder* (`https://facebook.com`). Provide your DFW HVAC Facebook Page URL (e.g., `https://www.facebook.com/dfwhvac`).
+> 2. **LinkedIn** — *currently placeholder* (`#`). Provide your DFW HVAC company LinkedIn URL (e.g., `https://www.linkedin.com/company/dfw-hvac/`).
+> 3. **Google Business Profile** — ✅ *already live* at `https://g.page/r/CcumMADJhchIEB0` (review-prompt shortlink — drops visitors directly into a "Rate your experience" stars prompt). If you'd rather route to your GBP overview instead of the review prompt, generate a new shortlink from your GBP "Share" button and share it.
+>
+> URLs are stored in Sanity `siteSettings.socialLinks`. Once provided, the agent will run a small patch script (mirror of `patch-sitesettings-social-links.js`) to update them; no code deploy needed.
+
 | # | ID | Item | Effort | Owner |
 |---|---|---|---|---|
 | 1 | C1 | **Microsoft Clarity heatmap + session recording installed (FREE; needs 30+ days runtime to gather data — install FIRST)** | 30 min | Agent |

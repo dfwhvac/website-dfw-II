@@ -69,11 +69,15 @@ const BookServicePage = () => {
             Request a free estimate from Dallas-Fort Worth's most trusted 
             heating and cooling experts. Honest assessments, transparent pricing.
           </p>
-          <div className="flex items-center justify-center gap-2 text-electric-blue">
-            <Phone className="w-5 h-5" />
-            <span className="text-lg">Need immediate service?</span>
-            <a href="tel:+19727772665" className="text-white font-bold hover:underline">
-              Call (972) 777-COOL
+          <div className="flex items-center justify-center mt-2">
+            <a
+              href="tel:+19727772665"
+              className="inline-flex items-center gap-2 bg-white text-prussian-blue hover:bg-gray-100 font-semibold px-6 py-3 rounded-full shadow-md transition-all hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-prussian-blue"
+              data-testid="estimate-banner-call-cta"
+            >
+              <Phone className="w-4 h-4" aria-hidden="true" />
+              <span>Need immediate service?</span>
+              <span className="font-bold">Call (972) 777-COOL</span>
             </a>
           </div>
         </div>
