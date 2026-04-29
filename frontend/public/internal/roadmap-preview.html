@@ -358,9 +358,10 @@
     <h1>DFW HVAC — Strategic Roadmap</h1>
     <p>Future-facing work organized by 5-priority business framework. Each priority requires its own KPI baseline and reevaluation cadence. Ship in order; advance only when the previous layer is healthy.</p>
     <div class="meta">
-      Last reviewed: April 27, 2026 (PM) — Phase 1 complete · Phase 2a 8/12 shipped ·
+      Last reviewed: February 28, 2026 — Phase 1 complete · Phase 2a 8/12 shipped · Phase 3 5 items shipped (P1.11, G1, G2, brand-truth, footer redesign) ·
       Source: <code>/app/memory/ROADMAP.md</code> ·
-      Companion: <a href="/sitemap-preview.html" style="color:rgba(255,255,255,0.85);">sitemap preview</a>
+      Companion: <a href="/sitemap-preview.html" style="color:rgba(255,255,255,0.85);">sitemap preview</a> ·
+      Audit: <a href="/internal/timeline-commitments-audit.csv" style="color:rgba(255,255,255,0.85);">timeline commitments CSV</a>
     </div>
   </div>
 </header>
@@ -672,12 +673,32 @@
   </div>
 
   <h3>Action Items (in execution order)</h3>
+
+  <div class="card" style="background:rgba(245,158,11,0.10); border-color:rgba(245,158,11,0.40); margin-bottom:1rem;">
+    <strong style="color:#92400E;">🟡 S-FOOTER-1 (USER ACTION NEEDED, P0).</strong>
+    <p style="margin-top:0.4rem; color:var(--slate-700); font-size:0.9rem; line-height:1.55;">
+      Provide live URLs for the three footer social icons. <strong>Facebook</strong> + <strong>LinkedIn</strong> currently placeholder; <strong>Google</strong> already live (g.page review-prompt). URLs stored in Sanity <code>siteSettings.socialLinks</code>; updates via patch script.
+    </p>
+  </div>
+
+  <h4 style="font-size:1rem; color:var(--slate-700); margin-bottom:0.5rem;">GA4 Key Event TODOs (user action — flip toggles in GA4 Admin)</h4>
+  <table style="margin-bottom:1.5rem;">
+    <thead><tr><th>ID</th><th>Event</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td class="id-cell">G1</td><td><code>phone_click</code></td><td><span class="badge badge-shipped">Marked Feb 28, 2026</span></td></tr>
+      <tr><td class="id-cell">G2</td><td><code>generate_lead</code></td><td><span class="badge badge-shipped">Marked Feb 28, 2026</span></td></tr>
+      <tr><td class="id-cell">G3</td><td><code>form_submit_lead</code> — primary form conversion (carries <code>lead_type</code>)</td><td><span class="badge badge-pending">Pending user toggle</span></td></tr>
+      <tr><td class="id-cell">G4</td><td><code>thanks_page_view</code> — durable post-submit landmark; Smart Bidding signal</td><td><span class="badge badge-pending">Pending user toggle</span></td></tr>
+      <tr><td class="id-cell">G5</td><td><code>estimator_opt_in</code> — high-intent estimator wizard completion + opt-in</td><td><span class="badge badge-pending">Pending user toggle</span></td></tr>
+    </tbody>
+  </table>
+
   <table>
     <thead><tr><th>#</th><th>ID</th><th>Item</th><th>Effort</th></tr></thead>
     <tbody>
       <tr><td class="num-cell">1</td><td class="id-cell">C1</td><td><strong>Microsoft Clarity heatmap (FREE; install FIRST — needs 30+ days runtime)</strong></td><td>30 min</td></tr>
       <tr><td class="num-cell">2</td><td class="id-cell">M5</td><td>Conversion baseline captured</td><td>30 min</td></tr>
-      <tr><td class="num-cell">3</td><td class="id-cell">P1.11</td><td><code>/thanks</code> post-submit page + Resend auto-reply</td><td>4 hrs</td></tr>
+      <tr><td class="num-cell">3</td><td class="id-cell">P1.11</td><td><code>/thanks</code> post-submit page + Resend auto-reply <span class="badge badge-shipped" style="margin-left:0.4rem;">Feb 28, 2026</span></td><td>4 hrs</td></tr>
       <tr><td class="num-cell">4</td><td class="id-cell">C7</td><td>"What happens next" copy below every form</td><td>1 hr</td></tr>
       <tr><td class="num-cell">5</td><td class="id-cell">P1.10</td><td><strong>Progressive form redesign (30–50% submit lift)</strong></td><td>4–6 hrs</td></tr>
       <tr><td class="num-cell">6</td><td class="id-cell">C4</td><td>Form abandonment tracking — GA4 events on field-blur</td><td>1 hr</td></tr>
@@ -825,6 +846,51 @@
       <tr><td>Next.js 15→16 upgrade</td><td>Premature; wait until forced by security or peer-dep</td></tr>
       <tr><td>DNS GoDaddy → Vercel CNAME</td><td>Zero SEO/conversion impact; ops cleanup only</td></tr>
       <tr><td>P2.5 Sanity webhook ISR</td><td>Optimization without measurable benefit; defer unless TTFB surfaces as CWV issue</td></tr>
+      <tr><td>P3 Housecall Pro API integration</td><td>Operations efficiency, not SEO/conversion</td></tr>
+      <tr><td>P2.21 Server-Side GTM</td><td>Correctly deferred to Month 4+ contingency</td></tr>
+      <tr><td>Wix subscription cancellation</td><td>Operational; user-led, no roadmap dependency</td></tr>
+      <tr><td>RealWork subscription evaluation</td><td>Operational; user decision</td></tr>
+      <tr><td>Case studies page, YouTube IAQ embed</td><td>P3 backlog; revisit after Phase 2b mature</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============ Rules ============ -->
+<section id="rules">
+  <h2>Critical Sequencing Rules</h2>
+  <ol class="rule-list">
+    <li><strong>GBP verification (P1.8) starts on Day 1 of Phase 2b.</strong> Verification takes 5–14 days, blocks the 60-day GBP uplift compounding window. Do not delay.</li>
+    <li><strong>Microsoft Clarity (C1) installs on Day 1 of Phase 3.</strong> Needs 30+ days runtime to produce useful heatmaps before P1.10/P1.9 changes ship.</li>
+    <li><strong>CallRail/DNI (P2.19) must be live before Day 1 of Phase 5.</strong> Without it, you'll optimize ads on 20–40% of conversion signal.</li>
+    <li><strong>Phase 2b runs PARALLEL with Phase 3.</strong> Don't wait for the 28-week city content sprint to finish before shipping conversion fixes.</li>
+    <li><strong>No two phases skip ahead.</strong> Phase 1 must complete (or have ticketed plan) before Phase 2a starts. Phase 4 must NOT start before Phase 3 baseline is trending positive.</li>
+  </ol>
+</section>
+
+</main>
+
+<footer class="bottom">
+  Internal review document · Not crawled (<code>noindex,nofollow</code>) · Source: <code>/app/memory/ROADMAP.md</code> · Companion: <a href="/sitemap-preview.html">sitemap-preview.html</a>
+</footer>
+
+<script>
+  // Active TOC link tracking
+  const sections = document.querySelectorAll('section[id]');
+  const tocLinks = document.querySelectorAll('nav.toc a');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + id));
+      }
+    });
+  }, { rootMargin: '-100px 0px -60% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
+efit; defer unless TTFB surfaces as CWV issue</td></tr>
       <tr><td>P3 Housecall Pro API integration</td><td>Operations efficiency, not SEO/conversion</td></tr>
       <tr><td>P2.21 Server-Side GTM</td><td>Correctly deferred to Month 4+ contingency</td></tr>
       <tr><td>Wix subscription cancellation</td><td>Operational; user-led, no roadmap dependency</td></tr>
