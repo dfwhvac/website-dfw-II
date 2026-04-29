@@ -3,7 +3,22 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Phone, Mail, MapPin, Clock, Facebook, Instagram, Twitter, Linkedin, Youtube } from 'lucide-react'
+import { Phone, Mail, MapPin, Clock, Facebook, Linkedin, Twitter, Youtube } from 'lucide-react'
+
+// Inline Google "G" logo SVG. Lucide-react doesn't ship brand logos for
+// licensing reasons, so we keep this minimal inline component (~700 bytes,
+// no extra HTTP request). Google's brand guidelines explicitly permit using
+// the G logo to link to one's own Google Business Profile.
+const GoogleG = ({ className }) => (
+  <svg
+    viewBox="0 0 24 24"
+    className={className}
+    aria-hidden="true"
+    fill="currentColor"
+  >
+    <path d="M21.35 11.1H12v3.2h5.35c-.25 1.5-1.7 4.4-5.35 4.4-3.22 0-5.85-2.66-5.85-5.95S8.78 6.8 12 6.8c1.83 0 3.06.78 3.76 1.45l2.57-2.47C16.74 4.27 14.55 3.3 12 3.3 6.92 3.3 2.8 7.42 2.8 12.5S6.92 21.7 12 21.7c6.93 0 9.5-4.85 9.5-7.39 0-.5-.05-.88-.15-1.21z" />
+  </svg>
+)
 
 // Default footer sections (used as fallback when Sanity data not available)
 const defaultFooterSections = [
@@ -34,22 +49,23 @@ const defaultFooterSections = [
   }
 ]
 
+// Social row order: Facebook → LinkedIn → Google. URLs are placeholders
+// pending owner provisioning (see ROADMAP S-FOOTER-1). Once URLs are pasted
+// in here (or set in Sanity siteSettings.socialLinks), the icons go live.
 const defaultSocialLinks = [
   { platform: 'facebook', url: '#' },
-  { platform: 'instagram', url: '#' },
-  { platform: 'twitter', url: '#' },
+  { platform: 'linkedin', url: '#' },
+  { platform: 'google', url: '#' },
 ]
 
 // Social icon mapper
 const SocialIcon = ({ platform, className }) => {
   const icons = {
     facebook: Facebook,
-    instagram: Instagram,
-    twitter: Twitter,
     linkedin: Linkedin,
+    twitter: Twitter,
     youtube: Youtube,
-    google: MapPin, // Using MapPin as placeholder for Google Business
-    yelp: MapPin, // Using MapPin as placeholder for Yelp
+    google: GoogleG,
   }
   const Icon = icons[platform] || Facebook
   return <Icon className={className} />
@@ -124,7 +140,7 @@ const Footer = ({ companyInfo = {}, siteSettings = null }) => {
             <p className="text-gray-300 text-sm leading-relaxed">
               {footerTagline}
             </p>
-            <div className="flex space-x-4">
+            <div className="flex space-x-3">
               {socialLinks.map((social, index) => {
                 const platformName = social.platform
                   ? social.platform.charAt(0).toUpperCase() + social.platform.slice(1)
@@ -137,9 +153,9 @@ const Footer = ({ companyInfo = {}, siteSettings = null }) => {
                     rel="noopener noreferrer"
                     aria-label={`DFW HVAC on ${platformName}`}
                     data-testid={`footer-social-${social.platform || 'link'}`}
-                    className="text-gray-400 hover:text-electric-blue transition-colors"
+                    className="w-9 h-9 rounded-full bg-white text-prussian-blue hover:bg-electric-blue hover:text-white flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-electric-blue focus:ring-offset-2 focus:ring-offset-gray-900"
                   >
-                    <SocialIcon platform={social.platform} className="w-8 h-8" />
+                    <SocialIcon platform={social.platform} className="w-4 h-4" />
                   </a>
                 )
               })}
@@ -174,18 +190,18 @@ const Footer = ({ companyInfo = {}, siteSettings = null }) => {
                 <div className="font-semibold underline underline-offset-2 decoration-gray-500">{phoneDigits}</div>
               </a>
               <a href="/contact" className="flex items-center gap-3 text-sm text-white underline underline-offset-2 decoration-gray-500 hover:decoration-white transition-colors">
-                <Mail className="w-4 h-4 text-electric-blue" />
+                <Mail className="w-4 h-4 text-vivid-red" />
                 <span>Send Us a Message</span>
               </a>
               {showServiceAreas && (
                 <div className="flex items-center gap-3 text-sm">
-                  <MapPin className="w-4 h-4 text-electric-blue" />
+                  <MapPin className="w-4 h-4 text-alert-amber" />
                   <span className="text-gray-300">{address}</span>
                 </div>
               )}
               {showBusinessHours && businessHours && (
                 <div className="flex items-center gap-3 text-sm">
-                  <Clock className="w-4 h-4 text-electric-blue" />
+                  <Clock className="w-4 h-4 text-alert-amber" />
                   <div className="text-gray-300">
                     <div>Mon-Fri: {businessHours.monday}</div>
                     <div>Sat-Sun: Closed</div>
