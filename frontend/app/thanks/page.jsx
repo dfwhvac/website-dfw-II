@@ -63,7 +63,7 @@ const NEXT_STEPS_ACTIVE = [
     icon: Clock,
     title: 'Same-day service across DFW',
     body:
-      'For service calls placed before 2pm on a weekday, we get a tech on-site the same day. After-hours and weekend dispatch is available — ask when we call.',
+      'For service calls placed before 2pm on a weekday, we work to get a tech on-site the same day when available. After-hours and weekend dispatch is also available — ask when we call.',
   },
   {
     icon: CheckCircle2,
