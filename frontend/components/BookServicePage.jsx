@@ -86,9 +86,9 @@ const BookServicePage = () => {
           <div>
             <LeadForm 
               title="Request Your Free Estimate"
-              description="Fill out the form below and we'll contact you within 24 hours to schedule your free estimate."
+              description="Fill out the form below and we'll contact you within 2 business hours to schedule your free estimate."
               leadType="estimate"
-              successMessage="Thank you! We'll contact you within 24 hours to schedule your free estimate."
+              successMessage="Thank you! We'll contact you within 2 business hours to schedule your free estimate."
               showEstimateLink={false}
             />
           </div>
@@ -152,7 +152,7 @@ const BookServicePage = () => {
                   <div className="flex items-center gap-3">
                     <Clock className="w-5 h-5 text-electric-blue flex-shrink-0" />
                     <span className="text-gray-700">
-                      <strong>Fast Response</strong> — Contact within 24 hours
+                      <strong>Fast Response</strong> — Contact within 2 business hours
                     </span>
                   </div>
                   <div className="flex items-center gap-3">

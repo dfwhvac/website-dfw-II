@@ -129,6 +129,7 @@ Document captures live in `/app/memory/audits/2026-04-27_KPI_Baseline.md`.
 | ✅ Apr 27 audit | Site-wide indexing audit completed (89.4% indexed, 93.6% effective) | Apr 27, 2026 |
 | ✅ A1, A2 | `the-colony` + `commercial-heating` GSC re-submitted | Apr 27, 2026 |
 | ✅ A4 + P1.4 | Commercial-heating Sanity content fully populated (12 fields written: 5 hero benefits, 8 what-we-do items, 5 process steps, 6 why-choose-us, emergency block, 6 commercial FAQs) — kills the duplicate-content rejection | Apr 27, 2026 |
+| ✅ A4 (round 2) | Commercial-air-conditioning + commercial-maintenance Sanity content populated (12 fields each, 6 differentiated FAQs each — closes the entire commercial silo) | Feb 28, 2026 |
 | ✅ S1 | AI crawler robots.txt explicit allow (GPTBot, ChatGPT-User, OAI-SearchBot, ClaudeBot, Claude-Web, anthropic-ai, PerplexityBot, Perplexity-User, Google-Extended, Applebot-Extended, CCBot, Bytespider, Diffbot, FacebookBot, Meta-ExternalAgent) | Apr 27, 2026 |
 | ✅ S2 | Schema audit + completion: WebApplication + HowTo (6-step) on `/replacement-estimator`; FAQPage emitted from `ServiceTemplate` for any service with FAQs (`commercial-heating` now ships 6 commercial FAQs as JSON-LD) | Apr 27, 2026 |
 | ✅ S5 | Image alt-text audit — codebase clean (no `<img>` tags, no empty `alt=""`, all images use Next.js `<Image>` with alt) | Apr 27, 2026 |
@@ -208,6 +209,8 @@ Document captures live in `/app/memory/audits/2026-04-27_KPI_Baseline.md`.
 | ✅ P1.13 | `/services/system-replacement` revenue-center page | Apr 24, 2026 |
 | ✅ P1.15 | `/repair-or-replace` AEO decision-framework article | Apr 24, 2026 |
 | ✅ P1.7 | GA4 key events: `generate_lead`, `phone_click` | Apr 24, 2026 |
+| ✅ P1.11 | `/thanks` post-submit page + Resend customer auto-reply (kills post-submit ghosting; type-aware copy: service/estimate/contact/estimator) | Feb 28, 2026 |
+| ✅ G1+G2 | GA4 Key Events marked: `phone_click`, `generate_lead` | Feb 28, 2026 (user) |
 
 ## P3.B — KPI baseline (capture in Phase 3 week 1)
 
@@ -237,7 +240,7 @@ Document captures live in `/app/memory/audits/2026-04-27_KPI_Baseline.md`.
 |---|---|---|---|---|
 | 1 | C1 | **Microsoft Clarity heatmap + session recording installed (FREE; needs 30+ days runtime to gather data — install FIRST)** | 30 min | Agent |
 | 2 | M5 | Conversion baseline captured in `/app/memory/audits/2026-04-27_KPI_Baseline.md` | 30 min | User + agent |
-| 3 | P1.11 | `/thanks` post-submit page + Resend auto-reply (kills post-submit ghosting) | 4 hrs | Agent |
+| 3 | P1.11 | `/thanks` post-submit page + Resend auto-reply (kills post-submit ghosting) | 4 hrs | ~~Agent~~ ✅ Feb 28, 2026 |
 | 4 | C7 | "What happens next" copy below every form ("we'll call within 1 business hour") | 1 hr | Agent |
 | 5 | P1.10 | **Progressive form redesign** (2-field → expand; expected 30–50% submit lift) | 4–6 hrs | Agent |
 | 6 | C4 | Form abandonment tracking — GA4 events on field-blur | 1 hr | Agent |
@@ -269,6 +272,22 @@ Document captures live in `/app/memory/audits/2026-04-27_KPI_Baseline.md`.
 | ID | Item | Date |
 |---|---|---|
 | ✅ P1.7 | GA4 `generate_lead` + `phone_click` key events | Apr 24, 2026 |
+| ✅ G1 | GA4 Key Event marked: `phone_click` | Feb 28, 2026 (user) |
+| ✅ G2 | GA4 Key Event marked: `generate_lead` | Feb 28, 2026 (user) |
+
+## P4.A.1 — GA4 Key Event TODOs (user action, no code work needed)
+
+GA4 → Admin → Events → toggle the "Mark as key event" switch for each. All three events are **already firing** from the live codebase; flipping the toggle just makes them eligible for Conversions reports + Smart Bidding optimization once Phase 5 ad spend goes live.
+
+| ID | Event | Where it fires | Why it matters |
+|---|---|---|---|
+| G3 | `form_submit_lead` | `LeadForm.jsx`, `SimpleContactForm.jsx` after successful `/api/leads` POST | Primary form conversion. Carries `lead_type` param for service/estimate/contact segmentation |
+| G4 | `thanks_page_view` | `/thanks` page hydration on any successful submission redirect | Durable conversion landmark. Reconciles against `form_submit_lead` to catch any drops; the one Smart Bidding leans on once Phase 5 spend goes live |
+| G5 | `estimator_opt_in` | `/replacement-estimator` when a user opts in for the on-site estimate after seeing their range (`EstimatorWizard.jsx:196`) | High-intent — wizard completion AND opt-in. Higher quality signal than a generic form submit |
+
+**Future events (mark as Key Events when they ship):**
+- `form_step_1_complete` — fires on first-section completion in the progressive form (P1.10, not shipped yet)
+- `estimator_complete` — fires when the wizard hits the result screen with or without opt-in (deferred; can derive from current funnel)
 
 ## P4.B — KPI baseline (pre-launch validation)
 

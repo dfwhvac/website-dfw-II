@@ -1,5 +1,6 @@
 # DFW HVAC — Product Requirements Document (shim)
 
+**Last reviewed:** February 28, 2026
 **⚠️ NEW AGENTS — read `/app/memory/00_START_HERE.md` first for the Agent SOP.**
 
 This file is a minimal index. The live content lives in three places:

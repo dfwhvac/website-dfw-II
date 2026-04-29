@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { Label } from './ui/label'
@@ -12,7 +13,7 @@ import { loadRecaptchaOnce } from './RecaptchaScript'
 
 const SimpleContactForm = ({ 
   title = "Send Us a Message", 
-  description = "Fill out the form below and we'll get back to you within 24 hours",
+  description = "Fill out the form below and we'll get back to you within 1 business day",
 }) => {
   const [formData, setFormData] = useState({
     firstName: '',
@@ -22,6 +23,7 @@ const SimpleContactForm = ({
     message: ''
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const router = useRouter()
 
   const handleInputChange = (field, value) => {
     if (field === 'phone') {
@@ -93,7 +95,7 @@ const SimpleContactForm = ({
           }
         }
 
-        toast.success("Thank you! We'll get back to you within 24 hours.")
+        toast.success("Thank you! We'll get back to you within 1 business day.")
         setFormData({
           firstName: '',
           lastName: '',
@@ -101,6 +103,8 @@ const SimpleContactForm = ({
           phone: '',
           message: ''
         })
+        // Redirect to /thanks (P1.11) — durable post-submit landmark.
+        router.push('/thanks?type=contact')
       } else {
         toast.error(result.message || "Something went wrong. Please try again.")
       }
@@ -208,7 +212,7 @@ const SimpleContactForm = ({
           </Button>
 
           <p className="text-center text-xs text-gray-500">
-            We'll get back to you within 24 hours
+            We'll get back to you within 1 business day
           </p>
         </form>
       </CardContent>
