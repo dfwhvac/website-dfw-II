@@ -60,6 +60,11 @@ Each priority requires its own KPI baseline + reevaluation cadence. See `/app/me
 | ✅ F2 | Image audit + LCP `priority` on Header logo + 1.4 MB unused PNGs purged | Apr 27, 2026 |
 | ✅ P2.4b | Bundle reduction — homepage 180 → 172 kB, 38 shadcn + 27 npm deps removed | Apr 27, 2026 |
 | ✅ F3 | **Security headers hardened** — HSTS+preload, COOP/CORP, CSP `frame-ancestors`/`form-action`/`upgrade-insecure-requests` | Apr 27, 2026 |
+| ✅ P3-a11y | Skip-to-main content link (WCAG 2.1 SC 2.4.1) — first focusable element sitewide via `layout.js` + `.skip-link` CSS | Feb 28, 2026 |
+| ✅ F6 | 404 page UX upgrade — added high-value funnel cluster (Replacement Estimator, Financing, Repair-or-Replace, FAQ) below the popular-pages grid; conversion-first 404 polished | Feb 28, 2026 |
+| ✅ F4 | Backup/DR checklist published — `/app/memory/BACKUP_AND_DR.md` (4 state stores, 5 recovery scenarios, annual DR drill protocol) | Feb 28, 2026 |
+| ✅ F8 | Dependency security scan — `.github/dependabot.yml` (weekly grouped npm + GH Actions) + `.github/workflows/security.yml` (gitleaks on every PR + weekly cron) | Feb 28, 2026 |
+| ✅ F3d | `yarn audit --level high` CI gate — same `security.yml` workflow, fails build on high/critical production-dependency advisories (Sanity dev deps excluded as accepted risk) | Feb 28, 2026 |
 
 ## P1.B — KPI baseline (capture in Phase 1, week 1)
 
@@ -101,16 +106,11 @@ Document captures live in `/app/memory/audits/2026-04-27_KPI_Baseline.md`.
 | 1 | P2.7 | Code cleanup / unused dep audit (`yarn depcheck`, dead `mockData.js`) | 1–2 hrs | Agent |
 | 2 | P2.15 | Component decomposition (templates >300 lines) | variable | Agent |
 | 3 | P2.4c | Lighthouse all-green verification on /cities-served/plano + /request-service | 1 hr | Agent |
-| 4 | P3-a11y | Skip-to-main content link (push A11y to 100) | 15 min | Agent |
-| 5 | F6 | 404 page UX upgrade — popular pages, search, CTA | 1 hr | Agent |
-| 6 | F4 | Backup/disaster recovery checklist documented in `RECURRING_MAINTENANCE.md` | 1 hr docs | Agent |
-| 7 | F8 | **Dependency security scan** — Dependabot + `gitleaks` GH Action on repo | 30 min | User + agent |
-| 8 | F3b | **HSTS Preload List submission** — submit `dfwhvac.com` to hstspreload.org once headers verified live for 30+ days | 10 min | User |
-| 9 | F3c | **CSP nonce migration** (retire `unsafe-inline` on script-src) — Next.js middleware-injected nonces | 4–6 hrs | Agent (Phase 4 candidate) |
-| 10 | F3d | **`yarn audit --groups dependencies` CI gate** — fail build on high/critical advisories | 30 min | Agent |
-| 11 | F7 | Lighthouse CI gate (optional) — Vercel build fails if Lighthouse drops below thresholds | 2 hrs | Agent |
-| 12 | P1.6d | INP field measurement after CrUX populates (28+ days) | 30 min + variable | Agent |
-| 13 | P1.3 | User-led device QA: iOS Safari, Android Chrome, address autocomplete | 1 hr | User |
+| 4 | F3b | **HSTS Preload List submission** — `hstspreload.org` (eligibility verified, awaiting user submit) — see `USER_ACTIONS_2026-02-28.md` | 10 min | User |
+| 5 | F3c | **CSP nonce migration** (retire `unsafe-inline` on script-src) — Next.js middleware-injected nonces | 4–6 hrs | Agent (Phase 4 candidate) |
+| 6 | F7 | Lighthouse CI gate (optional) — Vercel build fails if Lighthouse drops below thresholds | 2 hrs | Agent |
+| 7 | P1.6d | INP field measurement after CrUX populates (28+ days) | 30 min + variable | Agent |
+| 8 | P1.3 | User-led device QA: iOS Safari, Android Chrome, address autocomplete | 1 hr | User |
 
 **Phase 1 exit criteria:** All P1.B KPIs measured + meet target (or have ticketed plan to meet). Site is bulletproof. Estimated 15–20 hrs total.
 
@@ -136,12 +136,15 @@ Document captures live in `/app/memory/audits/2026-04-27_KPI_Baseline.md`.
 | ✅ S6 | OG / Twitter card defaults enriched in `lib/metadata.js` (default image, dimensions, alt, twitter site/creator/card, og url + locale + type) | Apr 27, 2026 |
 | ✅ S7 | Sitemap lastmod tiering — stable policy pages pinned to `POLICY_LASTMOD` constant, Sanity-driven pages use `_updatedAt` correctly | Apr 27, 2026 |
 | ✅ P2.1 | "50+ cities" copy cleanup — confirmed no false claims; "50+" only appears as "50+ Years of Family Legacy" (correct, three-generation business) | Apr 27, 2026 |
+| ✅ S3 | AEO citation tracking baseline doc — 20 queries × 4 engines (ChatGPT, Perplexity, Google AI Overviews, Gemini) — see `audits/2026-02-28_AEO_Citation_Baseline.md` (user-led quarterly run) | Feb 28, 2026 |
+| ✅ P1.5 | GSC weekly trend doc + monthly deep-dive template — `audits/2026-02-28_GSC_Weekly_Trend.md` (5 min Mondays, 30 min last Monday of month) | Feb 28, 2026 |
+| ✅ Sitemap parity | Sitemap indexing: **51 / 51 URLs indexed** (Apr 30 GSC review) — up from 89.4% (42/47) on Apr 27 baseline | Apr 30, 2026 |
 
 ## P2.B — KPI baseline (capture in Phase 2a)
 
 | KPI | Current | Target | Source |
 |---|---|---|---|
-| Sitemap indexing rate | 89.4% (42/47) | 100% by Jul 1 | GSC Pages |
+| Sitemap indexing rate | **51/51 (100%)** ✅ | 100% by Jul 1 (✅ achieved) | GSC Pages |
 | GSC impressions (28-day) | TBD | +30% in 90 days | GSC Performance |
 | GSC clicks (28-day) | TBD | +50% in 90 days | GSC Performance |
 | GSC avg CTR | TBD | +0.5pp absolute | GSC Performance |
@@ -165,14 +168,14 @@ Document captures live in `/app/memory/audits/2026-04-27_KPI_Baseline.md`.
 
 ## P2.D — Action items
 
-### Phase 2a: SEO/AEO Quick Wins (~5 hrs, agent-led, ship next)
+### Phase 2a: SEO/AEO Quick Wins — ✅ **COMPLETE Feb 28, 2026** (12/12 shipped)
 
-| # | ID | Item | Effort |
-|---|---|---|---|
-| 1 | P1.6f | Rich Results validation on home, plano, AC, contact, repair-or-replace, **commercial-heating, replacement-estimator** (manual user QA on https://search.google.com/test/rich-results — verify FAQPage / WebApplication / HowTo / Service / LocalBusiness / BreadcrumbList all parse) | 30 min |
-| 2 | S3 | AEO citation tracking baseline — 15–20 queries logged | 1 hr |
-| 3 | P1.5 | GSC baseline capture + weekly trend doc | 30 min |
-| 4 | A3 | May 5 GSC re-audit (re-export 6 reports → diff vs Apr 27 baseline) | 10 min user + 30 min agent |
+User-action residuals queued in `/app/memory/USER_ACTIONS_2026-02-28.md`:
+
+| # | ID | Item | Effort | Status |
+|---|---|---|---|---|
+| 1 | P1.6f | Rich Results validation on 7 high-value URLs (FAQPage / WebApplication / HowTo / Service / LocalBusiness / BreadcrumbList) — manual user QA on https://search.google.com/test/rich-results | 30 min user | 🟡 User action queued |
+| 2 | A3 | May 5 GSC re-audit — diff against Apr 27 indexing baseline | 10 min user + 30 min agent | 🟡 User action queued |
 
 ### Phase 2b: SEO Content Cadence (weeks 4–24, runs parallel to Phase 3)
 

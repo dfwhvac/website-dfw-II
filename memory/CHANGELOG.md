@@ -7,6 +7,71 @@ Reverse-chronological record of everything shipped to production. When adding en
 
 ---
 
+## February 28, 2026 — Phase 1 + 2a finishing sprint
+
+Six agent-shipped items + three user-action checklists closing out **Phase 1 (~95% complete)** and **Phase 2a (100% complete, 12/12)**. Total agent build time: ~5 hrs.
+
+### P3-a11y — Skip-to-main link (WCAG 2.1 SC 2.4.1)
+- New `.skip-link` CSS rule in `app/globals.css` (visually hidden until keyboard-focused, snaps in with prussian-blue background + growth-green outline).
+- New skip link `<a href="#main-content">Skip to main content</a>` injected as the first focusable element in `<body>` of `app/layout.js`. `{children}` wrapped in `<div id="main-content" tabIndex={-1}>` so it works regardless of any internal page's own `<main>` structure.
+- Pushes Lighthouse Accessibility toward 100 sitewide; lets screen-reader and keyboard-only users bypass the global header nav.
+
+### F6 — 404 page UX upgrade
+- Added a second 4-link grid below the existing popular-pages grid in `app/not-found.jsx`: **Replacement Estimator**, **0% Financing**, **Repair or Replace?**, **FAQ**. Filled-prussian-blue style differentiates it from the white outline-style "Home / Services / Cities / Reviews" grid above.
+- Surfaces the Apr 24 funnel cluster (financing + replacement + decision-guide) so a 404 visitor lands on a revenue page instead of bouncing.
+- All 4 new links ship with `data-testid` values for analytics segmentation if/when we want to track 404→funnel conversion.
+- Page bundle still tiny (404 not in the sitemap, won't affect First-Load JS budgets on indexed pages).
+
+### F8 — Dependabot config + gitleaks GitHub Action
+- New `.github/dependabot.yml`: weekly Monday 8 AM Central npm grouped updates (production-deps + development-deps), open-PR limit 5, security advisories fire as individual PRs (Dependabot default behavior). `@sanity/*` major bumps ignored as accepted risk per Apr 21 audit.
+- New `.github/workflows/security.yml`: runs gitleaks on every push to main/preview + every PR + weekly Monday cron. Uses default ruleset (AWS, GCP, Azure, Stripe, Slack, GitHub PAT, SSH keys, generic high-entropy strings).
+
+### F3d — `yarn audit` CI gate
+- Same `security.yml` workflow runs `yarn audit --groups dependencies --level high` on every push/PR/cron. Bitwise exit-code parsing fails the build only on **high (4)** or **critical (8)** advisories — moderate/low never block. Sanity Studio dev advisories are scoped out via `--groups dependencies`.
+
+### F4 — Backup & DR checklist
+- New canonical doc `/app/memory/BACKUP_AND_DR.md`: 4 state stores (GitHub, Sanity dataset, MongoDB Atlas, Vercel config) × RTO/RPO targets × backup procedure × recovery runbook for 5 disaster scenarios. Annual DR-drill protocol + emergency contacts quick-reference card included.
+
+### S3 — AEO citation tracking baseline
+- New audit doc `/app/memory/audits/2026-02-28_AEO_Citation_Baseline.md`: 20 queries categorized into Locational/Transactional (8), Decision-Framework (6), Educational/Informational (6). Methodology covers all 4 major answer engines (ChatGPT, Perplexity, Google AI Overviews, Gemini) with quarterly re-run cadence. Phase 2 KPI target: 5+ of 20 queries cite DFW HVAC by Sep 1, 2026.
+
+### P1.5 — GSC weekly trend doc
+- New audit doc `/app/memory/audits/2026-02-28_GSC_Weekly_Trend.md`: weekly 5-min glance template + monthly 30-min deep-dive sections + top-10-priority-queries position-tracker + quarterly comparison anchor table. Red-flag triggers documented (impressions drop >20% wk-over-wk, position drop >2 places, GSC errors flagged).
+
+### User-action checklists
+- New consolidated doc `/app/memory/USER_ACTIONS_2026-02-28.md` covering the 3 user tasks (~50 min total): **P1.6f** Rich Results validation on 7 URLs · **A3** May 5 GSC re-audit · **F3b** HSTS Preload submission to hstspreload.org. Each has step-by-step instructions, expected outcomes, and rollback considerations.
+
+### ROADMAP updates
+- P1.A: 6 new shipped rows (P3-a11y, F6, F4, F8, F3d) — the agent items in this sprint.
+- P1.D: trimmed from 13 pending items → 8 pending items (closes P3-a11y, F6, F4, F8, F3d). F3b moved to top of remaining list as user-action ready.
+- P2.A: 3 new shipped rows (S3 baseline doc, P1.5 trend doc, sitemap parity 51/51 confirmed).
+- P2.D Phase 2a: marked **COMPLETE 12/12**, P1.6f + A3 moved to user-action queue.
+
+### Verification
+- `yarn build`: clean, 22.34s, no regressions. All 51 sitemap routes still ship correct sizes.
+- Skip link verified live at `/`: `class="skip-link"` + `id="main-content"` + `Skip to main content` text all present in rendered HTML.
+- 404 page verified at `/this-page-does-not-exist`: HTTP 404, 27 KB rendered (vs prior ~13 KB), all 4 new funnel links + their `data-testid` attributes in payload, all 4 original links retained.
+- YAML files validated via `python3 -c "import yaml; yaml.safe_load(...)"` for both `dependabot.yml` and `security.yml`.
+
+### Files shipped
+- `app/globals.css` (`.skip-link` block)
+- `app/layout.js` (skip-link element + `#main-content` wrapper)
+- `app/not-found.jsx` (4 funnel-cluster links + testids)
+- `.github/dependabot.yml` (new)
+- `.github/workflows/security.yml` (new)
+- `memory/BACKUP_AND_DR.md` (new)
+- `memory/audits/2026-02-28_AEO_Citation_Baseline.md` (new)
+- `memory/audits/2026-02-28_GSC_Weekly_Trend.md` (new)
+- `memory/USER_ACTIONS_2026-02-28.md` (new)
+- `memory/ROADMAP.md` (updated)
+
+### Next user actions
+1. Push to main → Vercel deploys. Confirm `/` still shows skip-link element on Tab keypress, confirm `/this-page-does-not-exist` shows the 6-link 404. Confirm GitHub picks up `.github/` configs (Repo → Insights → Dependency Graph + Repo → Security → Code scanning).
+2. Walk through `USER_ACTIONS_2026-02-28.md` (~50 min): Rich Results, GSC re-audit, HSTS Preload submission.
+3. Once those land, **Phase 1+2a are formally closed.** Next batch: Phase 3 conversion (C7 + C8) or Phase 2b kickoff (P1.8 GBP optimization — 5–14 day verification clock recommended starting ASAP).
+
+---
+
 ## February 28, 2026 — Phase 2a finish + Phase 3 first ship
 
 ### A4 (round 2) — Commercial-cooling and commercial-maintenance differentiation

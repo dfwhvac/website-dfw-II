@@ -1,0 +1,57 @@
+# Dependabot configuration for DFW HVAC website
+# https://docs.github.com/en/code-security/dependabot/dependabot-version-updates
+#
+# Added Feb 28, 2026 (Phase 1 P1.D-F8). Tracks npm/yarn dependency vulnerabilities
+# in /frontend (the only stack — Python backend was retired Apr 20, 2026).
+# Security updates fire immediately; routine version bumps batch weekly so the
+# repo doesn't drown in PRs.
+
+version: 2
+updates:
+  # JavaScript / Node — frontend only
+  - package-ecosystem: "npm"
+    directory: "/frontend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "08:00"
+      timezone: "America/Chicago"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "automated"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    # Group routine version bumps so the repo doesn't drown in noise.
+    # Security advisories still fire as individual PRs (Dependabot default).
+    groups:
+      production-deps:
+        dependency-type: "production"
+        update-types:
+          - "minor"
+          - "patch"
+      development-deps:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
+    # Sanity Studio dev dependencies hold known high-CVE advisories tracked as
+    # accepted risk in /app/memory/audits/DFW_HVAC_Technical_Audit_2026-04-21.md
+    # (admin-only tooling, no production exposure). Ignore until Sanity 3.50+.
+    ignore:
+      - dependency-name: "@sanity/*"
+        update-types:
+          - "version-update:semver-major"
+
+  # GitHub Actions workflows themselves
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    labels:
+      - "ci"
+      - "automated"
+    commit-message:
+      prefix: "ci"

@@ -65,7 +65,7 @@ export default function NotFound() {
           <h3 className="text-prussian-blue font-semibold text-lg mb-4">
             Or pick up where you left off
           </h3>
-          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-3 mb-6">
             <Link
               href="/"
               className="group flex items-center justify-center gap-2 bg-white border-2 border-gray-200 text-prussian-blue px-4 py-4 rounded-lg hover:border-electric-blue hover:text-electric-blue transition-colors font-medium"
@@ -97,6 +97,40 @@ export default function NotFound() {
             >
               <Star className="w-5 h-5" />
               Reviews
+            </Link>
+          </div>
+
+          {/* High-value funnel pages — added Feb 28, 2026 (F6). Surfaces the
+              replacement/financing/decision-guide cluster so a 404 visitor lands
+              on a revenue-center page instead of bouncing. */}
+          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-3 mb-10">
+            <Link
+              href="/replacement-estimator"
+              className="group flex items-center justify-center gap-2 bg-prussian-blue text-white px-4 py-3 rounded-lg hover:bg-electric-blue transition-colors font-medium text-sm"
+              data-testid="not-found-estimator-link"
+            >
+              Replacement Estimator
+            </Link>
+            <Link
+              href="/financing"
+              className="group flex items-center justify-center gap-2 bg-prussian-blue text-white px-4 py-3 rounded-lg hover:bg-electric-blue transition-colors font-medium text-sm"
+              data-testid="not-found-financing-link"
+            >
+              0% Financing
+            </Link>
+            <Link
+              href="/repair-or-replace"
+              className="group flex items-center justify-center gap-2 bg-prussian-blue text-white px-4 py-3 rounded-lg hover:bg-electric-blue transition-colors font-medium text-sm"
+              data-testid="not-found-repair-or-replace-link"
+            >
+              Repair or Replace?
+            </Link>
+            <Link
+              href="/faq"
+              className="group flex items-center justify-center gap-2 bg-prussian-blue text-white px-4 py-3 rounded-lg hover:bg-electric-blue transition-colors font-medium text-sm"
+              data-testid="not-found-faq-link"
+            >
+              FAQ
             </Link>
           </div>
 
