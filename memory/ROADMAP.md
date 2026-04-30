@@ -1,6 +1,6 @@
 # DFW HVAC — Roadmap
 
-**Last reviewed:** April 27, 2026
+**Last reviewed:** February 28, 2026
 **⚠️ Read `/app/memory/00_START_HERE.md` first for the Agent SOP.**
 **Source of truth for design decisions:** `/app/design_guidelines.md`
 **Companion files:** `CHANGELOG.md` (shipped items), `RECURRING_MAINTENANCE.md` (ongoing cadences), `audits/` (KPI baselines).
