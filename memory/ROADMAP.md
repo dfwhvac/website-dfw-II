@@ -236,13 +236,29 @@ Document captures live in `/app/memory/audits/2026-04-27_KPI_Baseline.md`.
 
 ## P3.D — Action items (in execution order)
 
-> 🟡 **S-FOOTER-1 (USER ACTION NEEDED, P0)** — Provide live URLs for the three footer social icons:
+> 🟡 **S-FOOTER-1 (USER ACTION NEEDED, P0)** — ✅ **CLOSED Apr 30, 2026.** All three footer social URLs live in Sanity `siteSettings.socialLinks`:
 >
-> 1. **Facebook** — *currently placeholder* (`https://facebook.com`). Provide your DFW HVAC Facebook Page URL (e.g., `https://www.facebook.com/dfwhvac`).
-> 2. **LinkedIn** — *currently placeholder* (`#`). Provide your DFW HVAC company LinkedIn URL (e.g., `https://www.linkedin.com/company/dfw-hvac/`).
-> 3. **Google Business Profile** — ✅ *already live* at `https://g.page/r/CcumMADJhchIEB0` (review-prompt shortlink — drops visitors directly into a "Rate your experience" stars prompt). If you'd rather route to your GBP overview instead of the review prompt, generate a new shortlink from your GBP "Share" button and share it.
->
-> URLs are stored in Sanity `siteSettings.socialLinks`. Once provided, the agent will run a small patch script (mirror of `patch-sitesettings-social-links.js`) to update them; no code deploy needed.
+> 1. **Facebook** → `https://www.facebook.com/dfwhvacllc`
+> 2. **LinkedIn** → `https://www.linkedin.com/company/68683407/` (numeric ID format; vanity URL recommended once owner has admin access — see ROADMAP backlog item below)
+> 3. **Google Business Profile** → `https://share.google/6FhwhOPxWGKDg9vH8` (GBP overview — reviews, photos, hours, directions)
+
+### S-FOOTER-2 — LinkedIn vanity URL (low priority, optional)
+
+- **Status:** Backlog
+- **Trigger:** when owner has admin access to LinkedIn Company Page
+- **Action:** LinkedIn Company Page → Admin tools → Edit page → Public URL → set vanity slug like `dfw-hvac` (so the URL becomes `https://www.linkedin.com/company/dfw-hvac/` instead of the numeric ID).
+- Once claimed, paste the new URL and run the 30-second Sanity patch. Numeric URL works fine in the meantime.
+
+### S-GSC-1 — Re-pull GSC pageindex snapshot (7-day check)
+
+- **Status:** 🟡 Pending — schedule for **~May 7, 2026**
+- **Origin:** Apr 30, 2026 GSC review confirmed 5 of 7 not-indexed URLs are healthy (canonicalization redirects, intentional noindex, working as designed). 2 URLs were action items (Validate Fix on `/aboutus` and `/servicecall`; Wix-prefix removal request submitted). Google typically clears these within 3–7 days.
+- **Action:** Re-pull GSC → Indexing → Pages report. Confirm:
+  1. "Not found (404)" count drops from 1 → 0 (servicecall fix validated)
+  2. "Redirect error" count drops from 1 → 0 (aboutus fix validated)
+  3. "Excluded by 'noindex' tag" Wix PDF row drops or count decreases
+  4. Total indexed should hold at 58+ or grow as new content (commercial-cooling, commercial-maintenance Sanity content) gets re-crawled
+- **Effort:** 5 min user-side (just check the report and screenshot back).
 
 | # | ID | Item | Effort | Owner |
 |---|---|---|---|---|
