@@ -11,6 +11,7 @@ import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 
 const GA_ID = 'G-5MX2NE7C73'
+const CLARITY_ID = 'wjyapvd6n7'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -50,6 +51,21 @@ export default async function RootLayout({ children }) {
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
           gtag('config', '${GA_ID}');`}
+        </Script>
+        {/* Microsoft Clarity heatmaps + session recordings (Phase 3 P3.D-C1, Feb 28, 2026).
+            Production-only via hostname allow-list — same pattern as ga-preview-guard above.
+            FREE forever (Microsoft Advertising funds it). GDPR/CCPA-compliant out of the box,
+            anonymized PII automatically masked. afterInteractive strategy mirrors GA4 so we
+            capture the same session window across both tools. Used to capture pre-P1.10
+            (progressive form redesign) baseline of where users click, scroll, and abandon. */}
+        <Script id="ms-clarity" strategy="afterInteractive">
+          {`(function(c,l,a,r,i,t,y){
+            var h=l.location.hostname;
+            if(h!=='www.dfwhvac.com'&&h!=='dfwhvac.com')return;
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+          })(window, document, "clarity", "script", "${CLARITY_ID}");`}
         </Script>
       </head>
       <body className={inter.className}>

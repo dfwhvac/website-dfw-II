@@ -236,13 +236,29 @@ Document captures live in `/app/memory/audits/2026-04-27_KPI_Baseline.md`.
 
 ## P3.D — Action items (in execution order)
 
-> 🟡 **S-FOOTER-1 (USER ACTION NEEDED, P0)** — Provide live URLs for the three footer social icons:
+> 🟡 **S-FOOTER-1 (USER ACTION NEEDED, P0)** — ✅ **CLOSED Apr 30, 2026.** All three footer social URLs live in Sanity `siteSettings.socialLinks`:
 >
-> 1. **Facebook** — *currently placeholder* (`https://facebook.com`). Provide your DFW HVAC Facebook Page URL (e.g., `https://www.facebook.com/dfwhvac`).
-> 2. **LinkedIn** — *currently placeholder* (`#`). Provide your DFW HVAC company LinkedIn URL (e.g., `https://www.linkedin.com/company/dfw-hvac/`).
-> 3. **Google Business Profile** — ✅ *already live* at `https://g.page/r/CcumMADJhchIEB0` (review-prompt shortlink — drops visitors directly into a "Rate your experience" stars prompt). If you'd rather route to your GBP overview instead of the review prompt, generate a new shortlink from your GBP "Share" button and share it.
->
-> URLs are stored in Sanity `siteSettings.socialLinks`. Once provided, the agent will run a small patch script (mirror of `patch-sitesettings-social-links.js`) to update them; no code deploy needed.
+> 1. **Facebook** → `https://www.facebook.com/dfwhvacllc`
+> 2. **LinkedIn** → `https://www.linkedin.com/company/68683407/` (numeric ID format; vanity URL recommended once owner has admin access — see ROADMAP backlog item below)
+> 3. **Google Business Profile** → `https://share.google/6FhwhOPxWGKDg9vH8` (GBP overview — reviews, photos, hours, directions)
+
+### S-FOOTER-2 — LinkedIn vanity URL (low priority, optional)
+
+- **Status:** Backlog
+- **Trigger:** when owner has admin access to LinkedIn Company Page
+- **Action:** LinkedIn Company Page → Admin tools → Edit page → Public URL → set vanity slug like `dfw-hvac` (so the URL becomes `https://www.linkedin.com/company/dfw-hvac/` instead of the numeric ID).
+- Once claimed, paste the new URL and run the 30-second Sanity patch. Numeric URL works fine in the meantime.
+
+### S-GSC-1 — Re-pull GSC pageindex snapshot (7-day check)
+
+- **Status:** 🟡 Pending — schedule for **~May 7, 2026**
+- **Origin:** Apr 30, 2026 GSC review confirmed 5 of 7 not-indexed URLs are healthy (canonicalization redirects, intentional noindex, working as designed). 2 URLs were action items (Validate Fix on `/aboutus` and `/servicecall`; Wix-prefix removal request submitted). Google typically clears these within 3–7 days.
+- **Action:** Re-pull GSC → Indexing → Pages report. Confirm:
+  1. "Not found (404)" count drops from 1 → 0 (servicecall fix validated)
+  2. "Redirect error" count drops from 1 → 0 (aboutus fix validated)
+  3. "Excluded by 'noindex' tag" Wix PDF row drops or count decreases
+  4. Total indexed should hold at 58+ or grow as new content (commercial-cooling, commercial-maintenance Sanity content) gets re-crawled
+- **Effort:** 5 min user-side (just check the report and screenshot back).
 
 | # | ID | Item | Effort | Owner |
 |---|---|---|---|---|
@@ -380,6 +396,77 @@ GA4 → Admin → Events → toggle the "Mark as key event" switch for each. All
 ---
 
 # 🟦 Recurring Maintenance
+
+**Full checklist:** `/app/memory/RECURRING_MAINTENANCE.md`
+
+| Cadence | Headline examples |
+|---|---|
+| Daily (automated) | `/api/cron/sync-reviews` |
+| Weekly | GBP Posts, GBP review-reply SLA, CrUX glance, GSC dashboard glance, GA4 conversion check |
+| Monthly | Lighthouse audit, review-count drift, GSC not-indexed review, Places API billing, M1–M5 device matrix, full conversion review |
+| Quarterly | Tech-SEO audit, AEO citation audit, competitor SEO audit, listings description refresh, title-tag CTR review, schema validation, sitemap/robots scan |
+| Semi-annual | NAP consistency audit, seasonal title/promo refresh, broken internal-link crawl |
+| Annual | Seed/mock data review, API key rotation, Sanity dataset backup, 301/410 prune, MongoDB retention review, Maps API referrer allowlist |
+
+---
+
+# 🛠️ Infrastructure / DevOps backlog (low urgency)
+
+Items that aren't tied to a Phase but should be executed on the owner's schedule. None of these are blocking. Each carries a clear "Trigger" — the condition under which the priority should be re-evaluated.
+
+### INFRA-1 — Vercel DNS migration to per-tenant records
+
+- **Status:** 🟡 Pending owner action (window: any Sunday evening within 14 days)
+- **Origin:** Vercel "DNS Change Recommended" banner spotted Apr 30, 2026 in Vercel → Domains. Vercel confirmed in-banner that current records will continue to work.
+- **Trigger to escalate:** Vercel announces a deprecation timeline for `cname.vercel-dns.com` / `76.76.21.21` (then promote to P0 immediately).
+- **Effort:** 5 min active work + 30 min monitoring during DNS propagation.
+- **Risk:** Low. Both old and new records work concurrently during propagation.
+
+**Goal:** migrate `dfwhvac.com` apex A record + `www.dfwhvac.com` CNAME from Vercel's legacy shared DNS plane to the new per-tenant records.
+
+| Record | Current (legacy, working) | New (recommended) |
+|---|---|---|
+| `dfwhvac.com` A | `76.76.21.21` | **`216.198.79.1`** |
+| `www.dfwhvac.com` CNAME | `cname.vercel-dns.com` | **`05b2be3b5601689b.vercel-dns-017.com`** |
+
+**Why migrate (not urgent, but worth doing):**
+
+- Better tenant isolation — your new CNAME is unique to your project (DDoS/security issues against other Vercel tenants can't affect you)
+- Automatic IP rotation — Vercel handles future infrastructure changes behind the dedicated CNAME with no further DNS edits required
+- Access to newer Vercel edge features (regional routing, advanced firewall rules)
+- Future-proofing against eventual deprecation of legacy records (likely 2028+)
+
+**Pre-migration checks (open these in two tabs):**
+
+- GoDaddy DNS Management for `dfwhvac.com` (registrar — nameservers `ns71/72.domaincontrol.com`)
+- Vercel → Domains page for the project
+
+**Step-by-step migration:**
+
+1. **GoDaddy → My Products → Domains → `dfwhvac.com` → DNS Management**
+2. **Edit apex A record:**
+    - Locate row: Type=`A`, Name=`@`, Value=`76.76.21.21`
+    - Change Value → `216.198.79.1`
+    - TTL: leave as-is or set to 600 for faster propagation
+    - Save
+3. **Edit www CNAME record:**
+    - Locate row: Type=`CNAME`, Name=`www`, Value=`cname.vercel-dns.com`
+    - Change Value → `05b2be3b5601689b.vercel-dns-017.com`
+    - TTL: leave as-is
+    - Save
+4. **Wait 10–30 minutes for DNS propagation.**
+5. **Vercel → Domains → click "Refresh"** on both `dfwhvac.com` and `www.dfwhvac.com`. The "DNS Change Recommended" badges should clear.
+6. **Verify globally** at `https://dnschecker.org`:
+    - `https://dnschecker.org/#A/dfwhvac.com` → should show `216.198.79.1` on most global resolvers
+    - `https://dnschecker.org/#CNAME/www.dfwhvac.com` → should show `05b2be3b5601689b.vercel-dns-017.com`
+
+**Schedule recommendation:** Sunday evening, US Central time. Avoid migrating in the same week as any active conversion A/B test (DNS flakiness would muddy the test signal). Avoid the day before a known marketing push.
+
+**Rollback (if anything goes wrong):** revert the two GoDaddy values to `76.76.21.21` and `cname.vercel-dns.com`. Propagation back will take another 10–30 minutes. Site remains accessible via `https://website-dfw-ii-b4zk.vercel.app` regardless of DNS state.
+
+**Post-migration:** mark INFRA-1 as ✅ shipped in this file with date.
+
+
 
 **Full checklist:** `/app/memory/RECURRING_MAINTENANCE.md`
 

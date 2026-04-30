@@ -23,22 +23,22 @@ const newSocialLinks = [
     _key: 'social1',
     _type: 'object',
     platform: 'facebook',
-    // Placeholder — see ROADMAP S-FOOTER-1. Owner to provide real URL.
-    url: 'https://facebook.com',
+    url: 'https://www.facebook.com/dfwhvacllc',
   },
   {
     _key: 'social2',
     _type: 'object',
     platform: 'linkedin',
-    // Placeholder — see ROADMAP S-FOOTER-1. Owner to provide real URL.
-    url: '#',
+    url: 'https://www.linkedin.com/company/68683407/',
   },
   {
     _key: 'social3',
     _type: 'object',
     platform: 'google',
-    // Live: GBP review-prompt link (drops customer directly into rate-stars).
-    url: 'https://g.page/r/CcumMADJhchIEB0',
+    // Updated Apr 30, 2026 — swapped from g.page/r/CcumMADJhchIEB0
+    // (review-prompt) to share.google overview link per user direction.
+    // Footer icon should route to GBP overview, not directly to rate-stars.
+    url: 'https://share.google/6FhwhOPxWGKDg9vH8',
   },
 ]
 
