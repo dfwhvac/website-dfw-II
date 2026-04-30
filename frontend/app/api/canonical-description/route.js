@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getCompanyInfo } from '@/lib/sanity'
 import { companyInfo as mockCompanyInfo } from '@/lib/mockData'
+import { REVIEW_COUNT_FALLBACK } from '@/lib/constants'
 
 // Always serve fresh — review count changes daily via /api/cron/sync-reviews
 export const dynamic = 'force-dynamic'
@@ -53,7 +54,7 @@ export async function GET() {
     source = 'fallback'
   }
 
-  const reviewCount = companyInfo.googleReviews || 145
+  const reviewCount = companyInfo.googleReviews || REVIEW_COUNT_FALLBACK
   const rating = companyInfo.googleRating || 5.0
   const tagline = 'Keeping it Cool — For Three Generations.'
 

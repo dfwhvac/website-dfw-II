@@ -69,8 +69,17 @@ export default async function RootLayout({ children }) {
         </Script>
       </head>
       <body className={inter.className}>
+        {/* Skip-to-main link — first focusable element on every page (WCAG 2.1 SC 2.4.1).
+            Visually hidden until keyboard-focused (see .skip-link in globals.css).
+            Targets the #main-content wrapper below so screen-reader and keyboard-only
+            users can bypass the global header nav. Added Feb 28, 2026 (P3-a11y). */}
+        <a href="#main-content" className="skip-link" data-testid="skip-to-main-link">
+          Skip to main content
+        </a>
         <ColorProvider brandColors={brandColors}>
-          {children}
+          <div id="main-content" tabIndex={-1}>
+            {children}
+          </div>
         </ColorProvider>
         <Toaster />
         <PhoneClickTracker />

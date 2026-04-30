@@ -1,5 +1,7 @@
 import Link from 'next/link'
 import { Phone, Home, MapPin, Wrench, Star, ArrowRight } from 'lucide-react'
+import { getCompanyInfo } from '@/lib/sanity'
+import { REVIEW_COUNT_FALLBACK } from '@/lib/constants'
 
 export const metadata = {
   title: 'Page Not Found | DFW HVAC',
@@ -17,9 +19,25 @@ export const metadata = {
  *
  * Added Apr 21, 2026 (PR #3, R2.1) — closes audit finding from P1.2.
  * Header/Footer intentionally omitted here so the 404 renders with minimal
- * dependencies (no Sanity fetch). Consistent branding via DFW colors.
+ * dependencies. Consistent branding via DFW colors.
+ *
+ * Feb 28, 2026: now async + fetches Sanity for live review count, with
+ * try/catch fallback to REVIEW_COUNT_FALLBACK so a Sanity outage never
+ * breaks the 404 page (it still renders, just with the static fallback).
  */
-export default function NotFound() {
+export default async function NotFound() {
+  // Single small Sanity read with try/catch — keeps the page resilient if
+  // Sanity is briefly unavailable, while pulling the live count when healthy.
+  let reviewCount = REVIEW_COUNT_FALLBACK
+  try {
+    const companyInfo = await getCompanyInfo()
+    if (companyInfo?.googleReviews) {
+      reviewCount = companyInfo.googleReviews
+    }
+  } catch {
+    // Silent fallback — 404 must always render.
+  }
+
   return (
     <div className="min-h-screen bg-white flex flex-col">
       <main className="flex-1 flex items-center justify-center px-4 py-16">
@@ -43,7 +61,7 @@ export default function NotFound() {
               {[...Array(5)].map((_, i) => (
                 <Star key={i} className="w-5 h-5 fill-[#F77F00] text-[#F77F00]" />
               ))}
-              <span className="text-blue-100 text-sm ml-2">5.0 · 145 Google Reviews</span>
+              <span className="text-blue-100 text-sm ml-2">5.0 · {reviewCount} Google Reviews</span>
             </div>
             <h2 className="text-2xl md:text-3xl font-bold mb-3">
               Call now for same-day service
@@ -65,7 +83,7 @@ export default function NotFound() {
           <h3 className="text-prussian-blue font-semibold text-lg mb-4">
             Or pick up where you left off
           </h3>
-          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-3 mb-6">
             <Link
               href="/"
               className="group flex items-center justify-center gap-2 bg-white border-2 border-gray-200 text-prussian-blue px-4 py-4 rounded-lg hover:border-electric-blue hover:text-electric-blue transition-colors font-medium"
@@ -97,6 +115,40 @@ export default function NotFound() {
             >
               <Star className="w-5 h-5" />
               Reviews
+            </Link>
+          </div>
+
+          {/* High-value funnel pages — added Feb 28, 2026 (F6). Surfaces the
+              replacement/financing/decision-guide cluster so a 404 visitor lands
+              on a revenue-center page instead of bouncing. */}
+          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-3 mb-10">
+            <Link
+              href="/replacement-estimator"
+              className="group flex items-center justify-center gap-2 bg-prussian-blue text-white px-4 py-3 rounded-lg hover:bg-electric-blue transition-colors font-medium text-sm"
+              data-testid="not-found-estimator-link"
+            >
+              Replacement Estimator
+            </Link>
+            <Link
+              href="/financing"
+              className="group flex items-center justify-center gap-2 bg-prussian-blue text-white px-4 py-3 rounded-lg hover:bg-electric-blue transition-colors font-medium text-sm"
+              data-testid="not-found-financing-link"
+            >
+              0% Financing
+            </Link>
+            <Link
+              href="/repair-or-replace"
+              className="group flex items-center justify-center gap-2 bg-prussian-blue text-white px-4 py-3 rounded-lg hover:bg-electric-blue transition-colors font-medium text-sm"
+              data-testid="not-found-repair-or-replace-link"
+            >
+              Repair or Replace?
+            </Link>
+            <Link
+              href="/faq"
+              className="group flex items-center justify-center gap-2 bg-prussian-blue text-white px-4 py-3 rounded-lg hover:bg-electric-blue transition-colors font-medium text-sm"
+              data-testid="not-found-faq-link"
+            >
+              FAQ
             </Link>
           </div>
 

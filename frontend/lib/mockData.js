@@ -1,5 +1,7 @@
 // Mock data for DFW HVAC website
 
+import { REVIEW_COUNT_FALLBACK } from './constants'
+
 export const companyInfo = {
   name: "DFW HVAC",
   tagline: "Three Generations of Trusted Service",
@@ -11,7 +13,7 @@ export const companyInfo = {
   legacyDescription: "A three-generation family commitment to trustworthy, high-quality HVAC service",
   description: "DFW HVAC delivers expert HVAC service with integrity and care—earning trust and long-term customer satisfaction through quality workmanship.",
   googleRating: 5.0,
-  googleReviews: 145,
+  googleReviews: REVIEW_COUNT_FALLBACK,
   businessHours: {
     monday: "7AM-6PM",
     tuesday: "7AM-6PM", 

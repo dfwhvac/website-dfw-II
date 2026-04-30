@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
 import LeadForm from './LeadForm'
 import SimpleContactForm from './SimpleContactForm'
 import LinkedCityList from './LinkedCityList'
+import { REVIEW_COUNT_FALLBACK } from '@/lib/constants'
 import { 
   Phone, 
   Mail, 
@@ -26,7 +27,7 @@ const CompanyPageTemplate = ({
 }) => {
   const phone = companyInfo?.phone || '(972) 777-COOL'
   const address = companyInfo?.address || '556 S Coppell Rd Ste 103, Coppell, TX 75019'
-  const googleReviews = companyInfo?.googleReviews || 129
+  const googleReviews = companyInfo?.googleReviews || REVIEW_COUNT_FALLBACK
   const businessHours = companyInfo?.businessHours || {}
   // Use cityPages if available, otherwise fall back to serviceAreas from companyInfo
   const serviceAreas = cityPages.length > 0 ? cityPages : (companyInfo?.serviceAreas || [])

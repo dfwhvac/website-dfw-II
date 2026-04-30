@@ -1,0 +1,81 @@
+name: Security Audit
+
+# Phase 1 P1.D items F8 (Dependabot+gitleaks) and F3d (yarn audit CI gate).
+# Added Feb 28, 2026.
+#
+# WHAT THIS GATES:
+#   - yarn audit on every PR + main push: fails the build on high/critical advisories
+#   - gitleaks on every PR + main push: blocks secret leaks before they merge
+#
+# WHY:
+#   - F3d closes the dependency-vuln blind spot. Sanity admin packages are
+#     ignored as accepted risk (admin-only, see Apr 21 audit).
+#   - F8 prevents the recurring "credential committed by accident" class of bug.
+#     Site has 6+ third-party API keys (Sanity, Resend, Google Places, reCAPTCHA,
+#     Google Auth, Vercel) — secret-leak detection is non-optional.
+
+on:
+  push:
+    branches: [main, preview]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Weekly Monday 7 AM Central — catches advisories disclosed against pinned versions
+    # even when no PR has been opened.
+    - cron: "0 13 * * 1"
+
+jobs:
+  yarn-audit:
+    name: yarn audit (high+critical)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "yarn"
+          cache-dependency-path: frontend/yarn.lock
+
+      - name: Install dependencies (frozen lockfile)
+        run: yarn install --frozen-lockfile
+
+      # `yarn audit --groups dependencies` excludes devDependencies (Sanity Studio
+      # holds known high-CVE issues tracked as accepted risk).
+      # Exit codes: 0=ok · 1=low · 2=moderate · 4=high · 8=critical · 16=vulnerable
+      # We fail the build on 4 (high) or 8 (critical) only.
+      - name: Run yarn audit
+        run: |
+          set +e
+          yarn audit --groups dependencies --level high
+          AUDIT_EXIT=$?
+          set -e
+          # Bitwise: fail only if high (4) or critical (8) bit is set
+          if [ $((AUDIT_EXIT & 12)) -ne 0 ]; then
+            echo "::error::yarn audit found HIGH or CRITICAL production-dependency advisories. Failing build."
+            exit 1
+          fi
+          echo "::notice::yarn audit clean of high+critical advisories."
+          exit 0
+
+  gitleaks:
+    name: gitleaks (secret scan)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history needed for proper diff scan
+
+      - name: Run gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Default ruleset covers AWS, GCP, Azure, Stripe, Slack, GitHub PAT,
+          # private SSH keys, generic high-entropy strings. Sufficient for this
+          # repo's threat model.
+          GITLEAKS_ENABLE_COMMENTS: "true"
+          GITLEAKS_ENABLE_SUMMARY: "true"

@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
 import LeadForm from './LeadForm'
 import LinkedCityList from './LinkedCityList'
 import { PortableText } from '@portabletext/react'
+import { REVIEW_COUNT_FALLBACK } from '@/lib/constants'
 import { 
   Phone, 
   Star,
@@ -80,7 +81,7 @@ const defaultStatistics = [
 // Function to get dynamic statistics with live Google data
 const getDynamicStatistics = (companyInfo, cmsStatistics) => {
   const googleRating = companyInfo?.googleRating || 5.0
-  const googleReviews = companyInfo?.googleReviews || 130
+  const googleReviews = companyInfo?.googleReviews || REVIEW_COUNT_FALLBACK
   
   // If CMS has custom statistics, use them but override Google data
   if (cmsStatistics && cmsStatistics.length > 0) {
@@ -123,7 +124,7 @@ const AboutPageTemplate = ({
   siteSettings = null,
 }) => {
   const phone = companyInfo?.phone || '(972) 777-COOL'
-  const googleReviews = companyInfo?.googleReviews || 130
+  const googleReviews = companyInfo?.googleReviews || REVIEW_COUNT_FALLBACK
 
   // Use CMS data with fallbacks
   const heroTitle = aboutPage?.heroTitle || 'About DFW HVAC'

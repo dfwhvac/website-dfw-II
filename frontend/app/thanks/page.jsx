@@ -3,6 +3,7 @@ import Footer from '@/components/Footer'
 import Link from 'next/link'
 import { getCompanyInfo, getSiteSettings } from '@/lib/sanity'
 import { companyInfo as mockCompanyInfo } from '@/lib/mockData'
+import { REVIEW_COUNT_FALLBACK } from '@/lib/constants'
 import { Phone, Clock, CheckCircle2, ArrowRight, Sparkles } from 'lucide-react'
 import ThanksAnalytics from './ThanksAnalytics'
 
@@ -226,7 +227,7 @@ export default async function ThanksPage({ searchParams }) {
               >
                 <div>
                   <p className="font-semibold text-prussian-blue mb-1">Read the Reviews</p>
-                  <p className="text-sm text-gray-600">145+ five-star Google reviews from neighbors across the DFW metroplex.</p>
+                  <p className="text-sm text-gray-600">{companyInfo?.googleReviews || REVIEW_COUNT_FALLBACK}+ five-star Google reviews from neighbors across the DFW metroplex.</p>
                 </div>
                 <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-electric-blue transition-colors flex-shrink-0 ml-4" />
               </Link>

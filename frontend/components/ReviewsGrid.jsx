@@ -4,10 +4,11 @@ import React, { useState } from 'react'
 import { Star } from 'lucide-react'
 import { Card, CardContent } from './ui/card'
 import { Button } from './ui/button'
+import { REVIEW_COUNT_FALLBACK } from '@/lib/constants'
 
 const REVIEWS_PER_PAGE = 10
 
-const ReviewsGrid = ({ testimonials = [], googleReviews = 145 }) => {
+const ReviewsGrid = ({ testimonials = [], googleReviews = REVIEW_COUNT_FALLBACK }) => {
   const [displayCount, setDisplayCount] = useState(REVIEWS_PER_PAGE)
   
   // Filter out reviews with blank text
