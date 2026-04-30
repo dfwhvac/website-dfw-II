@@ -1,5 +1,7 @@
 // SEO metadata utilities for DFW HVAC
 
+import { REVIEW_COUNT_FALLBACK } from './constants'
+
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://dfwhvac.com'
 
 /**
@@ -100,7 +102,7 @@ export const defaultMetadata = {
     creator: '@dfwhvac',
     title: 'DFW HVAC — Three-Generation HVAC Service in Dallas-Fort Worth',
     description:
-      'Same-day HVAC repair, installation & maintenance across Dallas-Fort Worth. Licensed, family-owned, 145+ five-star reviews. Call (972) 777-COOL.',
+      `Same-day HVAC repair, installation & maintenance across Dallas-Fort Worth. Licensed, family-owned, ${REVIEW_COUNT_FALLBACK}+ five-star reviews. Call (972) 777-COOL.`,
     images: [
       {
         url: '/images/dfwhvac-og.jpg',
@@ -117,7 +119,7 @@ export const defaultMetadata = {
     url: BASE_URL,
     title: 'DFW HVAC — Three-Generation HVAC Service in Dallas-Fort Worth',
     description:
-      'Same-day HVAC repair, installation & maintenance across Dallas-Fort Worth. Licensed, family-owned, 145+ five-star reviews. Call (972) 777-COOL.',
+      `Same-day HVAC repair, installation & maintenance across Dallas-Fort Worth. Licensed, family-owned, ${REVIEW_COUNT_FALLBACK}+ five-star reviews. Call (972) 777-COOL.`,
     images: [
       {
         url: '/images/dfwhvac-og.jpg',
@@ -268,7 +270,7 @@ export function createJsonLd(data) {
       aggregateRating: {
         '@type': 'AggregateRating',
         ratingValue: '5.0',
-        reviewCount: '145'
+        reviewCount: String(REVIEW_COUNT_FALLBACK)
       },
       hasOfferCatalog: {
         '@type': 'OfferCatalog',

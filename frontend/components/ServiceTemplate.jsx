@@ -4,6 +4,7 @@ import { Button } from './ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion'
 import LeadForm from './LeadForm'
+import { REVIEW_COUNT_FALLBACK } from '@/lib/constants'
 import { 
   Phone, 
   CheckCircle, 
@@ -21,7 +22,7 @@ import {
 
 const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [], maintenanceSignup = false }) => {
   const phone = companyInfo?.phone || '(972) 777-COOL'
-  const googleReviews = companyInfo?.googleReviews || 129
+  const googleReviews = companyInfo?.googleReviews || REVIEW_COUNT_FALLBACK
   
   // JotForm URL for maintenance plan signups
   const maintenanceFormUrl = 'https://form.jotform.com/260576154462055'

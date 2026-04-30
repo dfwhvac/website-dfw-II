@@ -11,6 +11,17 @@ Reverse-chronological record of everything shipped to production. When adding en
 
 Six agent-shipped items + three user-action checklists closing out **Phase 1 (~95% complete)** and **Phase 2a (100% complete, 12/12)**. Total agent build time: ~5 hrs.
 
+### Review-count drift hardening (paired with the sprint)
+
+User caught a stale "145 Google Reviews" line on the 404 page — turned into a full audit. **13 stale references** found across the codebase: 4 hard-literals + 9 inconsistent fallbacks (`|| 145`, `|| 129`, `|| 130` — three different snapshots).
+
+- **New `lib/constants.js`** — single source of truth. Exports `REVIEW_COUNT_FALLBACK = 149` (current live count) and `REVIEW_DRIFT_ALERT_THRESHOLD = 20`. All 9 fallback sites now import from here. One number, one place to bump.
+- **Made the 4 hard-literal sites dynamic.** `app/not-found.jsx` converted to async server component with try/catch Sanity fetch (silent fallback to constant on outage). `app/thanks/page.jsx` now uses `companyInfo?.googleReviews` directly. `lib/metadata.js` static description copy + JSON-LD `aggregateRating.reviewCount` both template the constant.
+- **Fixed the 3 stale `|| 129` / `|| 130` fallbacks** in `ServiceTemplate.jsx`, `CompanyPageTemplate.jsx`, `AboutPageTemplate.jsx` (2 places).
+- **Cleared stale Sanity field** — `reviewsPage.metaDescription` had "Read 145+ 5-star reviews…" hardcoded by a content author. New script `scripts/clear-reviews-page-meta-description.mjs` ran the patch; `/reviews` now falls through to the code-side dynamic template that reads live count.
+- **Drift alert in `/api/cron/sync-reviews`** — after each daily Google Places sync, computes `|live − fallback|` and sends a one-line Resend email to the owner if drift exceeds 20 reviews. Reuses existing Resend account (zero new infra). Production-only via `VERCEL_ENV` gate. Mutable threshold via `REVIEW_DRIFT_ALERT_THRESHOLD` constant; fully mute via `DRIFT_ALERT_ENABLED=false` env. Cron success never blocks on alert delivery.
+- **Verified**: 14 high-value routes (home, reviews, about, faq, contact, thanks, 404, 5 services, 2 cities, financing, repair-or-replace, replacement-estimator) all render zero "145" and the live count "149" everywhere it should appear. `yarn build` clean (20.66s).
+
 ### P3-a11y — Skip-to-main link (WCAG 2.1 SC 2.4.1)
 - New `.skip-link` CSS rule in `app/globals.css` (visually hidden until keyboard-focused, snaps in with prussian-blue background + growth-green outline).
 - New skip link `<a href="#main-content">Skip to main content</a>` injected as the first focusable element in `<body>` of `app/layout.js`. `{children}` wrapped in `<div id="main-content" tabIndex={-1}>` so it works regardless of any internal page's own `<main>` structure.

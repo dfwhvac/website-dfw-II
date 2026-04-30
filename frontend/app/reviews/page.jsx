@@ -6,6 +6,7 @@ import { getCompanyInfo, getSiteSettings, getReviewsPage, getAllTestimonials } f
 import { companyInfo as mockCompanyInfo, testimonials as mockTestimonials } from '@/lib/mockData'
 import { Shield, Award, Star } from 'lucide-react'
 import { getReviewBadgeCount } from '@/lib/metadata'
+import { REVIEW_COUNT_FALLBACK } from '@/lib/constants'
 
 // ISR: Revalidate every hour
 export const dynamic = 'force-dynamic'
@@ -23,7 +24,7 @@ export async function generateMetadata() {
   const title = count
     ? `${count} Five-Star Google Reviews | DFW HVAC`
     : 'Five-Star Google Reviews | DFW HVAC'
-  const countForDesc = count || companyInfo?.googleReviews || 145
+  const countForDesc = count || companyInfo?.googleReviews || REVIEW_COUNT_FALLBACK
   return {
     title,
     description: reviewsPage?.metaDescription || `Read ${countForDesc}+ 5-star reviews from real DFW HVAC customers. Three generations of trusted HVAC service in Dallas-Fort Worth.`,
@@ -45,7 +46,7 @@ export default async function ReviewsPage() {
   
   // Use Sanity testimonials if available, otherwise mock data
   const testimonials = sanityTestimonials?.length > 0 ? sanityTestimonials : mockTestimonials
-  const googleReviews = companyInfo?.googleReviews || 145
+  const googleReviews = companyInfo?.googleReviews || REVIEW_COUNT_FALLBACK
   
   // Page content with fallbacks
   const pageContent = {

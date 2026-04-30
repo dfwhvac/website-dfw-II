@@ -1,5 +1,7 @@
 import Link from 'next/link'
 import { Phone, Home, MapPin, Wrench, Star, ArrowRight } from 'lucide-react'
+import { getCompanyInfo } from '@/lib/sanity'
+import { REVIEW_COUNT_FALLBACK } from '@/lib/constants'
 
 export const metadata = {
   title: 'Page Not Found | DFW HVAC',
@@ -17,9 +19,25 @@ export const metadata = {
  *
  * Added Apr 21, 2026 (PR #3, R2.1) — closes audit finding from P1.2.
  * Header/Footer intentionally omitted here so the 404 renders with minimal
- * dependencies (no Sanity fetch). Consistent branding via DFW colors.
+ * dependencies. Consistent branding via DFW colors.
+ *
+ * Feb 28, 2026: now async + fetches Sanity for live review count, with
+ * try/catch fallback to REVIEW_COUNT_FALLBACK so a Sanity outage never
+ * breaks the 404 page (it still renders, just with the static fallback).
  */
-export default function NotFound() {
+export default async function NotFound() {
+  // Single small Sanity read with try/catch — keeps the page resilient if
+  // Sanity is briefly unavailable, while pulling the live count when healthy.
+  let reviewCount = REVIEW_COUNT_FALLBACK
+  try {
+    const companyInfo = await getCompanyInfo()
+    if (companyInfo?.googleReviews) {
+      reviewCount = companyInfo.googleReviews
+    }
+  } catch {
+    // Silent fallback — 404 must always render.
+  }
+
   return (
     <div className="min-h-screen bg-white flex flex-col">
       <main className="flex-1 flex items-center justify-center px-4 py-16">
@@ -43,7 +61,7 @@ export default function NotFound() {
               {[...Array(5)].map((_, i) => (
                 <Star key={i} className="w-5 h-5 fill-[#F77F00] text-[#F77F00]" />
               ))}
-              <span className="text-blue-100 text-sm ml-2">5.0 · 145 Google Reviews</span>
+              <span className="text-blue-100 text-sm ml-2">5.0 · {reviewCount} Google Reviews</span>
             </div>
             <h2 className="text-2xl md:text-3xl font-bold mb-3">
               Call now for same-day service

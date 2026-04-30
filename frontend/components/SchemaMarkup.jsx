@@ -1,7 +1,10 @@
 'use client'
 
 // Schema markup component that generates JSON-LD structured data
-// All values are pulled from Sanity companyInfo
+// All values are pulled from Sanity companyInfo (with REVIEW_COUNT_FALLBACK
+// from lib/constants.js as the last-resort fallback).
+
+import { REVIEW_COUNT_FALLBACK } from '@/lib/constants'
 
 /**
  * Safely stringify schema data for injection into a <script type="application/ld+json"> tag.
@@ -100,7 +103,7 @@ export function LocalBusinessSchema({ companyInfo, cityPages = [] }) {
     "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": (companyInfo.googleRating || 5.0).toString(),
-      "reviewCount": (companyInfo.googleReviews || 145).toString(),
+      "reviewCount": (companyInfo.googleReviews || REVIEW_COUNT_FALLBACK).toString(),
       "bestRating": "5",
       "worstRating": "1"
     },
@@ -169,7 +172,7 @@ export function ReviewSchema({ companyInfo, reviewCount }) {
     "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": (companyInfo.googleRating || 5.0).toString(),
-      "reviewCount": (reviewCount || companyInfo.googleReviews || 145).toString(),
+      "reviewCount": (reviewCount || companyInfo.googleReviews || REVIEW_COUNT_FALLBACK).toString(),
       "bestRating": "5",
       "worstRating": "1"
     }
@@ -294,7 +297,7 @@ export function ServiceSchema({ serviceName, serviceDescription, category, compa
       "aggregateRating": {
         "@type": "AggregateRating",
         "ratingValue": (companyInfo.googleRating || 5.0).toString(),
-        "reviewCount": (companyInfo.googleReviews || 145).toString(),
+        "reviewCount": (companyInfo.googleReviews || REVIEW_COUNT_FALLBACK).toString(),
         "bestRating": "5",
         "worstRating": "1",
       },
