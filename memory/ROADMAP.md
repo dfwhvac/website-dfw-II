@@ -103,14 +103,15 @@ Document captures live in `/app/memory/audits/2026-04-27_KPI_Baseline.md`.
 
 | # | ID | Item | Effort | Owner |
 |---|---|---|---|---|
-| 1 | P2.7 | Code cleanup / unused dep audit (`yarn depcheck`, dead `mockData.js`) | 1–2 hrs | Agent |
-| 2 | P2.15 | Component decomposition (templates >300 lines) | variable | Agent |
-| 3 | P2.4c | Lighthouse all-green verification on /cities-served/plano + /request-service | 1 hr | Agent |
-| 4 | F3b | **HSTS Preload List submission** — `hstspreload.org` (eligibility verified, awaiting user submit) — see `USER_ACTIONS_2026-02-28.md` | 10 min | User |
-| 5 | F3c | **CSP nonce migration** (retire `unsafe-inline` on script-src) — Next.js middleware-injected nonces | 4–6 hrs | Agent (Phase 4 candidate) |
-| 6 | F7 | Lighthouse CI gate (optional) — Vercel build fails if Lighthouse drops below thresholds | 2 hrs | Agent |
-| 7 | P1.6d | INP field measurement after CrUX populates (28+ days) | 30 min + variable | Agent |
-| 8 | P1.3 | User-led device QA: iOS Safari, Android Chrome, address autocomplete | 1 hr | User |
+| 1 | **F10** | **🔥 Sanity v3.25 → v5.22 major upgrade** — clears all 28 high-severity transitive CVEs (minimatch ReDoS, lodash code injection, rollup path traversal, picomatch ReDoS, axios DoS) currently flagged as accepted risk. Stack already compatible: React 19.2.5 ✅ (v5 needs ≥19.2), Node 20 ✅ (v4 needs ≥20). After upgrade, tighten `.github/workflows/security.yml` audit gate from `--level critical` back to `--level high`. **Workflow:** preview branch → user QAs Studio admin (`<preview>/studio`, ~15 min, agent can't log in) + agent QAs public pages → merge. **Logged Feb 28, 2026.** | 1.5–3 hrs agent + 15 min user QA | Agent (lead) + User (Studio QA) |
+| 2 | P2.7 | Code cleanup / unused dep audit (`yarn depcheck`, dead `mockData.js`) | 1–2 hrs | Agent |
+| 3 | P2.15 | Component decomposition (templates >300 lines) | variable | Agent |
+| 4 | P2.4c | Lighthouse all-green verification on /cities-served/plano + /request-service | 1 hr | Agent |
+| 5 | F3b | **HSTS Preload List submission** — `hstspreload.org` (eligibility verified, awaiting user submit) — see `USER_ACTIONS_2026-02-28.md` | 10 min | User |
+| 6 | F3c | **CSP nonce migration** (retire `unsafe-inline` on script-src) — Next.js middleware-injected nonces | 4–6 hrs | Agent (Phase 4 candidate) |
+| 7 | F7 | Lighthouse CI gate (optional) — Vercel build fails if Lighthouse drops below thresholds | 2 hrs | Agent |
+| 8 | P1.6d | INP field measurement after CrUX populates (28+ days) | 30 min + variable | Agent |
+| 9 | P1.3 | User-led device QA: iOS Safari, Android Chrome, address autocomplete | 1 hr | User |
 
 **Phase 1 exit criteria:** All P1.B KPIs measured + meet target (or have ticketed plan to meet). Site is bulletproof. Estimated 15–20 hrs total.
 
