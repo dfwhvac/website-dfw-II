@@ -38,10 +38,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: "yarn"
-          cache-dependency-path: frontend/yarn.lock
+          # NOTE: yarn cache deliberately disabled here. It's a nice-to-have
+          # (saves ~30s per run) that turned into a brittle dependency-path
+          # configuration. Audit + install completes in ~60s without it.
+          # Re-enable later only if CI duration becomes a real bottleneck.
 
-      - name: Install dependencies (frozen lockfile)
+      - name: Install dependencies
         run: yarn install --frozen-lockfile
 
       # `yarn audit --groups dependencies` excludes devDependencies.
