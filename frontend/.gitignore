@@ -26,3 +26,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .vercel
+
+# ⚠️ DO commit yarn.lock — it pins exact dependency versions for reproducible
+# builds across local dev, Vercel, and CI. Without it committed, yarn audit
+# results, Dependabot bumps, and Vercel deploys can drift between environments.
+# yarn.lock should NEVER be added to this .gitignore.
