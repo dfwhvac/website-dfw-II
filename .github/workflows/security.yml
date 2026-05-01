@@ -46,34 +46,28 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      # `yarn audit --groups dependencies` excludes devDependencies.
-      # We gate on **critical** only, not **high**, because all 28 high-severity
-      # advisories in this repo are transitive deps of the `sanity` package
-      # (admin-only Studio CMS at /studio — never exposed to public traffic).
-      # These were documented as accepted risk in
-      # /app/memory/audits/DFW_HVAC_Technical_Audit_2026-04-21.md. The gate will
-      # auto-tighten back to high once Sanity 3.50+ clears its toolchain CVEs.
+      # Simpler exit-code check that doesn't depend on yarn 1's bitwise exit-code
+      # behavior (which is documented inconsistently across versions).
       #
-      # Critical advisories (RCE, auth bypass, SQLi-class) DO block — those
-      # would represent actual production threat regardless of where in the
-      # dependency tree they appear.
+      # `yarn audit --level critical` exits 0 when no critical advisories are
+      # found, and non-zero when any are found. We check that directly.
       #
-      # Exit codes (yarn 1): 0=ok · 1=low · 2=moderate · 4=high · 8=critical · 16=vulnerable
-      # We fail the build only on bit 8 (critical).
+      # The 28 high-severity advisories in Sanity Studio's transitive deps are
+      # documented as accepted risk — `--level critical` filters them out of
+      # the exit-code calculation, so they don't trip this gate. If we ever
+      # want to tighten back to `high`, change `--level critical` to
+      # `--level high` (and update the audits doc).
       - name: Run yarn audit
         run: |
           set +e
           yarn audit --groups dependencies --level critical
           AUDIT_EXIT=$?
           set -e
-          if [ $((AUDIT_EXIT & 8)) -ne 0 ]; then
-            echo "::error::yarn audit found CRITICAL production-dependency advisories. Failing build."
+          if [ $AUDIT_EXIT -ne 0 ]; then
+            echo "::error::yarn audit --level critical exited with code $AUDIT_EXIT — critical advisories were found in production dependencies. Inspect the table above to identify which package/advisory."
             exit 1
           fi
-          if [ $((AUDIT_EXIT & 4)) -ne 0 ]; then
-            echo "::warning::yarn audit found HIGH advisories — accepted risk per documented policy (Sanity Studio admin tooling). Not failing build. See audits/DFW_HVAC_Technical_Audit_2026-04-21.md."
-          fi
-          echo "::notice::yarn audit clean of critical advisories."
+          echo "::notice::yarn audit clean of critical advisories (high-severity Sanity Studio CVEs scoped out as documented accepted risk)."
           exit 0
 
   gitleaks:
