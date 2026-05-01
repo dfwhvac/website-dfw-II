@@ -358,7 +358,7 @@
     <h1>DFW HVAC — Strategic Roadmap</h1>
     <p>Future-facing work organized by 5-priority business framework. Each priority requires its own KPI baseline and reevaluation cadence. Ship in order; advance only when the previous layer is healthy.</p>
     <div class="meta">
-      Last reviewed: February 28, 2026 — Phase 1 ~95% (P3-a11y, F6, F4, F8, F3d shipped this sprint; only F3c CSP nonce + P2.15 decomposition remain) · Phase 2a 12/12 ✅ COMPLETE (S3 + P1.5 + sitemap parity 51/51 closed today) · Phase 3 6 items shipped (C1 Clarity, P1.11, G1, G2, brand-truth, footer redesign) ·
+      Last reviewed: February 28, 2026 — Phase 1 ~95% (P3-a11y, F6, F4, F8, F3d shipped this sprint; only F3c CSP nonce + P2.15 decomposition remain) · <strong>Next up: F10 Sanity v3 → v5 upgrade</strong> (clears 28 accepted-risk high CVEs) · Phase 2a 12/12 ✅ COMPLETE (S3 + P1.5 + sitemap parity 51/51 closed today) · Phase 3 6 items shipped (C1 Clarity, P1.11, G1, G2, brand-truth, footer redesign) ·
       Source: <code>/app/memory/ROADMAP.md</code> ·
       Companion: <a href="/sitemap-preview.html" style="color:rgba(255,255,255,0.85);">sitemap preview</a> ·
       Audit: <a href="/internal/timeline-commitments-audit.csv" style="color:rgba(255,255,255,0.85);">timeline commitments CSV</a>
@@ -528,9 +528,10 @@
   <table>
     <thead><tr><th>#</th><th>ID</th><th>Item</th><th>Effort</th><th>Owner</th></tr></thead>
     <tbody>
-      <tr><td class="num-cell">1</td><td class="id-cell">P2.7</td><td>Code cleanup / unused dep audit (<code>yarn depcheck</code>, dead <code>mockData.js</code>)</td><td>1–2 hrs</td><td>Agent</td></tr>
-      <tr><td class="num-cell">2</td><td class="id-cell">P2.15</td><td>Component decomposition (templates &gt;300 lines)</td><td>variable</td><td>Agent</td></tr>
-      <tr><td class="num-cell">3</td><td class="id-cell">P2.4c</td><td>Lighthouse all-green verification</td><td>1 hr</td><td>Agent</td></tr>
+      <tr><td class="num-cell">1</td><td class="id-cell">F10</td><td><strong>🔥 Sanity v3.25 → v5.22 upgrade</strong> — clears all 28 high-severity transitive CVEs (minimatch, lodash, rollup, picomatch, axios). Stack already compatible (React 19.2.5 ✅, Node 20 ✅). Workflow: preview branch → user QAs Studio admin (~15 min) + agent QAs public pages → merge. Tightens audit gate back to <code>--level high</code> post-merge. <span class="badge badge-pending" style="margin-left:0.4rem;">Next up</span></td><td>1.5–3 hrs agent + 15 min user</td><td>Agent + User QA</td></tr>
+      <tr><td class="num-cell">2</td><td class="id-cell">P2.7</td><td>Code cleanup / unused dep audit (<code>yarn depcheck</code>, dead <code>mockData.js</code>)</td><td>1–2 hrs</td><td>Agent</td></tr>
+      <tr><td class="num-cell">3</td><td class="id-cell">P2.15</td><td>Component decomposition (templates &gt;300 lines)</td><td>variable</td><td>Agent</td></tr>
+      <tr><td class="num-cell">4</td><td class="id-cell">P2.4c</td><td>Lighthouse all-green verification</td><td>1 hr</td><td>Agent</td></tr>
       <tr><td class="num-cell">4</td><td class="id-cell">P3-a11y</td><td>Skip-to-main content link (push A11y to 100) <span class="badge badge-shipped" style="margin-left:0.4rem;">Feb 28, 2026</span></td><td>15 min</td><td>Agent</td></tr>
       <tr><td class="num-cell">5</td><td class="id-cell">F6</td><td>404 page UX upgrade — added Replacement Estimator / Financing / Repair-or-Replace / FAQ funnel cluster <span class="badge badge-shipped" style="margin-left:0.4rem;">Feb 28, 2026</span></td><td>1 hr</td><td>Agent</td></tr>
       <tr><td class="num-cell">6</td><td class="id-cell">F4</td><td>Backup/DR checklist published — <code>memory/BACKUP_AND_DR.md</code> <span class="badge badge-shipped" style="margin-left:0.4rem;">Feb 28, 2026</span></td><td>1 hr</td><td>Agent</td></tr>
