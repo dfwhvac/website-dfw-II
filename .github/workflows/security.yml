@@ -23,6 +23,9 @@ on:
     # Weekly Monday 7 AM Central — catches advisories disclosed against pinned versions
     # even when no PR has been opened.
     - cron: "0 13 * * 1"
+  # Manual on-demand trigger — Actions tab → Security Audit → "Run workflow" button.
+  # Useful for ad-hoc audits after rotating secrets or before a deploy.
+  workflow_dispatch:
 
 jobs:
   yarn-audit:
