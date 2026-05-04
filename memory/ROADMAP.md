@@ -1,11 +1,18 @@
 # DFW HVAC — Roadmap
 
-**Last reviewed:** February 28, 2026
+**Last reviewed:** May 4, 2026
 **⚠️ Read `/app/memory/00_START_HERE.md` first for the Agent SOP.**
 **Source of truth for design decisions:** `/app/design_guidelines.md`
 **Companion files:** `CHANGELOG.md` (shipped items), `RECURRING_MAINTENANCE.md` (ongoing cadences), `audits/` (KPI baselines).
 
 This file contains ONLY future-facing work, organized strictly by the 5-priority business framework.
+
+> **🔒 Security posture (May 4, 2026):** Incident CLOSED. All credentials flagged
+> by `gitleaks` (Sanity, Mongo, Resend, Google Places ×2, reCAPTCHA ×2,
+> CRON_SECRET, Emergent Universal Key, ORS) rotated/revoked. `.gitleaksignore`
+> published with 43 documented historical fingerprints. CI gate passing green
+> on `main` (Run #68, May 4). Eight one-off Python scripts that hardcoded keys
+> deleted from repo root. Going forward, any **new** leak still fails the build.
 
 ---
 
@@ -65,6 +72,9 @@ Each priority requires its own KPI baseline + reevaluation cadence. See `/app/me
 | ✅ F4 | Backup/DR checklist published — `/app/memory/BACKUP_AND_DR.md` (4 state stores, 5 recovery scenarios, annual DR drill protocol) | Feb 28, 2026 |
 | ✅ F8 | Dependency security scan — `.github/dependabot.yml` (weekly grouped npm + GH Actions) + `.github/workflows/security.yml` (gitleaks on every PR + weekly cron) | Feb 28, 2026 |
 | ✅ F3d | `yarn audit --level high` CI gate — same `security.yml` workflow, fails build on high/critical production-dependency advisories (Sanity dev deps excluded as accepted risk) | Feb 28, 2026 |
+| ✅ F11 | **Security incident remediation** — `gitleaks` surfaced live secrets in git history (`backend/.env` + 8 root-level Python analysis scripts that hardcoded `ORS_API_KEY` and the Emergent Universal LLM Key). All flagged credentials rotated or revoked across Vercel, Google Cloud, Sanity, Resend, Atlas, reCAPTCHA, Emergent profile (9 keys total). Eight Python scripts deleted from repo. New `.gitleaksignore` allowlists 43 historical fingerprints with documented kill chain. CI now green on `main`. | May 4, 2026 |
+| ✅ F8b | `workflow_dispatch` trigger added to `.github/workflows/security.yml` — Actions tab → "Security Audit" → "Run workflow" button enables on-demand scans (post-rotation, pre-deploy). | May 4, 2026 |
+| ✅ Drift-alert wiring fix | `/api/cron/sync-reviews` recipient fallback aligned with leads route's `NOTIFICATION_EMAIL` convention plus `support@dfwhvac.com` ultimate fallback. Eliminates `skipped:missing-credentials`; threshold-arm verified live. | May 4, 2026 |
 
 ## P1.B — KPI baseline (capture in Phase 1, week 1)
 
@@ -88,30 +98,31 @@ Document captures live in `/app/memory/audits/2026-04-27_KPI_Baseline.md`.
 | **SecurityHeaders.com grade** | **A+** | securityheaders.com (post-deploy) |
 | **Mozilla Observatory grade** | **A or higher** | observatory.mozilla.org |
 | **Qualys SSL Labs TLS grade** | **A or higher** | ssllabs.com |
-| **Dependency vulns (high+critical)** | **0** | GitHub Dependabot / `yarn audit` |
-| **Public secret leaks (`gitleaks`)** | **0** | gitleaks scan |
+| **Dependency vulns (high+critical)** | **0** | GitHub Dependabot / `yarn audit` — ✅ critical=0 verified May 4, 2026 (Run #68); 28 Sanity Studio high-sev tracked under F10 |
+| **Public secret leaks (`gitleaks`)** | **0** | gitleaks scan — ✅ ZERO new leaks May 4, 2026 (Run #68); 43 historical fingerprints allowlisted in `.gitleaksignore` (all keys revoked/rotated, full kill chain in CHANGELOG) |
 
 ## P1.C — Reevaluation cadence
 
 - **Weekly (5 min):** glance at Vercel Analytics RUM + GSC Experience
 - **Monthly (30 min):** full Lighthouse audit on 5 representative pages; compare to baseline; `yarn audit` deps scan
 - **Quarterly:** comprehensive tech-SEO sweep + bundle analyzer; bundle-size delta tracked; **SecurityHeaders.com + Mozilla Observatory + SSL Labs re-grade; CSP review (can `unsafe-inline` be retired via nonces?); gitleaks scan of repo**
-- **Annual:** API key rotation; HSTS Preload List re-verify
+- **Annual:** API key rotation; HSTS Preload List re-verify _(Note: full rotation pulled forward + completed May 4, 2026 due to gitleaks-flagged incident)_
 - **Per-PR (if Lighthouse CI installed):** automated regression catch
 
 ## P1.D — Action items (in execution order)
 
 | # | ID | Item | Effort | Owner |
 |---|---|---|---|---|
-| 1 | **F10** | **🔥 Sanity v3.25 → v5.22 major upgrade** — clears all 28 high-severity transitive CVEs (minimatch ReDoS, lodash code injection, rollup path traversal, picomatch ReDoS, axios DoS) currently flagged as accepted risk. Stack already compatible: React 19.2.5 ✅ (v5 needs ≥19.2), Node 20 ✅ (v4 needs ≥20). After upgrade, tighten `.github/workflows/security.yml` audit gate from `--level critical` back to `--level high`. **Workflow:** preview branch → user QAs Studio admin (`<preview>/studio`, ~15 min, agent can't log in) + agent QAs public pages → merge. **Logged Feb 28, 2026.** | 1.5–3 hrs agent + 15 min user QA | Agent (lead) + User (Studio QA) |
-| 2 | P2.7 | Code cleanup / unused dep audit (`yarn depcheck`, dead `mockData.js`) | 1–2 hrs | Agent |
-| 3 | P2.15 | Component decomposition (templates >300 lines) | variable | Agent |
-| 4 | P2.4c | Lighthouse all-green verification on /cities-served/plano + /request-service | 1 hr | Agent |
-| 5 | F3b | **HSTS Preload List submission** — `hstspreload.org` (eligibility verified, awaiting user submit) — see `USER_ACTIONS_2026-02-28.md` | 10 min | User |
-| 6 | F3c | **CSP nonce migration** (retire `unsafe-inline` on script-src) — Next.js middleware-injected nonces | 4–6 hrs | Agent (Phase 4 candidate) |
-| 7 | F7 | Lighthouse CI gate (optional) — Vercel build fails if Lighthouse drops below thresholds | 2 hrs | Agent |
-| 8 | P1.6d | INP field measurement after CrUX populates (28+ days) | 30 min + variable | Agent |
-| 9 | P1.3 | User-led device QA: iOS Safari, Android Chrome, address autocomplete | 1 hr | User |
+| 1 | **F10** | **🔥 Sanity v3.25 → v5.22 major upgrade** — clears all 28 high-severity transitive CVEs (minimatch ReDoS, lodash code injection, rollup path traversal, picomatch ReDoS, axios DoS) currently flagged as accepted risk. Stack already compatible: React 19.2.5 ✅ (v5 needs ≥19.2), Node 20 ✅ (v4 needs ≥20). After upgrade, tighten `.github/workflows/security.yml` audit gate from `--level critical` back to `--level high`. **Workflow:** preview branch → user QAs Studio admin (`<preview>/studio`, ~15 min, agent can't log in) + agent QAs public pages → merge. **Logged Feb 28, 2026; reconfirmed top priority May 4, 2026 after security incident closure.** | 1.5–3 hrs agent + 15 min user QA | Agent (lead) + User (Studio QA) |
+| 2 | **F12** | **Bump GitHub Actions versions to clear Node.js 20 deprecation warnings** — `actions/checkout@v4 → v5`, `actions/setup-node@v4 → v5`, `gitleaks/gitleaks-action@v2 → latest` (if a newer major exists). GitHub force-upgrades Node 20 → 24 in June 2026 so this is a soft deadline. Dependabot auto-reopens these PRs weekly; with gitleaks now passing on `main`, the next round will pass CI cleanly and is one-click mergeable. Optional manual short-circuit. | 5 min user (one-click merge) OR 10 min agent | User (preferred) or Agent |
+| 3 | P2.7 | Code cleanup / unused dep audit (`yarn depcheck`, dead `mockData.js`) | 1–2 hrs | Agent |
+| 4 | P2.15 | Component decomposition (templates >300 lines) | variable | Agent |
+| 5 | P2.4c | Lighthouse all-green verification on /cities-served/plano + /request-service | 1 hr | Agent |
+| 6 | F3b | **HSTS Preload List submission** — `hstspreload.org` (eligibility verified, awaiting user submit) — see `USER_ACTIONS_2026-02-28.md` | 10 min | User |
+| 7 | F3c | **CSP nonce migration** (retire `unsafe-inline` on script-src) — Next.js middleware-injected nonces | 4–6 hrs | Agent (Phase 4 candidate) |
+| 8 | F7 | Lighthouse CI gate (optional) — Vercel build fails if Lighthouse drops below thresholds | 2 hrs | Agent |
+| 9 | P1.6d | INP field measurement after CrUX populates (28+ days) | 30 min + variable | Agent |
+| 10 | P1.3 | User-led device QA: iOS Safari, Android Chrome, address autocomplete | 1 hr | User |
 
 **Phase 1 exit criteria:** All P1.B KPIs measured + meet target (or have ticketed plan to meet). Site is bulletproof. Estimated 15–20 hrs total.
 
