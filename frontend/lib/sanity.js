@@ -45,6 +45,7 @@ export const queries = {
     phone,
     phoneDisplay,
     email,
+    licenseNumber,
     address,
     description,
     googleRating,
