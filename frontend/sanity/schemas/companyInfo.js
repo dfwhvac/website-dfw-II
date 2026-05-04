@@ -32,6 +32,12 @@ export default {
       type: 'string',
     },
     {
+      name: 'licenseNumber',
+      title: 'TDLR License Number',
+      type: 'string',
+      description: 'Texas Department of Licensing and Regulation HVAC license. Displayed in the footer, customer auto-reply emails, and used for Google Local Services Ads verification. Format: TACLA/TACLB followed by digits and a suffix letter (e.g., TACLB00136968E).',
+    },
+    {
       name: 'address',
       title: 'Address',
       type: 'string',

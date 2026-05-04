@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server'
 import { MongoClient } from 'mongodb'
 import { Resend } from 'resend'
 import { v4 as uuidv4 } from 'uuid'
+import { getCompanyInfo } from '@/lib/sanity'
+
+const LICENSE_NUMBER_FALLBACK = 'TACLB00136968E'
 
 const MONGO_URL = process.env.MONGO_URL || process.env.MONGODB_URI
 const DB_NAME = process.env.DB_NAME || 'test_database'
@@ -106,8 +109,9 @@ function escapeHtml(str) {
 // submission, sets the response-time expectation explicitly, and gives the
 // customer multiple ways to reach us while they wait. Plain visual style,
 // brand colors only, no marketing fluff (CAN-SPAM-clean).
-function buildAutoReplyHtml({ fullName, leadType }) {
+function buildAutoReplyHtml({ fullName, leadType, licenseNumber }) {
   const safeName = escapeHtml(fullName.split(' ')[0] || 'there')
+  const safeLicense = escapeHtml(licenseNumber || LICENSE_NUMBER_FALLBACK)
   const typeCopy = {
     service:
       "Our dispatcher will call you within 2 business hours to confirm your service address and book the earliest visit window.",
@@ -148,7 +152,7 @@ function buildAutoReplyHtml({ fullName, leadType }) {
       </div>
       <div style="background-color: #f5f8fc; color: #6b7280; padding: 16px 24px; text-align: center; font-size: 12px; line-height: 1.5;">
         <p style="margin: 0;">DFW HVAC · 556 S Coppell Rd Ste 103, Coppell TX 75019</p>
-        <p style="margin: 4px 0 0;">License # TACLA00010147E</p>
+        <p style="margin: 4px 0 0;">License # ${safeLicense}</p>
       </div>
     </div>`
 }
@@ -220,6 +224,20 @@ export async function POST(request) {
         { success: false, message: 'Too many submissions. Please try again later or call us directly.' },
         { status: 429 }
       )
+    }
+
+    // Fetch companyInfo for fields used in customer-facing email templates
+    // (e.g., licenseNumber shown in the auto-reply footer). Wrapped in try/catch
+    // so a Sanity outage never blocks a legitimate lead — we fall back to the
+    // LICENSE_NUMBER_FALLBACK constant.
+    let licenseNumber = LICENSE_NUMBER_FALLBACK
+    try {
+      const companyInfo = await getCompanyInfo()
+      if (companyInfo?.licenseNumber) {
+        licenseNumber = companyInfo.licenseNumber
+      }
+    } catch {
+      // Silent fallback — lead pipeline must not fail because CMS is unreachable.
     }
 
     const lead = await request.json()
@@ -316,7 +334,7 @@ export async function POST(request) {
                 to: [lead.email],
                 replyTo: emailConfig.to,
                 subject: "We got your request — DFW HVAC will be in touch shortly",
-                html: buildAutoReplyHtml({ fullName, leadType }),
+                html: buildAutoReplyHtml({ fullName, leadType, licenseNumber }),
               })
             } catch (autoReplyError) {
               console.error('Customer auto-reply send failed (non-fatal):', autoReplyError)
