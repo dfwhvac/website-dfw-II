@@ -7,6 +7,68 @@ Reverse-chronological record of everything shipped to production. When adding en
 
 ---
 
+## May 4, 2026 — Security incident remediation (full key rotation)
+
+`gitleaks` CI surfaced an active-incident: `backend/.env` and several one-off
+analysis scripts had been committed to git history, exposing live API keys.
+**All flagged credentials rotated/revoked the same day. Repo cleaned.**
+
+### Key rotations completed (user-led, agent-walkthroughed)
+
+| Credential | Action | Verified |
+|---|---|---|
+| `SANITY_API_TOKEN` | Rotated in Sanity manage → Vercel | ✅ |
+| `MONGO_URL` | Atlas password rotated → Vercel (Prod + Preview) | ✅ |
+| `RESEND_API_KEY` | Rotated in Resend dashboard → Vercel (Prod + Preview) | ✅ |
+| `GOOGLE_PLACES_API_KEY` (server) | New key in Google Cloud → Vercel; old deleted | ✅ Browser autocomplete + cron curl |
+| `NEXT_PUBLIC_GOOGLE_PLACES_API_KEY` (browser) | New key with referrer restrictions → Vercel | ✅ |
+| `RECAPTCHA_SECRET_KEY` | New v3 site → Vercel; old site deleted | ✅ Lead form submission |
+| `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` | New v3 site → Vercel | ✅ |
+| `CRON_SECRET` | `openssl rand -base64 32` → Vercel | ✅ New curl 200, old curl 401 |
+| Emergent Universal LLM Key | Disabled in Emergent profile (was hardcoded in `generate_voice_previews.py`) | ✅ |
+| ORS_API_KEY (OpenRouteService, free tier) | Abandoned account; auto-rotates | ✅ |
+
+### Repo cleanup
+
+- Deleted **8 one-off Python analysis scripts** at repo root that hardcoded API
+  keys: `service_area_4zone_memory_efficient.py`, `service_area_5zone.py`,
+  `service_area_5zone_v2.py`, `service_area_analysis.py`,
+  `service_area_intersection.py`, `service_area_map_v2.py`,
+  `service_area_map_v3.py`, `generate_voice_previews.py`. Their analysis output
+  is already in production Sanity/code; the scripts themselves were workshop
+  artifacts.
+- New **`.gitleaksignore`** at repo root — 43 historical-leak fingerprints
+  allowlisted (all corresponding secrets revoked). gitleaks now passes on `main`
+  and any new leak in any new commit will still fail the build.
+- `frontend/.next/` per-build encryption keys (31 of the 43 historical hits) are
+  auto-regenerated every Vercel deploy; all leaked builds superseded → keys dead.
+- `.next/` confirmed gitignored in `frontend/.gitignore` (was the original
+  recurrence-prevention fix).
+
+### CI/CD hardening
+
+- **`security.yml`** workflow now supports `workflow_dispatch` — Actions tab →
+  "Security Audit" → "Run workflow" button for ad-hoc audits.
+- Closed two stale Dependabot PRs (`actions/checkout` v5→v6,
+  `actions/setup-node` v5→v6) that were stuck on the old gitleaks history; will
+  auto-reopen against clean baseline next cycle.
+
+### Drift-alert config fix
+
+- `/api/cron/sync-reviews` drift-alert email-recipient fallback aligned with the
+  leads route's `NOTIFICATION_EMAIL` convention plus a hardcoded
+  `support@dfwhvac.com` ultimate fallback. Eliminates `skipped:missing-credentials`
+  on every cron response. Threshold-arm verified live (drift currently 1, well
+  under the 20-review threshold).
+
+### Outcome
+
+Security incident **CLOSED**. `yarn audit` clean of critical CVEs. `gitleaks`
+clean of new findings (historical findings allowlisted with documented kill
+chain). Any future PR is gated against re-introducing the same class of bug.
+
+---
+
 ## February 28, 2026 — Phase 1 + 2a finishing sprint
 
 Six agent-shipped items + three user-action checklists closing out **Phase 1 (~95% complete)** and **Phase 2a (100% complete, 12/12)**. Total agent build time: ~5 hrs.

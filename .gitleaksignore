@@ -1,0 +1,85 @@
+# gitleaks allowlist — historical leaks from secrets ROTATED + REVOKED on May 4, 2026.
+#
+# Each fingerprint below points to a specific (commit × file × rule × secret) tuple
+# that gitleaks has already flagged. We are NOT silencing the rule — we are saying
+# "this exact known-historical occurrence is acknowledged and the secret is dead."
+#
+# REMEDIATION COMPLETED 2026-05-04:
+#   - SANITY_API_TOKEN ............ rotated in Sanity manage → Vercel env var ✅
+#   - GOOGLE_PLACES_API_KEY (server) rotated in Google Cloud → Vercel env var ✅
+#   - NEXT_PUBLIC_GOOGLE_PLACES_API_KEY rotated in Google Cloud → Vercel env var ✅
+#   - RECAPTCHA_SECRET_KEY ........ rotated in Google reCAPTCHA admin → Vercel ✅
+#   - NEXT_PUBLIC_RECAPTCHA_SITE_KEY rotated in Google reCAPTCHA admin → Vercel ✅
+#   - CRON_SECRET ................. rotated via openssl rand → Vercel env var ✅
+#   - RESEND_API_KEY .............. rotated in Resend dashboard → Vercel env var ✅
+#   - MONGO_URL (Mongo Atlas pwd) . rotated in Atlas → Vercel env var ✅
+#   - Emergent Universal LLM Key .. disabled in Emergent profile ✅
+#   - ORS_API_KEY (OpenRouteService) free-tier abandoned, auto-rotates ✅
+#   - Next.js per-build encryption keys (.next/*-manifest.json) — auto-regenerated
+#     on every Vercel deploy; all leaked values are dead the moment the build that
+#     generated them was superseded. The current production build holds fresh values.
+#
+# RECURRENCE PREVENTION:
+#   - All eight service_area_*.py + generate_voice_previews.py one-off analysis
+#     scripts deleted from repo (commit on or after 2026-05-04). They held
+#     hardcoded API keys; analysis output already lives in production Sanity/code.
+#   - .next/ build artifacts already gitignored in frontend/.gitignore.
+#   - Going forward, gitleaks scans new commits only; any NEW leak will fail CI.
+#
+# === Fingerprints ===
+# Format: <commit-sha>:<file-path>:<rule-id>:<line>
+
+# --- ORS_API_KEY (OpenRouteService) — service-area analysis scripts (now deleted)
+388b6bb7282072084ec61ba9e92b2ade9295495e:service_area_5zone_v2.py:generic-api-key:17
+ffd875a3062387b28ee426325204f2a5e224db1f:service_area_5zone.py:generic-api-key:33
+1fd0026308dc1d8d140bef88f0a169cab985a256:service_area_4zone_memory_efficient.py:generic-api-key:27
+fdc2d781e034e6384a744c27849d49c664c7b38b:service_area_intersection.py:generic-api-key:23
+1f3e212c7e3cbb5c2f3043564d9bbb0f28374ddf:service_area_map_v3.py:generic-api-key:20
+45b33fabe1359942da069cf3a6621f1cc02bd83a:service_area_map_v2.py:generic-api-key:23
+5a60b9bffe303f023ac6532f0539cca74d32e4e5:service_area_analysis.py:generic-api-key:20
+ca2a9ee30e05ea7bc81a70e88d16c252bf93e214:service_area_analysis.py:generic-api-key:20
+
+# --- Emergent Universal LLM Key — voice-preview generator (now deleted)
+c0a6e7c05ff9f09d2be3357c54289722484764bc:generate_voice_previews.py:generic-api-key:29
+
+# --- SANITY_API_TOKEN — early Sanity import scaffold (now deleted/rotated)
+932bf346ce23ad83cfe98faca3b8d33af15cd5b9:frontend/import-sanity.js:generic-api-key:7
+
+# --- backend/.env one-time leak (May 4 rotation neutralized both)
+42440e008d1b1a8308fc3a8c94bb49fd8adc5402:backend/.env:gcp-api-key:4
+42440e008d1b1a8308fc3a8c94bb49fd8adc5402:backend/.env:generic-api-key:8
+
+# --- Next.js per-build encryption keys (.next/ accidentally committed before
+#     /.next/ was added to frontend/.gitignore). Each build generates fresh keys,
+#     so all of these are revoked the moment Vercel deployed the next build.
+6b7ccfa76fea436e53a607abc0ec7760ca4acf8e:frontend/.next/server/server-reference-manifest.json:generic-api-key:1
+1a5cf0814d0c7fd29785545c54d243172831d5b4:frontend/.next/server/server-reference-manifest.json:generic-api-key:1
+6bbde728b43967d907c73a2d946669bb26b7e2e3:frontend/.next/server/server-reference-manifest.json:generic-api-key:1
+70fea7932ef51099431126dd7892a44636cd474b:frontend/.next/server/server-reference-manifest.json:generic-api-key:1
+b297cf7f43628204f846599bd9606220d224719d:frontend/.next/server/server-reference-manifest.json:generic-api-key:1
+e4444790bc4957c001b3e26ecc1070e5b4ed5b19:frontend/.next/server/server-reference-manifest.json:generic-api-key:1
+a65e26db397e5ccf4eeea7b9d03c393a2eb82600:frontend/.next/prerender-manifest.json:generic-api-key:1
+a65e26db397e5ccf4eeea7b9d03c393a2eb82600:frontend/.next/server/server-reference-manifest.json:generic-api-key:1
+1a5d13ea947d77934e314fdf34bc652faa4175a2:frontend/.next/prerender-manifest.json:generic-api-key:1
+1a5d13ea947d77934e314fdf34bc652faa4175a2:frontend/.next/server/server-reference-manifest.json:generic-api-key:1
+b4b5402f5389e7327ec09db86b49059be32199da:frontend/.next/prerender-manifest.json:generic-api-key:1
+b4b5402f5389e7327ec09db86b49059be32199da:frontend/.next/server/server-reference-manifest.json:generic-api-key:1
+eba0684b13172fcbbc34bd1bcd268a15b0dcb80b:frontend/.next/prerender-manifest.json:generic-api-key:1
+eba0684b13172fcbbc34bd1bcd268a15b0dcb80b:frontend/.next/server/server-reference-manifest.json:generic-api-key:1
+eba0684b13172fcbbc34bd1bcd268a15b0dcb80b:frontend/.next/standalone/.next/prerender-manifest.json:generic-api-key:1
+eba0684b13172fcbbc34bd1bcd268a15b0dcb80b:frontend/.next/standalone/.next/server/server-reference-manifest.json:generic-api-key:1
+6c9a1bf0de9aed8fb8ae713584fd71c96b4a8fd2:frontend/.next/server/server-reference-manifest.json:generic-api-key:1
+253cf3ef5b9430b9ad94c22104a1288e0636cb6f:frontend/.next/server/server-reference-manifest.json:generic-api-key:4
+d7c0681f87d922e5106d5c3ddd2eb807eafc53dc:frontend/.next/server/server-reference-manifest.json:generic-api-key:1
+3d1fd51acf087b9d8c40778c3a846a427024da29:frontend/.next/server/server-reference-manifest.json:generic-api-key:4
+90fb31b78186ed83b59d708adcdca78c81c7135b:frontend/.next/server/server-reference-manifest.json:generic-api-key:4
+4f123f62d74ce2d3cff6678a292fa9e91d41aede:frontend/.next/server/server-reference-manifest.json:generic-api-key:1
+7c306800402e9f38b36dbd2af9528de07509e9cc:frontend/.next/server/server-reference-manifest.json:generic-api-key:1
+5c85a99d39d5eb7556b5ab50b6e64a3b727a2d80:frontend/.next/server/server-reference-manifest.json:generic-api-key:1
+87cf924d49fd7178e3a6884540fc5956c6241e40:frontend/.next/server/server-reference-manifest.json:generic-api-key:1
+9acc0a2b604a80f2757b1f853a61cbca9539cd39:frontend/.next/server/server-reference-manifest.json:generic-api-key:1
+
+# Two of the eba0684b13172fcbbc34bd1bcd268a15b0dcb80b prerender hits were duplicate
+# previewModeSigningKey + previewModeEncryptionKey rows in the same manifest.json
+# line. Same fingerprint covers both findings.
+# Same applies to a65e26db... and 1a5d13ea... and b4b5402f...
