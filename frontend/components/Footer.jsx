@@ -214,8 +214,14 @@ const Footer = ({ companyInfo = {}, siteSettings = null }) => {
 
         {/* Bottom Bar */}
         <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="text-sm text-gray-400">
-            {copyrightText}
+          <div className="text-sm text-gray-400 flex flex-col md:flex-row md:items-center gap-1 md:gap-3">
+            <span>{copyrightText}</span>
+            {companyInfo?.licenseNumber && (
+              <>
+                <span className="hidden md:inline text-gray-600">·</span>
+                <span data-testid="footer-license-number">License # {companyInfo.licenseNumber}</span>
+              </>
+            )}
           </div>
           <div className="flex gap-6 text-sm">
             <Link href="/privacy-policy" className="text-gray-400 hover:text-white transition-colors">
