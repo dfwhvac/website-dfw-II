@@ -14,8 +14,8 @@ const CRON_SECRET = process.env.CRON_SECRET
 // configured for lead emails — zero new infra. Disabled when DRIFT_ALERT_ENABLED
 // is set to "false" (any other value, including unset, leaves it enabled).
 const RESEND_API_KEY = process.env.RESEND_API_KEY
-const DRIFT_ALERT_TO = process.env.DRIFT_ALERT_TO || process.env.LEAD_NOTIFICATION_EMAIL
-const DRIFT_ALERT_FROM = process.env.DRIFT_ALERT_FROM || process.env.LEAD_NOTIFICATION_FROM || 'notifications@dfwhvac.com'
+const DRIFT_ALERT_TO = process.env.DRIFT_ALERT_TO || process.env.NOTIFICATION_EMAIL || 'support@dfwhvac.com'
+const DRIFT_ALERT_FROM = process.env.DRIFT_ALERT_FROM || process.env.NOTIFICATION_FROM || 'notifications@dfwhvac.com'
 const DRIFT_ALERT_ENABLED = process.env.DRIFT_ALERT_ENABLED !== 'false'
 const IS_PRODUCTION_DEPLOY = process.env.VERCEL_ENV === 'production'
 
