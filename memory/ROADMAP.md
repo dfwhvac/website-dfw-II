@@ -410,6 +410,30 @@ GA4 → Admin → Events → toggle the "Mark as key event" switch for each. All
 
 ---
 
+# 🆕 Phase 6: Post-Optimization Page Launches
+
+**Definition.** New site sections that extend the funnel beyond core conversion paths. Deferred until **Phases 1–4 are complete and Phase 3 KPIs are trending positive** — these pages compete for engineering attention and SEO juice with the core lead-gen flow, so they only ship once the optimized core is locking in measurable wins.
+
+**Sequencing rationale:** Building Careers and Referrals pages before the lead-gen site is fully optimized would dilute team focus and split SEO link equity across more URLs than the site can support at current authority. Once the foundation, SEO, conversion, and ad-measurable layers are healthy (P1.B + P2.B + P3.B all trending green), these pages add high-quality user paths without cannibalizing the primary funnel.
+
+## P6.A — Action items
+
+| # | ID | Item | Effort | Owner | Trigger |
+|---|---|---|---|---|---|
+| 1 | **PG1** | **Careers page** (`/careers`) — recruiting funnel for HVAC technicians, comfort advisors, install crews. Sections: company values + culture, current openings (Sanity-driven schema), benefits/compensation summary, application form (reuses `LeadForm` infra with `lead_type=career`), employee testimonials/photos. Schema: `JobPosting` JSON-LD per role for Google for Jobs eligibility. | 6–10 hrs (page + Sanity schema + form) | Agent + user (content) | After Phase 4 ad infrastructure is live and Phase 3 KPIs are trending green |
+| 2 | **PG2** | **Referrals page** (`/referrals`) — customer referral program landing page. Sections: program mechanics (e.g., "$50 credit per referred install"), how-it-works (3-step: refer → they book → you both earn), referral submission form with referrer + referee fields, terms/legal copy, social-share CTAs (FB/SMS/email pre-filled templates). MongoDB schema extension: `referrals` collection (`referrerName`, `referrerEmail`, `referrerPhone`, `refereeName`, `refereePhone`, `serviceType`, `status`, `creditIssuedAt`). Resend dual-email: confirmation to referrer + intro email to referee. GA4 event: `referral_submitted`. | 8–12 hrs (page + form + DB + email + tracking) | Agent + user (program terms) | After PG1 ships and Phase 3 conversion baseline confirms team capacity for new funnel paths |
+
+## P6.B — Why these are deferred (not dropped)
+
+Both pages are real near-term opportunities — the user has explicitly flagged them as wanted scope. They sit here rather than in Phase 3 backlog because:
+
+- **Careers page** is recruiting infrastructure, not direct lead gen. Its conversion KPI (apply rate) doesn't reinforce the same funnel as lead/phone conversion, so it should ship after the primary funnel is dialed in.
+- **Referrals page** has highest potential ROI of the two (existing-customer referrals convert at 3–5× cold leads in HVAC), but it requires a working credit-tracking workflow (CRM tagging, payout process) that's better operationalized once the booked-job CRM tags from Phase 4 are mature.
+
+Both should be re-evaluated quarterly until launched.
+
+---
+
 # 🟦 Recurring Maintenance
 
 **Full checklist:** `/app/memory/RECURRING_MAINTENANCE.md`
@@ -534,6 +558,9 @@ P2.19 CallRail · P2.20 Enhanced Conv · P1.12a/b/c · A1/3/4-LP/5/6 · M4. **Ex
 
 **Phase 5 — Launch + Track Ads** (ongoing) 
 $10/day dry run × 5 days × 2 channels → scale → optimize on data.
+
+**Phase 6 — Post-Optimization Page Launches** (~14–22 hrs, deferred until Phase 3 KPIs trending + Phase 4 live) 
+PG1 Careers page · PG2 Referrals page. Re-evaluated quarterly until launched. Don't ship before primary funnel is locking in measurable wins.
 
 **Critical sequencing rules:**
 1. **GBP verification (P1.8) starts on Day 1 of Phase 2b** — verification takes 5–14 days, blocks the 60-day GBP uplift compounding window. Do not delay.

@@ -122,6 +122,7 @@
   h2 .num.p3 { background: var(--success-green); }
   h2 .num.p4 { background: var(--alert-amber); }
   h2 .num.p5 { background: var(--vivid-red); }
+  h2 .num.p6 { background: var(--slate-600); }
   .subhead {
     font-size: 0.95rem;
     color: var(--slate-600);
@@ -288,6 +289,7 @@
   .legend-dot.p3 { background: var(--success-green); }
   .legend-dot.p4 { background: var(--alert-amber); }
   .legend-dot.p5 { background: var(--vivid-red); }
+  .legend-dot.p6 { background: var(--slate-600); }
 
   .kpi-target {
     color: var(--slate-600);
@@ -376,6 +378,7 @@
     <a href="#p3">P3 — Conversion</a>
     <a href="#p4">P4 — Ad Infra</a>
     <a href="#p5">P5 — Ads Live</a>
+    <a href="#p6">P6 — New Pages</a>
     <a href="#maintenance">Maintenance</a>
     <a href="#dropped">Dropped</a>
     <a href="#rules">Rules</a>
@@ -389,7 +392,7 @@
   <p class="subhead">The site goal is <strong>organic traffic that converts</strong>. Paid ads are a force multiplier on a foundation-strong site, NOT a substitute for one.</p>
 
   <div class="stats">
-    <div class="stat"><div class="num">5</div><div class="label">Priorities</div></div>
+    <div class="stat"><div class="num">6</div><div class="label">Priorities</div></div>
     <div class="stat"><div class="num">~85 hrs</div><div class="label">Phase 1–4 effort</div></div>
     <div class="stat"><div class="num">93.6%</div><div class="label">Effective indexing rate</div></div>
     <div class="stat"><div class="num">A</div><div class="label">SecurityHeaders grade</div></div>
@@ -416,6 +419,7 @@
     <div class="legend-item"><span class="legend-dot p3"></span>P3 Conversion</div>
     <div class="legend-item"><span class="legend-dot p4"></span>P4 Ad Infrastructure</div>
     <div class="legend-item"><span class="legend-dot p5"></span>P5 Launch + Track</div>
+    <div class="legend-item"><span class="legend-dot p6"></span>P6 New Pages (Careers, Referrals)</div>
     <div class="legend-item"><span class="badge badge-shipped">Shipped</span></div>
     <div class="legend-item"><span class="badge badge-pending">Pending</span></div>
     <div class="legend-item"><span class="badge badge-defer">Deferred</span></div>
@@ -821,6 +825,55 @@
   </table>
 </section>
 
+<!-- ============ P6 ============ -->
+<section id="p6">
+  <h2><span class="num p6">P6</span> Post-Optimization Page Launches</h2>
+  <div class="definition">
+    <strong>Definition.</strong> New site sections that extend the funnel beyond core conversion paths. Deferred until <strong>Phases 1–4 are complete and Phase 3 KPIs are trending positive</strong> — these pages compete for engineering attention and SEO juice with the core lead-gen flow, so they only ship once the optimized core is locking in measurable wins.
+  </div>
+
+  <p class="subhead" style="font-size:0.88rem; margin-top:1rem; margin-bottom:1rem; color:var(--slate-600);">
+    <strong>Sequencing rationale:</strong> Building Careers and Referrals pages before the lead-gen site is fully optimized would dilute team focus and split SEO link equity across more URLs than the site can support at current authority. Once foundation, SEO, conversion, and ad-measurable layers are healthy (P1.B + P2.B + P3.B all trending green), these pages add high-quality user paths without cannibalizing the primary funnel.
+  </p>
+
+  <h3>Action Items</h3>
+  <table>
+    <thead><tr><th>#</th><th>ID</th><th>Item</th><th>Effort</th><th>Owner</th><th>Trigger</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="num-cell">1</td>
+        <td class="id-cell">PG1</td>
+        <td>
+          <strong>Careers page</strong> (<code>/careers</code>) — recruiting funnel for HVAC technicians, comfort advisors, install crews. Sections: company values + culture, current openings (Sanity-driven schema), benefits/compensation summary, application form (reuses <code>LeadForm</code> infra with <code>lead_type=career</code>), employee testimonials/photos. Schema: <code>JobPosting</code> JSON-LD per role for Google for Jobs eligibility.
+        </td>
+        <td>6–10 hrs (page + Sanity schema + form)</td>
+        <td>Agent + user (content)</td>
+        <td>After Phase 4 ad infrastructure live + Phase 3 KPIs trending green</td>
+      </tr>
+      <tr>
+        <td class="num-cell">2</td>
+        <td class="id-cell">PG2</td>
+        <td>
+          <strong>Referrals page</strong> (<code>/referrals</code>) — customer referral program landing page. Sections: program mechanics (e.g., "$50 credit per referred install"), how-it-works (3-step: refer → they book → you both earn), referral submission form with referrer + referee fields, terms/legal copy, social-share CTAs (FB / SMS / email pre-filled). MongoDB schema extension: <code>referrals</code> collection. Resend dual-email: confirmation to referrer + intro to referee. GA4 event: <code>referral_submitted</code>.
+        </td>
+        <td>8–12 hrs (page + form + DB + email + tracking)</td>
+        <td>Agent + user (program terms)</td>
+        <td>After PG1 ships + Phase 3 conversion baseline confirms team capacity</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Why deferred (not dropped)</h3>
+  <div class="card">
+    <p style="margin:0 0 0.7rem 0;">Both pages are real near-term opportunities — the user has explicitly flagged them as wanted scope. They sit here rather than in Phase 3 backlog because:</p>
+    <ul style="margin:0; padding-left:1.4rem;">
+      <li><strong>Careers page</strong> is recruiting infrastructure, not direct lead gen. Its conversion KPI (apply rate) doesn't reinforce the same funnel as lead/phone conversion, so it should ship after the primary funnel is dialed in.</li>
+      <li><strong>Referrals page</strong> has the highest potential ROI of the two (existing-customer referrals convert at 3–5× cold leads in HVAC), but it requires a working credit-tracking workflow (CRM tagging, payout process) that's better operationalized once the booked-job CRM tags from Phase 4 are mature.</li>
+    </ul>
+    <p style="margin:0.7rem 0 0 0; font-style:italic; color:var(--slate-600);">Re-evaluate quarterly until launched.</p>
+  </div>
+</section>
+
 <!-- ============ Maintenance ============ -->
 <section id="maintenance">
   <h2>Recurring Maintenance</h2>
@@ -868,6 +921,7 @@
     <li><strong>CallRail/DNI (P2.19) must be live before Day 1 of Phase 5.</strong> Without it, you'll optimize ads on 20–40% of conversion signal.</li>
     <li><strong>Phase 2b runs PARALLEL with Phase 3.</strong> Don't wait for the 28-week city content sprint to finish before shipping conversion fixes.</li>
     <li><strong>No two phases skip ahead.</strong> Phase 1 must complete (or have ticketed plan) before Phase 2a starts. Phase 4 must NOT start before Phase 3 baseline is trending positive.</li>
+    <li><strong>Phase 6 is gated on Phase 3 KPIs trending green + Phase 4 live.</strong> Careers (PG1) and Referrals (PG2) pages don't ship until the primary lead-gen funnel is locking in measurable wins. Re-evaluate quarterly.</li>
   </ol>
 </section>
 
@@ -913,6 +967,7 @@ efit; defer unless TTFB surfaces as CWV issue</td></tr>
     <li><strong>CallRail/DNI (P2.19) must be live before Day 1 of Phase 5.</strong> Without it, you'll optimize ads on 20–40% of conversion signal.</li>
     <li><strong>Phase 2b runs PARALLEL with Phase 3.</strong> Don't wait for the 28-week city content sprint to finish before shipping conversion fixes.</li>
     <li><strong>No two phases skip ahead.</strong> Phase 1 must complete (or have ticketed plan) before Phase 2a starts. Phase 4 must NOT start before Phase 3 baseline is trending positive.</li>
+    <li><strong>Phase 6 is gated on Phase 3 KPIs trending green + Phase 4 live.</strong> Careers (PG1) and Referrals (PG2) pages don't ship until the primary lead-gen funnel is locking in measurable wins. Re-evaluate quarterly.</li>
   </ol>
 </section>
 
