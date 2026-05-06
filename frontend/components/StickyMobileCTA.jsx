@@ -71,6 +71,7 @@ const StickyMobileCTA = ({
             href={`tel:${phoneNumber}`}
             className="flex-1 flex items-center justify-center gap-3 text-white font-bold text-lg min-h-[44px]"
             data-testid="sticky-cta-call-btn"
+            data-cta-source="sticky_mobile_cta"
           >
             <Phone className="w-6 h-6 animate-pulse" />
             <span>{ctaText}</span>

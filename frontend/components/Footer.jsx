@@ -3,7 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Phone, Mail, MapPin, Clock, Facebook, Linkedin, Twitter, Youtube } from 'lucide-react'
+import { Phone, Mail, MapPin, Clock, Lock, Facebook, Linkedin, Twitter, Youtube } from 'lucide-react'
 
 // Inline Google "G" logo SVG. Lucide-react doesn't ship brand logos for
 // licensing reasons, so we keep this minimal inline component (~700 bytes,
@@ -185,7 +185,7 @@ const Footer = ({ companyInfo = {}, siteSettings = null }) => {
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Contact Us</h3>
             <div className="space-y-3">
-              <a href="tel:+19727772665" className="flex items-center gap-3 text-sm text-white hover:decoration-white transition-colors">
+              <a href="tel:+19727772665" data-cta-source="footer" className="flex items-center gap-3 text-sm text-white hover:decoration-white transition-colors">
                 <Phone className="w-4 h-4 text-vivid-red" />
                 <div className="font-semibold underline underline-offset-2 decoration-gray-500">{phoneDigits}</div>
               </a>
@@ -223,7 +223,20 @@ const Footer = ({ companyInfo = {}, siteSettings = null }) => {
               </>
             )}
           </div>
-          <div className="flex gap-6 text-sm">
+          <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm items-center justify-center">
+            {/* C8 (May 4, 2026) — "🔒 Secured" trust microcopy. Targets hesitant
+                homeowners on financing CTA + contact form. Lock icon already in
+                lucide-react bundle (zero JS cost). Links to /privacy-policy so
+                the claim is substantiated, not handwave. */}
+            <Link
+              href="/privacy-policy"
+              className="text-gray-400 hover:text-white transition-colors inline-flex items-center gap-1.5"
+              data-testid="footer-secured-trust-microcopy"
+              title="Your information is encrypted and never shared with third parties. Click to read our privacy policy."
+            >
+              <Lock className="w-3.5 h-3.5" aria-hidden="true" />
+              <span>Your information is secure</span>
+            </Link>
             <Link href="/privacy-policy" className="text-gray-400 hover:text-white transition-colors">
               Privacy Policy
             </Link>
