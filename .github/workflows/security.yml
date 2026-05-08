@@ -47,7 +47,21 @@ jobs:
           # Re-enable later only if CI duration becomes a real bottleneck.
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        # Try frozen-lockfile first to catch real drift in normal PRs.
+        # If it fails (typically because a package.json merge conflict was
+        # resolved in the GitHub web editor without regenerating yarn.lock),
+        # fall back to a regular install so the audit can still run. The
+        # actual security gate is the `yarn audit` JSON parser below — drift
+        # alone is not a security issue.
+        run: |
+          set +e
+          yarn install --frozen-lockfile
+          STATUS=$?
+          set -e
+          if [ "$STATUS" -ne 0 ]; then
+            echo "::warning::yarn.lock out of sync with package.json. Regenerating to allow audit to run. Please update yarn.lock locally before next merge."
+            yarn install
+          fi
 
       # yarn 1's `--level` flag has known bugs in exit-code reporting (it can
       # exit non-zero on lower-severity advisories even when no critical ones
