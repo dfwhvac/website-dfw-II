@@ -239,7 +239,7 @@ const LeadForm = ({
               Number of HVAC Systems *
             </Label>
             <Select onValueChange={(value) => handleInputChange('numSystems', value)}>
-              <SelectTrigger aria-label="Number of HVAC systems" className="h-12 border-gray-300 focus:border-electric-blue focus:ring-electric-blue">
+              <SelectTrigger id="numSystems" aria-label="Number of HVAC systems" className="h-12 border-gray-300 focus:border-electric-blue focus:ring-electric-blue">
                 <SelectValue placeholder="Select number of systems" />
               </SelectTrigger>
               <SelectContent>

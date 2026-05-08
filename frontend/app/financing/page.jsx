@@ -1,7 +1,7 @@
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
-import { BreadcrumbListSchema } from '@/components/SchemaMarkup'
+import { BreadcrumbListSchema, LocalBusinessSchema } from '@/components/SchemaMarkup'
 import { getCompanyInfo, getSiteSettings } from '@/lib/sanity'
 import { companyInfo as mockCompanyInfo } from '@/lib/mockData'
 import { getReviewBadgeCount, buildTitleWithBadge } from '@/lib/metadata'
@@ -51,6 +51,42 @@ export default async function FinancingPage() {
   return (
     <div className="min-h-screen bg-white">
       <BreadcrumbListSchema items={breadcrumbs} />
+      <LocalBusinessSchema companyInfo={companyInfo} />
+      {/* F13-P1.2 (May 4, 2026): Offer schema for the Wisetack 0% APR
+          financing program. Fills the AEO/rich-snippet gap that the F13
+          architecture audit surfaced (financing page previously emitted only
+          BreadcrumbList). */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Offer',
+            name: '0% APR HVAC Financing — up to 24 months',
+            description:
+              'Up to 24 months 0% APR financing on qualifying new HVAC system installations in Dallas-Fort Worth. Pre-qualify in seconds with a soft credit check (no impact to credit score) through Wisetack.',
+            url: 'https://dfwhvac.com/financing',
+            availability: 'https://schema.org/InStock',
+            areaServed: {
+              '@type': 'AdministrativeArea',
+              name: 'Dallas-Fort Worth Metroplex, Texas',
+            },
+            seller: {
+              '@type': 'HVACBusiness',
+              name: companyInfo?.name || 'DFW HVAC',
+              telephone: companyInfo?.phone || '+1-972-777-2665',
+              url: 'https://dfwhvac.com',
+            },
+            priceSpecification: {
+              '@type': 'PriceSpecification',
+              priceCurrency: 'USD',
+              description: 'Monthly payment plans starting from approved Wisetack offers; financing terms 12–24 months at 0% APR for qualified applicants.',
+            },
+            eligibleCustomerType: 'Homeowner',
+            category: 'HVAC system replacement financing',
+          }).replace(/</g, '\\u003c'),
+        }}
+      />
       <Header companyInfo={companyInfo} siteSettings={siteSettings} />
 
       {/* Hero */}

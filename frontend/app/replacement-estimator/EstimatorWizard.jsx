@@ -317,14 +317,14 @@ export default function EstimatorWizard() {
                       className="w-full text-left flex items-center justify-between gap-3 group"
                       data-testid="estimator-optin-toggle"
                     >
-                      <div>
-                        <h3 className="text-lg font-bold text-gray-900">
+                      <span className="block">
+                        <span className="block text-lg font-bold text-gray-900">
                           Want us to call and schedule your free written estimate?
-                        </h3>
-                        <p className="text-sm text-gray-600 mt-1">
+                        </span>
+                        <span className="block text-sm text-gray-600 mt-1">
                           Optional — we&apos;ll reach out within 2 business hours. No obligation.
-                        </p>
-                      </div>
+                        </span>
+                      </span>
                       <ArrowRight className="w-5 h-5 text-electric-blue shrink-0 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                     </button>
                   ) : (
@@ -503,7 +503,7 @@ export default function EstimatorWizard() {
                       }`}
                       data-testid={`estimator-option-${currentQuestion.id}-${opt.value}`}
                     >
-                      <div className="flex items-center gap-3">
+                      <span className="flex items-center gap-3">
                         <span
                           className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${
                             selected ? 'border-electric-blue bg-electric-blue' : 'border-gray-300 bg-white'
@@ -513,7 +513,7 @@ export default function EstimatorWizard() {
                           {selected && <span className="w-2 h-2 rounded-full bg-white" />}
                         </span>
                         <span>{opt.label}</span>
-                      </div>
+                      </span>
                     </button>
                   )
                 })}

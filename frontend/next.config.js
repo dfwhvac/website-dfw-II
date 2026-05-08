@@ -42,11 +42,11 @@ const nextConfig = {
               "default-src 'self'",
               // 'unsafe-inline' + 'unsafe-eval' retained for Next.js inline RSC payloads + GTM/GA.
               // Tracked as accepted risk in /app/memory/audits/2026-04-27_KPI_Baseline.md (Security section).
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com https://www.gstatic.com https://www.googletagmanager.com https://app.realworklabs.com https://maps.googleapis.com",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com https://www.gstatic.com https://www.googletagmanager.com https://app.realworklabs.com https://maps.googleapis.com https://www.clarity.ms https://c.clarity.ms",
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "img-src 'self' data: blob: https://cdn.sanity.io https://images.unsplash.com https://maps.googleapis.com https://maps.gstatic.com https://*.google.com https://*.googleusercontent.com https://app.realworklabs.com",
               "font-src 'self' https://fonts.gstatic.com",
-              "connect-src 'self' https://iar2b790.api.sanity.io https://iar2b790.apicdn.sanity.io https://www.google.com https://maps.googleapis.com https://www.google-analytics.com https://www.googletagmanager.com https://app.realworklabs.com https://vitals.vercel-insights.com https://vercel.live",
+              "connect-src 'self' https://iar2b790.api.sanity.io https://iar2b790.apicdn.sanity.io https://www.google.com https://maps.googleapis.com https://www.google-analytics.com https://www.googletagmanager.com https://app.realworklabs.com https://vitals.vercel-insights.com https://vercel.live https://www.clarity.ms https://c.clarity.ms https://*.clarity.ms",
               "frame-src 'self' https://www.google.com https://app.realworklabs.com",
               "frame-ancestors 'none'",
               "form-action 'self'",
@@ -142,4 +142,11 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+// @next/bundle-analyzer wrapper — activates only when ANALYZE=true is set in the env.
+// Standard usage: ANALYZE=true yarn build → opens an interactive treemap of the bundle.
+// Added May 4, 2026 (F13 architecture audit).
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
+
+module.exports = withBundleAnalyzer(nextConfig);
