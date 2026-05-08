@@ -174,7 +174,7 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
               {headerTagline}
             </Link>
             <div className="flex items-center gap-4">
-              <a href="tel:+19727772665" className="flex items-center gap-2 text-vivid-red font-semibold hover:underline">
+              <a href="tel:+19727772665" data-cta-source="header_topbar_link" className="flex items-center gap-2 text-vivid-red font-semibold hover:underline">
                 <Phone className="w-4 h-4" />
                 <span>{phone} <span className="text-gray-600 font-normal text-xs">(2665)</span></span>
               </a>
@@ -183,7 +183,7 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
                 className="bg-vivid-red hover:bg-vivid-red text-white"
                 asChild
               >
-                <a href="tel:+19727772665">
+                <a href="tel:+19727772665" data-cta-source="header_topbar_cta">
                   {headerCtaText}
                 </a>
               </Button>
@@ -238,7 +238,7 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
                   className="bg-vivid-red hover:bg-red-700 text-white font-semibold"
                   asChild
                 >
-                  <a href={btn.href}>{btn.label}</a>
+                  <a href={btn.href} data-cta-source="header_desktop_cta">{btn.label}</a>
                 </Button>
               ) : (
                 <Button
@@ -323,7 +323,7 @@ const Header = ({ companyInfo = {}, siteSettings = null }) => {
                     className="w-full bg-vivid-red hover:bg-red-700 text-white font-semibold"
                     asChild
                   >
-                    <a href={btn.href}>{btn.label}</a>
+                    <a href={btn.href} data-cta-source="header_mobile_menu">{btn.label}</a>
                   </Button>
                 ) : (
                   <Button

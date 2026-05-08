@@ -14,6 +14,16 @@ This file contains ONLY future-facing work, organized strictly by the 5-priority
 > on `main` (Run #68, May 4). Eight one-off Python scripts that hardcoded keys
 > deleted from repo root. Going forward, any **new** leak still fails the build.
 
+> **🎯 Active Execution Priority (May 4, 2026 strategic re-evaluation):** The
+> 5-tier priority framework below remains the strategic structure, but
+> **near-term execution order has been re-ranked against the project goal of
+> "organic traffic that converts"** — see `## 🚀 Active Execution Order` block
+> immediately below the priority framework. F10 (Sanity v5) was the previously
+> documented #1; it has been pushed to **Tier 4 (focused single-purpose
+> session)** because it earns no user-facing KPI and the conversion-uplift
+> Phase 3 quick wins ship faster (~4 hrs total) and serve the project goal
+> directly.
+
 ---
 
 ## 🎯 Priority Framework (adopted Apr 27, 2026)
@@ -29,6 +39,76 @@ The site goal is **organic traffic that converts**, with paid ads as a force mul
 | **P5** | Launch + Track Ads | Spend live; optimize ruthlessly on ground-truth data. |
 
 Each priority requires its own KPI baseline + reevaluation cadence. See `/app/memory/audits/2026-04-27_KPI_Baseline.md` (to be created in Phase 1).
+
+---
+
+## 🚀 Active Execution Order (re-ranked May 4, 2026)
+
+The 5-tier framework above defines **strategic phases**. This block defines **near-term execution order**, re-ranked against the project goal ("organic traffic that converts") rather than ticket-cleanliness. **Pick from the top of this list each session.** When a tier is exhausted, drop down. Each item links to its full detail in the Phase tables below.
+
+### 🔴 Tier 1 — Phase 3 Quick-Wins Sprint (THIS WEEK, ~4 hrs total agent work)
+
+Ship as one continuous session if possible. Each item is a direct conversion-uplift lever. Hits the project goal head-on.
+
+| # | ID | Item | Effort | Phase ref |
+|---|---|---|---|---|
+| 1 | **C7** | "What happens next" copy under every form ("we'll call within 1 business hour") | 1 hr | P3.D |
+| 2 | **C8** | "🔒 Secured" footer trust microcopy with `lucide-react` Lock icon | 30 min | P3.D |
+| 3 | **C2** | Click-to-call CTA placement audit (verify red phone reachable in <3s on every mobile page) | 1 hr | P3.D |
+| 4 | **C6** | Mobile sticky-CTA conversion segment in GA4 (measures what's already shipped) | 30 min | P3.D |
+| 5 | **P1.9e** | Footer trust signals (license #, BBB, family-owned, 145+ reviews) | 1 hr | P3.D |
+
+**Rationale:** HVAC is anxiety-driven (broken AC in Texas summer). Visible response-time + trust signals measurably reduce form abandonment. Every item is low-risk copy/UI work; no DB or schema changes; no integration risk.
+
+### 🟠 Tier 2 — User-led, blocking-clock items (start within 7 days)
+
+| # | ID | Item | Effort | Why this tier |
+|---|---|---|---|---|
+| 6 | **P1.8** | **Google Business Profile verification + optimization** | 4 hrs initial + 30 min/wk ongoing | Verification clock takes 5–14 days; 60-day GBP uplift compounding window starts only after that. Every week of delay = permanently-lost organic traffic. |
+| 7 | **F3b** | HSTS Preload List submission (hstspreload.org) | 10 min user | One-way ratchet. 30-day eligibility already verified. |
+| 8 | **F12** | GitHub Actions Node 20→24 bump (one-click merge of next Dependabot PR) | 5 min user | Auto-staged via Dependabot weekly cron; with gitleaks now passing, the next PR is one-click mergeable. June 2026 soft deadline. |
+| 9 | **P1.6f** | Rich Results validation on 7 high-value URLs | 30 min user | Confirms FAQPage/HowTo/WebApplication schema is parseable. Schema that doesn't validate isn't eligible for rich snippets (5–20% organic CTR loss). |
+| 10 | **A3** | May 5 GSC re-audit (diff against Apr 27 baseline) | 10 min user + 30 min agent | Confirms commercial-cooling/maintenance content patches + legacy URL redirects cleared. |
+
+### 🟡 Tier 3 — Next 2 weeks (medium effort, real impact)
+
+| # | ID | Item | Effort | Phase ref |
+|---|---|---|---|---|
+| 11 | **P1.9b** | Review badge in every page hero | 2 hrs | P3.D |
+| 12 | **P1.9c** | Inline review carousel near every form | 2 hrs | P3.D |
+| 13 | **C4** | Form abandonment tracking — GA4 events on field-blur | 1 hr | P3.D |
+| 14 | **P2.19-scope** | CallRail vs Twilio DNI **scoping decision** (vendor + pricing + number-pool size) — NOT the build, just the 30-min decision | 30 min user | P4.D — promoted: HVAC is 60–80% phone conversions; cannot attribute calls to source without DNI; Phase 5 ad launch is blocked on this. Decide vendor early. |
+
+### 🟢 Tier 4 — Focused single-purpose session work
+
+| # | ID | Item | Effort | Why standalone |
+|---|---|---|---|---|
+| 15 | **F10** | Sanity v3.25 → v5.22 upgrade | 1.5–3 hrs agent + 15 min user QA | Major dep upgrade. Best done as the only thing in a session: preview branch → user QAs Studio admin → merge. Earns no user-facing KPI but closes 28 high-sev CVE accepted-risk debt. **Was previously #1; demoted because it doesn't move the project goal.** |
+| 16 | **P1.10** | Progressive form redesign (2-field → expand) | 4–6 hrs | HOLD until Microsoft Clarity has 14 days of baseline form-fill data (so we can quantify the lift). Re-evaluate weekly. |
+
+### 🔵 Tier 5 — Phase 4 build sprint (start when Phase 3 KPIs trending positive)
+
+P2.19 CallRail/DNI build · P1.12a/b/c ad LP infra · P2.20 Enhanced Conversions · A1/3-fb/4-LP/5/6 · M4 deploy freeze policy. See P4.D for full list.
+
+### 🟣 Tier 6 — Pre-launch ad work (gated on Tier 5 complete)
+
+A4-LP three quote landing pages · M4 deploy freeze policy formalized.
+
+### 🟤 Tier 7 — Quarterly + ongoing (Phase 2b cadence, runs parallel)
+
+P1.6b city page rewrites (1 city/wk × 28 weeks) · P1.6e review response cadence · S3 AEO citation audits (quarterly) · S4 programmatic SEO audit · S8 featured snippet audit · S9 Bing/Apple Maps Connect · S10 quarterly competitor audit · P2.17 deprecate Sanity `metaTitle` · F9 live KPI widget on roadmap-preview.html.
+
+### 🪵 Tier 8 — Internal hygiene (when there's slack capacity)
+
+P2.7 unused dep audit · P2.15 component decomposition · F7 Lighthouse CI gate · P2.4c Lighthouse all-green re-verification · F3c CSP nonce migration. **None of these earn a user-facing KPI; defer until top tiers are working through.**
+
+### 🔮 Tier 9 — Future / blocked
+
+- Phase 5 (ads launch): L1–L10 — gated on Phase 4 complete
+- Phase 6 (new pages): PG1 Careers, PG2 Referrals — gated on Phase 3 trending green + Phase 4 live
+- INFRA-1 Vercel DNS migration — owner schedule, not blocking
+- C3 Estimator pricing matrix — BLOCKED on user pricing data
+- P2.10 Lead magnets · P2.13 Exit intent · P2.14 Urgency signals · P2.12 SMS — defer until Phase 3 KPIs trending
 
 ---
 
@@ -113,7 +193,7 @@ Document captures live in `/app/memory/audits/2026-04-27_KPI_Baseline.md`.
 
 | # | ID | Item | Effort | Owner |
 |---|---|---|---|---|
-| 1 | **F10** | **🔥 Sanity v3.25 → v5.22 major upgrade** — clears all 28 high-severity transitive CVEs (minimatch ReDoS, lodash code injection, rollup path traversal, picomatch ReDoS, axios DoS) currently flagged as accepted risk. Stack already compatible: React 19.2.5 ✅ (v5 needs ≥19.2), Node 20 ✅ (v4 needs ≥20). After upgrade, tighten `.github/workflows/security.yml` audit gate from `--level critical` back to `--level high`. **Workflow:** preview branch → user QAs Studio admin (`<preview>/studio`, ~15 min, agent can't log in) + agent QAs public pages → merge. **Logged Feb 28, 2026; reconfirmed top priority May 4, 2026 after security incident closure.** | 1.5–3 hrs agent + 15 min user QA | Agent (lead) + User (Studio QA) |
+| 1 | **F10** | **🔥 Sanity v3.25 → v5.22 major upgrade** — clears all 28 high-severity transitive CVEs (minimatch ReDoS, lodash code injection, rollup path traversal, picomatch ReDoS, axios DoS) currently flagged as accepted risk. Stack already compatible: React 19.2.5 ✅ (v5 needs ≥19.2), Node 20 ✅ (v4 needs ≥20). After upgrade, tighten `.github/workflows/security.yml` audit gate from `--level critical` back to `--level high`. **Workflow:** preview branch → user QAs Studio admin (`<preview>/studio`, ~15 min, agent can't log in) + agent QAs public pages → merge. **Logged Feb 28, 2026; reconfirmed top priority May 4, 2026 after security incident closure.** **⚠️ DEMOTED to Tier 4 (focused single-purpose session) on May 4, 2026 strategic re-rank — see `## 🚀 Active Execution Order`. F10 earns no user-facing KPI; conversion-uplift Phase 3 quick wins ship first.** | 1.5–3 hrs agent + 15 min user QA | Agent (lead) + User (Studio QA) |
 | 2 | **F12** | **Bump GitHub Actions versions to clear Node.js 20 deprecation warnings** — `actions/checkout@v4 → v5`, `actions/setup-node@v4 → v5`, `gitleaks/gitleaks-action@v2 → latest` (if a newer major exists). GitHub force-upgrades Node 20 → 24 in June 2026 so this is a soft deadline. Dependabot auto-reopens these PRs weekly; with gitleaks now passing on `main`, the next round will pass CI cleanly and is one-click mergeable. Optional manual short-circuit. | 5 min user (one-click merge) OR 10 min agent | User (preferred) or Agent |
 | 3 | P2.7 | Code cleanup / unused dep audit (`yarn depcheck`, dead `mockData.js`) | 1–2 hrs | Agent |
 | 4 | P2.15 | Component decomposition (templates >300 lines) | variable | Agent |
