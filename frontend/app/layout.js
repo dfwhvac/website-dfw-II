@@ -45,8 +45,14 @@ export default async function RootLayout({ children }) {
         <Script id="ga-preview-guard" strategy="beforeInteractive">
           {`(function(){try{var h=location.hostname;var ok=(h==='www.dfwhvac.com'||h==='dfwhvac.com');if(!ok){window['ga-disable-${GA_ID}']=true;}}catch(e){}})();`}
         </Script>
-        <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="afterInteractive" />
-        <Script id="gtag-init" strategy="afterInteractive">
+        {/* GA4 + Clarity — lazyOnload (F13-P1.1, May 4, 2026). Both were on
+            'afterInteractive' which fires during React hydration and was a
+            major TBT contributor (332ms+249ms long tasks per page from
+            googletagmanager.com per Lighthouse). lazyOnload defers until
+            browser-idle, removing the TBT hit while still capturing analytics
+            (1-2 sec delay is invisible to the user and irrelevant to GA/Clarity). */}
+        <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="lazyOnload" />
+        <Script id="gtag-init" strategy="lazyOnload">
           {`window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
@@ -55,10 +61,10 @@ export default async function RootLayout({ children }) {
         {/* Microsoft Clarity heatmaps + session recordings (Phase 3 P3.D-C1, Feb 28, 2026).
             Production-only via hostname allow-list — same pattern as ga-preview-guard above.
             FREE forever (Microsoft Advertising funds it). GDPR/CCPA-compliant out of the box,
-            anonymized PII automatically masked. afterInteractive strategy mirrors GA4 so we
-            capture the same session window across both tools. Used to capture pre-P1.10
-            (progressive form redesign) baseline of where users click, scroll, and abandon. */}
-        <Script id="ms-clarity" strategy="afterInteractive">
+            anonymized PII automatically masked. lazyOnload mirrors GA4 — also was a TBT
+            contributor before F13-P1.1. Used to capture pre-P1.10 (progressive form
+            redesign) baseline of where users click, scroll, and abandon. */}
+        <Script id="ms-clarity" strategy="lazyOnload">
           {`(function(c,l,a,r,i,t,y){
             var h=l.location.hostname;
             if(h!=='www.dfwhvac.com'&&h!=='dfwhvac.com')return;

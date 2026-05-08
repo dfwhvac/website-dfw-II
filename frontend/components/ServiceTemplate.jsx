@@ -126,7 +126,7 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [], mainten
             <div className="lg:pl-8">
               <div className="bg-gradient-to-br from-electric-blue to-prussian-blue rounded-2xl p-8 text-white text-center">
                 <IconComponent className="w-24 h-24 mx-auto mb-4 opacity-90" />
-                <h3 className="text-2xl font-bold mb-2">Professional Service</h3>
+                <h2 className="text-2xl font-bold mb-2">Professional Service</h2>
                 <p className="text-lg opacity-90">Licensed & Insured Technicians</p>
                 <div className="mt-6 flex items-center justify-center gap-1">
                   {[...Array(5)].map((_, i) => (

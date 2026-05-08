@@ -42,49 +42,58 @@ Each priority requires its own KPI baseline + reevaluation cadence. See `/app/me
 
 ---
 
-## 🚀 Active Execution Order (re-ranked May 4, 2026)
+## 🚀 Active Execution Order (re-ranked May 4, 2026 · Tier 1 ✅ COMPLETE)
 
 The 5-tier framework above defines **strategic phases**. This block defines **near-term execution order**, re-ranked against the project goal ("organic traffic that converts") rather than ticket-cleanliness. **Pick from the top of this list each session.** When a tier is exhausted, drop down. Each item links to its full detail in the Phase tables below.
 
-### 🔴 Tier 1 — Phase 3 Quick-Wins Sprint (THIS WEEK, ~4 hrs total agent work)
+### ✅ Tier 1 — Phase 3 Quick-Wins Sprint COMPLETE (May 4, 2026)
 
-Ship as one continuous session if possible. Each item is a direct conversion-uplift lever. Hits the project goal head-on.
+Outcome: 3 shipped, 2 struck after audit, F13 architecture audit unlocked an additional 4 fixes.
 
-| # | ID | Item | Effort | Phase ref |
-|---|---|---|---|---|
-| 1 | **C7** | "What happens next" copy under every form ("we'll call within 1 business hour") | 1 hr | P3.D |
-| 2 | **C8** | "🔒 Secured" footer trust microcopy with `lucide-react` Lock icon | 30 min | P3.D |
-| 3 | **C2** | Click-to-call CTA placement audit (verify red phone reachable in <3s on every mobile page) | 1 hr | P3.D |
-| 4 | **C6** | Mobile sticky-CTA conversion segment in GA4 (measures what's already shipped) | 30 min | P3.D |
-| 5 | **P1.9e** | Footer trust signals (license #, BBB, family-owned, 145+ reviews) | 1 hr | P3.D |
+| # | ID | Item | Outcome |
+|---|---|---|---|
+| 1 | C7 | "What happens next" copy under every form | ❌ STRUCK after audit revealed 5 existing expectation-setting touchpoints (form description, trust signals, success toast, /thanks page, customer auto-reply email) — would have been ~80% redundant |
+| 2 | C8 | "🔒 Secured" footer trust microcopy with `lucide-react` Lock icon | ✅ Shipped May 4 — Lock icon + "Your information is secure" link → /privacy-policy |
+| 3 | C2 | Click-to-call CTA placement audit | ✅ PASS May 4 — phone reachable in <3s on every mobile page across 5 user states. Audit doc: `audits/2026-05-04_C2_Click_To_Call_Mobile_Reachability.md` |
+| 4 | C6 | Mobile sticky-CTA conversion segment in GA4 | ✅ Shipped May 4 — `cta_source` parameter added to `phone_click` event; 7 surfaces tagged (sticky_mobile_cta, header_topbar_link/cta, header_desktop_cta, header_mobile_menu, footer, inline) |
+| 5 | P1.9e | Footer trust signals (license, BBB, family-owned, 145+ reviews) | ❌ STRUCK — judged unnecessary; license # already shipped via C8 work |
 
-**Rationale:** HVAC is anxiety-driven (broken AC in Texas summer). Visible response-time + trust signals measurably reduce form abandonment. Every item is low-risk copy/UI work; no DB or schema changes; no integration risk.
+**Bonus shipped via F13 Architecture Foundation Audit (May 4, 2026):**
 
-### 🟠 Tier 2 — User-led, blocking-clock items (start within 7 days)
+| ID | Item | Outcome |
+|---|---|---|
+| **F13** | Architecture Foundation Audit (8 of 9 layers, ~3.5 hrs sitewide) | ✅ Baseline established. Full report: `audits/2026-05-04_F13_Architecture_Foundation.md`. Net verdict: 93% → 99% post-fixes. Quarterly re-audit due Aug 4, 2026. |
+| **F13-P0.1** | 🔥 CSP was blocking Microsoft Clarity sitewide | ✅ FIXED May 4 — added `clarity.ms` domains to script-src + connect-src. **Clarity has been collecting ZERO data since deploy.** 14-day baseline clock for P1.10 progressive form decision now starts at deploy. |
+| **F13-P1.1** | TBT regression on 6 pages (worst: heating 901ms TBT) | ✅ ROOT CAUSE FIXED May 4 — switched GA4 + Clarity `<Script>` strategy from `afterInteractive` → `lazyOnload`. Estimated 200–500ms TBT improvement sitewide. Reverify in next monthly Lighthouse cadence (May 27). |
+| **F13-P1.2** | Schema gaps on /financing + /faq | ✅ SHIPPED May 4 — `/financing` now emits BreadcrumbList + LocalBusiness + custom Offer schema (Wisetack 0% APR program). `/faq` now emits FAQPage + LocalBusiness + Breadcrumb. |
+| **F13-P1.3** | HTML validation errors (3 of 4 fixed) | ✅ MOSTLY FIXED May 4 — heading hierarchy h1→h3 fixed in ServiceTemplate; `<div>` inside `<button>` fixed in EstimatorWizard; broken `<label htmlFor>` fixed in LeadForm. Empty `<option>` documented as Radix UI false positive. |
+
+### 🟠 Tier 2 — User-led, blocking-clock items (NOW FIRST UP — start within 7 days)
 
 | # | ID | Item | Effort | Why this tier |
 |---|---|---|---|---|
-| 6 | **P1.8** | **Google Business Profile verification + optimization** | 4 hrs initial + 30 min/wk ongoing | Verification clock takes 5–14 days; 60-day GBP uplift compounding window starts only after that. Every week of delay = permanently-lost organic traffic. |
-| 7 | **F3b** | HSTS Preload List submission (hstspreload.org) | 10 min user | One-way ratchet. 30-day eligibility already verified. |
-| 8 | **F12** | GitHub Actions Node 20→24 bump (one-click merge of next Dependabot PR) | 5 min user | Auto-staged via Dependabot weekly cron; with gitleaks now passing, the next PR is one-click mergeable. June 2026 soft deadline. |
-| 9 | **P1.6f** | Rich Results validation on 7 high-value URLs | 30 min user | Confirms FAQPage/HowTo/WebApplication schema is parseable. Schema that doesn't validate isn't eligible for rich snippets (5–20% organic CTR loss). |
-| 10 | **A3** | May 5 GSC re-audit (diff against Apr 27 baseline) | 10 min user + 30 min agent | Confirms commercial-cooling/maintenance content patches + legacy URL redirects cleared. |
+| 1 | **P1.8** | **Google Business Profile audit + optimization** (already verified per user May 4) | 20 min user (admin screenshots) + agent audit + 4 hrs initial fix-list ship + 30 min/wk ongoing | GBP impressions = 30–50% of total search visibility for local-service businesses; 60-day optimization compounding window only starts after Posts/photos/Q&A baseline established |
+| 2 | **F3b** | HSTS Preload List submission (hstspreload.org) | 10 min user | One-way ratchet. 30-day eligibility already verified. Permanent commitment to HTTPS-only (Vercel guarantees this anyway). |
+| 3 | **F12** | GitHub Actions Node 20→24 bump | 5 min user (one-click merge of next Dependabot reopen) | Soft deadline June 2026; with gitleaks now passing, Dependabot's PRs are one-click mergeable. |
+| 4 | **P1.6f** | Rich Results validation on 7 high-value URLs | 30 min user | Confirms FAQPage / WebApplication / HowTo / Service / LocalBusiness / BreadcrumbList / Offer (new) schema. |
+| 5 | **A3** | May 5 GSC re-audit (diff against Apr 27 baseline) | 10 min user + 30 min agent | Confirms commercial-cooling/maintenance content patches + legacy URL redirects cleared. |
 
 ### 🟡 Tier 3 — Next 2 weeks (medium effort, real impact)
 
 | # | ID | Item | Effort | Phase ref |
 |---|---|---|---|---|
-| 11 | **P1.9b** | Review badge in every page hero | 2 hrs | P3.D |
-| 12 | **P1.9c** | Inline review carousel near every form | 2 hrs | P3.D |
-| 13 | **C4** | Form abandonment tracking — GA4 events on field-blur | 1 hr | P3.D |
-| 14 | **P2.19-scope** | CallRail vs Twilio DNI **scoping decision** (vendor + pricing + number-pool size) — NOT the build, just the 30-min decision | 30 min user | P4.D — promoted: HVAC is 60–80% phone conversions; cannot attribute calls to source without DNI; Phase 5 ad launch is blocked on this. Decide vendor early. |
+| 1 | **P1.10** | Progressive form redesign (2-field → expand) | 4–6 hrs | **HOLD until May 18, 2026 minimum** (14 days of post-fix Clarity baseline data must accumulate first; pre-May 4 the sensor was broken) |
+| 2 | **P1.9b** | Review badge in every page hero | 2 hrs | P3.D |
+| 3 | **P1.9c** | Inline review carousel near every form | 2 hrs | P3.D |
+| 4 | **C4** | Form abandonment tracking — GA4 events on field-blur | 1 hr | P3.D |
+| 5 | **P2.19-scope** | CallRail vs Twilio DNI **scoping decision** (vendor + pricing + number-pool size). NOT the build, just the decision. | 30 min user | P4.D — promoted: HVAC is 60–80% phone conversions; Phase 5 ad launch blocked on this. |
 
 ### 🟢 Tier 4 — Focused single-purpose session work
 
 | # | ID | Item | Effort | Why standalone |
 |---|---|---|---|---|
-| 15 | **F10** | Sanity v3.25 → v5.22 upgrade | 1.5–3 hrs agent + 15 min user QA | Major dep upgrade. Best done as the only thing in a session: preview branch → user QAs Studio admin → merge. Earns no user-facing KPI but closes 28 high-sev CVE accepted-risk debt. **Was previously #1; demoted because it doesn't move the project goal.** |
-| 16 | **P1.10** | Progressive form redesign (2-field → expand) | 4–6 hrs | HOLD until Microsoft Clarity has 14 days of baseline form-fill data (so we can quantify the lift). Re-evaluate weekly. |
+| 1 | **F10** | Sanity v3.25 → v5.22 upgrade | 1.5–3 hrs agent + 15 min user QA | Major dep upgrade. Best done as the only thing in a session: preview branch → user QAs Studio admin → merge. Earns no user-facing KPI but closes 28 high-sev CVE accepted-risk debt. |
+| 2 | **F13 quarterly re-audit** | Re-run F13 architecture audit | 3.5 hrs agent | Due Aug 4, 2026. Diff against May 4 baseline; flag any regressions. |
 
 ### 🔵 Tier 5 — Phase 4 build sprint (start when Phase 3 KPIs trending positive)
 
@@ -100,7 +109,7 @@ P1.6b city page rewrites (1 city/wk × 28 weeks) · P1.6e review response cadenc
 
 ### 🪵 Tier 8 — Internal hygiene (when there's slack capacity)
 
-P2.7 unused dep audit · P2.15 component decomposition · F7 Lighthouse CI gate · P2.4c Lighthouse all-green re-verification · F3c CSP nonce migration. **None of these earn a user-facing KPI; defer until top tiers are working through.**
+P2.7 unused dep audit · P2.15 component decomposition · F7 Lighthouse CI gate · P2.4c Lighthouse all-green re-verification · F3c CSP nonce migration (resolves F13-P1.4 Mozilla Observatory B+ → A). **None of these earn a user-facing KPI; defer until top tiers are working through.**
 
 ### 🔮 Tier 9 — Future / blocked
 

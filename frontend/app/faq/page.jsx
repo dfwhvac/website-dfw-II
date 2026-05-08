@@ -1,7 +1,7 @@
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import FAQAccordion from '@/components/FAQAccordion'
-import { FAQSchema } from '@/components/SchemaMarkup'
+import { FAQSchema, LocalBusinessSchema, BreadcrumbListSchema } from '@/components/SchemaMarkup'
 import { getCompanyInfo, getSiteSettings, getFaqs, getFaqPage } from '@/lib/sanity'
 import { companyInfo as mockCompanyInfo } from '@/lib/mockData'
 import { HelpCircle } from 'lucide-react'
@@ -172,8 +172,16 @@ export default async function FAQPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* FAQ Schema for SEO - pulls from Sanity */}
+      {/* Schema markup — F13-P1.2 (May 4, 2026): added LocalBusiness + Breadcrumb
+          alongside the FAQPage schema for sitewide consistency. */}
       <FAQSchema faqs={faqs} />
+      <LocalBusinessSchema companyInfo={companyInfo} />
+      <BreadcrumbListSchema
+        items={[
+          { name: 'Home', url: 'https://dfwhvac.com/' },
+          { name: 'FAQ', url: 'https://dfwhvac.com/faq' },
+        ]}
+      />
 
       <Header companyInfo={companyInfo} siteSettings={siteSettings} />
       

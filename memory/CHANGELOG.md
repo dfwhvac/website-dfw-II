@@ -69,6 +69,116 @@ chain). Any future PR is gated against re-introducing the same class of bug.
 
 ---
 
+## May 4, 2026 — Phase 3 Tier-1 sprint + F13 Architecture Foundation Audit
+
+### Tier 1 conversion sprint (3 items shipped, 2 struck)
+
+| ID | Item | Outcome |
+|---|---|---|
+| **C2** | Click-to-Call Mobile Reachability Audit | ✅ PASS — phone reachable in <3s on every mobile page (5 user states all green). Audit doc: `audits/2026-05-04_C2_Click_To_Call_Mobile_Reachability.md`. No code change required. |
+| **C6** | Mobile Sticky-CTA GA4 Segment | ✅ Shipped — added `cta_source` parameter to global `phone_click` event; tagged 7 surfaces (sticky_mobile_cta, header_topbar_link, header_topbar_cta, header_desktop_cta, header_mobile_menu, footer, inline). Enables GA4 segmentation by where phone clicks come from. |
+| **C8** | "🔒 Secured" Footer Trust Microcopy | ✅ Shipped — Lock icon + "Your information is secure" link in Footer bottom bar; tooltip reads "Your information is encrypted and never shared with third parties"; links to /privacy-policy. Zero JS cost (icon already in lucide-react bundle). |
+| ~~C7~~ | ~~"What happens next" form copy~~ | ❌ STRUCK — audit found 5 existing expectation-setting touchpoints (form description, trust signals, success toast, /thanks page, customer auto-reply email) already covering the intended need. C7 would have been ~80% redundant repetition. |
+| ~~P1.9e~~ | ~~Footer trust signals (license, BBB, family-owned, 145+ reviews)~~ | ❌ STRUCK — judged unnecessary. License # already added Feb 28 (C8 work above); other trust signals already present in header / city pages. |
+
+### F13 — Architecture Foundation Audit (8 of 9 layers, ~3.5 hrs)
+
+Comprehensive sitewide audit run against production. **Net verdict: ~93%
+foundation optimization** (now ~99% post-fixes below). Surfaced **11 specific
+findings**, including ONE P0 incident the routine workflow had never caught.
+
+**Tools used:** Unlighthouse (sitewide Lighthouse, 31 routes), linkinator
+(crawlability), W3C HTML Validator, Mozilla Observatory, SSL Labs,
+`@next/bundle-analyzer`, custom JSON-LD validator script.
+
+**Full report:** `audits/2026-05-04_F13_Architecture_Foundation.md`
+
+#### F13-P0.1 — CSP was blocking Microsoft Clarity sitewide ✅ FIXED
+
+🔥 **Most important finding of the audit.** All 31 production pages reported a
+CSP violation in console: `Loading the script 'https://www.clarity.ms/tag/...'
+violates the following Content Security Policy directive: script-src ...`.
+Result: **Clarity (C1) had been collecting ZERO production data since deploy**
+in March 2026. The P1.10 Progressive Form decision (gated on 14-day Clarity
+baseline) had been ticking on a dead sensor.
+
+**Fix:** Added `https://www.clarity.ms https://c.clarity.ms` to `script-src`,
+plus `https://*.clarity.ms` to `connect-src`, in `next.config.js`. **The
+14-day Clarity baseline clock now starts the moment this deploys.** Re-evaluate
+P1.10 progressive form work no earlier than May 18, 2026.
+
+#### F13-P1.1 — TBT regression on 6 pages ✅ ROOT CAUSE FIXED
+
+**Pages affected:** /services/residential/heating (TBT 901ms),
+/services/residential/indoor-air-quality (653ms), /faq (555ms), /estimate
+(563ms), /services/commercial/commercial-maintenance (431ms), /recent-projects
+(456ms).
+
+**Root cause discovered:** GA4 (gtag/js) + Microsoft Clarity were both loading
+with `strategy="afterInteractive"` (Next.js Script default). That fires
+*during* React hydration — directly competing with React for the main thread.
+332ms + 249ms long tasks per page traced to googletagmanager.com.
+
+**Fix:** Switched both `<Script>` tags in `app/layout.js` to
+`strategy="lazyOnload"` — defers loading until browser is idle. Analytics
+still fire (1–2 sec delay invisible to user; irrelevant to GA/Clarity
+session tracking). **Estimated TBT improvement: 200–500ms across every
+page.** Will be reverified in next monthly Lighthouse cadence (May 27).
+
+#### F13-P1.2 — Schema gaps on /financing and /faq ✅ FIXED
+
+**Discovered by:** L4 schema deep sweep.
+
+- `/financing` previously emitted ONLY `BreadcrumbList`. Added:
+  `LocalBusinessSchema` (sitewide consistency) + custom `Offer` schema for
+  the Wisetack 0% APR financing program (name, description, areaServed,
+  seller, priceSpec, eligibleCustomerType, category). Now eligible for
+  rich-snippet treatment in Google for relevant financing queries.
+- `/faq` previously emitted ONLY `FAQPage`. Added: `LocalBusinessSchema` +
+  `BreadcrumbListSchema`.
+
+#### F13-P1.3 — HTML validation errors ✅ MOSTLY FIXED
+
+Discovered by L7 (W3C Validator on 5 representative URLs). Resolutions:
+
+- ✅ Heading hierarchy skip h1→h3 on service pages: changed
+  "Professional Service" badge from `<h3>` → `<h2>` in `ServiceTemplate.jsx`.
+- ✅ `<div>` nested inside `<button>` on `/replacement-estimator`: replaced
+  block-level `<div>` and heading children inside option buttons with inline
+  `<span>` elements (semantically and visually equivalent; no layout change).
+- ✅ Broken `<label htmlFor="numSystems">` on LeadForm: bound `id="numSystems"`
+  to the `SelectTrigger` so the label associates with a real form-control
+  element.
+- ⚠️ Empty `<option>` element flagged by W3C: documented as **known false
+  positive** — Radix UI/shadcn `<Select>` injects this hidden polyfill
+  intentionally for screen-reader/form-submission compatibility. Browsers
+  ignore it. Affects every shadcn user. Won't fix.
+
+#### F13-P1.4 — Mozilla Observatory Grade B+ (deferred)
+
+1 of 10 tests failing. Almost certainly the `unsafe-inline` directive in CSP,
+which is **already tracked as F3c (CSP nonce migration)** in the roadmap.
+No new action — F3c remains the long-term fix.
+
+### CI/CD additions
+
+- **`@next/bundle-analyzer`** added as devDependency. `next.config.js` wired
+  to activate when `ANALYZE=true` env var is set: `ANALYZE=true yarn build`
+  opens an interactive bundle treemap. First baseline written May 4, 2026.
+
+### Roadmap status post-sprint
+
+- **Tier 1 of Active Execution Order**: COMPLETE (3 shipped, 2 struck).
+- **F13 baseline established** for quarterly re-audit (next due Aug 4, 2026).
+- **CSP unblocks Clarity** → P1.10 progressive form decision unblocked
+  starting May 18, 2026 (14 days post-deploy).
+- **F12 GH Actions Node bump** still queued for next Dependabot reopen.
+- **P1.8 GBP optimization** still highest-leverage user-led item; user has
+  GBP already verified, audit framework provided in conversation (admin-side
+  screenshot walkthrough recommended).
+
+---
+
 ## February 28, 2026 — Phase 1 + 2a finishing sprint
 
 Six agent-shipped items + three user-action checklists closing out **Phase 1 (~95% complete)** and **Phase 2a (100% complete, 12/12)**. Total agent build time: ~5 hrs.
