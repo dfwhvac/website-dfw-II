@@ -1,54 +1,77 @@
-# DFW HVAC — Product Requirements Document (shim)
+# DFW HVAC — PRD
 
-**Last reviewed:** February 28, 2026
-**⚠️ NEW AGENTS — read `/app/memory/00_START_HERE.md` first for the Agent SOP.**
-
-This file is a minimal index. The live content lives in three places:
-
-- **Current priorities + roadmap:** `/app/memory/ROADMAP.md`
-- **What's been shipped (dated):** `/app/memory/CHANGELOG.md`
-- **Past audits + performance baselines:** `/app/memory/audits/`
-
----
+**Last reviewed:** May 8, 2026
 
 ## Original Problem Statement
-
-Build a premium, conversion-focused website for DFW HVAC using Next.js frontend and Sanity.io CMS. The site is a lead funnel for the HVAC business (service pages, city pages, reviews, lead capture forms). **Phone-first** conversion strategy: primary CTA is click-to-call, secondary is the form, tertiary is `/estimate`.
-
-## User Personas
-
-- **Business Owner** — needs strategic data to optimize service delivery and marketing
-- **Potential Customers** — searching for HVAC services in the Dallas-Fort Worth metroplex
-- **Marketing Team** — requires data-driven insights for targeting campaigns
-
-## Core Requirements
-
-1. Dynamic, content-managed site (Sanity CMS drives all copy)
-2. Lead capture with email notifications (Resend)
-3. SEO-optimized pages with structured JSON-LD data
-4. Service-area-aware (DFW metroplex, 28 cities, 4 drive-time zones, 139 ZIPs)
-5. Phone-first conversion optimization sitewide
+Finalize a premium Next.js / Sanity website for **DFW HVAC**. Execute a 5-Priority tier roadmap (Foundation → SEO/AEO → Conversion → Ad Infra → Launch) focused on deep SEO, accessibility, Core Web Vitals, and conversion-rate optimization. Maintain a high-converting, secure, performant HVAC lead-generation funnel.
 
 ## Architecture
+- **Stack:** Next.js 15.5.9 (App Router) + React 19.2.5
+- **CMS:** Sanity.io (headless)
+- **DB:** MongoDB Atlas (`leads` collection)
+- **Hosting:** Vercel (Production: https://dfwhvac.com)
+- **Forms:** reCAPTCHA v3
+- **Email:** Resend
+- **Analytics:** GA4, Microsoft Clarity, Vercel Analytics + Speed Insights
+- **Financing:** Wisetack
+- **Maps/Places:** Google Places API
 
-- **Frontend:** Next.js 15.5.9 (App Router) + React 19.2.5 — deployed on Vercel from `main` branch
-- **CMS:** Sanity.io (headless, studio at `/studio`)
-- **Database:** MongoDB Atlas (leads collection)
-- **Email:** Resend (domain-verified at `dfwhvac.com`)
-- **Domain:** dfwhvac.com (GoDaddy registrar → Vercel DNS)
-- **Integrations:** Google Maps/Places, Google reCAPTCHA v3, RealWork widget, GA4 (`G-5MX2NE7C73`), Google Search Console (verified Feb 20, 2026)
+## Production State (May 8, 2026)
+- ✅ All Phase 1 (Foundation) shipped — security headers Grade A on securityheaders.com
+- ✅ Phase 2a SEO/AEO Quick Wins shipped (S1, S2, S6, S7, A4 + earlier batch)
+- ✅ F11 Security Remediation complete (all keys rotated, gitleaks gating CI)
+- ✅ F13 Architecture Foundation Audit fixes shipped (CSP/Clarity, lazyOnload, schema, HTML validation)
+- ✅ C2/C6/C8 Conversion Sprint Tier 1 shipped
+- ✅ CI hardened against recurring yarn.lock/package.json web-editor conflict pattern
+- 🕐 Microsoft Clarity 14-day baseline clock active since May 8 (gates P1.10 progressive form redesign)
 
-## Brand Messaging (canonical)
+## Active Roadmap Source of Truth
+`/app/memory/ROADMAP.md` — strictly governs all work. Five-tier priority system.
 
-- **Tagline:** "Keeping it Cool — For Three Generations."
-- **Founded:** 2020 (do NOT claim "serving since 1972"). Family-legacy craftsmanship dates to 1972; three-generation story is accurate.
-- **Headquartered:** Coppell, TX. Serves full DFW metroplex.
-- **Reviews:** 5.0★ with 147 Google reviews (live from Sanity, auto-synced daily). Page titles use Option C hybrid logic — see `lib/metadata.js::getReviewBadgeCount` and `fiveStarReviewCount` safety-net field (seeded at 150).
-- **Live description endpoint:** `GET https://dfwhvac.com/api/canonical-description`
+## Currently Blocked / User Action Required
+- **GBP Audit (P1.8)**: Awaiting user-supplied Google Business Profile admin screenshots (Info / Insights / Posts / Reviews / Q&A tabs)
+- **Estimator Pricing Matrix**: Awaiting user-completed `estimator-pricing-template.csv` to replace placeholder DFW averages in `lib/estimator-matrix.js`
+- **F3b HSTS Preload submission**: Submit `dfwhvac.com` at https://hstspreload.org/ (user-led)
+- **F12 GH Actions Node bump**: Review pending Dependabot PRs (user-led)
+- **P1.6f Rich Results validation**: Run live URLs through https://search.google.com/test/rich-results (user-led)
+- **A3 GSC re-audit**: Refresh Google Search Console coverage report (user-led)
 
-## Critical Context for New Agents
+## Tier 3 Next Up (Agent-led after current PRs land)
+- **P1.9b**: Review badge in homepage hero (5-star + count, sourced from Google Places via existing `lib/google-reviews.js`)
+- **P1.9c**: Inline review carousel on services pages
+- **C4**: Form abandonment tracking (compatible with the active Clarity baseline window — events only, no UX changes)
+- **P2.19**: CallRail / Twilio DNI scoping doc (no implementation yet)
 
-- **Site is LIVE on Vercel.** Push to `main` triggers production build. No staging.
-- **Single-stack:** Next.js only. Python `/app/backend/` was deleted April 20, 2026.
-- **All API routes under `/app/frontend/app/api/`.** Never create new Python services.
-- **Non-audit reference docs** (brand framework, service-area CSVs, competitor analysis, legacy PRD snapshots) live in `/app/frontend/internal/` — left there intentionally.
+## Backlog
+- **Phase 3 (Conversion)**: P1.10 progressive form redesign (gated on Clarity 14-day baseline)
+- **Phase 4 (Ad Infra)**: Ad landing pages, GA4 Enhanced Ecommerce
+- **Phase 5**: Launch + Track
+- **Phase 6 (New pages)**: PG1 Careers, PG2 Referrals
+- **F10**: Sanity v5.22 upgrade (deferred, dedicated session)
+- **P2.15**: Component decomposition (oversized templates >300 lines)
+
+## Known Minor Drift (May 8 session)
+- `@next/bundle-analyzer` dropped from `main`'s `package.json` during PR #68 conflict resolution. Local `yarn.lock` still references it. Next session: either re-add it cleanly via PR or strip lockfile entries to align with main.
+
+## Key Files
+- `/app/memory/ROADMAP.md` (definitive priority source)
+- `/app/memory/CHANGELOG.md` (shipped history)
+- `/app/memory/audits/2026-05-04_F13_Architecture_Foundation.md`
+- `/app/.github/workflows/security.yml` (CI gate)
+- `/app/frontend/next.config.js` (security headers)
+- `/app/frontend/app/layout.js` (script loading strategy)
+- `/app/frontend/lib/metadata.js` (SEO defaults)
+- `/app/frontend/components/SchemaMarkup.jsx` (JSON-LD)
+
+## Key API Endpoints
+- `POST /api/leads` (lead capture, reCAPTCHA-protected)
+- `POST /api/estimator/calculate` (replacement estimator)
+- `POST /api/estimator/lead` (estimator → lead)
+- `GET /api/cron/sync-reviews` (CRON_SECRET-protected)
+
+## DB Schema
+```
+leads (MongoDB):
+  firstName, lastName, phone, email, address, message,
+  recaptchaScore, status, createdAt, source
+```
