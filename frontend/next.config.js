@@ -142,4 +142,11 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+// @next/bundle-analyzer wrapper — activates only when ANALYZE=true is set in the env.
+// Standard usage: ANALYZE=true yarn build → opens an interactive treemap of the bundle.
+// Added May 4, 2026 (F13 architecture audit).
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
+
+module.exports = withBundleAnalyzer(nextConfig);
