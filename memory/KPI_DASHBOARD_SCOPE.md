@@ -87,6 +87,22 @@ These run on every script execution. No tokens required.
 
 **Phase 1 deliverable: 13 of 15 KPIs auto-populated.** Uptime + error rate scaffolded with explanation.
 
+### Additional KPIs from F13 9-Layer Audit (May 4, 2026)
+
+The F13 audit identified three measurement gaps worth elevating to permanent dashboard KPIs. All auto-pullable, no credentials:
+
+| KPI | Source | Implementation | Target |
+|---|---|---|---|
+| Broken internal links | linkinator | `npx linkinator https://dfwhvac.com --silent --recurse` parsed for failures | 0 broken |
+| HTML validation errors | W3C Nu Validator public API | `https://validator.w3.org/nu/?out=json&doc=<url>` × 5 representative URLs | 0 errors per page |
+| Schema validity (not just coverage) | Local JSON-LD parser | Existing `schema-dts` types or `jsonld.js` validation lib | 0 invalid schemas |
+
+**Plus one strengthening:** L1 Lighthouse coverage expanded from 5 pages → 31 pages (sample of 51) with avg ≥94 / min ≥78 thresholds matching F13 baseline.
+
+**Plus one elevation:** Mozilla Observatory currently **B+ (80/100)**, not A. Dashboard should show 🟡 (in-flight, F13-P1.4 not yet shipped) — not silently green.
+
+**Updated Phase 1 KPI count: 16 auto + 2 scaffolded = 18 cards total.**
+
 ---
 
 ## Phase 2 — Auto where free APIs exist, scaffolded otherwise
