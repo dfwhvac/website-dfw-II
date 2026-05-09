@@ -37,6 +37,8 @@ Finalize a premium Next.js / Sanity website for **DFW HVAC**. Execute a 5-Priori
 - **A3 GSC re-audit**: Refresh Google Search Console coverage report (user-led)
 
 ## Tier 3 Next Up (Agent-led after current PRs land)
+- **🆕 KPI-DASH (queued May 8)**: Build internal KPI dashboard at `/internal/kpi-dashboard.html` — Phase 1 fully auto-pulled, Phases 2–5 scaffolded. **Full scope in `/app/memory/KPI_DASHBOARD_SCOPE.md`**. ~3 hrs agent. Tee'd up to start next session.
+- **🆕 GA4-SVC (user-led, ~15 min)**: GA4 + GSC service account setup. Unlocks 17 of 22 Phase 2/3 KPIs after dashboard ships. **Full walk-through in `/app/memory/GA4_SERVICE_ACCOUNT_SETUP.md`**. User can complete this anytime; agent wires it on confirmation.
 - **P1.9b**: Review badge in homepage hero (5-star + count, sourced from Google Places via existing `lib/google-reviews.js`)
 - **P1.9c**: Inline review carousel on services pages
 - **C4**: Form abandonment tracking (compatible with the active Clarity baseline window — events only, no UX changes)

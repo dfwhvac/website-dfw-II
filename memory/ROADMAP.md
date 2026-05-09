@@ -82,11 +82,13 @@ Outcome: 3 shipped, 2 struck after audit, F13 architecture audit unlocked an add
 
 | # | ID | Item | Effort | Phase ref |
 |---|---|---|---|---|
-| 1 | **P1.10** | Progressive form redesign (2-field → expand) | 4–6 hrs | **HOLD until May 18, 2026 minimum** (14 days of post-fix Clarity baseline data must accumulate first; pre-May 4 the sensor was broken) |
-| 2 | **P1.9b** | Review badge in every page hero | 2 hrs | P3.D |
-| 3 | **P1.9c** | Inline review carousel near every form | 2 hrs | P3.D |
-| 4 | **C4** | Form abandonment tracking — GA4 events on field-blur | 1 hr | P3.D |
-| 5 | **P2.19-scope** | CallRail vs Twilio DNI **scoping decision** (vendor + pricing + number-pool size). NOT the build, just the decision. | 30 min user | P4.D — promoted: HVAC is 60–80% phone conversions; Phase 5 ad launch blocked on this. |
+| 1 | **KPI-DASH** | **🆕 Internal KPI dashboard** — single-page static dashboard at `/internal/kpi-dashboard.html`. Phase 1 KPIs auto-populated by `scripts/audit-kpis.mjs`; Phases 2–5 scaffolded with token-requirement docs. Full scope in `/app/memory/KPI_DASHBOARD_SCOPE.md`. **Tee'd up May 8 to start next session.** | 3 hrs agent | All phases (visualization layer) |
+| 2 | **GA4-SVC** | **🆕 GA4 + GSC service account setup** — user-led 15-min Google Cloud walk-through. Unlocks 17 of 22 Phase 2/3 KPIs once `KPI-DASH` ships. Full guide in `/app/memory/GA4_SERVICE_ACCOUNT_SETUP.md`. Can run in parallel; agent wires credentials on user confirmation. | 15 min user + 30 min agent wiring | P2/P3 measurement enabler |
+| 3 | **P1.10** | Progressive form redesign (2-field → expand) | 4–6 hrs | **HOLD until May 22, 2026 minimum** (14 days of post-fix Clarity baseline data must accumulate first; pre-May 8 the sensor was broken — F13-P0.1 deploy May 8) |
+| 4 | **P1.9b** | Review badge in every page hero | 2 hrs | P3.D |
+| 5 | **P1.9c** | Inline review carousel near every form | 2 hrs | P3.D |
+| 6 | **C4** | Form abandonment tracking — GA4 events on field-blur | 1 hr | P3.D |
+| 7 | **P2.19-scope** | CallRail vs Twilio DNI **scoping decision** (vendor + pricing + number-pool size). NOT the build, just the decision. | 30 min user | P4.D — promoted: HVAC is 60–80% phone conversions; Phase 5 ad launch blocked on this. |
 
 ### 🟢 Tier 4 — Focused single-purpose session work
 
