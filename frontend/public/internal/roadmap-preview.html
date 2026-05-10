@@ -360,7 +360,7 @@
     <h1>DFW HVAC — Strategic Roadmap</h1>
     <p>Future-facing work organized by 5-priority business framework. Each priority requires its own KPI baseline and reevaluation cadence. Ship in order; advance only when the previous layer is healthy.</p>
     <div class="meta">
-      Last reviewed: May 4, 2026 (evening update) — <strong>🚀 Tier 1 Phase 3 sprint COMPLETE</strong> (3 ✅ shipped: C2 reachability audit / C6 sticky-CTA GA4 segmentation / C8 Footer Lock microcopy · 2 ❌ struck after audit: C7 redundancy / P1.9e unnecessary) · <strong>🛡️ F13 Architecture Foundation Audit baseline established</strong> (8 of 9 layers, ~3.5 hrs, full report at <code>memory/audits/2026-05-04_F13_Architecture_Foundation.md</code>) · <strong>🔥 F13-P0.1 — CSP was BLOCKING Microsoft Clarity sitewide; Clarity collected ZERO data since deploy</strong> (now fixed; 14-day P1.10 baseline clock starts at deploy) · F13-P1.1 TBT root cause fixed (GA4+Clarity → lazyOnload, 200–500ms TBT improvement sitewide expected) · F13-P1.2 schema gaps filled on /financing (Offer for Wisetack 0% APR) + /faq · F13-P1.3 HTML errors fixed in ServiceTemplate, EstimatorWizard, LeadForm · <strong>🔒 Security incident</strong> CLOSED earlier May 4 (full key rotation across 9 credentials; CI Run #68 green ✅) · Phase 1 ~95% · Phase 2a 12/12 ✅ · Phase 3 9 items shipped (incl. May 4 Tier-1 sprint) · Next up: <strong>Tier 2 — P1.8 GBP audit</strong> ·
+      Last reviewed: May 8, 2026 — <strong>🚀 F13 Architecture fixes LIVE in production via PR #68</strong> (verified <code>curl -sI https://dfwhvac.com/</code>: HTTP 200 + Clarity in CSP + HSTS preload + COOP/CORP + X-Frame DENY) · <strong>🕐 Microsoft Clarity 14-day baseline clock STARTED May 8</strong> (was blocked by CSP since deploy; gates Phase 3 P1.10 progressive form redesign — earliest unlock May 22) · <strong>🛡️ CI hardened</strong> against the recurring <code>yarn.lock</code>/<code>package.json</code> web-editor conflict pattern (<code>.github/workflows/security.yml</code> now auto-recovers; security audit gate unchanged) · <strong>🧹 Repo hygiene</strong>: deleted stale <code>dfwhvac-deploy/</code> (78 files, Dec 2025 snapshot), rebuilt <code>.gitignore</code> (700→94 clean lines) · <strong>📊 KPI Dashboard scoped</strong> for next session: <code>memory/KPI_DASHBOARD_SCOPE.md</code> (Phase 1 fully auto, 18 KPIs incl. F13 broken-links + HTML-validation + schema-validity additions) + <code>memory/GA4_SERVICE_ACCOUNT_SETUP.md</code> (15-min user-led setup unlocks 17 of 22 Phase 2/3 KPIs) · <strong>🛡️ F13 Architecture Foundation Audit baseline established May 4</strong> (8 of 9 layers, full report at <code>memory/audits/2026-05-04_F13_Architecture_Foundation.md</code>) · <strong>🔒 F11 Security incident</strong> CLOSED May 4 (full key rotation across 9 credentials) · Tier 1 Phase 3 sprint (C2/C6/C8) ✅ COMPLETE May 4 · Phase 1 ~95% · Phase 2a 12/12 ✅ · Phase 3 9 items shipped · Next up: <strong>Tier 3 — GA4-SVC-SETUP → GA4-SVC-VERIFY → KPI-DASH</strong> ·
       Source: <code>/app/memory/ROADMAP.md</code> ·
       Companion: <a href="/sitemap-preview.html" style="color:rgba(255,255,255,0.85);">sitemap preview</a> ·
       Audit: <a href="/internal/timeline-commitments-audit.csv" style="color:rgba(255,255,255,0.85);">timeline commitments CSV</a>
@@ -390,20 +390,24 @@
 
 <!-- ============ Active Execution Order ============ -->
 <section id="execution">
-  <h2 style="display:flex; align-items:center; gap:0.6rem;">🚀 Active Execution Order <span style="font-size:0.7rem; padding:0.2rem 0.55rem; border-radius:9999px; background:rgba(211,0,0,0.12); color:var(--vivid-red); font-weight:700; letter-spacing:0.04em; text-transform:uppercase;">Re-ranked May 4</span></h2>
-  <p class="subhead">The 5-tier priority framework below defines <em>strategic phases</em>. This panel defines <em>near-term execution order</em>, re-ranked against the project goal <strong>"organic traffic that converts"</strong>. Pick from the top of this list each session. F10 Sanity v5 was previously documented as #1; demoted to Tier 4 because it earns no user-facing KPI.</p>
+  <h2 style="display:flex; align-items:center; gap:0.6rem;">🚀 Active Execution Order <span style="font-size:0.7rem; padding:0.2rem 0.55rem; border-radius:9999px; background:rgba(211,0,0,0.12); color:var(--vivid-red); font-weight:700; letter-spacing:0.04em; text-transform:uppercase;">Re-ranked May 8</span></h2>
+  <p class="subhead">The 5-tier priority framework below defines <em>strategic phases</em>. This panel defines <em>near-term execution order</em>, re-ranked against the project goal <strong>"organic traffic that converts"</strong>. Pick from the top of this list each session. May 8 update: KPI Dashboard scoped + GA4 service-account walk-through queued as next executable steps; F13 fixes deployed live.</p>
 
-  <div class="card" style="background:rgba(211,0,0,0.06); border-color:rgba(211,0,0,0.32); margin-bottom:1rem;">
-    <strong style="color:var(--vivid-red); font-size:0.95rem;">🔴 Tier 1 — Phase 3 Quick-Wins Sprint · NEXT UP · ~4 hrs total</strong>
-    <p style="margin:0.5rem 0 0.7rem 0; color:var(--slate-700); font-size:0.88rem; line-height:1.5;">Ship as one continuous session. Each item is a direct conversion-uplift lever. Hits the project goal head-on.</p>
+  <div class="card" style="background:rgba(22,163,74,0.05); border-color:rgba(22,163,74,0.32); margin-bottom:1rem;">
+    <strong style="color:var(--success-green); font-size:0.95rem;">✅ Tier 1 — Phase 3 Quick-Wins Sprint · COMPLETE May 4–8, 2026</strong>
+    <p style="margin:0.5rem 0 0.7rem 0; color:var(--slate-700); font-size:0.88rem; line-height:1.5;">All shipped to production. C7 and P1.9e struck during audit (C7 redundant with existing copy, P1.9e covered by C8). F13 fixes shipped May 8 via PR #68.</p>
     <table style="margin-top:0.4rem;">
-      <thead><tr><th>#</th><th>ID</th><th>Item</th><th>Effort</th></tr></thead>
+      <thead><tr><th>#</th><th>ID</th><th>Item</th><th>Status</th></tr></thead>
       <tbody>
-        <tr><td class="num-cell">1</td><td class="id-cell">C7</td><td><strong>"What happens next" copy under every form</strong> ("we'll call within 1 business hour")</td><td>1 hr</td></tr>
-        <tr><td class="num-cell">2</td><td class="id-cell">C8</td><td><strong>"🔒 Secured" footer trust microcopy</strong> with <code>lucide-react</code> Lock icon</td><td>30 min</td></tr>
-        <tr><td class="num-cell">3</td><td class="id-cell">C2</td><td><strong>Click-to-call CTA placement audit</strong> (verify red phone reachable in &lt;3s on every mobile page)</td><td>1 hr</td></tr>
-        <tr><td class="num-cell">4</td><td class="id-cell">C6</td><td><strong>Mobile sticky-CTA conversion segment in GA4</strong> (measures what's already shipped)</td><td>30 min</td></tr>
-        <tr><td class="num-cell">5</td><td class="id-cell">P1.9e</td><td><strong>Footer trust signals</strong> (license #, BBB, family-owned, 145+ reviews)</td><td>1 hr</td></tr>
+        <tr><td class="num-cell">1</td><td class="id-cell">C8</td><td>"🔒 Secured" footer trust microcopy with <code>lucide-react</code> Lock icon</td><td><span class="badge badge-shipped">May 4 ✅</span></td></tr>
+        <tr><td class="num-cell">2</td><td class="id-cell">C2</td><td>Click-to-call CTA placement audit (red phone reachable in &lt;3s on every mobile page)</td><td><span class="badge badge-shipped">May 4 ✅</span></td></tr>
+        <tr><td class="num-cell">3</td><td class="id-cell">C6</td><td>Mobile sticky-CTA <code>cta_source</code> conversion segment in GA4</td><td><span class="badge badge-shipped">May 4 ✅</span></td></tr>
+        <tr><td class="num-cell">4</td><td class="id-cell">F13-P0.1</td><td>CSP fix: Microsoft Clarity unblocked sitewide (was collecting ZERO data)</td><td><span class="badge badge-shipped">May 8 ✅ (PR #68)</span></td></tr>
+        <tr><td class="num-cell">5</td><td class="id-cell">F13-P1.1</td><td>GA4 + Clarity migrated to <code>lazyOnload</code> (TBT regression fix, 200–500ms expected sitewide)</td><td><span class="badge badge-shipped">May 8 ✅</span></td></tr>
+        <tr><td class="num-cell">6</td><td class="id-cell">F13-P1.2</td><td>Schema gaps closed on <code>/financing</code> (Offer for Wisetack 0% APR) and <code>/faq</code> (FAQPage)</td><td><span class="badge badge-shipped">May 8 ✅</span></td></tr>
+        <tr><td class="num-cell">7</td><td class="id-cell">F13-P1.3</td><td>HTML validation fixes in <code>ServiceTemplate</code>, <code>LeadForm</code>, <code>EstimatorWizard</code></td><td><span class="badge badge-shipped">May 8 ✅</span></td></tr>
+        <tr><td class="num-cell">8</td><td class="id-cell">CI hardening</td><td><code>security.yml</code> auto-recovers from <code>yarn.lock</code>/<code>package.json</code> web-editor conflict drift; permanent fix for the recurring failure pattern that blocked PR #66/#67/#68</td><td><span class="badge badge-shipped">May 8 ✅</span></td></tr>
+        <tr><td class="num-cell">9</td><td class="id-cell">Repo hygiene</td><td>Deleted stale <code>dfwhvac-deploy/</code> (78 files); rebuilt <code>.gitignore</code> (700→94 lines); reverted <code>frontend/.env</code> drift</td><td><span class="badge badge-shipped">May 8 ✅</span></td></tr>
       </tbody>
     </table>
   </div>
@@ -423,14 +427,19 @@
   </div>
 
   <div class="card" style="background:rgba(255,201,0,0.05); border-color:rgba(255,201,0,0.3); margin-bottom:1rem;">
-    <strong style="color:#A87000; font-size:0.95rem;">🟡 Tier 3 — Next 2 weeks · Medium effort, real impact</strong>
+    <strong style="color:#A87000; font-size:0.95rem;">🟡 Tier 3 — Next 2 weeks · Medium effort, real impact · 🚀 NEXT UP</strong>
+    <p style="margin:0.5rem 0 0.7rem 0; color:var(--slate-700); font-size:0.88rem; line-height:1.5;">Items #11–#13 are the KPI-Dashboard execution chain — run sequentially. Once #12 lands, dashboard ships with Phase 2/3 cards lit up via real GA4/GSC data instead of scaffolds.</p>
     <table style="margin-top:0.6rem;">
       <thead><tr><th>#</th><th>ID</th><th>Item</th><th>Effort</th></tr></thead>
       <tbody>
-        <tr><td class="num-cell">11</td><td class="id-cell">P1.9b</td><td>Review badge in every page hero</td><td>2 hrs</td></tr>
-        <tr><td class="num-cell">12</td><td class="id-cell">P1.9c</td><td>Inline review carousel near every form</td><td>2 hrs</td></tr>
-        <tr><td class="num-cell">13</td><td class="id-cell">C4</td><td>Form abandonment tracking — GA4 events on field-blur</td><td>1 hr</td></tr>
-        <tr><td class="num-cell">14</td><td class="id-cell">P2.19-scope</td><td><strong>CallRail vs Twilio DNI scoping decision</strong> (vendor + pricing + number-pool size). NOT the build, just the decision. <em>Promoted: HVAC is 60–80% phone conversions; Phase 5 ad launch blocked on this.</em></td><td>30 min user</td></tr>
+        <tr><td class="num-cell">11</td><td class="id-cell">GA4-SVC-SETUP</td><td><strong>🆕 GA4 + GSC service account setup (user-led, async)</strong> — Google Cloud project + service-account JSON key + grant Viewer access to GA4 + GSC + paste env vars into Vercel. $0, no code. Full guide at <code>memory/GA4_SERVICE_ACCOUNT_SETUP.md</code> Steps 1–7. <em>Unlocks 17 of 22 Phase 2/3 KPIs.</em></td><td>15 min user</td></tr>
+        <tr><td class="num-cell">12</td><td class="id-cell">GA4-SVC-VERIFY</td><td><strong>🆕 GA4 + GSC walk-through (agent-led)</strong> — once user replies "GA4 service account configured": agent verifies env vars, makes test API calls to GA4 + GSC, confirms data returns, wires credentials into <code>scripts/audit-kpis.mjs</code>. Gates Phase 2/3 auto-pull on #13.</td><td>30 min agent</td></tr>
+        <tr><td class="num-cell">13</td><td class="id-cell">KPI-DASH</td><td><strong>🆕 Internal KPI Dashboard</strong> — single-page static dashboard at <code>/internal/kpi-dashboard.html</code>. <em>18</em> Phase 1 KPIs auto-pulled (incl. 3 NEW from F13: broken-links, HTML-validation, schema-validity). Phase 2/3 auto-pull if #12 complete (else scaffolded with token requirements). Phases 4/5 scaffolded. Full scope at <code>memory/KPI_DASHBOARD_SCOPE.md</code>.</td><td>3 hrs agent</td></tr>
+        <tr><td class="num-cell">14</td><td class="id-cell">P1.10</td><td>Progressive form redesign (2-field → expand). <strong>HOLD until May 22, 2026 minimum</strong> (14 days of post-fix Clarity baseline data must accumulate first; pre-May 8 the sensor was broken — F13-P0.1 deploy May 8). Earliest unlock = May 22, 2026.</td><td>4–6 hrs</td></tr>
+        <tr><td class="num-cell">15</td><td class="id-cell">P1.9b</td><td>Review badge in every page hero (5-star + count, sourced from existing <code>lib/google-reviews.js</code>)</td><td>2 hrs</td></tr>
+        <tr><td class="num-cell">16</td><td class="id-cell">P1.9c</td><td>Inline review carousel near every form</td><td>2 hrs</td></tr>
+        <tr><td class="num-cell">17</td><td class="id-cell">C4</td><td>Form abandonment tracking — GA4 events on field-blur (Clarity-baseline-friendly: events only, no UX changes)</td><td>1 hr</td></tr>
+        <tr><td class="num-cell">18</td><td class="id-cell">P2.19-scope</td><td><strong>CallRail vs Twilio DNI scoping decision</strong> (vendor + pricing + number-pool size). NOT the build, just the decision. <em>Promoted: HVAC is 60–80% phone conversions; Phase 5 ad launch blocked on this.</em></td><td>30 min user</td></tr>
       </tbody>
     </table>
   </div>
@@ -440,8 +449,9 @@
     <table style="margin-top:0.6rem;">
       <thead><tr><th>#</th><th>ID</th><th>Item</th><th>Effort</th></tr></thead>
       <tbody>
-        <tr><td class="num-cell">15</td><td class="id-cell">F10</td><td><strong>Sanity v3.25 → v5.22 upgrade</strong> — preview branch → user QAs Studio admin → merge. <em>Was previously #1 next-up; demoted because it earns no user-facing KPI but closes 28 high-sev CVE accepted-risk debt. Best done as the only thing in a session.</em></td><td>1.5–3 hrs agent + 15 min user QA</td></tr>
-        <tr><td class="num-cell">16</td><td class="id-cell">P1.10</td><td>Progressive form redesign (2-field → expand). <strong>HOLD until Microsoft Clarity has 14 days of baseline data.</strong></td><td>4–6 hrs</td></tr>
+        <tr><td class="num-cell">19</td><td class="id-cell">F10</td><td><strong>Sanity v3.25 → v5.22 upgrade</strong> — preview branch → user QAs Studio admin → merge. <em>Was previously #1 next-up; demoted because it earns no user-facing KPI but closes 28 high-sev CVE accepted-risk debt. Best done as the only thing in a session.</em></td><td>1.5–3 hrs agent + 15 min user QA</td></tr>
+        <tr><td class="num-cell">20</td><td class="id-cell">F13-P1.4</td><td>Mozilla Observatory uplift from <strong>B+ (80/100) → A</strong> (1 of 10 tests failing). Will surface as 🟡 yellow in KPI dashboard until shipped.</td><td>1 hr</td></tr>
+        <tr><td class="num-cell">21</td><td class="id-cell">F13 re-audit</td><td>Quarterly re-run of F13 architecture audit due Aug 4, 2026; diff against May 4 baseline; flag regressions.</td><td>3.5 hrs agent</td></tr>
       </tbody>
     </table>
   </div>
