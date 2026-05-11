@@ -211,6 +211,25 @@
     color: var(--slate-800);
     line-height: 1.3;
   }
+  .v3-tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.12rem 0.45rem;
+    border-radius: 4px;
+    background: var(--slate-100);
+    color: var(--slate-600);
+    margin-top: 0.2rem;
+    white-space: nowrap;
+  }
+  .v3-tag.v3-p1 { background: rgba(0, 49, 83, 0.1); color: var(--prussian); }
+  .v3-tag.v3-p2 { background: rgba(0, 119, 182, 0.12); color: var(--electric-blue); }
+  .v3-tag.v3-p3 { background: rgba(22, 163, 74, 0.12); color: var(--success-green); }
+  .v3-tag.v3-p4 { background: rgba(214, 40, 40, 0.1); color: var(--vivid-red); }
+  .v3-tag.v3-ours { background: rgba(148, 163, 184, 0.18); color: var(--slate-600); }
+  .v3-tag.v3-aeo { background: rgba(245, 158, 11, 0.15); color: var(--alert-amber); }
   .kpi-light {
     width: 14px;
     height: 14px;
@@ -333,6 +352,17 @@
     <span class="legend-item" style="margin-left:auto;">▲ ▼ → trend vs last snapshot</span>
   </div>
 
+  <div class="legend" style="font-size:0.78rem;" aria-label="V3 crosswalk legend">
+    <strong style="color:var(--slate-700);">V3 Crosswalk:</strong>
+    <span class="legend-item"><span class="v3-tag v3-p1">P1 Infra</span></span>
+    <span class="legend-item"><span class="v3-tag v3-p2">P2 Performance</span></span>
+    <span class="legend-item"><span class="v3-tag v3-p3">P3 Logic</span></span>
+    <span class="legend-item"><span class="v3-tag v3-p4">P4 Sec/A11y/Gov</span></span>
+    <span class="legend-item"><span class="v3-tag v3-aeo">AEO</span></span>
+    <span class="legend-item"><span class="v3-tag v3-ours">Ours only</span></span>
+    <span class="legend-item" style="margin-left:auto; color:var(--slate-500);">Maps each KPI to V3 Dashboard pillar</span>
+  </div>
+
   <div id="summary" class="summary"></div>
   <div id="phases"></div>
 
@@ -384,6 +414,15 @@
   ).join('');
 
   const trendClass = (t) => t === '▲' ? 'up' : t === '▼' ? 'down' : 'flat';
+  const v3Class = (p) => {
+    if (!p) return '';
+    if (p.startsWith('P1')) return 'v3-p1';
+    if (p.startsWith('P2')) return 'v3-p2';
+    if (p.startsWith('P3')) return 'v3-p3';
+    if (p.startsWith('P4')) return 'v3-p4';
+    if (p.startsWith('AEO')) return 'v3-aeo';
+    return 'v3-ours';
+  };
 
   $phases.innerHTML = snap.phases.map(phase => {
     const pillKey = phase.id.replace('phase', 'p');
@@ -404,7 +443,10 @@
           ${phase.kpis.map(k => `
             <div class="kpi-card ${k.status}">
               <div class="kpi-top">
-                <div class="kpi-label">${k.label}</div>
+                <div>
+                  <div class="kpi-label">${k.label}</div>
+                  ${k.v3Pillar ? `<span class="v3-tag ${v3Class(k.v3Pillar)}">V3 · ${k.v3Pillar}</span>` : ''}
+                </div>
                 <div class="kpi-light ${k.status}" aria-label="${k.status}"></div>
               </div>
               <div class="kpi-value">

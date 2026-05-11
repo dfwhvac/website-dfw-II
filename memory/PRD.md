@@ -16,14 +16,14 @@ Finalize a premium Next.js / Sanity website for **DFW HVAC**. Execute a 5-Priori
 - **Financing:** Wisetack
 - **Maps/Places:** Google Places API
 
-## Production State (May 8, 2026)
+## Production State (May 11, 2026)
 - ✅ All Phase 1 (Foundation) shipped — security headers Grade A on securityheaders.com
 - ✅ Phase 2a SEO/AEO Quick Wins shipped (S1, S2, S6, S7, A4 + earlier batch)
 - ✅ F11 Security Remediation complete (all keys rotated, gitleaks gating CI)
 - ✅ F13 Architecture Foundation Audit fixes shipped (CSP/Clarity, lazyOnload, schema, HTML validation)
 - ✅ C2/C6/C8 Conversion Sprint Tier 1 shipped
 - ✅ CI hardened against recurring yarn.lock/package.json web-editor conflict pattern
-- ✅ **KPI Dashboard shipped (May 11)** — `/internal/kpi-dashboard.html` auto-pulls 6 Phase 1 KPIs green, 2 yellow, 8 gray (PageSpeed/SSL Labs gated on API keys/host restrictions). `yarn audit:kpis` Mondays.
+- ✅ **KPI Dashboard v2 (May 11)** — V3-aligned, 53 KPIs, V3 Crosswalk badges, stricter benchmarks (Uptime 99.99%, Crawl-to-Index 95%, Security A+ only). Surfaced 3 real issues: CDN Edge Hit Rate 53% (pages MISS cache), 7 WCAG AA contrast errors, 3 orphan pages.
 - 🕐 Microsoft Clarity 14-day baseline clock active since May 8 (gates P1.10 progressive form redesign)
 
 ## Active Roadmap Source of Truth
