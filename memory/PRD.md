@@ -55,8 +55,8 @@ Finalize a premium Next.js / Sanity website for **DFW HVAC**. Execute a 5-Priori
 - **F10**: Sanity v5.22 upgrade (deferred, dedicated session)
 - **P2.15**: Component decomposition (oversized templates >300 lines)
 
-## Known Minor Drift (May 8 session)
-- `@next/bundle-analyzer` dropped from `main`'s `package.json` during PR #68 conflict resolution. Local `yarn.lock` still references it. Next session: either re-add it cleanly via PR or strip lockfile entries to align with main.
+## Known Minor Drift — RESOLVED May 11, 2026
+- ~~`@next/bundle-analyzer` dropped from `main`'s `package.json` during PR #68 conflict resolution. Local `yarn.lock` still references it.~~ **Resolved**: package was re-added to `package.json` (line 51, `^16.2.6`) in a subsequent auto-commit, but the corresponding `yarn.lock` entries for `webpack-bundle-analyzer@4.10.1` + ~12 transitive deps (acorn-walk, commander, gzip-size, sirv, etc.) were never written. CI's `yarn install --frozen-lockfile` failed on this for every PR until May 11. Reconciled by running `yarn install` locally and committing the resulting yarn.lock (+174/-29 lines). `yarn analyze` convenience script also added at the same time.
 
 ## Key Files
 - `/app/memory/ROADMAP.md` (definitive priority source)

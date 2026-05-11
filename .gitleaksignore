@@ -85,11 +85,18 @@ d7c0681f87d922e5106d5c3ddd2eb807eafc53dc:frontend/.next/server/server-reference-
 # Same applies to a65e26db... and 1a5d13ea... and b4b5402f...
 
 # === May 11, 2026 — false positive in GA4 service-account walk-through ===
-# memory/GA4_SERVICE_ACCOUNT_SETUP.md line 114 reads literally:
-#     - Key: `GA4_PROPERTY_ID`
-# Gitleaks' generic-api-key rule matches the `Key: \`X\`` pattern and treats
-# `GA4_PROPERTY_ID` as the secret value. In reality `GA4_PROPERTY_ID` is the
-# *name* of an env var the user must set in Vercel; the actual numeric property
-# ID is described in prose ("find at GA4 → Admin → Property settings") and
-# never appears in the file. No secret exists, no rotation needed.
+# In memory/GA4_SERVICE_ACCOUNT_SETUP.md, one of the bullet-list steps shows the
+# env-var NAME the user must add in Vercel. The line uses markdown code-style
+# formatting that gitleaks' generic-api-key rule mistakenly reads as an
+# assignment of a secret value. In reality, only the variable name appears in
+# that file; the actual numeric property ID is documented in prose
+# ("find it under GA4 -> Admin -> Property settings") and never committed.
+# No secret exists, no rotation needed. (Quoting the offending pattern verbatim
+# here would re-trigger the same rule, so this comment paraphrases.)
+# In the previous commit of THIS very file (bb5f3820), an earlier version of
+# this comment block quoted the offending markdown line verbatim, which caused
+# gitleaks to flag .gitleaksignore itself. The comment has been rephrased in
+# the current commit, but the historical commit still exists in git history,
+# so --log-opts="--all" scans continue to find it. Acknowledge it here.
+bb5f38207a0ccea4beedde9d8d30274a32aadc0a:.gitleaksignore:generic-api-key:89
 4bb3473d2f7e8e3f6053652b6a8ccb45912f6076:memory/GA4_SERVICE_ACCOUNT_SETUP.md:generic-api-key:114
