@@ -84,6 +84,12 @@
 |---|---|---|
 | T1 | After any form edit (LeadForm, SimpleContactForm, `/api/leads`) | Re-verify end-to-end submission + reCAPTCHA score + GA4 event fire. Test via `/app/test_reports/` or curl. |
 
+## Approaching Hard Deadlines
+
+| # | Deadline | Task | Status |
+|---|---|---|---|
+| AH1 | **June 2, 2026** (hard cutoff) | Bump `gitleaks/gitleaks-action@v2` → `@v3` in `.github/workflows/security.yml`. GitHub forces Node.js 24 on this date; v2 currently runs on Node 20. Check [releases](https://github.com/gitleaks/gitleaks-action/releases) weekly starting May 25. If no v3 by May 30, set `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true` in workflow env as a stop-gap, or pin a community fork (e.g. `gacts/gitleaks`). Failure mode if missed: weekly security scan silently stops running. | OPEN · check May 25 |
+
 ---
 
 ## Run Log
@@ -92,6 +98,7 @@
 
 - **April 23, 2026** — RECURRING_MAINTENANCE.md created. Initial `fiveStarReviewCount` seeded to 150 in Sanity companyInfo.
 - **May 11, 2026** — KPI Dashboard shipped at `/internal/kpi-dashboard.html`. Phase 1 (16 KPIs) auto-pulls via `scripts/audit-kpis.mjs`. Phases 2–5 scaffolded with token-requirement docs. Weekly cadence (W4) added above.
+- **May 11, 2026** — Security workflow fix: added false-positive fingerprint to `.gitleaksignore` (line 114 of `GA4_SERVICE_ACCOUNT_SETUP.md` — gitleaks misread `Key: \`GA4_PROPERTY_ID\`` as a leaked value when it's an env-var name). Bumped `actions/checkout@v4` → `@v5` for Node 24 compatibility. Tracked `gitleaks-action@v2 → v3` upgrade as AH1 (hard deadline June 2, 2026).
 
 ---
 
