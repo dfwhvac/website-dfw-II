@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "analyze": "ANALYZE=true next build",
     "audit:kpis": "node ../scripts/audit-kpis.mjs"
   },
   "dependencies": {
