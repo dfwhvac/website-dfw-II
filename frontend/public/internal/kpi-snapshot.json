@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-11T02:19:06.633Z",
+  "generatedAt": "2026-05-11T16:12:09.582Z",
   "domain": "dfwhvac.com",
-  "durationMs": 1746,
+  "durationMs": 32732,
   "phases": [
     {
       "id": "phase1",
@@ -11,18 +11,20 @@
         {
           "id": "security-headers-grade",
           "label": "Security headers (self-computed)",
-          "target": "A or A+",
+          "target": "A+ only",
+          "v3Pillar": "P4 Security",
           "value": "A+ (100/100)",
           "numericValue": 100,
           "status": "green",
           "source": "Live response-header inspection",
-          "detail": "all core headers present",
+          "detail": "all core headers present · stricter than V3 (A acceptable)",
           "trend": "→"
         },
         {
           "id": "mozilla-observatory-grade",
           "label": "Mozilla Observatory grade",
           "target": "A",
+          "v3Pillar": "P4 Security",
           "value": "B+ (80/100)",
           "numericValue": 80,
           "status": "yellow",
@@ -34,17 +36,64 @@
           "id": "ssl-labs-grade",
           "label": "SSL Labs TLS grade",
           "target": "A+",
+          "v3Pillar": "P4 Security",
           "value": "unavailable (cache miss)",
           "numericValue": null,
           "status": "gray",
           "source": "api.ssllabs.com",
-          "detail": "no grades returned (Testing TLS 1.3)",
+          "detail": "no grades returned (Testing for BEAST)",
+          "trend": "—"
+        },
+        {
+          "id": "cwv-ttfb",
+          "label": "TTFB (Time to First Byte)",
+          "target": "< 200ms",
+          "v3Pillar": "P1 Infrastructure",
+          "value": "unavailable",
+          "numericValue": null,
+          "status": "gray",
+          "source": "PageSpeed Lighthouse · server-response-time",
+          "trend": "—"
+        },
+        {
+          "id": "cwv-lcp",
+          "label": "LCP (Largest Contentful Paint)",
+          "target": "< 1.2s",
+          "v3Pillar": "P2 Performance",
+          "value": "unavailable",
+          "numericValue": null,
+          "status": "gray",
+          "source": "PageSpeed Lighthouse · largest-contentful-paint",
+          "trend": "—"
+        },
+        {
+          "id": "cwv-inp",
+          "label": "INP (Interaction to Next Paint)",
+          "target": "< 200ms",
+          "v3Pillar": "P2 Performance",
+          "value": "unavailable",
+          "numericValue": null,
+          "status": "gray",
+          "source": "PageSpeed Lighthouse (lab) · interaction-to-next-paint",
+          "detail": "Lab value — for field data set CRUX_API_KEY",
+          "trend": "—"
+        },
+        {
+          "id": "cwv-cls",
+          "label": "CLS (Cumulative Layout Shift)",
+          "target": "< 0.05",
+          "v3Pillar": "P2 Performance",
+          "value": "unavailable",
+          "numericValue": null,
+          "status": "gray",
+          "source": "PageSpeed Lighthouse · cumulative-layout-shift",
           "trend": "—"
         },
         {
           "id": "pagespeed-performance-mobile",
-          "label": "PageSpeed Performance (mobile)",
-          "target": "≥ 90",
+          "label": "Lighthouse Performance (mobile)",
+          "target": "≥ 90 (V3)",
+          "v3Pillar": "P2 Performance",
           "value": "unavailable",
           "numericValue": null,
           "status": "gray",
@@ -53,19 +102,56 @@
           "trend": "—"
         },
         {
+          "id": "pagespeed-performance-desktop",
+          "label": "Lighthouse Performance (desktop)",
+          "target": "≥ 98 (V3)",
+          "v3Pillar": "P2 Performance",
+          "value": "unavailable",
+          "numericValue": null,
+          "status": "gray",
+          "source": "pagespeedonline.googleapis.com (strategy=desktop)",
+          "detail": "http 429",
+          "trend": "—"
+        },
+        {
+          "id": "cwv-page-weight",
+          "label": "Total Page Weight",
+          "target": "< 1.5 MB",
+          "v3Pillar": "P2 Performance",
+          "value": "unavailable",
+          "numericValue": null,
+          "status": "gray",
+          "source": "PageSpeed Lighthouse · total-byte-weight",
+          "trend": "—"
+        },
+        {
+          "id": "cwv-resource-compression",
+          "label": "Resource Compression",
+          "target": "Brotli + WebP/AVIF (100%)",
+          "v3Pillar": "P2 Performance",
+          "value": "unavailable",
+          "numericValue": null,
+          "status": "gray",
+          "source": "PageSpeed · uses-text-compression + modern-image-formats",
+          "trend": "—"
+        },
+        {
           "id": "pagespeed-accessibility-mobile",
-          "label": "PageSpeed Accessibility (mobile)",
+          "label": "Lighthouse Accessibility (mobile, interim)",
           "target": "≥ 95",
+          "v3Pillar": "P4 Accessibility (interim)",
           "value": "unavailable",
           "numericValue": null,
           "status": "gray",
           "source": "pagespeedonline.googleapis.com",
+          "detail": "Interim heuristic — formal WCAG check via Pa11y card below",
           "trend": "—"
         },
         {
           "id": "pagespeed-best-practices-mobile",
-          "label": "PageSpeed Best Practices (mobile)",
+          "label": "Lighthouse Best Practices (mobile)",
           "target": "≥ 95",
+          "v3Pillar": "P2 Performance",
           "value": "unavailable",
           "numericValue": null,
           "status": "gray",
@@ -74,8 +160,9 @@
         },
         {
           "id": "pagespeed-seo-mobile",
-          "label": "PageSpeed SEO (mobile)",
+          "label": "Lighthouse SEO (mobile)",
           "target": "100",
+          "v3Pillar": "P3 Logic",
           "value": "unavailable",
           "numericValue": null,
           "status": "gray",
@@ -83,9 +170,34 @@
           "trend": "—"
         },
         {
+          "id": "cdn-edge-hit-rate",
+          "label": "CDN Edge Hit Rate",
+          "target": "> 85%",
+          "v3Pillar": "P1 Infrastructure",
+          "value": "53.3%",
+          "numericValue": 53.3,
+          "status": "red",
+          "source": "x-vercel-cache header (warm-cache 2nd visit)",
+          "detail": "Pages: 0% · Static assets: 100% · 15 samples · {\"MISS\":7,\"HIT\":8}",
+          "trend": "▲"
+        },
+        {
+          "id": "db-query-latency",
+          "label": "DB Query Latency",
+          "target": "N/A — write-only DB",
+          "v3Pillar": "P1 Infrastructure",
+          "value": "not applicable",
+          "numericValue": null,
+          "status": "gray",
+          "source": "MongoDB Atlas (no read-path latency to user)",
+          "detail": "Only DB writes (leads). No user-facing read latency to measure.",
+          "trend": "—"
+        },
+        {
           "id": "csp-host-count",
           "label": "CSP whitelist host count",
           "target": "≤ 25 hosts",
+          "v3Pillar": "P4 Security",
           "value": "20",
           "numericValue": 20,
           "status": "green",
@@ -97,6 +209,7 @@
           "id": "sitemap-url-count",
           "label": "Sitemap URL count",
           "target": "> 50 URLs",
+          "v3Pillar": "P3 Logic",
           "value": "51",
           "numericValue": 51,
           "status": "green",
@@ -107,6 +220,7 @@
           "id": "robots-ai-allowlist",
           "label": "Robots.txt AI crawler directives",
           "target": "≥ 3 AI bots declared",
+          "v3Pillar": "AEO (ours only)",
           "value": "6 of 6 (GPTBot, PerplexityBot, ClaudeBot, CCBot, Google-Extended, Applebot-Extended)",
           "numericValue": 6,
           "status": "green",
@@ -115,8 +229,9 @@
         },
         {
           "id": "schema-coverage",
-          "label": "Schema coverage (5 sample pages)",
-          "target": "≥ 5 distinct @types, 0 invalid",
+          "label": "Schema validation + coverage",
+          "target": "100% valid · ≥ 5 distinct @types",
+          "v3Pillar": "P4 Governance",
           "value": "9 blocks · 5 @types · 0 invalid",
           "numericValue": 5,
           "status": "green",
@@ -125,9 +240,46 @@
           "trend": "→"
         },
         {
+          "id": "click-depth",
+          "label": "Click Depth (max from home)",
+          "target": "≤ 3 clicks",
+          "v3Pillar": "P3 Logic",
+          "value": "2",
+          "numericValue": 2,
+          "status": "green",
+          "source": "Local BFS crawler",
+          "detail": "51 pages reachable · depth dist: {\"0\":1,\"1\":20,\"2\":30}",
+          "trend": "→"
+        },
+        {
+          "id": "internal-link-connectivity",
+          "label": "Internal Link Connectivity (orphans)",
+          "target": "0 orphan pages",
+          "v3Pillar": "P3 Logic",
+          "value": "3 orphans",
+          "numericValue": 3,
+          "status": "yellow",
+          "source": "Sitemap diff vs BFS crawl",
+          "detail": "orphans: /services/system-replacement, /repair-or-replace, /replacement-estimator",
+          "trend": "→"
+        },
+        {
+          "id": "wcag-aa-pa11y",
+          "label": "WCAG 2.2 AA (Pa11y, automated)",
+          "target": "0 errors (5-page sample)",
+          "v3Pillar": "P4 Accessibility",
+          "value": "7 errors · 0 warnings (5/5 pages)",
+          "numericValue": 7,
+          "status": "red",
+          "source": "Pa11y · WCAG2AA standard · 5 sample routes",
+          "detail": "Top issues: WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "trend": "→"
+        },
+        {
           "id": "gitleaks-status",
           "label": "Gitleaks secret-scan (latest run)",
           "target": "success",
+          "v3Pillar": "P4 Security",
           "value": "unavailable",
           "numericValue": null,
           "status": "gray",
@@ -138,7 +290,8 @@
         {
           "id": "build-manifest",
           "label": "Build manifest (App Router)",
-          "target": "≥ 20 page routes (dynamic + static)",
+          "target": "≥ 20 page routes",
+          "v3Pillar": "Ours only",
           "value": "22 pages · 5 API routes · 30 total",
           "numericValue": 22,
           "status": "green",
@@ -149,32 +302,34 @@
         {
           "id": "uptime-30d",
           "label": "Uptime (last 30 days)",
-          "target": "≥ 99.9%",
+          "target": "≥ 99.99% (V3)",
+          "v3Pillar": "P1 Infrastructure",
           "value": "not measured",
           "numericValue": null,
           "status": "gray",
           "source": "Requires external uptime monitor (UptimeRobot/Better Stack)",
-          "detail": "Scaffolded — no Vercel Hobby API. Add monitor or upgrade to Pro.",
+          "detail": "Bumped from 99.9% → 99.99% per V3 adoption. Wire UptimeRobot free monitor to light up.",
           "trend": "—"
         },
         {
           "id": "error-rate",
-          "label": "Error rate (5xx / total)",
+          "label": "Error rate (5xx/4xx)",
           "target": "< 0.1%",
+          "v3Pillar": "P1 Infrastructure",
           "value": "not measured",
           "numericValue": null,
           "status": "gray",
-          "source": "Vercel Analytics Pro tier or self-instrumentation",
+          "source": "Vercel Analytics Pro tier or Sentry free tier",
           "detail": "Scaffolded.",
           "trend": "—"
         }
       ],
       "rollup": {
-        "total": 15,
-        "green": 6,
-        "yellow": 1,
-        "red": 0,
-        "gray": 8
+        "total": 27,
+        "green": 7,
+        "yellow": 2,
+        "red": 2,
+        "gray": 16
       }
     },
     {
@@ -217,11 +372,33 @@
         },
         {
           "id": "sitemap-indexing-rate",
-          "label": "Sitemap indexing rate",
-          "target": "≥ 90%",
+          "label": "Crawl-to-Index Ratio",
+          "target": "> 95% (V3 stricter)",
+          "v3Pillar": "P3 Logic",
           "value": "token required",
           "status": "gray",
-          "source": "GSC URL Inspection API"
+          "source": "GSC URL Inspection API",
+          "detail": "Bumped from 90% → 95% per V3 adoption."
+        },
+        {
+          "id": "sitemap-health-parity",
+          "label": "Sitemap Health (1:1 parity)",
+          "target": "Sitemap URLs : Indexed URLs = 1:1",
+          "v3Pillar": "P3 Logic",
+          "value": "token required",
+          "status": "gray",
+          "source": "GSC Sitemaps API",
+          "detail": "V3 KPI — measures parity between submitted sitemap and Google index. Local URL count is a Phase 1 sanity check only."
+        },
+        {
+          "id": "crawl-budget-waste",
+          "label": "Crawl Budget Waste",
+          "target": "< 1% (V3)",
+          "v3Pillar": "P3 Logic",
+          "value": "token required",
+          "status": "gray",
+          "source": "GSC Crawl Stats API",
+          "detail": "Crawl attempts on non-indexable URLs (redirects, 404s)."
         },
         {
           "id": "gbp-impressions",
@@ -258,11 +435,11 @@
         }
       ],
       "rollup": {
-        "total": 9,
+        "total": 11,
         "green": 0,
         "yellow": 1,
         "red": 0,
-        "gray": 8
+        "gray": 10
       }
     },
     {

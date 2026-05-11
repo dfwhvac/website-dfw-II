@@ -7,7 +7,43 @@ Reverse-chronological record of everything shipped to production. When adding en
 
 ---
 
-## May 11, 2026 — KPI Dashboard shipped
+## May 11, 2026 — KPI Dashboard v2: V3 alignment + 18 new KPIs
+
+Second iteration of `/internal/kpi-dashboard.html`. Adopted the user's V3 Performance Audit benchmark sheet (19 KPIs across 4 pillars), folded its targets into our dashboard, and adopted stricter thresholds wherever they overlap.
+
+### What's new
+
+- **+18 KPIs**: TTFB, LCP, INP, CLS, Total Page Weight, Resource Compression, Lighthouse Perf Desktop, Lighthouse Accessibility (interim), Lighthouse Best Practices, Lighthouse SEO, **CDN Edge Hit Rate** (via `x-vercel-cache` header sampling, warm-cache 2nd-visit method), DB Query Latency (N/A scaffold), **Click Depth** + **Internal Link Connectivity** (via local BFS crawler), **WCAG 2.2 AA via Pa11y** (5-route sample, automated), plus 3 new Phase 2 KPIs (Crawl-to-Index Ratio, Sitemap Health 1:1 parity, Crawl Budget Waste).
+- **V3 Crosswalk badges**: every KPI tagged with its V3 pillar (P1 Infra, P2 Performance, P3 Logic, P4 Sec/A11y/Gov, AEO, Ours-only). Color-coded legend at top of dashboard.
+- **Stricter benchmarks adopted** per V3:
+  - Uptime: 99.9% → **99.99%**
+  - Crawl-to-Index Ratio: 90% → **> 95%**
+  - Security Headers: A or A+ → **A+ only** (already stricter; kept)
+  - Schema: now `100% valid + ≥ 5 distinct @types` (hybrid stricter)
+  - Added desktop Lighthouse Perf at V3's **98** threshold
+
+### Real findings surfaced by v2
+
+- 🔴 **CDN Edge Hit Rate: 53.3%** (target > 85%) — static assets cache at 100%, but **every page MISSes the edge cache** on second visit. Pages are SSR without ISR. Real perf + cost issue. Action: add `export const revalidate = 3600` to static pages.
+- 🔴 **WCAG 2.2 AA: 7 errors** across 5 sample routes — primarily `WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail` (color contrast 4.5:1). Action: contrast audit + fix.
+- 🟡 **Internal Link Connectivity: 3 orphans** — `/services/system-replacement`, `/repair-or-replace`, `/replacement-estimator` aren't reachable by depth-3 BFS from homepage. Likely missing from header/footer nav.
+- 🟢 **Click Depth: 2** (target ≤ 3) — site architecture is healthy.
+
+### Files changed
+
+- `/app/scripts/audit-kpis.mjs` — +280 lines (4 new collectors: CDN, link graph, Pa11y, expanded PageSpeed audits)
+- `/app/frontend/public/internal/kpi-dashboard.html` — V3 crosswalk badges + legend
+- `/app/frontend/public/internal/kpi-snapshot.json` — 53 KPIs (was 39)
+- `/app/memory/audits/kpi-snapshot-archive/2026-05-11.json` — daily archive
+- `/app/.pa11yrc.json` — Pa11y config (`--no-sandbox` for CI compatibility)
+
+### Pa11y dependency
+
+`npx pa11y` runs against home + 4 other key routes per audit. Adds ~30s to total runtime (was 1.5s, now ~33s). Pulls Chromium via Puppeteer on first run (cached after that). All inside the same `yarn audit:kpis` cadence.
+
+---
+
+## May 11, 2026 (earlier) — KPI Dashboard v1: initial ship
 
 First weekly snapshot of the internal KPI dashboard is live at `/internal/kpi-dashboard.html`.
 
