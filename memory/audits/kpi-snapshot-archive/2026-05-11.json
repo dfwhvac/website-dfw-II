@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-11T19:44:30.239Z",
+  "generatedAt": "2026-05-11T22:30:17.320Z",
   "domain": "dfwhvac.com",
-  "durationMs": 34616,
+  "durationMs": 34503,
   "phases": [
     {
       "id": "phase1",
@@ -342,33 +342,40 @@
           "label": "GSC impressions (28d)",
           "target": "trend ▲",
           "value": "token required",
+          "numericValue": null,
           "status": "gray",
           "source": "Google Search Console API",
-          "detail": "Run GA4 service account setup (see GA4_SERVICE_ACCOUNT_SETUP.md). Same auth."
+          "detail": "oauth secrets not configured"
         },
         {
           "id": "gsc-clicks",
           "label": "GSC clicks (28d)",
           "target": "trend ▲",
           "value": "token required",
+          "numericValue": null,
           "status": "gray",
-          "source": "Google Search Console API"
+          "source": "Google Search Console API",
+          "detail": "oauth secrets not configured"
         },
         {
           "id": "gsc-ctr",
           "label": "GSC CTR (28d)",
           "target": "≥ 3%",
           "value": "token required",
+          "numericValue": null,
           "status": "gray",
-          "source": "Google Search Console API"
+          "source": "Google Search Console API",
+          "detail": "oauth secrets not configured"
         },
         {
           "id": "gsc-avg-position",
           "label": "GSC average position",
           "target": "≤ 20",
           "value": "token required",
+          "numericValue": null,
           "status": "gray",
-          "source": "Google Search Console API"
+          "source": "Google Search Console API",
+          "detail": "oauth secrets not configured"
         },
         {
           "id": "sitemap-indexing-rate",
@@ -376,9 +383,10 @@
           "target": "> 95% (V3 stricter)",
           "v3Pillar": "P3 Logic",
           "value": "token required",
+          "numericValue": null,
           "status": "gray",
-          "source": "GSC URL Inspection API",
-          "detail": "Bumped from 90% → 95% per V3 adoption."
+          "source": "GSC Sitemaps API",
+          "detail": "oauth secrets not configured"
         },
         {
           "id": "sitemap-health-parity",
@@ -386,19 +394,20 @@
           "target": "Sitemap URLs : Indexed URLs = 1:1",
           "v3Pillar": "P3 Logic",
           "value": "token required",
+          "numericValue": null,
           "status": "gray",
           "source": "GSC Sitemaps API",
-          "detail": "V3 KPI — measures parity between submitted sitemap and Google index. Local URL count is a Phase 1 sanity check only."
+          "detail": "oauth secrets not configured"
         },
         {
           "id": "crawl-budget-waste",
           "label": "Crawl Budget Waste",
           "target": "< 1% (V3)",
           "v3Pillar": "P3 Logic",
-          "value": "token required",
+          "value": "not measured",
           "status": "gray",
-          "source": "GSC Crawl Stats API",
-          "detail": "Crawl attempts on non-indexable URLs (redirects, 404s)."
+          "source": "GSC Crawl Stats (no public API — manual GSC export)",
+          "detail": "Defer to quarterly manual GSC Settings → Crawl stats review."
         },
         {
           "id": "gbp-impressions",
@@ -406,7 +415,8 @@
           "target": "trend ▲",
           "value": "token + admin auth required",
           "status": "gray",
-          "source": "Google Business Profile API"
+          "source": "Google Business Profile API",
+          "detail": "GBP API requires separate Business Profile OAuth scope + 4-week review; deferred."
         },
         {
           "id": "reviews-count",
@@ -452,56 +462,69 @@
           "label": "Overall conversion rate",
           "target": "≥ 4%",
           "value": "GA4 token required",
+          "numericValue": null,
           "status": "gray",
-          "source": "GA4 Data API"
+          "source": "GA4 Data API · conversions ÷ sessions (28d)",
+          "detail": "oauth secrets not configured"
         },
         {
           "id": "form-submission-rate",
           "label": "Form submission rate",
           "target": "≥ 6%",
           "value": "GA4 token required",
+          "numericValue": null,
           "status": "gray",
-          "source": "GA4 Data API"
+          "source": "GA4 Data API · generate_lead ÷ sessions (28d)",
+          "detail": "oauth secrets not configured"
         },
         {
           "id": "phone-click-rate",
           "label": "Phone click rate",
           "target": "≥ 8%",
           "value": "GA4 token required",
+          "numericValue": null,
           "status": "gray",
-          "source": "GA4 Data API"
+          "source": "GA4 Data API · phone_click ÷ sessions (28d)",
+          "detail": "oauth secrets not configured"
         },
         {
           "id": "per-page-cr",
           "label": "Per-page CR (top 10 entry pages)",
           "target": "top 3 ≥ 5%",
-          "value": "GA4 token required",
+          "value": "next iteration",
           "status": "gray",
-          "source": "GA4 Data API"
+          "source": "GA4 Data API · landingPagePlusQueryString",
+          "detail": "Site-wide CR is the priority signal right now; per-page drill-down ships next iteration."
         },
         {
           "id": "mobile-desktop-cr-parity",
           "label": "Mobile vs desktop CR parity",
           "target": "within 20%",
           "value": "GA4 token required",
+          "numericValue": null,
           "status": "gray",
-          "source": "GA4 Data API"
+          "source": "GA4 Data API · deviceCategory breakdown",
+          "detail": "oauth secrets not configured"
         },
         {
           "id": "estimator-completion",
-          "label": "Estimator completion / opt-in rate",
-          "target": "≥ 25%",
+          "label": "Estimator opt-in events",
+          "target": "trend ▲",
           "value": "GA4 token required",
+          "numericValue": null,
           "status": "gray",
-          "source": "GA4 Data API"
+          "source": "GA4 Data API · estimator_opt_in event count (28d)",
+          "detail": "oauth secrets not configured"
         },
         {
           "id": "bounce-rate",
-          "label": "Bounce rate (mobile)",
+          "label": "Bounce rate (sitewide)",
           "target": "< 50%",
           "value": "GA4 token required",
+          "numericValue": null,
           "status": "gray",
-          "source": "GA4 Data API"
+          "source": "GA4 Data API · bounceRate (28d)",
+          "detail": "oauth secrets not configured"
         },
         {
           "id": "clarity-friction",

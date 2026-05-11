@@ -372,6 +372,188 @@ async function getLinkGraph() {
   };
 }
 
+// ---------- Google OAuth + GA4/GSC collectors (Phase 2/3) ----------
+
+/**
+ * Exchanges a long-lived refresh token for a short-lived access token.
+ * Returns null if any credential is missing — caller treats as "scaffold mode".
+ */
+async function getGoogleAccessToken() {
+  const clientId = process.env.GOOGLE_CLIENT_ID;
+  const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+  const refreshToken = process.env.GOOGLE_REFRESH_TOKEN;
+  if (!clientId || !clientSecret || !refreshToken) return null;
+  const body = new URLSearchParams({
+    client_id: clientId,
+    client_secret: clientSecret,
+    refresh_token: refreshToken,
+    grant_type: 'refresh_token',
+  });
+  const r = await fetchWithTimeout('https://oauth2.googleapis.com/token', {
+    method: 'POST',
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    body,
+  });
+  if (!r.ok) throw new Error(`token exchange ${r.status}: ${(await r.text()).slice(0, 200)}`);
+  const d = await r.json();
+  if (!d.access_token) throw new Error('no access_token in response');
+  return d.access_token;
+}
+
+/**
+ * GSC Search Analytics — last 28 days, totals only (no dimensions).
+ * Returns { clicks, impressions, ctr, position } or throws.
+ */
+async function getGscMetrics(accessToken) {
+  const siteUrl = process.env.GSC_SITE_URL;
+  if (!siteUrl) throw new Error('GSC_SITE_URL not set');
+  const today = new Date();
+  const startDate = new Date(today.getTime() - 28 * 86400_000).toISOString().slice(0, 10);
+  const endDate = today.toISOString().slice(0, 10);
+  const url = `https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(siteUrl)}/searchAnalytics/query`;
+  const r = await fetchWithTimeout(url, {
+    method: 'POST',
+    headers: { authorization: `Bearer ${accessToken}`, 'content-type': 'application/json' },
+    body: JSON.stringify({ startDate, endDate, dimensions: [], rowLimit: 1 }),
+  });
+  if (!r.ok) throw new Error(`gsc ${r.status}: ${(await r.text()).slice(0, 200)}`);
+  const d = await r.json();
+  const row = d.rows?.[0] || { clicks: 0, impressions: 0, ctr: 0, position: 0 };
+  return {
+    clicks: Math.round(row.clicks || 0),
+    impressions: Math.round(row.impressions || 0),
+    ctr: row.ctr ? Math.round(row.ctr * 1000) / 10 : 0, // %
+    position: row.position ? Math.round(row.position * 10) / 10 : 0,
+    startDate,
+    endDate,
+  };
+}
+
+/**
+ * GSC Sitemaps — checks the submitted sitemap's parity vs warnings.
+ * Returns { submitted, indexableWarnings, lastDownloaded } or throws.
+ */
+async function getGscSitemapHealth(accessToken) {
+  const siteUrl = process.env.GSC_SITE_URL;
+  if (!siteUrl) throw new Error('GSC_SITE_URL not set');
+  const url = `https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(siteUrl)}/sitemaps`;
+  const r = await fetchWithTimeout(url, {
+    headers: { authorization: `Bearer ${accessToken}` },
+  });
+  if (!r.ok) throw new Error(`gsc-sitemaps ${r.status}: ${(await r.text()).slice(0, 200)}`);
+  const d = await r.json();
+  const sitemaps = d.sitemap || [];
+  // Pick the primary sitemap.xml (not nested sitemap-0.xml etc.)
+  const primary = sitemaps.find((s) => /\/sitemap\.xml$/i.test(s.path)) || sitemaps[0];
+  if (!primary) return { submitted: 0, warnings: 0, errors: 0, lastDownloaded: null, count: 0 };
+  // contents[].submitted is per-content-type. Sum them.
+  const submitted = (primary.contents || []).reduce((a, c) => a + Number(c.submitted || 0), 0);
+  const indexed = (primary.contents || []).reduce((a, c) => a + Number(c.indexed || 0), 0);
+  return {
+    submitted,
+    indexed,
+    parity: submitted ? Math.round((indexed / submitted) * 1000) / 10 : null, // %
+    warnings: Number(primary.warnings || 0),
+    errors: Number(primary.errors || 0),
+    lastDownloaded: primary.lastDownloaded || null,
+    sitemapCount: sitemaps.length,
+  };
+}
+
+/**
+ * GA4 Data API — last 28 days. One round-trip for site-wide totals,
+ * a second for the device breakdown.
+ */
+async function getGa4Metrics(accessToken) {
+  const propertyId = process.env.GA4_PROPERTY_ID;
+  if (!propertyId) throw new Error('GA4_PROPERTY_ID not set');
+  const url = `https://analyticsdata.googleapis.com/v1beta/properties/${propertyId}:runReport`;
+  const headers = { authorization: `Bearer ${accessToken}`, 'content-type': 'application/json' };
+
+  // ---- Query 1: site-wide totals ----
+  const totalsBody = {
+    dateRanges: [{ startDate: '28daysAgo', endDate: 'today' }],
+    metrics: [
+      { name: 'sessions' },
+      { name: 'totalUsers' },
+      { name: 'bounceRate' },
+      { name: 'conversions' },
+      { name: 'eventCountPerUser' },
+    ],
+  };
+  const r1 = await fetchWithTimeout(url, { method: 'POST', headers, body: JSON.stringify(totalsBody) });
+  if (!r1.ok) throw new Error(`ga4-totals ${r1.status}: ${(await r1.text()).slice(0, 200)}`);
+  const d1 = await r1.json();
+  const totalsRow = d1.rows?.[0]?.metricValues || [];
+  const totals = {
+    sessions: Number(totalsRow[0]?.value || 0),
+    users: Number(totalsRow[1]?.value || 0),
+    bounceRate: totalsRow[2] ? Math.round(Number(totalsRow[2].value) * 1000) / 10 : null, // %
+    conversions: Number(totalsRow[3]?.value || 0),
+  };
+
+  // ---- Query 2: device breakdown (mobile vs desktop CR parity) ----
+  const deviceBody = {
+    dateRanges: [{ startDate: '28daysAgo', endDate: 'today' }],
+    dimensions: [{ name: 'deviceCategory' }],
+    metrics: [{ name: 'sessions' }, { name: 'conversions' }],
+  };
+  const r2 = await fetchWithTimeout(url, { method: 'POST', headers, body: JSON.stringify(deviceBody) });
+  if (!r2.ok) throw new Error(`ga4-device ${r2.status}: ${(await r2.text()).slice(0, 200)}`);
+  const d2 = await r2.json();
+  const byDevice = {};
+  (d2.rows || []).forEach((row) => {
+    const cat = row.dimensionValues?.[0]?.value || 'unknown';
+    const sessions = Number(row.metricValues?.[0]?.value || 0);
+    const conversions = Number(row.metricValues?.[1]?.value || 0);
+    byDevice[cat] = { sessions, conversions, cr: sessions ? Math.round((conversions / sessions) * 1000) / 10 : 0 };
+  });
+
+  // ---- Query 3: specific events for form vs phone vs estimator CR breakouts ----
+  const eventsBody = {
+    dateRanges: [{ startDate: '28daysAgo', endDate: 'today' }],
+    dimensions: [{ name: 'eventName' }],
+    metrics: [{ name: 'eventCount' }],
+    dimensionFilter: {
+      filter: {
+        fieldName: 'eventName',
+        inListFilter: { values: ['generate_lead', 'form_submit_lead', 'phone_click', 'estimator_opt_in', 'thanks_page_view'] },
+      },
+    },
+  };
+  const r3 = await fetchWithTimeout(url, { method: 'POST', headers, body: JSON.stringify(eventsBody) });
+  if (!r3.ok) throw new Error(`ga4-events ${r3.status}: ${(await r3.text()).slice(0, 200)}`);
+  const d3 = await r3.json();
+  const events = {};
+  (d3.rows || []).forEach((row) => {
+    const name = row.dimensionValues?.[0]?.value || '';
+    events[name] = Number(row.metricValues?.[0]?.value || 0);
+  });
+
+  const overallCr = totals.sessions ? Math.round((totals.conversions / totals.sessions) * 1000) / 10 : null;
+  const formCr = totals.sessions
+    ? Math.round(((events.generate_lead || events.form_submit_lead || 0) / totals.sessions) * 1000) / 10
+    : null;
+  const phoneCr = totals.sessions
+    ? Math.round(((events.phone_click || 0) / totals.sessions) * 1000) / 10
+    : null;
+  const mobile = byDevice.mobile?.cr || 0;
+  const desktop = byDevice.desktop?.cr || 0;
+  const parityDelta = mobile && desktop ? Math.round(Math.abs(mobile - desktop) / Math.max(mobile, desktop) * 1000) / 10 : null;
+
+  return {
+    totals,
+    overallCr,
+    formCr,
+    phoneCr,
+    bounceRate: totals.bounceRate,
+    byDevice,
+    parityDelta, // % gap
+    events,
+    estimatorOptIn: events.estimator_opt_in || 0,
+  };
+}
+
 // V3 Pillar 4 — WCAG 2.2 AA via Pa11y on sample of pages
 async function getPa11y() {
   const samples = ['/', '/reviews', '/financing', '/cities-served/dallas', '/services/system-replacement'];
@@ -460,6 +642,19 @@ async function main() {
 
   const prior = await loadPriorSnapshot();
 
+  // Acquire Google OAuth access token up-front (used by GSC + GA4 collectors).
+  // Returns null if any of the 3 OAuth secrets is missing → KPIs stay gray.
+  let googleAccessToken = null;
+  let googleAuthError = null;
+  try {
+    googleAccessToken = await getGoogleAccessToken();
+    if (googleAccessToken) console.log('[kpi] google oauth: access token acquired');
+    else console.log('[kpi] google oauth: secrets not set — Phase 2/3 will remain gray');
+  } catch (e) {
+    googleAuthError = e.message;
+    console.warn(`[warn] google oauth: ${e.message}`);
+  }
+
   // Parallelize all phase-1 collectors. PageSpeed mobile + desktop are slow when
   // unkeyed; everything else returns in <2s.
   const [
@@ -493,6 +688,17 @@ async function main() {
     safe('LinkGraph', getLinkGraph),
     safe('Pa11y', getPa11y),
   ]);
+
+  // GSC + GA4 — only fire if we got an access token. Each independently safe()d.
+  const [gsc, gscSitemap, ga4] = googleAccessToken
+    ? await Promise.all([
+        safe('GscSearchAnalytics', () => getGscMetrics(googleAccessToken)),
+        safe('GscSitemap', () => getGscSitemapHealth(googleAccessToken)),
+        safe('Ga4', () => getGa4Metrics(googleAccessToken)),
+      ])
+    : [{ ok: false, error: googleAuthError || 'oauth secrets not configured' },
+       { ok: false, error: googleAuthError || 'oauth secrets not configured' },
+       { ok: false, error: googleAuthError || 'oauth secrets not configured' }];
 
   const phase1Kpis = [
     {
@@ -841,64 +1047,81 @@ async function main() {
       id: 'gsc-impressions',
       label: 'GSC impressions (28d)',
       target: 'trend ▲',
-      value: 'token required',
-      status: STATUS.GRAY,
+      value: gsc.ok ? gsc.value.impressions.toLocaleString() : (googleAccessToken ? 'error' : 'token required'),
+      numericValue: gsc.ok ? gsc.value.impressions : null,
+      status: gsc.ok ? STATUS.GREEN : STATUS.GRAY,
       source: 'Google Search Console API',
-      detail: 'Run GA4 service account setup (see GA4_SERVICE_ACCOUNT_SETUP.md). Same auth.',
+      detail: gsc.ok ? `${gsc.value.startDate} → ${gsc.value.endDate}` : (gsc.error || 'Add GOOGLE_* + GSC_SITE_URL secrets'),
     },
     {
       id: 'gsc-clicks',
       label: 'GSC clicks (28d)',
       target: 'trend ▲',
-      value: 'token required',
-      status: STATUS.GRAY,
+      value: gsc.ok ? gsc.value.clicks.toLocaleString() : (googleAccessToken ? 'error' : 'token required'),
+      numericValue: gsc.ok ? gsc.value.clicks : null,
+      status: gsc.ok ? STATUS.GREEN : STATUS.GRAY,
       source: 'Google Search Console API',
+      detail: gsc.ok ? null : gsc.error,
     },
     {
       id: 'gsc-ctr',
       label: 'GSC CTR (28d)',
       target: '≥ 3%',
-      value: 'token required',
-      status: STATUS.GRAY,
+      value: gsc.ok ? `${gsc.value.ctr}%` : (googleAccessToken ? 'error' : 'token required'),
+      numericValue: gsc.ok ? gsc.value.ctr : null,
+      status: gsc.ok ? (gsc.value.ctr >= 3 ? STATUS.GREEN : gsc.value.ctr >= 1.5 ? STATUS.YELLOW : STATUS.RED) : STATUS.GRAY,
       source: 'Google Search Console API',
+      detail: gsc.ok ? null : gsc.error,
     },
     {
       id: 'gsc-avg-position',
       label: 'GSC average position',
       target: '≤ 20',
-      value: 'token required',
-      status: STATUS.GRAY,
+      value: gsc.ok ? `${gsc.value.position}` : (googleAccessToken ? 'error' : 'token required'),
+      numericValue: gsc.ok ? gsc.value.position : null,
+      status: gsc.ok ? (gsc.value.position <= 20 ? STATUS.GREEN : gsc.value.position <= 40 ? STATUS.YELLOW : STATUS.RED) : STATUS.GRAY,
       source: 'Google Search Console API',
+      detail: gsc.ok ? null : gsc.error,
     },
     {
       id: 'sitemap-indexing-rate',
       label: 'Crawl-to-Index Ratio',
       target: '> 95% (V3 stricter)',
       v3Pillar: 'P3 Logic',
-      value: 'token required',
-      status: STATUS.GRAY,
-      source: 'GSC URL Inspection API',
-      detail: 'Bumped from 90% → 95% per V3 adoption.',
+      value: gscSitemap.ok && gscSitemap.value.parity != null
+        ? `${gscSitemap.value.parity}%`
+        : (googleAccessToken ? 'error' : 'token required'),
+      numericValue: gscSitemap.ok ? gscSitemap.value.parity : null,
+      status: gscSitemap.ok && gscSitemap.value.parity != null
+        ? (gscSitemap.value.parity > 95 ? STATUS.GREEN : gscSitemap.value.parity > 85 ? STATUS.YELLOW : STATUS.RED)
+        : STATUS.GRAY,
+      source: 'GSC Sitemaps API',
+      detail: gscSitemap.ok ? `${gscSitemap.value.indexed} indexed / ${gscSitemap.value.submitted} submitted · last DL ${gscSitemap.value.lastDownloaded?.slice(0, 10) || '?'}` : gscSitemap.error,
     },
     {
       id: 'sitemap-health-parity',
       label: 'Sitemap Health (1:1 parity)',
       target: 'Sitemap URLs : Indexed URLs = 1:1',
       v3Pillar: 'P3 Logic',
-      value: 'token required',
-      status: STATUS.GRAY,
+      value: gscSitemap.ok
+        ? `${gscSitemap.value.submitted} submitted · ${gscSitemap.value.warnings} warnings · ${gscSitemap.value.errors} errors`
+        : (googleAccessToken ? 'error' : 'token required'),
+      numericValue: gscSitemap.ok ? gscSitemap.value.errors : null,
+      status: gscSitemap.ok
+        ? (gscSitemap.value.errors === 0 && gscSitemap.value.warnings === 0 ? STATUS.GREEN : gscSitemap.value.errors === 0 ? STATUS.YELLOW : STATUS.RED)
+        : STATUS.GRAY,
       source: 'GSC Sitemaps API',
-      detail: 'V3 KPI — measures parity between submitted sitemap and Google index. Local URL count is a Phase 1 sanity check only.',
+      detail: gscSitemap.ok ? null : gscSitemap.error,
     },
     {
       id: 'crawl-budget-waste',
       label: 'Crawl Budget Waste',
       target: '< 1% (V3)',
       v3Pillar: 'P3 Logic',
-      value: 'token required',
+      value: 'not measured',
       status: STATUS.GRAY,
-      source: 'GSC Crawl Stats API',
-      detail: 'Crawl attempts on non-indexable URLs (redirects, 404s).',
+      source: 'GSC Crawl Stats (no public API — manual GSC export)',
+      detail: 'Defer to quarterly manual GSC Settings → Crawl stats review.',
     },
     {
       id: 'gbp-impressions',
@@ -907,6 +1130,7 @@ async function main() {
       value: 'token + admin auth required',
       status: STATUS.GRAY,
       source: 'Google Business Profile API',
+      detail: 'GBP API requires separate Business Profile OAuth scope + 4-week review; deferred.',
     },
     {
       id: 'reviews-count',
@@ -936,13 +1160,89 @@ async function main() {
   ];
 
   const phase3Kpis = [
-    { id: 'overall-cr', label: 'Overall conversion rate', target: '≥ 4%', value: 'GA4 token required', status: STATUS.GRAY, source: 'GA4 Data API' },
-    { id: 'form-submission-rate', label: 'Form submission rate', target: '≥ 6%', value: 'GA4 token required', status: STATUS.GRAY, source: 'GA4 Data API' },
-    { id: 'phone-click-rate', label: 'Phone click rate', target: '≥ 8%', value: 'GA4 token required', status: STATUS.GRAY, source: 'GA4 Data API' },
-    { id: 'per-page-cr', label: 'Per-page CR (top 10 entry pages)', target: 'top 3 ≥ 5%', value: 'GA4 token required', status: STATUS.GRAY, source: 'GA4 Data API' },
-    { id: 'mobile-desktop-cr-parity', label: 'Mobile vs desktop CR parity', target: 'within 20%', value: 'GA4 token required', status: STATUS.GRAY, source: 'GA4 Data API' },
-    { id: 'estimator-completion', label: 'Estimator completion / opt-in rate', target: '≥ 25%', value: 'GA4 token required', status: STATUS.GRAY, source: 'GA4 Data API' },
-    { id: 'bounce-rate', label: 'Bounce rate (mobile)', target: '< 50%', value: 'GA4 token required', status: STATUS.GRAY, source: 'GA4 Data API' },
+    {
+      id: 'overall-cr',
+      label: 'Overall conversion rate',
+      target: '≥ 4%',
+      value: ga4.ok && ga4.value.overallCr != null ? `${ga4.value.overallCr}%` : (googleAccessToken ? 'error' : 'GA4 token required'),
+      numericValue: ga4.ok ? ga4.value.overallCr : null,
+      status: ga4.ok && ga4.value.overallCr != null
+        ? (ga4.value.overallCr >= 4 ? STATUS.GREEN : ga4.value.overallCr >= 2 ? STATUS.YELLOW : STATUS.RED)
+        : STATUS.GRAY,
+      source: 'GA4 Data API · conversions ÷ sessions (28d)',
+      detail: ga4.ok
+        ? `${ga4.value.totals.conversions} conversions / ${ga4.value.totals.sessions.toLocaleString()} sessions`
+        : ga4.error,
+    },
+    {
+      id: 'form-submission-rate',
+      label: 'Form submission rate',
+      target: '≥ 6%',
+      value: ga4.ok && ga4.value.formCr != null ? `${ga4.value.formCr}%` : (googleAccessToken ? 'error' : 'GA4 token required'),
+      numericValue: ga4.ok ? ga4.value.formCr : null,
+      status: ga4.ok && ga4.value.formCr != null
+        ? (ga4.value.formCr >= 6 ? STATUS.GREEN : ga4.value.formCr >= 3 ? STATUS.YELLOW : STATUS.RED)
+        : STATUS.GRAY,
+      source: 'GA4 Data API · generate_lead ÷ sessions (28d)',
+      detail: ga4.ok ? `${ga4.value.events.generate_lead || 0} generate_lead · ${ga4.value.events.form_submit_lead || 0} form_submit_lead` : ga4.error,
+    },
+    {
+      id: 'phone-click-rate',
+      label: 'Phone click rate',
+      target: '≥ 8%',
+      value: ga4.ok && ga4.value.phoneCr != null ? `${ga4.value.phoneCr}%` : (googleAccessToken ? 'error' : 'GA4 token required'),
+      numericValue: ga4.ok ? ga4.value.phoneCr : null,
+      status: ga4.ok && ga4.value.phoneCr != null
+        ? (ga4.value.phoneCr >= 8 ? STATUS.GREEN : ga4.value.phoneCr >= 4 ? STATUS.YELLOW : STATUS.RED)
+        : STATUS.GRAY,
+      source: 'GA4 Data API · phone_click ÷ sessions (28d)',
+      detail: ga4.ok ? `${ga4.value.events.phone_click || 0} phone_click events` : ga4.error,
+    },
+    {
+      id: 'per-page-cr',
+      label: 'Per-page CR (top 10 entry pages)',
+      target: 'top 3 ≥ 5%',
+      value: 'next iteration',
+      status: STATUS.GRAY,
+      source: 'GA4 Data API · landingPagePlusQueryString',
+      detail: 'Site-wide CR is the priority signal right now; per-page drill-down ships next iteration.',
+    },
+    {
+      id: 'mobile-desktop-cr-parity',
+      label: 'Mobile vs desktop CR parity',
+      target: 'within 20%',
+      value: ga4.ok && ga4.value.parityDelta != null ? `${ga4.value.parityDelta}% gap` : (googleAccessToken ? 'error' : 'GA4 token required'),
+      numericValue: ga4.ok ? ga4.value.parityDelta : null,
+      status: ga4.ok && ga4.value.parityDelta != null
+        ? (ga4.value.parityDelta <= 20 ? STATUS.GREEN : ga4.value.parityDelta <= 40 ? STATUS.YELLOW : STATUS.RED)
+        : STATUS.GRAY,
+      source: 'GA4 Data API · deviceCategory breakdown',
+      detail: ga4.ok && ga4.value.byDevice
+        ? `Mobile CR: ${ga4.value.byDevice.mobile?.cr ?? 0}% · Desktop CR: ${ga4.value.byDevice.desktop?.cr ?? 0}%`
+        : ga4.error,
+    },
+    {
+      id: 'estimator-completion',
+      label: 'Estimator opt-in events',
+      target: 'trend ▲',
+      value: ga4.ok ? `${ga4.value.estimatorOptIn}` : (googleAccessToken ? 'error' : 'GA4 token required'),
+      numericValue: ga4.ok ? ga4.value.estimatorOptIn : null,
+      status: ga4.ok ? (ga4.value.estimatorOptIn > 0 ? STATUS.GREEN : STATUS.YELLOW) : STATUS.GRAY,
+      source: 'GA4 Data API · estimator_opt_in event count (28d)',
+      detail: ga4.ok ? null : ga4.error,
+    },
+    {
+      id: 'bounce-rate',
+      label: 'Bounce rate (sitewide)',
+      target: '< 50%',
+      value: ga4.ok && ga4.value.bounceRate != null ? `${ga4.value.bounceRate}%` : (googleAccessToken ? 'error' : 'GA4 token required'),
+      numericValue: ga4.ok ? ga4.value.bounceRate : null,
+      status: ga4.ok && ga4.value.bounceRate != null
+        ? (ga4.value.bounceRate < 50 ? STATUS.GREEN : ga4.value.bounceRate < 65 ? STATUS.YELLOW : STATUS.RED)
+        : STATUS.GRAY,
+      source: 'GA4 Data API · bounceRate (28d)',
+      detail: ga4.ok ? null : ga4.error,
+    },
     { id: 'clarity-friction', label: 'Microsoft Clarity friction insights', target: 'Rage clicks < 1%', value: 'gated to May 22 baseline', status: STATUS.GRAY, source: 'Clarity Data Export API' },
     { id: 'lead-to-booked', label: 'Lead → booked-job rate', target: '≥ 40%', value: 'no CRM integration', status: STATUS.GRAY, source: 'Manual entry (no API)' },
   ];
