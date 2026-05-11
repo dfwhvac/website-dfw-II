@@ -24,6 +24,7 @@
 | W1 | GBP Posts publish (once P1.8 live) | Google Business Profile → Posts | — |
 | W2 | GBP review-reply SLA — respond to all new Google reviews within 48h | GBP dashboard → Reviews | — |
 | W3 | GSC Core Web Vitals field-data (CrUX) glance — spot regressions early | GSC → Experience → Core Web Vitals | — |
+| W4 | KPI snapshot refresh — `cd /app && node scripts/audit-kpis.mjs` then commit `frontend/public/internal/kpi-snapshot.json` + `memory/audits/kpi-snapshot-archive/<date>.json`. Dashboard at `/internal/kpi-dashboard.html` auto-updates on deploy. Runtime ~30–60s. | Manual run, agent-assisted | May 11, 2026 (initial snapshot) |
 
 ---
 
@@ -90,6 +91,7 @@
 > Append dated entries here when you complete a recurring task or notice something worth remembering. Keeps institutional memory alive.
 
 - **April 23, 2026** — RECURRING_MAINTENANCE.md created. Initial `fiveStarReviewCount` seeded to 150 in Sanity companyInfo.
+- **May 11, 2026** — KPI Dashboard shipped at `/internal/kpi-dashboard.html`. Phase 1 (16 KPIs) auto-pulls via `scripts/audit-kpis.mjs`. Phases 2–5 scaffolded with token-requirement docs. Weekly cadence (W4) added above.
 
 ---
 

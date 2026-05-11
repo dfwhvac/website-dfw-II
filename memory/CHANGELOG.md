@@ -7,6 +7,43 @@ Reverse-chronological record of everything shipped to production. When adding en
 
 ---
 
+## May 11, 2026 — KPI Dashboard shipped
+
+First weekly snapshot of the internal KPI dashboard is live at `/internal/kpi-dashboard.html`.
+
+### Shipped
+
+- **`scripts/audit-kpis.mjs`** — Node ESM script, runs all Phase 1 collectors in parallel via `Promise.all`. ~1.5s end-to-end. Writes `frontend/public/internal/kpi-snapshot.json` + dated archive copy to `memory/audits/kpi-snapshot-archive/`. Self-degrading: any source that fails leaves its KPI gray rather than aborting the run.
+- **`frontend/public/internal/kpi-dashboard.html`** — single-file static HTML matching `roadmap-preview.html` visual language (Prussian + electric-blue tag bar, white slate cards). 5 phases × KPI grid with traffic-light status, target line, source attribution, and trend arrow (▲▼→) computed by diff against prior snapshot.
+- **`yarn audit:kpis`** — added to `frontend/package.json`. Cadence row W4 added to `memory/RECURRING_MAINTENANCE.md`.
+- **Linked** from `roadmap-preview.html` header (`Live: KPI dashboard`).
+
+### Initial snapshot (May 11)
+
+- **Phase 1 (Foundation)**: 15 KPIs · 🟢 6 · 🟡 1 · ⚪ 8
+  - Green: Security headers self-computed (A+ 100/100), CSP host count (20), Sitemap URL count (51), Robots.txt AI directives (6 of 6 declared), Schema coverage (9 blocks · 5 distinct @types · 0 invalid), Mozilla Observatory v2 (B+, 80/100) — yellow until F13-P1.4 ships the headers needed for A.
+  - Gray: SSL Labs (Vercel host blocks scanner — known), PageSpeed Performance / A11y / BP / SEO (anon rate-limited 429; needs `PAGESPEED_API_KEY` env var), Gitleaks status (GH repo URL not configured locally), Uptime + Error rate (no Vercel Hobby API; scaffolded).
+- **Phase 2 (SEO / AEO)**: 9 KPIs · 🟡 1 · ⚪ 8 (reviews count wired via existing sync-reviews cron; rest need GA4+GSC service account)
+- **Phase 3 (Conversion)**: 9 KPIs · ⚪ 9 (all gated on GA4 service account or Clarity baseline)
+- **Phase 4 / 5**: 6 KPIs · ⚪ 6 (phase-gated until ad spend launches)
+
+### Source-API resilience
+
+The script switched from now-dead endpoints to current ones during build:
+- Mozilla Observatory v1 returns 502 → switched to **v2 API** (`observatory-api.mdn.mozilla.net/api/v2/scan`)
+- SecurityHeaders.com is now Cloudflare-bot-protected → replaced with **self-computed grade** from live response headers (mirrors their weighting); always available, no rate limits.
+- SSL Labs flags Vercel as "Testing TLS 1.3 — Unexpected failure" → kept as gray with the actual scanner message preserved.
+
+### Next steps to light up more cards
+
+1. (Optional) Add `PAGESPEED_API_KEY` env var → unlocks 4 PageSpeed KPIs (~25K calls/day free).
+2. Complete GA4 service-account setup per `memory/GA4_SERVICE_ACCOUNT_SETUP.md` → unlocks 17 KPIs across Phases 2 + 3.
+3. After May 22, 2026 (Clarity 14-day baseline complete) → wire Clarity Data Export API → unlocks 1 Phase 3 KPI.
+
+---
+
+
+
 ## May 8, 2026 — F13 Architecture fixes shipped + CI hardening + repo hygiene
 
 PR #68 merged to `main` and deployed to production via Vercel. This session

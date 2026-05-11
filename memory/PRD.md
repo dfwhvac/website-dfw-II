@@ -1,6 +1,6 @@
 # DFW HVAC — PRD
 
-**Last reviewed:** May 8, 2026
+**Last reviewed:** May 11, 2026
 
 ## Original Problem Statement
 Finalize a premium Next.js / Sanity website for **DFW HVAC**. Execute a 5-Priority tier roadmap (Foundation → SEO/AEO → Conversion → Ad Infra → Launch) focused on deep SEO, accessibility, Core Web Vitals, and conversion-rate optimization. Maintain a high-converting, secure, performant HVAC lead-generation funnel.
@@ -23,6 +23,7 @@ Finalize a premium Next.js / Sanity website for **DFW HVAC**. Execute a 5-Priori
 - ✅ F13 Architecture Foundation Audit fixes shipped (CSP/Clarity, lazyOnload, schema, HTML validation)
 - ✅ C2/C6/C8 Conversion Sprint Tier 1 shipped
 - ✅ CI hardened against recurring yarn.lock/package.json web-editor conflict pattern
+- ✅ **KPI Dashboard shipped (May 11)** — `/internal/kpi-dashboard.html` auto-pulls 6 Phase 1 KPIs green, 2 yellow, 8 gray (PageSpeed/SSL Labs gated on API keys/host restrictions). `yarn audit:kpis` Mondays.
 - 🕐 Microsoft Clarity 14-day baseline clock active since May 8 (gates P1.10 progressive form redesign)
 
 ## Active Roadmap Source of Truth
@@ -37,9 +38,10 @@ Finalize a premium Next.js / Sanity website for **DFW HVAC**. Execute a 5-Priori
 - **A3 GSC re-audit**: Refresh Google Search Console coverage report (user-led)
 
 ## Tier 3 Next Up (Agent-led after current PRs land)
-- **🆕 GA4-SVC-SETUP (user-led, ~15 min)**: GA4 + GSC service account setup. User follows `/app/memory/GA4_SERVICE_ACCOUNT_SETUP.md` Steps 1–7. Async — can be done anytime.
-- **🆕 GA4-SVC-VERIFY (agent-led, ~30 min)**: Once user confirms setup, agent verifies env vars + makes test API calls + wires credentials into audit script. Gates dashboard's Phase 2/3 auto-pull.
-- **🆕 KPI-DASH (agent-led, ~3 hrs)**: Build internal KPI dashboard at `/internal/kpi-dashboard.html`. Phase 1 fully auto-pulled, Phase 2/3 auto if GA4-SVC-VERIFY complete (else scaffolded). Full scope in `/app/memory/KPI_DASHBOARD_SCOPE.md`.
+- **🆕 GA4-SVC-SETUP (user-led, ~15 min)**: GA4 + GSC service account setup. User follows `/app/memory/GA4_SERVICE_ACCOUNT_SETUP.md` Steps 1–7. Async — can be done anytime. **Blocked May 8** by user's Google Workspace org policy on service-account key creation; revisit when policy adjusted or use personal Google account.
+- **🆕 GA4-SVC-VERIFY (agent-led, ~30 min)**: Once user confirms setup, agent verifies env vars + makes test API calls + wires credentials into `scripts/audit-kpis.mjs`. Unlocks 17 KPIs across Phases 2 + 3 of the now-live dashboard.
+- **🆕 KPI-DASH** *(SHIPPED May 11)*: ✅ Phase 1 auto-pull live at `/internal/kpi-dashboard.html`. Source: `scripts/audit-kpis.mjs`. Cadence row W4 added to `RECURRING_MAINTENANCE.md`. Optional next: add `PAGESPEED_API_KEY` env var to light up 4 PageSpeed KPIs.
+- **F13-P1.4**: Mozilla Observatory uplift from B+ (80) → A. Add COEP / Permissions-Policy / additional headers to clear remaining failed test.
 - **P1.9b**: Review badge in homepage hero (5-star + count, sourced from Google Places via existing `lib/google-reviews.js`)
 - **P1.9c**: Inline review carousel on services pages
 - **C4**: Form abandonment tracking (compatible with the active Clarity baseline window — events only, no UX changes)
@@ -59,6 +61,11 @@ Finalize a premium Next.js / Sanity website for **DFW HVAC**. Execute a 5-Priori
 ## Key Files
 - `/app/memory/ROADMAP.md` (definitive priority source)
 - `/app/memory/CHANGELOG.md` (shipped history)
+- `/app/memory/RECURRING_MAINTENANCE.md` (weekly KPI snapshot row W4 + cadences)
+- `/app/scripts/audit-kpis.mjs` (KPI auto-pull, Phase 1)
+- `/app/frontend/public/internal/kpi-dashboard.html` (live dashboard)
+- `/app/frontend/public/internal/kpi-snapshot.json` (current snapshot)
+- `/app/memory/audits/kpi-snapshot-archive/` (weekly archived snapshots)
 - `/app/memory/audits/2026-05-04_F13_Architecture_Foundation.md`
 - `/app/.github/workflows/security.yml` (CI gate)
 - `/app/frontend/next.config.js` (security headers)
