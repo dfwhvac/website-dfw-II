@@ -1,0 +1,102 @@
+name: KPI Audit
+
+# Refreshes /internal/kpi-dashboard.html data weekly.
+#
+# WHAT THIS DOES:
+#   - Runs scripts/audit-kpis.mjs with all known API secrets injected from
+#     GitHub Actions Secrets (PAGESPEED_API_KEY, etc. as they get added)
+#   - Commits the resulting frontend/public/internal/kpi-snapshot.json and
+#     dated archive to memory/audits/kpi-snapshot-archive/ back to main
+#   - Vercel auto-deploys → dashboard updates within ~90s of commit
+#
+# WHY:
+#   - Replaces the manual `yarn audit:kpis` Monday step (RECURRING_MAINTENANCE row W4)
+#   - Keeps API keys in encrypted GitHub Secrets — never in chat, never on disk
+#   - Trend arrows (▲▼→) populate naturally from the weekly snapshot diff
+#
+# Added May 11, 2026.
+
+on:
+  schedule:
+    # Monday 7 AM Central (13:00 UTC during DST, 13:00 UTC standard — close enough)
+    # Same cadence as Security Audit so both run in one window.
+    - cron: "0 13 * * 1"
+  # Manual on-demand: Actions tab → KPI Audit → "Run workflow"
+  # Use this after rotating any secret or to verify a freshly-added key works.
+  workflow_dispatch:
+
+permissions:
+  contents: write   # required to commit snapshot back to main
+
+jobs:
+  audit:
+    name: refresh KPI snapshot
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 1
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v5
+        with:
+          node-version: "20"
+
+      # We don't run yarn build — that would require Sanity/CMS env vars too.
+      # The script's getBuildManifest() collector gracefully reports gray when
+      # .next/ is missing, which is fine for this workflow.
+      - name: Install frontend deps (pa11y transitives)
+        working-directory: frontend
+        run: yarn install --frozen-lockfile
+
+      - name: Run KPI audit
+        run: node scripts/audit-kpis.mjs
+        env:
+          # === API keys (added as GitHub Secrets one at a time) ===
+          # Missing keys leave their respective KPIs gray — script never fails.
+          PAGESPEED_API_KEY: ${{ secrets.PAGESPEED_API_KEY }}
+          UPTIMEROBOT_API_KEY: ${{ secrets.UPTIMEROBOT_API_KEY }}
+          UPTIMEROBOT_MONITOR_ID: ${{ secrets.UPTIMEROBOT_MONITOR_ID }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+          GA4_SERVICE_ACCOUNT_JSON: ${{ secrets.GA4_SERVICE_ACCOUNT_JSON }}
+          GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
+          GSC_SITE_URL: ${{ secrets.GSC_SITE_URL }}
+          # === Auto-provided by GitHub ===
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPO: ${{ github.repository }}
+          AUDIT_DOMAIN: dfwhvac.com
+
+      - name: Show snapshot summary
+        run: |
+          # Quick rollup to the run log so we can scan it without downloading
+          python3 - <<'EOF'
+          import json
+          with open('frontend/public/internal/kpi-snapshot.json') as f:
+              d = json.load(f)
+          tally = {'green':0,'yellow':0,'red':0,'gray':0}
+          for p in d['phases']:
+              for k in p['kpis']:
+                  tally[k['status']] += 1
+          print(f"::notice::KPI snapshot · 🟢 {tally['green']} 🟡 {tally['yellow']} 🔴 {tally['red']} ⚪ {tally['gray']} (of {sum(tally.values())})")
+          # Surface anything that flipped to red
+          reds = [(p['label'], k['label'], k['value']) for p in d['phases'] for k in p['kpis'] if k['status'] == 'red']
+          for phase, label, value in reds:
+              print(f"::warning::RED · {phase} · {label} = {value}")
+          EOF
+
+      - name: Commit snapshot
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add frontend/public/internal/kpi-snapshot.json memory/audits/kpi-snapshot-archive/
+          if git diff --cached --quiet; then
+            echo "::notice::No snapshot changes — skipping commit"
+            exit 0
+          fi
+          DATE=$(date -u +%Y-%m-%d)
+          git commit -m "chore(kpi): weekly snapshot ${DATE} [skip ci]"
+          git push
