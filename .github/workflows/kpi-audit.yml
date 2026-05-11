@@ -44,12 +44,9 @@ jobs:
         with:
           node-version: "20"
 
-      # We don't run yarn build — that would require Sanity/CMS env vars too.
-      # The script's getBuildManifest() collector gracefully reports gray when
-      # .next/ is missing, which is fine for this workflow.
-      - name: Install frontend deps (pa11y transitives)
-        working-directory: frontend
-        run: yarn install --frozen-lockfile
+      # No `yarn install` needed — audit-kpis.mjs uses only Node built-ins
+      # (fs, path, child_process) and pulls Pa11y on-demand via `npx --yes pa11y`.
+      # Skipping the install step avoids being blocked on lockfile drift.
 
       - name: Run KPI audit
         run: node scripts/audit-kpis.mjs

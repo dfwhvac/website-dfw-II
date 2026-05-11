@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-11T16:12:09.582Z",
+  "generatedAt": "2026-05-11T19:44:30.239Z",
   "domain": "dfwhvac.com",
-  "durationMs": 32732,
+  "durationMs": 34616,
   "phases": [
     {
       "id": "phase1",
@@ -41,7 +41,7 @@
           "numericValue": null,
           "status": "gray",
           "source": "api.ssllabs.com",
-          "detail": "no grades returned (Testing for BEAST)",
+          "detail": "scan status=IN_PROGRESS",
           "trend": "—"
         },
         {
@@ -179,7 +179,7 @@
           "status": "red",
           "source": "x-vercel-cache header (warm-cache 2nd visit)",
           "detail": "Pages: 0% · Static assets: 100% · 15 samples · {\"MISS\":7,\"HIT\":8}",
-          "trend": "▲"
+          "trend": "→"
         },
         {
           "id": "db-query-latency",
