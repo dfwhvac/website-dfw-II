@@ -1,0 +1,425 @@
+{
+  "generatedAt": "2026-05-11T02:19:06.633Z",
+  "domain": "dfwhvac.com",
+  "durationMs": 1746,
+  "phases": [
+    {
+      "id": "phase1",
+      "label": "Foundation",
+      "tag": "P1",
+      "kpis": [
+        {
+          "id": "security-headers-grade",
+          "label": "Security headers (self-computed)",
+          "target": "A or A+",
+          "value": "A+ (100/100)",
+          "numericValue": 100,
+          "status": "green",
+          "source": "Live response-header inspection",
+          "detail": "all core headers present",
+          "trend": "→"
+        },
+        {
+          "id": "mozilla-observatory-grade",
+          "label": "Mozilla Observatory grade",
+          "target": "A",
+          "value": "B+ (80/100)",
+          "numericValue": 80,
+          "status": "yellow",
+          "source": "http-observatory.security.mozilla.org",
+          "detail": null,
+          "trend": "→"
+        },
+        {
+          "id": "ssl-labs-grade",
+          "label": "SSL Labs TLS grade",
+          "target": "A+",
+          "value": "unavailable (cache miss)",
+          "numericValue": null,
+          "status": "gray",
+          "source": "api.ssllabs.com",
+          "detail": "no grades returned (Testing TLS 1.3)",
+          "trend": "—"
+        },
+        {
+          "id": "pagespeed-performance-mobile",
+          "label": "PageSpeed Performance (mobile)",
+          "target": "≥ 90",
+          "value": "unavailable",
+          "numericValue": null,
+          "status": "gray",
+          "source": "pagespeedonline.googleapis.com",
+          "detail": "http 429",
+          "trend": "—"
+        },
+        {
+          "id": "pagespeed-accessibility-mobile",
+          "label": "PageSpeed Accessibility (mobile)",
+          "target": "≥ 95",
+          "value": "unavailable",
+          "numericValue": null,
+          "status": "gray",
+          "source": "pagespeedonline.googleapis.com",
+          "trend": "—"
+        },
+        {
+          "id": "pagespeed-best-practices-mobile",
+          "label": "PageSpeed Best Practices (mobile)",
+          "target": "≥ 95",
+          "value": "unavailable",
+          "numericValue": null,
+          "status": "gray",
+          "source": "pagespeedonline.googleapis.com",
+          "trend": "—"
+        },
+        {
+          "id": "pagespeed-seo-mobile",
+          "label": "PageSpeed SEO (mobile)",
+          "target": "100",
+          "value": "unavailable",
+          "numericValue": null,
+          "status": "gray",
+          "source": "pagespeedonline.googleapis.com",
+          "trend": "—"
+        },
+        {
+          "id": "csp-host-count",
+          "label": "CSP whitelist host count",
+          "target": "≤ 25 hosts",
+          "value": "20",
+          "numericValue": 20,
+          "status": "green",
+          "source": "Production CSP header",
+          "detail": "frame-ancestors set: true",
+          "trend": "→"
+        },
+        {
+          "id": "sitemap-url-count",
+          "label": "Sitemap URL count",
+          "target": "> 50 URLs",
+          "value": "51",
+          "numericValue": 51,
+          "status": "green",
+          "source": "/sitemap.xml",
+          "trend": "→"
+        },
+        {
+          "id": "robots-ai-allowlist",
+          "label": "Robots.txt AI crawler directives",
+          "target": "≥ 3 AI bots declared",
+          "value": "6 of 6 (GPTBot, PerplexityBot, ClaudeBot, CCBot, Google-Extended, Applebot-Extended)",
+          "numericValue": 6,
+          "status": "green",
+          "source": "/robots.txt",
+          "trend": "→"
+        },
+        {
+          "id": "schema-coverage",
+          "label": "Schema coverage (5 sample pages)",
+          "target": "≥ 5 distinct @types, 0 invalid",
+          "value": "9 blocks · 5 @types · 0 invalid",
+          "numericValue": 5,
+          "status": "green",
+          "source": "Live HTML crawl",
+          "detail": "types: HVACBusiness, LocalBusiness, BreadcrumbList, Offer, Service",
+          "trend": "→"
+        },
+        {
+          "id": "gitleaks-status",
+          "label": "Gitleaks secret-scan (latest run)",
+          "target": "success",
+          "value": "unavailable",
+          "numericValue": null,
+          "status": "gray",
+          "source": "GitHub Actions API",
+          "detail": "github api 404",
+          "trend": "—"
+        },
+        {
+          "id": "build-manifest",
+          "label": "Build manifest (App Router)",
+          "target": "≥ 20 page routes (dynamic + static)",
+          "value": "22 pages · 5 API routes · 30 total",
+          "numericValue": 22,
+          "status": "green",
+          "source": ".next/app-path-routes-manifest.json (local)",
+          "detail": "Dynamic city routes (47) and service routes counted as single patterns. Sitemap expands to 51 URLs at runtime.",
+          "trend": "→"
+        },
+        {
+          "id": "uptime-30d",
+          "label": "Uptime (last 30 days)",
+          "target": "≥ 99.9%",
+          "value": "not measured",
+          "numericValue": null,
+          "status": "gray",
+          "source": "Requires external uptime monitor (UptimeRobot/Better Stack)",
+          "detail": "Scaffolded — no Vercel Hobby API. Add monitor or upgrade to Pro.",
+          "trend": "—"
+        },
+        {
+          "id": "error-rate",
+          "label": "Error rate (5xx / total)",
+          "target": "< 0.1%",
+          "value": "not measured",
+          "numericValue": null,
+          "status": "gray",
+          "source": "Vercel Analytics Pro tier or self-instrumentation",
+          "detail": "Scaffolded.",
+          "trend": "—"
+        }
+      ],
+      "rollup": {
+        "total": 15,
+        "green": 6,
+        "yellow": 1,
+        "red": 0,
+        "gray": 8
+      }
+    },
+    {
+      "id": "phase2",
+      "label": "SEO / AEO",
+      "tag": "P2",
+      "kpis": [
+        {
+          "id": "gsc-impressions",
+          "label": "GSC impressions (28d)",
+          "target": "trend ▲",
+          "value": "token required",
+          "status": "gray",
+          "source": "Google Search Console API",
+          "detail": "Run GA4 service account setup (see GA4_SERVICE_ACCOUNT_SETUP.md). Same auth."
+        },
+        {
+          "id": "gsc-clicks",
+          "label": "GSC clicks (28d)",
+          "target": "trend ▲",
+          "value": "token required",
+          "status": "gray",
+          "source": "Google Search Console API"
+        },
+        {
+          "id": "gsc-ctr",
+          "label": "GSC CTR (28d)",
+          "target": "≥ 3%",
+          "value": "token required",
+          "status": "gray",
+          "source": "Google Search Console API"
+        },
+        {
+          "id": "gsc-avg-position",
+          "label": "GSC average position",
+          "target": "≤ 20",
+          "value": "token required",
+          "status": "gray",
+          "source": "Google Search Console API"
+        },
+        {
+          "id": "sitemap-indexing-rate",
+          "label": "Sitemap indexing rate",
+          "target": "≥ 90%",
+          "value": "token required",
+          "status": "gray",
+          "source": "GSC URL Inspection API"
+        },
+        {
+          "id": "gbp-impressions",
+          "label": "GBP impressions / calls / directions",
+          "target": "trend ▲",
+          "value": "token + admin auth required",
+          "status": "gray",
+          "source": "Google Business Profile API"
+        },
+        {
+          "id": "reviews-count",
+          "label": "Google reviews count",
+          "target": "trend ▲",
+          "value": "wired via /api/cron/sync-reviews",
+          "status": "yellow",
+          "source": "Sanity companyInfo.googleReviews",
+          "detail": "Live in Sanity; surface to dashboard in next iteration."
+        },
+        {
+          "id": "aeo-citation-rate",
+          "label": "AEO citation rate (LLM mentions)",
+          "target": "quarterly review",
+          "value": "manual",
+          "status": "gray",
+          "source": "Quarterly manual run"
+        },
+        {
+          "id": "backlink-dr20",
+          "label": "Backlinks (DR≥20)",
+          "target": "+5 / qtr",
+          "value": "manual",
+          "status": "gray",
+          "source": "Ahrefs (paid) or manual"
+        }
+      ],
+      "rollup": {
+        "total": 9,
+        "green": 0,
+        "yellow": 1,
+        "red": 0,
+        "gray": 8
+      }
+    },
+    {
+      "id": "phase3",
+      "label": "Conversion",
+      "tag": "P3",
+      "kpis": [
+        {
+          "id": "overall-cr",
+          "label": "Overall conversion rate",
+          "target": "≥ 4%",
+          "value": "GA4 token required",
+          "status": "gray",
+          "source": "GA4 Data API"
+        },
+        {
+          "id": "form-submission-rate",
+          "label": "Form submission rate",
+          "target": "≥ 6%",
+          "value": "GA4 token required",
+          "status": "gray",
+          "source": "GA4 Data API"
+        },
+        {
+          "id": "phone-click-rate",
+          "label": "Phone click rate",
+          "target": "≥ 8%",
+          "value": "GA4 token required",
+          "status": "gray",
+          "source": "GA4 Data API"
+        },
+        {
+          "id": "per-page-cr",
+          "label": "Per-page CR (top 10 entry pages)",
+          "target": "top 3 ≥ 5%",
+          "value": "GA4 token required",
+          "status": "gray",
+          "source": "GA4 Data API"
+        },
+        {
+          "id": "mobile-desktop-cr-parity",
+          "label": "Mobile vs desktop CR parity",
+          "target": "within 20%",
+          "value": "GA4 token required",
+          "status": "gray",
+          "source": "GA4 Data API"
+        },
+        {
+          "id": "estimator-completion",
+          "label": "Estimator completion / opt-in rate",
+          "target": "≥ 25%",
+          "value": "GA4 token required",
+          "status": "gray",
+          "source": "GA4 Data API"
+        },
+        {
+          "id": "bounce-rate",
+          "label": "Bounce rate (mobile)",
+          "target": "< 50%",
+          "value": "GA4 token required",
+          "status": "gray",
+          "source": "GA4 Data API"
+        },
+        {
+          "id": "clarity-friction",
+          "label": "Microsoft Clarity friction insights",
+          "target": "Rage clicks < 1%",
+          "value": "gated to May 22 baseline",
+          "status": "gray",
+          "source": "Clarity Data Export API"
+        },
+        {
+          "id": "lead-to-booked",
+          "label": "Lead → booked-job rate",
+          "target": "≥ 40%",
+          "value": "no CRM integration",
+          "status": "gray",
+          "source": "Manual entry (no API)"
+        }
+      ],
+      "rollup": {
+        "total": 9,
+        "green": 0,
+        "yellow": 0,
+        "red": 0,
+        "gray": 9
+      }
+    },
+    {
+      "id": "phase4",
+      "label": "Ad Infrastructure",
+      "tag": "P4",
+      "kpis": [
+        {
+          "id": "callrail-tracking-numbers",
+          "label": "CallRail tracking numbers live",
+          "value": "phase gated",
+          "status": "gray",
+          "source": "CallRail API"
+        },
+        {
+          "id": "paid-cpc-conversion",
+          "label": "Paid CPC / conversion",
+          "value": "phase gated",
+          "status": "gray",
+          "source": "Google Ads / Meta Ads API"
+        },
+        {
+          "id": "gtag-enhanced-conv",
+          "label": "GA4 Enhanced Conversions wired",
+          "value": "phase gated",
+          "status": "gray",
+          "source": "GA4 + Ads linking"
+        }
+      ],
+      "rollup": {
+        "total": 3,
+        "green": 0,
+        "yellow": 0,
+        "red": 0,
+        "gray": 3
+      }
+    },
+    {
+      "id": "phase5",
+      "label": "Launch & Scale",
+      "tag": "P5",
+      "kpis": [
+        {
+          "id": "cost-per-lead",
+          "label": "Cost per lead (paid)",
+          "value": "phase gated",
+          "status": "gray",
+          "source": "Ads platforms"
+        },
+        {
+          "id": "roas",
+          "label": "Return on ad spend",
+          "value": "phase gated",
+          "status": "gray",
+          "source": "Ads platforms"
+        },
+        {
+          "id": "rpv",
+          "label": "Revenue per visitor",
+          "value": "phase gated",
+          "status": "gray",
+          "source": "CRM + GA4"
+        }
+      ],
+      "rollup": {
+        "total": 3,
+        "green": 0,
+        "yellow": 0,
+        "red": 0,
+        "gray": 3
+      }
+    }
+  ]
+}
