@@ -83,3 +83,13 @@ d7c0681f87d922e5106d5c3ddd2eb807eafc53dc:frontend/.next/server/server-reference-
 # previewModeSigningKey + previewModeEncryptionKey rows in the same manifest.json
 # line. Same fingerprint covers both findings.
 # Same applies to a65e26db... and 1a5d13ea... and b4b5402f...
+
+# === May 11, 2026 — false positive in GA4 service-account walk-through ===
+# memory/GA4_SERVICE_ACCOUNT_SETUP.md line 114 reads literally:
+#     - Key: `GA4_PROPERTY_ID`
+# Gitleaks' generic-api-key rule matches the `Key: \`X\`` pattern and treats
+# `GA4_PROPERTY_ID` as the secret value. In reality `GA4_PROPERTY_ID` is the
+# *name* of an env var the user must set in Vercel; the actual numeric property
+# ID is described in prose ("find at GA4 → Admin → Property settings") and
+# never appears in the file. No secret exists, no rotation needed.
+4bb3473d2f7e8e3f6053652b6a8ccb45912f6076:memory/GA4_SERVICE_ACCOUNT_SETUP.md:generic-api-key:114

@@ -35,7 +35,7 @@ jobs:
       run:
         working-directory: frontend
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Setup Node 20
         uses: actions/setup-node@v4
@@ -90,11 +90,15 @@ jobs:
     name: gitleaks (secret scan)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0   # full history needed for proper diff scan
 
       - name: Run gitleaks
+        # NOTE (May 11, 2026): gitleaks-action@v2 still runs on Node 20.
+        # GitHub forces Node 24 on June 2, 2026. Upstream v3 release pending —
+        # bump this pin once https://github.com/gitleaks/gitleaks-action/releases
+        # publishes a Node 24-compatible tag. See RECURRING_MAINTENANCE.md → AH1.
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
