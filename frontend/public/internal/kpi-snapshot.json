@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-12T05:25:13.406Z",
+  "generatedAt": "2026-05-12T06:10:17.035Z",
   "domain": "dfwhvac.com",
-  "durationMs": 29244,
+  "durationMs": 120990,
   "phases": [
     {
       "id": "phase1",
@@ -47,7 +47,7 @@
           "numericValue": null,
           "status": "gray",
           "source": "api.ssllabs.com",
-          "detail": "no grades returned (Testing for BEAST)",
+          "detail": "no grades after 120s poll (READY, Testing for BEAST)",
           "trend": "—",
           "delta": null,
           "deltaFormatted": "",
@@ -227,21 +227,6 @@
           "deltaSentiment": "neutral"
         },
         {
-          "id": "db-query-latency",
-          "label": "DB Query Latency",
-          "target": "N/A — write-only DB",
-          "v3Pillar": "P1 Infrastructure",
-          "value": "not applicable",
-          "numericValue": null,
-          "status": "gray",
-          "source": "MongoDB Atlas (no read-path latency to user)",
-          "detail": "Only DB writes (leads). No user-facing read latency to measure.",
-          "trend": "—",
-          "delta": null,
-          "deltaFormatted": "",
-          "deltaSentiment": "neutral"
-        },
-        {
           "id": "csp-host-count",
           "label": "CSP whitelist host count",
           "target": "≤ 25 hosts",
@@ -339,21 +324,21 @@
           "status": "red",
           "source": "Pa11y · WCAG2AA standard · 5 sample routes",
           "detail": "Top issues: WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
-          "trend": "▲",
-          "delta": 7,
-          "deltaFormatted": "+7.00",
-          "deltaSentiment": "bad"
+          "trend": "→",
+          "delta": 0,
+          "deltaFormatted": "0.000",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "gitleaks-status",
           "label": "Gitleaks secret-scan (latest run)",
           "target": "success",
           "v3Pillar": "P4 Security",
-          "value": "unavailable",
+          "value": "success",
           "numericValue": null,
-          "status": "gray",
+          "status": "green",
           "source": "GitHub Actions API",
-          "detail": "github api 404",
+          "detail": "last run: 2026-05-12T05:06:14Z",
           "trend": "—",
           "delta": null,
           "deltaFormatted": "",
@@ -369,9 +354,9 @@
           "status": "green",
           "source": ".next/app-path-routes-manifest.json (local)",
           "detail": "Dynamic city routes (47) and service routes counted as single patterns. Sitemap expands to 51 URLs at runtime.",
-          "trend": "—",
-          "delta": null,
-          "deltaFormatted": "",
+          "trend": "→",
+          "delta": 0,
+          "deltaFormatted": "0.000",
           "deltaSentiment": "neutral"
         },
         {
@@ -406,11 +391,11 @@
         }
       ],
       "rollup": {
-        "total": 27,
-        "green": 8,
+        "total": 26,
+        "green": 9,
         "yellow": 2,
         "red": 1,
-        "gray": 16
+        "gray": 14
       }
     },
     {

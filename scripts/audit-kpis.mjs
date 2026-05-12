@@ -85,25 +85,33 @@ async function getMozillaObservatoryGrade() {
 }
 
 async function getSSLLabsGrade() {
-  // Try cached first; if unavailable, kick off a fresh scan but only wait briefly
-  let r = await fetchWithTimeout(
-    `https://api.ssllabs.com/api/v3/analyze?host=${DOMAIN}&fromCache=on&maxAge=168`
-  );
+  // SSL Labs scans take 1-3 minutes from cold. The previous implementation polled only 12s
+  // and used fromCache=on which prevents fresh scans → frequent "READY but no grades yet"
+  // failures. New strategy:
+  //   1. Hit cached endpoint with maxAge=168 (7d). If READY with grades → done in 1 req.
+  //   2. Otherwise poll for up to 120s (12 attempts × 10s) with no fromCache filter so a
+  //      fresh scan can start. Exit early as soon as `endpoints[].grade` populates.
+  const cachedUrl = `https://api.ssllabs.com/api/v3/analyze?host=${DOMAIN}&fromCache=on&maxAge=168`;
+  const liveUrl = `https://api.ssllabs.com/api/v3/analyze?host=${DOMAIN}`;
+  let r = await fetchWithTimeout(cachedUrl);
   let d = await r.json();
-  if (d.status !== 'READY' && d.status !== 'ERROR') {
-    // poll cached up to 3x
-    for (let i = 0; i < 3; i++) {
-      await new Promise((res) => setTimeout(res, 4000));
-      r = await fetchWithTimeout(`https://api.ssllabs.com/api/v3/analyze?host=${DOMAIN}`);
+  const extractGrades = (data) => (data.endpoints || []).map((e) => e.grade).filter(Boolean);
+  let grades = d.status === 'READY' ? extractGrades(d) : [];
+  if (!grades.length) {
+    // Either status != READY OR READY-but-no-grades-yet. Poll the live (non-cached) endpoint.
+    for (let i = 0; i < 12; i++) {
+      await new Promise((res) => setTimeout(res, 10000));
+      r = await fetchWithTimeout(liveUrl);
       d = await r.json();
-      if (d.status === 'READY' || d.status === 'ERROR') break;
+      if (d.status === 'ERROR') break;
+      grades = d.status === 'READY' ? extractGrades(d) : [];
+      if (grades.length) break;
     }
   }
-  if (d.status !== 'READY') throw new Error(`scan status=${d.status}`);
-  const grades = (d.endpoints || []).map((e) => e.grade).filter(Boolean);
+  if (d.status === 'ERROR') throw new Error(`scan error: ${d.statusMessage || 'unknown'}`);
   if (!grades.length) {
     const messages = (d.endpoints || []).map((e) => e.statusDetailsMessage || e.statusMessage).filter(Boolean);
-    throw new Error(`no grades returned (${messages[0] || 'host blocks scanner'})`);
+    throw new Error(`no grades after 120s poll (${d.status}, ${messages[0] || 'still in progress'})`);
   }
   return grades[0];
 }
@@ -228,18 +236,19 @@ async function getSchemaCoverage() {
 }
 
 async function getGitleaksStatus() {
-  // public read of GH Actions runs for a public repo
-  const repo = process.env.GITHUB_REPO || 'nbarrese/website-dfw-ii';
+  // Public read of GH Actions runs. Default to the canonical dfwhvac repo;
+  // override with GITHUB_REPO env var if needed.
+  const repo = process.env.GITHUB_REPO || 'dfwhvac/website-dfw-II';
   const headers = { 'user-agent': 'dfwhvac-kpi-audit' };
   if (process.env.GITHUB_TOKEN) headers.authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
   const r = await fetchWithTimeout(
     `https://api.github.com/repos/${repo}/actions/runs?per_page=20`,
     { headers }
   );
-  if (!r.ok) throw new Error(`github api ${r.status}`);
+  if (!r.ok) throw new Error(`github api ${r.status} for repo ${repo}`);
   const d = await r.json();
   const gitleaksRuns = (d.workflow_runs || []).filter((w) =>
-    /gitleaks|secret/i.test(w.name || '')
+    /gitleaks|secret|security/i.test(w.name || '')
   );
   const latest = gitleaksRuns[0];
   if (!latest) return { lastRun: null, conclusion: 'no_runs' };
@@ -919,17 +928,6 @@ async function main() {
       detail: cdn.ok
         ? `Pages: ${cdn.value.pageHitRate}% · Static assets: ${cdn.value.staticHitRate}% · ${cdn.value.samples} samples · ${JSON.stringify(cdn.value.breakdown)}`
         : cdn.error,
-    },
-    {
-      id: 'db-query-latency',
-      label: 'DB Query Latency',
-      target: 'N/A — write-only DB',
-      v3Pillar: 'P1 Infrastructure',
-      value: 'not applicable',
-      numericValue: null,
-      status: STATUS.GRAY,
-      source: 'MongoDB Atlas (no read-path latency to user)',
-      detail: 'Only DB writes (leads). No user-facing read latency to measure.',
     },
     {
       id: 'csp-host-count',
