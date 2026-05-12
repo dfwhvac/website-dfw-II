@@ -258,9 +258,28 @@
     text-align: right;
   }
   .trend { font-family: "SF Mono", Menlo, monospace; font-weight: 700; font-size: 0.85rem; }
-  .trend.up { color: var(--success-green); }
-  .trend.down { color: var(--vivid-red); }
-  .trend.flat { color: var(--slate-400); }
+  /* Sentiment-aware colors: a 'good' change is always green, 'bad' is red — regardless of
+     whether the arrow points up or down. (e.g., LCP dropping is GOOD even though arrow is ▼). */
+  .trend.good { color: var(--success-green); }
+  .trend.bad { color: var(--vivid-red); }
+  .trend.neutral { color: var(--slate-400); }
+
+  /* Delta badge — small chip next to Current value showing change vs prior snapshot */
+  .delta {
+    display: inline-block;
+    font-family: "SF Mono", Menlo, monospace;
+    font-size: 0.68rem;
+    font-weight: 700;
+    line-height: 1;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    margin-left: 0.4rem;
+    vertical-align: middle;
+    letter-spacing: -0.01em;
+  }
+  .delta.good { background: rgba(22, 163, 74, 0.12); color: var(--success-green); }
+  .delta.bad { background: rgba(214, 40, 40, 0.10); color: var(--vivid-red); }
+  .delta.neutral { background: var(--slate-100); color: var(--slate-500); }
 
   /* Tooltips — pure CSS */
   .has-tooltip {
@@ -460,11 +479,20 @@
     red: 'var(--vivid-red)', gray: 'var(--slate-400)'
   };
   const statusDot = (s) => `<span class="dot" style="background:${STATUS_COLOR[s]}"></span>`;
-  const trendHtml = (t) => {
-    if (!t || t === '—') return '<span class="trend flat">—</span>';
-    if (t === '▲') return '<span class="trend up">▲</span>';
-    if (t === '▼') return '<span class="trend down">▼</span>';
-    return '<span class="trend flat">→</span>';
+  // Sentiment-aware trend renderer. Falls back to neutral if older snapshot has no sentiment field.
+  const trendHtml = (k) => {
+    const arrow = k.trend;
+    const sentiment = k.deltaSentiment || 'neutral';
+    if (!arrow || arrow === '—') return '<span class="trend neutral">—</span>';
+    return `<span class="trend ${sentiment}">${arrow}</span>`;
+  };
+  // Delta badge — appears next to Current value when there's a meaningful change vs prior.
+  // Skip exactly-zero deltas — the "→" trend arrow already signals "no change" without
+  // adding visual noise to every stable row.
+  const deltaBadge = (k) => {
+    if (!k.deltaFormatted || k.delta === 0 || k.deltaSentiment === 'neutral') return '';
+    const sentiment = k.deltaSentiment;
+    return `<span class="delta ${sentiment}" title="vs last snapshot">${k.deltaFormatted}</span>`;
   };
   const escapeAttr = (s) => (s || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
@@ -504,9 +532,9 @@
         <tr class="kpi-row ${rowClass}" data-status="${k.status}" data-phase="${p.id}" data-search="${labelText}">
           <td class="status-cell">${statusDot(k.status)}</td>
           <td class="label-cell">${metricTooltip}</td>
-          <td class="value-cell">${valueTooltip}</td>
+          <td class="value-cell">${valueTooltip}${deltaBadge(k)}</td>
           <td class="target-cell">${k.target || '—'}</td>
-          <td class="trend-cell">${trendHtml(k.trend)}</td>
+          <td class="trend-cell">${trendHtml(k)}</td>
           <td class="updated-cell">${updatedLabel}</td>
         </tr>
       `);

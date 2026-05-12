@@ -7,6 +7,30 @@ Reverse-chronological record of everything shipped to production. When adding en
 
 ---
 
+## May 12, 2026 — KPI Dashboard: delta badges + sentiment-aware trends
+
+Built directly on top of v3 layout. Surfaces *direction* of change vs prior snapshot, not just the static current value. Turns the dashboard from a point-in-time reading into a week-over-week story.
+
+### Audit script changes (`scripts/audit-kpis.mjs`)
+- `computeTrend()` now returns `{arrow, delta, deltaFormatted, sentiment}` (was: just an arrow string)
+- New `LOWER_IS_BETTER` set lists the ~14 KPI ids where smaller numeric value = good (LCP, INP, CLS, bounce rate, GSC avg position, orphan count, WCAG errors, etc.). Default for everything else: higher is better.
+- `sentiment` = `'good'` / `'bad'` / `'neutral'` — computed as `(lowerIsBetter === wentDown) ? 'good' : 'bad'`. This fixes a latent bug where LCP dropping from 2.5s → 2.2s would have been shown with a red arrow despite being an improvement.
+- Significance threshold tightened: now relative (1% of baseline) instead of absolute (>2 always). Stops micro-drift flooding the table with arrows.
+- Trend logic extended from phase1 only → ALL 5 phases (GA4/GSC/Pa11y all now show trends).
+- New `formatDelta()` outputs compact signed strings: `+40.0`, `-0.3`, `+0.003` (precision scales by magnitude).
+
+### Dashboard changes (`kpi-dashboard.html`)
+- New "Delta badge" — small chip next to Current value (~0.68rem, padded 0.15rem × 0.4rem). Renders ONLY when there's a non-zero, non-neutral change. Color-coded by sentiment.
+- Trend arrow CSS rewritten: `.trend.good` / `.trend.bad` / `.trend.neutral` (was: `.up` / `.down` / `.flat`). Color now matches whether the change is *good news*, not just whether the number went up.
+- Visual result on first snapshot after CDN fix: **single bright green `+40.0` badge on the CDN row**. All other 52 rows unchanged from prior — quiet, no noise.
+
+### Why "skip zero / skip neutral" matters
+The trend `→` arrow already communicates "no significant change." Rendering a `0.000` chip next to every stable row was technically accurate but visually noisy. Badge now appears only for changes worth your attention. Clean signal-to-noise.
+
+### Files
+- `scripts/audit-kpis.mjs` (+50 lines): `LOWER_IS_BETTER`, `formatDelta()`, expanded `computeTrend()`, `applyTrend` helper applied to all phases
+- `frontend/public/internal/kpi-dashboard.html` (+18 lines CSS, +12 lines JS): `.delta` badge CSS, sentiment-aware trend colors, `deltaBadge()` renderer
+
 ## May 12, 2026 — KPI Dashboard v3: card grid → compact NOC table
 
 Stakeholder feedback after the v2 GA4/GSC unlock: the 53-card grid layout was hard to scan at a glance and required ~6 scrolls to see all metrics. Redesigned as a single 6-column compact table preserving the phase-grouped mental model.
