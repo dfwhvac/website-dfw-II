@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-12T00:40:03.988Z",
+  "generatedAt": "2026-05-12T00:46:57.856Z",
   "domain": "dfwhvac.com",
-  "durationMs": 16265,
+  "durationMs": 33951,
   "phases": [
     {
       "id": "phase1",
@@ -41,7 +41,7 @@
           "numericValue": null,
           "status": "gray",
           "source": "api.ssllabs.com",
-          "detail": "scan status=IN_PROGRESS",
+          "detail": "no grades returned (Testing for BEAST)",
           "trend": "—"
         },
         {
@@ -49,22 +49,22 @@
           "label": "TTFB (Time to First Byte)",
           "target": "< 200ms",
           "v3Pillar": "P1 Infrastructure",
-          "value": "97ms",
-          "numericValue": 97,
+          "value": "27ms",
+          "numericValue": 27,
           "status": "green",
           "source": "PageSpeed Lighthouse · server-response-time",
-          "trend": "▲"
+          "trend": "▼"
         },
         {
           "id": "cwv-lcp",
           "label": "LCP (Largest Contentful Paint)",
           "target": "< 1.2s",
           "v3Pillar": "P2 Performance",
-          "value": "3.09s",
-          "numericValue": 3092,
+          "value": "2.96s",
+          "numericValue": 2965,
           "status": "red",
           "source": "PageSpeed Lighthouse · largest-contentful-paint",
-          "trend": "▲"
+          "trend": "▼"
         },
         {
           "id": "cwv-inp",
@@ -94,24 +94,24 @@
           "label": "Lighthouse Performance (mobile)",
           "target": "≥ 90 (V3)",
           "v3Pillar": "P2 Performance",
-          "value": "92",
-          "numericValue": 92,
+          "value": "94",
+          "numericValue": 94,
           "status": "green",
           "source": "pagespeedonline.googleapis.com",
           "detail": null,
-          "trend": "▼"
+          "trend": "▲"
         },
         {
           "id": "pagespeed-performance-desktop",
           "label": "Lighthouse Performance (desktop)",
           "target": "≥ 98 (V3)",
           "v3Pillar": "P2 Performance",
-          "value": "99",
-          "numericValue": 99,
-          "status": "green",
+          "value": "84",
+          "numericValue": 84,
+          "status": "red",
           "source": "pagespeedonline.googleapis.com (strategy=desktop)",
           "detail": null,
-          "trend": "▲"
+          "trend": "▼"
         },
         {
           "id": "cwv-page-weight",
@@ -119,10 +119,10 @@
           "target": "< 1.5 MB",
           "v3Pillar": "P2 Performance",
           "value": "0.39 MB",
-          "numericValue": 403715,
+          "numericValue": 407676,
           "status": "green",
           "source": "PageSpeed Lighthouse · total-byte-weight",
-          "trend": "▼"
+          "trend": "▲"
         },
         {
           "id": "cwv-resource-compression",
@@ -145,7 +145,7 @@
           "status": "red",
           "source": "pagespeedonline.googleapis.com",
           "detail": "Interim heuristic — formal WCAG check via Pa11y card below",
-          "trend": "▼"
+          "trend": "→"
         },
         {
           "id": "pagespeed-best-practices-mobile",
@@ -156,7 +156,7 @@
           "numericValue": 96,
           "status": "green",
           "source": "pagespeedonline.googleapis.com",
-          "trend": "▲"
+          "trend": "→"
         },
         {
           "id": "pagespeed-seo-mobile",
@@ -167,7 +167,7 @@
           "numericValue": 73,
           "status": "red",
           "source": "pagespeedonline.googleapis.com",
-          "trend": "▼"
+          "trend": "→"
         },
         {
           "id": "cdn-edge-hit-rate",
@@ -179,7 +179,7 @@
           "status": "red",
           "source": "x-vercel-cache header (warm-cache 2nd visit)",
           "detail": "Pages: 0% · Static assets: 100% · 14 samples · {\"MISS\":7,\"HIT\":7}",
-          "trend": "▼"
+          "trend": "→"
         },
         {
           "id": "db-query-latency",
@@ -237,7 +237,7 @@
           "status": "yellow",
           "source": "Live HTML crawl",
           "detail": "types: ",
-          "trend": "▼"
+          "trend": "→"
         },
         {
           "id": "click-depth",
@@ -261,7 +261,7 @@
           "status": "red",
           "source": "Sitemap diff vs BFS crawl",
           "detail": "orphans: /about, /contact, /request-service, /services, /reviews…",
-          "trend": "▲"
+          "trend": "→"
         },
         {
           "id": "wcag-aa-pa11y",
@@ -326,9 +326,9 @@
       ],
       "rollup": {
         "total": 27,
-        "green": 12,
+        "green": 11,
         "yellow": 1,
-        "red": 5,
+        "red": 6,
         "gray": 9
       }
     },
@@ -341,63 +341,63 @@
           "id": "gsc-impressions",
           "label": "GSC impressions (28d)",
           "target": "trend ▲",
-          "value": "error",
-          "numericValue": null,
-          "status": "gray",
+          "value": "27,001",
+          "numericValue": 27001,
+          "status": "green",
           "source": "Google Search Console API",
-          "detail": "gsc 403: {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Google Search Console API has not been used in project 36047674779 before or it is disabled. Enable it by visiting https://console.developers.google.com"
+          "detail": "2026-04-14 → 2026-05-12"
         },
         {
           "id": "gsc-clicks",
           "label": "GSC clicks (28d)",
           "target": "trend ▲",
-          "value": "error",
-          "numericValue": null,
-          "status": "gray",
+          "value": "70",
+          "numericValue": 70,
+          "status": "green",
           "source": "Google Search Console API",
-          "detail": "gsc 403: {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Google Search Console API has not been used in project 36047674779 before or it is disabled. Enable it by visiting https://console.developers.google.com"
+          "detail": null
         },
         {
           "id": "gsc-ctr",
           "label": "GSC CTR (28d)",
           "target": "≥ 3%",
-          "value": "error",
-          "numericValue": null,
-          "status": "gray",
+          "value": "0.3%",
+          "numericValue": 0.3,
+          "status": "red",
           "source": "Google Search Console API",
-          "detail": "gsc 403: {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Google Search Console API has not been used in project 36047674779 before or it is disabled. Enable it by visiting https://console.developers.google.com"
+          "detail": null
         },
         {
           "id": "gsc-avg-position",
           "label": "GSC average position",
           "target": "≤ 20",
-          "value": "error",
-          "numericValue": null,
-          "status": "gray",
+          "value": "23.2",
+          "numericValue": 23.2,
+          "status": "yellow",
           "source": "Google Search Console API",
-          "detail": "gsc 403: {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Google Search Console API has not been used in project 36047674779 before or it is disabled. Enable it by visiting https://console.developers.google.com"
+          "detail": null
         },
         {
           "id": "sitemap-indexing-rate",
           "label": "Crawl-to-Index Ratio",
           "target": "> 95% (V3 stricter)",
           "v3Pillar": "P3 Logic",
-          "value": "error",
-          "numericValue": null,
-          "status": "gray",
+          "value": "0%",
+          "numericValue": 0,
+          "status": "red",
           "source": "GSC Sitemaps API",
-          "detail": "gsc-sitemaps 403: {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Google Search Console API has not been used in project 36047674779 before or it is disabled. Enable it by visiting https://console.developers.google.com"
+          "detail": "0 indexed / 51 submitted · last DL 2026-05-11"
         },
         {
           "id": "sitemap-health-parity",
           "label": "Sitemap Health (1:1 parity)",
           "target": "Sitemap URLs : Indexed URLs = 1:1",
           "v3Pillar": "P3 Logic",
-          "value": "error",
-          "numericValue": null,
-          "status": "gray",
+          "value": "51 submitted · 0 warnings · 0 errors",
+          "numericValue": 0,
+          "status": "green",
           "source": "GSC Sitemaps API",
-          "detail": "gsc-sitemaps 403: {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Google Search Console API has not been used in project 36047674779 before or it is disabled. Enable it by visiting https://console.developers.google.com"
+          "detail": null
         },
         {
           "id": "crawl-budget-waste",
@@ -446,10 +446,10 @@
       ],
       "rollup": {
         "total": 11,
-        "green": 0,
-        "yellow": 1,
-        "red": 0,
-        "gray": 10
+        "green": 3,
+        "yellow": 2,
+        "red": 2,
+        "gray": 4
       }
     },
     {
@@ -461,31 +461,31 @@
           "id": "overall-cr",
           "label": "Overall conversion rate",
           "target": "≥ 4%",
-          "value": "error",
-          "numericValue": null,
-          "status": "gray",
+          "value": "1%",
+          "numericValue": 1,
+          "status": "red",
           "source": "GA4 Data API · conversions ÷ sessions (28d)",
-          "detail": "ga4-totals 403: {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Google Analytics Data API has not been used in project 36047674779 before or it is disabled. Enable it by visiting https://console.developers.google.com"
+          "detail": "6 conversions / 593 sessions"
         },
         {
           "id": "form-submission-rate",
           "label": "Form submission rate",
           "target": "≥ 6%",
-          "value": "error",
-          "numericValue": null,
-          "status": "gray",
+          "value": "1.5%",
+          "numericValue": 1.5,
+          "status": "red",
           "source": "GA4 Data API · generate_lead ÷ sessions (28d)",
-          "detail": "ga4-totals 403: {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Google Analytics Data API has not been used in project 36047674779 before or it is disabled. Enable it by visiting https://console.developers.google.com"
+          "detail": "0 generate_lead · 9 form_submit_lead"
         },
         {
           "id": "phone-click-rate",
           "label": "Phone click rate",
           "target": "≥ 8%",
-          "value": "error",
-          "numericValue": null,
-          "status": "gray",
+          "value": "1.3%",
+          "numericValue": 1.3,
+          "status": "red",
           "source": "GA4 Data API · phone_click ÷ sessions (28d)",
-          "detail": "ga4-totals 403: {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Google Analytics Data API has not been used in project 36047674779 before or it is disabled. Enable it by visiting https://console.developers.google.com"
+          "detail": "8 phone_click events"
         },
         {
           "id": "per-page-cr",
@@ -500,31 +500,31 @@
           "id": "mobile-desktop-cr-parity",
           "label": "Mobile vs desktop CR parity",
           "target": "within 20%",
-          "value": "error",
-          "numericValue": null,
-          "status": "gray",
+          "value": "50% gap",
+          "numericValue": 50,
+          "status": "red",
           "source": "GA4 Data API · deviceCategory breakdown",
-          "detail": "ga4-totals 403: {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Google Analytics Data API has not been used in project 36047674779 before or it is disabled. Enable it by visiting https://console.developers.google.com"
+          "detail": "Mobile CR: 1.6% · Desktop CR: 0.8%"
         },
         {
           "id": "estimator-completion",
           "label": "Estimator opt-in events",
           "target": "trend ▲",
-          "value": "error",
-          "numericValue": null,
-          "status": "gray",
+          "value": "0",
+          "numericValue": 0,
+          "status": "yellow",
           "source": "GA4 Data API · estimator_opt_in event count (28d)",
-          "detail": "ga4-totals 403: {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Google Analytics Data API has not been used in project 36047674779 before or it is disabled. Enable it by visiting https://console.developers.google.com"
+          "detail": null
         },
         {
           "id": "bounce-rate",
           "label": "Bounce rate (sitewide)",
           "target": "< 50%",
-          "value": "error",
-          "numericValue": null,
-          "status": "gray",
+          "value": "71%",
+          "numericValue": 71,
+          "status": "red",
           "source": "GA4 Data API · bounceRate (28d)",
-          "detail": "ga4-totals 403: {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Google Analytics Data API has not been used in project 36047674779 before or it is disabled. Enable it by visiting https://console.developers.google.com"
+          "detail": null
         },
         {
           "id": "clarity-friction",
@@ -546,9 +546,9 @@
       "rollup": {
         "total": 9,
         "green": 0,
-        "yellow": 0,
-        "red": 0,
-        "gray": 9
+        "yellow": 1,
+        "red": 5,
+        "gray": 3
       }
     },
     {
