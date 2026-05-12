@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-12T01:52:50.702Z",
+  "generatedAt": "2026-05-12T05:25:13.406Z",
   "domain": "dfwhvac.com",
-  "durationMs": 25650,
+  "durationMs": 29244,
   "phases": [
     {
       "id": "phase1",
@@ -18,7 +18,10 @@
           "status": "green",
           "source": "Live response-header inspection",
           "detail": "all core headers present · stricter than V3 (A acceptable)",
-          "trend": "→"
+          "trend": "→",
+          "delta": 0,
+          "deltaFormatted": "0.000",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "mozilla-observatory-grade",
@@ -30,7 +33,10 @@
           "status": "yellow",
           "source": "http-observatory.security.mozilla.org",
           "detail": null,
-          "trend": "→"
+          "trend": "→",
+          "delta": 0,
+          "deltaFormatted": "0.000",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "ssl-labs-grade",
@@ -42,29 +48,38 @@
           "status": "gray",
           "source": "api.ssllabs.com",
           "detail": "no grades returned (Testing for BEAST)",
-          "trend": "—"
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "cwv-ttfb",
           "label": "TTFB (Time to First Byte)",
           "target": "< 200ms",
           "v3Pillar": "P1 Infrastructure",
-          "value": "4ms",
-          "numericValue": 4,
-          "status": "green",
+          "value": "unavailable",
+          "numericValue": null,
+          "status": "gray",
           "source": "PageSpeed Lighthouse · server-response-time",
-          "trend": "▼"
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "cwv-lcp",
           "label": "LCP (Largest Contentful Paint)",
           "target": "< 1.2s",
           "v3Pillar": "P2 Performance",
-          "value": "2.25s",
-          "numericValue": 2251.061890248866,
-          "status": "yellow",
+          "value": "unavailable",
+          "numericValue": null,
+          "status": "gray",
           "source": "PageSpeed Lighthouse · largest-contentful-paint",
-          "trend": "→"
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "cwv-inp",
@@ -76,53 +91,68 @@
           "status": "gray",
           "source": "PageSpeed Lighthouse (lab) · interaction-to-next-paint",
           "detail": "Lab value — for field data set CRUX_API_KEY",
-          "trend": "—"
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "cwv-cls",
           "label": "CLS (Cumulative Layout Shift)",
           "target": "< 0.05",
           "v3Pillar": "P2 Performance",
-          "value": "0.000",
-          "numericValue": 0,
-          "status": "green",
+          "value": "unavailable",
+          "numericValue": null,
+          "status": "gray",
           "source": "PageSpeed Lighthouse · cumulative-layout-shift",
-          "trend": "→"
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "pagespeed-performance-mobile",
           "label": "Lighthouse Performance (mobile)",
           "target": "≥ 90 (V3)",
           "v3Pillar": "P2 Performance",
-          "value": "97",
-          "numericValue": 97,
-          "status": "green",
+          "value": "unavailable",
+          "numericValue": null,
+          "status": "gray",
           "source": "pagespeedonline.googleapis.com",
-          "detail": null,
-          "trend": "▲"
+          "detail": "http 429",
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "pagespeed-performance-desktop",
           "label": "Lighthouse Performance (desktop)",
           "target": "≥ 98 (V3)",
           "v3Pillar": "P2 Performance",
-          "value": "100",
-          "numericValue": 100,
-          "status": "green",
+          "value": "unavailable",
+          "numericValue": null,
+          "status": "gray",
           "source": "pagespeedonline.googleapis.com (strategy=desktop)",
-          "detail": null,
-          "trend": "→"
+          "detail": "http 429",
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "cwv-page-weight",
           "label": "Total Page Weight",
           "target": "< 1.5 MB",
           "v3Pillar": "P2 Performance",
-          "value": "0.52 MB",
-          "numericValue": 548304,
-          "status": "green",
+          "value": "unavailable",
+          "numericValue": null,
+          "status": "gray",
           "source": "PageSpeed Lighthouse · total-byte-weight",
-          "trend": "▲"
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "cwv-resource-compression",
@@ -130,44 +160,56 @@
           "target": "Brotli + WebP/AVIF (100%)",
           "v3Pillar": "P2 Performance",
           "value": "unavailable",
-          "numericValue": 0,
+          "numericValue": null,
           "status": "gray",
           "source": "PageSpeed · uses-text-compression + modern-image-formats",
-          "trend": "→"
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "pagespeed-accessibility-mobile",
           "label": "Lighthouse Accessibility (mobile, interim)",
           "target": "≥ 95",
           "v3Pillar": "P4 Accessibility (interim)",
-          "value": "100",
-          "numericValue": 100,
-          "status": "green",
+          "value": "unavailable",
+          "numericValue": null,
+          "status": "gray",
           "source": "pagespeedonline.googleapis.com",
           "detail": "Interim heuristic — formal WCAG check via Pa11y card below",
-          "trend": "→"
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "pagespeed-best-practices-mobile",
           "label": "Lighthouse Best Practices (mobile)",
           "target": "≥ 95",
           "v3Pillar": "P2 Performance",
-          "value": "92",
-          "numericValue": 92,
-          "status": "yellow",
+          "value": "unavailable",
+          "numericValue": null,
+          "status": "gray",
           "source": "pagespeedonline.googleapis.com",
-          "trend": "→"
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "pagespeed-seo-mobile",
           "label": "Lighthouse SEO (mobile)",
           "target": "100",
           "v3Pillar": "P3 Logic",
-          "value": "100",
-          "numericValue": 100,
-          "status": "green",
+          "value": "unavailable",
+          "numericValue": null,
+          "status": "gray",
           "source": "pagespeedonline.googleapis.com",
-          "trend": "→"
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "cdn-edge-hit-rate",
@@ -179,7 +221,10 @@
           "status": "green",
           "source": "x-vercel-cache header (warm-cache 2nd visit)",
           "detail": "Pages: 85.7% · Static assets: 100% · 15 samples · {\"HIT\":14,\"MISS\":1}",
-          "trend": "→"
+          "trend": "→",
+          "delta": 0,
+          "deltaFormatted": "0.000",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "db-query-latency",
@@ -191,7 +236,10 @@
           "status": "gray",
           "source": "MongoDB Atlas (no read-path latency to user)",
           "detail": "Only DB writes (leads). No user-facing read latency to measure.",
-          "trend": "—"
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "csp-host-count",
@@ -203,7 +251,10 @@
           "status": "green",
           "source": "Production CSP header",
           "detail": "frame-ancestors set: true",
-          "trend": "→"
+          "trend": "→",
+          "delta": 0,
+          "deltaFormatted": "0.000",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "sitemap-url-count",
@@ -214,7 +265,10 @@
           "numericValue": 51,
           "status": "green",
           "source": "/sitemap.xml",
-          "trend": "→"
+          "trend": "→",
+          "delta": 0,
+          "deltaFormatted": "0.000",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "robots-ai-allowlist",
@@ -225,7 +279,10 @@
           "numericValue": 6,
           "status": "green",
           "source": "/robots.txt",
-          "trend": "→"
+          "trend": "→",
+          "delta": 0,
+          "deltaFormatted": "0.000",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "schema-coverage",
@@ -237,7 +294,10 @@
           "status": "green",
           "source": "Live HTML crawl",
           "detail": "types: HVACBusiness, LocalBusiness, BreadcrumbList, Offer, Service",
-          "trend": "→"
+          "trend": "→",
+          "delta": 0,
+          "deltaFormatted": "0.000",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "click-depth",
@@ -249,7 +309,10 @@
           "status": "green",
           "source": "Local BFS crawler",
           "detail": "51 pages reachable · depth dist: {\"0\":1,\"1\":20,\"2\":30}",
-          "trend": "→"
+          "trend": "→",
+          "delta": 0,
+          "deltaFormatted": "0.000",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "internal-link-connectivity",
@@ -261,43 +324,55 @@
           "status": "yellow",
           "source": "Sitemap diff vs BFS crawl",
           "detail": "orphans: /services/system-replacement, /repair-or-replace, /replacement-estimator",
-          "trend": "→"
+          "trend": "→",
+          "delta": 0,
+          "deltaFormatted": "0.000",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "wcag-aa-pa11y",
           "label": "WCAG 2.2 AA (Pa11y, automated)",
           "target": "0 errors (5-page sample)",
           "v3Pillar": "P4 Accessibility",
-          "value": "0 errors · 0 warnings (0/5 pages)",
-          "numericValue": 0,
-          "status": "green",
+          "value": "7 errors · 0 warnings (5/5 pages)",
+          "numericValue": 7,
+          "status": "red",
           "source": "Pa11y · WCAG2AA standard · 5 sample routes",
-          "detail": "Automated covers ~35-40% of WCAG criteria; manual audit deferred until baseline trends clean.",
-          "trend": "→"
+          "detail": "Top issues: WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "trend": "▲",
+          "delta": 7,
+          "deltaFormatted": "+7.00",
+          "deltaSentiment": "bad"
         },
         {
           "id": "gitleaks-status",
           "label": "Gitleaks secret-scan (latest run)",
           "target": "success",
           "v3Pillar": "P4 Security",
-          "value": "no_runs",
+          "value": "unavailable",
           "numericValue": null,
           "status": "gray",
           "source": "GitHub Actions API",
-          "detail": "last run: null",
-          "trend": "—"
+          "detail": "github api 404",
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "build-manifest",
           "label": "Build manifest (App Router)",
           "target": "≥ 20 page routes",
           "v3Pillar": "Ours only",
-          "value": "unavailable",
-          "numericValue": null,
-          "status": "gray",
+          "value": "22 pages · 5 API routes · 30 total",
+          "numericValue": 22,
+          "status": "green",
           "source": ".next/app-path-routes-manifest.json (local)",
-          "detail": ".next/app-path-routes-manifest.json not found (run `yarn build` first)",
-          "trend": "—"
+          "detail": "Dynamic city routes (47) and service routes counted as single patterns. Sitemap expands to 51 URLs at runtime.",
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "uptime-30d",
@@ -309,7 +384,10 @@
           "status": "gray",
           "source": "Requires external uptime monitor (UptimeRobot/Better Stack)",
           "detail": "Bumped from 99.9% → 99.99% per V3 adoption. Wire UptimeRobot free monitor to light up.",
-          "trend": "—"
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "error-rate",
@@ -321,15 +399,18 @@
           "status": "gray",
           "source": "Vercel Analytics Pro tier or Sentry free tier",
           "detail": "Scaffolded.",
-          "trend": "—"
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         }
       ],
       "rollup": {
         "total": 27,
-        "green": 15,
-        "yellow": 4,
-        "red": 0,
-        "gray": 8
+        "green": 8,
+        "yellow": 2,
+        "red": 1,
+        "gray": 16
       }
     },
     {
@@ -341,63 +422,87 @@
           "id": "gsc-impressions",
           "label": "GSC impressions (28d)",
           "target": "trend ▲",
-          "value": "27,001",
-          "numericValue": 27001,
-          "status": "green",
+          "value": "token required",
+          "numericValue": null,
+          "status": "gray",
           "source": "Google Search Console API",
-          "detail": "2026-04-14 → 2026-05-12"
+          "detail": "oauth secrets not configured",
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "gsc-clicks",
           "label": "GSC clicks (28d)",
           "target": "trend ▲",
-          "value": "70",
-          "numericValue": 70,
-          "status": "green",
+          "value": "token required",
+          "numericValue": null,
+          "status": "gray",
           "source": "Google Search Console API",
-          "detail": null
+          "detail": "oauth secrets not configured",
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "gsc-ctr",
           "label": "GSC CTR (28d)",
           "target": "≥ 3%",
-          "value": "0.3%",
-          "numericValue": 0.3,
-          "status": "red",
+          "value": "token required",
+          "numericValue": null,
+          "status": "gray",
           "source": "Google Search Console API",
-          "detail": null
+          "detail": "oauth secrets not configured",
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "gsc-avg-position",
           "label": "GSC average position",
           "target": "≤ 20",
-          "value": "23.2",
-          "numericValue": 23.2,
-          "status": "yellow",
+          "value": "token required",
+          "numericValue": null,
+          "status": "gray",
           "source": "Google Search Console API",
-          "detail": null
+          "detail": "oauth secrets not configured",
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "sitemap-indexing-rate",
           "label": "Crawl-to-Index Ratio",
           "target": "> 95% (V3 stricter)",
           "v3Pillar": "P3 Logic",
-          "value": "0%",
-          "numericValue": 0,
-          "status": "red",
-          "source": "GSC Sitemaps API",
-          "detail": "0 indexed / 51 submitted · last DL 2026-05-11"
+          "value": "manual quarterly review",
+          "numericValue": null,
+          "status": "gray",
+          "source": "GSC UI · Pages → Indexing report (no public API)",
+          "detail": "Google deprecated the indexed field on the Sitemaps API. For automated index parity, would need the URL Inspection API (per-URL, quota-heavy). Defer to quarterly manual review.",
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "sitemap-health-parity",
-          "label": "Sitemap Health (1:1 parity)",
-          "target": "Sitemap URLs : Indexed URLs = 1:1",
+          "label": "Sitemap submission health",
+          "target": "0 errors · 0 warnings · downloaded ≤ 7 days ago",
           "v3Pillar": "P3 Logic",
-          "value": "51 submitted · 0 warnings · 0 errors",
-          "numericValue": 0,
-          "status": "green",
-          "source": "GSC Sitemaps API",
-          "detail": null
+          "value": "token required",
+          "numericValue": null,
+          "status": "gray",
+          "source": "GSC Sitemaps API · errors + warnings + lastDownloaded",
+          "detail": "oauth secrets not configured",
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "crawl-budget-waste",
@@ -407,7 +512,11 @@
           "value": "not measured",
           "status": "gray",
           "source": "GSC Crawl Stats (no public API — manual GSC export)",
-          "detail": "Defer to quarterly manual GSC Settings → Crawl stats review."
+          "detail": "Defer to quarterly manual GSC Settings → Crawl stats review.",
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "gbp-impressions",
@@ -416,7 +525,11 @@
           "value": "token + admin auth required",
           "status": "gray",
           "source": "Google Business Profile API",
-          "detail": "GBP API requires separate Business Profile OAuth scope + 4-week review; deferred."
+          "detail": "GBP API requires separate Business Profile OAuth scope + 4-week review; deferred.",
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "reviews-count",
@@ -425,7 +538,11 @@
           "value": "wired via /api/cron/sync-reviews",
           "status": "yellow",
           "source": "Sanity companyInfo.googleReviews",
-          "detail": "Live in Sanity; surface to dashboard in next iteration."
+          "detail": "Live in Sanity; surface to dashboard in next iteration.",
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "aeo-citation-rate",
@@ -433,7 +550,11 @@
           "target": "quarterly review",
           "value": "manual",
           "status": "gray",
-          "source": "Quarterly manual run"
+          "source": "Quarterly manual run",
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "backlink-dr20",
@@ -441,15 +562,19 @@
           "target": "+5 / qtr",
           "value": "manual",
           "status": "gray",
-          "source": "Ahrefs (paid) or manual"
+          "source": "Ahrefs (paid) or manual",
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         }
       ],
       "rollup": {
         "total": 11,
-        "green": 3,
-        "yellow": 2,
-        "red": 2,
-        "gray": 4
+        "green": 0,
+        "yellow": 1,
+        "red": 0,
+        "gray": 10
       }
     },
     {
@@ -461,31 +586,43 @@
           "id": "overall-cr",
           "label": "Overall conversion rate",
           "target": "≥ 4%",
-          "value": "1%",
-          "numericValue": 1,
-          "status": "red",
+          "value": "GA4 token required",
+          "numericValue": null,
+          "status": "gray",
           "source": "GA4 Data API · conversions ÷ sessions (28d)",
-          "detail": "6 conversions / 597 sessions"
+          "detail": "oauth secrets not configured",
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "form-submission-rate",
           "label": "Form submission rate",
           "target": "≥ 6%",
-          "value": "1.5%",
-          "numericValue": 1.5,
-          "status": "red",
+          "value": "GA4 token required",
+          "numericValue": null,
+          "status": "gray",
           "source": "GA4 Data API · generate_lead ÷ sessions (28d)",
-          "detail": "0 generate_lead · 9 form_submit_lead"
+          "detail": "oauth secrets not configured",
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "phone-click-rate",
           "label": "Phone click rate",
           "target": "≥ 8%",
-          "value": "1.3%",
-          "numericValue": 1.3,
-          "status": "red",
+          "value": "GA4 token required",
+          "numericValue": null,
+          "status": "gray",
           "source": "GA4 Data API · phone_click ÷ sessions (28d)",
-          "detail": "8 phone_click events"
+          "detail": "oauth secrets not configured",
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "per-page-cr",
@@ -494,37 +631,53 @@
           "value": "next iteration",
           "status": "gray",
           "source": "GA4 Data API · landingPagePlusQueryString",
-          "detail": "Site-wide CR is the priority signal right now; per-page drill-down ships next iteration."
+          "detail": "Site-wide CR is the priority signal right now; per-page drill-down ships next iteration.",
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "mobile-desktop-cr-parity",
           "label": "Mobile vs desktop CR parity",
           "target": "within 20%",
-          "value": "50% gap",
-          "numericValue": 50,
-          "status": "red",
+          "value": "GA4 token required",
+          "numericValue": null,
+          "status": "gray",
           "source": "GA4 Data API · deviceCategory breakdown",
-          "detail": "Mobile CR: 1.6% · Desktop CR: 0.8%"
+          "detail": "oauth secrets not configured",
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "estimator-completion",
-          "label": "Estimator opt-in events",
-          "target": "trend ▲",
-          "value": "0",
-          "numericValue": 0,
-          "status": "yellow",
-          "source": "GA4 Data API · estimator_opt_in event count (28d)",
-          "detail": null
+          "label": "Estimator funnel (complete → opt-in)",
+          "target": "≥ 25% complete→opt-in",
+          "value": "GA4 token required",
+          "numericValue": null,
+          "status": "gray",
+          "source": "GA4 Data API · estimator_complete + estimator_opt_in (28d)",
+          "detail": "oauth secrets not configured",
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "bounce-rate",
           "label": "Bounce rate (sitewide)",
           "target": "< 50%",
-          "value": "71%",
-          "numericValue": 71,
-          "status": "red",
+          "value": "GA4 token required",
+          "numericValue": null,
+          "status": "gray",
           "source": "GA4 Data API · bounceRate (28d)",
-          "detail": null
+          "detail": "oauth secrets not configured",
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "clarity-friction",
@@ -532,7 +685,11 @@
           "target": "Rage clicks < 1%",
           "value": "gated to May 22 baseline",
           "status": "gray",
-          "source": "Clarity Data Export API"
+          "source": "Clarity Data Export API",
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "lead-to-booked",
@@ -540,15 +697,19 @@
           "target": "≥ 40%",
           "value": "no CRM integration",
           "status": "gray",
-          "source": "Manual entry (no API)"
+          "source": "Manual entry (no API)",
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         }
       ],
       "rollup": {
         "total": 9,
         "green": 0,
-        "yellow": 1,
-        "red": 5,
-        "gray": 3
+        "yellow": 0,
+        "red": 0,
+        "gray": 9
       }
     },
     {
@@ -561,21 +722,33 @@
           "label": "CallRail tracking numbers live",
           "value": "phase gated",
           "status": "gray",
-          "source": "CallRail API"
+          "source": "CallRail API",
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "paid-cpc-conversion",
           "label": "Paid CPC / conversion",
           "value": "phase gated",
           "status": "gray",
-          "source": "Google Ads / Meta Ads API"
+          "source": "Google Ads / Meta Ads API",
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "gtag-enhanced-conv",
           "label": "GA4 Enhanced Conversions wired",
           "value": "phase gated",
           "status": "gray",
-          "source": "GA4 + Ads linking"
+          "source": "GA4 + Ads linking",
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         }
       ],
       "rollup": {
@@ -596,21 +769,33 @@
           "label": "Cost per lead (paid)",
           "value": "phase gated",
           "status": "gray",
-          "source": "Ads platforms"
+          "source": "Ads platforms",
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "roas",
           "label": "Return on ad spend",
           "value": "phase gated",
           "status": "gray",
-          "source": "Ads platforms"
+          "source": "Ads platforms",
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "rpv",
           "label": "Revenue per visitor",
           "value": "phase gated",
           "status": "gray",
-          "source": "CRM + GA4"
+          "source": "CRM + GA4",
+          "trend": "—",
+          "delta": null,
+          "deltaFormatted": "",
+          "deltaSentiment": "neutral"
         }
       ],
       "rollup": {

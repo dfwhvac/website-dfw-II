@@ -430,8 +430,10 @@ async function getGscMetrics(accessToken) {
 }
 
 /**
- * GSC Sitemaps — checks the submitted sitemap's parity vs warnings.
- * Returns { submitted, indexableWarnings, lastDownloaded } or throws.
+ * GSC Sitemaps API — returns what the API actually provides (Google deprecated `contents[].indexed`
+ * circa 2019; it's no longer populated). We expose: submitted URL count, errors, warnings, and
+ * lastDownloaded freshness. Index-parity status moved to URL Inspection API (quota-heavy, deferred
+ * to manual quarterly review via GSC UI).
  */
 async function getGscSitemapHealth(accessToken) {
   const siteUrl = process.env.GSC_SITE_URL;
@@ -443,16 +445,11 @@ async function getGscSitemapHealth(accessToken) {
   if (!r.ok) throw new Error(`gsc-sitemaps ${r.status}: ${(await r.text()).slice(0, 200)}`);
   const d = await r.json();
   const sitemaps = d.sitemap || [];
-  // Pick the primary sitemap.xml (not nested sitemap-0.xml etc.)
   const primary = sitemaps.find((s) => /\/sitemap\.xml$/i.test(s.path)) || sitemaps[0];
-  if (!primary) return { submitted: 0, warnings: 0, errors: 0, lastDownloaded: null, count: 0 };
-  // contents[].submitted is per-content-type. Sum them.
+  if (!primary) return { submitted: 0, warnings: 0, errors: 0, lastDownloaded: null, sitemapCount: 0 };
   const submitted = (primary.contents || []).reduce((a, c) => a + Number(c.submitted || 0), 0);
-  const indexed = (primary.contents || []).reduce((a, c) => a + Number(c.indexed || 0), 0);
   return {
     submitted,
-    indexed,
-    parity: submitted ? Math.round((indexed / submitted) * 1000) / 10 : null, // %
     warnings: Number(primary.warnings || 0),
     errors: Number(primary.errors || 0),
     lastDownloaded: primary.lastDownloaded || null,
@@ -509,7 +506,7 @@ async function getGa4Metrics(accessToken) {
     byDevice[cat] = { sessions, conversions, cr: sessions ? Math.round((conversions / sessions) * 1000) / 10 : 0 };
   });
 
-  // ---- Query 3: specific events for form vs phone vs estimator CR breakouts ----
+  // ---- Query 3: specific events for funnel breakdown (wizard → results → opt-in, phone, form) ----
   const eventsBody = {
     dateRanges: [{ startDate: '28daysAgo', endDate: 'today' }],
     dimensions: [{ name: 'eventName' }],
@@ -517,7 +514,7 @@ async function getGa4Metrics(accessToken) {
     dimensionFilter: {
       filter: {
         fieldName: 'eventName',
-        inListFilter: { values: ['generate_lead', 'form_submit_lead', 'phone_click', 'estimator_opt_in', 'thanks_page_view'] },
+        inListFilter: { values: ['generate_lead', 'form_submit_lead', 'phone_click', 'estimator_complete', 'estimator_opt_in', 'thanks_page_view'] },
       },
     },
   };
@@ -550,7 +547,13 @@ async function getGa4Metrics(accessToken) {
     byDevice,
     parityDelta, // % gap
     events,
+    estimatorComplete: events.estimator_complete || 0,
     estimatorOptIn: events.estimator_opt_in || 0,
+    // Funnel insight: % of users who completed the wizard that ALSO submitted the lead form.
+    // Distinguishes "tracking issue" (both zero) from "CRO issue" (complete > 0, opt_in = 0).
+    estimatorOptInRate: events.estimator_complete > 0
+      ? Math.round((events.estimator_opt_in || 0) / events.estimator_complete * 1000) / 10
+      : null,
   };
 }
 
@@ -1139,29 +1142,44 @@ async function main() {
       label: 'Crawl-to-Index Ratio',
       target: '> 95% (V3 stricter)',
       v3Pillar: 'P3 Logic',
-      value: gscSitemap.ok && gscSitemap.value.parity != null
-        ? `${gscSitemap.value.parity}%`
-        : (googleAccessToken ? 'error' : 'token required'),
-      numericValue: gscSitemap.ok ? gscSitemap.value.parity : null,
-      status: gscSitemap.ok && gscSitemap.value.parity != null
-        ? (gscSitemap.value.parity > 95 ? STATUS.GREEN : gscSitemap.value.parity > 85 ? STATUS.YELLOW : STATUS.RED)
-        : STATUS.GRAY,
-      source: 'GSC Sitemaps API',
-      detail: gscSitemap.ok ? `${gscSitemap.value.indexed} indexed / ${gscSitemap.value.submitted} submitted · last DL ${gscSitemap.value.lastDownloaded?.slice(0, 10) || '?'}` : gscSitemap.error,
+      // Google deprecated the `contents[].indexed` field on the Sitemaps API circa 2019 — it's
+      // no longer populated and always reads as 0. Index status moved to the URL Inspection API
+      // which requires per-URL calls (51 URLs × weekly = 200+ quota units, not viable at scale).
+      // Reclassify this KPI as a manual quarterly review via GSC UI → Pages → Indexing.
+      value: 'manual quarterly review',
+      numericValue: null,
+      status: STATUS.GRAY,
+      source: 'GSC UI · Pages → Indexing report (no public API)',
+      detail: 'Google deprecated the indexed field on the Sitemaps API. For automated index parity, would need the URL Inspection API (per-URL, quota-heavy). Defer to quarterly manual review.',
     },
     {
       id: 'sitemap-health-parity',
-      label: 'Sitemap Health (1:1 parity)',
-      target: 'Sitemap URLs : Indexed URLs = 1:1',
+      label: 'Sitemap submission health',
+      target: '0 errors · 0 warnings · downloaded ≤ 7 days ago',
       v3Pillar: 'P3 Logic',
       value: gscSitemap.ok
-        ? `${gscSitemap.value.submitted} submitted · ${gscSitemap.value.warnings} warnings · ${gscSitemap.value.errors} errors`
+        ? (() => {
+            const v = gscSitemap.value;
+            const dlAge = v.lastDownloaded
+              ? Math.floor((Date.now() - new Date(v.lastDownloaded).getTime()) / 86400000)
+              : null;
+            const dlFresh = dlAge != null ? `last DL ${dlAge}d ago` : 'never downloaded';
+            return `${v.submitted} URLs submitted · ${v.errors} errors · ${v.warnings} warnings · ${dlFresh}`;
+          })()
         : (googleAccessToken ? 'error' : 'token required'),
-      numericValue: gscSitemap.ok ? gscSitemap.value.errors : null,
+      numericValue: gscSitemap.ok ? (gscSitemap.value.errors + gscSitemap.value.warnings) : null,
       status: gscSitemap.ok
-        ? (gscSitemap.value.errors === 0 && gscSitemap.value.warnings === 0 ? STATUS.GREEN : gscSitemap.value.errors === 0 ? STATUS.YELLOW : STATUS.RED)
+        ? (() => {
+            const v = gscSitemap.value;
+            const dlAge = v.lastDownloaded
+              ? Math.floor((Date.now() - new Date(v.lastDownloaded).getTime()) / 86400000)
+              : 999;
+            if (v.errors > 0) return STATUS.RED;
+            if (v.warnings > 0 || dlAge > 14) return STATUS.YELLOW;
+            return STATUS.GREEN;
+          })()
         : STATUS.GRAY,
-      source: 'GSC Sitemaps API',
+      source: 'GSC Sitemaps API · errors + warnings + lastDownloaded',
       detail: gscSitemap.ok ? null : gscSitemap.error,
     },
     {
@@ -1274,13 +1292,31 @@ async function main() {
     },
     {
       id: 'estimator-completion',
-      label: 'Estimator opt-in events',
-      target: 'trend ▲',
-      value: ga4.ok ? `${ga4.value.estimatorOptIn}` : (googleAccessToken ? 'error' : 'GA4 token required'),
-      numericValue: ga4.ok ? ga4.value.estimatorOptIn : null,
-      status: ga4.ok ? (ga4.value.estimatorOptIn > 0 ? STATUS.GREEN : STATUS.YELLOW) : STATUS.GRAY,
-      source: 'GA4 Data API · estimator_opt_in event count (28d)',
-      detail: ga4.ok ? null : ga4.error,
+      label: 'Estimator funnel (complete → opt-in)',
+      target: '≥ 25% complete→opt-in',
+      value: ga4.ok
+        ? (() => {
+            const c = ga4.value.estimatorComplete;
+            const o = ga4.value.estimatorOptIn;
+            const rate = ga4.value.estimatorOptInRate;
+            if (c === 0 && o === 0) return '0 complete · 0 opt-in (no traffic or tracking)';
+            if (c === 0 && o > 0) return `${o} opt-in (no estimator_complete events — investigate)`;
+            return `${c} complete → ${o} opt-in (${rate}%)`;
+          })()
+        : (googleAccessToken ? 'error' : 'GA4 token required'),
+      numericValue: ga4.ok ? (ga4.value.estimatorOptInRate ?? 0) : null,
+      status: ga4.ok
+        ? (ga4.value.estimatorComplete === 0
+            ? STATUS.YELLOW
+            : ga4.value.estimatorOptInRate >= 25 ? STATUS.GREEN
+              : ga4.value.estimatorOptInRate >= 10 ? STATUS.YELLOW : STATUS.RED)
+        : STATUS.GRAY,
+      source: 'GA4 Data API · estimator_complete + estimator_opt_in (28d)',
+      detail: ga4.ok
+        ? (ga4.value.estimatorComplete === 0
+            ? 'No wizard completions in 28d. Likely a traffic problem (low /replacement-estimator visits), not a tracking issue — other gtag events fire correctly site-wide.'
+            : `Funnel: ${ga4.value.estimatorComplete} users finished the wizard, ${ga4.value.estimatorOptIn} of them submitted the lead form.`)
+        : ga4.error,
     },
     {
       id: 'bounce-rate',
