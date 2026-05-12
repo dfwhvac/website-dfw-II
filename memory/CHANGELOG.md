@@ -7,7 +7,35 @@ Reverse-chronological record of everything shipped to production. When adding en
 
 ---
 
-## May 11, 2026 — CDN Edge Hit Rate fix (P1 Infra)
+## May 11, 2026 — CDN Edge Hit Rate fix (P1 Infra) — ⚠️ Verification incomplete
+
+### Status
+- ✅ Code change deployed (after fixing a Vercel build blocker — see below)
+- ⚠️ **KPI dashboard's CDN Edge Hit Rate card did NOT flip from 🔴 53% to 🟢 expected after deploy.** First troubleshoot item on next session resume.
+
+### Build blocker hit during deploy
+The May 11 ISR migration unmasked a previously-latent prerender crash on Vercel: Next.js 15's `optimizePackageImports` barrel optimizer can't reliably resolve `Facebook` / `Linkedin` from lucide-react on Vercel's environment (icons exist in the package — verified locally — but the synthetic barrel module reports them as undefined → "Element type is invalid" crash at prerender). Bug was hidden by `force-dynamic` which skipped prerender entirely.
+
+Three failed fixes attempted before landing on the right answer:
+1. ❌ Vercel cache-bust (cache wasn't the issue)
+2. ❌ Refactored `iconMap[platform]` lookup to a switch statement (helped Twitter/Youtube but Facebook/Linkedin still failed)
+3. ❌ Set `optimizePackageImports: ['@radix-ui/react-icons', 'date-fns']` in next.config.js (Next.js merges with framework defaults rather than replacing)
+
+✅ **What worked:** Inline SVG components for Facebook + LinkedIn in `Footer.jsx`, matching the existing `GoogleG` pattern (lines 12-21) that has been in production successfully. Inline SVGs bypass the bundler entirely. The author's original comment ("Lucide-react doesn't ship brand logos for licensing reasons") was the correct diagnosis — we just hadn't applied it to all three brand icons.
+
+### Hypotheses for CDN dashboard not flipping (next session investigation)
+- (a) Vercel edge regions hadn't fully propagated the new deploy when the KPI workflow ran (timing race)
+- (b) Next.js middleware or response headers (Set-Cookie, dynamic auth checks) are forcing `x-vercel-cache: BYPASS` despite page-level `revalidate = 3600`
+- (c) Timing/warm-up bug in `scripts/audit-kpis.mjs` `getCdnEdgeHitRate()` — possibly the 600ms wait between warm + measurement visits is insufficient for Vercel's edge to register the response
+- (d) Route-specific issue: the 7 sampled pages (`/`, `/about`, `/services`, `/reviews`, `/financing`, `/faq`, `/cities-served/dallas`) may have something specific blocking ISR — could be Sanity client calls without `cache: 'force-cache'`, or `headers()` / `cookies()` reads triggering implicit dynamic rendering
+
+### Troubleshoot plan for next session
+1. Manually curl one of the sampled pages from a Vercel-adjacent region with `-I` and inspect `x-vercel-cache` header on 2nd visit
+2. Inspect middleware (`frontend/middleware.js` if present) for cache-defeating logic
+3. Check Sanity client config — Next.js 15 changed fetch caching defaults; uncached fetches force dynamic rendering even with `revalidate` set
+4. If Sanity fetches are the culprit, add `{ next: { revalidate: 3600 } }` to the Sanity client calls
+
+## May 11, 2026 — CDN Edge Hit Rate fix (P1 Infrastructure)
 
 KPI dashboard surfaced that every page was MISSing Vercel's edge cache on every visit (53% overall hit rate, 0% on pages). Root cause: every page in `app/` had `export const dynamic = 'force-dynamic'` + `export const revalidate = 0`, explicitly disabling ISR. A historical comment ("Force dynamic rendering to always fetch fresh Sanity content") revealed the misunderstanding — ISR with `revalidate = 3600` *already* keeps Sanity content fresh by regenerating hourly in the background.
 
