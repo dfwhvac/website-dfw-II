@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-12T01:49:29.647Z",
+  "generatedAt": "2026-05-12T01:52:50.702Z",
   "domain": "dfwhvac.com",
-  "durationMs": 29361,
+  "durationMs": 25650,
   "phases": [
     {
       "id": "phase1",
@@ -30,7 +30,7 @@
           "status": "yellow",
           "source": "http-observatory.security.mozilla.org",
           "detail": null,
-          "trend": "—"
+          "trend": "→"
         },
         {
           "id": "ssl-labs-grade",
@@ -41,7 +41,7 @@
           "numericValue": null,
           "status": "gray",
           "source": "api.ssllabs.com",
-          "detail": "scan status=IN_PROGRESS",
+          "detail": "no grades returned (Testing for BEAST)",
           "trend": "—"
         },
         {
@@ -49,8 +49,8 @@
           "label": "TTFB (Time to First Byte)",
           "target": "< 200ms",
           "v3Pillar": "P1 Infrastructure",
-          "value": "6ms",
-          "numericValue": 6,
+          "value": "4ms",
+          "numericValue": 4,
           "status": "green",
           "source": "PageSpeed Lighthouse · server-response-time",
           "trend": "▼"
@@ -61,10 +61,10 @@
           "target": "< 1.2s",
           "v3Pillar": "P2 Performance",
           "value": "2.25s",
-          "numericValue": 2252.043760904481,
+          "numericValue": 2251.061890248866,
           "status": "yellow",
           "source": "PageSpeed Lighthouse · largest-contentful-paint",
-          "trend": "▼"
+          "trend": "→"
         },
         {
           "id": "cwv-inp",
@@ -94,12 +94,12 @@
           "label": "Lighthouse Performance (mobile)",
           "target": "≥ 90 (V3)",
           "v3Pillar": "P2 Performance",
-          "value": "95",
-          "numericValue": 95,
+          "value": "97",
+          "numericValue": 97,
           "status": "green",
           "source": "pagespeedonline.googleapis.com",
           "detail": null,
-          "trend": "→"
+          "trend": "▲"
         },
         {
           "id": "pagespeed-performance-desktop",
@@ -111,7 +111,7 @@
           "status": "green",
           "source": "pagespeedonline.googleapis.com (strategy=desktop)",
           "detail": null,
-          "trend": "▲"
+          "trend": "→"
         },
         {
           "id": "cwv-page-weight",
@@ -119,7 +119,7 @@
           "target": "< 1.5 MB",
           "v3Pillar": "P2 Performance",
           "value": "0.52 MB",
-          "numericValue": 548291,
+          "numericValue": 548304,
           "status": "green",
           "source": "PageSpeed Lighthouse · total-byte-weight",
           "trend": "▲"
@@ -145,7 +145,7 @@
           "status": "green",
           "source": "pagespeedonline.googleapis.com",
           "detail": "Interim heuristic — formal WCAG check via Pa11y card below",
-          "trend": "▲"
+          "trend": "→"
         },
         {
           "id": "pagespeed-best-practices-mobile",
@@ -156,7 +156,7 @@
           "numericValue": 92,
           "status": "yellow",
           "source": "pagespeedonline.googleapis.com",
-          "trend": "▼"
+          "trend": "→"
         },
         {
           "id": "pagespeed-seo-mobile",
@@ -167,7 +167,7 @@
           "numericValue": 100,
           "status": "green",
           "source": "pagespeedonline.googleapis.com",
-          "trend": "▲"
+          "trend": "→"
         },
         {
           "id": "cdn-edge-hit-rate",
@@ -179,7 +179,7 @@
           "status": "green",
           "source": "x-vercel-cache header (warm-cache 2nd visit)",
           "detail": "Pages: 85.7% · Static assets: 100% · 15 samples · {\"HIT\":14,\"MISS\":1}",
-          "trend": "▲"
+          "trend": "→"
         },
         {
           "id": "db-query-latency",
@@ -237,7 +237,7 @@
           "status": "green",
           "source": "Live HTML crawl",
           "detail": "types: HVACBusiness, LocalBusiness, BreadcrumbList, Offer, Service",
-          "trend": "▲"
+          "trend": "→"
         },
         {
           "id": "click-depth",
@@ -261,7 +261,7 @@
           "status": "yellow",
           "source": "Sitemap diff vs BFS crawl",
           "detail": "orphans: /services/system-replacement, /repair-or-replace, /replacement-estimator",
-          "trend": "▼"
+          "trend": "→"
         },
         {
           "id": "wcag-aa-pa11y",
