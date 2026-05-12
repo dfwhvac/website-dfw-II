@@ -4,8 +4,7 @@ import LeadForm from '../../components/LeadForm'
 import { getCompanyInfo, getSiteSettings } from '../../lib/sanity'
 import { Phone, Clock, Shield, CheckCircle } from 'lucide-react'
 
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
+export const revalidate = 3600 // ISR — page regenerates at most once per hour with fresh Sanity content
 
 export function generateMetadata() {
   // P1.6a title rewrite (Apr 23, 2026) — full geo removes "in DFW | DFW HVAC" redundancy, urgency modifier retained. CSV row 5.

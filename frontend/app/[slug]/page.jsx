@@ -4,8 +4,7 @@ import { companyInfo as mockCompanyInfo, testimonials as mockTestimonials } from
 import DynamicPage from '@/components/DynamicPage'
 
 // ISR: Revalidate every hour
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
+export const revalidate = 3600 // ISR — page regenerates at most once per hour with fresh Sanity content
 
 // Generate static paths for all published company pages
 export async function generateStaticParams() {

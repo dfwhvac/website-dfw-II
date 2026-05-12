@@ -24,6 +24,8 @@ Finalize a premium Next.js / Sanity website for **DFW HVAC**. Execute a 5-Priori
 - ✅ C2/C6/C8 Conversion Sprint Tier 1 shipped
 - ✅ CI hardened against recurring yarn.lock/package.json web-editor conflict pattern
 - ✅ **KPI Dashboard v2 (May 11)** — V3-aligned, 53 KPIs, V3 Crosswalk badges, stricter benchmarks (Uptime 99.99%, Crawl-to-Index 95%, Security A+ only). Surfaced 3 real issues: CDN Edge Hit Rate 53% (pages MISS cache), 7 WCAG AA contrast errors, 3 orphan pages.
+- ✅ **KPI Dashboard — GA4 + GSC OAuth integration (May 11)** — Replaced service-account flow (blocked by Workspace policy) with OAuth user-credentials + refresh-token. 13 previously-gray cards now live: GSC clicks/impressions/CTR/position, sitemap parity, GA4 overall/form/phone CR, mobile/desktop CR split, bounce rate, estimator opt-ins. Surfaced real baseline: 1% overall CR, 1.5% form CR, 1.3% phone CR, 71% bounce — strong CRO opportunity validated.
+- ✅ **CDN Edge Hit Rate fix (May 11)** — Flipped 19 pages from `force-dynamic` to `revalidate = 3600` ISR. Expected: 53% → 90%+ hit rate, TTFB <50ms on cached pages, ~70% reduction in Vercel serverless invocations.
 - 🕐 Microsoft Clarity 14-day baseline clock active since May 8 (gates P1.10 progressive form redesign)
 
 ## Active Roadmap Source of Truth

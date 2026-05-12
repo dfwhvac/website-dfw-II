@@ -5,9 +5,7 @@ import { getCompanyInfo, getSiteSettings, getCityPages, getContactPage } from '@
 import { companyInfo as mockCompanyInfo } from '@/lib/mockData'
 import { buildPageMetadata } from '@/lib/metadata'
 
-// Disable caching for instant Sanity updates
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
+export const revalidate = 3600 // ISR — page regenerates at most once per hour with fresh Sanity content
 
 export async function generateMetadata() {
   // P1.6a title rewrite (Apr 23, 2026) — brand-first, no trailing pipe. CSV row 4.

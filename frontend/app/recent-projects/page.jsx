@@ -8,8 +8,7 @@ import ServiceFirstCTA from '@/components/ServiceFirstCTA'
 import RealWorkWidget from '@/components/RealWorkWidget'
 import { getReviewBadgeCount, buildTitleWithBadge } from '@/lib/metadata'
 
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
+export const revalidate = 3600 // ISR — page regenerates at most once per hour with fresh Sanity content
 
 export async function generateMetadata() {
   // P1.6a title rewrite (Apr 23, 2026) — overflow fix; review badge keeps under 60 chars. CSV row 7.

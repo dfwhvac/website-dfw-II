@@ -3,8 +3,7 @@ import Footer from '@/components/Footer'
 import { getCompanyInfo, getSiteSettings } from '@/lib/sanity'
 import { companyInfo as mockCompanyInfo } from '@/lib/mockData'
 
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
+export const revalidate = 3600 // ISR — page regenerates at most once per hour with fresh Sanity content
 
 export async function generateMetadata() {
   // P1.6a title rewrite (Apr 23, 2026) — no change from existing. CSV row 10.

@@ -6,8 +6,7 @@ import { companyInfo as mockCompanyInfo } from '@/lib/mockData'
 import { getReviewBadgeCount, buildTitleWithBadge } from '@/lib/metadata'
 import EstimatorWizard from './EstimatorWizard'
 
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
+export const revalidate = 3600 // ISR — page regenerates at most once per hour with fresh Sanity content
 
 export async function generateMetadata() {
   // P1.14 replacement estimator (Apr 24, 2026). Title targets the

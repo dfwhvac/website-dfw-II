@@ -6,9 +6,7 @@ import { getCompanyInfo, getServices, getSiteSettings, getHomepage, getAllTestim
 import { companyInfo as mockCompanyInfo, services as mockServices, testimonials as mockTestimonials } from '../lib/mockData'
 import { buildPageMetadata, getReviewBadgeCount, buildTitleWithBadge } from '../lib/metadata'
 
-// Force dynamic rendering to always fetch fresh Sanity content
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
+export const revalidate = 3600 // ISR — page regenerates at most once per hour with fresh Sanity content
 
 export async function generateMetadata() {
   // P1.6a title rewrite (Apr 23, 2026) — GSC-refined keyword-first title.
