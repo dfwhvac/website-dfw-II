@@ -7,6 +7,34 @@ Reverse-chronological record of everything shipped to production. When adding en
 
 ---
 
+## May 12, 2026 — KPI Dashboard v3: card grid → compact NOC table
+
+Stakeholder feedback after the v2 GA4/GSC unlock: the 53-card grid layout was hard to scan at a glance and required ~6 scrolls to see all metrics. Redesigned as a single 6-column compact table preserving the phase-grouped mental model.
+
+### Layout transformation
+- **Card grid → table** with phase-header gradient bars as grouping rows
+- **Rows: ~80px tall (3-line wrap) → ~32px tall (single-line)** — entire roadmap visible in 2 scrolls instead of 6
+- **Columns**: Status dot · Metric · Current · Target · 28d trend · Updated (6 columns, down from 7-9 distinct visual fields per card)
+- **Phase summary strip preserved** at top — 5 cards showing rollup + progress bar, now also serving as anchor links to phase sections
+- **Dropped V3 Pillar column** — was a roadmap-internal taxonomy not useful for at-a-glance scanning
+- **Source field moved to tooltip on Current cell** — `data-tooltip` attribute, pure-CSS tooltip with arrow and shadow
+- **Detail field moved to tooltip on Metric cell** — same pattern, dotted-underline cue for hoverability
+- **New Updated column** — relative time since `generatedAt` (e.g., "2h ago"), computed client-side so it stays fresh on every reload without re-running the script
+
+### New interactive features (added during promotion to production)
+- **Filter chips** — All / Red / Yellow / Green / Pending — hides non-matching rows AND collapses phase headers with no visible rows underneath
+- **Search box** — substring filter on metric label, case-insensitive, debounce-free (instant)
+- **Sticky table header** — `position: sticky; top: 0; z-index: 5` keeps column labels visible while scrolling long phase sections
+
+### Verified working
+- 53 rows render with real production data
+- Red filter correctly shows only red rows + their phase headers
+- Search "lighthouse" filters to 5 Lighthouse rows
+- Tooltips appear on hover with proper positioning (right-aligned on value-cell to avoid edge clipping)
+
+### Files
+- `frontend/public/internal/kpi-dashboard.html` — rewritten (700 lines diff: +393/-381)
+
 ## May 11, 2026 — CDN Edge Hit Rate fix (P1 Infra) — ⚠️ Verification incomplete
 
 ### Status
