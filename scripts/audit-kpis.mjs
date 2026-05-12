@@ -627,13 +627,59 @@ async function loadPriorSnapshot() {
   }
 }
 
+// KPIs where a LOWER numeric value is the GOAL (faster, smaller, fewer).
+// Default for everything else: higher is better (scores, percentages, counts of good things).
+const LOWER_IS_BETTER = new Set([
+  'ttfb',
+  'cwv-lcp',
+  'cwv-inp',
+  'cwv-cls',
+  'total-page-weight',
+  'bounce-rate',
+  'gsc-avg-position',           // position 1 is best in SERPs
+  'click-depth',
+  'internal-link-connectivity', // orphan count
+  'wcag-aa-pa11y',              // error count
+  'csp-host-count',             // smaller CSP allowlist = smaller attack surface
+  'mobile-desktop-cr-parity',   // gap %
+  'crawl-budget-waste',
+  'error-rate',
+]);
+
+function formatDelta(n) {
+  if (n == null || !Number.isFinite(n)) return '';
+  const sign = n > 0 ? '+' : '';
+  // Choose precision based on magnitude
+  if (Math.abs(n) >= 100) return `${sign}${Math.round(n)}`;
+  if (Math.abs(n) >= 10) return `${sign}${n.toFixed(1)}`;
+  if (Math.abs(n) >= 1) return `${sign}${n.toFixed(2)}`;
+  return `${sign}${n.toFixed(3)}`;
+}
+
+// Returns { arrow, delta, deltaFormatted, sentiment }
+//   arrow: ▲ ▼ → —  (purely directional — what happened)
+//   delta: number   (raw numeric difference, signed)
+//   sentiment: 'good' | 'bad' | 'neutral'  (is this change good news?)
 function computeTrend(prev, currentKey, currentValueNum) {
-  if (!prev || currentValueNum == null) return '—';
+  const empty = { arrow: '—', delta: null, deltaFormatted: '', sentiment: 'neutral' };
+  if (!prev || currentValueNum == null) return empty;
   const prevKpi = prev.phases?.flatMap((p) => p.kpis).find((k) => k.id === currentKey);
-  if (!prevKpi || prevKpi.numericValue == null) return '—';
+  if (!prevKpi || prevKpi.numericValue == null) return empty;
   const delta = currentValueNum - prevKpi.numericValue;
-  if (Math.abs(delta) < 2) return '→';
-  return delta > 0 ? '▲' : '▼';
+  const deltaFormatted = formatDelta(delta);
+  // Significance threshold: 1% relative change, OR absolute change >= 1 for integer counts.
+  // Without this every micro-drift floods the dashboard with arrows.
+  const baseline = Math.abs(prevKpi.numericValue) || 1;
+  const relChange = Math.abs(delta) / baseline;
+  if (relChange < 0.01 && Math.abs(delta) < 1) {
+    return { arrow: '→', delta, deltaFormatted, sentiment: 'neutral' };
+  }
+  const arrow = delta > 0 ? '▲' : '▼';
+  const lowerIsBetter = LOWER_IS_BETTER.has(currentKey);
+  const wentDown = delta < 0;
+  // good if: (lower-is-better AND went down) OR (higher-is-better AND went up)
+  const sentiment = (lowerIsBetter === wentDown) ? 'good' : 'bad';
+  return { arrow, delta, deltaFormatted, sentiment };
 }
 
 async function main() {
@@ -1037,10 +1083,15 @@ async function main() {
     },
   ];
 
-  // Compute trend arrows
-  phase1Kpis.forEach((k) => {
-    k.trend = computeTrend(prior, k.id, k.numericValue);
-  });
+  // Compute trend arrows + deltas (applied below across ALL phases — see end of main)
+  const applyTrend = (k) => {
+    const t = computeTrend(prior, k.id, k.numericValue);
+    k.trend = t.arrow;
+    k.delta = t.delta;
+    k.deltaFormatted = t.deltaFormatted;
+    k.deltaSentiment = t.sentiment;
+  };
+  phase1Kpis.forEach(applyTrend);
 
   const phase2Kpis = [
     {
@@ -1264,6 +1315,13 @@ async function main() {
     kpis.forEach((k) => (c[k.status] = (c[k.status] || 0) + 1));
     return { total: kpis.length, ...c };
   };
+
+  // Apply trend + delta computation to ALL phases (phase1 already done above).
+  // Phase 2/3 are GSC/GA4-backed and only now have numeric values; phase 4/5 are gated.
+  phase2Kpis.forEach(applyTrend);
+  phase3Kpis.forEach(applyTrend);
+  phase4Kpis.forEach(applyTrend);
+  phase5Kpis.forEach(applyTrend);
 
   const snapshot = {
     generatedAt: new Date().toISOString(),

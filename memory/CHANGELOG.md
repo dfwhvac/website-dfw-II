@@ -7,7 +7,87 @@ Reverse-chronological record of everything shipped to production. When adding en
 
 ---
 
-## May 11, 2026 — CDN Edge Hit Rate fix (P1 Infra)
+## May 12, 2026 — KPI Dashboard: delta badges + sentiment-aware trends
+
+Built directly on top of v3 layout. Surfaces *direction* of change vs prior snapshot, not just the static current value. Turns the dashboard from a point-in-time reading into a week-over-week story.
+
+### Audit script changes (`scripts/audit-kpis.mjs`)
+- `computeTrend()` now returns `{arrow, delta, deltaFormatted, sentiment}` (was: just an arrow string)
+- New `LOWER_IS_BETTER` set lists the ~14 KPI ids where smaller numeric value = good (LCP, INP, CLS, bounce rate, GSC avg position, orphan count, WCAG errors, etc.). Default for everything else: higher is better.
+- `sentiment` = `'good'` / `'bad'` / `'neutral'` — computed as `(lowerIsBetter === wentDown) ? 'good' : 'bad'`. This fixes a latent bug where LCP dropping from 2.5s → 2.2s would have been shown with a red arrow despite being an improvement.
+- Significance threshold tightened: now relative (1% of baseline) instead of absolute (>2 always). Stops micro-drift flooding the table with arrows.
+- Trend logic extended from phase1 only → ALL 5 phases (GA4/GSC/Pa11y all now show trends).
+- New `formatDelta()` outputs compact signed strings: `+40.0`, `-0.3`, `+0.003` (precision scales by magnitude).
+
+### Dashboard changes (`kpi-dashboard.html`)
+- New "Delta badge" — small chip next to Current value (~0.68rem, padded 0.15rem × 0.4rem). Renders ONLY when there's a non-zero, non-neutral change. Color-coded by sentiment.
+- Trend arrow CSS rewritten: `.trend.good` / `.trend.bad` / `.trend.neutral` (was: `.up` / `.down` / `.flat`). Color now matches whether the change is *good news*, not just whether the number went up.
+- Visual result on first snapshot after CDN fix: **single bright green `+40.0` badge on the CDN row**. All other 52 rows unchanged from prior — quiet, no noise.
+
+### Why "skip zero / skip neutral" matters
+The trend `→` arrow already communicates "no significant change." Rendering a `0.000` chip next to every stable row was technically accurate but visually noisy. Badge now appears only for changes worth your attention. Clean signal-to-noise.
+
+### Files
+- `scripts/audit-kpis.mjs` (+50 lines): `LOWER_IS_BETTER`, `formatDelta()`, expanded `computeTrend()`, `applyTrend` helper applied to all phases
+- `frontend/public/internal/kpi-dashboard.html` (+18 lines CSS, +12 lines JS): `.delta` badge CSS, sentiment-aware trend colors, `deltaBadge()` renderer
+
+## May 12, 2026 — KPI Dashboard v3: card grid → compact NOC table
+
+Stakeholder feedback after the v2 GA4/GSC unlock: the 53-card grid layout was hard to scan at a glance and required ~6 scrolls to see all metrics. Redesigned as a single 6-column compact table preserving the phase-grouped mental model.
+
+### Layout transformation
+- **Card grid → table** with phase-header gradient bars as grouping rows
+- **Rows: ~80px tall (3-line wrap) → ~32px tall (single-line)** — entire roadmap visible in 2 scrolls instead of 6
+- **Columns**: Status dot · Metric · Current · Target · 28d trend · Updated (6 columns, down from 7-9 distinct visual fields per card)
+- **Phase summary strip preserved** at top — 5 cards showing rollup + progress bar, now also serving as anchor links to phase sections
+- **Dropped V3 Pillar column** — was a roadmap-internal taxonomy not useful for at-a-glance scanning
+- **Source field moved to tooltip on Current cell** — `data-tooltip` attribute, pure-CSS tooltip with arrow and shadow
+- **Detail field moved to tooltip on Metric cell** — same pattern, dotted-underline cue for hoverability
+- **New Updated column** — relative time since `generatedAt` (e.g., "2h ago"), computed client-side so it stays fresh on every reload without re-running the script
+
+### New interactive features (added during promotion to production)
+- **Filter chips** — All / Red / Yellow / Green / Pending — hides non-matching rows AND collapses phase headers with no visible rows underneath
+- **Search box** — substring filter on metric label, case-insensitive, debounce-free (instant)
+- **Sticky table header** — `position: sticky; top: 0; z-index: 5` keeps column labels visible while scrolling long phase sections
+
+### Verified working
+- 53 rows render with real production data
+- Red filter correctly shows only red rows + their phase headers
+- Search "lighthouse" filters to 5 Lighthouse rows
+- Tooltips appear on hover with proper positioning (right-aligned on value-cell to avoid edge clipping)
+
+### Files
+- `frontend/public/internal/kpi-dashboard.html` — rewritten (700 lines diff: +393/-381)
+
+## May 11, 2026 — CDN Edge Hit Rate fix (P1 Infra) — ⚠️ Verification incomplete
+
+### Status
+- ✅ Code change deployed (after fixing a Vercel build blocker — see below)
+- ⚠️ **KPI dashboard's CDN Edge Hit Rate card did NOT flip from 🔴 53% to 🟢 expected after deploy.** First troubleshoot item on next session resume.
+
+### Build blocker hit during deploy
+The May 11 ISR migration unmasked a previously-latent prerender crash on Vercel: Next.js 15's `optimizePackageImports` barrel optimizer can't reliably resolve `Facebook` / `Linkedin` from lucide-react on Vercel's environment (icons exist in the package — verified locally — but the synthetic barrel module reports them as undefined → "Element type is invalid" crash at prerender). Bug was hidden by `force-dynamic` which skipped prerender entirely.
+
+Three failed fixes attempted before landing on the right answer:
+1. ❌ Vercel cache-bust (cache wasn't the issue)
+2. ❌ Refactored `iconMap[platform]` lookup to a switch statement (helped Twitter/Youtube but Facebook/Linkedin still failed)
+3. ❌ Set `optimizePackageImports: ['@radix-ui/react-icons', 'date-fns']` in next.config.js (Next.js merges with framework defaults rather than replacing)
+
+✅ **What worked:** Inline SVG components for Facebook + LinkedIn in `Footer.jsx`, matching the existing `GoogleG` pattern (lines 12-21) that has been in production successfully. Inline SVGs bypass the bundler entirely. The author's original comment ("Lucide-react doesn't ship brand logos for licensing reasons") was the correct diagnosis — we just hadn't applied it to all three brand icons.
+
+### Hypotheses for CDN dashboard not flipping (next session investigation)
+- (a) Vercel edge regions hadn't fully propagated the new deploy when the KPI workflow ran (timing race)
+- (b) Next.js middleware or response headers (Set-Cookie, dynamic auth checks) are forcing `x-vercel-cache: BYPASS` despite page-level `revalidate = 3600`
+- (c) Timing/warm-up bug in `scripts/audit-kpis.mjs` `getCdnEdgeHitRate()` — possibly the 600ms wait between warm + measurement visits is insufficient for Vercel's edge to register the response
+- (d) Route-specific issue: the 7 sampled pages (`/`, `/about`, `/services`, `/reviews`, `/financing`, `/faq`, `/cities-served/dallas`) may have something specific blocking ISR — could be Sanity client calls without `cache: 'force-cache'`, or `headers()` / `cookies()` reads triggering implicit dynamic rendering
+
+### Troubleshoot plan for next session
+1. Manually curl one of the sampled pages from a Vercel-adjacent region with `-I` and inspect `x-vercel-cache` header on 2nd visit
+2. Inspect middleware (`frontend/middleware.js` if present) for cache-defeating logic
+3. Check Sanity client config — Next.js 15 changed fetch caching defaults; uncached fetches force dynamic rendering even with `revalidate` set
+4. If Sanity fetches are the culprit, add `{ next: { revalidate: 3600 } }` to the Sanity client calls
+
+## May 11, 2026 — CDN Edge Hit Rate fix (P1 Infrastructure)
 
 KPI dashboard surfaced that every page was MISSing Vercel's edge cache on every visit (53% overall hit rate, 0% on pages). Root cause: every page in `app/` had `export const dynamic = 'force-dynamic'` + `export const revalidate = 0`, explicitly disabling ISR. A historical comment ("Force dynamic rendering to always fetch fresh Sanity content") revealed the misunderstanding — ISR with `revalidate = 3600` *already* keeps Sanity content fresh by regenerating hourly in the background.
 
