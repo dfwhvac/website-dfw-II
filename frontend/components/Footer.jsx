@@ -3,7 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Phone, Mail, MapPin, Clock, Lock, Facebook, Linkedin, Twitter, Youtube } from 'lucide-react'
+import { Phone, Mail, MapPin, Clock, Lock, Facebook, Linkedin } from 'lucide-react'
 
 // Inline Google "G" logo SVG. Lucide-react doesn't ship brand logos for
 // licensing reasons, so we keep this minimal inline component (~700 bytes,
@@ -58,17 +58,22 @@ const defaultSocialLinks = [
   { platform: 'google', url: '#' },
 ]
 
-// Social icon mapper
+// Social icon mapper. Uses a switch (not object lookup) so Next.js's
+// optimizePackageImports barrel optimizer can statically trace every
+// lucide-react reference. Previously `const icons = {...}; icons[platform]`
+// caused the barrel module to mark Facebook/Linkedin/etc as undefined during
+// prerender — `Element type is invalid` build crash on Vercel (May 11 fix).
 const SocialIcon = ({ platform, className }) => {
-  const icons = {
-    facebook: Facebook,
-    linkedin: Linkedin,
-    twitter: Twitter,
-    youtube: Youtube,
-    google: GoogleG,
+  switch (platform) {
+    case 'facebook':
+      return <Facebook className={className} />
+    case 'linkedin':
+      return <Linkedin className={className} />
+    case 'google':
+      return <GoogleG className={className} />
+    default:
+      return <Facebook className={className} />
   }
-  const Icon = icons[platform] || Facebook
-  return <Icon className={className} />
 }
 
 const Footer = ({ companyInfo = {}, siteSettings = null }) => {

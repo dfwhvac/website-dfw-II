@@ -14,16 +14,8 @@ const nextConfig = {
   },
   // Compress images and assets
   compress: true,
-  experimental: {
-    // ISR via per-page `export const revalidate = 3600` (May 11, 2026 — flipped from force-dynamic).
-    // optimizePackageImports auto-tree-shakes lucide-react via a synthetic barrel module,
-    // but it cannot statically trace dynamic property lookups like `iconMap[platform]`
-    // (e.g. Footer.jsx social-icon resolver). Result: those icons resolve to `undefined`
-    // during static prerender → "Element type is invalid" crash. Exclude lucide-react from
-    // the optimizer; tree-shaking still happens via standard ESM imports. ~2 kB bundle cost,
-    // unblocks ISR build entirely.
-    optimizePackageImports: ['@radix-ui/react-icons', 'date-fns'],
-  },
+  // ISR via per-page `export const revalidate = 3600` (May 11, 2026 — flipped from force-dynamic).
+  experimental: {},
   async headers() {
     return [
       {
