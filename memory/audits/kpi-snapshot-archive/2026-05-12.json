@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-12T00:46:57.856Z",
+  "generatedAt": "2026-05-12T01:49:29.647Z",
   "domain": "dfwhvac.com",
-  "durationMs": 33951,
+  "durationMs": 29361,
   "phases": [
     {
       "id": "phase1",
@@ -25,11 +25,11 @@
           "label": "Mozilla Observatory grade",
           "target": "A",
           "v3Pillar": "P4 Security",
-          "value": "unavailable",
-          "numericValue": null,
-          "status": "gray",
+          "value": "B+ (80/100)",
+          "numericValue": 80,
+          "status": "yellow",
           "source": "http-observatory.security.mozilla.org",
-          "detail": "http 500",
+          "detail": null,
           "trend": "—"
         },
         {
@@ -41,7 +41,7 @@
           "numericValue": null,
           "status": "gray",
           "source": "api.ssllabs.com",
-          "detail": "no grades returned (Testing for BEAST)",
+          "detail": "scan status=IN_PROGRESS",
           "trend": "—"
         },
         {
@@ -49,8 +49,8 @@
           "label": "TTFB (Time to First Byte)",
           "target": "< 200ms",
           "v3Pillar": "P1 Infrastructure",
-          "value": "27ms",
-          "numericValue": 27,
+          "value": "6ms",
+          "numericValue": 6,
           "status": "green",
           "source": "PageSpeed Lighthouse · server-response-time",
           "trend": "▼"
@@ -60,9 +60,9 @@
           "label": "LCP (Largest Contentful Paint)",
           "target": "< 1.2s",
           "v3Pillar": "P2 Performance",
-          "value": "2.96s",
-          "numericValue": 2965,
-          "status": "red",
+          "value": "2.25s",
+          "numericValue": 2252.043760904481,
+          "status": "yellow",
           "source": "PageSpeed Lighthouse · largest-contentful-paint",
           "trend": "▼"
         },
@@ -94,32 +94,32 @@
           "label": "Lighthouse Performance (mobile)",
           "target": "≥ 90 (V3)",
           "v3Pillar": "P2 Performance",
-          "value": "94",
-          "numericValue": 94,
+          "value": "95",
+          "numericValue": 95,
           "status": "green",
           "source": "pagespeedonline.googleapis.com",
           "detail": null,
-          "trend": "▲"
+          "trend": "→"
         },
         {
           "id": "pagespeed-performance-desktop",
           "label": "Lighthouse Performance (desktop)",
           "target": "≥ 98 (V3)",
           "v3Pillar": "P2 Performance",
-          "value": "84",
-          "numericValue": 84,
-          "status": "red",
+          "value": "100",
+          "numericValue": 100,
+          "status": "green",
           "source": "pagespeedonline.googleapis.com (strategy=desktop)",
           "detail": null,
-          "trend": "▼"
+          "trend": "▲"
         },
         {
           "id": "cwv-page-weight",
           "label": "Total Page Weight",
           "target": "< 1.5 MB",
           "v3Pillar": "P2 Performance",
-          "value": "0.39 MB",
-          "numericValue": 407676,
+          "value": "0.52 MB",
+          "numericValue": 548291,
           "status": "green",
           "source": "PageSpeed Lighthouse · total-byte-weight",
           "trend": "▲"
@@ -140,46 +140,46 @@
           "label": "Lighthouse Accessibility (mobile, interim)",
           "target": "≥ 95",
           "v3Pillar": "P4 Accessibility (interim)",
-          "value": "54",
-          "numericValue": 54,
-          "status": "red",
+          "value": "100",
+          "numericValue": 100,
+          "status": "green",
           "source": "pagespeedonline.googleapis.com",
           "detail": "Interim heuristic — formal WCAG check via Pa11y card below",
-          "trend": "→"
+          "trend": "▲"
         },
         {
           "id": "pagespeed-best-practices-mobile",
           "label": "Lighthouse Best Practices (mobile)",
           "target": "≥ 95",
           "v3Pillar": "P2 Performance",
-          "value": "96",
-          "numericValue": 96,
-          "status": "green",
+          "value": "92",
+          "numericValue": 92,
+          "status": "yellow",
           "source": "pagespeedonline.googleapis.com",
-          "trend": "→"
+          "trend": "▼"
         },
         {
           "id": "pagespeed-seo-mobile",
           "label": "Lighthouse SEO (mobile)",
           "target": "100",
           "v3Pillar": "P3 Logic",
-          "value": "73",
-          "numericValue": 73,
-          "status": "red",
+          "value": "100",
+          "numericValue": 100,
+          "status": "green",
           "source": "pagespeedonline.googleapis.com",
-          "trend": "→"
+          "trend": "▲"
         },
         {
           "id": "cdn-edge-hit-rate",
           "label": "CDN Edge Hit Rate",
           "target": "> 85%",
           "v3Pillar": "P1 Infrastructure",
-          "value": "50%",
-          "numericValue": 50,
-          "status": "red",
+          "value": "93.3%",
+          "numericValue": 93.3,
+          "status": "green",
           "source": "x-vercel-cache header (warm-cache 2nd visit)",
-          "detail": "Pages: 0% · Static assets: 100% · 14 samples · {\"MISS\":7,\"HIT\":7}",
-          "trend": "→"
+          "detail": "Pages: 85.7% · Static assets: 100% · 15 samples · {\"HIT\":14,\"MISS\":1}",
+          "trend": "▲"
         },
         {
           "id": "db-query-latency",
@@ -232,23 +232,23 @@
           "label": "Schema validation + coverage",
           "target": "100% valid · ≥ 5 distinct @types",
           "v3Pillar": "P4 Governance",
-          "value": "0 blocks · 0 @types · 0 invalid",
-          "numericValue": 0,
-          "status": "yellow",
+          "value": "9 blocks · 5 @types · 0 invalid",
+          "numericValue": 5,
+          "status": "green",
           "source": "Live HTML crawl",
-          "detail": "types: ",
-          "trend": "→"
+          "detail": "types: HVACBusiness, LocalBusiness, BreadcrumbList, Offer, Service",
+          "trend": "▲"
         },
         {
           "id": "click-depth",
           "label": "Click Depth (max from home)",
           "target": "≤ 3 clicks",
           "v3Pillar": "P3 Logic",
-          "value": "1",
-          "numericValue": 1,
+          "value": "2",
+          "numericValue": 2,
           "status": "green",
           "source": "Local BFS crawler",
-          "detail": "3 pages reachable · depth dist: {\"0\":1,\"1\":2}",
+          "detail": "51 pages reachable · depth dist: {\"0\":1,\"1\":20,\"2\":30}",
           "trend": "→"
         },
         {
@@ -256,12 +256,12 @@
           "label": "Internal Link Connectivity (orphans)",
           "target": "0 orphan pages",
           "v3Pillar": "P3 Logic",
-          "value": "50 orphans",
-          "numericValue": 50,
-          "status": "red",
+          "value": "3 orphans",
+          "numericValue": 3,
+          "status": "yellow",
           "source": "Sitemap diff vs BFS crawl",
-          "detail": "orphans: /about, /contact, /request-service, /services, /reviews…",
-          "trend": "→"
+          "detail": "orphans: /services/system-replacement, /repair-or-replace, /replacement-estimator",
+          "trend": "▼"
         },
         {
           "id": "wcag-aa-pa11y",
@@ -326,10 +326,10 @@
       ],
       "rollup": {
         "total": 27,
-        "green": 11,
-        "yellow": 1,
-        "red": 6,
-        "gray": 9
+        "green": 15,
+        "yellow": 4,
+        "red": 0,
+        "gray": 8
       }
     },
     {
@@ -465,7 +465,7 @@
           "numericValue": 1,
           "status": "red",
           "source": "GA4 Data API · conversions ÷ sessions (28d)",
-          "detail": "6 conversions / 593 sessions"
+          "detail": "6 conversions / 597 sessions"
         },
         {
           "id": "form-submission-rate",
