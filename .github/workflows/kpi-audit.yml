@@ -49,6 +49,10 @@ jobs:
       # Skipping the install step avoids being blocked on lockfile drift.
 
       - name: Run KPI audit
+        # GITHUB_ACTIONS=true is auto-set by the runner. audit-kpis.mjs uses this
+        # flag to (a) write the canonical snapshot path and (b) emit the dated
+        # archive. Local dev runs route to kpi-snapshot.local.json (gitignored)
+        # to prevent the recurring snapshot merge-conflict pattern.
         run: node scripts/audit-kpis.mjs
         env:
           # === API keys (added as GitHub Secrets one at a time) ===

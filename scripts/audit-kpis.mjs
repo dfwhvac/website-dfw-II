@@ -18,8 +18,20 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, '..');
 const DOMAIN = process.env.AUDIT_DOMAIN || 'dfwhvac.com';
 const ORIGIN = `https://${DOMAIN}`;
-const SNAPSHOT_OUT = path.join(REPO_ROOT, 'frontend/public/internal/kpi-snapshot.json');
+// In GitHub Actions we write the canonical (committed) paths. Locally we route to
+// kpi-snapshot.local.json (gitignored) so dev runs never end up staged in PRs.
+// This is the permanent fix for the recurring snapshot merge-conflict pattern that
+// bit us multiple times — the workflow regenerates these files every Monday on
+// main, so any unrelated PR that accidentally captures a local run from a dev's
+// machine conflicts on merge.
+const IN_CI = process.env.GITHUB_ACTIONS === 'true';
+const SNAPSHOT_OUT = IN_CI
+  ? path.join(REPO_ROOT, 'frontend/public/internal/kpi-snapshot.json')
+  : path.join(REPO_ROOT, 'frontend/public/internal/kpi-snapshot.local.json');
 const ARCHIVE_DIR = path.join(REPO_ROOT, 'memory/audits/kpi-snapshot-archive');
+// Read previous snapshot for delta/trend calculations always comes from the
+// committed production path regardless of where we're writing now.
+const SNAPSHOT_PREV = path.join(REPO_ROOT, 'frontend/public/internal/kpi-snapshot.json');
 
 const TIMEOUT_MS = 25_000;
 const fetchWithTimeout = async (url, opts = {}) => {
@@ -632,7 +644,7 @@ function gradeStatus(grade, greens = ['A+', 'A'], yellows = ['A-', 'B+', 'B']) {
 
 async function loadPriorSnapshot() {
   try {
-    const cur = JSON.parse(await readFile(SNAPSHOT_OUT, 'utf-8'));
+    const cur = JSON.parse(await readFile(SNAPSHOT_PREV, 'utf-8'));
     return cur;
   } catch {
     return null;
@@ -1381,9 +1393,13 @@ async function main() {
   await mkdir(path.dirname(SNAPSHOT_OUT), { recursive: true });
   await writeFile(SNAPSHOT_OUT, JSON.stringify(snapshot, null, 2));
 
-  await mkdir(ARCHIVE_DIR, { recursive: true });
-  const today = new Date().toISOString().slice(0, 10);
-  await writeFile(path.join(ARCHIVE_DIR, `${today}.json`), JSON.stringify(snapshot, null, 2));
+  // Dated archive only in CI — local runs would otherwise stage one-off files
+  // in PRs every time a dev runs `yarn audit:kpis` for testing.
+  if (IN_CI) {
+    await mkdir(ARCHIVE_DIR, { recursive: true });
+    const today = new Date().toISOString().slice(0, 10);
+    await writeFile(path.join(ARCHIVE_DIR, `${today}.json`), JSON.stringify(snapshot, null, 2));
+  }
 
   // Console rollup
   const allKpis = snapshot.phases.flatMap((p) => p.kpis);
@@ -1393,6 +1409,9 @@ async function main() {
       `🟢 ${tally.green}  🟡 ${tally.yellow}  🔴 ${tally.red}  ⚪ ${tally.gray}  (of ${tally.total})`
   );
   console.log(`[kpi] snapshot → ${SNAPSHOT_OUT}`);
+  if (!IN_CI) {
+    console.log('[kpi] local mode · canonical snapshot at frontend/public/internal/kpi-snapshot.json untouched. Push not needed.');
+  }
 }
 
 main().catch((e) => {

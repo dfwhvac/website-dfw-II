@@ -7,7 +7,18 @@ Reverse-chronological record of everything shipped to production. When adding en
 
 ---
 
-## May 12, 2026 — P1 Foundation cleanup + GSC/Estimator KPI fixes
+## May 12, 2026 — P1 Foundation cleanup + GSC/Estimator KPI fixes + snapshot merge-conflict fix
+
+### Tier 0 — Permanent fix: recurring `kpi-snapshot.json` PR merge conflicts
+**Pattern (recurred 3x):** Weekly CI commits a new snapshot to `main`. Any open PR created before that commit carries stale snapshot data, triggering a merge conflict that GitHub's web editor mishandles.
+
+**Root cause:** `audit-kpis.mjs` always wrote the canonical, committed paths. Dev runs (`yarn audit:kpis` for testing) would dirty `frontend/public/internal/kpi-snapshot.json` + drop new dated archives in `memory/audits/kpi-snapshot-archive/`, both of which got accidentally captured in unrelated PRs.
+
+**Fix:** `audit-kpis.mjs` now branches on `process.env.GITHUB_ACTIONS === 'true'`:
+- **CI:** writes canonical snapshot path + dated archive (unchanged behavior, workflow then commits).
+- **Local:** writes `kpi-snapshot.local.json` (gitignored) and **skips the dated archive entirely**. Console output flags local mode explicitly so devs aren't confused why prod didn't update.
+
+Previous-snapshot reads (for delta/trend badges) always pull from the canonical path so trends remain meaningful in local-mode runs. `.gitignore` updated. `kpi-audit.yml` workflow comment updated to explain the dual-mode design.
 
 ### Tier 1 — Cheap wins (45 min)
 1. **`internal-link-connectivity` 🟡 → 🟢** (after deploy): The 3 "orphan" pages — `/services/system-replacement`, `/replacement-estimator`, `/repair-or-replace` — are present in `defaultFooterSections` but get overridden by Sanity's footer doc which doesn't include them. Extended the existing defensive-merge pattern (Footer.jsx lines 116-140) to ensure these 3 paths are always injected into "Our Services" and "Quick Links" sections regardless of Sanity data. Same approach already proven for `/cities-served` + `/request-service`. Crawler will find them sitewide on every page footer.

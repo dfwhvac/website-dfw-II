@@ -330,3 +330,8 @@ credentials.json
 *.pem
 *.key
 .credentials
+
+
+# KPI auditor — local-mode output (CI writes the canonical kpi-snapshot.json).
+# See scripts/audit-kpis.mjs for context on the merge-conflict fix.
+frontend/public/internal/kpi-snapshot.local.json
