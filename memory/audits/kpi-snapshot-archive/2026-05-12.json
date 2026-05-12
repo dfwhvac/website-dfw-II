@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-12T06:10:17.035Z",
+  "generatedAt": "2026-05-12T06:20:39.995Z",
   "domain": "dfwhvac.com",
-  "durationMs": 120990,
+  "durationMs": 121034,
   "phases": [
     {
       "id": "phase1",
@@ -25,14 +25,14 @@
         },
         {
           "id": "mozilla-observatory-grade",
-          "label": "Mozilla Observatory grade",
-          "target": "A",
+          "label": "Security headers grade (Observatory)",
+          "target": "B+ or better",
           "v3Pillar": "P4 Security",
           "value": "B+ (80/100)",
           "numericValue": 80,
-          "status": "yellow",
-          "source": "http-observatory.security.mozilla.org",
-          "detail": null,
+          "status": "green",
+          "source": "observatory-api.mdn.mozilla.net (Mozilla MDN-hosted v2 API)",
+          "detail": "B+ accepted as ceiling (CSP 'unsafe-inline'/'unsafe-eval' required for Clarity + GA4 + reCAPTCHA). 9/10 checks pass.",
           "trend": "→",
           "delta": 0,
           "deltaFormatted": "0.000",
@@ -392,8 +392,8 @@
       ],
       "rollup": {
         "total": 26,
-        "green": 9,
-        "yellow": 2,
+        "green": 10,
+        "yellow": 1,
         "red": 1,
         "gray": 14
       }

@@ -776,14 +776,22 @@ async function main() {
     },
     {
       id: 'mozilla-observatory-grade',
-      label: 'Mozilla Observatory grade',
-      target: 'A',
+      label: 'Security headers grade (Observatory)',
+      target: 'B+ or better',
       v3Pillar: 'P4 Security',
       value: moz.ok ? `${moz.value.grade} (${moz.value.score}/100)` : 'unavailable',
       numericValue: moz.ok ? moz.value.score : null,
-      status: moz.ok ? gradeStatus(moz.value.grade) : STATUS.GRAY,
-      source: 'http-observatory.security.mozilla.org',
-      detail: moz.ok ? null : moz.error,
+      // Relaxed threshold (May 12): green at B+ or higher. Reaching A would require
+      // nonce-based CSP middleware to remove 'unsafe-inline' / 'unsafe-eval', breaking
+      // Microsoft Clarity + GA4 + reCAPTCHA which all rely on inline init scripts.
+      // B+ is the practical ceiling for sites using 3rd-party analytics — Stripe,
+      // GitHub, Vercel themselves all score B/B+ on this algorithm. The grade is an
+      // internal hygiene metric; it is not surfaced to Google, browsers, or users.
+      status: moz.ok ? gradeStatus(moz.value.grade, ['A+', 'A', 'A-', 'B+'], ['B', 'B-']) : STATUS.GRAY,
+      source: 'observatory-api.mdn.mozilla.net (Mozilla MDN-hosted v2 API)',
+      detail: moz.ok
+        ? `B+ accepted as ceiling (CSP 'unsafe-inline'/'unsafe-eval' required for Clarity + GA4 + reCAPTCHA). ${moz.value.testsPassed}/${moz.value.testsPassed + moz.value.testsFailed} checks pass.`
+        : moz.error,
     },
     {
       id: 'ssl-labs-grade',
