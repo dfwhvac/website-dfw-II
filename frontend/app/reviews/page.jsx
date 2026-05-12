@@ -9,8 +9,7 @@ import { getReviewBadgeCount } from '@/lib/metadata'
 import { REVIEW_COUNT_FALLBACK } from '@/lib/constants'
 
 // ISR: Revalidate every hour
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
+export const revalidate = 3600 // ISR — page regenerates at most once per hour with fresh Sanity content
 
 export async function generateMetadata() {
   // P1.6a title rewrite (Apr 23, 2026) — minimalist, overflow fix, leads with count. CSV row 8.

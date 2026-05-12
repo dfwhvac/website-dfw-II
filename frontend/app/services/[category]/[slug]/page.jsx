@@ -10,9 +10,7 @@ import { ArrowRight } from 'lucide-react'
 import { notFound } from 'next/navigation'
 import { getReviewBadgeCount, buildTitleWithBadge } from '@/lib/metadata'
 
-// Disable caching for instant Sanity updates
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
+export const revalidate = 3600 // ISR — page regenerates at most once per hour with fresh Sanity content
 
 // Category label map for breadcrumb + anchor text
 const CATEGORY_LABEL = {

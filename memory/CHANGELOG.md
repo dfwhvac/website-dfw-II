@@ -7,6 +7,35 @@ Reverse-chronological record of everything shipped to production. When adding en
 
 ---
 
+## May 11, 2026 — CDN Edge Hit Rate fix (P1 Infra)
+
+KPI dashboard surfaced that every page was MISSing Vercel's edge cache on every visit (53% overall hit rate, 0% on pages). Root cause: every page in `app/` had `export const dynamic = 'force-dynamic'` + `export const revalidate = 0`, explicitly disabling ISR. A historical comment ("Force dynamic rendering to always fetch fresh Sanity content") revealed the misunderstanding — ISR with `revalidate = 3600` *already* keeps Sanity content fresh by regenerating hourly in the background.
+
+### What changed
+
+- Flipped 19 pages from `force-dynamic` → `revalidate = 3600` (1-hour ISR):
+  - Static marketing: `/`, `/about`, `/financing`, `/faq`, `/reviews`, `/services`, `/cities-served`, `/contact`, `/privacy-policy`, `/terms-of-service`, `/repair-or-replace`, `/recent-projects`, `/replacement-estimator`, `/request-service`, `/estimate`
+  - Dynamic with `generateStaticParams`: `/[slug]` (covers `/about`, `/contact`)
+  - Dynamic routes (ISR-on-demand): `/cities-served/[slug]`, `/services/[category]/[slug]`, `/services/system-replacement`
+- `/studio` (Sanity admin) intentionally left as `force-dynamic` (must stay interactive)
+- Build report now shows **17 pages with `1h Revalidate / 1y Expire`** (was 0)
+- Cleaned 6 stale `// Disable caching for instant Sanity updates` comments that contradicted the new revalidate setting
+- Reconciled `yarn.lock` with `@next/bundle-analyzer@^16.2.6` + transitive deps (`@discoveryjs/json-ext`, `webpack-bundle-analyzer` chain) that were drifted out of the lockfile
+
+### Expected impact (verify after deploy)
+
+- Page TTFB: ~150ms → <50ms on cached requests
+- CDN Edge Hit Rate KPI: 53% → 90%+ (page hit rate flips from 0% → ~95%)
+- Vercel serverless invocations: drop ~70% (every cached page-view skips the function)
+- Lighthouse Perf: estimated +3–5 points sitewide
+- Sanity content freshness SLA: max 1-hour lag (acceptable — content changes monthly, not minutely)
+
+### What stays dynamic
+
+- `/studio` — Sanity Studio admin UI
+- `/thanks` — already had no caching directive; intentionally fresh per submission
+- API routes under `/api/*` — never cached
+
 ## May 11, 2026 — KPI Dashboard v2: V3 alignment + 18 new KPIs
 
 Second iteration of `/internal/kpi-dashboard.html`. Adopted the user's V3 Performance Audit benchmark sheet (19 KPIs across 4 pillars), folded its targets into our dashboard, and adopted stricter thresholds wherever they overlap.

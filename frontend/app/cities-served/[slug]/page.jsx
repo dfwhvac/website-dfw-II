@@ -9,9 +9,7 @@ import { Phone, MapPin, CheckCircle, ArrowRight, Clock, Shield, Star, Award, Use
 import ServiceFirstCTA from '@/components/ServiceFirstCTA'
 import { getReviewBadgeCount, buildTitleWithBadge } from '@/lib/metadata'
 
-// Disable caching for instant Sanity updates
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
+export const revalidate = 3600 // ISR — page regenerates at most once per hour with fresh Sanity content
 
 // Full list of HVAC services offered in every DFW city — used for
 // hub-and-spoke internal linking from city pages back to deep service pages.
