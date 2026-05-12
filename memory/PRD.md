@@ -32,6 +32,13 @@ Finalize a premium Next.js / Sanity website for **DFW HVAC**. Execute a 5-Priori
 `/app/memory/ROADMAP.md` — strictly governs all work. Five-tier priority system.
 
 ## Currently Blocked / User Action Required
+- **🔐 GCP Privilege Cleanup (NEW — security hygiene, ~5–8 min)**: Revert the four GCP changes made during the abandoned Service Account attempt before pivoting to OAuth. Full step-by-step in `/app/memory/GCP_PRIVILEGE_CLEANUP.md`. Summary:
+  1. Delete the downloaded service-account JSON key from your local machine (Trash + empty)
+  2. Revoke the key inside GCP (`iam-admin/serviceaccounts → KEYS tab → trash`)
+  3. Delete the dormant `dfwhvac-analytics-reader` service account (optional but recommended)
+  4. Re-enable the `iam.disableServiceAccountKeyCreation` org policy (back to "Enforced" or "Inherit")
+  5. Remove the "Organization Policy Administrator" role from your user (principle of least privilege)
+  6. Verify the OAuth KPI workflow still runs clean after cleanup
 - **GBP Audit (P1.8)**: Awaiting user-supplied Google Business Profile admin screenshots (Info / Insights / Posts / Reviews / Q&A tabs)
 - **Estimator Pricing Matrix**: Awaiting user-completed `estimator-pricing-template.csv` to replace placeholder DFW averages in `lib/estimator-matrix.js`
 - **F3b HSTS Preload submission**: Submit `dfwhvac.com` at https://hstspreload.org/ (user-led)
