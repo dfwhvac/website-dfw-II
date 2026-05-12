@@ -335,3 +335,12 @@ credentials.json
 # KPI auditor — local-mode output (CI writes the canonical kpi-snapshot.json).
 # See scripts/audit-kpis.mjs for context on the merge-conflict fix.
 frontend/public/internal/kpi-snapshot.local.json
+-e 
+# Environment and credential files
+.env
+.env.*
+*.env
+credentials.json
+*.pem
+*.key
+.credentials
