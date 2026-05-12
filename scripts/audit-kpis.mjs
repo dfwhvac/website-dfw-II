@@ -18,8 +18,20 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, '..');
 const DOMAIN = process.env.AUDIT_DOMAIN || 'dfwhvac.com';
 const ORIGIN = `https://${DOMAIN}`;
-const SNAPSHOT_OUT = path.join(REPO_ROOT, 'frontend/public/internal/kpi-snapshot.json');
+// In GitHub Actions we write the canonical (committed) paths. Locally we route to
+// kpi-snapshot.local.json (gitignored) so dev runs never end up staged in PRs.
+// This is the permanent fix for the recurring snapshot merge-conflict pattern that
+// bit us multiple times — the workflow regenerates these files every Monday on
+// main, so any unrelated PR that accidentally captures a local run from a dev's
+// machine conflicts on merge.
+const IN_CI = process.env.GITHUB_ACTIONS === 'true';
+const SNAPSHOT_OUT = IN_CI
+  ? path.join(REPO_ROOT, 'frontend/public/internal/kpi-snapshot.json')
+  : path.join(REPO_ROOT, 'frontend/public/internal/kpi-snapshot.local.json');
 const ARCHIVE_DIR = path.join(REPO_ROOT, 'memory/audits/kpi-snapshot-archive');
+// Read previous snapshot for delta/trend calculations always comes from the
+// committed production path regardless of where we're writing now.
+const SNAPSHOT_PREV = path.join(REPO_ROOT, 'frontend/public/internal/kpi-snapshot.json');
 
 const TIMEOUT_MS = 25_000;
 const fetchWithTimeout = async (url, opts = {}) => {
@@ -85,25 +97,33 @@ async function getMozillaObservatoryGrade() {
 }
 
 async function getSSLLabsGrade() {
-  // Try cached first; if unavailable, kick off a fresh scan but only wait briefly
-  let r = await fetchWithTimeout(
-    `https://api.ssllabs.com/api/v3/analyze?host=${DOMAIN}&fromCache=on&maxAge=168`
-  );
+  // SSL Labs scans take 1-3 minutes from cold. The previous implementation polled only 12s
+  // and used fromCache=on which prevents fresh scans → frequent "READY but no grades yet"
+  // failures. New strategy:
+  //   1. Hit cached endpoint with maxAge=168 (7d). If READY with grades → done in 1 req.
+  //   2. Otherwise poll for up to 120s (12 attempts × 10s) with no fromCache filter so a
+  //      fresh scan can start. Exit early as soon as `endpoints[].grade` populates.
+  const cachedUrl = `https://api.ssllabs.com/api/v3/analyze?host=${DOMAIN}&fromCache=on&maxAge=168`;
+  const liveUrl = `https://api.ssllabs.com/api/v3/analyze?host=${DOMAIN}`;
+  let r = await fetchWithTimeout(cachedUrl);
   let d = await r.json();
-  if (d.status !== 'READY' && d.status !== 'ERROR') {
-    // poll cached up to 3x
-    for (let i = 0; i < 3; i++) {
-      await new Promise((res) => setTimeout(res, 4000));
-      r = await fetchWithTimeout(`https://api.ssllabs.com/api/v3/analyze?host=${DOMAIN}`);
+  const extractGrades = (data) => (data.endpoints || []).map((e) => e.grade).filter(Boolean);
+  let grades = d.status === 'READY' ? extractGrades(d) : [];
+  if (!grades.length) {
+    // Either status != READY OR READY-but-no-grades-yet. Poll the live (non-cached) endpoint.
+    for (let i = 0; i < 12; i++) {
+      await new Promise((res) => setTimeout(res, 10000));
+      r = await fetchWithTimeout(liveUrl);
       d = await r.json();
-      if (d.status === 'READY' || d.status === 'ERROR') break;
+      if (d.status === 'ERROR') break;
+      grades = d.status === 'READY' ? extractGrades(d) : [];
+      if (grades.length) break;
     }
   }
-  if (d.status !== 'READY') throw new Error(`scan status=${d.status}`);
-  const grades = (d.endpoints || []).map((e) => e.grade).filter(Boolean);
+  if (d.status === 'ERROR') throw new Error(`scan error: ${d.statusMessage || 'unknown'}`);
   if (!grades.length) {
     const messages = (d.endpoints || []).map((e) => e.statusDetailsMessage || e.statusMessage).filter(Boolean);
-    throw new Error(`no grades returned (${messages[0] || 'host blocks scanner'})`);
+    throw new Error(`no grades after 120s poll (${d.status}, ${messages[0] || 'still in progress'})`);
   }
   return grades[0];
 }
@@ -228,18 +248,19 @@ async function getSchemaCoverage() {
 }
 
 async function getGitleaksStatus() {
-  // public read of GH Actions runs for a public repo
-  const repo = process.env.GITHUB_REPO || 'nbarrese/website-dfw-ii';
+  // Public read of GH Actions runs. Default to the canonical dfwhvac repo;
+  // override with GITHUB_REPO env var if needed.
+  const repo = process.env.GITHUB_REPO || 'dfwhvac/website-dfw-II';
   const headers = { 'user-agent': 'dfwhvac-kpi-audit' };
   if (process.env.GITHUB_TOKEN) headers.authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
   const r = await fetchWithTimeout(
     `https://api.github.com/repos/${repo}/actions/runs?per_page=20`,
     { headers }
   );
-  if (!r.ok) throw new Error(`github api ${r.status}`);
+  if (!r.ok) throw new Error(`github api ${r.status} for repo ${repo}`);
   const d = await r.json();
   const gitleaksRuns = (d.workflow_runs || []).filter((w) =>
-    /gitleaks|secret/i.test(w.name || '')
+    /gitleaks|secret|security/i.test(w.name || '')
   );
   const latest = gitleaksRuns[0];
   if (!latest) return { lastRun: null, conclusion: 'no_runs' };
@@ -430,8 +451,10 @@ async function getGscMetrics(accessToken) {
 }
 
 /**
- * GSC Sitemaps — checks the submitted sitemap's parity vs warnings.
- * Returns { submitted, indexableWarnings, lastDownloaded } or throws.
+ * GSC Sitemaps API — returns what the API actually provides (Google deprecated `contents[].indexed`
+ * circa 2019; it's no longer populated). We expose: submitted URL count, errors, warnings, and
+ * lastDownloaded freshness. Index-parity status moved to URL Inspection API (quota-heavy, deferred
+ * to manual quarterly review via GSC UI).
  */
 async function getGscSitemapHealth(accessToken) {
   const siteUrl = process.env.GSC_SITE_URL;
@@ -443,16 +466,11 @@ async function getGscSitemapHealth(accessToken) {
   if (!r.ok) throw new Error(`gsc-sitemaps ${r.status}: ${(await r.text()).slice(0, 200)}`);
   const d = await r.json();
   const sitemaps = d.sitemap || [];
-  // Pick the primary sitemap.xml (not nested sitemap-0.xml etc.)
   const primary = sitemaps.find((s) => /\/sitemap\.xml$/i.test(s.path)) || sitemaps[0];
-  if (!primary) return { submitted: 0, warnings: 0, errors: 0, lastDownloaded: null, count: 0 };
-  // contents[].submitted is per-content-type. Sum them.
+  if (!primary) return { submitted: 0, warnings: 0, errors: 0, lastDownloaded: null, sitemapCount: 0 };
   const submitted = (primary.contents || []).reduce((a, c) => a + Number(c.submitted || 0), 0);
-  const indexed = (primary.contents || []).reduce((a, c) => a + Number(c.indexed || 0), 0);
   return {
     submitted,
-    indexed,
-    parity: submitted ? Math.round((indexed / submitted) * 1000) / 10 : null, // %
     warnings: Number(primary.warnings || 0),
     errors: Number(primary.errors || 0),
     lastDownloaded: primary.lastDownloaded || null,
@@ -509,7 +527,7 @@ async function getGa4Metrics(accessToken) {
     byDevice[cat] = { sessions, conversions, cr: sessions ? Math.round((conversions / sessions) * 1000) / 10 : 0 };
   });
 
-  // ---- Query 3: specific events for form vs phone vs estimator CR breakouts ----
+  // ---- Query 3: specific events for funnel breakdown (wizard → results → opt-in, phone, form) ----
   const eventsBody = {
     dateRanges: [{ startDate: '28daysAgo', endDate: 'today' }],
     dimensions: [{ name: 'eventName' }],
@@ -517,7 +535,7 @@ async function getGa4Metrics(accessToken) {
     dimensionFilter: {
       filter: {
         fieldName: 'eventName',
-        inListFilter: { values: ['generate_lead', 'form_submit_lead', 'phone_click', 'estimator_opt_in', 'thanks_page_view'] },
+        inListFilter: { values: ['generate_lead', 'form_submit_lead', 'phone_click', 'estimator_complete', 'estimator_opt_in', 'thanks_page_view'] },
       },
     },
   };
@@ -550,7 +568,13 @@ async function getGa4Metrics(accessToken) {
     byDevice,
     parityDelta, // % gap
     events,
+    estimatorComplete: events.estimator_complete || 0,
     estimatorOptIn: events.estimator_opt_in || 0,
+    // Funnel insight: % of users who completed the wizard that ALSO submitted the lead form.
+    // Distinguishes "tracking issue" (both zero) from "CRO issue" (complete > 0, opt_in = 0).
+    estimatorOptInRate: events.estimator_complete > 0
+      ? Math.round((events.estimator_opt_in || 0) / events.estimator_complete * 1000) / 10
+      : null,
   };
 }
 
@@ -620,7 +644,7 @@ function gradeStatus(grade, greens = ['A+', 'A'], yellows = ['A-', 'B+', 'B']) {
 
 async function loadPriorSnapshot() {
   try {
-    const cur = JSON.parse(await readFile(SNAPSHOT_OUT, 'utf-8'));
+    const cur = JSON.parse(await readFile(SNAPSHOT_PREV, 'utf-8'));
     return cur;
   } catch {
     return null;
@@ -764,14 +788,22 @@ async function main() {
     },
     {
       id: 'mozilla-observatory-grade',
-      label: 'Mozilla Observatory grade',
-      target: 'A',
+      label: 'Security headers grade (Observatory)',
+      target: 'B+ or better',
       v3Pillar: 'P4 Security',
       value: moz.ok ? `${moz.value.grade} (${moz.value.score}/100)` : 'unavailable',
       numericValue: moz.ok ? moz.value.score : null,
-      status: moz.ok ? gradeStatus(moz.value.grade) : STATUS.GRAY,
-      source: 'http-observatory.security.mozilla.org',
-      detail: moz.ok ? null : moz.error,
+      // Relaxed threshold (May 12): green at B+ or higher. Reaching A would require
+      // nonce-based CSP middleware to remove 'unsafe-inline' / 'unsafe-eval', breaking
+      // Microsoft Clarity + GA4 + reCAPTCHA which all rely on inline init scripts.
+      // B+ is the practical ceiling for sites using 3rd-party analytics — Stripe,
+      // GitHub, Vercel themselves all score B/B+ on this algorithm. The grade is an
+      // internal hygiene metric; it is not surfaced to Google, browsers, or users.
+      status: moz.ok ? gradeStatus(moz.value.grade, ['A+', 'A', 'A-', 'B+'], ['B', 'B-']) : STATUS.GRAY,
+      source: 'observatory-api.mdn.mozilla.net (Mozilla MDN-hosted v2 API)',
+      detail: moz.ok
+        ? `B+ accepted as ceiling (CSP 'unsafe-inline'/'unsafe-eval' required for Clarity + GA4 + reCAPTCHA). ${moz.value.testsPassed}/${moz.value.testsPassed + moz.value.testsFailed} checks pass.`
+        : moz.error,
     },
     {
       id: 'ssl-labs-grade',
@@ -916,17 +948,6 @@ async function main() {
       detail: cdn.ok
         ? `Pages: ${cdn.value.pageHitRate}% · Static assets: ${cdn.value.staticHitRate}% · ${cdn.value.samples} samples · ${JSON.stringify(cdn.value.breakdown)}`
         : cdn.error,
-    },
-    {
-      id: 'db-query-latency',
-      label: 'DB Query Latency',
-      target: 'N/A — write-only DB',
-      v3Pillar: 'P1 Infrastructure',
-      value: 'not applicable',
-      numericValue: null,
-      status: STATUS.GRAY,
-      source: 'MongoDB Atlas (no read-path latency to user)',
-      detail: 'Only DB writes (leads). No user-facing read latency to measure.',
     },
     {
       id: 'csp-host-count',
@@ -1139,29 +1160,44 @@ async function main() {
       label: 'Crawl-to-Index Ratio',
       target: '> 95% (V3 stricter)',
       v3Pillar: 'P3 Logic',
-      value: gscSitemap.ok && gscSitemap.value.parity != null
-        ? `${gscSitemap.value.parity}%`
-        : (googleAccessToken ? 'error' : 'token required'),
-      numericValue: gscSitemap.ok ? gscSitemap.value.parity : null,
-      status: gscSitemap.ok && gscSitemap.value.parity != null
-        ? (gscSitemap.value.parity > 95 ? STATUS.GREEN : gscSitemap.value.parity > 85 ? STATUS.YELLOW : STATUS.RED)
-        : STATUS.GRAY,
-      source: 'GSC Sitemaps API',
-      detail: gscSitemap.ok ? `${gscSitemap.value.indexed} indexed / ${gscSitemap.value.submitted} submitted · last DL ${gscSitemap.value.lastDownloaded?.slice(0, 10) || '?'}` : gscSitemap.error,
+      // Google deprecated the `contents[].indexed` field on the Sitemaps API circa 2019 — it's
+      // no longer populated and always reads as 0. Index status moved to the URL Inspection API
+      // which requires per-URL calls (51 URLs × weekly = 200+ quota units, not viable at scale).
+      // Reclassify this KPI as a manual quarterly review via GSC UI → Pages → Indexing.
+      value: 'manual quarterly review',
+      numericValue: null,
+      status: STATUS.GRAY,
+      source: 'GSC UI · Pages → Indexing report (no public API)',
+      detail: 'Google deprecated the indexed field on the Sitemaps API. For automated index parity, would need the URL Inspection API (per-URL, quota-heavy). Defer to quarterly manual review.',
     },
     {
       id: 'sitemap-health-parity',
-      label: 'Sitemap Health (1:1 parity)',
-      target: 'Sitemap URLs : Indexed URLs = 1:1',
+      label: 'Sitemap submission health',
+      target: '0 errors · 0 warnings · downloaded ≤ 7 days ago',
       v3Pillar: 'P3 Logic',
       value: gscSitemap.ok
-        ? `${gscSitemap.value.submitted} submitted · ${gscSitemap.value.warnings} warnings · ${gscSitemap.value.errors} errors`
+        ? (() => {
+            const v = gscSitemap.value;
+            const dlAge = v.lastDownloaded
+              ? Math.floor((Date.now() - new Date(v.lastDownloaded).getTime()) / 86400000)
+              : null;
+            const dlFresh = dlAge != null ? `last DL ${dlAge}d ago` : 'never downloaded';
+            return `${v.submitted} URLs submitted · ${v.errors} errors · ${v.warnings} warnings · ${dlFresh}`;
+          })()
         : (googleAccessToken ? 'error' : 'token required'),
-      numericValue: gscSitemap.ok ? gscSitemap.value.errors : null,
+      numericValue: gscSitemap.ok ? (gscSitemap.value.errors + gscSitemap.value.warnings) : null,
       status: gscSitemap.ok
-        ? (gscSitemap.value.errors === 0 && gscSitemap.value.warnings === 0 ? STATUS.GREEN : gscSitemap.value.errors === 0 ? STATUS.YELLOW : STATUS.RED)
+        ? (() => {
+            const v = gscSitemap.value;
+            const dlAge = v.lastDownloaded
+              ? Math.floor((Date.now() - new Date(v.lastDownloaded).getTime()) / 86400000)
+              : 999;
+            if (v.errors > 0) return STATUS.RED;
+            if (v.warnings > 0 || dlAge > 14) return STATUS.YELLOW;
+            return STATUS.GREEN;
+          })()
         : STATUS.GRAY,
-      source: 'GSC Sitemaps API',
+      source: 'GSC Sitemaps API · errors + warnings + lastDownloaded',
       detail: gscSitemap.ok ? null : gscSitemap.error,
     },
     {
@@ -1274,13 +1310,31 @@ async function main() {
     },
     {
       id: 'estimator-completion',
-      label: 'Estimator opt-in events',
-      target: 'trend ▲',
-      value: ga4.ok ? `${ga4.value.estimatorOptIn}` : (googleAccessToken ? 'error' : 'GA4 token required'),
-      numericValue: ga4.ok ? ga4.value.estimatorOptIn : null,
-      status: ga4.ok ? (ga4.value.estimatorOptIn > 0 ? STATUS.GREEN : STATUS.YELLOW) : STATUS.GRAY,
-      source: 'GA4 Data API · estimator_opt_in event count (28d)',
-      detail: ga4.ok ? null : ga4.error,
+      label: 'Estimator funnel (complete → opt-in)',
+      target: '≥ 25% complete→opt-in',
+      value: ga4.ok
+        ? (() => {
+            const c = ga4.value.estimatorComplete;
+            const o = ga4.value.estimatorOptIn;
+            const rate = ga4.value.estimatorOptInRate;
+            if (c === 0 && o === 0) return '0 complete · 0 opt-in (no traffic or tracking)';
+            if (c === 0 && o > 0) return `${o} opt-in (no estimator_complete events — investigate)`;
+            return `${c} complete → ${o} opt-in (${rate}%)`;
+          })()
+        : (googleAccessToken ? 'error' : 'GA4 token required'),
+      numericValue: ga4.ok ? (ga4.value.estimatorOptInRate ?? 0) : null,
+      status: ga4.ok
+        ? (ga4.value.estimatorComplete === 0
+            ? STATUS.YELLOW
+            : ga4.value.estimatorOptInRate >= 25 ? STATUS.GREEN
+              : ga4.value.estimatorOptInRate >= 10 ? STATUS.YELLOW : STATUS.RED)
+        : STATUS.GRAY,
+      source: 'GA4 Data API · estimator_complete + estimator_opt_in (28d)',
+      detail: ga4.ok
+        ? (ga4.value.estimatorComplete === 0
+            ? 'No wizard completions in 28d. Likely a traffic problem (low /replacement-estimator visits), not a tracking issue — other gtag events fire correctly site-wide.'
+            : `Funnel: ${ga4.value.estimatorComplete} users finished the wizard, ${ga4.value.estimatorOptIn} of them submitted the lead form.`)
+        : ga4.error,
     },
     {
       id: 'bounce-rate',
@@ -1339,9 +1393,13 @@ async function main() {
   await mkdir(path.dirname(SNAPSHOT_OUT), { recursive: true });
   await writeFile(SNAPSHOT_OUT, JSON.stringify(snapshot, null, 2));
 
-  await mkdir(ARCHIVE_DIR, { recursive: true });
-  const today = new Date().toISOString().slice(0, 10);
-  await writeFile(path.join(ARCHIVE_DIR, `${today}.json`), JSON.stringify(snapshot, null, 2));
+  // Dated archive only in CI — local runs would otherwise stage one-off files
+  // in PRs every time a dev runs `yarn audit:kpis` for testing.
+  if (IN_CI) {
+    await mkdir(ARCHIVE_DIR, { recursive: true });
+    const today = new Date().toISOString().slice(0, 10);
+    await writeFile(path.join(ARCHIVE_DIR, `${today}.json`), JSON.stringify(snapshot, null, 2));
+  }
 
   // Console rollup
   const allKpis = snapshot.phases.flatMap((p) => p.kpis);
@@ -1351,6 +1409,9 @@ async function main() {
       `🟢 ${tally.green}  🟡 ${tally.yellow}  🔴 ${tally.red}  ⚪ ${tally.gray}  (of ${tally.total})`
   );
   console.log(`[kpi] snapshot → ${SNAPSHOT_OUT}`);
+  if (!IN_CI) {
+    console.log('[kpi] local mode · canonical snapshot at frontend/public/internal/kpi-snapshot.json untouched. Push not needed.');
+  }
 }
 
 main().catch((e) => {

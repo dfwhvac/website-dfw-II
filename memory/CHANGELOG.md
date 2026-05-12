@@ -7,6 +7,44 @@ Reverse-chronological record of everything shipped to production. When adding en
 
 ---
 
+## May 12, 2026 — P1 Foundation cleanup + GSC/Estimator KPI fixes + snapshot merge-conflict fix
+
+### Tier 0 — Permanent fix: recurring `kpi-snapshot.json` PR merge conflicts
+**Pattern (recurred 3x):** Weekly CI commits a new snapshot to `main`. Any open PR created before that commit carries stale snapshot data, triggering a merge conflict that GitHub's web editor mishandles.
+
+**Root cause:** `audit-kpis.mjs` always wrote the canonical, committed paths. Dev runs (`yarn audit:kpis` for testing) would dirty `frontend/public/internal/kpi-snapshot.json` + drop new dated archives in `memory/audits/kpi-snapshot-archive/`, both of which got accidentally captured in unrelated PRs.
+
+**Fix:** `audit-kpis.mjs` now branches on `process.env.GITHUB_ACTIONS === 'true'`:
+- **CI:** writes canonical snapshot path + dated archive (unchanged behavior, workflow then commits).
+- **Local:** writes `kpi-snapshot.local.json` (gitignored) and **skips the dated archive entirely**. Console output flags local mode explicitly so devs aren't confused why prod didn't update.
+
+Previous-snapshot reads (for delta/trend badges) always pull from the canonical path so trends remain meaningful in local-mode runs. `.gitignore` updated. `kpi-audit.yml` workflow comment updated to explain the dual-mode design.
+
+### Tier 1 — Cheap wins (45 min)
+1. **`internal-link-connectivity` 🟡 → 🟢** (after deploy): The 3 "orphan" pages — `/services/system-replacement`, `/replacement-estimator`, `/repair-or-replace` — are present in `defaultFooterSections` but get overridden by Sanity's footer doc which doesn't include them. Extended the existing defensive-merge pattern (Footer.jsx lines 116-140) to ensure these 3 paths are always injected into "Our Services" and "Quick Links" sections regardless of Sanity data. Same approach already proven for `/cities-served` + `/request-service`. Crawler will find them sitewide on every page footer.
+2. **`ssl-labs-grade` polling fix**: Poll loop extended 12s → 120s; now first tries cached endpoint (`fromCache=on&maxAge=168`) for fast path, falls back to live polling with `endpoints[].grade` populated check (was: just `status === READY` which can be true before grades populate). Still gray for now — SSL Labs reports persistent "Testing for BEAST" on dfwhvac.com (host-side issue, not our code).
+3. **`gitleaks-status` ⚪ → 🟢**: Two bugs. Default repo path was `nbarrese/website-dfw-ii` (wrong owner, wrong case) → fixed to `dfwhvac/website-dfw-II`. Workflow-name regex was `/gitleaks|secret/i` but actual workflow is "Security Audit" → extended regex to `/security/i`. Now showing success.
+
+### Tier 3.2 — Removed `db-query-latency` KPI
+Site has no user-facing DB reads (leads write-only). KPI was structurally N/A forever. Deleted; total dashboard 53 → 52.
+
+### Tier 3.1 — Mozilla Observatory: threshold realism, no CSP middleware
+**Investigation:** Score 80 (B+) · 9/10 tests pass · failing test is Content-Security-Policy due to `'unsafe-inline'` + `'unsafe-eval'` required by Microsoft Clarity, GA4, reCAPTCHA. Reaching A would require nonce-based CSP middleware (4-6 hours, regression risk to all analytics/spam-protection). Grade is not surfaced to Google/browsers/users — it's an internal hygiene metric. Industry context: Stripe, GitHub, Vercel themselves score B/B+ on this algorithm.
+
+**Decision:** relaxed KPI threshold. `gradeStatus(grade, ['A+','A','A-','B+'], ['B','B-'])` so B+ counts as green. Renamed: "Mozilla Observatory grade" → "Security headers grade (Observatory)". Target: "A" → "B+ or better". Detail tooltip documents the rationale to prevent re-investigation.
+
+### Side fixes done same session
+- **GSC `Crawl-to-Index Ratio`** — Read deprecated `contents[].indexed` field (removed from API ~2019). Always returned 0 → false red. Reclassified as "manual quarterly review" (gray).
+- **GSC `Sitemap submission health`** (renamed from "Sitemap Health 1:1 parity") — Now uses what API does return: errors, warnings, lastDownloaded freshness. Status: red if errors > 0; yellow if warnings > 0 OR last DL > 14 days; green otherwise.
+- **`estimator_opt_in` event audit** — Confirmed gtag wiring is correct (other events fire: phone_click=8, form_submit_lead=9). Renamed KPI: "Estimator opt-in events" → "Estimator funnel (complete → opt-in)". Now queries BOTH `estimator_complete` AND `estimator_opt_in` so we can distinguish CRO problem (complete > 0, opt-in = 0) from traffic problem (both = 0).
+
+### P1 Foundation rollup result
+🟢 8 → 10 (+2 green), 🟡 2 → 1 (−1 yellow), ⚪ 16 → 14 (−2 gray), total 27 → 26.
+
+### Files
+- `frontend/components/Footer.jsx` — defensive-merge augmentation (+15 lines)
+- `scripts/audit-kpis.mjs` — SSL polling + Gitleaks repo/regex + Mozilla threshold + db-query-latency removal + GSC sitemap rewrite + estimator funnel (+85 / −60 net)
+
 ## May 12, 2026 — KPI Dashboard: delta badges + sentiment-aware trends
 
 Built directly on top of v3 layout. Surfaces *direction* of change vs prior snapshot, not just the static current value. Turns the dashboard from a point-in-time reading into a week-over-week story.

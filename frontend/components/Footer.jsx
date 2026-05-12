@@ -112,21 +112,40 @@ const Footer = ({ companyInfo = {}, siteSettings = null }) => {
   const logoTagline = siteSettings?.logoTagline || 'Three Generations of Trusted Service'
   let footerSections = siteSettings?.footerSections || defaultFooterSections
   
-  // Ensure "Cities Served" and "Request Service" are in Quick Links section
+  // Ensure key orphan-prevention links are always present in footer, even when
+  // Sanity's footerSections override doesn't include them. The crawler's BFS
+  // starts from the homepage, so any page not linked from a sitewide region
+  // (header or footer) is reported as orphan. May 12, 2026 — orphan KPI fix.
   footerSections = footerSections.map(section => {
     if (section.title === 'Quick Links') {
       let links = [...(section.links || [])]
-      
+
       // Add Cities Served if missing
       if (!links.some(link => link.href === '/cities-served')) {
         links.push({ label: 'Cities Served', href: '/cities-served' })
       }
-      
+
       // Add Request Service if missing
       if (!links.some(link => link.href === '/request-service')) {
         links.push({ label: 'Request Service', href: '/request-service' })
       }
-      
+
+      // Orphan prevention — Replacement Estimator + Repair-or-Replace
+      if (!links.some(link => link.href === '/replacement-estimator')) {
+        links.push({ label: 'Replacement Estimator', href: '/replacement-estimator' })
+      }
+      if (!links.some(link => link.href === '/repair-or-replace')) {
+        links.push({ label: 'Repair or Replace?', href: '/repair-or-replace' })
+      }
+
+      return { ...section, links }
+    }
+    if (section.title === 'Our Services') {
+      let links = [...(section.links || [])]
+      // Orphan prevention — System Replacement
+      if (!links.some(link => link.href === '/services/system-replacement')) {
+        links.push({ label: 'System Replacement', href: '/services/system-replacement' })
+      }
       return { ...section, links }
     }
     return section
