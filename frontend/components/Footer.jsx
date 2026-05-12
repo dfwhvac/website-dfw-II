@@ -3,7 +3,35 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Phone, Mail, MapPin, Clock, Lock, Facebook, Linkedin } from 'lucide-react'
+import { Phone, Mail, MapPin, Clock, Lock } from 'lucide-react'
+
+// Inline brand-logo SVGs. Lucide-react ships these icons as files but
+// Next.js 15's optimizePackageImports barrel-optimizer cannot reliably
+// resolve them on Vercel (intermittent "undefined export" → prerender crash;
+// see commit notes May 11, 2026). Mirror the GoogleG pattern below: ~600 bytes
+// total, no extra HTTP request, brand-correct monograms freely usable to link
+// to one's own social profiles per Meta + LinkedIn brand guidelines.
+const FacebookF = ({ className }) => (
+  <svg
+    viewBox="0 0 24 24"
+    className={className}
+    aria-hidden="true"
+    fill="currentColor"
+  >
+    <path d="M13.5 21.95v-8.41h2.83l.42-3.28H13.5V8.16c0-.95.26-1.6 1.63-1.6h1.74V3.62a23.4 23.4 0 0 0-2.54-.13c-2.51 0-4.23 1.53-4.23 4.35v2.42H7.27v3.28h2.83v8.41h3.4z" />
+  </svg>
+)
+
+const LinkedInIn = ({ className }) => (
+  <svg
+    viewBox="0 0 24 24"
+    className={className}
+    aria-hidden="true"
+    fill="currentColor"
+  >
+    <path d="M6.94 5a2 2 0 1 1-4-.002 2 2 0 0 1 4 .002zM7 8.48H3V21h4V8.48zm6.32 0H9.34V21h3.94v-6.57c0-3.66 4.77-4 4.77 0V21H22v-7.93c0-6.17-7.06-5.94-8.72-2.91l.04-1.68z" />
+  </svg>
+)
 
 // Inline Google "G" logo SVG. Lucide-react doesn't ship brand logos for
 // licensing reasons, so we keep this minimal inline component (~700 bytes,
@@ -58,21 +86,20 @@ const defaultSocialLinks = [
   { platform: 'google', url: '#' },
 ]
 
-// Social icon mapper. Uses a switch (not object lookup) so Next.js's
-// optimizePackageImports barrel optimizer can statically trace every
-// lucide-react reference. Previously `const icons = {...}; icons[platform]`
-// caused the barrel module to mark Facebook/Linkedin/etc as undefined during
-// prerender — `Element type is invalid` build crash on Vercel (May 11 fix).
+// Social icon mapper. Inline SVGs for brand logos (lucide-react does not
+// reliably ship Facebook/Linkedin through Next.js's barrel optimizer).
+// Switch statement (not object lookup) so every reference is statically
+// resolvable by the bundler.
 const SocialIcon = ({ platform, className }) => {
   switch (platform) {
     case 'facebook':
-      return <Facebook className={className} />
+      return <FacebookF className={className} />
     case 'linkedin':
-      return <Linkedin className={className} />
+      return <LinkedInIn className={className} />
     case 'google':
       return <GoogleG className={className} />
     default:
-      return <Facebook className={className} />
+      return <FacebookF className={className} />
   }
 }
 
