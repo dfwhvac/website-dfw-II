@@ -40,7 +40,7 @@ function is410(pathname) {
   return false
 }
 
-export function middleware(request) {
+export function proxy(request) {
   const pathname = request.nextUrl.pathname
 
   if (is410(pathname)) {

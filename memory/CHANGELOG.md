@@ -3,6 +3,43 @@
 **Last reviewed:** February 28, 2026
 **⚠️ Read `/app/memory/00_START_HERE.md` first for the Agent SOP.**
 
+---
+
+## May 13, 2026 (PM) — Phase B: Next.js 15 → 16 + Sanity Studio 3 → 5
+
+### The Big Cluster Upgrade
+Major framework upgrade landed cleanly. Local `yarn build` passed on first try.
+
+**Package versions shipped:**
+
+| Package | Before | After |
+|---|---|---|
+| `next` | 15.5.18 | **16.2.6** |
+| `react` | 19.2.6 | 19.2.6 (unchanged — already compatible) |
+| `sanity` | 3.25.0 | **5.25.0** |
+| `next-sanity` | 7.0.0 | **12.4.5** |
+| `@sanity/client` | 6.29.1 | **7.22.0** |
+| `@sanity/vision` | 3.99.0 | **5.25.0** |
+| `@sanity/image-url` | 1.2.0 | **2.1.1** |
+| `eslint-config-next` | 15 | **16.2.6** |
+
+**Code changes:**
+- `middleware.js` → `proxy.js` (Next 16 rename per official migration guide)
+- `export function middleware(request)` → `export function proxy(request)`
+- No `runtime = 'edge'` config existed in middleware, so Next 16's Node-only `proxy` restriction was a non-issue
+- Sanity Studio v5 only required React 19.2+, which we already had — no schema or plugin migration needed
+- `app/studio/page.jsx` (the embedded Sanity Studio admin) uses `next-sanity@12`'s `NextStudio` import; signature unchanged from v7
+
+**Verification:**
+- `yarn build` clean: all 19 ISR pages still cached with `revalidate=3600`, all dynamic routes functional, build output confirms `ƒ Proxy (Middleware)` listing
+- No deprecation warnings in build output
+- Studio page (`/studio`) listed in build manifest as static
+
+**Dependabot ignore lifted:**
+Removed `next` / `eslint-config-next` / `@next/*` semver-major ignore rules from `.github/dependabot.yml`. Future Next.js majors (17, 18) will be proposed normally and treated as forcing functions for migration scoping per `memory/AGENT_PROTOCOL.md`. The `@sanity/*` ignore retained pending next security audit cycle.
+
+
+
 Reverse-chronological record of everything shipped to production. When adding entries, append to the top of the appropriate session block (newest first).
 
 ---
