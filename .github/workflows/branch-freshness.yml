@@ -1,0 +1,44 @@
+name: Branch freshness
+# Fails on any PR whose package.json or yarn.lock is too far behind main.
+# This is the infrastructure-level backstop for the agent-side pod sync
+# protocol documented in /app/memory/AGENT_PROTOCOL.md.
+#
+# The recurring symptom this prevents: a stale Emergent pod fork pushes
+# package.json / yarn.lock based on a weeks-old snapshot of main, then
+# conflicts with Dependabot's weekly bumps that already landed.
+
+on:
+  pull_request:
+    paths:
+      - 'frontend/package.json'
+      - 'frontend/yarn.lock'
+
+jobs:
+  freshness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Need full history to count commits behind main.
+          fetch-depth: 0
+
+      - name: Check how far behind main this PR is for dep files
+        id: check
+        run: |
+          BEHIND_PKG=$(git rev-list --count HEAD..origin/main -- frontend/package.json)
+          BEHIND_LOCK=$(git rev-list --count HEAD..origin/main -- frontend/yarn.lock)
+          echo "package.json is $BEHIND_PKG commit(s) behind main"
+          echo "yarn.lock is $BEHIND_LOCK commit(s) behind main"
+          echo "behind_pkg=$BEHIND_PKG" >> $GITHUB_OUTPUT
+          echo "behind_lock=$BEHIND_LOCK" >> $GITHUB_OUTPUT
+
+      - name: Fail if more than 25 commits behind
+        if: steps.check.outputs.behind_pkg > 25 || steps.check.outputs.behind_lock > 25
+        run: |
+          echo "::error::This PR is too far behind main on dependency files."
+          echo "::error::package.json: ${{ steps.check.outputs.behind_pkg }} commits behind"
+          echo "::error::yarn.lock:    ${{ steps.check.outputs.behind_lock }} commits behind"
+          echo "::error::"
+          echo "::error::Refresh the branch from main, then push again."
+          echo "::error::See /app/memory/AGENT_PROTOCOL.md for the sync procedure."
+          exit 1
