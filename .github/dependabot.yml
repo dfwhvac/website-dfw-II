@@ -36,9 +36,11 @@ updates:
         update-types:
           - "minor"
           - "patch"
-    # Sanity Studio dev dependencies hold known high-CVE advisories tracked as
-    # accepted risk in /app/memory/audits/DFW_HVAC_Technical_Audit_2026-04-21.md
-    # (admin-only tooling, no production exposure). Ignore until Sanity 3.50+.
+    # Sanity Studio dev dependencies historically held high-CVE advisories tracked
+    # in /app/memory/audits/DFW_HVAC_Technical_Audit_2026-04-21.md (admin-only
+    # tooling, no production exposure). May 13, 2026 — Sanity upgraded 3.25 → 5.25
+    # which likely refreshes the dep tree. Re-evaluate this ignore at the next
+    # security audit cycle; for now keeping as defense in depth.
     ignore:
       - dependency-name: "@sanity/*"
         update-types:
