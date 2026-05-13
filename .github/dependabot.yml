@@ -43,6 +43,19 @@ updates:
       - dependency-name: "@sanity/*"
         update-types:
           - "version-update:semver-major"
+      # Next.js 16 major upgrade is deferred to a dedicated session — routing /
+      # caching / RSC behavior changes carry regression risk that needs isolated
+      # testing, not a routine Dependabot PR. Re-enable by removing this entry
+      # once we're ready to tackle the upgrade (target: Q3 2026).
+      - dependency-name: "next"
+        update-types:
+          - "version-update:semver-major"
+      - dependency-name: "eslint-config-next"
+        update-types:
+          - "version-update:semver-major"
+      - dependency-name: "@next/*"
+        update-types:
+          - "version-update:semver-major"
 
   # GitHub Actions workflows themselves
   - package-ecosystem: "github-actions"

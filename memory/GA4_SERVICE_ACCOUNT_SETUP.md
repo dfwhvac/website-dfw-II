@@ -167,7 +167,7 @@ That's **17 KPIs** across Phases 2 and 3 lit up by a single 15-minute setup.
 
 ## What's NOT covered by this
 
-- **Microsoft Clarity** — separate API, separate token. Wait until May 22 (after 14-day baseline) to set up.
+- **Microsoft Clarity** — separate API, separate token. Wait until May 27 (after 14-day baseline) to set up.
 - **GBP** — Google Business Profile API has its own auth and admin requirements. We'll address it as a separate session if/when needed.
 - **CallRail / Google Ads / Meta Ads** — Phase 4 / 5; address when ad spend launches.
 - **Lead → booked-job rate** — your CRM has no API integration yet; manual entry into the dashboard for v1.
