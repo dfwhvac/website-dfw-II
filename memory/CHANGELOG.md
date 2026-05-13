@@ -5,6 +5,30 @@
 
 ---
 
+## May 13, 2026 (PM, late) — Sequence 3: ESLint v9 + flat config migration
+
+### What broke
+Next.js 16 **removed** the bundled `next lint` command (deprecated in Next 15, deleted in 16). The project had no ESLint config file at all and relied entirely on `next lint`'s built-in defaults — so after Phase B, `yarn lint` errored with `Invalid project directory provided, no such directory: /app/frontend/lint` (treating "lint" as a positional arg to `next`).
+
+### What was rebuilt
+- `frontend/eslint.config.mjs` — new file. Flat-config (ESM) using `eslint-config-next@16`'s native flat-config exports (no FlatCompat shim needed since v15).
+- `frontend/package.json` — `"lint": "next lint"` → `"lint": "eslint ."` ; eslint dev-dep upgraded `^8.56.0` → **`^9` (resolves to 9.39.4)** ; added `@eslint/eslintrc` for FlatCompat headroom in case future plugins still ship legacy configs.
+- `frontend/components/Footer.jsx` — fixed the one real `<a href="/contact/">` → `<Link>` issue surfaced by the new lint pass.
+
+### Why ESLint 9 and not 10
+`eslint-config-next@16.2.6` peer-requires `eslint: ">=9.0.0"`. ESLint 10 IS available but is past Vercel's certified range — confirmed by attempting v10 and hitting `TypeError: scopeManager.addGlobals is not a function` from `eslint-plugin-import@2.32.0` (not yet updated for ESLint 10's API). Pinned to ^9 with a comment in `eslint.config.mjs` documenting the constraint. Revisit when Vercel certifies v10.
+
+### Rule tuning
+- `react/no-unescaped-entities` → **warn** (was error). 22 pre-existing instances of `"` and `'` in JSX text that should be HTML entities. Stylistic. Track for cleanup, not worth failing CI.
+- `import/no-anonymous-default-export` → **off** under `sanity/schemas/**` only. Sanity's documented schema pattern uses anonymous default exports.
+
+### Pre-existing issues now visible (6 errors — track separately)
+The new lint run surfaced **6 real React Compiler render-pattern errors** that the old `next lint` was missing. Captured as ROADMAP item P2.16 for per-file analysis (they may be real bugs OR false positives from the upgraded `eslint-plugin-react-hooks@7.x`).
+
+
+
+---
+
 ## May 13, 2026 (PM) — Phase B: Next.js 15 → 16 + Sanity Studio 3 → 5
 
 ### The Big Cluster Upgrade

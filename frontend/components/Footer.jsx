@@ -240,10 +240,10 @@ const Footer = ({ companyInfo = {}, siteSettings = null }) => {
                 <Phone className="w-4 h-4 text-vivid-red" />
                 <div className="font-semibold underline underline-offset-2 decoration-gray-500">{phoneDigits}</div>
               </a>
-              <a href="/contact" className="flex items-center gap-3 text-sm text-white underline underline-offset-2 decoration-gray-500 hover:decoration-white transition-colors">
+              <Link href="/contact" className="flex items-center gap-3 text-sm text-white underline underline-offset-2 decoration-gray-500 hover:decoration-white transition-colors">
                 <Mail className="w-4 h-4 text-vivid-red" />
                 <span>Send Us a Message</span>
-              </a>
+              </Link>
               {showServiceAreas && (
                 <div className="flex items-center gap-3 text-sm">
                   <MapPin className="w-4 h-4 text-alert-amber" />
