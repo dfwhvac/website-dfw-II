@@ -1348,7 +1348,7 @@ async function main() {
       source: 'GA4 Data API · bounceRate (28d)',
       detail: ga4.ok ? null : ga4.error,
     },
-    { id: 'clarity-friction', label: 'Microsoft Clarity friction insights', target: 'Rage clicks < 1%', value: 'gated to May 22 baseline', status: STATUS.GRAY, source: 'Clarity Data Export API' },
+    { id: 'clarity-friction', label: 'Microsoft Clarity friction insights', target: 'Rage clicks < 1%', value: 'gated to May 27 baseline', status: STATUS.GRAY, source: 'Clarity Data Export API' },
     { id: 'lead-to-booked', label: 'Lead → booked-job rate', target: '≥ 40%', value: 'no CRM integration', status: STATUS.GRAY, source: 'Manual entry (no API)' },
   ];
 

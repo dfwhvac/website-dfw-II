@@ -7,7 +7,30 @@ Reverse-chronological record of everything shipped to production. When adding en
 
 ---
 
-## May 12, 2026 — P1 Foundation cleanup + GSC/Estimator KPI fixes + snapshot merge-conflict fix + Clarity CSP fix
+## May 13, 2026 — Clarity baseline reset + Next.js 16 Dependabot guard
+
+### Clarity baseline clock restarted
+The May 12 wildcard CSP fix (`*.clarity.ms`) was confirmed deployed. The 14-day Microsoft Clarity baseline clock — originally thought to start May 4 (F13-P0.1) and then May 8 — was running on a still-broken sensor both times. **Real start date: May 13, 2026. P1.10 Progressive Form Redesign gate moves to May 27, 2026.**
+
+Updated references:
+- `memory/ROADMAP.md` — annotated F13-P0.1 entry to reflect partial-then-real fix sequence; P1.10 hold pushed to May 27.
+- `memory/CHANGELOG.md` (May 12 rollup) — already documents the wildcard fix.
+- `memory/GA4_SERVICE_ACCOUNT_SETUP.md` — Clarity API setup gated to May 27.
+- `scripts/audit-kpis.mjs` — `clarity-friction` KPI gate string updated.
+
+### Dependabot guard: block Next.js major-version PRs
+PR #79 (`dependabot/npm_and_yarn/frontend/next-16.2.6`) was open for 2 days with `3/4` failing checks, 45 commits behind main. Per the Next.js 16 hold policy (routing / caching / RSC regression risk requires a dedicated session), the PR is being closed without merge.
+
+To prevent Dependabot from reopening it on the next weekly scan, added ignore rules for `version-update:semver-major` on:
+- `next`
+- `eslint-config-next`
+- `@next/*`
+
+The Sanity major-version ignore is preserved. Minor + patch updates for Next.js still flow normally. Re-enable major bumps by removing the three ignore entries when ready (target: Q3 2026).
+
+---
+
+
 
 ### Tier -1 — Critical: Microsoft Clarity was silently broken (CSP block)
 **Discovered via desktop PSI audit (Performance 99/100, Best Practices 92/100).** The Lighthouse Best Practices section surfaced two blocked-by-CSP console errors:
@@ -237,7 +260,7 @@ The script switched from now-dead endpoints to current ones during build:
 
 1. (Optional) Add `PAGESPEED_API_KEY` env var → unlocks 4 PageSpeed KPIs (~25K calls/day free).
 2. Complete GA4 service-account setup per `memory/GA4_SERVICE_ACCOUNT_SETUP.md` → unlocks 17 KPIs across Phases 2 + 3.
-3. After May 22, 2026 (Clarity 14-day baseline complete) → wire Clarity Data Export API → unlocks 1 Phase 3 KPI.
+3. After May 27, 2026 (Clarity 14-day baseline complete — second restart after the May 13 wildcard fix) → wire Clarity Data Export API → unlocks 1 Phase 3 KPI.
 
 ---
 
