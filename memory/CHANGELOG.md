@@ -7,7 +7,23 @@ Reverse-chronological record of everything shipped to production. When adding en
 
 ---
 
-## May 12, 2026 — P1 Foundation cleanup + GSC/Estimator KPI fixes + snapshot merge-conflict fix
+## May 12, 2026 — P1 Foundation cleanup + GSC/Estimator KPI fixes + snapshot merge-conflict fix + Clarity CSP fix
+
+### Tier -1 — Critical: Microsoft Clarity was silently broken (CSP block)
+**Discovered via desktop PSI audit (Performance 99/100, Best Practices 92/100).** The Lighthouse Best Practices section surfaced two blocked-by-CSP console errors:
+
+```
+✗ Loading the script 'https://scripts.clarity.ms/0.8.64/clarity.js' violates CSP. Blocked.
+✗ Loading the image 'https://c.clarity.ms/c.gif' violates CSP img-src. Blocked.
+```
+
+**Root cause:** The `next.config.js` CSP whitelisted `www.clarity.ms` (the bootstrap loader at `/tag/{id}`) and `c.clarity.ms` for `script-src`, but Clarity's main runtime lives at `scripts.clarity.ms` — a third subdomain not in the allowlist. `img-src` had **no** clarity entry at all, blocking the tracking pixel.
+
+**Business impact:** The 14-day Clarity baseline (gating P1.10 Progressive Form Redesign, due May 22) **had been collecting nothing**. Every heatmap/session-recording-driven decision was based on missing data.
+
+**Bonus finding:** A persistent `404 /f3f79bdb6ac38332/script.js` in console logs (hash NOT in our codebase or git history) was Clarity's first-party-proxy CSP-bypass fallback firing because the main path was blocked. **One CSP fix resolves both errors.**
+
+**Fix:** Consolidated `*.clarity.ms` wildcards in `script-src` and `img-src` directives. `connect-src` already had the wildcard so was unaffected.
 
 ### Tier 0 — Permanent fix: recurring `kpi-snapshot.json` PR merge conflicts
 **Pattern (recurred 3x):** Weekly CI commits a new snapshot to `main`. Any open PR created before that commit carries stale snapshot data, triggering a merge conflict that GitHub's web editor mishandles.
