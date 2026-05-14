@@ -8,10 +8,18 @@ name: Branch freshness
 # conflicts with Dependabot's weekly bumps that already landed.
 
 on:
+  # Run on EVERY PR, not just those touching dep files.
+  #
+  # Why no `paths:` filter: GitHub's `paths:` filter prevents the workflow
+  # from starting on PRs that don't touch the listed paths. But this check
+  # is marked Required in the main-branch ruleset. Required checks that
+  # never start hang the PR forever in "Expected — Waiting for status to
+  # be reported". The `paths:` filter therefore can't be used here.
+  #
+  # The cost of running everywhere is ~30s per PR. The internal `git
+  # rev-list --count HEAD..origin/main -- frontend/package.json` naturally
+  # returns 0 for PRs that don't touch dep files, so they pass trivially.
   pull_request:
-    paths:
-      - 'frontend/package.json'
-      - 'frontend/yarn.lock'
 
 jobs:
   freshness:
