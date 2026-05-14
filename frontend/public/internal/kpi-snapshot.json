@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-14T06:40:41.293Z",
+  "generatedAt": "2026-05-14T22:13:28.789Z",
   "domain": "dfwhvac.com",
-  "durationMs": 122773,
+  "durationMs": 138423,
   "phases": [
     {
       "id": "phase1",
@@ -58,27 +58,27 @@
           "label": "TTFB (Time to First Byte)",
           "target": "< 200ms",
           "v3Pillar": "P1 Infrastructure",
-          "value": "6ms",
-          "numericValue": 6,
+          "value": "4ms",
+          "numericValue": 4,
           "status": "green",
           "source": "PageSpeed Lighthouse · server-response-time",
-          "trend": "▲",
-          "delta": 2,
-          "deltaFormatted": "+2.00",
-          "deltaSentiment": "good"
+          "trend": "▼",
+          "delta": -2,
+          "deltaFormatted": "-2.00",
+          "deltaSentiment": "bad"
         },
         {
           "id": "cwv-lcp",
           "label": "LCP (Largest Contentful Paint)",
           "target": "< 1.2s",
           "v3Pillar": "P2 Performance",
-          "value": "2.18s",
-          "numericValue": 2177.003224074655,
+          "value": "2.25s",
+          "numericValue": 2251.0285166648355,
           "status": "yellow",
           "source": "PageSpeed Lighthouse · largest-contentful-paint",
           "trend": "▲",
-          "delta": 225.98251877073108,
-          "deltaFormatted": "+226",
+          "delta": 74.02529259018047,
+          "deltaFormatted": "+74.0",
           "deltaSentiment": "bad"
         },
         {
@@ -115,15 +115,15 @@
           "label": "Lighthouse Performance (mobile)",
           "target": "≥ 90 (V3)",
           "v3Pillar": "P2 Performance",
-          "value": "76",
-          "numericValue": 76,
-          "status": "yellow",
+          "value": "95",
+          "numericValue": 95,
+          "status": "green",
           "source": "pagespeedonline.googleapis.com",
           "detail": null,
-          "trend": "▼",
-          "delta": -18,
-          "deltaFormatted": "-18.0",
-          "deltaSentiment": "bad"
+          "trend": "▲",
+          "delta": 19,
+          "deltaFormatted": "+19.0",
+          "deltaSentiment": "good"
         },
         {
           "id": "pagespeed-performance-desktop",
@@ -135,10 +135,10 @@
           "status": "green",
           "source": "pagespeedonline.googleapis.com (strategy=desktop)",
           "detail": null,
-          "trend": "▲",
-          "delta": 17,
-          "deltaFormatted": "+17.0",
-          "deltaSentiment": "good"
+          "trend": "→",
+          "delta": 0,
+          "deltaFormatted": "0.000",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "cwv-page-weight",
@@ -146,12 +146,12 @@
           "target": "< 1.5 MB",
           "v3Pillar": "P2 Performance",
           "value": "0.64 MB",
-          "numericValue": 671042,
+          "numericValue": 674974,
           "status": "green",
           "source": "PageSpeed Lighthouse · total-byte-weight",
           "trend": "▲",
-          "delta": 122607,
-          "deltaFormatted": "+122607",
+          "delta": 3932,
+          "deltaFormatted": "+3932",
           "deltaSentiment": "good"
         },
         {
@@ -188,14 +188,14 @@
           "label": "Lighthouse Best Practices (mobile)",
           "target": "≥ 95",
           "v3Pillar": "P2 Performance",
-          "value": "92",
-          "numericValue": 92,
-          "status": "yellow",
+          "value": "96",
+          "numericValue": 96,
+          "status": "green",
           "source": "pagespeedonline.googleapis.com",
-          "trend": "→",
-          "delta": 0,
-          "deltaFormatted": "0.000",
-          "deltaSentiment": "neutral"
+          "trend": "▲",
+          "delta": 4,
+          "deltaFormatted": "+4.00",
+          "deltaSentiment": "good"
         },
         {
           "id": "pagespeed-seo-mobile",
@@ -231,15 +231,15 @@
           "label": "CSP whitelist host count",
           "target": "≤ 25 hosts",
           "v3Pillar": "P4 Security",
-          "value": "20",
-          "numericValue": 20,
+          "value": "21",
+          "numericValue": 21,
           "status": "green",
           "source": "Production CSP header",
           "detail": "frame-ancestors set: true",
-          "trend": "→",
-          "delta": 0,
-          "deltaFormatted": "0.000",
-          "deltaSentiment": "neutral"
+          "trend": "▲",
+          "delta": 1,
+          "deltaFormatted": "+1.00",
+          "deltaSentiment": "bad"
         },
         {
           "id": "sitemap-url-count",
@@ -319,7 +319,7 @@
           "label": "WCAG 2.2 AA (Pa11y, automated)",
           "target": "0 errors (5-page sample)",
           "v3Pillar": "P4 Accessibility",
-          "value": "0 errors · 0 warnings (3/5 pages)",
+          "value": "0 errors · 0 warnings (0/5 pages)",
           "numericValue": 0,
           "status": "green",
           "source": "Pa11y · WCAG2AA standard · 5 sample routes",
@@ -338,7 +338,7 @@
           "numericValue": null,
           "status": "green",
           "source": "GitHub Actions API",
-          "detail": "last run: 2026-05-14T06:32:26Z",
+          "detail": "last run: 2026-05-14T20:38:11Z",
           "trend": "—",
           "delta": null,
           "deltaFormatted": "",
@@ -392,8 +392,8 @@
       ],
       "rollup": {
         "total": 26,
-        "green": 17,
-        "yellow": 3,
+        "green": 19,
+        "yellow": 1,
         "red": 0,
         "gray": 6
       }
@@ -407,29 +407,29 @@
           "id": "gsc-impressions",
           "label": "GSC impressions (28d)",
           "target": "trend ▲",
-          "value": "27,816",
-          "numericValue": 27816,
+          "value": "28,553",
+          "numericValue": 28553,
           "status": "green",
           "source": "Google Search Console API",
           "detail": "2026-04-16 → 2026-05-14",
           "trend": "▲",
-          "delta": 95,
-          "deltaFormatted": "+95.0",
+          "delta": 737,
+          "deltaFormatted": "+737",
           "deltaSentiment": "good"
         },
         {
           "id": "gsc-clicks",
           "label": "GSC clicks (28d)",
           "target": "trend ▲",
-          "value": "71",
-          "numericValue": 71,
+          "value": "75",
+          "numericValue": 75,
           "status": "green",
           "source": "Google Search Console API",
           "detail": null,
-          "trend": "▼",
-          "delta": -1,
-          "deltaFormatted": "-1.00",
-          "deltaSentiment": "bad"
+          "trend": "▲",
+          "delta": 4,
+          "deltaFormatted": "+4.00",
+          "deltaSentiment": "good"
         },
         {
           "id": "gsc-ctr",
@@ -449,15 +449,15 @@
           "id": "gsc-avg-position",
           "label": "GSC average position",
           "target": "≤ 20",
-          "value": "23.4",
-          "numericValue": 23.4,
+          "value": "23.1",
+          "numericValue": 23.1,
           "status": "yellow",
           "source": "Google Search Console API",
           "detail": null,
-          "trend": "→",
-          "delta": 0.1999999999999993,
-          "deltaFormatted": "+0.200",
-          "deltaSentiment": "neutral"
+          "trend": "▼",
+          "delta": -0.29999999999999716,
+          "deltaFormatted": "-0.300",
+          "deltaSentiment": "good"
         },
         {
           "id": "sitemap-indexing-rate",
@@ -575,11 +575,11 @@
           "numericValue": 1.2,
           "status": "red",
           "source": "GA4 Data API · conversions ÷ sessions (28d)",
-          "detail": "8 conversions / 672 sessions",
-          "trend": "▲",
-          "delta": 0.19999999999999996,
-          "deltaFormatted": "+0.200",
-          "deltaSentiment": "good"
+          "detail": "8 conversions / 683 sessions",
+          "trend": "→",
+          "delta": 0,
+          "deltaFormatted": "0.000",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "form-submission-rate",
@@ -604,10 +604,10 @@
           "status": "red",
           "source": "GA4 Data API · phone_click ÷ sessions (28d)",
           "detail": "8 phone_click events",
-          "trend": "▼",
-          "delta": -0.10000000000000009,
-          "deltaFormatted": "-0.100",
-          "deltaSentiment": "bad"
+          "trend": "→",
+          "delta": 0,
+          "deltaFormatted": "0.000",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "per-page-cr",
@@ -631,10 +631,10 @@
           "status": "red",
           "source": "GA4 Data API · deviceCategory breakdown",
           "detail": "Mobile CR: 3.1% · Desktop CR: 0.7%",
-          "trend": "▲",
-          "delta": 27.400000000000006,
-          "deltaFormatted": "+27.4",
-          "deltaSentiment": "bad"
+          "trend": "→",
+          "delta": 0,
+          "deltaFormatted": "0.000",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "estimator-completion",
@@ -654,15 +654,15 @@
           "id": "bounce-rate",
           "label": "Bounce rate (sitewide)",
           "target": "< 50%",
-          "value": "73.2%",
-          "numericValue": 73.2,
+          "value": "73.1%",
+          "numericValue": 73.1,
           "status": "red",
           "source": "GA4 Data API · bounceRate (28d)",
           "detail": null,
-          "trend": "▲",
-          "delta": 1.9000000000000057,
-          "deltaFormatted": "+1.90",
-          "deltaSentiment": "bad"
+          "trend": "→",
+          "delta": -0.10000000000000853,
+          "deltaFormatted": "-0.100",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "clarity-friction",
