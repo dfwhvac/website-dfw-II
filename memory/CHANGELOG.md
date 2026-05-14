@@ -5,6 +5,37 @@
 
 ---
 
+## Feb 2026 (later) — P2.20 LCP optimization plan filed (not yet executed)
+
+### Why
+User set explicit LCP target: **p75 mobile < 1,250ms** (top decile, well below Google's "Good" threshold of 2,500ms). Current baseline: **2,180ms** lab measurement on homepage. Gap to close: ~930ms.
+
+P2.18 `cacheComponents` alone won't close the gap — predicted gain only 80–250ms. The shortest path to <1.25s is a multi-lever stack of cheaper, higher-ROI fixes.
+
+### The plan (filed as ROADMAP row 4d, full detail in `/app/memory/P2.20_LCP_OPTIMIZATION_PLAN.md`)
+
+1. **Hero image AVIF + preload + responsive sizes** (~2-3 hr, -400-700ms) — biggest single lever
+2. **Font preload + drop unused weights** (~30 min, -100-200ms)
+3. **Defer render-blocking JS** (~1 hr, -100-300ms) — Clarity, GA4, reCAPTCHA, RealWork
+4. **TTFB / Sanity CDN / cache tuning** (~30 min, -50-150ms)
+5. **P2.18 `cacheComponents` + Suspense** (optional, ~4-6 hr, -80-250ms) — only if steps 1-4 don't hit target
+
+**Expected outcome:** target hit at step 4 in ~4-5 hr total. Step 5 becomes future-proofing buffer rather than path-to-target.
+
+### Critical gate
+Each step must measurably drop LCP by ≥80ms in PageSpeed Insights before being shipped. Steps that don't move the needle indicate the actual bottleneck is elsewhere; don't ship and don't proceed until the diagnosis is correct.
+
+### Prerequisite
+`PAGESPEED_API_KEY` needs to be added to GitHub Secrets so the KPI dashboard can track LCP trends weekly as we ship each step. Free key at console.cloud.google.com (10-min setup).
+
+### Status
+- ✅ Planning doc filed: `/app/memory/P2.20_LCP_OPTIMIZATION_PLAN.md`
+- ✅ ROADMAP row 4d added with stack breakdown + ROI rationale
+- ⏸ Awaits user trigger to start (likely next session)
+- 📐 Step 1 needs a Lighthouse audit first to confirm the LCP element is an image (highly likely but not assumed) — that audit is the first 30 min of step 1
+
+---
+
 ## Feb 2026 (later) — KPI Audit auth fix + freshness trigger fix (PRs #101, #102)
 
 ### The session's actual work
