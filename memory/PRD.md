@@ -6,8 +6,9 @@
 Finalize a premium Next.js / Sanity website for **DFW HVAC**. Execute a 5-Priority tier roadmap (Foundation → SEO/AEO → Conversion → Ad Infra → Launch) focused on deep SEO, accessibility, Core Web Vitals, and conversion-rate optimization. Maintain a high-converting, secure, performant HVAC lead-generation funnel.
 
 ## Architecture
-- **Stack:** Next.js 15.5.9 (App Router) + React 19.2.5
-- **CMS:** Sanity.io (headless)
+- **Stack:** Next.js 16.2.6 (App Router) + React 19.2.6
+- **CMS:** Sanity.io v5.25 (headless)
+- **CSS:** Tailwind CSS v4.3 (CSS-first config in `app/globals.css`, no `tailwind.config.js`)
 - **DB:** MongoDB Atlas (`leads` collection)
 - **Hosting:** Vercel (Production: https://dfwhvac.com)
 - **Forms:** reCAPTCHA v3
@@ -15,6 +16,7 @@ Finalize a premium Next.js / Sanity website for **DFW HVAC**. Execute a 5-Priori
 - **Analytics:** GA4, Microsoft Clarity, Vercel Analytics + Speed Insights
 - **Financing:** Wisetack
 - **Maps/Places:** Google Places API
+- **Lint:** ESLint v9 flat config (`eslint.config.mjs`)
 
 ## Production State (May 11, 2026)
 - ✅ All Phase 1 (Foundation) shipped — security headers Grade A on securityheaders.com
