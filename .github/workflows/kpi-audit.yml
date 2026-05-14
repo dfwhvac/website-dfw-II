@@ -36,8 +36,18 @@ jobs:
     steps:
       - uses: actions/checkout@v5
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # Use a fine-grained PAT (KPI_AUDIT_PAT) issued under a Repository
+          # Admin's identity rather than GITHUB_TOKEN. GitHub's repository
+          # rulesets cannot grant bypass permission to github-actions[bot]
+          # (it's not exposed as a bypass actor), so the bot's push to main
+          # gets rejected with GH013 even when permissions: contents: write
+          # is granted in this workflow. A user-owned PAT belongs to a real
+          # account that CAN be added to the bypass list (via Repository
+          # admin role), which lets the commit go through.
+          # See /app/memory/CHANGELOG.md (KPI Audit auth section) for context.
+          token: ${{ secrets.KPI_AUDIT_PAT }}
           fetch-depth: 1
+          persist-credentials: true
 
       - name: Setup Node 20
         uses: actions/setup-node@v5
@@ -98,8 +108,13 @@ jobs:
 
       - name: Commit snapshot
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # Commit author identity: use a generic "kpi-audit" label rather
+          # than the PAT owner's real email. Keeps the audit log tidy and
+          # avoids leaking the human's commit email into every weekly entry.
+          # The push itself still authenticates as the PAT owner (a Repo
+          # Admin in the ruleset bypass list).
+          git config user.name "kpi-audit-bot"
+          git config user.email "kpi-audit@dfwhvac.com"
           git add frontend/public/internal/kpi-snapshot.json memory/audits/kpi-snapshot-archive/
           if git diff --cached --quiet; then
             echo "::notice::No snapshot changes — skipping commit"
