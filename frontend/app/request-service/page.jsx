@@ -29,9 +29,9 @@ export default async function RequestServicePage() {
     <div className="min-h-screen flex flex-col">
       <Header companyInfo={companyInfo} siteSettings={siteSettings} />
       
-      <main className="flex-grow">
+      <main className="grow">
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-prussian-blue to-electric-blue text-white py-12">
+        <section className="bg-linear-to-br from-prussian-blue to-electric-blue text-white py-12">
           <div className="container mx-auto px-4 text-center">
             <h1 className="text-3xl md:text-4xl font-bold mb-4">
               Request HVAC Service
@@ -84,23 +84,23 @@ export default async function RequestServicePage() {
                     <h3 className="font-semibold text-lg mb-4">Why Choose DFW HVAC?</h3>
                     <ul className="space-y-3">
                       <li className="flex items-start gap-3">
-                        <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                        <CheckCircle className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
                         <span className="text-sm text-gray-600">Three generations of trusted service</span>
                       </li>
                       <li className="flex items-start gap-3">
-                        <Clock className="w-5 h-5 text-electric-blue flex-shrink-0 mt-0.5" />
+                        <Clock className="w-5 h-5 text-electric-blue shrink-0 mt-0.5" />
                         <span className="text-sm text-gray-600">Fast response within 2 business hours</span>
                       </li>
                       <li className="flex items-start gap-3">
-                        <Shield className="w-5 h-5 text-prussian-blue flex-shrink-0 mt-0.5" />
+                        <Shield className="w-5 h-5 text-prussian-blue shrink-0 mt-0.5" />
                         <span className="text-sm text-gray-600">Licensed & insured technicians</span>
                       </li>
                       <li className="flex items-start gap-3">
-                        <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                        <CheckCircle className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
                         <span className="text-sm text-gray-600">Upfront, transparent pricing</span>
                       </li>
                       <li className="flex items-start gap-3">
-                        <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                        <CheckCircle className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
                         <span className="text-sm text-gray-600">Satisfaction guaranteed</span>
                       </li>
                     </ul>

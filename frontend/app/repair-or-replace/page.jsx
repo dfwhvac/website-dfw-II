@@ -122,12 +122,12 @@ export default async function RepairOrReplacePage() {
 
       {/* Hero */}
       <section
-        className="py-16 lg:py-24 text-white bg-gradient-to-br from-prussian-blue to-electric-blue"
+        className="py-16 lg:py-24 text-white bg-linear-to-br from-prussian-blue to-electric-blue"
         data-testid="repair-or-replace-hero"
       >
         <div className="container mx-auto px-4">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full text-sm font-medium border border-white/20 mb-6">
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium border border-white/20 mb-6">
               <Scale className="w-4 h-4" aria-hidden="true" />
               Decision Guide for DFW Homeowners
             </div>
@@ -214,7 +214,7 @@ export default async function RepairOrReplacePage() {
               General DFW-climate guidance. Your specific system, home, and refrigerant
               type will shift these brackets — but this is the shape of the decision.
             </p>
-            <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm bg-white">
+            <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-xs bg-white">
               <table className="w-full text-left">
                 <thead className="bg-prussian-blue text-white">
                   <tr>
@@ -325,7 +325,7 @@ export default async function RepairOrReplacePage() {
             </h2>
             <div className="space-y-6">
               {FAQS.map((faq) => (
-                <details key={faq._id} className="group bg-white rounded-lg border border-gray-200 p-5 shadow-sm">
+                <details key={faq._id} className="group bg-white rounded-lg border border-gray-200 p-5 shadow-xs">
                   <summary className="cursor-pointer font-semibold text-gray-900 text-lg flex items-start justify-between gap-4">
                     <span>{faq.question}</span>
                     <span className="text-electric-blue text-2xl leading-none group-open:rotate-45 transition-transform shrink-0" aria-hidden="true">+</span>
@@ -339,7 +339,7 @@ export default async function RepairOrReplacePage() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-16 lg:py-20 text-white bg-gradient-to-br from-prussian-blue to-electric-blue">
+      <section className="py-16 lg:py-20 text-white bg-linear-to-br from-prussian-blue to-electric-blue">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl lg:text-4xl font-bold mb-4">Ready for a Real Answer?</h2>
@@ -359,7 +359,7 @@ export default async function RepairOrReplacePage() {
               </Link>
               <a
                 href={PHONE_TEL}
-                className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur text-white font-semibold px-8 py-4 rounded-md text-lg border-2 border-white/40 transition-colors"
+                className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-semibold px-8 py-4 rounded-md text-lg border-2 border-white/40 transition-colors"
                 data-testid="ror-final-phone-cta"
               >
                 <Phone className="w-5 h-5" aria-hidden="true" />
@@ -412,7 +412,7 @@ function TableRow({ age, move, moveColor, why }) {
 
 function FlowStep({ step, title, result, resultIcon: ResultIcon, resultColor }) {
   return (
-    <li className="bg-white rounded-lg border border-gray-200 p-5 shadow-sm">
+    <li className="bg-white rounded-lg border border-gray-200 p-5 shadow-xs">
       <div className="flex items-start gap-4">
         <div className="shrink-0 w-8 h-8 rounded-full bg-blue-50 border border-electric-blue text-electric-blue flex items-center justify-center font-bold text-sm">
           {step}

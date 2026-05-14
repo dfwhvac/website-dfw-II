@@ -22,7 +22,7 @@ const ServiceFirstCTA = ({
 }) => {
 
   const bgStyles = {
-    blue: "bg-gradient-to-r from-prussian-blue to-electric-blue",
+    blue: "bg-linear-to-r from-prussian-blue to-electric-blue",
     red: "bg-vivid-red",
     dark: "bg-prussian-blue",
   }

@@ -107,7 +107,7 @@ const FAQAccordion = ({ faqs = [], categories = [] }) => {
                 >
                   <span className="font-medium text-gray-800 pr-4">{faq.question}</span>
                   <ChevronDown 
-                    className={`w-5 h-5 text-gray-500 flex-shrink-0 transition-transform duration-200 ${
+                    className={`w-5 h-5 text-gray-500 shrink-0 transition-transform duration-200 ${
                       isOpen ? 'rotate-180' : ''
                     }`}
                   />

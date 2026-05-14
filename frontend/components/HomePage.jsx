@@ -80,7 +80,7 @@ const HomePage = ({
     <div className="min-h-screen">
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-20 lg:py-32">
+      <section className="bg-linear-to-br from-blue-50 via-white to-indigo-50 py-20 lg:py-32">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
@@ -358,7 +358,7 @@ const HomePage = ({
       </section>
 
       {/* CTA Section - Phone-first strategy */}
-      <section className="py-20 bg-gradient-to-r from-prussian-blue to-electric-blue">
+      <section className="py-20 bg-linear-to-r from-prussian-blue to-electric-blue">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl font-bold text-white mb-4">
             Need HVAC Service? We're Ready.

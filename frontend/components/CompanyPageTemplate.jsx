@@ -35,7 +35,7 @@ const CompanyPageTemplate = ({
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-prussian-blue to-electric-blue text-white py-16 lg:py-24">
+      <section className="bg-linear-to-br from-prussian-blue to-electric-blue text-white py-16 lg:py-24">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl lg:text-5xl font-bold mb-4">
@@ -340,7 +340,7 @@ const CompanyPageTemplate = ({
                     <ul className="space-y-2">
                       {section.bulletPoints.map((point, i) => (
                         <li key={i} className="flex items-start gap-2">
-                          <CheckCircle className="w-5 h-5 text-electric-blue flex-shrink-0 mt-0.5" />
+                          <CheckCircle className="w-5 h-5 text-electric-blue shrink-0 mt-0.5" />
                           <span className="text-gray-600">{point}</span>
                         </li>
                       ))}

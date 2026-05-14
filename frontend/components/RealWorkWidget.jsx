@@ -18,17 +18,21 @@ const REALWORK_ID = process.env.NEXT_PUBLIC_REALWORK_ID || ''
 const RealWorkWidget = () => {
   const containerRef = useRef(null)
   const scriptLoadedRef = useRef(false)
-  const [shouldLoad, setShouldLoad] = useState(false)
+  // Lazy-init covers the "no IntersectionObserver support" fallback at mount
+  // time (older browsers / SSR snapshot) so we don't need a synchronous
+  // setState inside the observer effect body (react-hooks/set-state-in-effect).
+  const [shouldLoad, setShouldLoad] = useState(
+    () => typeof window !== 'undefined' && typeof IntersectionObserver === 'undefined'
+  )
 
   // Watch for the container entering the viewport; only then start loading.
   useEffect(() => {
     if (!containerRef.current || shouldLoad) return
 
-    // Fallback for older browsers: just load on mount (matches pre-optimization behavior).
-    if (typeof IntersectionObserver === 'undefined') {
-      setShouldLoad(true)
-      return
-    }
+    // Modern browsers: use IntersectionObserver. The "no IO" fallback is
+    // handled by the lazy initializer above, so we no longer need a sync
+    // setState branch here.
+    if (typeof IntersectionObserver === 'undefined') return
 
     const observer = new IntersectionObserver(
       (entries) => {

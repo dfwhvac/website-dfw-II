@@ -293,7 +293,7 @@ export default async function ServicePage({ params }) {
                       <span className="font-medium text-sm">
                         {service.title.split(' ').slice(0, 2).join(' ')} in {cp.cityName}
                       </span>
-                      <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-electric-blue transition-colors flex-shrink-0 ml-2" />
+                      <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-electric-blue transition-colors shrink-0 ml-2" />
                     </Link>
                   ))}
                 </div>

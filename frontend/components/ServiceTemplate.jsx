@@ -20,32 +20,35 @@ import {
   Building
 } from 'lucide-react'
 
+// Hoisted to module scope so the icon mapping isn't reconstructed on every
+// render. The `ServiceIcon` wrapper below keeps the component-selection out
+// of `ServiceTemplate`'s render body (react-hooks/static-components).
+const SERVICE_ICON_MAP = {
+  snowflake: Snowflake,
+  flame: Flame,
+  wrench: Wrench,
+  wind: Wind,
+  clock: Clock,
+  building: Building,
+}
+
+const ServiceIcon = ({ name, className }) => {
+  const Icon = SERVICE_ICON_MAP[name] || Wrench
+  return <Icon className={className} />
+}
+
 const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [], maintenanceSignup = false }) => {
   const phone = companyInfo?.phone || '(972) 777-COOL'
   const googleReviews = companyInfo?.googleReviews || REVIEW_COUNT_FALLBACK
   
   // JotForm URL for maintenance plan signups
   const maintenanceFormUrl = 'https://form.jotform.com/260576154462055'
-  
-  const getIconComponent = (iconName) => {
-    const icons = {
-      snowflake: Snowflake,
-      flame: Flame, 
-      wrench: Wrench,
-      wind: Wind,
-      clock: Clock,
-      building: Building
-    }
-    return icons[iconName] || Wrench
-  }
-
-  const IconComponent = getIconComponent(service.icon)
 
   return (
     <div className="min-h-screen">
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-16 lg:py-24">
+      <section className="bg-linear-to-br from-blue-50 via-white to-indigo-50 py-16 lg:py-24">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             
@@ -53,7 +56,7 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [], mainten
             <div className="space-y-6">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-16 h-16 bg-electric-blue rounded-full flex items-center justify-center">
-                  <IconComponent className="w-8 h-8 text-white" />
+                  <ServiceIcon name={service.icon} className="w-8 h-8 text-white" />
                 </div>
                 <div>
                   <h1 className="text-4xl lg:text-5xl font-bold text-gray-900">
@@ -73,7 +76,7 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [], mainten
               <div className="space-y-3">
                 {service.heroContent.benefits.map((benefit, index) => (
                   <div key={index} className="flex items-start gap-3">
-                    <CheckCircle className="w-5 h-5 text-lime-green mt-1 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-lime-green mt-1 shrink-0" />
                     <span className="text-gray-700">{benefit}</span>
                   </div>
                 ))}
@@ -124,8 +127,8 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [], mainten
 
             {/* Service Image/Illustration Placeholder */}
             <div className="lg:pl-8">
-              <div className="bg-gradient-to-br from-electric-blue to-prussian-blue rounded-2xl p-8 text-white text-center">
-                <IconComponent className="w-24 h-24 mx-auto mb-4 opacity-90" />
+              <div className="bg-linear-to-br from-electric-blue to-prussian-blue rounded-2xl p-8 text-white text-center">
+                <ServiceIcon name={service.icon} className="w-24 h-24 mx-auto mb-4 opacity-90" />
                 <h2 className="text-2xl font-bold mb-2">Professional Service</h2>
                 <p className="text-lg opacity-90">Licensed & Insured Technicians</p>
                 <div className="mt-6 flex items-center justify-center gap-1">
@@ -158,7 +161,7 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [], mainten
                   <ul className="space-y-3">
                     {service.sections.whatWeDo.items.map((item, index) => (
                       <li key={index} className="flex items-start gap-3">
-                        <ArrowRight className="w-4 h-4 text-electric-blue mt-1 flex-shrink-0" />
+                        <ArrowRight className="w-4 h-4 text-electric-blue mt-1 shrink-0" />
                         <span className="text-gray-700">{item}</span>
                       </li>
                     ))}
@@ -177,7 +180,7 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [], mainten
                   <div className="space-y-4">
                     {service.sections.ourProcess.steps.map((step, index) => (
                       <div key={index} className="flex gap-4">
-                        <div className="w-8 h-8 bg-electric-blue text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">
+                        <div className="w-8 h-8 bg-electric-blue text-white rounded-full flex items-center justify-center font-bold text-sm shrink-0">
                           {step.step}
                         </div>
                         <div>
@@ -204,7 +207,7 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [], mainten
                   <ul className="space-y-3">
                     {service.sections.whyChooseUs.reasons.map((reason, index) => (
                       <li key={index} className="flex items-start gap-3">
-                        <CheckCircle className="w-5 h-5 text-lime-green mt-1 flex-shrink-0" />
+                        <CheckCircle className="w-5 h-5 text-lime-green mt-1 shrink-0" />
                         <span className="text-gray-700">{reason}</span>
                       </li>
                     ))}
@@ -212,7 +215,7 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [], mainten
                 </CardContent>
               </Card>
 
-              <Card className="shadow-lg border-0 bg-gradient-to-r from-vivid-red to-red-600">
+              <Card className="shadow-lg border-0 bg-linear-to-r from-vivid-red to-red-600">
                 <CardHeader>
                   <CardTitle className="text-2xl flex items-center gap-3 text-white">
                     <Phone className="w-6 h-6" />
@@ -266,7 +269,7 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [], mainten
                   <ul className="space-y-2 mb-6">
                     {pricing.includes.map((item, index) => (
                       <li key={index} className="flex items-center gap-2 text-sm">
-                        <CheckCircle className="w-4 h-4 text-lime-green flex-shrink-0" />
+                        <CheckCircle className="w-4 h-4 text-lime-green shrink-0" />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -358,7 +361,7 @@ const ServiceTemplate = ({ service, companyInfo = {}, testimonials = [], mainten
       </section>
 
       {/* CTA Section - Phone-first strategy */}
-      <section className="py-16 bg-gradient-to-r from-prussian-blue to-electric-blue">
+      <section className="py-16 bg-linear-to-r from-prussian-blue to-electric-blue">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-white mb-4">
             {maintenanceSignup ? 'Ready to Protect Your HVAC Investment?' : 'Need HVAC Service? We\'re Ready.'}

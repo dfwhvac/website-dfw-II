@@ -34,7 +34,12 @@ const AddressAutocomplete = ({ value, onChange, id, className, placeholder, requ
   const [ready, setReady] = useState(false)
   const [focused, setFocused] = useState(false)
 
-  onChangeRef.current = onChange
+  // Keep the latest onChange callback in a ref so the Places `place_changed`
+  // listener (attached once) always invokes the current handler without
+  // forcing the listener-setup effect to re-run on every parent re-render.
+  useEffect(() => {
+    onChangeRef.current = onChange
+  }, [onChange])
 
   // Lazy-load Google Maps only when the user actually interacts with the
   // address field. Saves ~800–1,200ms TBT on form pages for users who never

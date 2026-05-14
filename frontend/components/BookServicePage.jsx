@@ -60,7 +60,7 @@ const BookServicePage = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-prussian-blue to-prussian-blue text-white py-12">
+      <section className="bg-linear-to-br from-prussian-blue to-prussian-blue text-white py-12">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-3xl md:text-4xl font-bold mb-4">
             Get Your Free HVAC Estimate
@@ -72,7 +72,7 @@ const BookServicePage = () => {
           <div className="flex items-center justify-center mt-2">
             <a
               href="tel:+19727772665"
-              className="inline-flex items-center gap-2 bg-white text-prussian-blue hover:bg-gray-100 font-semibold px-6 py-3 rounded-full shadow-md transition-all hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-prussian-blue"
+              className="inline-flex items-center gap-2 bg-white text-prussian-blue hover:bg-gray-100 font-semibold px-6 py-3 rounded-full shadow-md transition-all hover:scale-[1.02] focus:outline-hidden focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-prussian-blue"
               data-testid="estimate-banner-call-cta"
             >
               <Phone className="w-4 h-4" aria-hidden="true" />
@@ -148,25 +148,25 @@ const BookServicePage = () => {
               <CardContent>
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-green-600 shrink-0" />
                     <span className="text-gray-700">
                       <strong>Three Generations</strong> of trusted family service
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <Clock className="w-5 h-5 text-electric-blue flex-shrink-0" />
+                    <Clock className="w-5 h-5 text-electric-blue shrink-0" />
                     <span className="text-gray-700">
                       <strong>Fast Response</strong> — Contact within 2 business hours
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <Shield className="w-5 h-5 text-prussian-blue flex-shrink-0" />
+                    <Shield className="w-5 h-5 text-prussian-blue shrink-0" />
                     <span className="text-gray-700">
                       <strong>Licensed & Insured</strong> — Fully certified technicians
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <Wrench className="w-5 h-5 text-orange-600 flex-shrink-0" />
+                    <Wrench className="w-5 h-5 text-orange-600 shrink-0" />
                     <span className="text-gray-700">
                       <strong>Honest Assessments</strong> — Transparent, upfront pricing
                     </span>
@@ -190,7 +190,7 @@ const BookServicePage = () => {
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm mb-4">
                   {majorCities.map((city, index) => (
                     <div key={index} className="text-gray-700 flex items-center gap-1">
-                      <CheckCircle className="w-3 h-3 text-electric-blue flex-shrink-0" />
+                      <CheckCircle className="w-3 h-3 text-electric-blue shrink-0" />
                       {city}
                     </div>
                   ))}

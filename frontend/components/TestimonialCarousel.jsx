@@ -42,9 +42,16 @@ const TestimonialCarousel = ({ testimonials = [], maxDisplay = 12 }) => {
 
   useEffect(() => {
     if (!emblaApi) return
-    onSelect()
     emblaApi.on('select', onSelect)
     emblaApi.on('reInit', onSelect)
+    // Defer the initial sync so we don't synchronously set state inside the
+    // effect body (react-hooks/set-state-in-effect). Emits the same end state
+    // one microtask later.
+    queueMicrotask(onSelect)
+    return () => {
+      emblaApi.off('select', onSelect)
+      emblaApi.off('reInit', onSelect)
+    }
   }, [emblaApi, onSelect])
 
   if (displayTestimonials.length === 0) {
@@ -71,7 +78,7 @@ const TestimonialCarousel = ({ testimonials = [], maxDisplay = 12 }) => {
                   </div>
                   
                   {/* Review Text */}
-                  <p className="text-gray-600 mb-4 italic flex-grow line-clamp-[8] text-sm leading-relaxed">
+                  <p className="text-gray-600 mb-4 italic grow line-clamp-8 text-sm leading-relaxed">
                     "{testimonial.text}"
                   </p>
                   
@@ -123,7 +130,7 @@ const TestimonialCarousel = ({ testimonials = [], maxDisplay = 12 }) => {
               type="button"
               aria-label={`Go to review slide ${index + 1}`}
               aria-current={isActive ? 'true' : undefined}
-              className="w-6 h-6 flex items-center justify-center rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-electric-blue"
+              className="w-6 h-6 flex items-center justify-center rounded-full focus:outline-hidden focus-visible:ring-2 focus-visible:ring-electric-blue"
               onClick={() => emblaApi?.scrollTo(index * 3)}
               data-testid={`testimonial-dot-${index}`}
             >

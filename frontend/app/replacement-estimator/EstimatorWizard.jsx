@@ -211,12 +211,12 @@ export default function EstimatorWizard() {
       <>
         {/* Results hero */}
         <section
-          className="py-14 lg:py-20 text-white bg-gradient-to-br from-prussian-blue to-electric-blue"
+          className="py-14 lg:py-20 text-white bg-linear-to-br from-prussian-blue to-electric-blue"
           data-testid="estimator-result"
         >
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center">
-              <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full text-sm font-medium border border-white/20 mb-6">
+              <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium border border-white/20 mb-6">
                 <Sparkles className="w-4 h-4" aria-hidden="true" />
                 Your Estimated Range
               </div>
@@ -310,7 +310,7 @@ export default function EstimatorWizard() {
 
               {/* Soft opt-in (Option C hybrid) */}
               {!leadSubmitted ? (
-                <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+                <div className="bg-white rounded-xl border border-gray-200 shadow-xs p-6">
                   {!optInOpen ? (
                     <button
                       onClick={() => setOptInOpen(true)}
@@ -348,7 +348,7 @@ export default function EstimatorWizard() {
                             required
                             value={leadForm.firstName}
                             onChange={(e) => setLeadForm({ ...leadForm, firstName: e.target.value })}
-                            className="w-full px-3 py-3 min-h-[44px] border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-blue"
+                            className="w-full px-3 py-3 min-h-[44px] border border-gray-300 rounded-md focus:outline-hidden focus:ring-2 focus:ring-electric-blue"
                             data-testid="estimator-optin-firstname"
                           />
                         </div>
@@ -364,7 +364,7 @@ export default function EstimatorWizard() {
                             required
                             value={leadForm.phone}
                             onChange={(e) => setLeadForm({ ...leadForm, phone: e.target.value })}
-                            className="w-full px-3 py-3 min-h-[44px] border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-blue"
+                            className="w-full px-3 py-3 min-h-[44px] border border-gray-300 rounded-md focus:outline-hidden focus:ring-2 focus:ring-electric-blue"
                             data-testid="estimator-optin-phone"
                           />
                         </div>
@@ -380,7 +380,7 @@ export default function EstimatorWizard() {
                           autoComplete="email"
                           value={leadForm.email}
                           onChange={(e) => setLeadForm({ ...leadForm, email: e.target.value })}
-                          className="w-full px-3 py-3 min-h-[44px] border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-electric-blue"
+                          className="w-full px-3 py-3 min-h-[44px] border border-gray-300 rounded-md focus:outline-hidden focus:ring-2 focus:ring-electric-blue"
                           data-testid="estimator-optin-email"
                         />
                       </div>
@@ -440,10 +440,10 @@ export default function EstimatorWizard() {
   return (
     <>
       {/* Hero */}
-      <section className="py-12 lg:py-16 text-white bg-gradient-to-br from-prussian-blue to-electric-blue">
+      <section className="py-12 lg:py-16 text-white bg-linear-to-br from-prussian-blue to-electric-blue">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full text-sm font-medium border border-white/20 mb-6">
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium border border-white/20 mb-6">
               <Calculator className="w-4 h-4" aria-hidden="true" />
               Free Instant Estimate · No Signup
             </div>
@@ -472,7 +472,7 @@ export default function EstimatorWizard() {
               </div>
               <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-electric-blue to-growth-green transition-all duration-300"
+                  className="h-full bg-linear-to-r from-electric-blue to-growth-green transition-all duration-300"
                   style={{ width: `${progressPct}%` }}
                 />
               </div>
@@ -498,7 +498,7 @@ export default function EstimatorWizard() {
                       onClick={() => handleSelect(opt.value)}
                       className={`w-full text-left px-4 py-3 rounded-lg border-2 transition-all ${
                         selected
-                          ? 'bg-blue-50 border-electric-blue text-prussian-blue font-semibold shadow-sm'
+                          ? 'bg-blue-50 border-electric-blue text-prussian-blue font-semibold shadow-xs'
                           : 'bg-white border-gray-200 text-gray-700 hover:border-gray-400 hover:bg-gray-50'
                       }`}
                       data-testid={`estimator-option-${currentQuestion.id}-${opt.value}`}

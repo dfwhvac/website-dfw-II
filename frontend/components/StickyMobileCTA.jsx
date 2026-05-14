@@ -22,10 +22,12 @@ const StickyMobileCTA = ({
   const [isDismissed, setIsDismissed] = useState(false)
 
   useEffect(() => {
-    // Check if user previously dismissed the bar in this session
-    const dismissed = sessionStorage.getItem('stickyCtaDismissed')
-    if (dismissed === 'true') {
-      setIsDismissed(true)
+    // Check if user previously dismissed the bar in this session.
+    // Defer the setState through a microtask so it doesn't fire synchronously
+    // in the effect body (react-hooks/set-state-in-effect).
+    const dismissed = sessionStorage.getItem('stickyCtaDismissed') === 'true'
+    if (dismissed) {
+      queueMicrotask(() => setIsDismissed(true))
       return
     }
 
