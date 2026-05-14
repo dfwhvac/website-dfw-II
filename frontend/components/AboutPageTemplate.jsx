@@ -149,7 +149,7 @@ const AboutPageTemplate = ({
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-prussian-blue to-electric-blue text-white py-16 lg:py-24">
+      <section className="bg-linear-to-br from-prussian-blue to-electric-blue text-white py-16 lg:py-24">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl lg:text-5xl font-bold mb-4">
@@ -212,7 +212,7 @@ const AboutPageTemplate = ({
                       <ul className="text-left space-y-2 text-sm">
                         {pillar.proofPoints.map((point, pointIndex) => (
                           <li key={pointIndex} className="flex items-start gap-2">
-                            <CheckCircle className="w-4 h-4 text-lime-green flex-shrink-0 mt-0.5" />
+                            <CheckCircle className="w-4 h-4 text-lime-green shrink-0 mt-0.5" />
                             <span className="text-gray-600">{point}</span>
                           </li>
                         ))}
@@ -248,7 +248,7 @@ const AboutPageTemplate = ({
                       }`}
                     >
                       {/* Timeline dot */}
-                      <div className="absolute left-4 md:left-1/2 w-4 h-4 bg-electric-blue rounded-full border-4 border-white shadow transform -translate-x-1/2 z-10" />
+                      <div className="absolute left-4 md:left-1/2 w-4 h-4 bg-electric-blue rounded-full border-4 border-white shadow-sm transform -translate-x-1/2 z-10" />
                       
                       {/* Content card */}
                       <div className={`ml-12 md:ml-0 md:w-1/2 ${index % 2 === 0 ? 'md:pr-12 md:text-right' : 'md:pl-12'}`}>

@@ -56,7 +56,7 @@ export default async function NotFound() {
           </p>
 
           {/* Primary conversion: phone call */}
-          <div className="bg-gradient-to-br from-prussian-blue to-electric-blue text-white rounded-2xl p-8 md:p-10 mb-10 shadow-xl">
+          <div className="bg-linear-to-br from-prussian-blue to-electric-blue text-white rounded-2xl p-8 md:p-10 mb-10 shadow-xl">
             <div className="flex items-center justify-center gap-1 mb-3">
               {[...Array(5)].map((_, i) => (
                 <Star key={i} className="w-5 h-5 fill-[#F77F00] text-[#F77F00]" />

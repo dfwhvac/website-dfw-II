@@ -65,7 +65,7 @@ const DynamicPage = ({ page, companyInfo, testimonials = [] }) => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-16 lg:py-24">
+      <section className="bg-linear-to-br from-blue-50 via-white to-indigo-50 py-16 lg:py-24">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
@@ -114,7 +114,7 @@ const DynamicPage = ({ page, companyInfo, testimonials = [] }) => {
                     <ul className="space-y-3 mt-6">
                       {section.bulletPoints.map((point, i) => (
                         <li key={i} className="flex items-start gap-3">
-                          <CheckCircle className="w-5 h-5 text-lime-green mt-1 flex-shrink-0" />
+                          <CheckCircle className="w-5 h-5 text-lime-green mt-1 shrink-0" />
                           <span className="text-gray-700">{point}</span>
                         </li>
                       ))}
@@ -164,7 +164,7 @@ const DynamicPage = ({ page, companyInfo, testimonials = [] }) => {
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
               {serviceAreasList.map((area, index) => (
                 <div key={index} className="flex items-center gap-2 p-4 bg-gray-50 rounded-lg">
-                  <MapPin className="w-5 h-5 text-electric-blue flex-shrink-0" />
+                  <MapPin className="w-5 h-5 text-electric-blue shrink-0" />
                   <div>
                     <p className="font-semibold text-gray-900">{area.city}</p>
                     {area.description && (
@@ -214,7 +214,7 @@ const DynamicPage = ({ page, companyInfo, testimonials = [] }) => {
             <div className="space-y-8 max-w-4xl mx-auto">
               {caseStudies.map((study, index) => (
                 <Card key={index} className="overflow-hidden">
-                  <CardHeader className="bg-gradient-to-r from-prussian-blue to-electric-blue text-white">
+                  <CardHeader className="bg-linear-to-r from-prussian-blue to-electric-blue text-white">
                     <CardTitle>{study.title}</CardTitle>
                     {study.client && (
                       <CardDescription className="text-white/80">
@@ -277,7 +277,7 @@ const DynamicPage = ({ page, companyInfo, testimonials = [] }) => {
 
       {/* CTA Banner */}
       {showCtaBanner !== false && (
-        <section className="py-20 bg-gradient-to-r from-prussian-blue to-electric-blue">
+        <section className="py-20 bg-linear-to-r from-prussian-blue to-electric-blue">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-4xl font-bold text-white mb-4">Ready to Get Started?</h2>
             <p className="text-xl text-white opacity-90 mb-8 max-w-2xl mx-auto">

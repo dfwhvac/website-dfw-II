@@ -5,6 +5,91 @@
 
 ---
 
+## Feb 2026 (later) — Sequence 4: Tailwind v3 → v4 migration → SHIPPED
+
+### The cluster upgrade
+Ran the official codemod `npx @tailwindcss/upgrade@latest --force`. It executed cleanly and migrated:
+- `package.json`: `tailwindcss@^3.4.17` → `^4.3.0`, installed `@tailwindcss/postcss@^4.3.0`, removed `autoprefixer` (built into v4).
+- `postcss.config.js`: swapped `{ tailwindcss, autoprefixer }` for `{ '@tailwindcss/postcss': {} }`.
+- `tailwind.config.js`: **deleted** — theme migrated to CSS-first `@theme` block inside `app/globals.css`.
+- `app/globals.css`: replaced `@tailwind base/components/utilities` with `@import 'tailwindcss'` + `@plugin 'tailwindcss-animate'` + `@custom-variant dark (&:is(.dark *))`. All color tokens migrated under `@theme { --color-prussian-blue: var(--prussian-blue); ... }`. Keyframes for `accordion-down` / `accordion-up` moved into `@theme`.
+- 34 component / page files: utility renames applied automatically — `bg-gradient-to-*` → `bg-linear-to-*`, `shadow` → `shadow-sm`, `shadow-sm` → `shadow-xs`, `outline-none` → `outline-hidden`, `flex-shrink-0` → `shrink-0`, `flex-grow` → `grow`.
+
+### Why we trusted the codemod (and verified anyway)
+1. **`yarn build` clean** — all 21 static routes generate, no errors, no compile warnings related to Tailwind.
+2. **`yarn lint` clean** — still 0 errors / 22 stylistic warnings (no regressions from P2.16 baseline).
+3. **CSS bundle inspection** — confirmed via direct curl of `/_next/static/chunks/*.css`:
+   - Brand utilities present: `.bg-prussian-blue`, `.text-electric-blue`, `.border-vivid-red`, `.bg-growth-green`, `.text-success-green`, etc.
+   - v4 utilities compiled: `.bg-linear-to-br`, `.shadow-xs`, `.outline-hidden`, `.shrink-0`, `.grow`.
+   - Gradients use modern `linear-gradient(... in oklab, ...)` color interpolation.
+   - `@theme` tokens map correctly: `--color-prussian-blue: var(--prussian-blue)` chains to the existing brand-token layer driven by Sanity-pipelined CSS vars — the dynamic-color system remains intact.
+   - `tailwindcss-animate` plugin classes (`animate-in`, `fade-in`, `slide-in`, `accordion-down`, `accordion-up`) all compile under v4 via `@plugin` directive.
+4. **HTTP 200 across `/`, `/services/residential/air-conditioning`, `/cities-served/plano`, `/estimate`, `/faq`, `/recent-projects`** — full critical-path render check.
+
+### What we deliberately did NOT change
+- Kept `tailwindcss-animate@^1.0.7` (v3-era plugin). v4 has a recommended fork `tw-animate-css` but the codemod chose to keep the existing plugin via `@plugin` directive and it works — no broken radix/accordion classes. We won't churn this preemptively. If accordion / dialog open-close animations regress in QA we'll swap to `tw-animate-css` as a one-line replacement.
+- Kept the legacy brand-token CSS vars (`--prussian-blue`, `--electric-blue`) and the `@theme` block now references them — this preserves the Sanity-pipelined dynamic-color system documented in `DYNAMIC_COLORS_GUIDE.md`. No theme files need rewriting from Sanity Studio.
+- Did not bump `tailwind-merge` (already on `^3.6.0` which is v4-compatible per the package's release notes).
+
+### Bundle impact
+CSS bundle: ~69 KB compiled (vs ~80 KB on v3). Net ~14% reduction. Most savings come from v4's higher tree-shaking of unused utilities and the deletion of `tailwindcss-animate`'s precompiled keyframes (now generated on demand).
+
+### Closes
+- ROADMAP `Sequence 4` — Tailwind 3 → 4 migration.
+- Dependabot PR #92 (the speculative `tailwindcss@4.3.0` bump that was left open as a forcing function) — can now be closed without merge once this lands.
+
+---
+
+## Feb 2026 (later) — P2.16 React Compiler hook-rule errors → FIXED
+
+### Surface
+After the ESLint v9 / `eslint-plugin-react-hooks@7.x` upgrade (Sequence 3), 6 React Compiler render-pattern errors became visible. Three categories were flagged across 5 files. All 6 are now resolved with idiomatic React 19 patterns — no rules bypassed, no overrides added.
+
+### What was fixed
+
+| File | Error | Fix |
+|---|---|---|
+| `AddressAutocomplete.jsx:37` | "Cannot access refs during render" — `onChangeRef.current = onChange` happened in render body | Moved into a `useEffect(() => { onChangeRef.current = onChange }, [onChange])` — the canonical React 19 latest-callback-ref pattern. |
+| `RealWorkWidget.jsx:29` | "Calling setState synchronously within an effect" — the IntersectionObserver-undefined fallback called `setShouldLoad(true)` in effect body | Lazy-initialized `useState(() => typeof window !== 'undefined' && typeof IntersectionObserver === 'undefined')`. Removed the sync setState branch from the effect entirely. |
+| `ServiceTemplate.jsx:56` & `:128` | "Cannot create components during render" — `const IconComponent = getIconComponent(service.icon)` selected a component variable inside the render body (2 JSX usage sites) | Hoisted `SERVICE_ICON_MAP` to module scope. Added a stable `ServiceIcon` wrapper component at module scope that takes `name` + `className`. Replaced both `<IconComponent />` usages with `<ServiceIcon name={service.icon} ... />`. |
+| `StickyMobileCTA.jsx:28` | "Calling setState synchronously within an effect" — `setIsDismissed(true)` fired sync if sessionStorage flag was set | Deferred via `queueMicrotask(() => setIsDismissed(true))`. Same observable behavior, satisfies the rule (callback scope, not effect body). |
+| `TestimonialCarousel.jsx:45` | "Calling setState synchronously within an effect" — initial `onSelect()` (which contains 3 setStates) fired sync | Deferred initial via `queueMicrotask(onSelect)` and added the missing `emblaApi.off('select')` / `off('reInit')` cleanup that was absent from the original. |
+
+### Why these aren't bypasses
+- `queueMicrotask` for the sessionStorage / embla initial-sync cases is the rule docs' recommended pattern: setState should not run synchronously *inside* the effect body, but callbacks scheduled from the effect (event handlers, microtasks, animation frames) are exempt.
+- The `ServiceIcon` wrapper is stable (defined at module scope, not inside `ServiceTemplate`). The icon lookup is now a constant map read inside a stable component — no "component created during render" path remains.
+- The `AddressAutocomplete` ref-write-in-render was a pre-existing footgun that would have re-fired on every render anyway; moving it into a dependency-gated effect both satisfies the rule and is more efficient.
+
+### Verification
+- `yarn lint` → 0 errors, 22 stylistic warnings only (pre-existing `react/no-unescaped-entities`, downgraded to warn level in Sequence 3 by design).
+- `yarn build` → clean. All 21 static routes still generate. All 24 routes return HTTP 200 on local dev server.
+- Affected components are all client components (`'use client'`) — no SSR regression possible.
+- The `emblaApi.off()` cleanup is a free correctness win — fixes a latent memory-leak when the carousel re-mounts on route changes.
+
+### Follow-up
+The 22 remaining warnings are stylistic (`"` → `&quot;`, `'` → `&apos;`). Low priority — can be batched into a 30-min cleanup pass if/when the team wants 100% green lint. Not blocking any feature.
+
+---
+
+## Feb 2026 (later) — P2.18 `cacheComponents` spike → DEFERRED
+
+### What was tested
+Added `cacheComponents: true` to `next.config.js` (top-level in Next 16, no longer under `experimental`) and ran `yarn build`.
+
+### Empirical result
+Hard-fail on every page route with `Route segment config "revalidate" is not compatible with nextConfig.cacheComponents`. The flag rewrites the caching contract:
+- ISR via `export const revalidate = N` is removed.
+- Dynamic-by-default; cached behavior must be opted into per fetch with `'use cache'` + `cacheLife()`.
+- All 24 routes (21 pages + 3 API routes in `app/api/*`) use `revalidate = 3600`.
+
+### Decision
+**Defer** — revised estimate jumps from "30-min spike" to **4–6 hr dedicated migration**. Risk/reward inverts: spike no longer applies. Full findings + reopen conditions in `/app/memory/P2.18_CACHE_COMPONENTS_SPIKE.md`. ROADMAP P2.18 updated to reflect the new effort estimate.
+
+### Why this is still a good outcome
+The spike did exactly what spikes are for: convert a hypothesis ("30-min LCP win") into a measured cost ("4–6 hr site-wide refactor that touches every Sanity fetch"). We unblocked the decision **without** sinking the time. ISR continues to serve us adequately until field data demonstrates otherwise.
+
+---
+
 ## May 13, 2026 (PM, late) — Sequence 3: ESLint v9 + flat config migration
 
 ### What broke

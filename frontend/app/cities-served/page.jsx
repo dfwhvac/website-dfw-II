@@ -61,7 +61,7 @@ export default async function CitiesServedPage() {
       <Header companyInfo={companyInfo} siteSettings={siteSettings} />
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-prussian-blue to-electric-blue text-white py-20">
+      <section className="bg-linear-to-br from-prussian-blue to-electric-blue text-white py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
@@ -193,7 +193,7 @@ export default async function CitiesServedPage() {
                 { title: 'Indoor Air Quality', desc: 'Air purification and filtration' },
               ].map((service) => (
                 <div key={service.title} className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-[#32CD32] mt-1 flex-shrink-0" />
+                  <CheckCircle className="w-5 h-5 text-[#32CD32] mt-1 shrink-0" />
                   <div>
                     <h3 className="font-semibold text-prussian-blue">{service.title}</h3>
                     <p className="text-gray-600 text-sm">{service.desc}</p>

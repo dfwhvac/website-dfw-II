@@ -90,12 +90,12 @@ export default async function FinancingPage() {
 
       {/* Hero */}
       <section
-        className="relative py-20 lg:py-28 text-white overflow-hidden bg-gradient-to-br from-prussian-blue to-electric-blue"
+        className="relative py-20 lg:py-28 text-white overflow-hidden bg-linear-to-br from-prussian-blue to-electric-blue"
         data-testid="financing-hero"
       >
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full text-sm font-medium border border-white/20 mb-6">
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium border border-white/20 mb-6">
               <Sparkles className="w-4 h-4" aria-hidden="true" />
               Flexible HVAC Financing in Dallas-Fort Worth
             </div>
@@ -120,7 +120,7 @@ export default async function FinancingPage() {
               </a>
               <a
                 href={PHONE_TEL}
-                className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur text-white font-semibold px-8 py-4 rounded-md text-lg border-2 border-white/40 transition-colors"
+                className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-semibold px-8 py-4 rounded-md text-lg border-2 border-white/40 transition-colors"
                 data-testid="financing-phone-cta"
               >
                 <Phone className="w-5 h-5" aria-hidden="true" />
@@ -270,7 +270,7 @@ export default async function FinancingPage() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-16 lg:py-20 text-white bg-gradient-to-br from-prussian-blue to-electric-blue">
+      <section className="py-16 lg:py-20 text-white bg-linear-to-br from-prussian-blue to-electric-blue">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <MessageSquare className="w-12 h-12 mx-auto mb-6 text-growth-green" aria-hidden="true" />
@@ -292,7 +292,7 @@ export default async function FinancingPage() {
               </Link>
               <a
                 href={PHONE_TEL}
-                className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur text-white font-semibold px-8 py-4 rounded-md text-lg border-2 border-white/40 transition-colors"
+                className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-semibold px-8 py-4 rounded-md text-lg border-2 border-white/40 transition-colors"
                 data-testid="financing-footer-phone-cta"
               >
                 <Phone className="w-5 h-5" aria-hidden="true" />
@@ -333,7 +333,7 @@ export default async function FinancingPage() {
 
 function Benefit({ icon: Icon, title, body }) {
   return (
-    <div className="text-center p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+    <div className="text-center p-6 rounded-xl border border-gray-100 shadow-xs hover:shadow-md transition-shadow">
       <div className="w-14 h-14 mx-auto mb-4 bg-blue-50 rounded-full flex items-center justify-center border border-electric-blue/20">
         <Icon className="w-7 h-7 text-electric-blue" aria-hidden="true" />
       </div>
@@ -345,7 +345,7 @@ function Benefit({ icon: Icon, title, body }) {
 
 function Step({ number, title, body }) {
   return (
-    <div className="relative bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+    <div className="relative bg-white rounded-xl border border-gray-200 p-6 shadow-xs">
       <div className="absolute -top-4 left-6 w-10 h-10 bg-prussian-blue text-white rounded-full flex items-center justify-center font-bold text-lg shadow-md">
         {number}
       </div>
@@ -357,7 +357,7 @@ function Step({ number, title, body }) {
 
 function Faq({ q, a }) {
   return (
-    <details className="group bg-white rounded-lg border border-gray-200 p-5 shadow-sm">
+    <details className="group bg-white rounded-lg border border-gray-200 p-5 shadow-xs">
       <summary className="cursor-pointer font-semibold text-gray-900 text-lg flex items-start justify-between gap-4">
         <span>{q}</span>
         <span className="text-electric-blue text-2xl leading-none group-open:rotate-45 transition-transform shrink-0" aria-hidden="true">+</span>

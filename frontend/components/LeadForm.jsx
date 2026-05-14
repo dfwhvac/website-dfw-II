@@ -133,7 +133,7 @@ const LeadForm = ({
 
   return (
     <Card className="w-full max-w-2xl mx-auto shadow-xl border-0">
-      <CardHeader className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-t-lg">
+      <CardHeader className="bg-linear-to-r from-blue-50 to-blue-100 rounded-t-lg">
         <CardTitle className="text-2xl text-center text-gray-800 flex items-center justify-center gap-2">
           <Wrench className="w-6 h-6 text-electric-blue" />
           {title}
@@ -271,7 +271,7 @@ const LeadForm = ({
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="w-full h-12 text-white font-semibold text-lg transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none bg-gradient-to-r from-electric-blue to-prussian-blue hover:from-prussian-blue hover:to-electric-blue"
+            className="w-full h-12 text-white font-semibold text-lg transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none bg-linear-to-r from-electric-blue to-prussian-blue hover:from-prussian-blue hover:to-electric-blue"
           >
             {isSubmitting ? "Submitting..." : buttonText}
           </Button>

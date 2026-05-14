@@ -207,7 +207,7 @@ export default async function CityPage({ params }) {
       <Header companyInfo={companyInfo} siteSettings={siteSettings} />
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-prussian-blue to-electric-blue text-white py-16 md:py-20">
+      <section className="bg-linear-to-br from-prussian-blue to-electric-blue text-white py-16 md:py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             {/* Breadcrumb */}
@@ -372,7 +372,7 @@ export default async function CityPage({ params }) {
                   'Comprehensive warranty on all work',
                 ].map((item, index) => (
                   <li key={index} className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-[#32CD32] flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-[#32CD32] shrink-0" />
                     <span className="text-gray-700">{item}</span>
                   </li>
                 ))}

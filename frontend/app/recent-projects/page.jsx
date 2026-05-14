@@ -40,7 +40,7 @@ export default async function RecentProjectsPage() {
       <Header companyInfo={companyInfo} siteSettings={siteSettings} />
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-prussian-blue to-electric-blue text-white py-16 md:py-20">
+      <section className="bg-linear-to-br from-prussian-blue to-electric-blue text-white py-16 md:py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             {/* Breadcrumb */}
@@ -199,7 +199,7 @@ export default async function RecentProjectsPage() {
                 { title: 'Comprehensive Warranties', desc: 'We stand behind our work with industry-leading warranties' },
               ].map((item, index) => (
                 <div key={index} className="flex gap-4">
-                  <CheckCircle className="w-6 h-6 text-[#32CD32] flex-shrink-0 mt-1" />
+                  <CheckCircle className="w-6 h-6 text-[#32CD32] shrink-0 mt-1" />
                   <div>
                     <h3 className="font-semibold text-prussian-blue mb-1">{item.title}</h3>
                     <p className="text-gray-600 text-sm">{item.desc}</p>

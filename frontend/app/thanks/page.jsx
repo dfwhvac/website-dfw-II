@@ -113,12 +113,12 @@ export default async function ThanksPage({ searchParams }) {
 
       {/* Confirmation Hero */}
       <section
-        className="relative py-20 lg:py-28 text-white overflow-hidden bg-gradient-to-br from-prussian-blue to-electric-blue"
+        className="relative py-20 lg:py-28 text-white overflow-hidden bg-linear-to-br from-prussian-blue to-electric-blue"
         data-testid="thanks-hero"
       >
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full text-sm font-medium border border-white/20 mb-6">
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium border border-white/20 mb-6">
               <Sparkles className="w-4 h-4" aria-hidden="true" />
               {copy.badge}
             </div>
@@ -157,7 +157,7 @@ export default async function ThanksPage({ searchParams }) {
               {nextSteps.map(({ icon: Icon, title, body }, i) => (
                 <div
                   key={title}
-                  className="bg-white rounded-xl shadow-sm border border-gray-100 p-7 flex flex-col"
+                  className="bg-white rounded-xl shadow-xs border border-gray-100 p-7 flex flex-col"
                   data-testid={`thanks-next-step-${i + 1}`}
                 >
                   <div className="w-12 h-12 rounded-lg bg-electric-blue/10 text-electric-blue flex items-center justify-center mb-5">
@@ -193,7 +193,7 @@ export default async function ThanksPage({ searchParams }) {
                   <p className="font-semibold text-prussian-blue mb-1">Repair or Replace?</p>
                   <p className="text-sm text-gray-600">A 2-minute decision framework with the math we walk customers through.</p>
                 </div>
-                <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-electric-blue transition-colors flex-shrink-0 ml-4" />
+                <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-electric-blue transition-colors shrink-0 ml-4" />
               </Link>
 
               <Link
@@ -205,7 +205,7 @@ export default async function ThanksPage({ searchParams }) {
                   <p className="font-semibold text-prussian-blue mb-1">0% APR Financing</p>
                   <p className="text-sm text-gray-600">Up to 24 months, soft credit check via Wisetack — no impact to your score.</p>
                 </div>
-                <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-electric-blue transition-colors flex-shrink-0 ml-4" />
+                <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-electric-blue transition-colors shrink-0 ml-4" />
               </Link>
 
               <Link
@@ -217,7 +217,7 @@ export default async function ThanksPage({ searchParams }) {
                   <p className="font-semibold text-prussian-blue mb-1">Replacement Estimator</p>
                   <p className="text-sm text-gray-600">A 5-question wizard with a real DFW price range — no email required.</p>
                 </div>
-                <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-electric-blue transition-colors flex-shrink-0 ml-4" />
+                <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-electric-blue transition-colors shrink-0 ml-4" />
               </Link>
 
               <Link
@@ -229,7 +229,7 @@ export default async function ThanksPage({ searchParams }) {
                   <p className="font-semibold text-prussian-blue mb-1">Read the Reviews</p>
                   <p className="text-sm text-gray-600">{companyInfo?.googleReviews || REVIEW_COUNT_FALLBACK}+ five-star Google reviews from neighbors across the DFW metroplex.</p>
                 </div>
-                <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-electric-blue transition-colors flex-shrink-0 ml-4" />
+                <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-electric-blue transition-colors shrink-0 ml-4" />
               </Link>
             </div>
 

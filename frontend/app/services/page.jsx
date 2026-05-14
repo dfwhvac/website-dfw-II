@@ -65,7 +65,7 @@ export default async function ServicesPage() {
       <Header companyInfo={companyInfo} siteSettings={siteSettings} />
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-prussian-blue to-electric-blue text-white py-16 md:py-20">
+      <section className="bg-linear-to-br from-prussian-blue to-electric-blue text-white py-16 md:py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
@@ -133,7 +133,7 @@ export default async function ServicesPage() {
                           <ul className="space-y-1">
                             {service.features.slice(0, 3).map((feature, index) => (
                               <li key={index} className="flex items-center gap-2 text-sm text-gray-600">
-                                <CheckCircle className="w-4 h-4 text-lime-green flex-shrink-0" />
+                                <CheckCircle className="w-4 h-4 text-lime-green shrink-0" />
                                 <span>{feature}</span>
                               </li>
                             ))}
@@ -190,7 +190,7 @@ export default async function ServicesPage() {
                           <ul className="space-y-1">
                             {service.features.slice(0, 3).map((feature, index) => (
                               <li key={index} className="flex items-center gap-2 text-sm text-gray-600">
-                                <CheckCircle className="w-4 h-4 text-lime-green flex-shrink-0" />
+                                <CheckCircle className="w-4 h-4 text-lime-green shrink-0" />
                                 <span>{feature}</span>
                               </li>
                             ))}

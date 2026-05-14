@@ -204,7 +204,7 @@ const Footer = ({ companyInfo = {}, siteSettings = null }) => {
                     rel="noopener noreferrer"
                     aria-label={`DFW HVAC on ${platformName}`}
                     data-testid={`footer-social-${social.platform || 'link'}`}
-                    className="w-9 h-9 rounded-full bg-white text-prussian-blue hover:bg-electric-blue hover:text-white flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-electric-blue focus:ring-offset-2 focus:ring-offset-gray-900"
+                    className="w-9 h-9 rounded-full bg-white text-prussian-blue hover:bg-electric-blue hover:text-white flex items-center justify-center transition-colors focus:outline-hidden focus:ring-2 focus:ring-electric-blue focus:ring-offset-2 focus:ring-offset-gray-900"
                   >
                     <SocialIcon platform={social.platform} className="w-4 h-4" />
                   </a>
