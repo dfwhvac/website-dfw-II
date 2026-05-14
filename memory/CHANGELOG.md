@@ -5,6 +5,59 @@
 
 ---
 
+## Feb 2026 (later) — KPI Audit auth fix + freshness trigger fix (PRs #101, #102)
+
+### The session's actual work
+Beyond the planned P0/P1 (Tailwind v4, P2.16 hooks, P2.18 spike), this session also fixed two infrastructure bugs that surfaced when the KPI Audit cron tried to run for the first time after PR #100 landed.
+
+### Bug 1 — KPI Audit couldn't push to main (PR #101)
+
+**Symptom:** `node scripts/audit-kpis.mjs` ran fine, JSON snapshot generated cleanly, but the final `git push` step failed with:
+```
+remote: error: GH013: Repository rule violations found for refs/heads/main.
+remote: - Changes must be made through a pull request.
+remote: - 3 of 3 required status checks are expected.
+```
+
+**Root cause:** The workflow used `${{ secrets.GITHUB_TOKEN }}` which authenticates as `github-actions[bot]`. GitHub's repository rulesets **cannot grant bypass to that bot** — `github-actions[bot]` is not exposed as a selectable bypass actor in the UI, only third-party GitHub Apps and named user roles are. Adding "Repository admin" to the bypass list doesn't help because the bot isn't a user with that role.
+
+**Fix:** Switch the workflow to use a fine-grained PAT (`secrets.KPI_AUDIT_PAT`) issued under a Repository Admin's identity. The PAT's owner is a real user, "Repository admin" bypass now applies, push goes through.
+
+**Permanent setup the user did once:**
+1. Added "Repository admin" (Role, Always allow) to the Main branch protection ruleset's bypass list.
+2. Generated a fine-grained PAT scoped to `website-dfw-II` only, with **Contents: Read and write** and nothing else, expiry 1 year (calendar reminder May 2027).
+3. Stored as repo secret `KPI_AUDIT_PAT`.
+
+**Workflow change:** `.github/workflows/kpi-audit.yml` — swapped `token: ${{ secrets.GITHUB_TOKEN }}` → `token: ${{ secrets.KPI_AUDIT_PAT }}` on the checkout step, added `persist-credentials: true`, and changed the commit author identity to a generic `kpi-audit-bot <kpi-audit@dfwhvac.com>` (was `github-actions[bot]`) so the audit-log doesn't leak the PAT owner's real email on every weekly entry.
+
+**Verification:** KPI Audit run #11 succeeded end-to-end. Commit `ab2eaee6` ("chore(kpi): weekly snapshot 2026-05-14 [skip ci]") landed on main by `kpi-audit-bot`. Vercel auto-deployed (it ignores `[skip ci]`). Live `/internal/kpi-snapshot.json` is byte-identical to GitHub's main HEAD. Dashboard renders fresh totals (🟢 20 · 🟡 5 · 🔴 7 · ⚪ 20 of 52).
+
+### Bug 2 — `freshness` required check hung forever on non-dep PRs (PR #102)
+
+**Symptom:** PR #101 was bypass-merged successfully. The next PR (workflow-only changes) showed `freshness — Expected — Waiting for status to be reported` indefinitely. Cause: the well-known **paths-filter + required-check footgun**.
+
+**Root cause:** `.github/workflows/branch-freshness.yml` had:
+```yaml
+on:
+  pull_request:
+    paths:
+      - 'frontend/package.json'
+      - 'frontend/yarn.lock'
+```
+The `paths:` filter prevents the workflow from starting on PRs that don't touch those files. But the same check is marked **Required** in the main-branch ruleset, so PRs that don't trigger the workflow never get a status → hang forever in "Expected — Waiting for status to be reported". GitHub documents this footgun but doesn't auto-fix it.
+
+**Fix:** Removed the `paths:` filter entirely. The workflow now runs on every PR (~30s extra CI). The internal `git rev-list --count HEAD..origin/main -- frontend/package.json` returns 0 for PRs that don't touch dep files, so they pass trivially. No protection lost.
+
+**Verification:** PR #102 ran the freshness check itself (since it modified `branch-freshness.yml`, the path-irrelevant PR triggered the now-no-filter workflow correctly). Check passed in ~30s. PR #102 merged normally without bypass.
+
+### Lessons for future agents
+
+1. **Required checks must always produce a status.** Never combine `on.pull_request.paths:` filters with required-check enforcement in branch protection rulesets — guaranteed hang.
+2. **`GITHUB_TOKEN` cannot be bypassed in rulesets.** If a workflow needs to push to a protected branch, it must use a PAT owned by a bypass-eligible user. The PAT must be fine-grained, scoped to the single repo, scoped to **Contents: write only**, and have a calendar reminder for expiry rotation.
+3. **The Emergent platform's `.gitignore` / `.emergent/emergent.yml` clobber recurs on every push.** Until the platform team ships an idempotent pre-push hook (support ticket open with `support@emergent.sh` referencing commit `ae876b94`), every PR will show ~60 sec of conflict-resolution friction on those 2 files. Resolve via web editor: `.emergent/emergent.yml` → accept current, `.gitignore` → accept incoming. Track recurrence count in `AGENT_PROTOCOL.md`.
+
+---
+
 ## Feb 2026 (later) — Sequence 4: Tailwind v3 → v4 migration → SHIPPED
 
 ### The cluster upgrade
