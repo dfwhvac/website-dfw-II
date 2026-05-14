@@ -110,9 +110,6 @@ Next.js 16 **removed** the bundled `next lint` command (deprecated in Next 15, d
 ### Pre-existing issues now visible (6 errors — track separately)
 The new lint run surfaced **6 real React Compiler render-pattern errors** that the old `next lint` was missing. Captured as ROADMAP item P2.16 for per-file analysis (they may be real bugs OR false positives from the upgraded `eslint-plugin-react-hooks@7.x`).
 
-### Follow-up opportunity unlocked
-ROADMAP item **P2.18** added: explore Next.js 16's new `experimental.cacheComponents` flag on the homepage hero. The upgrade in Phase B is what makes this available; we wouldn't have access on Next 15. Spike-then-ship: 30 min to enable and measure LCP delta, ship if win is real.
-
 
 
 ---
