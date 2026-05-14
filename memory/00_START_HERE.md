@@ -16,6 +16,9 @@
 | **`/app/memory/audits/`** | All past audit artifacts (Lighthouse scorecards, technical SEO audits, QA sweeps, mobile UX audits, baseline screenshots). Save new audits HERE with ISO-date filenames. |
 | **`/app/memory/audits/README.md`** | Index of all audit files with brief descriptions |
 | **`/app/memory/POST_DEPLOY_ACTION_ITEMS_PR2.md`** | User-facing action items (GA4 conversion toggles, etc.) — not an audit, not a roadmap |
+| **`/app/memory/GA4_SERVICE_ACCOUNT_SETUP.md`** | ⚠️ **SUPERSEDED** — service-account path was abandoned. GA4 + GSC auth runs through OAuth refresh-token flow (secrets `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` / `GOOGLE_REFRESH_TOKEN` / `GA4_PROPERTY_ID` / `GSC_SITE_URL` in GitHub Actions secrets, OAuth client lives in `dfwhvac-kpi` GCP project). The doc is kept for historical context only — do NOT follow its steps. |
+| **`/app/memory/P2.18_CACHE_COMPONENTS_SPIKE.md`** | Spike findings for Next.js 16 `cacheComponents` flag — DEFERRED with reopen criteria (Feb 2026) |
+| **`/app/memory/P2.20_LCP_OPTIMIZATION_PLAN.md`** | Multi-step playbook for LCP push 2.18s → <1.25s. Step 1 revised after audit: text-LCP optimization (font config + script-strategy demotion) rather than image-LCP (no hero image exists) |
 
 **Non-audit reference docs** (brand framework, service areas, FAQs, competitor analysis, legacy backups) remain in `/app/frontend/internal/`.
 

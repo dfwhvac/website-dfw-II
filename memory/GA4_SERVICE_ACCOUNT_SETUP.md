@@ -1,4 +1,27 @@
-# GA4 Service Account Setup — User Walk-Through
+# GA4 Service Account Setup — ⚠️ SUPERSEDED (kept for historical reference only)
+
+> **🚨 STATUS — Feb 2026:** This document describes the **service-account path** for GA4 + GSC auth that was **abandoned** after the user hit a Google Workspace IAM block (`iam.disableServiceAccountKeyCreation` org policy). The actual working path is **OAuth refresh-token flow**, completed ~3 days before this note was written.
+>
+> **What's actually deployed and working:**
+> - GitHub repo secrets (verified live as of Feb 2026):
+>   - `GOOGLE_CLIENT_ID` — OAuth client ID from `dfwhvac-kpi` GCP project's "DFW HVAC KPI Script" OAuth 2.0 client
+>   - `GOOGLE_CLIENT_SECRET` — paired OAuth client secret
+>   - `GOOGLE_REFRESH_TOKEN` — long-lived refresh token obtained via one-time interactive consent
+>   - `GA4_PROPERTY_ID` — GA4 numeric property ID
+>   - `GSC_SITE_URL` — `https://dfwhvac.com/` (or `sc-domain:dfwhvac.com`)
+>   - `PAGESPEED_API_KEY` — Places-style API key (no OAuth needed for PSI)
+> - GCP project housing the OAuth client: `dfwhvac-kpi`
+> - Service-account JSON path: **never completed** — `dfwhvac-analytics-readonly` project deleted Feb 14, 2026
+>
+> **Why OAuth refresh token works where SA didn't:** the Workspace org policy that blocks service-account JSON key creation does NOT block OAuth client creation. The workflow exchanges the refresh token for a short-lived access token at run time, calls GA4/GSC, discards the token. No persistent SA credential anywhere.
+>
+> **Evidence it's working:** dfwhvac-kpi GCP project shows ~9 GA4 Data API calls + ~6 GSC API calls per day, zero errors. KPI dashboard's Phase 2 + Phase 3 cards populate correctly.
+>
+> **Do NOT re-attempt the service-account setup below** unless the Workspace IAM policy has been explicitly lifted by your Workspace Admin. If the OAuth refresh token ever expires (~6 months of inactivity per Google policy), re-run the one-time consent flow to mint a new one; don't fall back to this doc.
+
+---
+
+# GA4 Service Account Setup — User Walk-Through (HISTORICAL — DO NOT FOLLOW)
 
 **Purpose:** Authorize the KPI dashboard to read your GA4 property data programmatically. One service account also unlocks Google Search Console (same auth flow), so this single 15-minute setup unblocks **17 of the 22 KPIs** across Phases 2 and 3 of the roadmap.
 

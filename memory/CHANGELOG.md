@@ -5,6 +5,131 @@
 
 ---
 
+## Feb 2026 (later) — Memory drift correction: GA4/GSC auth is LIVE (not blocked)
+
+### What was wrong
+Prior session handoff summaries described GA4/GSC integration as **BLOCKED** by the Google Workspace `iam.disableServiceAccountKeyCreation` org policy. That was the state during the original setup attempt, but the user (or a subsequent session) pivoted to OAuth refresh-token flow and shipped a working integration ~3 days before this entry. The handoff summaries never got updated, causing this session to start with stale assumptions.
+
+### The actual deployed state (verified Feb 2026)
+GitHub Actions secrets (live in `dfwhvac/website-dfw-II` repo settings):
+- `GOOGLE_CLIENT_ID` — OAuth 2.0 client ID from `dfwhvac-kpi` GCP project ("DFW HVAC KPI Script" client)
+- `GOOGLE_CLIENT_SECRET` — paired OAuth client secret
+- `GOOGLE_REFRESH_TOKEN` — long-lived refresh token (minted via one-time interactive consent)
+- `GA4_PROPERTY_ID` — GA4 numeric property ID
+- `GSC_SITE_URL` — Search Console site URL
+- `PAGESPEED_API_KEY` — PSI API key (lives in `dfwhvac-kpi` GCP project, no OAuth needed)
+- `KPI_AUDIT_PAT` — fine-grained PAT for KPI Audit workflow (created earlier this session for ruleset bypass)
+
+### Why this works where service-account JSON didn't
+Workspace's `iam.disableServiceAccountKeyCreation` policy blocks downloading SA JSON keys but does NOT block creating OAuth clients. The workflow exchanges refresh token → short-lived access token at run time, calls GA4/GSC APIs, discards the access token. No persistent SA credential ever touches disk in CI.
+
+### Evidence it's working
+- `dfwhvac-kpi` GCP project metrics show **9 GA4 Data API calls + 6 GSC API calls + 6 PSI calls** in the last 24h, **zero errors** on the OAuth-mediated calls
+- KPI Audit run #11 (this session): all Phase 2 (SEO/AEO) + Phase 3 (Conversion) cards populated correctly
+- Live dashboard at `/internal/kpi-dashboard.html` shows real GA4 data (sessions, users, bounce, etc.) not gray placeholders
+
+### Cleanup completed this session
+- ⚠️ `/app/memory/GA4_SERVICE_ACCOUNT_SETUP.md` — marked SUPERSEDED with banner; kept for historical reference
+- `dfwhvac-analytics-readonly` GCP project shut down — contained only an unused service account (`dfwhvac-kpi-reader@…`), confirmed not granted in GA4/GSC access management, deleted safely
+- `/app/memory/00_START_HERE.md` Documentation Map updated to note the supersession
+
+### Operational note for future sessions
+If `GOOGLE_REFRESH_TOKEN` ever stops working (Google rotates refresh tokens after ~6 months of inactivity per current policy):
+1. Visit https://developers.google.com/oauthplayground/
+2. Use your own OAuth 2.0 credentials (gear icon → check "Use your own OAuth credentials" → paste `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`)
+3. Scope: `https://www.googleapis.com/auth/analytics.readonly` + `https://www.googleapis.com/auth/webmasters.readonly`
+4. Authorize, exchange auth code for tokens, copy the **refresh_token** value
+5. Update `GOOGLE_REFRESH_TOKEN` in GitHub Actions secrets — no other changes needed
+
+**DO NOT** fall back to the service-account walk-through in `GA4_SERVICE_ACCOUNT_SETUP.md` — that path is permanently blocked by the Workspace org policy.
+
+---
+
+
+## Feb 2026 (later) — P2.20 LCP optimization plan filed (not yet executed)
+
+### Why
+User set explicit LCP target: **p75 mobile < 1,250ms** (top decile, well below Google's "Good" threshold of 2,500ms). Current baseline: **2,180ms** lab measurement on homepage. Gap to close: ~930ms.
+
+P2.18 `cacheComponents` alone won't close the gap — predicted gain only 80–250ms. The shortest path to <1.25s is a multi-lever stack of cheaper, higher-ROI fixes.
+
+### The plan (filed as ROADMAP row 4d, full detail in `/app/memory/P2.20_LCP_OPTIMIZATION_PLAN.md`)
+
+1. **Hero image AVIF + preload + responsive sizes** (~2-3 hr, -400-700ms) — biggest single lever
+2. **Font preload + drop unused weights** (~30 min, -100-200ms)
+3. **Defer render-blocking JS** (~1 hr, -100-300ms) — Clarity, GA4, reCAPTCHA, RealWork
+4. **TTFB / Sanity CDN / cache tuning** (~30 min, -50-150ms)
+5. **P2.18 `cacheComponents` + Suspense** (optional, ~4-6 hr, -80-250ms) — only if steps 1-4 don't hit target
+
+**Expected outcome:** target hit at step 4 in ~4-5 hr total. Step 5 becomes future-proofing buffer rather than path-to-target.
+
+### Critical gate
+Each step must measurably drop LCP by ≥80ms in PageSpeed Insights before being shipped. Steps that don't move the needle indicate the actual bottleneck is elsewhere; don't ship and don't proceed until the diagnosis is correct.
+
+### Prerequisite
+`PAGESPEED_API_KEY` needs to be added to GitHub Secrets so the KPI dashboard can track LCP trends weekly as we ship each step. Free key at console.cloud.google.com (10-min setup).
+
+### Status
+- ✅ Planning doc filed: `/app/memory/P2.20_LCP_OPTIMIZATION_PLAN.md`
+- ✅ ROADMAP row 4d added with stack breakdown + ROI rationale
+- ⏸ Awaits user trigger to start (likely next session)
+- 📐 Step 1 needs a Lighthouse audit first to confirm the LCP element is an image (highly likely but not assumed) — that audit is the first 30 min of step 1
+
+---
+
+## Feb 2026 (later) — KPI Audit auth fix + freshness trigger fix (PRs #101, #102)
+
+### The session's actual work
+Beyond the planned P0/P1 (Tailwind v4, P2.16 hooks, P2.18 spike), this session also fixed two infrastructure bugs that surfaced when the KPI Audit cron tried to run for the first time after PR #100 landed.
+
+### Bug 1 — KPI Audit couldn't push to main (PR #101)
+
+**Symptom:** `node scripts/audit-kpis.mjs` ran fine, JSON snapshot generated cleanly, but the final `git push` step failed with:
+```
+remote: error: GH013: Repository rule violations found for refs/heads/main.
+remote: - Changes must be made through a pull request.
+remote: - 3 of 3 required status checks are expected.
+```
+
+**Root cause:** The workflow used `${{ secrets.GITHUB_TOKEN }}` which authenticates as `github-actions[bot]`. GitHub's repository rulesets **cannot grant bypass to that bot** — `github-actions[bot]` is not exposed as a selectable bypass actor in the UI, only third-party GitHub Apps and named user roles are. Adding "Repository admin" to the bypass list doesn't help because the bot isn't a user with that role.
+
+**Fix:** Switch the workflow to use a fine-grained PAT (`secrets.KPI_AUDIT_PAT`) issued under a Repository Admin's identity. The PAT's owner is a real user, "Repository admin" bypass now applies, push goes through.
+
+**Permanent setup the user did once:**
+1. Added "Repository admin" (Role, Always allow) to the Main branch protection ruleset's bypass list.
+2. Generated a fine-grained PAT scoped to `website-dfw-II` only, with **Contents: Read and write** and nothing else, expiry 1 year (calendar reminder May 2027).
+3. Stored as repo secret `KPI_AUDIT_PAT`.
+
+**Workflow change:** `.github/workflows/kpi-audit.yml` — swapped `token: ${{ secrets.GITHUB_TOKEN }}` → `token: ${{ secrets.KPI_AUDIT_PAT }}` on the checkout step, added `persist-credentials: true`, and changed the commit author identity to a generic `kpi-audit-bot <kpi-audit@dfwhvac.com>` (was `github-actions[bot]`) so the audit-log doesn't leak the PAT owner's real email on every weekly entry.
+
+**Verification:** KPI Audit run #11 succeeded end-to-end. Commit `ab2eaee6` ("chore(kpi): weekly snapshot 2026-05-14 [skip ci]") landed on main by `kpi-audit-bot`. Vercel auto-deployed (it ignores `[skip ci]`). Live `/internal/kpi-snapshot.json` is byte-identical to GitHub's main HEAD. Dashboard renders fresh totals (🟢 20 · 🟡 5 · 🔴 7 · ⚪ 20 of 52).
+
+### Bug 2 — `freshness` required check hung forever on non-dep PRs (PR #102)
+
+**Symptom:** PR #101 was bypass-merged successfully. The next PR (workflow-only changes) showed `freshness — Expected — Waiting for status to be reported` indefinitely. Cause: the well-known **paths-filter + required-check footgun**.
+
+**Root cause:** `.github/workflows/branch-freshness.yml` had:
+```yaml
+on:
+  pull_request:
+    paths:
+      - 'frontend/package.json'
+      - 'frontend/yarn.lock'
+```
+The `paths:` filter prevents the workflow from starting on PRs that don't touch those files. But the same check is marked **Required** in the main-branch ruleset, so PRs that don't trigger the workflow never get a status → hang forever in "Expected — Waiting for status to be reported". GitHub documents this footgun but doesn't auto-fix it.
+
+**Fix:** Removed the `paths:` filter entirely. The workflow now runs on every PR (~30s extra CI). The internal `git rev-list --count HEAD..origin/main -- frontend/package.json` returns 0 for PRs that don't touch dep files, so they pass trivially. No protection lost.
+
+**Verification:** PR #102 ran the freshness check itself (since it modified `branch-freshness.yml`, the path-irrelevant PR triggered the now-no-filter workflow correctly). Check passed in ~30s. PR #102 merged normally without bypass.
+
+### Lessons for future agents
+
+1. **Required checks must always produce a status.** Never combine `on.pull_request.paths:` filters with required-check enforcement in branch protection rulesets — guaranteed hang.
+2. **`GITHUB_TOKEN` cannot be bypassed in rulesets.** If a workflow needs to push to a protected branch, it must use a PAT owned by a bypass-eligible user. The PAT must be fine-grained, scoped to the single repo, scoped to **Contents: write only**, and have a calendar reminder for expiry rotation.
+3. **The Emergent platform's `.gitignore` / `.emergent/emergent.yml` clobber recurs on every push.** Until the platform team ships an idempotent pre-push hook (support ticket open with `support@emergent.sh` referencing commit `ae876b94`), every PR will show ~60 sec of conflict-resolution friction on those 2 files. Resolve via web editor: `.emergent/emergent.yml` → accept current, `.gitignore` → accept incoming. Track recurrence count in `AGENT_PROTOCOL.md`.
+
+---
+
 ## Feb 2026 (later) — Sequence 4: Tailwind v3 → v4 migration → SHIPPED
 
 ### The cluster upgrade
