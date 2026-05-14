@@ -15,7 +15,15 @@ const nextConfig = {
   // Compress images and assets
   compress: true,
   // ISR via per-page `export const revalidate = 3600` (May 11, 2026 — flipped from force-dynamic).
-  experimental: {},
+  experimental: {
+    // P2.20 Step 2 (Feb 2026): inline critical above-the-fold CSS, defer the rest.
+    // Targets the 14.5 KiB render-blocking CSS chunk that's contributing to the H1
+    // LCP element's 770ms render delay (per PSI May 14 2026). Next.js uses beasties
+    // (formerly critters) internally to extract used selectors above the fold and
+    // inline them in <head>, while async-loading the remainder. Predicted gain:
+    // -160 to -300ms LCP on text-LCP pages like the homepage.
+    optimizeCss: true,
+  },
   async headers() {
     return [
       {
@@ -42,7 +50,9 @@ const nextConfig = {
               // Tracked as accepted risk in /app/memory/audits/2026-04-27_KPI_Baseline.md (Security section).
               "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com https://www.gstatic.com https://www.googletagmanager.com https://app.realworklabs.com https://maps.googleapis.com https://*.clarity.ms",
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-              "img-src 'self' data: blob: https://cdn.sanity.io https://images.unsplash.com https://maps.googleapis.com https://maps.gstatic.com https://*.google.com https://*.googleusercontent.com https://app.realworklabs.com https://*.clarity.ms",
+              // c.bing.com: Clarity ↔ Bing sync tracking pixel (CSP violation surfaced
+              // in PSI May 14 2026 — non-functional, cosmetic console noise only).
+              "img-src 'self' data: blob: https://cdn.sanity.io https://images.unsplash.com https://maps.googleapis.com https://maps.gstatic.com https://*.google.com https://*.googleusercontent.com https://app.realworklabs.com https://*.clarity.ms https://c.bing.com",
               "font-src 'self' https://fonts.gstatic.com",
               "connect-src 'self' https://iar2b790.api.sanity.io https://iar2b790.apicdn.sanity.io https://www.google.com https://maps.googleapis.com https://www.google-analytics.com https://www.googletagmanager.com https://app.realworklabs.com https://vitals.vercel-insights.com https://vercel.live https://www.clarity.ms https://c.clarity.ms https://*.clarity.ms",
               "frame-src 'self' https://www.google.com https://app.realworklabs.com",
