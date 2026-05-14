@@ -13,7 +13,25 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 const GA_ID = 'G-5MX2NE7C73'
 const CLARITY_ID = 'wjyapvd6n7'
 
-const inter = Inter({ subsets: ['latin'] })
+// Inter font — only the weights the codebase actually uses, explicit preload.
+// P2.20 Step 1a (Feb 2026): hero is text-LCP (no image above-the-fold), so font
+// strategy is the single biggest LCP lever. Default Inter() loads all 9 weights
+// (100-900); we audited the codebase and only 4 are used:
+//   font-normal (400)  · 1 use
+//   font-medium (500)  · 72 uses
+//   font-semibold (600) · 107 uses
+//   font-bold (700)    · 195 uses
+// Loading just these 4 cuts the woff2 payload ~55% vs the default 9-weight load
+// while preserving every existing visual rendering. If a future component starts
+// using font-thin / font-light / font-extrabold etc., add that weight here
+// AND verify LCP stays under target.
+// Predicted gain: -150 to -300ms LCP on slow mobile connections.
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+  preload: true,
+})
 
 // Root layout metadata sets metadataBase for all pages
 // Individual pages should use generateMetadata() with their own canonical paths
@@ -37,12 +55,20 @@ export default async function RootLayout({ children }) {
             and SimpleContactForm.jsx with strategy="lazyOnload" so pages without
             forms (home, about, reviews, cities, etc.) don't incur the TBT hit.
             See: TBT optimization, Apr 20 2026. */}
-        {/* GA4 preview-env guard (Apr 24, 2026). Uses Google's official opt-out
-            flag window['ga-disable-<ID>'] = true to mute hits on Vercel preview
-            URLs, localhost, and any non-production host. Runs inline (beforeInteractive)
-            so it's set BEFORE the gtag script evaluates its config call.
-            Production host allow-list is kept narrow on purpose. */}
-        <Script id="ga-preview-guard" strategy="beforeInteractive">
+        {/* GA4 preview-env guard. Uses Google's official opt-out flag
+            window['ga-disable-<ID>'] = true to mute hits on Vercel preview
+            URLs, localhost, and any non-production host. Production host
+            allow-list is kept narrow on purpose.
+
+            P2.20 Step 1b (Feb 2026): demoted from beforeInteractive →
+            afterInteractive. The original strategy was render-blocking by
+            design (beforeInteractive injects into the document head and
+            blocks all rendering until the script evaluates). The gtag
+            scripts BELOW are lazyOnload (fire at browser-idle, well after
+            page-interactive), so afterInteractive still guarantees this
+            guard runs before any gtag config call — preserving the original
+            intent without the LCP cost. Predicted gain: -30 to -100ms LCP. */}
+        <Script id="ga-preview-guard" strategy="afterInteractive">
           {`(function(){try{var h=location.hostname;var ok=(h==='www.dfwhvac.com'||h==='dfwhvac.com');if(!ok){window['ga-disable-${GA_ID}']=true;}}catch(e){}})();`}
         </Script>
         {/* GA4 + Clarity — lazyOnload (F13-P1.1, May 4, 2026). Both were on

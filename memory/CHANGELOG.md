@@ -5,6 +5,47 @@
 
 ---
 
+## Feb 2026 (later) — Memory drift correction: GA4/GSC auth is LIVE (not blocked)
+
+### What was wrong
+Prior session handoff summaries described GA4/GSC integration as **BLOCKED** by the Google Workspace `iam.disableServiceAccountKeyCreation` org policy. That was the state during the original setup attempt, but the user (or a subsequent session) pivoted to OAuth refresh-token flow and shipped a working integration ~3 days before this entry. The handoff summaries never got updated, causing this session to start with stale assumptions.
+
+### The actual deployed state (verified Feb 2026)
+GitHub Actions secrets (live in `dfwhvac/website-dfw-II` repo settings):
+- `GOOGLE_CLIENT_ID` — OAuth 2.0 client ID from `dfwhvac-kpi` GCP project ("DFW HVAC KPI Script" client)
+- `GOOGLE_CLIENT_SECRET` — paired OAuth client secret
+- `GOOGLE_REFRESH_TOKEN` — long-lived refresh token (minted via one-time interactive consent)
+- `GA4_PROPERTY_ID` — GA4 numeric property ID
+- `GSC_SITE_URL` — Search Console site URL
+- `PAGESPEED_API_KEY` — PSI API key (lives in `dfwhvac-kpi` GCP project, no OAuth needed)
+- `KPI_AUDIT_PAT` — fine-grained PAT for KPI Audit workflow (created earlier this session for ruleset bypass)
+
+### Why this works where service-account JSON didn't
+Workspace's `iam.disableServiceAccountKeyCreation` policy blocks downloading SA JSON keys but does NOT block creating OAuth clients. The workflow exchanges refresh token → short-lived access token at run time, calls GA4/GSC APIs, discards the access token. No persistent SA credential ever touches disk in CI.
+
+### Evidence it's working
+- `dfwhvac-kpi` GCP project metrics show **9 GA4 Data API calls + 6 GSC API calls + 6 PSI calls** in the last 24h, **zero errors** on the OAuth-mediated calls
+- KPI Audit run #11 (this session): all Phase 2 (SEO/AEO) + Phase 3 (Conversion) cards populated correctly
+- Live dashboard at `/internal/kpi-dashboard.html` shows real GA4 data (sessions, users, bounce, etc.) not gray placeholders
+
+### Cleanup completed this session
+- ⚠️ `/app/memory/GA4_SERVICE_ACCOUNT_SETUP.md` — marked SUPERSEDED with banner; kept for historical reference
+- `dfwhvac-analytics-readonly` GCP project shut down — contained only an unused service account (`dfwhvac-kpi-reader@…`), confirmed not granted in GA4/GSC access management, deleted safely
+- `/app/memory/00_START_HERE.md` Documentation Map updated to note the supersession
+
+### Operational note for future sessions
+If `GOOGLE_REFRESH_TOKEN` ever stops working (Google rotates refresh tokens after ~6 months of inactivity per current policy):
+1. Visit https://developers.google.com/oauthplayground/
+2. Use your own OAuth 2.0 credentials (gear icon → check "Use your own OAuth credentials" → paste `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`)
+3. Scope: `https://www.googleapis.com/auth/analytics.readonly` + `https://www.googleapis.com/auth/webmasters.readonly`
+4. Authorize, exchange auth code for tokens, copy the **refresh_token** value
+5. Update `GOOGLE_REFRESH_TOKEN` in GitHub Actions secrets — no other changes needed
+
+**DO NOT** fall back to the service-account walk-through in `GA4_SERVICE_ACCOUNT_SETUP.md` — that path is permanently blocked by the Workspace org policy.
+
+---
+
+
 ## Feb 2026 (later) — P2.20 LCP optimization plan filed (not yet executed)
 
 ### Why
