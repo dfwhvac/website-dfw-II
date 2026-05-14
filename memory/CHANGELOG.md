@@ -4,6 +4,42 @@
 **⚠️ Read `/app/memory/00_START_HERE.md` first for the Agent SOP.**
 
 ---
+## Feb 14, 2026 (later) — P2.20 Step 3 shipped: Critical hero CSS inlined
+
+### Context
+Step 1.5+2 PSI verification (May 14, 2026, 3-sample average) returned mobile LCP **2.70 s** — a **+520 ms regression** vs the 2.18 s baseline, well off the 1.25 s target. The font-`optional` hypothesis was disproven: PSI confirms the LCP element is the H1 text node with TTFB=0 ms and a 390–730 ms **element render delay** driven by the 14.5 KiB Tailwind CSS chunk's 543 ms critical-path latency. The H1 was waiting for the chunk to arrive before it could size/color itself.
+
+### Shipped (2 files, single PR)
+
+1. **`components/HomePage.jsx`** — Hero H1 + highlight span now carry inline `style` props (mobile defaults):
+   - H1: `fontSize: 2.25rem` (matches `text-4xl`), `fontWeight: 700`, `lineHeight: 1.25`, `color: rgb(17,24,39)` (matches `text-gray-900`), `margin: 0`
+   - Highlight span: `display: block` (matches `block` utility), `color: var(--electric-blue, #0077B6)` (fallback matches globals.css `:root` definition so first-paint color is correct before ColorProvider's `useEffect` runs)
+   - Existing Tailwind classes preserved verbatim — once the chunk loads, the same utilities resolve identically. Zero FOUC.
+
+2. **`app/layout.js`** — Added inline `<style>` in `<head>` with the desktop responsive override:
+   ```css
+   @media (min-width:1024px){.hero-critical-h1{font-size:3.75rem!important;line-height:1!important}}
+   ```
+   `!important` is required because inline styles otherwise beat any external stylesheet rule. Total payload: ~120 bytes vs the 14.5 KiB chunk this side-steps for the H1.
+
+### Why this should move LCP
+The H1's intrinsic dimensions and color are now available from the HTML alone. PSI's "Element render delay" metric (the dominant LCP cost in the May 14 reports) measures time from FCP to LCP element paint. Previously: browser had to parse the H1 → wait for chunk → apply utilities → layout-recalc → paint. Now: browser parses the H1 with final styles already attached → paints at FCP time. Predicted gain: **-300 to -600 ms LCP** based on the observed render-delay range.
+
+### Verification
+- `yarn build` clean (34.2 s, 25 routes, no warnings beyond pre-existing P2.23 `@sanity/image-url` deprecation)
+- Prerendered HTML confirmed: inline `<style>` lands in `<head>`, H1 + span carry expected `style` attributes
+- Visual smoke test (preview URL, mobile viewport, captured pre-chunk-load): H1 renders at final size/weight/color/highlight-block layout even when surrounding Tailwind utilities haven't applied yet — exactly the LCP-friendly behavior
+- ⏳ Awaiting user: 3-sample PSI average post-deploy. Pass gate: ≥80 ms cumulative drop vs the 2.70 s post-Step-2 baseline (target: trend toward 1.25 s).
+
+### What's NOT shipped (deferred)
+- **Defer external Tailwind chunk** — even with the H1 inline-styled, the chunk is still render-blocking via `<link rel="stylesheet" data-precedence="next">`. If Step 3 doesn't drop LCP by ≥200 ms, next iteration would patch the link to `rel="preload" onload="this.rel='stylesheet'"` so the chunk loads in parallel without blocking the document.
+- **Critical CSS for badge / intro paragraph / hero section bg** — only the H1 is the LCP element per PSI, so we kept the surface area minimal. If render delay persists after this ships, expanding the critical-CSS scope is the next lever.
+
+### Files changed
+- `frontend/components/HomePage.jsx` (+24 / −1 — H1 + span inline styles, doc comment)
+- `frontend/app/layout.js` (+18 / −0 — inline `<style>` with desktop override + doc comment)
+
+---
 ## Feb 14, 2026 — P2.20 LCP Optimization: Step 1.5 + Step 2 shipped
 
 ### Context

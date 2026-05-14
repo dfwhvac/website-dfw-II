@@ -58,6 +58,22 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
+        {/* P2.20 Step 3 (Feb 2026) — Critical hero CSS, inlined.
+            The H1 in HomePage.jsx is the mobile LCP element (text, not image).
+            Per PSI (May 14, 2026, 3-sample avg), LCP averaged 2.70 s vs the
+            1.25 s target. The 730 ms element render delay traced to the 14.5
+            KiB Tailwind CSS chunk's 543 ms critical-path latency — the H1
+            paint waits for the chunk before sizing/coloring.
+            Mitigation: the H1 + highlight span carry inline `style` props
+            (mobile size, weight, color, margin). The override below covers
+            the only thing inline styles cannot — the @media-gated desktop
+            `lg:text-6xl` bump. !important is required because inline styles
+            otherwise beat any external stylesheet. The fallback line-height
+            of 1 matches Tailwind's text-6xl default.
+            Bytes: ~120 (vs the 14.5 KiB chunk this side-steps). */}
+        <style dangerouslySetInnerHTML={{
+          __html: '@media (min-width:1024px){.hero-critical-h1{font-size:3.75rem!important;line-height:1!important}}'
+        }} />
         {/* reCAPTCHA v3 is NOT loaded here. It's loaded on-demand by LeadForm.jsx
             and SimpleContactForm.jsx with strategy="lazyOnload" so pages without
             forms (home, about, reviews, cities, etc.) don't incur the TBT hit.

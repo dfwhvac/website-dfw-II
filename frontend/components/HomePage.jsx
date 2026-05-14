@@ -89,9 +89,37 @@ const HomePage = ({
                   <Award className="w-4 h-4" />
                   {hero.badge}
                 </div>
-                <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">
+                {/* P2.20 Step 3 (Feb 2026): Hero H1 is the mobile LCP element.
+                    Inlined critical styles let it paint immediately from HTML
+                    instead of waiting for the 14.5 KiB Tailwind CSS chunk
+                    (543 ms critical-path latency per PSI). Mobile size is
+                    hard-coded inline (2.25rem = text-4xl); the desktop
+                    `lg:text-6xl` override lives in the inline <style> in
+                    app/layout.js because inline styles win @media rules
+                    without !important. Color matches the globals.css :root
+                    fallback for --electric-blue (#0077B6) so the span text
+                    color is correct at first paint, before ColorProvider's
+                    useEffect runs. */}
+                <h1
+                  className="hero-critical-h1 text-4xl lg:text-6xl font-bold text-gray-900 leading-tight"
+                  style={{
+                    fontSize: '2.25rem',
+                    fontWeight: 700,
+                    lineHeight: 1.25,
+                    color: 'rgb(17, 24, 39)',
+                    margin: 0,
+                  }}
+                >
                   {hero.title}
-                  <span className="text-electric-blue block">{hero.highlight}</span>
+                  <span
+                    className="hero-critical-h1-highlight text-electric-blue block"
+                    style={{
+                      display: 'block',
+                      color: 'var(--electric-blue, #0077B6)',
+                    }}
+                  >
+                    {hero.highlight}
+                  </span>
                   {hero.line3}
                 </h1>
                 <p className="text-xl text-gray-600 leading-relaxed">
