@@ -2,6 +2,15 @@
   "name": "dfwhvac-nextjs",
   "version": "0.1.0",
   "private": true,
+  "browserslist": [
+    "chrome >= 110",
+    "edge >= 110",
+    "firefox >= 110",
+    "safari >= 16",
+    "ios_saf >= 16",
+    "samsung >= 22",
+    "not dead"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",

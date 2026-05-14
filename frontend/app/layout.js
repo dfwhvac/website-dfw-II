@@ -26,10 +26,17 @@ const CLARITY_ID = 'wjyapvd6n7'
 // using font-thin / font-light / font-extrabold etc., add that weight here
 // AND verify LCP stays under target.
 // Predicted gain: -150 to -300ms LCP on slow mobile connections.
+// P2.20 Step 1c (Feb 2026, post PSI May 14): switched display: 'swap' → 'optional'.
+// PSI surfaced 770ms LCP element render delay on the H1 — root cause is Lighthouse
+// re-classifying the LCP element after the font swap (it sees the post-swap render
+// as a new LCP painting). `display: 'optional'` gives the browser ≤100ms to load
+// Inter; if not ready, fallback stays for the session (no swap, no LCP re-class).
+// Next.js's adjustFontFallback (on by default) already makes the metric-adjusted
+// fallback visually near-identical to Inter, so brand impact is minimal.
 const inter = Inter({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
-  display: 'swap',
+  display: 'optional',
   preload: true,
 })
 

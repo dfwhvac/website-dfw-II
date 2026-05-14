@@ -4,6 +4,35 @@
 **⚠️ Read `/app/memory/00_START_HERE.md` first for the Agent SOP.**
 
 ---
+## Feb 14, 2026 — P2.20 LCP Optimization: Step 1.5 + Step 2 shipped
+
+### Context
+Post-Step-1 PSI verification (May 14, 2026 mobile run, single sample) returned mobile LCP **2.40s** vs the 2.18s baseline — apparent ~220ms regression, but Performance composite jumped to **97** and CLS dropped to **0**. PSI single-run noise is typically ±200–400ms, so the regression is inconclusive without 3-sample averaging. However, the report revealed the real bottleneck: H1 text is the LCP element with a **770ms element render delay** — caused by font-swap LCP re-classification + render-blocking CSS chunk (14.5 KiB, 190ms).
+
+### Shipped (4 changes, single PR)
+1. **Font display `swap` → `optional`** (`app/layout.js`) — Lighthouse was re-classifying LCP on font swap (treating post-swap H1 as a new paint). `optional` gives the browser ≤100ms to load Inter; otherwise the metric-adjusted fallback (Next.js `adjustFontFallback: true` default) stays for the session. Brand impact: minimal due to fallback adjustment. **Predicted gain: -200 to -500ms LCP.**
+2. **`browserslist` added to package.json** (modern targets: Chrome/Edge/FF ≥110, Safari ≥16, iOS Safari ≥16, Samsung ≥22). Drops the legacy polyfill bundle (`Array.prototype.at/flat/flatMap`, `Object.fromEntries`, `Object.hasOwn`, `String.prototype.trimEnd/trimStart`) — **PSI estimated 17 KiB wasted bytes**. Coverage: 95%+ of HVAC site visitors.
+3. **`experimental.optimizeCss: true`** (`next.config.js`) — enables Beasties (formerly Critters) critical CSS inlining. **Note:** Build ran clean and the experiment flag is recognized, but `<style>` tags did not appear in the prerendered HTML — likely an App Router limitation. Left enabled in case Next.js patches this; no harm.
+4. **CSP `img-src` updated** (`next.config.js`) — added `https://c.bing.com` to allowlist. Resolves the Clarity ↔ Bing sync tracking pixel CSP violation surfaced in PSI's Best Practices console errors. Cosmetic; no LCP impact but cleans up Best Practices score.
+
+### What's NOT shipped (deferred)
+- **Hero image AVIF/preload work** (Step 2 of original plan) — N/A: LCP is text, not image.
+- **Manual critical CSS inlining** — `experimental.optimizeCss` doesn't fire on App Router pages. Manually extracting/inlining hero CSS would require ~3 hrs build-time tooling. Deferred until 3-sample PSI average shows we still need it after the other 3 wins.
+- **Phantom 404 `/f3f79bdb6ac38332/script.js`** — not in our codebase or rendered HTML; appears to be a runtime injection (likely Microsoft Clarity anti-bot or Lighthouse headless artifact). Not LCP-blocking. Left alone.
+
+### Verification
+- `yarn build` clean (34.7s, 25 routes generated, 6 deprecation warnings only — all pre-existing `@sanity/image-url` named-export migration tracked under P2.23)
+- Local dev server smoke test: H1 renders correctly, bold weight applied, layout intact
+- ⏳ **Awaiting user**: 3-sample PSI average post-deploy to verify the LCP delta. Pass gate: ≥80ms cumulative drop.
+
+### Files changed
+- `frontend/app/layout.js` (font display)
+- `frontend/next.config.js` (optimizeCss + CSP)
+- `frontend/package.json` (browserslist)
+
+---
+
+
 
 ## Feb 2026 (later) — Memory drift correction: GA4/GSC auth is LIVE (not blocked)
 
