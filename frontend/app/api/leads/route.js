@@ -11,7 +11,11 @@ const DB_NAME = process.env.DB_NAME || 'test_database'
 const RESEND_API_KEY = process.env.RESEND_API_KEY || ''
 const NOTIFICATION_EMAIL = process.env.NOTIFICATION_EMAIL || 'support@dfwhvac.com'
 const RECAPTCHA_SECRET_KEY = process.env.RECAPTCHA_SECRET_KEY || ''
-const RECAPTCHA_THRESHOLD = 0.4
+// SEC-1 B1 (May 14, 2026): bumped 0.4 → 0.7. Stricter spam gate. False positives
+// still route to the "[BLOCKED] Possible Spam Lead" review email (human-in-the-loop),
+// so legitimate customers caught by the gate are not lost — they're just reviewed
+// before being acted on. See ROADMAP SEC-1 Phase B for rationale.
+const RECAPTCHA_THRESHOLD = 0.7
 
 // Preview-env guard (Apr 24, 2026). Vercel sets VERCEL_ENV to 'production' |
 // 'preview' | 'development'. On non-production (preview branches, local dev) we
