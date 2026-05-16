@@ -96,7 +96,7 @@ Outcome: 3 shipped, 2 struck after audit, F13 architecture audit unlocked an add
 
 | Sub | Step | Decision needed | Status |
 |---|---|---|---|
-| B1 | Raise reCAPTCHA threshold from `0.4` → `0.7` in `app/api/leads/route.js:14` (existing "BLOCKED" review email keeps false positives in human-review loop) | None — recommended default | 🔲 |
+| B1 | Raise reCAPTCHA threshold from `0.4` → `0.7` in `app/api/leads/route.js:18` (existing "BLOCKED" review email keeps false positives in human-review loop) | None — recommended default | ✅ DONE May 14, 2026 |
 | B2 | Rate-limit `/api/leads` POST. **Option F1**: Vercel Firewall rate-limit rule (UI, no code, 5 req/min/IP). **Option F2**: `@upstash/ratelimit` + Vercel KV (code, sliding window, free tier). | Pick F1 or F2 | 🔲 |
 | B3 | IP-allowlist `/studio` to office/home only. **Option G1**: `next.config.js` redirect (code). **Option G2**: Vercel Firewall path rule (UI). User provides allowlisted IP(s). | Pick G1 or G2 + list IPs | 🔲 |
 
