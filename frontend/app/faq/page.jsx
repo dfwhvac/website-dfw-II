@@ -220,7 +220,7 @@ export default async function FAQPage() {
         </section>
 
         {/* FAQ Content */}
-        <section className="py-16" id="residential">
+        <section className="py-16">
           <div className="container mx-auto px-4">
             <FAQAccordion faqs={faqs} />
           </div>

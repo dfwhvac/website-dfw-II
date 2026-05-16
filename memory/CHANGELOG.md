@@ -1,7 +1,34 @@
 # DFW HVAC — Changelog
 
-**Last reviewed:** February 28, 2026
+**Last reviewed:** February 16, 2026
 **⚠️ Read `/app/memory/00_START_HERE.md` first for the Agent SOP.**
+
+---
+## Feb 16, 2026 — Pa11y WCAG 2.2 AA cleanup + audit script false-green fix
+
+### Context
+KPI snapshot history showed Pa11y bouncing between RED (May 11: 7 errors, 5/5 pages) and false GREEN (May 12: 0 errors, **0/5 pages** — silent Chromium failure). Local Pa11y re-run against production exposed two real bugs the 5-page sample was missing.
+
+### Shipped (3 files)
+
+1. **`scripts/audit-kpis.mjs`** — Two fixes to the Pa11y KPI:
+   - Expanded sample set from 5 → 10 routes (added `/repair-or-replace`, `/replacement-estimator`, `/request-service`, `/faq`, `/about`).
+   - Status logic now requires `pagesScanned > 0` before reporting green/yellow/red; otherwise returns gray with a clear "all sample pages failed to scan" detail. Kills the false-green that May 12 surfaced.
+   - Detail string also calls out partial-scan failures (`X of N pages failed to scan`).
+
+2. **`app/globals.css`** — Added two WCAG-AA-strong text utilities for light-bg text usage of the brand greens/ambers (icons-on-dark usage of `text-success-green` / `text-alert-amber` remains unchanged):
+   - `.text-success-green-strong` → `#008933` (4.5:1 on white)
+   - `.text-alert-amber-strong` → `#a76900` (4.5:1 on white)
+
+3. **`app/repair-or-replace/page.jsx`** — Three TableRow cells swapped from `text-success-green` / `text-alert-amber` to the `-strong` variants (3.3:1 and 2.15:1 → 4.5:1).
+
+4. **`components/FAQAccordion.jsx` + `app/faq/page.jsx`** — Added `id="commercial"` (and matching `id="residential"` inside the accordion) so the FAQ Quick Links anchors don't dangle. Removed duplicate `id="residential"` from the page-level `<section>` to keep IDs unique.
+
+### Verification
+- `yarn build` clean (34.3 s, 25 routes).
+- Local Pa11y sweep across all 10 sample pages: **0 errors / 10 of 10 pages scanned**.
+- Production Pa11y (pre-deploy) confirms the 4 errors exist on `/repair-or-replace` (3) + `/faq` (1) → will drop to 0 on next deploy.
+- Lint clean on all 3 touched JSX/MJS files.
 
 ---
 ## Feb 14, 2026 (later) — P2.20 Step 3 shipped: Critical hero CSS inlined

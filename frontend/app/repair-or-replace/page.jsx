@@ -227,19 +227,19 @@ export default async function RepairOrReplacePage() {
                   <TableRow
                     age="0–7 years"
                     move="Repair"
-                    moveColor="text-success-green"
+                    moveColor="text-success-green-strong"
                     why="Under warranty or near it. Parts are cheap, refrigerant is modern, efficiency is still competitive."
                   />
                   <TableRow
                     age="8–11 years"
                     move="Usually repair"
-                    moveColor="text-success-green"
+                    moveColor="text-success-green-strong"
                     why="Evaluate using the age × quote ÷ $5,000 rule. Capacitors, contactors, and thermostat work almost always worth repairing at this age."
                   />
                   <TableRow
                     age="12–15 years"
                     move="Case-by-case"
-                    moveColor="text-alert-amber"
+                    moveColor="text-alert-amber-strong"
                     why="Small repairs OK. Big-ticket repairs (compressor, evaporator coil, heat exchanger) — strongly consider replacement, especially if efficiency and refrigerant are outdated."
                   />
                   <TableRow

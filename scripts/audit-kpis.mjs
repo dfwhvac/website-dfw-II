@@ -579,8 +579,20 @@ async function getGa4Metrics(accessToken) {
 }
 
 // V3 Pillar 4 — WCAG 2.2 AA via Pa11y on sample of pages
+const PA11Y_SAMPLES = [
+  '/',
+  '/reviews',
+  '/financing',
+  '/repair-or-replace',
+  '/replacement-estimator',
+  '/request-service',
+  '/faq',
+  '/about',
+  '/cities-served/dallas',
+  '/services/system-replacement',
+];
 async function getPa11y() {
-  const samples = ['/', '/reviews', '/financing', '/cities-served/dallas', '/services/system-replacement'];
+  const samples = PA11Y_SAMPLES;
   const { execFile } = await import('node:child_process');
   const { promisify } = await import('node:util');
   const exec = promisify(execFile);
@@ -623,6 +635,7 @@ async function getPa11y() {
     }),
     { errors: 0, warnings: 0, pagesScanned: 0, pagesFailed: 0 }
   );
+  totals.pagesTotal = samples.length;
   return { totals, perPage: results };
 }
 
@@ -1026,23 +1039,32 @@ async function main() {
     {
       id: 'wcag-aa-pa11y',
       label: 'WCAG 2.2 AA (Pa11y, automated)',
-      target: '0 errors (5-page sample)',
+      target: `0 errors (${PA11Y_SAMPLES.length}-page sample)`,
       v3Pillar: 'P4 Accessibility',
       value: pa11y.ok
-        ? `${pa11y.value.totals.errors} errors · ${pa11y.value.totals.warnings} warnings (${pa11y.value.totals.pagesScanned}/5 pages)`
+        ? `${pa11y.value.totals.errors} errors · ${pa11y.value.totals.warnings} warnings (${pa11y.value.totals.pagesScanned}/${pa11y.value.totals.pagesTotal} pages)`
         : 'unavailable',
-      numericValue: pa11y.ok ? pa11y.value.totals.errors : null,
-      status: pa11y.ok
+      numericValue: pa11y.ok && pa11y.value.totals.pagesScanned > 0 ? pa11y.value.totals.errors : null,
+      // Gate green/yellow/red on actually having scanned pages — otherwise a silent
+      // Pa11y/Chromium failure (e.g. CI box without Chrome deps) reports 0 errors
+      // across 0 pages and falsely paints the dashboard green. Saw this May 12.
+      status: pa11y.ok && pa11y.value.totals.pagesScanned > 0
         ? pa11y.value.totals.errors === 0
           ? STATUS.GREEN
           : pa11y.value.totals.errors <= 5
             ? STATUS.YELLOW
             : STATUS.RED
         : STATUS.GRAY,
-      source: 'Pa11y · WCAG2AA standard · 5 sample routes',
-      detail: pa11y.ok && pa11y.value.totals.errors
-        ? `Top issues: ${[...new Set(pa11y.value.perPage.flatMap((p) => p.codes || []).slice(0, 3))].join(', ')}`
-        : 'Automated covers ~35-40% of WCAG criteria; manual audit deferred until baseline trends clean.',
+      source: `Pa11y · WCAG2AA standard · ${PA11Y_SAMPLES.length} sample routes`,
+      detail: !pa11y.ok
+        ? 'Pa11y runner unavailable (check Chromium availability in CI).'
+        : pa11y.value.totals.pagesScanned === 0
+          ? `All ${pa11y.value.totals.pagesTotal} sample pages failed to scan — likely Chromium/network failure. Re-run or check pa11y logs.`
+          : pa11y.value.totals.pagesFailed > 0
+            ? `${pa11y.value.totals.pagesFailed} of ${pa11y.value.totals.pagesTotal} pages failed to scan; ${pa11y.value.totals.errors} errors across ${pa11y.value.totals.pagesScanned} scanned. Failed: ${pa11y.value.perPage.filter((p) => p.error).map((p) => p.url).slice(0, 3).join(', ')}`
+            : pa11y.value.totals.errors
+              ? `Top issues: ${[...new Set(pa11y.value.perPage.flatMap((p) => p.codes || []).slice(0, 3))].join(', ')}`
+              : 'Automated covers ~35-40% of WCAG criteria; manual audit deferred until baseline trends clean.',
     },
     {
       id: 'gitleaks-status',

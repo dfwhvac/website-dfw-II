@@ -254,6 +254,15 @@
 .text-alert-amber { color: var(--alert-amber); }
 .border-alert-amber { border-color: var(--alert-amber); }
 
+/* WCAG-AA-strong text variants on LIGHT backgrounds.
+ * The base brand tokens above ship at intentionally-bright shades for icons
+ * and graphic accents (WCAG only requires 3:1 for those). When the same hues
+ * are used as *text* on white/light backgrounds, they fall below the 4.5:1
+ * threshold (Pa11y G18.Fail). Use these `-strong` variants for body/text usage
+ * on light surfaces. Values are Pa11y-recommended minimum darks. */
+.text-success-green-strong { color: #008933; } /* 4.5:1 on white */
+.text-alert-amber-strong   { color: #a76900; } /* 4.5:1 on white */
+
 .bg-neutral-text { background-color: var(--neutral-text); }
 .text-neutral-text { color: var(--neutral-text); }
 .border-neutral-text { border-color: var(--neutral-text); }

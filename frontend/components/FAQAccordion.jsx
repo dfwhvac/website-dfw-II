@@ -133,7 +133,7 @@ const FAQAccordion = ({ faqs = [], categories = [] }) => {
     <div className="max-w-4xl mx-auto">
       {/* Residential Section */}
       {residentialCategories.length > 0 && (
-        <div className="mb-12">
+        <div id="residential" className="mb-12">
           <h2 className="text-2xl font-bold text-prussian-blue mb-6">
             Residential HVAC
           </h2>
@@ -143,7 +143,7 @@ const FAQAccordion = ({ faqs = [], categories = [] }) => {
 
       {/* Commercial Section */}
       {commercialCategories.length > 0 && (
-        <div>
+        <div id="commercial">
           <h2 className="text-2xl font-bold text-prussian-blue mb-6">
             Commercial HVAC
           </h2>
