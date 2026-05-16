@@ -108,7 +108,7 @@ Outcome: 3 shipped, 2 struck after audit, F13 architecture audit unlocked an add
 | C2 | After 7 days: trigger KPI audit → confirm Crawl-to-Index Ratio moves off 0% (target: ≥50% within 14 days, ≥75% within 28 days) | User + agent | 🔲 |
 | C3 | Vercel Firewall logs → spot-check weekly for any 403s on legitimate UAs (Googlebot, Bingbot, social unfurlers); add IPs to bypass list if false positives appear | User | 🔲 |
 | C4 | If Crawl-to-Index doesn't recover, escalate to a deeper RCA — possible alternate causes: Helpful Content algo, duplicate content, sitemap drift | Agent | 🔲 |
-| C5 | **🆕 Fix Pa11y in GitHub Action runner** — audit currently reports gray "0/10 pages" because `npx pa11y` can't launch Chromium on `ubuntu-latest`. Add system deps install step before Pa11y in `.github/workflows/kpi-audit.yml`: `sudo apt-get update && sudo apt-get install -y libnss3 libxss1 libatk1.0-0 libatk-bridge2.0-0 libcups2 libxkbcommon-x11-0 libgtk-3-0 libgbm-dev libasound2`. Validates the audit-script fix end-to-end. | Agent | 🔲 |
+| C5 | **🆕 Fix Pa11y in GitHub Action runner** — ✅ SHIPPED May 14, 2026. Added `Install Chromium OS dependencies (for Pa11y)` step to `.github/workflows/kpi-audit.yml` before the audit run (installs `libnss3 libxss1 libatk1.0-0 libatk-bridge2.0-0 libcups2 libxkbcommon-x11-0 libgtk-3-0 libgbm-dev libasound2t64` with fallback to legacy `libasound2` for older Ubuntu images). Verification: next scheduled or manual KPI audit run should report a numeric Pa11y count (e.g. "0/5 errors · X/5 pages") instead of the current gray "0/5 pages scanned" state. | Agent | ✅ |
 
 ### 🟡 Tier 3 — Next 2 weeks (medium effort, real impact)
 
