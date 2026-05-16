@@ -4,6 +4,19 @@
 **⚠️ Read `/app/memory/00_START_HERE.md` first for the Agent SOP.**
 
 ---
+## Feb 16, 2026 (later) — P1 #1: GTM CSP img-src fix
+
+### Context
+KPI snapshot + handoff flagged that GTM tracking pixels were being silently blocked by CSP — `www.googletagmanager.com` was allowlisted in `script-src` and `connect-src` but missing from `img-src`. GTM's 1×1 noscript fallback and load-event beacons were hitting CSP violations, partially corrupting GA4/Ads conversion measurement.
+
+### Shipped
+- **`next.config.js`** — Added `https://www.googletagmanager.com` to `img-src` (single-line CSP addition). Verified live in response header after rebuild.
+
+### Verification
+- `yarn build` clean (31.7 s).
+- `curl -sI` confirms the new origin is in the served `Content-Security-Policy: img-src` directive.
+
+---
 ## Feb 16, 2026 — Pa11y WCAG 2.2 AA cleanup + audit script false-green fix
 
 ### Context

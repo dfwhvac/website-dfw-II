@@ -52,7 +52,10 @@ const nextConfig = {
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               // c.bing.com: Clarity ↔ Bing sync tracking pixel (CSP violation surfaced
               // in PSI May 14 2026 — non-functional, cosmetic console noise only).
-              "img-src 'self' data: blob: https://cdn.sanity.io https://images.unsplash.com https://maps.googleapis.com https://maps.gstatic.com https://*.google.com https://*.googleusercontent.com https://app.realworklabs.com https://*.clarity.ms https://c.bing.com",
+              // www.googletagmanager.com: GTM serves a 1×1 tracking pixel + noscript
+              // fallback image from this host (Feb 16, 2026 — was being blocked,
+              // breaking GA4/Ads conversion pixel fires).
+              "img-src 'self' data: blob: https://cdn.sanity.io https://images.unsplash.com https://maps.googleapis.com https://maps.gstatic.com https://*.google.com https://*.googleusercontent.com https://www.googletagmanager.com https://app.realworklabs.com https://*.clarity.ms https://c.bing.com",
               "font-src 'self' https://fonts.gstatic.com",
               "connect-src 'self' https://iar2b790.api.sanity.io https://iar2b790.apicdn.sanity.io https://www.google.com https://maps.googleapis.com https://www.google-analytics.com https://www.googletagmanager.com https://app.realworklabs.com https://vitals.vercel-insights.com https://vercel.live https://www.clarity.ms https://c.clarity.ms https://*.clarity.ms",
               "frame-src 'self' https://www.google.com https://app.realworklabs.com",
