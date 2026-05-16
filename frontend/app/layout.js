@@ -2,9 +2,9 @@ import Script from 'next/script'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { Toaster } from '../components/ui/sonner'
-import { defaultMetadata } from '../lib/metadata'
+import { buildDefaultMetadata } from '../lib/metadata'
 import ColorProvider from '../components/ColorProvider'
-import { getBrandColors } from '../lib/sanity'
+import { getBrandColors, getCompanyInfo } from '../lib/sanity'
 import StickyMobileCTAClient from '../components/StickyMobileCTAClient'
 import PhoneClickTracker from '../components/PhoneClickTracker'
 import { Analytics } from '@vercel/analytics/next'
@@ -40,16 +40,23 @@ const inter = Inter({
   preload: true,
 })
 
-// Root layout metadata sets metadataBase for all pages
-// Individual pages should use generateMetadata() with their own canonical paths
-export const metadata = {
-  ...defaultMetadata,
-  title: 'DFW HVAC - Dallas-Fort Worth\'s Trusted HVAC Experts',
-  description: 'Expert HVAC service with integrity and care. Three generations of trusted heating & cooling service in Dallas-Fort Worth. Call (972) 777-COOL.',
-  icons: {
-    icon: '/favicon.ico',
-    apple: '/apple-touch-icon.png',
-  },
+// Root layout metadata sets metadataBase for all pages.
+// P2.22 (Feb 16, 2026): switched from a static `export const metadata` baked
+// off REVIEW_COUNT_FALLBACK → an async `generateMetadata()` that pulls live
+// Sanity `companyInfo.googleReviews`. Every social share preview + the
+// AggregateRating JSON-LD now reflect the current count, with the constant
+// kept as a Sanity-outage fallback inside buildDefaultMetadata.
+export async function generateMetadata() {
+  const companyInfo = await getCompanyInfo()
+  return {
+    ...buildDefaultMetadata(companyInfo),
+    title: 'DFW HVAC - Dallas-Fort Worth\'s Trusted HVAC Experts',
+    description: 'Expert HVAC service with integrity and care. Three generations of trusted heating & cooling service in Dallas-Fort Worth. Call (972) 777-COOL.',
+    icons: {
+      icon: '/favicon.ico',
+      apple: '/apple-touch-icon.png',
+    },
+  }
 }
 
 export default async function RootLayout({ children }) {

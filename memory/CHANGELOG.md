@@ -4,6 +4,33 @@
 **⚠️ Read `/app/memory/00_START_HERE.md` first for the Agent SOP.**
 
 ---
+## Feb 16, 2026 (later) — P2.22: `lib/metadata.js` reads live Sanity reviews + P1 fallback bump
+
+### Context
+Root-layout default metadata used to bake `REVIEW_COUNT_FALLBACK` into Twitter/OG descriptions at module-load time, and `createJsonLd()` used it for `aggregateRating.reviewCount`. Both were tied to a manual constant that needed periodic PR bumps. Title bars and `<script type="application/ld+json">` (via `SchemaMarkup`) already read live `companyInfo.googleReviews`, but the metadata layer was the laggard.
+
+### Shipped
+
+1. **`lib/metadata.js`** — Added `resolveReviewCount(companyInfo)` (live > fallback resolver) and refactored:
+   - New `buildDefaultMetadata(companyInfo)` function that composes the root metadata with the live count.
+   - Kept `export const defaultMetadata = buildDefaultMetadata(null)` as a backwards-compat static export for the still-existing `createMetadata`/`buildPageMetadata` spreads.
+   - `createJsonLd(data, companyInfo = null)` now accepts live data and uses `resolveReviewCount` for `aggregateRating.reviewCount`.
+
+2. **`app/layout.js`** — `export const metadata` → `export async function generateMetadata()` that fetches `getCompanyInfo()` from Sanity and feeds it into `buildDefaultMetadata`. Every social-share preview rendered server-side now uses the current Sanity count, with the constant as a Sanity-outage safety net.
+
+3. **`lib/constants.js`** — `REVIEW_COUNT_FALLBACK` bumped 149 → 155 to match the current Sanity value (resolves the P1 "Stale Review Count Fallback" handoff item). Doc comment rewritten to reframe it as disaster-recovery only — manual bumps are now optional, not required.
+
+### Verification
+- `yarn build` clean (32.1 s).
+- Title bars (`buildTitleWithBadge`) and JSON-LD `AggregateRating.reviewCount` both render `155` across `/`, `/financing`, `/cities-served/dallas`.
+- Build-time SSG of every page (~50 routes) succeeds — `generateMetadata()` async fetch doesn't break static export.
+- Lint clean (`metadata.js`, `layout.js`).
+- HTTP 200 on smoke routes after restart.
+
+### Bonus
+Two-for-one: this work also closed the P1 "Stale Review Count Fallback" item from the handoff, since the fallback is now disaster-recovery only and was bumped to the current Sanity value as part of the same change.
+
+---
 ## Feb 16, 2026 (later) — P1 #3: Legacy JS polyfills dropped
 
 ### Context
