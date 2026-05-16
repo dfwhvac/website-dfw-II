@@ -1,12 +1,10 @@
 import Script from 'next/script'
-import ReactDOM from 'react-dom'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { Toaster } from '../components/ui/sonner'
 import { buildDefaultMetadata } from '../lib/metadata'
 import ColorProvider from '../components/ColorProvider'
 import { getBrandColors, getCompanyInfo } from '../lib/sanity'
-import { getMainCssChunkHref } from '../lib/cssPreloadHint'
 import StickyMobileCTAClient from '../components/StickyMobileCTAClient'
 import PhoneClickTracker from '../components/PhoneClickTracker'
 import { Analytics } from '@vercel/analytics/next'
@@ -63,22 +61,6 @@ export async function generateMetadata() {
 
 export default async function RootLayout({ children }) {
   const brandColors = await getBrandColors()
-  // P2.20 Step 5 (Feb 16, 2026) — Preload hint for the main Tailwind chunk
-  // so the browser starts the download during HTML parse instead of waiting
-  // to discover the render-blocking `<link rel="stylesheet">` further down.
-  //
-  // We use React 19's `ReactDOM.preload()` (NOT a JSX `<link rel="preload">`):
-  // React/Next.js elevate `<link rel="stylesheet" data-precedence>` to the
-  // top of `<head>` regardless of source order, so any in-JSX preload link
-  // lands *after* the stylesheet and is wasted. `ReactDOM.preload()` is the
-  // React-native resource-hint API — Next.js hoists it into the right spot
-  // above the stylesheet, where the parser sees it first.
-  //
-  // See: /app/frontend/lib/cssPreloadHint.js for the lookup logic.
-  const cssChunkHref = getMainCssChunkHref()
-  if (cssChunkHref) {
-    ReactDOM.preload(cssChunkHref, { as: 'style', fetchPriority: 'high' })
-  }
 
   return (
     <html lang="en">
