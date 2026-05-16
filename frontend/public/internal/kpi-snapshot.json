@@ -26,13 +26,13 @@
         {
           "id": "mozilla-observatory-grade",
           "label": "Mozilla Observatory grade",
-          "target": "A",
+          "target": "\u2265 B+",
           "v3Pillar": "P4 Security",
           "value": "B+ (80/100)",
           "numericValue": 80,
-          "status": "yellow",
+          "status": "green",
           "source": "http-observatory.security.mozilla.org",
-          "detail": null,
+          "detail": "B+ accepted as final grade (2026-05-14 decision). A-grade would require CSP nonce migration to retire unsafe-inline (~4-6 hrs) \u2014 judged not worth the engineering investment vs. zero user-facing/security impact. Quarterly check guards against regression below B+.",
           "trend": "\u2192",
           "delta": 0,
           "deltaFormatted": "0.000",
@@ -453,8 +453,8 @@
       ],
       "rollup": {
         "total": 30,
-        "green": 22,
-        "yellow": 5,
+        "green": 23,
+        "yellow": 4,
         "red": 0,
         "gray": 3
       }

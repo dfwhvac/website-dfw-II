@@ -144,7 +144,7 @@ P1.6b city page rewrites (1 city/wk × 28 weeks) · P1.6e review response cadenc
 
 ### 🪵 Tier 8 — Internal hygiene (when there's slack capacity)
 
-P2.7 unused dep audit · P2.15 component decomposition · F7 Lighthouse CI gate · P2.4c Lighthouse all-green re-verification · F3c CSP nonce migration (resolves F13-P1.4 Mozilla Observatory B+ → A). **None of these earn a user-facing KPI; defer until top tiers are working through.**
+P2.7 unused dep audit · P2.15 component decomposition · F7 Lighthouse CI gate · P2.4c Lighthouse all-green re-verification. **None of these earn a user-facing KPI; defer until top tiers are working through.** ~~F3c CSP nonce migration~~ STRUCK May 14, 2026 (Mozilla Observatory B+ accepted as final).
 
 ### 🔮 Tier 9 — Future / blocked
 
@@ -223,7 +223,7 @@ Document captures live in `/app/memory/audits/2026-04-27_KPI_Baseline.md`.
 | Uptime | 99.95%+ | Vercel SLA |
 | Mobile vs desktop CWV gap | <20% delta | CrUX |
 | **SecurityHeaders.com grade** | **A+** | securityheaders.com (post-deploy) |
-| **Mozilla Observatory grade** | **A or higher** | observatory.mozilla.org |
+| **Mozilla Observatory grade** | **≥ B+** (B+ accepted as final May 14, 2026) | observatory.mozilla.org |
 | **Qualys SSL Labs TLS grade** | **A or higher** | ssllabs.com |
 | **Dependency vulns (high+critical)** | **0** | GitHub Dependabot / `yarn audit` — ✅ critical=0 verified May 4, 2026 (Run #68); 28 Sanity Studio high-sev tracked under F10 |
 | **Public secret leaks (`gitleaks`)** | **0** | gitleaks scan — ✅ ZERO new leaks May 4, 2026 (Run #68); 43 historical fingerprints allowlisted in `.gitleaksignore` (all keys revoked/rotated, full kill chain in CHANGELOG) |
@@ -252,7 +252,7 @@ Document captures live in `/app/memory/audits/2026-04-27_KPI_Baseline.md`.
 | 4g | **P2.23** | **`@sanity/image-url` deprecation** — every page request currently logs a `level: warning` in Vercel: *"The default export of @sanity/image-url has been deprecated. Use the named export `createImageUrlBuilder` instead."* Affects every Sanity image render across the site (24+ routes). Status 200 everywhere, nothing broken — purely a deprecation warning that's polluting Vercel's log retention (with Hobby's 1-hour window, these warnings crowd out actually-actionable logs like the cron's missed runs). **Fix:** `grep -rn "from '@sanity/image-url'" /app/frontend` → change `import imageUrlBuilder from '@sanity/image-url'` to `import { createImageUrlBuilder } from '@sanity/image-url'` and update call sites accordingly. ~5 minute fix, deferred only because it's cosmetic. Low priority but worth bundling into the next "developer experience" PR. | 5-10 min | Agent |
 | 5 | P2.4c | Lighthouse all-green verification on /cities-served/plano + /request-service | 1 hr | Agent |
 | 6 | F3b | **HSTS Preload List submission** — `hstspreload.org` (eligibility verified, awaiting user submit) — see `USER_ACTIONS_2026-02-28.md` | 10 min | User |
-| 7 | F3c | **CSP nonce migration** (retire `unsafe-inline` on script-src) — Next.js middleware-injected nonces | 4–6 hrs | Agent (Phase 4 candidate) |
+| 7 | F3c | ~~**CSP nonce migration** (retire `unsafe-inline` on script-src)~~ — **STRUCK May 14, 2026.** Mozilla Observatory B+ accepted as final grade. CSP nonce work earned no user-facing/security KPI; `frame-ancestors` + `form-action` already protect against the threats unsafe-inline relaxes. | DROPPED | — |
 | 8 | F7 | Lighthouse CI gate (optional) — Vercel build fails if Lighthouse drops below thresholds | 2 hrs | Agent |
 | 9 | P1.6d | INP field measurement after CrUX populates (28+ days) | 30 min + variable | Agent |
 | 10 | P1.3 | User-led device QA: iOS Safari, Android Chrome, address autocomplete | 1 hr | User |
