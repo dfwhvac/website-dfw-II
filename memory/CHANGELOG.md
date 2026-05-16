@@ -1,7 +1,136 @@
 # DFW HVAC — Changelog
 
-**Last reviewed:** February 28, 2026
+**Last reviewed:** February 16, 2026
 **⚠️ Read `/app/memory/00_START_HERE.md` first for the Agent SOP.**
+
+---
+## Feb 16, 2026 (later) — P2.20 Step 4: Above-the-fold critical CSS expansion
+
+### Context
+P2.20 Step 3 inlined only the hero H1's styles. PSI (May 14, 2026, 3-sample avg) still showed mobile LCP averaging 2.55 s vs 1.25 s target. Investigation: the H1 was painting fast via inline styles, but its **wrapper stack** — hero `<section>` gradient + container width + grid + badge pill + subtitle paragraph — was still waiting on the 75 KiB / 12.7 KiB-gzipped Tailwind chunk. When the chunk arrived ~543 ms later, the wrappers snapped into place, the H1 reflowed, and Lighthouse re-classified the LCP element (LCP timestamp jumped from ~600 ms first paint → 2.5+ s).
+
+### Shipped (2 files)
+
+1. **`app/layout.js`** — Expanded inline `<style>` block in `<head>` from ~120 B (H1 desktop bump only) to ~720 B covering the full above-the-fold:
+   - `hero-critical-section` (linear-gradient background + py-20/lg:py-32 padding)
+   - `hero-critical-container` (Tailwind `.container` max-width chain: 640 / 768 / 1024 / 1280)
+   - `hero-critical-grid` (1-col mobile → 2-col desktop)
+   - `hero-critical-col` (space-y-8) + `hero-critical-stack` (space-y-4) using `> * + *` selectors
+   - `hero-critical-badge` (pill: bg, border, padding, radius, font weight)
+   - `hero-critical-sub` (subtitle: 1.25rem, gray-600, leading-relaxed)
+   - H1 desktop bump preserved with `!important`
+
+2. **`components/HomePage.jsx`** — Added the matching `hero-critical-*` class names on top of the existing Tailwind classes (no Tailwind classes removed — both apply once the stylesheet arrives, post-load visuals stay pixel-identical).
+
+### Why not preload+swap on the stylesheet itself?
+Next.js 16's React server-renderer owns the stylesheet `<link>` emission via `data-precedence="next"`. Converting it to `rel="preload" onload="this.rel='stylesheet'"` requires HTML mutation (custom middleware that rewrites every streamed response). High risk of breaking Sanity Studio (`/studio`) and edge-cached SSG pages. The inline-critical-CSS approach delivers the same first-paint stability with zero infra risk.
+
+### Verification
+- `yarn build` clean (35.2 s).
+- Lint clean on both touched files.
+- Desktop screenshot (1366×768): hero pixel-identical to pre-change with full Tailwind loaded.
+- Mobile screenshot (412×915): hero renders correctly — H1 sized at 2.25 rem, badge as pill, gradient bg, CTAs styled.
+- HTTP 200 on `/`, `/faq`, `/repair-or-replace`, `/studio` post-restart.
+
+### Expected LCP impact
+- First paint of full hero now happens before the Tailwind chunk arrives → no reflow → LCP detection sees stable H1 from t=0.
+- Predicted mobile LCP improvement: **-400 to -800 ms** (eliminates the wrapper-reflow re-classification window). Real-world value will be measured on the next PSI run post-deploy.
+
+---
+## Feb 16, 2026 (later) — P2.22: `lib/metadata.js` reads live Sanity reviews + P1 fallback bump
+
+### Context
+Root-layout default metadata used to bake `REVIEW_COUNT_FALLBACK` into Twitter/OG descriptions at module-load time, and `createJsonLd()` used it for `aggregateRating.reviewCount`. Both were tied to a manual constant that needed periodic PR bumps. Title bars and `<script type="application/ld+json">` (via `SchemaMarkup`) already read live `companyInfo.googleReviews`, but the metadata layer was the laggard.
+
+### Shipped
+
+1. **`lib/metadata.js`** — Added `resolveReviewCount(companyInfo)` (live > fallback resolver) and refactored:
+   - New `buildDefaultMetadata(companyInfo)` function that composes the root metadata with the live count.
+   - Kept `export const defaultMetadata = buildDefaultMetadata(null)` as a backwards-compat static export for the still-existing `createMetadata`/`buildPageMetadata` spreads.
+   - `createJsonLd(data, companyInfo = null)` now accepts live data and uses `resolveReviewCount` for `aggregateRating.reviewCount`.
+
+2. **`app/layout.js`** — `export const metadata` → `export async function generateMetadata()` that fetches `getCompanyInfo()` from Sanity and feeds it into `buildDefaultMetadata`. Every social-share preview rendered server-side now uses the current Sanity count, with the constant as a Sanity-outage safety net.
+
+3. **`lib/constants.js`** — `REVIEW_COUNT_FALLBACK` bumped 149 → 155 to match the current Sanity value (resolves the P1 "Stale Review Count Fallback" handoff item). Doc comment rewritten to reframe it as disaster-recovery only — manual bumps are now optional, not required.
+
+### Verification
+- `yarn build` clean (32.1 s).
+- Title bars (`buildTitleWithBadge`) and JSON-LD `AggregateRating.reviewCount` both render `155` across `/`, `/financing`, `/cities-served/dallas`.
+- Build-time SSG of every page (~50 routes) succeeds — `generateMetadata()` async fetch doesn't break static export.
+- Lint clean (`metadata.js`, `layout.js`).
+- HTTP 200 on smoke routes after restart.
+
+### Bonus
+Two-for-one: this work also closed the P1 "Stale Review Count Fallback" item from the handoff, since the fallback is now disaster-recovery only and was bumped to the current Sanity value as part of the same change.
+
+---
+## Feb 16, 2026 (later) — P1 #3: Legacy JS polyfills dropped
+
+### Context
+Lighthouse "Avoid serving legacy JavaScript to modern browsers" flagged ~17 KiB shipping despite a strict browserslist (Chrome/Edge/FF ≥110, Safari ≥16). Investigation traced this to **two Next.js polyfill files** that Next ships verbatim regardless of `browserslist` (no opt-out flag in Next 16 / Turbopack):
+
+| File | Size | Loading | Real cost on modern browsers |
+|---|---|---|---|
+| `polyfill-nomodule.js` | 110 KiB | `<script nomodule>` | spec-compliant browsers skip download/parse/exec — but Lighthouse still flags it |
+| `polyfill-module.js` | 1.4 KiB | inlined into Turbopack runtime chunk | downloaded + parsed on every page (guards short-circuit, but bytes shipped) |
+
+Every feature these polyfill (`String.trimStart`, `Array.flat/flatMap/at`, `Symbol.description`, `Promise.finally`, `Object.fromEntries`, …) is already native in our browserslist target. Pure dead weight.
+
+### Shipped (3 files)
+
+1. **`/app/scripts/empty-next-polyfills.mjs`** (new) — Overwrites both polyfill source files in `node_modules/next/dist/.../polyfills/` with an empty module just before each build. Idempotent. Reversible via `yarn install`.
+
+2. **`/app/frontend/package.json`** — New `"prebuild": "node ../scripts/empty-next-polyfills.mjs"` script. Runs automatically before every `yarn build`.
+
+3. **No source-code changes.** Brand tokens, components, etc. untouched.
+
+### Verification
+- `yarn build` clean (32.8 s first run, 46.1 s second run with cached cleanup).
+- `polyfill-cleanup` log lines confirm both files emptied per build.
+- **`polyfill-nomodule.js` chunk: 112,594 B → 71 B** (110 KiB cut from the nomodule path; 0 modern-user impact, but Lighthouse audit goes green).
+- Grep across all non-nomodule script chunks for `Array.prototype.flat||(…` returns nothing — modern-browser polyfill payload is now empty.
+- HTTP 200 verified on `/`, `/faq`, `/repair-or-replace`, `/studio` (Sanity Studio route still mounts correctly without polyfills).
+- Smoke screenshot of homepage clean (header, hero, CTA, form all render).
+
+---
+## Feb 16, 2026 (later) — P1 #1: GTM CSP img-src fix
+
+### Context
+KPI snapshot + handoff flagged that GTM tracking pixels were being silently blocked by CSP — `www.googletagmanager.com` was allowlisted in `script-src` and `connect-src` but missing from `img-src`. GTM's 1×1 noscript fallback and load-event beacons were hitting CSP violations, partially corrupting GA4/Ads conversion measurement.
+
+### Shipped
+- **`next.config.js`** — Added `https://www.googletagmanager.com` to `img-src` (single-line CSP addition). Verified live in response header after rebuild.
+
+### Verification
+- `yarn build` clean (31.7 s).
+- `curl -sI` confirms the new origin is in the served `Content-Security-Policy: img-src` directive.
+
+---
+## Feb 16, 2026 — Pa11y WCAG 2.2 AA cleanup + audit script false-green fix
+
+### Context
+KPI snapshot history showed Pa11y bouncing between RED (May 11: 7 errors, 5/5 pages) and false GREEN (May 12: 0 errors, **0/5 pages** — silent Chromium failure). Local Pa11y re-run against production exposed two real bugs the 5-page sample was missing.
+
+### Shipped (3 files)
+
+1. **`scripts/audit-kpis.mjs`** — Two fixes to the Pa11y KPI:
+   - Expanded sample set from 5 → 10 routes (added `/repair-or-replace`, `/replacement-estimator`, `/request-service`, `/faq`, `/about`).
+   - Status logic now requires `pagesScanned > 0` before reporting green/yellow/red; otherwise returns gray with a clear "all sample pages failed to scan" detail. Kills the false-green that May 12 surfaced.
+   - Detail string also calls out partial-scan failures (`X of N pages failed to scan`).
+
+2. **`app/globals.css`** — Added two WCAG-AA-strong text utilities for light-bg text usage of the brand greens/ambers (icons-on-dark usage of `text-success-green` / `text-alert-amber` remains unchanged):
+   - `.text-success-green-strong` → `#008933` (4.5:1 on white)
+   - `.text-alert-amber-strong` → `#a76900` (4.5:1 on white)
+
+3. **`app/repair-or-replace/page.jsx`** — Three TableRow cells swapped from `text-success-green` / `text-alert-amber` to the `-strong` variants (3.3:1 and 2.15:1 → 4.5:1).
+
+4. **`components/FAQAccordion.jsx` + `app/faq/page.jsx`** — Added `id="commercial"` (and matching `id="residential"` inside the accordion) so the FAQ Quick Links anchors don't dangle. Removed duplicate `id="residential"` from the page-level `<section>` to keep IDs unique.
+
+### Verification
+- `yarn build` clean (34.3 s, 25 routes).
+- Local Pa11y sweep across all 10 sample pages: **0 errors / 10 of 10 pages scanned**.
+- Production Pa11y (pre-deploy) confirms the 4 errors exist on `/repair-or-replace` (3) + `/faq` (1) → will drop to 0 on next deploy.
+- Lint clean on all 3 touched JSX/MJS files.
 
 ---
 ## Feb 14, 2026 (later) — P2.20 Step 3 shipped: Critical hero CSS inlined

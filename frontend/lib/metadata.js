@@ -68,68 +68,111 @@ export function buildTitleWithBadge({ prefix, count, includeBrand = true, brand 
 }
 
 /**
- * Default metadata for the root layout.
- * Individual pages should use generateMetadata() with buildPageMetadata().
+ * Resolve the review count for use in metadata strings + JSON-LD.
+ *
+ * Source-of-truth priority:
+ *   1. Live `companyInfo.googleReviews` from Sanity (synced daily by
+ *      /api/cron/sync-reviews) — used as long as it's a positive integer.
+ *   2. `REVIEW_COUNT_FALLBACK` from `lib/constants.js` — last-resort static
+ *      number kept in code for Sanity outages / build-time fallbacks.
+ *
+ * Whichever is returned is guaranteed to be a positive integer (>= 1).
+ *
+ * @param {Object|null} companyInfo - Sanity companyInfo doc (may be null)
+ * @returns {number}
  */
-export const defaultMetadata = {
-  metadataBase: new URL(BASE_URL),
-  authors: [{ name: 'DFW HVAC' }],
-  creator: 'DFW HVAC',
-  publisher: 'DFW HVAC',
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
+export function resolveReviewCount(companyInfo) {
+  const live = companyInfo && typeof companyInfo.googleReviews === 'number'
+    ? companyInfo.googleReviews
+    : null
+  if (live !== null && Number.isFinite(live) && live > 0) {
+    return live
+  }
+  return REVIEW_COUNT_FALLBACK
+}
+
+/**
+ * Build the root layout's default metadata using live Sanity review data.
+ *
+ * P2.22 (Feb 16, 2026): replaces the static `defaultMetadata` const that
+ * baked `REVIEW_COUNT_FALLBACK` into Twitter + OG descriptions at module-load
+ * time. Now each request's social-share preview reflects the current Sanity
+ * count (and rich-result crawlers see fresh `aggregateRating.reviewCount`).
+ *
+ * @param {Object|null} companyInfo - Sanity companyInfo doc (may be null)
+ * @returns {Object} Next.js metadata object
+ */
+export function buildDefaultMetadata(companyInfo) {
+  const reviewCount = resolveReviewCount(companyInfo)
+  const description = `Same-day HVAC repair, installation & maintenance across Dallas-Fort Worth. Licensed, family-owned, ${reviewCount}+ five-star reviews. Call (972) 777-COOL.`
+  return {
+    metadataBase: new URL(BASE_URL),
+    authors: [{ name: 'DFW HVAC' }],
+    creator: 'DFW HVAC',
+    publisher: 'DFW HVAC',
+    formatDetection: {
+      email: false,
+      address: false,
+      telephone: false,
+    },
+    robots: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
     },
-  },
-  // S6 (Apr 27, 2026) — defaults enriched so any page that does NOT call
-  // buildPageMetadata() still produces a complete OG/Twitter card on social
-  // shares (Facebook, LinkedIn, iMessage, Slack, X). Page-level metadata in
-  // generateMetadata() can override these per-route.
-  twitter: {
-    card: 'summary_large_image',
-    site: '@dfwhvac',
-    creator: '@dfwhvac',
-    title: 'DFW HVAC — Three-Generation HVAC Service in Dallas-Fort Worth',
-    description:
-      `Same-day HVAC repair, installation & maintenance across Dallas-Fort Worth. Licensed, family-owned, ${REVIEW_COUNT_FALLBACK}+ five-star reviews. Call (972) 777-COOL.`,
-    images: [
-      {
-        url: '/images/dfwhvac-og.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'DFW HVAC — Dallas-Fort Worth HVAC Experts',
-      },
-    ],
-  },
-  openGraph: {
-    siteName: 'DFW HVAC',
-    locale: 'en_US',
-    type: 'website',
-    url: BASE_URL,
-    title: 'DFW HVAC — Three-Generation HVAC Service in Dallas-Fort Worth',
-    description:
-      `Same-day HVAC repair, installation & maintenance across Dallas-Fort Worth. Licensed, family-owned, ${REVIEW_COUNT_FALLBACK}+ five-star reviews. Call (972) 777-COOL.`,
-    images: [
-      {
-        url: '/images/dfwhvac-og.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'DFW HVAC — Dallas-Fort Worth HVAC Experts',
-      },
-    ],
-  },
+    // S6 (Apr 27, 2026) — defaults enriched so any page that does NOT call
+    // buildPageMetadata() still produces a complete OG/Twitter card on social
+    // shares (Facebook, LinkedIn, iMessage, Slack, X). Page-level metadata in
+    // generateMetadata() can override these per-route.
+    twitter: {
+      card: 'summary_large_image',
+      site: '@dfwhvac',
+      creator: '@dfwhvac',
+      title: 'DFW HVAC — Three-Generation HVAC Service in Dallas-Fort Worth',
+      description,
+      images: [
+        {
+          url: '/images/dfwhvac-og.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'DFW HVAC — Dallas-Fort Worth HVAC Experts',
+        },
+      ],
+    },
+    openGraph: {
+      siteName: 'DFW HVAC',
+      locale: 'en_US',
+      type: 'website',
+      url: BASE_URL,
+      title: 'DFW HVAC — Three-Generation HVAC Service in Dallas-Fort Worth',
+      description,
+      images: [
+        {
+          url: '/images/dfwhvac-og.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'DFW HVAC — Dallas-Fort Worth HVAC Experts',
+        },
+      ],
+    },
+  }
 }
+
+/**
+ * Static default metadata for legacy callers that can't go async (e.g. mock
+ * data, tests). Uses the constant fallback only — no live Sanity data.
+ *
+ * @deprecated Prefer `buildDefaultMetadata(companyInfo)` from an
+ *   `async generateMetadata()` so the social share preview reflects the
+ *   current review count.
+ */
+export const defaultMetadata = buildDefaultMetadata(null)
 
 /**
  * Build page-specific metadata with proper canonical URL.
@@ -210,7 +253,8 @@ export function createMetadata({
   }
 }
 
-export function createJsonLd(data) {
+export function createJsonLd(data, companyInfo = null) {
+  const reviewCount = resolveReviewCount(companyInfo)
   return {
     __html: JSON.stringify({
       '@context': 'https://schema.org',
@@ -270,7 +314,7 @@ export function createJsonLd(data) {
       aggregateRating: {
         '@type': 'AggregateRating',
         ratingValue: '5.0',
-        reviewCount: String(REVIEW_COUNT_FALLBACK)
+        reviewCount: String(reviewCount)
       },
       hasOfferCatalog: {
         '@type': 'OfferCatalog',

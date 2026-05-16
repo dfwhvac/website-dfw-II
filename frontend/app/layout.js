@@ -2,9 +2,9 @@ import Script from 'next/script'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { Toaster } from '../components/ui/sonner'
-import { defaultMetadata } from '../lib/metadata'
+import { buildDefaultMetadata } from '../lib/metadata'
 import ColorProvider from '../components/ColorProvider'
-import { getBrandColors } from '../lib/sanity'
+import { getBrandColors, getCompanyInfo } from '../lib/sanity'
 import StickyMobileCTAClient from '../components/StickyMobileCTAClient'
 import PhoneClickTracker from '../components/PhoneClickTracker'
 import { Analytics } from '@vercel/analytics/next'
@@ -40,39 +40,50 @@ const inter = Inter({
   preload: true,
 })
 
-// Root layout metadata sets metadataBase for all pages
-// Individual pages should use generateMetadata() with their own canonical paths
-export const metadata = {
-  ...defaultMetadata,
-  title: 'DFW HVAC - Dallas-Fort Worth\'s Trusted HVAC Experts',
-  description: 'Expert HVAC service with integrity and care. Three generations of trusted heating & cooling service in Dallas-Fort Worth. Call (972) 777-COOL.',
-  icons: {
-    icon: '/favicon.ico',
-    apple: '/apple-touch-icon.png',
-  },
+// Root layout metadata sets metadataBase for all pages.
+// P2.22 (Feb 16, 2026): switched from a static `export const metadata` baked
+// off REVIEW_COUNT_FALLBACK → an async `generateMetadata()` that pulls live
+// Sanity `companyInfo.googleReviews`. Every social share preview + the
+// AggregateRating JSON-LD now reflect the current count, with the constant
+// kept as a Sanity-outage fallback inside buildDefaultMetadata.
+export async function generateMetadata() {
+  const companyInfo = await getCompanyInfo()
+  return {
+    ...buildDefaultMetadata(companyInfo),
+    title: 'DFW HVAC - Dallas-Fort Worth\'s Trusted HVAC Experts',
+    description: 'Expert HVAC service with integrity and care. Three generations of trusted heating & cooling service in Dallas-Fort Worth. Call (972) 777-COOL.',
+    icons: {
+      icon: '/favicon.ico',
+      apple: '/apple-touch-icon.png',
+    },
+  }
 }
 
 export default async function RootLayout({ children }) {
   const brandColors = await getBrandColors()
-  
+
   return (
     <html lang="en">
       <head>
-        {/* P2.20 Step 3 (Feb 2026) — Critical hero CSS, inlined.
-            The H1 in HomePage.jsx is the mobile LCP element (text, not image).
-            Per PSI (May 14, 2026, 3-sample avg), LCP averaged 2.70 s vs the
-            1.25 s target. The 730 ms element render delay traced to the 14.5
-            KiB Tailwind CSS chunk's 543 ms critical-path latency — the H1
-            paint waits for the chunk before sizing/coloring.
-            Mitigation: the H1 + highlight span carry inline `style` props
-            (mobile size, weight, color, margin). The override below covers
-            the only thing inline styles cannot — the @media-gated desktop
-            `lg:text-6xl` bump. !important is required because inline styles
-            otherwise beat any external stylesheet. The fallback line-height
-            of 1 matches Tailwind's text-6xl default.
-            Bytes: ~120 (vs the 14.5 KiB chunk this side-steps). */}
+        {/* P2.20 Step 4 (Feb 16, 2026) — Above-the-fold critical CSS, inlined.
+            Step 3 inlined the H1 only; PSI still showed LCP averaging 2.55 s
+            because the H1's wrapper stack (hero section gradient, container
+            width, grid, badge pill, subtitle paragraph) was still waiting on
+            the 75 KiB / 12.7 KiB-gzipped Tailwind chunk. Until those wrappers
+            paint, the H1 reflows once the stylesheet arrives — and Lighthouse
+            re-classifies the LCP element after the shift.
+
+            The block below paints the full above-the-fold WITHOUT Tailwind.
+            Class names (`hero-critical-*`) are dedicated, applied on top of
+            existing Tailwind classes — once Tailwind loads, both apply. Where
+            Tailwind defaults would differ (e.g. `.lg:py-32`, `.lg:grid-cols-2`),
+            `!important` ensures the inline rules survive the cascade race.
+            Class values mirror the Tailwind utilities they shadow so post-load
+            visual identity stays pixel-identical to pre-Step-4.
+
+            Bytes: ~720 raw (vs ~12.7 KiB this side-steps for first paint). */}
         <style dangerouslySetInnerHTML={{
-          __html: '@media (min-width:1024px){.hero-critical-h1{font-size:3.75rem!important;line-height:1!important}}'
+          __html: `.hero-critical-section{background:linear-gradient(to bottom right,#eff6ff,#fff,#eef2ff);padding-top:5rem;padding-bottom:5rem}.hero-critical-container{width:100%;margin-left:auto;margin-right:auto;padding-left:1rem;padding-right:1rem}.hero-critical-grid{display:grid;grid-template-columns:1fr;gap:3rem;align-items:center}.hero-critical-col>*+*{margin-top:2rem}.hero-critical-stack>*+*{margin-top:1rem}.hero-critical-badge{display:inline-flex;align-items:center;gap:.5rem;background:#eff6ff;color:#003153;padding:.5rem 1rem;border-radius:9999px;font-size:.875rem;font-weight:500;border:1px solid #003153}.hero-critical-sub{font-size:1.25rem;color:#4b5563;line-height:1.625;margin:0}@media (min-width:640px){.hero-critical-container{max-width:640px}}@media (min-width:768px){.hero-critical-container{max-width:768px}}@media (min-width:1024px){.hero-critical-section{padding-top:8rem!important;padding-bottom:8rem!important}.hero-critical-container{max-width:1024px}.hero-critical-grid{grid-template-columns:1fr 1fr!important}.hero-critical-h1{font-size:3.75rem!important;line-height:1!important}}@media (min-width:1280px){.hero-critical-container{max-width:1280px}}`
         }} />
         {/* reCAPTCHA v3 is NOT loaded here. It's loaded on-demand by LeadForm.jsx
             and SimpleContactForm.jsx with strategy="lazyOnload" so pages without

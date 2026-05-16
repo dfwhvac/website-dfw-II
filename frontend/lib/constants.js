@@ -2,24 +2,31 @@
 // to be consistent across the entire codebase.
 
 /**
- * Fallback Google review count.
+ * Fallback Google review count — **disaster-recovery only.**
  *
  * Real-time review count lives in Sanity (`companyInfo.googleReviews`) and is
- * synced nightly from the Google Places API by /api/cron/sync-reviews.
- * Templates render that live value at request time.
+ * synced nightly from the Google Places API by /api/cron/sync-reviews. Every
+ * surface that previously baked this constant in at module-load time now
+ * reads the live value at request time:
+ *   - Title bars                      (`buildTitleWithBadge(companyInfo)`)
+ *   - JSON-LD AggregateRating         (SchemaMarkup component)
+ *   - Root layout OG/Twitter desc     (P2.22 — `buildDefaultMetadata(companyInfo)`)
+ *   - `lib/metadata.createJsonLd()`   (P2.22 — accepts companyInfo)
  *
- * This constant is the **last-resort fallback** used only when the Sanity fetch
- * fails (network blip, dataset misconfig, build-time render with no live data).
- * It also seeds the static metadata exports in `lib/metadata.js` that get
- * generated at module-load time before any per-request data is available.
+ * This constant is the **last-resort fallback** used only when Sanity
+ * returns null (network blip, dataset misconfig, etc.). It is also the seed
+ * for the still-exported `defaultMetadata` const that a few legacy/test
+ * paths spread without an async data fetch.
  *
- * **HOW TO BUMP THIS NUMBER:** the daily cron now emits a Resend email when
- * the live count drifts more than 20 reviews from this constant — that's your
- * cue to update this value to roughly the live count and ship a one-line PR.
+ * **HOW TO BUMP THIS NUMBER:** Post-P2.22 you almost never need to. The
+ * daily cron still emits a Resend email when the live count drifts more
+ * than 20 reviews from this constant — if you ever see that mail, it means
+ * Sanity has been falling back for long enough to leak; investigate Sanity
+ * first, only bump this as a stopgap.
  *
- * Last calibrated: Feb 28, 2026 (live = 149).
+ * Last calibrated: Feb 16, 2026 (live = 155).
  */
-export const REVIEW_COUNT_FALLBACK = 149
+export const REVIEW_COUNT_FALLBACK = 155
 
 /**
  * Drift alert threshold. The cron sends a one-line email to the owner when

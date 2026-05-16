@@ -1,9 +1,15 @@
 # DFW HVAC — PRD
 
-**Last reviewed:** May 11, 2026
+**Last reviewed:** February 16, 2026
 
 ## Original Problem Statement
 Finalize a premium Next.js / Sanity website for **DFW HVAC**. Execute a 5-Priority tier roadmap (Foundation → SEO/AEO → Conversion → Ad Infra → Launch) focused on deep SEO, accessibility, Core Web Vitals, and conversion-rate optimization. Maintain a high-converting, secure, performant HVAC lead-generation funnel.
+
+## Active Focus (Feb 16, 2026)
+Per user directive: validating and stabilizing **Foundation + SEO/AEO** layers before pursuing conversion uplift. P0 → P1.9b Review Badge + P2.21 cron migration both demoted to Future/Blocked until Foundation a11y + perf + structured-data layers are locked.
+
+## Recently Shipped
+- ✅ **Feb 16, 2026 — Pa11y WCAG 2.2 AA cleanup + audit script false-green fix.** Surfaced via expanded 10-page sample. Fixed 3 contrast errors on `/repair-or-replace` + 1 broken `#commercial` anchor on `/faq`. Patched `audit-kpis.mjs` to gate green status on `pagesScanned > 0` so silent Chromium failures no longer paint the dashboard green. Local re-sweep: **0 errors / 10 of 10 pages.** Production drops to 0 on next deploy.
 
 ## Architecture
 - **Stack:** Next.js 16.2.6 (App Router) + React 19.2.6
