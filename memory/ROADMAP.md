@@ -72,11 +72,42 @@ Outcome: 3 shipped, 2 struck after audit, F13 architecture audit unlocked an add
 
 | # | ID | Item | Effort | Why this tier |
 |---|---|---|---|---|
-| 1 | **P1.8** | **Google Business Profile audit + optimization** (already verified per user May 4) | 20 min user (admin screenshots) + agent audit + 4 hrs initial fix-list ship + 30 min/wk ongoing | GBP impressions = 30–50% of total search visibility for local-service businesses; 60-day optimization compounding window only starts after Posts/photos/Q&A baseline established |
-| 2 | **F3b** | HSTS Preload List submission (hstspreload.org) | 10 min user | One-way ratchet. 30-day eligibility already verified. Permanent commitment to HTTPS-only (Vercel guarantees this anyway). |
-| 3 | **F12** | GitHub Actions Node 20→24 bump | 5 min user (one-click merge of next Dependabot reopen) | Soft deadline June 2026; with gitleaks now passing, Dependabot's PRs are one-click mergeable. |
-| 4 | **P1.6f** | Rich Results validation on 7 high-value URLs | 30 min user | Confirms FAQPage / WebApplication / HowTo / Service / LocalBusiness / BreadcrumbList / Offer (new) schema. |
-| 5 | **A3** | May 5 GSC re-audit (diff against Apr 27 baseline) | 10 min user + 30 min agent | Confirms commercial-cooling/maintenance content patches + legacy URL redirects cleared. |
+| 1 | **SEC-1** | **🆕 Security & data-hygiene refactor (replace geo-block firewall rule with surgical controls)** — Multi-step playbook below. **Why this tier:** the deleted Vercel Firewall "Block Non-US Traffic" rule was likely 403-ing Googlebot (KPI shows Crawl-to-Index 0%); replacing it with surgical controls hardens the actual threats without the SEO blast radius. | ~30 min user + small code PR (agent) | P1/P2 — SEO recovery + security hardening |
+| 2 | **P1.8** | **Google Business Profile audit + optimization** (already verified per user May 4) | 20 min user (admin screenshots) + agent audit + 4 hrs initial fix-list ship + 30 min/wk ongoing | GBP impressions = 30–50% of total search visibility for local-service businesses; 60-day optimization compounding window only starts after Posts/photos/Q&A baseline established |
+| 3 | **F3b** | HSTS Preload List submission (hstspreload.org) | 10 min user | One-way ratchet. 30-day eligibility already verified. Permanent commitment to HTTPS-only (Vercel guarantees this anyway). |
+| 4 | **F12** | GitHub Actions Node 20→24 bump | 5 min user (one-click merge of next Dependabot reopen) | Soft deadline June 2026; with gitleaks now passing, Dependabot's PRs are one-click mergeable. |
+| 5 | **P1.6f** | Rich Results validation on 7 high-value URLs | 30 min user | Confirms FAQPage / WebApplication / HowTo / Service / LocalBusiness / BreadcrumbList / Offer (new) schema. |
+| 6 | **A3** | May 5 GSC re-audit (diff against Apr 27 baseline) | 10 min user + 30 min agent | Confirms commercial-cooling/maintenance content patches + legacy URL redirects cleared. |
+
+#### SEC-1 — Detailed sub-steps
+
+**Phase A — UI-only (no code, ~15 min user; do today)**
+
+| Sub | Step | Action | Status |
+|---|---|---|---|
+| A1 | Delete the "Block Non-US Traffic" rule entirely from Vercel Firewall (don't leave it toggled off — delete it so it can't be re-enabled by accident) | User | 🔲 |
+| A2 | **TURN ON** Vercel Firewall → Bot Management → **Bot Protection** (challenges non-browser sources, **excludes verified bots** — safe for SEO) | User | 🔲 |
+| A3 | **DO NOT TURN ON** Vercel Firewall → Bot Management → **AI Bots** (would block GPTBot/ClaudeBot/PerplexityBot — the AEO crawlers we want) | User confirm | 🔲 |
+| A4 | GA4 → Admin → Data Streams → Configure tag → Define internal traffic → rule "Non-US Traffic" (Country ≠ United States) → Data Filters → Create filter (type: internal_traffic) → state: Active | User | 🔲 |
+| A5 | Microsoft Clarity → Settings → Filters → exclude all non-US countries (or include-only United States) | User | 🔲 |
+| A6 | Sanity → Members tab → confirm every Editor/Admin has 2FA enabled; remove stale members; tighten Roles | User | 🔲 |
+
+**Phase B — Code PR (agent ships once user picks options)**
+
+| Sub | Step | Decision needed | Status |
+|---|---|---|---|
+| B1 | Raise reCAPTCHA threshold from `0.4` → `0.7` in `app/api/leads/route.js:14` (existing "BLOCKED" review email keeps false positives in human-review loop) | None — recommended default | 🔲 |
+| B2 | Rate-limit `/api/leads` POST. **Option F1**: Vercel Firewall rate-limit rule (UI, no code, 5 req/min/IP). **Option F2**: `@upstash/ratelimit` + Vercel KV (code, sliding window, free tier). | Pick F1 or F2 | 🔲 |
+| B3 | IP-allowlist `/studio` to office/home only. **Option G1**: `next.config.js` redirect (code). **Option G2**: Vercel Firewall path rule (UI). User provides allowlisted IP(s). | Pick G1 or G2 + list IPs | 🔲 |
+
+**Phase C — Verify post-deploy (1–2 weeks, monitor)**
+
+| Sub | Step | Action | Status |
+|---|---|---|---|
+| C1 | Re-run GSC "URL Inspection" on `/`, `/services/system-replacement`, `/cities-served/dallas` → click "Request Indexing" on each to force re-crawl now that the geo-block is removed | User | 🔲 |
+| C2 | After 7 days: trigger KPI audit → confirm Crawl-to-Index Ratio moves off 0% (target: ≥50% within 14 days, ≥75% within 28 days) | User + agent | 🔲 |
+| C3 | Vercel Firewall logs → spot-check weekly for any 403s on legitimate UAs (Googlebot, Bingbot, social unfurlers); add IPs to bypass list if false positives appear | User | 🔲 |
+| C4 | If Crawl-to-Index doesn't recover, escalate to a deeper RCA — possible alternate causes: Helpful Content algo, duplicate content, sitemap drift | Agent | 🔲 |
 
 ### 🟡 Tier 3 — Next 2 weeks (medium effort, real impact)
 
