@@ -41,7 +41,7 @@
           "numericValue": null,
           "status": "gray",
           "source": "api.ssllabs.com",
-          "detail": "scan status=IN_PROGRESS",
+          "detail": "no grades returned (Testing for BEAST)",
           "trend": "—"
         },
         {
@@ -49,9 +49,9 @@
           "label": "TTFB (Time to First Byte)",
           "target": "< 200ms",
           "v3Pillar": "P1 Infrastructure",
-          "value": "unavailable",
-          "numericValue": null,
-          "status": "gray",
+          "value": "15ms",
+          "numericValue": 15,
+          "status": "green",
           "source": "PageSpeed Lighthouse · server-response-time",
           "trend": "—"
         },
@@ -60,9 +60,9 @@
           "label": "LCP (Largest Contentful Paint)",
           "target": "< 1.2s",
           "v3Pillar": "P2 Performance",
-          "value": "unavailable",
-          "numericValue": null,
-          "status": "gray",
+          "value": "1.95s",
+          "numericValue": 1951.013341927524,
+          "status": "yellow",
           "source": "PageSpeed Lighthouse · largest-contentful-paint",
           "trend": "—"
         },
@@ -83,9 +83,9 @@
           "label": "CLS (Cumulative Layout Shift)",
           "target": "< 0.05",
           "v3Pillar": "P2 Performance",
-          "value": "unavailable",
-          "numericValue": null,
-          "status": "gray",
+          "value": "0.000",
+          "numericValue": 0,
+          "status": "green",
           "source": "PageSpeed Lighthouse · cumulative-layout-shift",
           "trend": "—"
         },
@@ -94,11 +94,11 @@
           "label": "Lighthouse Performance (mobile)",
           "target": "≥ 90 (V3)",
           "v3Pillar": "P2 Performance",
-          "value": "unavailable",
-          "numericValue": null,
-          "status": "gray",
+          "value": "95",
+          "numericValue": 95,
+          "status": "green",
           "source": "pagespeedonline.googleapis.com",
-          "detail": "http 429",
+          "detail": null,
           "trend": "—"
         },
         {
@@ -106,11 +106,11 @@
           "label": "Lighthouse Performance (desktop)",
           "target": "≥ 98 (V3)",
           "v3Pillar": "P2 Performance",
-          "value": "unavailable",
-          "numericValue": null,
-          "status": "gray",
+          "value": "97",
+          "numericValue": 97,
+          "status": "yellow",
           "source": "pagespeedonline.googleapis.com (strategy=desktop)",
-          "detail": "http 429",
+          "detail": null,
           "trend": "—"
         },
         {
@@ -118,9 +118,9 @@
           "label": "Total Page Weight",
           "target": "< 1.5 MB",
           "v3Pillar": "P2 Performance",
-          "value": "unavailable",
-          "numericValue": null,
-          "status": "gray",
+          "value": "0.50 MB",
+          "numericValue": 526809,
+          "status": "green",
           "source": "PageSpeed Lighthouse · total-byte-weight",
           "trend": "—"
         },
@@ -130,7 +130,7 @@
           "target": "Brotli + WebP/AVIF (100%)",
           "v3Pillar": "P2 Performance",
           "value": "unavailable",
-          "numericValue": null,
+          "numericValue": 0,
           "status": "gray",
           "source": "PageSpeed · uses-text-compression + modern-image-formats",
           "trend": "—"
@@ -140,9 +140,9 @@
           "label": "Lighthouse Accessibility (mobile, interim)",
           "target": "≥ 95",
           "v3Pillar": "P4 Accessibility (interim)",
-          "value": "unavailable",
-          "numericValue": null,
-          "status": "gray",
+          "value": "100",
+          "numericValue": 100,
+          "status": "green",
           "source": "pagespeedonline.googleapis.com",
           "detail": "Interim heuristic — formal WCAG check via Pa11y card below",
           "trend": "—"
@@ -152,9 +152,9 @@
           "label": "Lighthouse Best Practices (mobile)",
           "target": "≥ 95",
           "v3Pillar": "P2 Performance",
-          "value": "unavailable",
-          "numericValue": null,
-          "status": "gray",
+          "value": "92",
+          "numericValue": 92,
+          "status": "yellow",
           "source": "pagespeedonline.googleapis.com",
           "trend": "—"
         },
@@ -163,9 +163,9 @@
           "label": "Lighthouse SEO (mobile)",
           "target": "100",
           "v3Pillar": "P3 Logic",
-          "value": "unavailable",
-          "numericValue": null,
-          "status": "gray",
+          "value": "100",
+          "numericValue": 100,
+          "status": "green",
           "source": "pagespeedonline.googleapis.com",
           "trend": "—"
         },
@@ -268,23 +268,23 @@
           "label": "WCAG 2.2 AA (Pa11y, automated)",
           "target": "0 errors (5-page sample)",
           "v3Pillar": "P4 Accessibility",
-          "value": "7 errors · 0 warnings (5/5 pages)",
-          "numericValue": 7,
-          "status": "red",
+          "value": "0 errors · 0 warnings (0/5 pages)",
+          "numericValue": 0,
+          "status": "green",
           "source": "Pa11y · WCAG2AA standard · 5 sample routes",
-          "detail": "Top issues: WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
-          "trend": "→"
+          "detail": "Automated covers ~35-40% of WCAG criteria; manual audit deferred until baseline trends clean.",
+          "trend": "▼"
         },
         {
           "id": "gitleaks-status",
           "label": "Gitleaks secret-scan (latest run)",
           "target": "success",
           "v3Pillar": "P4 Security",
-          "value": "unavailable",
+          "value": "no_runs",
           "numericValue": null,
           "status": "gray",
           "source": "GitHub Actions API",
-          "detail": "github api 404",
+          "detail": "last run: null",
           "trend": "—"
         },
         {
@@ -292,12 +292,12 @@
           "label": "Build manifest (App Router)",
           "target": "≥ 20 page routes",
           "v3Pillar": "Ours only",
-          "value": "22 pages · 5 API routes · 30 total",
-          "numericValue": 22,
-          "status": "green",
+          "value": "unavailable",
+          "numericValue": null,
+          "status": "gray",
           "source": ".next/app-path-routes-manifest.json (local)",
-          "detail": "Dynamic city routes (47) and service routes counted as single patterns. Sitemap expands to 51 URLs at runtime.",
-          "trend": "→"
+          "detail": ".next/app-path-routes-manifest.json not found (run `yarn build` first)",
+          "trend": "—"
         },
         {
           "id": "uptime-30d",
@@ -326,10 +326,10 @@
       ],
       "rollup": {
         "total": 27,
-        "green": 7,
-        "yellow": 2,
-        "red": 2,
-        "gray": 16
+        "green": 13,
+        "yellow": 5,
+        "red": 1,
+        "gray": 8
       }
     },
     {
