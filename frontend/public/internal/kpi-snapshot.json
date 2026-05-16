@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-16T20:21:46.096Z",
+  "generatedAt": "2026-05-16T20:25:53.828Z",
   "domain": "dfwhvac.com",
-  "durationMs": 26438,
+  "durationMs": 25473,
   "phases": [
     {
       "id": "phase1",
@@ -18,10 +18,10 @@
           "status": "green",
           "source": "Live response-header inspection",
           "detail": "all core headers present · stricter than V3 (A acceptable)",
-          "trend": "▲",
-          "delta": 100,
-          "deltaFormatted": "+100",
-          "deltaSentiment": "good"
+          "trend": "→",
+          "delta": 0,
+          "deltaFormatted": "0.000",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "mozilla-observatory-grade",
@@ -33,9 +33,9 @@
           "status": "green",
           "source": "observatory-api.mdn.mozilla.net (Mozilla MDN-hosted v2 API)",
           "detail": "B+ accepted as ceiling (CSP 'unsafe-inline'/'unsafe-eval' required for Clarity + GA4 + reCAPTCHA). 9/10 checks pass.",
-          "trend": "—",
-          "delta": null,
-          "deltaFormatted": "",
+          "trend": "→",
+          "delta": 0,
+          "deltaFormatted": "0.000",
           "deltaSentiment": "neutral"
         },
         {
@@ -58,28 +58,28 @@
           "label": "TTFB (Time to First Byte)",
           "target": "< 200ms",
           "v3Pillar": "P1 Infrastructure",
-          "value": "4ms",
-          "numericValue": 4,
+          "value": "6ms",
+          "numericValue": 6,
           "status": "green",
           "source": "PageSpeed Lighthouse · server-response-time",
-          "trend": "▼",
-          "delta": -2,
-          "deltaFormatted": "-2.00",
-          "deltaSentiment": "bad"
+          "trend": "▲",
+          "delta": 2,
+          "deltaFormatted": "+2.00",
+          "deltaSentiment": "good"
         },
         {
           "id": "cwv-lcp",
           "label": "LCP (Largest Contentful Paint)",
           "target": "< 1.2s",
           "v3Pillar": "P2 Performance",
-          "value": "2.10s",
-          "numericValue": 2101.0103915554355,
-          "status": "yellow",
+          "value": "2.70s",
+          "numericValue": 2703.5239756516507,
+          "status": "red",
           "source": "PageSpeed Lighthouse · largest-contentful-paint",
-          "trend": "▼",
-          "delta": -162.38613522699598,
-          "deltaFormatted": "-162",
-          "deltaSentiment": "good"
+          "trend": "▲",
+          "delta": 602.5135840962153,
+          "deltaFormatted": "+603",
+          "deltaSentiment": "bad"
         },
         {
           "id": "cwv-inp",
@@ -115,29 +115,29 @@
           "label": "Lighthouse Performance (mobile)",
           "target": "≥ 90 (V3)",
           "v3Pillar": "P2 Performance",
-          "value": "98",
-          "numericValue": 98,
+          "value": "95",
+          "numericValue": 95,
           "status": "green",
           "source": "pagespeedonline.googleapis.com",
           "detail": null,
-          "trend": "▲",
-          "delta": 24,
-          "deltaFormatted": "+24.0",
-          "deltaSentiment": "good"
+          "trend": "▼",
+          "delta": -3,
+          "deltaFormatted": "-3.00",
+          "deltaSentiment": "bad"
         },
         {
           "id": "pagespeed-performance-desktop",
           "label": "Lighthouse Performance (desktop)",
           "target": "≥ 98 (V3)",
           "v3Pillar": "P2 Performance",
-          "value": "93",
-          "numericValue": 93,
-          "status": "yellow",
+          "value": "100",
+          "numericValue": 100,
+          "status": "green",
           "source": "pagespeedonline.googleapis.com (strategy=desktop)",
           "detail": null,
           "trend": "▲",
-          "delta": 5,
-          "deltaFormatted": "+5.00",
+          "delta": 7,
+          "deltaFormatted": "+7.00",
           "deltaSentiment": "good"
         },
         {
@@ -146,13 +146,13 @@
           "target": "< 1.5 MB",
           "v3Pillar": "P2 Performance",
           "value": "0.65 MB",
-          "numericValue": 678050,
+          "numericValue": 678310,
           "status": "green",
           "source": "PageSpeed Lighthouse · total-byte-weight",
-          "trend": "▼",
-          "delta": -263,
-          "deltaFormatted": "-263",
-          "deltaSentiment": "bad"
+          "trend": "▲",
+          "delta": 260,
+          "deltaFormatted": "+260",
+          "deltaSentiment": "good"
         },
         {
           "id": "cwv-resource-compression",
@@ -221,9 +221,9 @@
           "status": "green",
           "source": "x-vercel-cache header (warm-cache 2nd visit)",
           "detail": "Pages: 85.7% · Static assets: 100% · 15 samples · {\"HIT\":14,\"MISS\":1}",
-          "trend": "—",
-          "delta": null,
-          "deltaFormatted": "",
+          "trend": "→",
+          "delta": 0,
+          "deltaFormatted": "0.000",
           "deltaSentiment": "neutral"
         },
         {
@@ -236,9 +236,9 @@
           "status": "green",
           "source": "Production CSP header",
           "detail": "frame-ancestors set: true",
-          "trend": "—",
-          "delta": null,
-          "deltaFormatted": "",
+          "trend": "→",
+          "delta": 0,
+          "deltaFormatted": "0.000",
           "deltaSentiment": "neutral"
         },
         {
@@ -250,10 +250,10 @@
           "numericValue": 51,
           "status": "green",
           "source": "/sitemap.xml",
-          "trend": "▲",
-          "delta": 51,
-          "deltaFormatted": "+51.0",
-          "deltaSentiment": "good"
+          "trend": "→",
+          "delta": 0,
+          "deltaFormatted": "0.000",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "robots-ai-allowlist",
@@ -264,10 +264,10 @@
           "numericValue": 6,
           "status": "green",
           "source": "/robots.txt",
-          "trend": "▲",
-          "delta": 6,
-          "deltaFormatted": "+6.00",
-          "deltaSentiment": "good"
+          "trend": "→",
+          "delta": 0,
+          "deltaFormatted": "0.000",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "schema-coverage",
@@ -279,10 +279,10 @@
           "status": "green",
           "source": "Live HTML crawl",
           "detail": "types: HVACBusiness, LocalBusiness, BreadcrumbList, Offer, Service",
-          "trend": "▲",
-          "delta": 5,
-          "deltaFormatted": "+5.00",
-          "deltaSentiment": "good"
+          "trend": "→",
+          "delta": 0,
+          "deltaFormatted": "0.000",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "click-depth",
@@ -294,10 +294,10 @@
           "status": "green",
           "source": "Local BFS crawler",
           "detail": "54 pages reachable · depth dist: {\"0\":1,\"1\":23,\"2\":30}",
-          "trend": "▲",
-          "delta": 2,
-          "deltaFormatted": "+2.00",
-          "deltaSentiment": "bad"
+          "trend": "→",
+          "delta": 0,
+          "deltaFormatted": "0.000",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "internal-link-connectivity",
@@ -392,9 +392,9 @@
       ],
       "rollup": {
         "total": 26,
-        "green": 18,
-        "yellow": 2,
-        "red": 0,
+        "green": 19,
+        "yellow": 0,
+        "red": 1,
         "gray": 6
       }
     },
@@ -575,7 +575,7 @@
           "numericValue": 1.8,
           "status": "red",
           "source": "GA4 Data API · conversions ÷ sessions (28d)",
-          "detail": "12 conversions / 681 sessions",
+          "detail": "12 conversions / 682 sessions",
           "trend": "→",
           "delta": 0,
           "deltaFormatted": "0.000",
@@ -654,14 +654,14 @@
           "id": "bounce-rate",
           "label": "Bounce rate (sitewide)",
           "target": "< 50%",
-          "value": "74.4%",
-          "numericValue": 74.4,
+          "value": "74.5%",
+          "numericValue": 74.5,
           "status": "red",
           "source": "GA4 Data API · bounceRate (28d)",
           "detail": null,
           "trend": "→",
-          "delta": 0,
-          "deltaFormatted": "0.000",
+          "delta": 0.09999999999999432,
+          "deltaFormatted": "+0.100",
           "deltaSentiment": "neutral"
         },
         {
