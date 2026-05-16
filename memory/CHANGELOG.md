@@ -4,6 +4,35 @@
 **⚠️ Read `/app/memory/00_START_HERE.md` first for the Agent SOP.**
 
 ---
+## Feb 16, 2026 (later) — P1 #3: Legacy JS polyfills dropped
+
+### Context
+Lighthouse "Avoid serving legacy JavaScript to modern browsers" flagged ~17 KiB shipping despite a strict browserslist (Chrome/Edge/FF ≥110, Safari ≥16). Investigation traced this to **two Next.js polyfill files** that Next ships verbatim regardless of `browserslist` (no opt-out flag in Next 16 / Turbopack):
+
+| File | Size | Loading | Real cost on modern browsers |
+|---|---|---|---|
+| `polyfill-nomodule.js` | 110 KiB | `<script nomodule>` | spec-compliant browsers skip download/parse/exec — but Lighthouse still flags it |
+| `polyfill-module.js` | 1.4 KiB | inlined into Turbopack runtime chunk | downloaded + parsed on every page (guards short-circuit, but bytes shipped) |
+
+Every feature these polyfill (`String.trimStart`, `Array.flat/flatMap/at`, `Symbol.description`, `Promise.finally`, `Object.fromEntries`, …) is already native in our browserslist target. Pure dead weight.
+
+### Shipped (3 files)
+
+1. **`/app/scripts/empty-next-polyfills.mjs`** (new) — Overwrites both polyfill source files in `node_modules/next/dist/.../polyfills/` with an empty module just before each build. Idempotent. Reversible via `yarn install`.
+
+2. **`/app/frontend/package.json`** — New `"prebuild": "node ../scripts/empty-next-polyfills.mjs"` script. Runs automatically before every `yarn build`.
+
+3. **No source-code changes.** Brand tokens, components, etc. untouched.
+
+### Verification
+- `yarn build` clean (32.8 s first run, 46.1 s second run with cached cleanup).
+- `polyfill-cleanup` log lines confirm both files emptied per build.
+- **`polyfill-nomodule.js` chunk: 112,594 B → 71 B** (110 KiB cut from the nomodule path; 0 modern-user impact, but Lighthouse audit goes green).
+- Grep across all non-nomodule script chunks for `Array.prototype.flat||(…` returns nothing — modern-browser polyfill payload is now empty.
+- HTTP 200 verified on `/`, `/faq`, `/repair-or-replace`, `/studio` (Sanity Studio route still mounts correctly without polyfills).
+- Smoke screenshot of homepage clean (header, hero, CTA, form all render).
+
+---
 ## Feb 16, 2026 (later) — P1 #1: GTM CSP img-src fix
 
 ### Context
