@@ -86,7 +86,7 @@ Outcome: 3 shipped, 2 struck after audit, F13 architecture audit unlocked an add
 | Sub | Step | Action | Status |
 |---|---|---|---|
 | A1 | Delete the "Block Non-US Traffic" rule entirely from Vercel Firewall (don't leave it toggled off — delete it so it can't be re-enabled by accident) | User | 🔲 |
-| A2 | **TURN ON** Vercel Firewall → Bot Management → **Bot Protection** (challenges non-browser sources, **excludes verified bots** — safe for SEO) | User | 🔲 |
+| A2 | **DEFERRED** — Vercel Firewall → Bot Management → **Bot Protection**. Was briefly enabled May 16; immediately broke the KPI audit GitHub Action (non-browser runner gets challenged → audit fetches HTML challenge pages instead of real content → false-red across all on-site KPIs). **Re-enable only when:** (a) heavy agent-led build sessions wind down OR (b) GitHub Action runner IP is added to Vercel IP Bypass list OR (c) audit script switches to a User-Agent that Vercel verifies as a legitimate bot. Note: the same issue would silently corrupt any other non-browser tooling (cron health checks, uptime monitors, third-party crawlers). | User (deferred) | ⏸️ |
 | A3 | **DO NOT TURN ON** Vercel Firewall → Bot Management → **AI Bots** (would block GPTBot/ClaudeBot/PerplexityBot — the AEO crawlers we want) | User confirm | 🔲 |
 | A4 | GA4 → Admin → Data Streams → Configure tag → Define internal traffic → rule "Non-US Traffic" (Country ≠ United States) → Data Filters → Create filter (type: internal_traffic) → state: Active | User | 🔲 |
 | A5 | Microsoft Clarity → Settings → Filters → exclude all non-US countries (or include-only United States) | User | 🔲 |
