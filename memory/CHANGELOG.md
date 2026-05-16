@@ -4,6 +4,39 @@
 **⚠️ Read `/app/memory/00_START_HERE.md` first for the Agent SOP.**
 
 ---
+## Feb 16, 2026 (later) — P2.20 Step 4: Above-the-fold critical CSS expansion
+
+### Context
+P2.20 Step 3 inlined only the hero H1's styles. PSI (May 14, 2026, 3-sample avg) still showed mobile LCP averaging 2.55 s vs 1.25 s target. Investigation: the H1 was painting fast via inline styles, but its **wrapper stack** — hero `<section>` gradient + container width + grid + badge pill + subtitle paragraph — was still waiting on the 75 KiB / 12.7 KiB-gzipped Tailwind chunk. When the chunk arrived ~543 ms later, the wrappers snapped into place, the H1 reflowed, and Lighthouse re-classified the LCP element (LCP timestamp jumped from ~600 ms first paint → 2.5+ s).
+
+### Shipped (2 files)
+
+1. **`app/layout.js`** — Expanded inline `<style>` block in `<head>` from ~120 B (H1 desktop bump only) to ~720 B covering the full above-the-fold:
+   - `hero-critical-section` (linear-gradient background + py-20/lg:py-32 padding)
+   - `hero-critical-container` (Tailwind `.container` max-width chain: 640 / 768 / 1024 / 1280)
+   - `hero-critical-grid` (1-col mobile → 2-col desktop)
+   - `hero-critical-col` (space-y-8) + `hero-critical-stack` (space-y-4) using `> * + *` selectors
+   - `hero-critical-badge` (pill: bg, border, padding, radius, font weight)
+   - `hero-critical-sub` (subtitle: 1.25rem, gray-600, leading-relaxed)
+   - H1 desktop bump preserved with `!important`
+
+2. **`components/HomePage.jsx`** — Added the matching `hero-critical-*` class names on top of the existing Tailwind classes (no Tailwind classes removed — both apply once the stylesheet arrives, post-load visuals stay pixel-identical).
+
+### Why not preload+swap on the stylesheet itself?
+Next.js 16's React server-renderer owns the stylesheet `<link>` emission via `data-precedence="next"`. Converting it to `rel="preload" onload="this.rel='stylesheet'"` requires HTML mutation (custom middleware that rewrites every streamed response). High risk of breaking Sanity Studio (`/studio`) and edge-cached SSG pages. The inline-critical-CSS approach delivers the same first-paint stability with zero infra risk.
+
+### Verification
+- `yarn build` clean (35.2 s).
+- Lint clean on both touched files.
+- Desktop screenshot (1366×768): hero pixel-identical to pre-change with full Tailwind loaded.
+- Mobile screenshot (412×915): hero renders correctly — H1 sized at 2.25 rem, badge as pill, gradient bg, CTAs styled.
+- HTTP 200 on `/`, `/faq`, `/repair-or-replace`, `/studio` post-restart.
+
+### Expected LCP impact
+- First paint of full hero now happens before the Tailwind chunk arrives → no reflow → LCP detection sees stable H1 from t=0.
+- Predicted mobile LCP improvement: **-400 to -800 ms** (eliminates the wrapper-reflow re-classification window). Real-world value will be measured on the next PSI run post-deploy.
+
+---
 ## Feb 16, 2026 (later) — P2.22: `lib/metadata.js` reads live Sanity reviews + P1 fallback bump
 
 ### Context
