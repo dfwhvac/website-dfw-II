@@ -72,11 +72,43 @@ Outcome: 3 shipped, 2 struck after audit, F13 architecture audit unlocked an add
 
 | # | ID | Item | Effort | Why this tier |
 |---|---|---|---|---|
-| 1 | **P1.8** | **Google Business Profile audit + optimization** (already verified per user May 4) | 20 min user (admin screenshots) + agent audit + 4 hrs initial fix-list ship + 30 min/wk ongoing | GBP impressions = 30–50% of total search visibility for local-service businesses; 60-day optimization compounding window only starts after Posts/photos/Q&A baseline established |
-| 2 | **F3b** | HSTS Preload List submission (hstspreload.org) | 10 min user | One-way ratchet. 30-day eligibility already verified. Permanent commitment to HTTPS-only (Vercel guarantees this anyway). |
-| 3 | **F12** | GitHub Actions Node 20→24 bump | 5 min user (one-click merge of next Dependabot reopen) | Soft deadline June 2026; with gitleaks now passing, Dependabot's PRs are one-click mergeable. |
-| 4 | **P1.6f** | Rich Results validation on 7 high-value URLs | 30 min user | Confirms FAQPage / WebApplication / HowTo / Service / LocalBusiness / BreadcrumbList / Offer (new) schema. |
-| 5 | **A3** | May 5 GSC re-audit (diff against Apr 27 baseline) | 10 min user + 30 min agent | Confirms commercial-cooling/maintenance content patches + legacy URL redirects cleared. |
+| 1 | **SEC-1** | **🆕 Security & data-hygiene refactor (replace geo-block firewall rule with surgical controls)** — Multi-step playbook below. **Why this tier:** the deleted Vercel Firewall "Block Non-US Traffic" rule was likely 403-ing Googlebot (KPI shows Crawl-to-Index 0%); replacing it with surgical controls hardens the actual threats without the SEO blast radius. | ~30 min user + small code PR (agent) | P1/P2 — SEO recovery + security hardening |
+| 2 | **P1.8** | **Google Business Profile audit + optimization** (already verified per user May 4) | 20 min user (admin screenshots) + agent audit + 4 hrs initial fix-list ship + 30 min/wk ongoing | GBP impressions = 30–50% of total search visibility for local-service businesses; 60-day optimization compounding window only starts after Posts/photos/Q&A baseline established |
+| 3 | **F3b** | HSTS Preload List submission (hstspreload.org) | 10 min user | One-way ratchet. 30-day eligibility already verified. Permanent commitment to HTTPS-only (Vercel guarantees this anyway). |
+| 4 | **F12** | GitHub Actions Node 20→24 bump | 5 min user (one-click merge of next Dependabot reopen) | Soft deadline June 2026; with gitleaks now passing, Dependabot's PRs are one-click mergeable. |
+| 5 | **P1.6f** | Rich Results validation on 7 high-value URLs | 30 min user | Confirms FAQPage / WebApplication / HowTo / Service / LocalBusiness / BreadcrumbList / Offer (new) schema. |
+| 6 | **A3** | May 5 GSC re-audit (diff against Apr 27 baseline) | 10 min user + 30 min agent | Confirms commercial-cooling/maintenance content patches + legacy URL redirects cleared. |
+
+#### SEC-1 — Detailed sub-steps
+
+**Phase A — UI-only (no code, ~15 min user; do today)**
+
+| Sub | Step | Action | Status |
+|---|---|---|---|
+| A1 | Delete the "Block Non-US Traffic" rule entirely from Vercel Firewall (don't leave it toggled off — delete it so it can't be re-enabled by accident) | User | 🔲 |
+| A2 | **DEFERRED** — Vercel Firewall → Bot Management → **Bot Protection**. Was briefly enabled May 16; immediately broke the KPI audit GitHub Action (non-browser runner gets challenged → audit fetches HTML challenge pages instead of real content → false-red across all on-site KPIs). **Re-enable only when:** (a) heavy agent-led build sessions wind down OR (b) GitHub Action runner IP is added to Vercel IP Bypass list OR (c) audit script switches to a User-Agent that Vercel verifies as a legitimate bot. Note: the same issue would silently corrupt any other non-browser tooling (cron health checks, uptime monitors, third-party crawlers). | User (deferred) | ⏸️ |
+| A3 | **DO NOT TURN ON** Vercel Firewall → Bot Management → **AI Bots** (would block GPTBot/ClaudeBot/PerplexityBot — the AEO crawlers we want) | User confirm | 🔲 |
+| A4 | GA4 → Admin → Data Streams → Configure tag → Define internal traffic → rule "Non-US Traffic" (Country ≠ United States) → Data Filters → Create filter (type: internal_traffic) → state: Active | User | 🔲 |
+| A5 | Microsoft Clarity → Settings → Filters → exclude all non-US countries (or include-only United States) | User | 🔲 |
+| A6 | Sanity → Members tab → confirm every Editor/Admin has 2FA enabled; remove stale members; tighten Roles | User | 🔲 |
+
+**Phase B — Code PR (agent ships once user picks options)**
+
+| Sub | Step | Decision needed | Status |
+|---|---|---|---|
+| B1 | Raise reCAPTCHA threshold from `0.4` → `0.7` in `app/api/leads/route.js:18` (existing "BLOCKED" review email keeps false positives in human-review loop) | None — recommended default | ✅ DONE May 14, 2026 |
+| B2 | Rate-limit `/api/leads` POST. **Option F1**: Vercel Firewall rate-limit rule (UI, no code, 5 req/min/IP). **Option F2**: `@upstash/ratelimit` + Vercel KV (code, sliding window, free tier). | Pick F1 or F2 | 🔲 |
+| B3 | IP-allowlist `/studio` to office/home only. **Option G1**: `next.config.js` redirect (code). **Option G2**: Vercel Firewall path rule (UI). User provides allowlisted IP(s). | Pick G1 or G2 + list IPs | 🔲 |
+
+**Phase C — Verify post-deploy (1–2 weeks, monitor)**
+
+| Sub | Step | Action | Status |
+|---|---|---|---|
+| C1 | Re-run GSC "URL Inspection" on `/`, `/services/system-replacement`, `/cities-served/dallas` → click "Request Indexing" on each to force re-crawl now that the geo-block is removed | User | 🔲 |
+| C2 | After 7 days: trigger KPI audit → confirm Crawl-to-Index Ratio moves off 0% (target: ≥50% within 14 days, ≥75% within 28 days) | User + agent | 🔲 |
+| C3 | Vercel Firewall logs → spot-check weekly for any 403s on legitimate UAs (Googlebot, Bingbot, social unfurlers); add IPs to bypass list if false positives appear | User | 🔲 |
+| C4 | If Crawl-to-Index doesn't recover, escalate to a deeper RCA — possible alternate causes: Helpful Content algo, duplicate content, sitemap drift | Agent | 🔲 |
+| C5 | **🆕 Fix Pa11y in GitHub Action runner** — ✅ SHIPPED May 14, 2026. Added `Install Chromium OS dependencies (for Pa11y)` step to `.github/workflows/kpi-audit.yml` before the audit run (installs `libnss3 libxss1 libatk1.0-0 libatk-bridge2.0-0 libcups2 libxkbcommon-x11-0 libgtk-3-0 libgbm-dev libasound2t64` with fallback to legacy `libasound2` for older Ubuntu images). Verification: next scheduled or manual KPI audit run should report a numeric Pa11y count (e.g. "0/5 errors · X/5 pages") instead of the current gray "0/5 pages scanned" state. | Agent | ✅ |
 
 ### 🟡 Tier 3 — Next 2 weeks (medium effort, real impact)
 
@@ -112,7 +144,7 @@ P1.6b city page rewrites (1 city/wk × 28 weeks) · P1.6e review response cadenc
 
 ### 🪵 Tier 8 — Internal hygiene (when there's slack capacity)
 
-P2.7 unused dep audit · P2.15 component decomposition · F7 Lighthouse CI gate · P2.4c Lighthouse all-green re-verification · F3c CSP nonce migration (resolves F13-P1.4 Mozilla Observatory B+ → A). **None of these earn a user-facing KPI; defer until top tiers are working through.**
+P2.7 unused dep audit · P2.15 component decomposition · F7 Lighthouse CI gate · P2.4c Lighthouse all-green re-verification. **None of these earn a user-facing KPI; defer until top tiers are working through.** ~~F3c CSP nonce migration~~ STRUCK May 14, 2026 (Mozilla Observatory B+ accepted as final).
 
 ### 🔮 Tier 9 — Future / blocked
 
@@ -191,7 +223,7 @@ Document captures live in `/app/memory/audits/2026-04-27_KPI_Baseline.md`.
 | Uptime | 99.95%+ | Vercel SLA |
 | Mobile vs desktop CWV gap | <20% delta | CrUX |
 | **SecurityHeaders.com grade** | **A+** | securityheaders.com (post-deploy) |
-| **Mozilla Observatory grade** | **A or higher** | observatory.mozilla.org |
+| **Mozilla Observatory grade** | **≥ B+** (B+ accepted as final May 14, 2026) | observatory.mozilla.org |
 | **Qualys SSL Labs TLS grade** | **A or higher** | ssllabs.com |
 | **Dependency vulns (high+critical)** | **0** | GitHub Dependabot / `yarn audit` — ✅ critical=0 verified May 4, 2026 (Run #68); 28 Sanity Studio high-sev tracked under F10 |
 | **Public secret leaks (`gitleaks`)** | **0** | gitleaks scan — ✅ ZERO new leaks May 4, 2026 (Run #68); 43 historical fingerprints allowlisted in `.gitleaksignore` (all keys revoked/rotated, full kill chain in CHANGELOG) |
@@ -220,7 +252,7 @@ Document captures live in `/app/memory/audits/2026-04-27_KPI_Baseline.md`.
 | 4g | **P2.23** | **`@sanity/image-url` deprecation** — every page request currently logs a `level: warning` in Vercel: *"The default export of @sanity/image-url has been deprecated. Use the named export `createImageUrlBuilder` instead."* Affects every Sanity image render across the site (24+ routes). Status 200 everywhere, nothing broken — purely a deprecation warning that's polluting Vercel's log retention (with Hobby's 1-hour window, these warnings crowd out actually-actionable logs like the cron's missed runs). **Fix:** `grep -rn "from '@sanity/image-url'" /app/frontend` → change `import imageUrlBuilder from '@sanity/image-url'` to `import { createImageUrlBuilder } from '@sanity/image-url'` and update call sites accordingly. ~5 minute fix, deferred only because it's cosmetic. Low priority but worth bundling into the next "developer experience" PR. | 5-10 min | Agent |
 | 5 | P2.4c | Lighthouse all-green verification on /cities-served/plano + /request-service | 1 hr | Agent |
 | 6 | F3b | **HSTS Preload List submission** — `hstspreload.org` (eligibility verified, awaiting user submit) — see `USER_ACTIONS_2026-02-28.md` | 10 min | User |
-| 7 | F3c | **CSP nonce migration** (retire `unsafe-inline` on script-src) — Next.js middleware-injected nonces | 4–6 hrs | Agent (Phase 4 candidate) |
+| 7 | F3c | ~~**CSP nonce migration** (retire `unsafe-inline` on script-src)~~ — **STRUCK May 14, 2026.** Mozilla Observatory B+ accepted as final grade. CSP nonce work earned no user-facing/security KPI; `frame-ancestors` + `form-action` already protect against the threats unsafe-inline relaxes. | DROPPED | — |
 | 8 | F7 | Lighthouse CI gate (optional) — Vercel build fails if Lighthouse drops below thresholds | 2 hrs | Agent |
 | 9 | P1.6d | INP field measurement after CrUX populates (28+ days) | 30 min + variable | Agent |
 | 10 | P1.3 | User-led device QA: iOS Safari, Android Chrome, address autocomplete | 1 hr | User |

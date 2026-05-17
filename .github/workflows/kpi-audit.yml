@@ -58,6 +58,19 @@ jobs:
       # (fs, path, child_process) and pulls Pa11y on-demand via `npx --yes pa11y`.
       # Skipping the install step avoids being blocked on lockfile drift.
 
+      # Chromium runtime deps for Pa11y (puppeteer-core ships Chromium but not
+      # the host libs). Without these, `npx pa11y` silently fails to launch and
+      # the audit reports gray "0/N pages scanned". Added May 14, 2026.
+      - name: Install Chromium OS dependencies (for Pa11y)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libnss3 libxss1 libatk1.0-0 libatk-bridge2.0-0 \
+            libcups2 libxkbcommon-x11-0 libgtk-3-0 libgbm-dev libasound2t64 || \
+          sudo apt-get install -y \
+            libnss3 libxss1 libatk1.0-0 libatk-bridge2.0-0 \
+            libcups2 libxkbcommon-x11-0 libgtk-3-0 libgbm-dev libasound2
+
       - name: Run KPI audit
         # GITHUB_ACTIONS=true is auto-set by the runner. audit-kpis.mjs uses this
         # flag to (a) write the canonical snapshot path and (b) emit the dated

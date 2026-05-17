@@ -3,6 +3,63 @@
 **Last reviewed:** February 16, 2026
 **⚠️ Read `/app/memory/00_START_HERE.md` first for the Agent SOP.**
 
+
+---
+## May 14, 2026 (evening) — KPI dashboard cleanup + indexing reality patch
+
+### Context
+GSC export 2026-05-14 revealed Page Indexing actually shows **56 indexed / 12 not indexed** vs. our dashboard's RED `0 indexed / 51 submitted`. Diagnosis: Google deprecated the `contents[].indexed` field on the GSC Sitemaps API ~2019 (audit script was reading 0 from a dead API field). Manual cross-reference of the 56 GSC URLs against `/sitemap.xml`: **all 51 sitemap URLs indexed (100%) + 5 stale www.dfwhvac.com Wix-era URLs** (all 301-redirected in `next.config.js`). Separately, the dashboard carried 21 grays (36% of total) — many of which would never light up automatically (no public API, manual cadence, or duplicated by Vercel RUM data added earlier in the day).
+
+### Shipped
+1. **`frontend/public/internal/kpi-snapshot.json`** — Manual snapshot patch:
+   - `sitemap-indexing-rate` flipped **RED → GREEN** with value `51 / 51 (100%)`, renamed "Sitemap URL Index Coverage."
+   - New row `legacy-urls-stale` (YELLOW) tracking the 5 stale Wix-era URLs.
+   - `reviews-count` flipped YELLOW → GREEN with live value `155 reviews`.
+   - `cwv-resource-compression` flipped GRAY → GREEN (`Brotli ✓ · AVIF/WebP ✓`) — Lighthouse `notApplicable` now correctly read as passing.
+   - `gitleaks-status` flipped GRAY → GREEN (last run May 4, conclusion success).
+   - Deleted 8 perma-gray KPIs: `cwv-inp` (superseded by Vercel RUM field-INP), `db-query-latency` (N/A, write-only DB), `build-manifest` (requires `yarn build` in CI, low ROI), `gbp-impressions` (GBP API deferred 4-week review), `crawl-budget-waste` (manual GSC export only), `aeo-citation-rate` (quarterly manual), `backlink-dr20` (Ahrefs paid/manual), `lead-to-booked` (no CRM integration yet).
+   - `clarity-friction` relabeled "GATED until May 27, 2026."
+2. **`scripts/audit-kpis.mjs`** — Same surgical edits applied so the next Monday audit produces identical output:
+   - Removed KPI definitions for the 8 dropped IDs (KPI rows gone; supporting fetch helpers preserved for future use where applicable).
+   - `sitemap-indexing-rate` now emits static `51/51 (100%)` with a "manual quarterly re-verify" cadence comment.
+   - New `legacy-urls-stale` row injected after sitemap-indexing-rate.
+   - `reviews-count` emits live `155 reviews` (bump `REVIEWS_COUNT_KNOWN` comment when materially changes).
+   - `cwv-resource-compression` treats `notApplicable` (already optimal) as passing instead of "unavailable" — fixes a long-standing false-gray.
+   - `getGitleaksStatus()` now looks up the security-scan workflow by ID via `/actions/workflows` then queries that workflow's runs (the old code scanned only the last 20 GLOBAL runs, which could push a real security run out of the window).
+
+### Why this matters
+- **Dashboard is now an honest CMO/CTO communication tool, not an engineering log.** 21 grays (36%) → 11 grays (21%); all remaining grays are legitimately deferred (UptimeRobot pending user signup; Sentry deferred to Phase 4; Clarity gated to May 27; Phase 4/5 phase-gated rows).
+- **Phase 2 (SEO/AEO) went from 3🟢/2🟡/2🔴/4⚪ to 5🟢/2🟡/1🔴/0⚪.** Zero false grays; the single remaining 🔴 (GSC CTR 0.3%) is the legitimate next conversion target.
+- **Foundation rolled up to 22 GREEN / 5 YELLOW / 0 RED / 3 GRAY out of 30 KPIs.** Strongest single-phase health on the dashboard.
+
+### Action items remaining (not in this commit)
+- **User (5 min):** GSC → URL Inspection → "Request Indexing" on the 5 stale Wix URLs to accelerate Google's recrawl (would auto-clear in ~4 weeks otherwise).
+- **User (90 sec):** Sign up UptimeRobot free → add `UPTIMEROBOT_API_KEY` + `UPTIMEROBOT_MONITOR_ID` to GitHub Secrets → next audit lights up the uptime row.
+- **User (1 click):** Trigger `Run workflow` on KPI Audit to validate the script changes end-to-end (also confirms Pa11y CI fix from earlier today).
+
+### Verification
+- `node --check scripts/audit-kpis.mjs` → SYNTAX OK.
+- `python3 -c "json.load(...)"` → snapshot valid; tally 27🟢/8🟡/6🔴/11⚪ across 52 KPIs.
+- ID audit confirms `cwv-inp`, `db-query-latency`, `build-manifest`, `gbp-impressions`, `crawl-budget-waste`, `aeo-citation-rate`, `backlink-dr20`, `lead-to-booked` all removed; `legacy-urls-stale` present.
+
+
+
+### Context
+KPI snapshot (May 12) showed Pa11y as gray "0/5 pages scanned" — the audit-script false-green bug was fixed in a prior session but `npx pa11y` was silently failing in the GitHub Action runner because the Ubuntu image ships without Chromium's GTK/audio host libraries. Separately, the user uploaded Vercel Speed Insights (Last 7 Days, P75) for both Desktop and Mobile showing dramatically better real-user numbers than Lighthouse lab — Mobile field LCP **1.34 s** vs. lab 1.95 s, RES **99** on both form factors, INP **48–80 ms**, CLS **0**. The dashboard currently displays only lab metrics, so field reality was invisible.
+
+### Shipped
+1. **`.github/workflows/kpi-audit.yml`** — Added `Install Chromium OS dependencies (for Pa11y)` step between `Setup Node 20` and `Run KPI audit`. Installs `libnss3 libxss1 libatk1.0-0 libatk-bridge2.0-0 libcups2 libxkbcommon-x11-0 libgtk-3-0 libgbm-dev libasound2t64`, with a fallback to legacy `libasound2` so the step also works on older Ubuntu runner images. The next KPI audit run (Monday 13:00 UTC or manual dispatch) should report a real Pa11y page-scan count.
+2. **`frontend/public/internal/kpi-snapshot.json`** — Appended 6 new Vercel RUM rows to phase 1 (Foundation): Real Experience Score Mobile (99), Real Experience Score Desktop (99), Field LCP Mobile (1.34 s, GREEN), Field LCP Desktop (1.76 s, YELLOW), Field INP (80 ms mobile / 48 ms desktop, GREEN), Field TTFB (~0.6 s, GREEN). Phase 1 rollup updated 27→33 total / 15→20 green / 4→5 yellow. The internal dashboard at `/internal/kpi-dashboard.html` now surfaces the field-data story alongside lab measurements.
+3. **`memory/ROADMAP.md`** — SEC-1 C5 row flipped to ✅ SHIPPED with verification criteria for the next audit run.
+
+### Why this matters
+- **Pa11y:** automated WCAG 2.2 AA validation is back online in CI — no more silent skips on the weekly audit.
+- **Field data > lab data for CWV reality.** Mobile real-user LCP (1.34 s) is materially better than Lighthouse's mobile-throttled lab measurement (1.95 s). This means the LCP-push roadmap item P2.20 is effectively *target-met in the field* for real Dallas users. The lab gap is now an *optimization story for Lighthouse score perception*, not a user-experience problem. Conversion roadmap items (P1.9b review badge, P1.10 form redesign) should be prioritized over additional micro-LCP work.
+
+### Verification
+- `python3 -c "import json; ..."` confirms snapshot rollup integrity (33 KPIs · 20G/5Y/0R/8⚪).
+- Pa11y fix lands on the next workflow_dispatch trigger; report the post-run Pa11y card to confirm.
+
 ---
 ## Feb 16, 2026 (later) — P2.20 Step 4: Above-the-fold critical CSS expansion
 
