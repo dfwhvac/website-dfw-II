@@ -5,6 +5,45 @@
 
 
 ---
+## May 18, 2026 (late evening) — Field-data hybrid restoration (CrUX over-reach correction)
+
+### Context
+After the morning's "auto-fetch CrUX, drop Vercel RUM" migration shipped and ran, the live snapshot returned `loadingExperience: missing` and `originLoadingExperience: missing` from the PSI API for all 5 new CrUX rows. Direct API verification confirmed the cause: **dfwhvac.com is not yet in the CrUX dataset.** CrUX requires roughly 1,000+ Chrome sessions per 28d window for origin-level inclusion. At ~30k/mo impressions and ~70 clicks/mo, the origin is below threshold and will remain so until Chrome session volume grows (estimated 3-6 months at current trajectory).
+
+This was a strategic miss — I should have flagged the low-traffic CrUX-qualification dependency before swapping. CrUX is the canonical field-data source for high-traffic sites, but at launch-traffic scale Vercel RUM (which measures every visitor, no inclusion threshold) is more comprehensive.
+
+### Shipped — two-tier field-data strategy (Option B)
+1. **`scripts/audit-kpis.mjs` · 6 `vercel-rum-*` rows restored** as **active KPIs**: `vercel-rum-res-mobile/desktop`, `vercel-rum-lcp-mobile/desktop`, `vercel-rum-inp`, `vercel-rum-ttfb`. Values preserved from the May 15 paste (last refresh). These remain the operative field-data signal until CrUX qualifies.
+2. **`scripts/audit-kpis.mjs` · 5 CrUX rows kept as a forward-looking watchlist** (relabeled `· watchlist` suffix). Value text changed from `"unavailable"` (alarmist) to `"watchlist · pending CrUX inclusion"` (explanatory). Status stays GRAY until data arrives, at which point thresholds auto-trigger color. The rows light up automatically once dfwhvac.com enters the CrUX dataset, requiring zero further code changes.
+3. **`scripts/audit-kpis.mjs` · Vercel RUM positioned above CrUX** in array order so the active KPIs render first visually; CrUX renders below as the watch tier.
+4. **Comment header rewritten** to document the two-tier strategy + the migration path: when CrUX qualifies, the Vercel RUM rows can be dropped and the dashboard becomes 100% auto-refresh.
+
+### What stays dropped (no change)
+The 3 lab CWV rows (`cwv-lcp`, `cwv-cls`, `cwv-ttfb`) and 2 lab Performance composite rows (`pagespeed-performance-mobile/desktop`) remain dropped. Their diagnostic value (synthetic, single-run, throttled) doesn't justify dashboard space when both Vercel RUM AND CrUX (eventually) provide superior field-level alternatives. Lab a11y / best-practices / SEO scores remain on the dashboard since they have no field equivalent. The `error-rate` row also remains dropped.
+
+### Net P1 impact (post-restoration)
+- Active KPIs: ~22 (Vercel RUM rows are GREEN/YELLOW, contributing to a healthy P1 count)
+- Watchlist (GRAY but explicitly forward-looking, not failure-state): 5
+- Total rows: 29 (+5 vs. immediate prior state, -1 vs. pre-migration state)
+- Manual weekly Vercel paste workflow: still required (carried over)
+- Future flip: when CrUX qualifies, single commit drops the 6 Vercel rows and the dashboard goes 100% auto-refresh
+
+### Verification
+- `node --check` → SYNTAX OK
+- Local smoke test → clean exit, expected gray-on-missing-creds behavior
+- Pod state: 6 `vercel-rum-*` row definitions, 11 `watchlist` occurrences (5 labels + 5 value strings + 1 comment header)
+
+### User next-steps
+- Save to GitHub (NOTE: also coincides with the still-pending merge for the earlier CrUX-only migration PR; this push should be a clean superset)
+- Trigger `KPI Audit` workflow → verify dashboard now shows:
+  - Vercel RUM rows above (GREEN, with the May 15 values)
+  - CrUX rows below labeled `· watchlist`, GRAY, with `"watchlist · pending CrUX inclusion"` text (not "unavailable")
+  - Total P1 ≥27 green-or-yellow
+- When/if Search Console eventually shows dfwhvac.com in CrUX (check at https://lookerstudio.google.com/u/0/reporting/55bc8fad-44c2-4280-aae0-fb0b870747b6 — the canonical CrUX dashboard), the watchlist rows will start lighting up automatically. Ping me to drop the Vercel rows at that point.
+
+
+
+---
 ## May 18, 2026 (evening) — CrUX field-data migration + P1 KPI cleanup (7 steps)
 
 ### Context
