@@ -1345,6 +1345,81 @@ async function main() {
         ? `Monitor "${uptime.value.monitorName}" · current status code ${uptime.value.status} (2=up, 8=seems down, 9=down)`
         : uptime.error,
     },
+    // ============================================================================
+    // Vercel RUM (Real User Monitoring) field-data block — manual screenshot capture
+    // ----------------------------------------------------------------------------
+    // Vercel Speed Insights ships RUM data but does not expose a public API on the
+    // Hobby/Pro tiers. Values below are captured manually from the dashboard at
+    // /[project]/speed-insights with "Last 7 Days" / P75 filter, and refreshed
+    // weekly during the same audit window. Bump the constants below when you re-pull.
+    // Last refresh: 2026-05-15 (screenshots in handoff log).
+    // ============================================================================
+    {
+      id: 'vercel-rum-res-mobile',
+      label: 'Real Experience Score — Mobile (Vercel RUM, p75 · 7d)',
+      target: '≥ 90',
+      v3Pillar: 'P2 Performance',
+      value: '99 / 100',
+      numericValue: 99,
+      status: STATUS.GREEN,
+      source: 'Vercel Speed Insights · Mobile · Last 7 Days · P75',
+      detail: 'Field RES 99 — >75% of mobile visits classified "Great." No poor/needs-improvement routes.',
+    },
+    {
+      id: 'vercel-rum-res-desktop',
+      label: 'Real Experience Score — Desktop (Vercel RUM, p75 · 7d)',
+      target: '≥ 90',
+      v3Pillar: 'P2 Performance',
+      value: '99 / 100',
+      numericValue: 99,
+      status: STATUS.GREEN,
+      source: 'Vercel Speed Insights · Desktop · Last 7 Days · P75',
+      detail: 'Field RES 99 across ~207 desktop sessions. Routes: / = 97, /contact = 99, /about = 100, /[slug] = 100.',
+    },
+    {
+      id: 'vercel-rum-lcp-mobile',
+      label: 'Field LCP — Mobile (Vercel RUM, p75 · 7d)',
+      target: '< 2.5s (Good) · < 1.5s (Top)',
+      v3Pillar: 'P2 Performance',
+      value: '1.34s',
+      numericValue: 1340,
+      status: STATUS.GREEN,
+      source: 'Vercel Speed Insights · Mobile · Largest Contentful Paint',
+      detail: 'Field p75 (1.34s) beats the lab measurement (1.95s) — real Dallas users see better LCP than throttled mobile Lighthouse. P2.20 target effectively MET in the field.',
+    },
+    {
+      id: 'vercel-rum-lcp-desktop',
+      label: 'Field LCP — Desktop (Vercel RUM, p75 · 7d)',
+      target: '< 1.5s',
+      v3Pillar: 'P2 Performance',
+      value: '1.76s',
+      numericValue: 1760,
+      status: STATUS.YELLOW,
+      source: 'Vercel Speed Insights · Desktop · Largest Contentful Paint',
+      detail: 'Desktop FCP and LCP both 1.76s — render pipeline is single-pass. ~260ms gap to 1.5s "Top" threshold.',
+    },
+    {
+      id: 'vercel-rum-inp',
+      label: 'Field INP — p75 (Vercel RUM, 7d)',
+      target: '< 200ms',
+      v3Pillar: 'P2 Performance',
+      value: '80ms mobile · 48ms desktop',
+      numericValue: 80,
+      status: STATUS.GREEN,
+      source: 'Vercel Speed Insights · Interaction to Next Paint',
+      detail: 'Closes the prior "INP unavailable" gap (no CRUX_API_KEY needed). Well under 200ms on both form factors.',
+    },
+    {
+      id: 'vercel-rum-ttfb',
+      label: 'Field TTFB — p75 (Vercel RUM, 7d)',
+      target: '< 800ms (Good)',
+      v3Pillar: 'P1 Infrastructure',
+      value: '0.60s mobile · 0.59s desktop',
+      numericValue: 600,
+      status: STATUS.GREEN,
+      source: 'Vercel Speed Insights · Time to First Byte',
+      detail: 'Real-user TTFB ~600ms — higher than Lighthouse lab (5ms) because real users hit cold cache edges + DNS/handshake overhead. Still well under Vercel "Good" threshold.',
+    },
   ];
   // V3 phase-1 KPI block ends here.
   // ---------------------------------------------------------------------------
