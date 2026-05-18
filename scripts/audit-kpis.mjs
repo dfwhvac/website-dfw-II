@@ -568,9 +568,14 @@ async function getGa4Metrics(accessToken) {
   //
   // Uses landingPagePlusQueryString (not just landingPage) so query-string
   // variants (e.g. ?utm_source=...) roll up to the canonical path via the
-  // path-strip below. Min-session filter (≥ 50 sessions) suppresses noise
-  // from one-off entries; otherwise a single converting visit on a long-tail
-  // URL would dominate the leaderboard at 100% CR.
+  // path-strip below.
+  //
+  // Noise floor lowered May 18, 2026 (50 → 20 sessions). Long-tail city/
+  // service pages get ~1-2 sessions/day; the 50-floor was silencing 50 of
+  // 51 pages. The dashboard row is now a DISTRIBUTION summary (median +
+  // winner/loser spotlight), not a top-3 leaderboard, so we tolerate the
+  // mild noise of lower-traffic rows in service of a usable sample size.
+  // Full per-page drill-down lives in Looker Studio.
   let perPageCr = null;
   try {
     const perPageBody = {
@@ -578,7 +583,7 @@ async function getGa4Metrics(accessToken) {
       dimensions: [{ name: 'landingPagePlusQueryString' }],
       metrics: [{ name: 'sessions' }, { name: 'conversions' }],
       orderBys: [{ metric: { metricName: 'sessions' }, desc: true }],
-      limit: 50,
+      limit: 100,
     };
     const r4 = await fetchWithTimeout(url, { method: 'POST', headers, body: JSON.stringify(perPageBody) });
     if (r4.ok) {
@@ -608,15 +613,33 @@ async function getGa4Metrics(accessToken) {
           conversions: v.conversions,
           cr: v.sessions ? Math.round((v.conversions / v.sessions) * 1000) / 10 : 0,
         }))
-        .filter((r) => r.sessions >= 50) // noise floor
+        .filter((r) => r.sessions >= 20) // noise floor — see header comment for rationale
         .sort((a, b) => b.sessions - a.sessions);
       const topByTraffic = consolidated.slice(0, 10);
-      const winners = [...consolidated].sort((a, b) => b.cr - a.cr).slice(0, 3);
-      const losers = [...consolidated]
-        .filter((r) => r.sessions >= 100) // higher floor for "losers" — avoid penalizing low-traffic pages
-        .sort((a, b) => a.cr - b.cr)
-        .slice(0, 3);
-      perPageCr = { topByTraffic, winners, losers, totalPages: consolidated.length };
+      // Best and worst by CR. Dedup so we don't show the same path twice
+      // when only 1-2 pages clear the floor (May 18 fix — previously read
+      // "🏆 / 2.2% · 🔻 / 2.2%" which provided no signal).
+      const byCrDesc = [...consolidated].sort((a, b) => b.cr - a.cr);
+      const winner = byCrDesc[0] || null;
+      const loser = byCrDesc.length >= 2 ? byCrDesc[byCrDesc.length - 1] : null;
+      // Median CR — the headline distribution metric. Robust to a single
+      // viral or dead page dominating the mean. Computed on the full
+      // consolidated set after the noise floor.
+      let medianCr = null;
+      if (consolidated.length) {
+        const crs = consolidated.map((r) => r.cr).sort((a, b) => a - b);
+        const mid = Math.floor(crs.length / 2);
+        medianCr = crs.length % 2
+          ? crs[mid]
+          : Math.round(((crs[mid - 1] + crs[mid]) / 2) * 10) / 10;
+      }
+      perPageCr = {
+        topByTraffic,
+        winner,
+        loser,
+        medianCr,
+        totalPages: consolidated.length,
+      };
     } else {
       perPageCr = { error: `ga4-per-page ${r4.status}` };
     }
@@ -684,7 +707,13 @@ async function getPa11y() {
   const results = await Promise.all(
     samples.map(async (p) => {
       try {
-        const { stdout } = await exec('npx', ['--yes', 'pa11y', '--standard', 'WCAG2AA', '--reporter', 'json', '--config', cfgPath, `${ORIGIN}${p}`], { timeout: 60000, maxBuffer: 10 * 1024 * 1024 });
+        // Direct invocation (May 18, 2026). Previous `npx --yes pa11y` form
+        // failed with "sh: 1: pa11y: not found" on the GitHub-hosted runner —
+        // npx couldn't resolve/install the package before invocation. Now
+        // pa11y is installed globally as a workflow step (kpi-audit.yml),
+        // so calling the binary directly is both faster (no npx download
+        // round-trip on each of N samples) and avoids the resolution bug.
+        const { stdout } = await exec('pa11y', ['--standard', 'WCAG2AA', '--reporter', 'json', '--config', cfgPath, `${ORIGIN}${p}`], { timeout: 60000, maxBuffer: 10 * 1024 * 1024 });
         const issues = JSON.parse(stdout);
         const errors = issues.filter((i) => i.type === 'error').length;
         const warnings = issues.filter((i) => i.type === 'warning').length;
@@ -1431,33 +1460,40 @@ async function main() {
     },
     {
       id: 'per-page-cr',
-      label: 'Per-page CR (top 10 entry pages)',
-      target: 'top 3 ≥ 5%',
+      label: 'Per-page CR (distribution)',
+      target: 'median ≥ 3%',
       value: ga4.ok && ga4.value.perPageCr && !ga4.value.perPageCr.error
         ? (() => {
             const p = ga4.value.perPageCr;
-            if (!p.totalPages) return 'no pages cleared 50-session floor';
-            const w = p.winners?.[0];
-            return w ? `top: ${w.path} @ ${w.cr}% (${p.totalPages} pages tracked)` : 'insufficient data';
+            if (!p.totalPages) return 'no pages cleared 20-session floor';
+            return `median ${p.medianCr}% · ${p.totalPages} pages tracked`;
           })()
         : (googleAccessToken ? (ga4.value?.perPageCr?.error || 'error') : 'GA4 token required'),
-      numericValue: ga4.ok && ga4.value.perPageCr?.winners?.length
-        ? ga4.value.perPageCr.winners[0].cr
+      numericValue: ga4.ok && ga4.value.perPageCr?.medianCr != null
+        ? ga4.value.perPageCr.medianCr
         : null,
-      status: ga4.ok && ga4.value.perPageCr && !ga4.value.perPageCr.error && ga4.value.perPageCr.winners?.length
-        ? (ga4.value.perPageCr.winners.filter((w) => w.cr >= 5).length >= 3 ? STATUS.GREEN
-            : ga4.value.perPageCr.winners.filter((w) => w.cr >= 3).length >= 3 ? STATUS.YELLOW
+      status: ga4.ok && ga4.value.perPageCr && !ga4.value.perPageCr.error && ga4.value.perPageCr.medianCr != null
+        ? (ga4.value.perPageCr.medianCr >= 3 ? STATUS.GREEN
+            : ga4.value.perPageCr.medianCr >= 1.5 ? STATUS.YELLOW
             : STATUS.RED)
         : STATUS.GRAY,
-      source: 'GA4 Data API · landingPagePlusQueryString (≥50 sessions, 28d)',
+      source: 'GA4 Data API · landingPagePlusQueryString (≥20 sessions, 28d)',
       detail: ga4.ok && ga4.value.perPageCr && !ga4.value.perPageCr.error
         ? (() => {
             const p = ga4.value.perPageCr;
-            const winners = (p.winners || []).map((w) => `${w.path} ${w.cr}%`).join(' · ');
-            const losers = (p.losers || []).map((l) => `${l.path} ${l.cr}%`).join(' · ');
-            return `🏆 ${winners || 'none'} ｜ 🔻 ${losers || 'none'}`;
+            if (!p.totalPages) return 'Not enough per-page traffic to compute a distribution. Lower the noise floor or wait for traffic to accumulate.';
+            const parts = [];
+            if (p.winner) parts.push(`🏆 best: ${p.winner.path} ${p.winner.cr}%`);
+            // Only show loser when it's a distinct page — avoids "best and worst are the same row" noise.
+            if (p.loser && p.loser.path !== p.winner?.path) {
+              parts.push(`🔻 worst: ${p.loser.path} ${p.loser.cr}%`);
+            }
+            // Full report pointer (Looker Studio — TODO: replace placeholder
+            // once the user builds the per-page-cr Looker dashboard).
+            parts.push('Full per-page report → build in Looker Studio (GA4 → landingPagePlusQueryString)');
+            return parts.join(' · ');
           })()
-        : (ga4.value?.perPageCr?.error || 'Pending GA4 query — service account + property scope required.'),
+        : (ga4.value?.perPageCr?.error || 'Pending GA4 query — OAuth refresh token + property scope required.'),
     },
     {
       id: 'mobile-desktop-cr-parity',

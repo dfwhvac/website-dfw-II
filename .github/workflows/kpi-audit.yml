@@ -59,7 +59,7 @@ jobs:
       # Skipping the install step avoids being blocked on lockfile drift.
 
       # Chromium runtime deps for Pa11y (puppeteer-core ships Chromium but not
-      # the host libs). Without these, `npx pa11y` silently fails to launch and
+      # the host libs). Without these, `pa11y` silently fails to launch and
       # the audit reports gray "0/N pages scanned". Added May 14, 2026.
       - name: Install Chromium OS dependencies (for Pa11y)
         run: |
@@ -70,6 +70,14 @@ jobs:
           sudo apt-get install -y \
             libnss3 libxss1 libatk1.0-0 libatk-bridge2.0-0 \
             libcups2 libxkbcommon-x11-0 libgtk-3-0 libgbm-dev libasound2
+
+      # Install pa11y itself (May 18, 2026). The previous `npx --yes pa11y`
+      # invocation in audit-kpis.mjs failed with "sh: 1: pa11y: not found"
+      # on this runner — npx could not resolve/fetch the package before
+      # exec'ing it. Installing globally up front is the standard CI pattern
+      # for Node-based CLI tooling and removes a per-invocation network call.
+      - name: Install Pa11y (global)
+        run: npm install -g pa11y@^9
 
       - name: Run KPI audit
         # GITHUB_ACTIONS=true is auto-set by the runner. audit-kpis.mjs uses this

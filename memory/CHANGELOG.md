@@ -5,6 +5,48 @@
 
 
 ---
+## May 18, 2026 (afternoon) — per-page-cr usability fix + Pa11y root-cause + Vercel cron decommission
+
+### Context
+First green KPI Audit run (May 18 AM) surfaced two real diagnostic findings now that the manual-snapshot patches no longer mask the script's output:
+- **Per-page-cr** emitted `top: / @ 2.2% (1 pages tracked)` — only the homepage cleared the 50-session noise floor over 28 days. Floor was too aggressive for the site's traffic profile (most pages get 1-2 sessions/day on the long tail).
+- **Pa11y** emitted `All 10 pages failed. First diag: sh: 1: pa11y: not found | Command failed: npx --yes pa11y...` — `npx --yes pa11y` could not resolve/install the package on the GitHub-hosted runner. The handoff's "needs `--no-sandbox`" diagnosis was incorrect (the `.pa11yrc.json` already had it). The real root cause was the install step never running.
+
+Also: Vercel scheduled cron at `frontend/vercel.json` was still firing daily at 6 AM CT in parallel with the new GitHub Actions sync-reviews workflow → risk of double-firing.
+
+### Shipped
+1. **`scripts/audit-kpis.mjs` · per-page-cr redesign** —
+   - Noise floor lowered **50 → 20 sessions** (turns "1 page tracked" into ~25-30).
+   - Query `limit` bumped 50 → 100 to allow the lower floor to actually see the long tail.
+   - Returns a **median CR across the consolidated set** (robust to outliers; single viral or dead page no longer dominates).
+   - Winner + loser dedup so we never emit "best = worst = same path" when only 1-2 pages clear the floor.
+   - KPI block reframed as a **distribution scoreboard**, not a leaderboard:
+     - Label: `Per-page CR (distribution)` (was: `top 10 entry pages`)
+     - Target: `median ≥ 3%` (was: `top 3 ≥ 5%`)
+     - Value: `median X.X% · N pages tracked`
+     - Status: GREEN if median ≥3%, YELLOW ≥1.5%, RED <1.5%
+     - Detail: `🏆 best: /X X.X% · 🔻 worst: /Y Y.Y% · Full per-page report → build in Looker Studio (GA4 → landingPagePlusQueryString)`
+   - Full per-page drill-down explicitly punted to Looker Studio (no engineering cost — GA4 connector + free table component).
+2. **`scripts/audit-kpis.mjs` · Pa11y direct invocation** — `exec('npx', ['--yes', 'pa11y', ...])` → `exec('pa11y', [...])`. Faster (no per-sample npx download) and immune to the `npx --yes` resolution failure mode that just bit us.
+3. **`.github/workflows/kpi-audit.yml` · Pa11y install step** — new `npm install -g pa11y@^9` step runs before the audit. Standard CI pattern for Node-based CLI tooling; removes the per-invocation network round-trip and any race condition where npx attempts to use the binary before fetch completes.
+4. **`frontend/vercel.json` · cron block removed** — now `{}`. The Vercel scheduled function for `/api/cron/sync-reviews` is decommissioned. GitHub Actions workflow `sync-reviews.yml` (shipped May 17) is now the sole trigger source. `CRON_SECRET` left in place in Vercel env vars — the endpoint still needs it to authenticate the new GH Actions calls.
+
+### Diagnostic note saved for next session
+The May 18 AM audit's live-snapshot output (preserved at `frontend/public/internal/kpi-snapshot.json` post-deploy) is the first time the per-page-cr and Pa11y KPIs surfaced their actual underlying signal. Both KPIs are now self-explanatory in failure modes (median + sample-size text for low traffic; first-diag stderr capture for Pa11y).
+
+### Verification
+- `node --check scripts/audit-kpis.mjs` → SYNTAX OK
+- `node scripts/audit-kpis.mjs` (local, no creds) → clean exit, gray-on-missing-creds, no crash
+- `frontend/vercel.json` → `{}` valid JSON
+
+### User next-steps (manual)
+- Save to GitHub → trigger `KPI Audit` workflow → verify (a) per-page-cr row reads `median X.X% · N pages tracked` with N > 1, (b) Pa11y row reads `0 errors` or real WCAG issues (no longer `pa11y: not found`).
+- Build a **Looker Studio dashboard** for the per-page drill-down (~45 min, free). Pass the URL back to the agent so the detail string can swap `build in Looker Studio (...)` → `Full report → https://lookerstudio.google.com/...`.
+- After ~1 week of snapshots accumulates, the agent can add WoW median delta to the detail string (`+0.3pp ↗`).
+
+
+
+---
 ## May 17, 2026 — Per-page CR, orphan-link restoration, Pa11y diag, cron migration
 
 ### Shipped (agent)
