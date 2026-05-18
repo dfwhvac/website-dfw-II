@@ -1019,21 +1019,105 @@ async function main() {
       source: 'api.ssllabs.com',
       detail: ssl.ok ? null : ssl.error,
     },
-    // ---- V3 Pillar 2 Performance & Experience (CWV field data via CrUX) ----
-    // Replaced May 18, 2026. Previously: 3 lab CWV rows (cwv-ttfb/cwv-lcp/cwv-cls
-    // from Lighthouse synthetic) + 2 lab performance composites + 6 manual
-    // vercel-rum-* paste rows. All now superseded by auto-fetched CrUX field
-    // data (Chrome User Experience Report, 28d rolling p75, free, no new auth).
-    // CrUX is what Google's ranking algorithm actually uses for the CWV signal,
-    // so these rows are simultaneously more truthful AND lower maintenance.
-    // Lab Lighthouse metrics retained where they have no field equivalent
-    // (a11y / best-practices / SEO scores below).
+    // ============================================================================
+    // V3 Pillar 2 Performance & Experience — TWO-TIER FIELD DATA STRATEGY
+    // ----------------------------------------------------------------------------
+    // ACTIVE KPIs: Vercel RUM (manually pasted ~weekly from Speed Insights dash).
+    // Measures every visitor, lights up at any traffic level. Works today.
+    //
+    // WATCHLIST: CrUX (Chrome User Experience Report, auto-fetched via PSI).
+    // Requires the origin to clear ~1k+ Chrome sessions / 28d to qualify. Will
+    // light up automatically once dfwhvac.com enters the CrUX dataset (estimated
+    // 3-6 months at current growth). At that point, we drop the Vercel RUM rows
+    // and the dashboard becomes 100% auto-refresh.
+    //
+    // History: May 18, 2026 — initially dropped Vercel RUM in favor of CrUX,
+    // discovered CrUX returns no data for low-traffic sites. Reverted to hybrid:
+    // Vercel RUM as primary, CrUX as forward-looking placeholder. Lab CWV rows
+    // (cwv-lcp, cwv-cls, cwv-ttfb) + lab performance composite scores stay dropped
+    // — they were duplicative diagnostic-only signals that don't correspond to
+    // user-facing reality.
+    // ============================================================================
+    //
+    // --- ACTIVE: Vercel RUM rows (manual paste, refresh weekly) ---
+    // Last refresh: 2026-05-15. To refresh: visit Vercel → Speed Insights →
+    // Last 7 Days → P75 → copy values into the row constants below.
     {
-      id: 'cwv-lcp-field-mobile',
-      label: 'Field LCP — Mobile (CrUX, p75 · 28d)',
+      id: 'vercel-rum-res-mobile',
+      label: 'Real Experience Score — Mobile (Vercel RUM, p75 · 7d)',
+      target: '≥ 90',
+      v3Pillar: 'P2 Performance',
+      value: '99 / 100',
+      numericValue: 99,
+      status: STATUS.GREEN,
+      source: 'Vercel Speed Insights · Mobile · Last 7 Days · P75',
+      detail: 'Field RES 99 — >75% of mobile visits classified "Great." No poor/needs-improvement routes.',
+    },
+    {
+      id: 'vercel-rum-res-desktop',
+      label: 'Real Experience Score — Desktop (Vercel RUM, p75 · 7d)',
+      target: '≥ 90',
+      v3Pillar: 'P2 Performance',
+      value: '99 / 100',
+      numericValue: 99,
+      status: STATUS.GREEN,
+      source: 'Vercel Speed Insights · Desktop · Last 7 Days · P75',
+      detail: 'Field RES 99 across ~207 desktop sessions. Routes: / = 97, /contact = 99, /about = 100, /[slug] = 100.',
+    },
+    {
+      id: 'vercel-rum-lcp-mobile',
+      label: 'Field LCP — Mobile (Vercel RUM, p75 · 7d)',
       target: '< 2.5s (Good) · < 1.5s (Top)',
       v3Pillar: 'P2 Performance',
-      value: ps.ok && ps.value.crux?.lcp ? `${(ps.value.crux.lcp.percentile / 1000).toFixed(2)}s` : 'unavailable',
+      value: '1.34s',
+      numericValue: 1340,
+      status: STATUS.GREEN,
+      source: 'Vercel Speed Insights · Mobile · Largest Contentful Paint',
+      detail: 'Field p75 (1.34s) — real Dallas users see better LCP than throttled mobile Lighthouse lab measurement.',
+    },
+    {
+      id: 'vercel-rum-lcp-desktop',
+      label: 'Field LCP — Desktop (Vercel RUM, p75 · 7d)',
+      target: '< 1.5s',
+      v3Pillar: 'P2 Performance',
+      value: '1.76s',
+      numericValue: 1760,
+      status: STATUS.YELLOW,
+      source: 'Vercel Speed Insights · Desktop · Largest Contentful Paint',
+      detail: 'Desktop FCP and LCP both 1.76s — render pipeline is single-pass. ~260ms gap to 1.5s "Top" threshold.',
+    },
+    {
+      id: 'vercel-rum-inp',
+      label: 'Field INP — p75 (Vercel RUM, 7d)',
+      target: '< 200ms',
+      v3Pillar: 'P2 Performance',
+      value: '80ms mobile · 48ms desktop',
+      numericValue: 80,
+      status: STATUS.GREEN,
+      source: 'Vercel Speed Insights · Interaction to Next Paint',
+      detail: 'Well under 200ms on both form factors.',
+    },
+    {
+      id: 'vercel-rum-ttfb',
+      label: 'Field TTFB — p75 (Vercel RUM, 7d)',
+      target: '< 800ms (Good)',
+      v3Pillar: 'P1 Infrastructure',
+      value: '0.60s mobile · 0.59s desktop',
+      numericValue: 600,
+      status: STATUS.GREEN,
+      source: 'Vercel Speed Insights · Time to First Byte',
+      detail: 'Real-user TTFB ~600ms — higher than Lighthouse lab because real users hit cold cache edges + DNS/handshake overhead. Well under Vercel "Good" threshold.',
+    },
+    // --- WATCHLIST: CrUX rows (auto-fetched, will populate once origin qualifies) ---
+    // Currently expected to read "watchlist · origin not yet in CrUX dataset" for a
+    // low-traffic launch. Once Chrome session volume crosses the inclusion threshold,
+    // these rows light up automatically and the Vercel RUM rows above become redundant.
+    {
+      id: 'cwv-lcp-field-mobile',
+      label: 'Field LCP — Mobile (CrUX, p75 · 28d) · watchlist',
+      target: '< 2.5s (Good) · < 1.5s (Top)',
+      v3Pillar: 'P2 Performance',
+      value: ps.ok && ps.value.crux?.lcp ? `${(ps.value.crux.lcp.percentile / 1000).toFixed(2)}s` : 'watchlist · pending CrUX inclusion',
       numericValue: ps.ok && ps.value.crux?.lcp ? ps.value.crux.lcp.percentile : null,
       status: ps.ok && ps.value.crux?.lcp
         ? (ps.value.crux.lcp.percentile < 1500 ? STATUS.GREEN
@@ -1047,10 +1131,10 @@ async function main() {
     },
     {
       id: 'cwv-lcp-field-desktop',
-      label: 'Field LCP — Desktop (CrUX, p75 · 28d)',
+      label: 'Field LCP — Desktop (CrUX, p75 · 28d) · watchlist',
       target: '< 2.5s (Good) · < 1.5s (Top)',
       v3Pillar: 'P2 Performance',
-      value: psDesktop.ok && psDesktop.value.crux?.lcp ? `${(psDesktop.value.crux.lcp.percentile / 1000).toFixed(2)}s` : 'unavailable',
+      value: psDesktop.ok && psDesktop.value.crux?.lcp ? `${(psDesktop.value.crux.lcp.percentile / 1000).toFixed(2)}s` : 'watchlist · pending CrUX inclusion',
       numericValue: psDesktop.ok && psDesktop.value.crux?.lcp ? psDesktop.value.crux.lcp.percentile : null,
       status: psDesktop.ok && psDesktop.value.crux?.lcp
         ? (psDesktop.value.crux.lcp.percentile < 1500 ? STATUS.GREEN
@@ -1064,13 +1148,13 @@ async function main() {
     },
     {
       id: 'cwv-inp-field',
-      label: 'Field INP — p75 (CrUX, 28d)',
+      label: 'Field INP — p75 (CrUX, 28d) · watchlist',
       target: '< 200ms (Good) · < 100ms (Top)',
       v3Pillar: 'P2 Performance',
       value: (() => {
         const m = ps.ok ? ps.value.crux?.inp?.percentile : null;
         const dm = psDesktop.ok ? psDesktop.value.crux?.inp?.percentile : null;
-        if (m == null && dm == null) return 'unavailable';
+        if (m == null && dm == null) return 'watchlist · pending CrUX inclusion';
         return `${m != null ? `${m}ms mobile` : ''}${m != null && dm != null ? ' · ' : ''}${dm != null ? `${dm}ms desktop` : ''}`;
       })(),
       numericValue: ps.ok ? (ps.value.crux?.inp?.percentile ?? null) : null,
@@ -1088,10 +1172,10 @@ async function main() {
     },
     {
       id: 'cwv-cls-field',
-      label: 'Field CLS — p75 (CrUX, 28d)',
+      label: 'Field CLS — p75 (CrUX, 28d) · watchlist',
       target: '< 0.1 (Good) · < 0.05 (Top)',
       v3Pillar: 'P2 Performance',
-      value: ps.ok && ps.value.crux?.cls ? ps.value.crux.cls.percentile.toFixed(3) : 'unavailable',
+      value: ps.ok && ps.value.crux?.cls ? ps.value.crux.cls.percentile.toFixed(3) : 'watchlist · pending CrUX inclusion',
       numericValue: ps.ok && ps.value.crux?.cls ? ps.value.crux.cls.percentile : null,
       status: ps.ok && ps.value.crux?.cls
         ? (ps.value.crux.cls.percentile < 0.05 ? STATUS.GREEN
@@ -1105,13 +1189,13 @@ async function main() {
     },
     {
       id: 'cwv-ttfb-field',
-      label: 'Field TTFB — p75 (CrUX, 28d)',
+      label: 'Field TTFB — p75 (CrUX, 28d) · watchlist',
       target: '< 800ms (Good) · < 600ms (Top)',
       v3Pillar: 'P1 Infrastructure',
       value: (() => {
         const m = ps.ok ? ps.value.crux?.ttfb?.percentile : null;
         const dm = psDesktop.ok ? psDesktop.value.crux?.ttfb?.percentile : null;
-        if (m == null && dm == null) return 'unavailable';
+        if (m == null && dm == null) return 'watchlist · pending CrUX inclusion';
         return `${m != null ? `${(m / 1000).toFixed(2)}s mobile` : ''}${m != null && dm != null ? ' · ' : ''}${dm != null ? `${(dm / 1000).toFixed(2)}s desktop` : ''}`;
       })(),
       numericValue: ps.ok ? (ps.value.crux?.ttfb?.percentile ?? null) : null,
