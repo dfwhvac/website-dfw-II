@@ -1,0 +1,63 @@
+name: Sync Reviews (Google → Sanity)
+
+# Pings the production /api/cron/sync-reviews endpoint daily to refresh the
+# Google review count, dispatch drift alerts, and keep Sanity in sync.
+#
+# WHY GH ACTIONS (not Vercel scheduled functions):
+#   Vercel Hobby silently throttles scheduled functions — observed cadence
+#   dropped from daily to ~every-3-days over the past two months, causing
+#   recurring review-count drift on the homepage / city pages. GitHub
+#   Actions has no such throttle and gives a clean run log per execution.
+#
+# AUTH:
+#   The endpoint validates `Authorization: Bearer <CRON_SECRET>`. Set the
+#   same value as a GitHub Repository Secret named CRON_SECRET (must match
+#   the value Vercel uses for the same endpoint — keep them aligned or
+#   set the Vercel one to a different value and use only this workflow).
+#
+# Added May 17, 2026 (P2.21 — supersedes Vercel cron).
+
+on:
+  schedule:
+    # 9 AM Central daily (14:00 UTC during DST, 15:00 UTC standard).
+    # Picked early-AM CT so any drift email lands before the owner's day starts.
+    - cron: "0 14 * * *"
+  # Manual trigger for ad-hoc resyncs (e.g. after a Google review burst).
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ping:
+    name: trigger sync-reviews
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Call /api/cron/sync-reviews
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          if [ -z "$CRON_SECRET" ]; then
+            echo "::error::CRON_SECRET not configured in repository secrets."
+            exit 1
+          fi
+          # Capture body + status. Endpoint returns JSON either way.
+          HTTP_CODE=$(curl -sS -o /tmp/sync-resp.json -w "%{http_code}" \
+            -X GET "https://dfwhvac.com/api/cron/sync-reviews" \
+            -H "Authorization: Bearer ${CRON_SECRET}" \
+            --max-time 60 \
+            --retry 2 \
+            --retry-delay 5)
+          BODY=$(cat /tmp/sync-resp.json)
+          echo "::group::Response (HTTP ${HTTP_CODE})"
+          echo "${BODY}"
+          echo "::endgroup::"
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "::error::sync-reviews returned HTTP ${HTTP_CODE}"
+            exit 1
+          fi
+          # Surface review count + drift to the Actions summary tab.
+          REVIEWS=$(python3 -c "import json;d=json.load(open('/tmp/sync-resp.json'));print(d.get('reviewCount','?'))" 2>/dev/null || echo "?")
+          DRIFT=$(python3 -c "import json;d=json.load(open('/tmp/sync-resp.json'));print(d.get('driftAlert',{}).get('drift','within-threshold'))" 2>/dev/null || echo "?")
+          echo "::notice::Reviews synced · live=${REVIEWS} · drift=${DRIFT}"
