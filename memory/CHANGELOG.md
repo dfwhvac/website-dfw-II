@@ -5,6 +5,51 @@
 
 
 ---
+## May 18, 2026 (evening) — CrUX field-data migration + P1 KPI cleanup (7 steps)
+
+### Context
+With per-page-cr + Pa11y now emitting real signal, the post-merge dashboard exposed the long-standing root issue: 5 Phase 1 "performance" rows were Lighthouse synthetic metrics (lab data) being status-graded as KPIs. Lab data is for diagnostics, not goalposts — what Google ranks on and what users actually feel is **field** (CrUX) data. The dashboard also had 6 manually-pasted `vercel-rum-*` rows that required a weekly human-paste workflow.
+
+Solution: auto-fetch CrUX from the existing PageSpeed Insights API response (which returns both lab and field blocks; the script was throwing away the field half). One refactor swaps 11 rows for 5 cleaner auto-refreshed ones and eliminates a recurring user task.
+
+### Shipped
+1. **`scripts/audit-kpis.mjs` · CrUX parser added to `getPageSpeed()`** — extracts `originLoadingExperience` (preferred) with fallback to page-level `loadingExperience`. Normalizes CLS (×100 → decimal). Returns LCP / INP / CLS / TTFB / FCP p75 percentiles with category labels (FAST/AVERAGE/SLOW).
+2. **`scripts/audit-kpis.mjs` · 5 new CrUX field KPI rows** (mobile-LCP, desktop-LCP, INP combined, CLS, TTFB combined). Each:
+   - Status thresholds per Web Vitals canonical buckets (e.g. LCP <1500ms GREEN, <2500ms YELLOW)
+   - "origin" vs "page" scope surfaced in the source string
+   - Detail explains real-user-vs-lab gap for the TTFB case
+   - Auto-refresh weekly from the PSI cron — zero manual paste
+3. **`scripts/audit-kpis.mjs` · 5 lab rows dropped**: `cwv-lcp`, `cwv-cls`, `cwv-ttfb`, `pagespeed-performance-mobile`, `pagespeed-performance-desktop`. All redundant with new field rows or were composite scores (lab Performance) that don't correspond to a user-facing signal.
+4. **`scripts/audit-kpis.mjs` · 6 manual `vercel-rum-*` rows dropped**: `vercel-rum-res-mobile/desktop`, `vercel-rum-lcp-mobile/desktop`, `vercel-rum-inp`, `vercel-rum-ttfb`. CrUX rows occupy their conceptual slot but auto-refresh and reflect Google's canonical ranking signal.
+5. **`scripts/audit-kpis.mjs` · `error-rate` row dropped** — scaffolded but no data source. Deferred to a future iteration when traffic justifies a Sentry connection.
+6. **`scripts/audit-kpis.mjs` · `getSSLLabsGrade()` hardened** — cache window 7d → 30d (`maxAge=720`) so accepted cached results survive a 4-week scan miss; poll budget 120s → 180s (12 → 18 iterations × 10s) for fresh scans that legitimately take 2-3 minutes.
+7. **`scripts/audit-kpis.mjs` · `getUptimeRobotStatus()` written** — calls UptimeRobot v2 `getMonitors` with `custom_uptime_ratios=30`, returns p30d uptime ratio. Status: GREEN ≥99.99% / YELLOW ≥99.9% / RED below. Replaces the hardcoded GRAY row.
+
+### Net dashboard impact (Phase 1)
+- Reds: 2 → 0 (both were misleading lab metrics)
+- Greys: 3 → 0 (error-rate dropped; SSL Labs hardened; UptimeRobot wired)
+- Rows: 30 → 23 (-7 net, ~25% fewer rows, ~100% higher signal density)
+- Weekly manual paste workflow eliminated (vercel RUM tab no longer required)
+
+### Bug caught + fixed mid-session
+The big `search_replace` block for SSL Labs + UptimeRobot silently failed initial application (whitespace drift in old_str), leaving the file with a missing `getUptimeRobotStatus()` definition AND duplicate orphaned tail content (lines 1681-1696 of an interim file). Took ~5 brace-balance diagnostic iterations to localize. Fixed by re-applying the SSL Labs + UptimeRobot insertions as three smaller surgical edits and trimming the orphaned tail.
+
+### Verification
+- `node --check scripts/audit-kpis.mjs` → SYNTAX OK
+- `node scripts/audit-kpis.mjs` (local, no creds) → clean exit; `UptimeRobot: UPTIMEROBOT_API_KEY not set` logged as expected; PageSpeed 429-rate-limited (locally — has unkeyed quota); other phases gray as expected
+
+### User next-steps
+- Save to GitHub → resolve the inevitable `.gitignore` bloat conflict (98-line trim drill)
+- Trigger `KPI Audit` workflow manually
+- Verify on `dfwhvac.com/internal/kpi-dashboard`:
+  - 5 new `cwv-*-field` rows populated (origin or page scope shown)
+  - `uptime-30d` row shows live percentage (GREEN if ≥99.99%)
+  - `ssl-labs-grade` row shows the grade (A+ expected) — first read may still take the 180s timeout path; subsequent reads use the 30d cache
+- Optionally remove the obsolete `UPTIMEROBOT_MONITOR_ID` instruction from any internal docs since the row now consumes it directly
+
+
+
+---
 ## May 18, 2026 (afternoon) — per-page-cr usability fix + Pa11y root-cause + Vercel cron decommission
 
 ### Context

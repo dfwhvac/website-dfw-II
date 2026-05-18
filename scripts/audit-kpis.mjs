@@ -100,10 +100,10 @@ async function getSSLLabsGrade() {
   // SSL Labs scans take 1-3 minutes from cold. The previous implementation polled only 12s
   // and used fromCache=on which prevents fresh scans → frequent "READY but no grades yet"
   // failures. New strategy:
-  //   1. Hit cached endpoint with maxAge=168 (7d). If READY with grades → done in 1 req.
-  //   2. Otherwise poll for up to 120s (12 attempts × 10s) with no fromCache filter so a
+  //   1. Hit cached endpoint with maxAge=720 (30d). If READY with grades → done in 1 req.
+  //   2. Otherwise poll for up to 180s (18 attempts × 10s) with no fromCache filter so a
   //      fresh scan can start. Exit early as soon as `endpoints[].grade` populates.
-  const cachedUrl = `https://api.ssllabs.com/api/v3/analyze?host=${DOMAIN}&fromCache=on&maxAge=168`;
+  const cachedUrl = `https://api.ssllabs.com/api/v3/analyze?host=${DOMAIN}&fromCache=on&maxAge=720`;
   const liveUrl = `https://api.ssllabs.com/api/v3/analyze?host=${DOMAIN}`;
   let r = await fetchWithTimeout(cachedUrl);
   let d = await r.json();
@@ -111,7 +111,7 @@ async function getSSLLabsGrade() {
   let grades = d.status === 'READY' ? extractGrades(d) : [];
   if (!grades.length) {
     // Either status != READY OR READY-but-no-grades-yet. Poll the live (non-cached) endpoint.
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < 18; i++) {
       await new Promise((res) => setTimeout(res, 10000));
       r = await fetchWithTimeout(liveUrl);
       d = await r.json();
@@ -123,9 +123,51 @@ async function getSSLLabsGrade() {
   if (d.status === 'ERROR') throw new Error(`scan error: ${d.statusMessage || 'unknown'}`);
   if (!grades.length) {
     const messages = (d.endpoints || []).map((e) => e.statusDetailsMessage || e.statusMessage).filter(Boolean);
-    throw new Error(`no grades after 120s poll (${d.status}, ${messages[0] || 'still in progress'})`);
+    throw new Error(`no grades after 180s poll (${d.status}, ${messages[0] || 'still in progress'})`);
   }
   return grades[0];
+}
+
+/**
+ * UptimeRobot 30-day uptime ratio.
+ *
+ * Reads UPTIMEROBOT_API_KEY + UPTIMEROBOT_MONITOR_ID from env. Calls the v2
+ * getMonitors endpoint with `custom_uptime_ratios=30` to request the 30-day
+ * rolling SLA percentage for the specific monitor. Returns the numeric
+ * percentage (e.g. 99.97) or throws.
+ *
+ * Added May 18, 2026 — replaces the hardcoded GRAY row. Secret scope must
+ * be Repository (not Environment) in GitHub settings for the workflow to
+ * see it without an `environment:` declaration in the YAML.
+ */
+async function getUptimeRobotStatus() {
+  const apiKey = process.env.UPTIMEROBOT_API_KEY;
+  const monitorId = process.env.UPTIMEROBOT_MONITOR_ID;
+  if (!apiKey) throw new Error('UPTIMEROBOT_API_KEY not set');
+  if (!monitorId) throw new Error('UPTIMEROBOT_MONITOR_ID not set');
+  const body = new URLSearchParams({
+    api_key: apiKey,
+    format: 'json',
+    monitors: monitorId,
+    custom_uptime_ratios: '30',
+  });
+  const r = await fetchWithTimeout('https://api.uptimerobot.com/v2/getMonitors', {
+    method: 'POST',
+    headers: { 'content-type': 'application/x-www-form-urlencoded', 'cache-control': 'no-cache' },
+    body,
+  });
+  if (!r.ok) throw new Error(`http ${r.status}`);
+  const d = await r.json();
+  if (d.stat !== 'ok') throw new Error(`uptimerobot: ${d.error?.message || 'unknown error'}`);
+  const monitor = d.monitors?.[0];
+  if (!monitor) throw new Error(`monitor ${monitorId} not found in account`);
+  const ratio = parseFloat(monitor.custom_uptime_ratio || '0');
+  if (!Number.isFinite(ratio)) throw new Error(`bad ratio: ${monitor.custom_uptime_ratio}`);
+  return {
+    ratio30d: ratio,
+    monitorName: monitor.friendly_name || `monitor-${monitorId}`,
+    status: monitor.status, // 2=up, 8=seems down, 9=down, 0=paused
+  };
 }
 
 async function getPageSpeed(strategy = 'mobile') {
@@ -143,6 +185,37 @@ async function getPageSpeed(strategy = 'mobile') {
   const cats = d.lighthouseResult?.categories || {};
   const audits = d.lighthouseResult?.audits || {};
   const numericVal = (k) => audits[k]?.numericValue ?? null;
+
+  // ---- CrUX (Chrome User Experience Report) field-data parsing ----
+  // The PSI API returns *two* field-data blocks alongside the synthetic
+  // Lighthouse run: `loadingExperience` is the requested URL's page-level
+  // CrUX 28d rolling window, `originLoadingExperience` is the whole-origin
+  // aggregate. We prefer origin-level for KPI rows (much higher sample size,
+  // more stable WoW) and fall back to page-level if origin is missing.
+  // Metric keys are stable Google contracts: LARGEST_CONTENTFUL_PAINT_MS,
+  // INTERACTION_TO_NEXT_PAINT, CUMULATIVE_LAYOUT_SHIFT_SCORE (scaled ×100),
+  // EXPERIMENTAL_TIME_TO_FIRST_BYTE. May 18, 2026 — replaces the 6 manual
+  // vercel-rum-* paste rows.
+  const fieldBlock = d.originLoadingExperience || d.loadingExperience || null;
+  const fieldScope = d.originLoadingExperience ? 'origin' : (d.loadingExperience ? 'page' : null);
+  const fieldMetric = (key) => {
+    const m = fieldBlock?.metrics?.[key];
+    return m ? { percentile: m.percentile, category: m.category } : null;
+  };
+  const crux = fieldBlock ? {
+    scope: fieldScope,
+    lcp: fieldMetric('LARGEST_CONTENTFUL_PAINT_MS'),
+    inp: fieldMetric('INTERACTION_TO_NEXT_PAINT'),
+    cls: (() => {
+      // CLS is reported as integer × 100 (e.g. 5 = 0.05). Normalize.
+      const raw = fieldMetric('CUMULATIVE_LAYOUT_SHIFT_SCORE');
+      return raw ? { ...raw, percentile: raw.percentile / 100 } : null;
+    })(),
+    ttfb: fieldMetric('EXPERIMENTAL_TIME_TO_FIRST_BYTE'),
+    fcp: fieldMetric('FIRST_CONTENTFUL_PAINT_MS'),
+    overall_category: fieldBlock.overall_category || null,
+  } : null;
+
   return {
     strategy,
     performance: Math.round((cats.performance?.score ?? 0) * 100),
@@ -157,6 +230,7 @@ async function getPageSpeed(strategy = 'mobile') {
     usesTextCompression: audits['uses-text-compression']?.score ?? null,
     modernImageFormats: audits['modern-image-formats']?.score ?? null,
     finalUrl: d.lighthouseResult?.finalUrl,
+    crux,
   };
 }
 
@@ -781,9 +855,11 @@ async function loadPriorSnapshot() {
 // Default for everything else: higher is better (scores, percentages, counts of good things).
 const LOWER_IS_BETTER = new Set([
   'ttfb',
-  'cwv-lcp',
-  'cwv-inp',
-  'cwv-cls',
+  'cwv-lcp-field-mobile',
+  'cwv-lcp-field-desktop',
+  'cwv-inp-field',
+  'cwv-cls-field',
+  'cwv-ttfb-field',
   'total-page-weight',
   'bounce-rate',
   'gsc-avg-position',           // position 1 is best in SERPs
@@ -793,7 +869,6 @@ const LOWER_IS_BETTER = new Set([
   'csp-host-count',             // smaller CSP allowlist = smaller attack surface
   'mobile-desktop-cr-parity',   // gap %
   'crawl-budget-waste',
-  'error-rate',
 ]);
 
 function formatDelta(n) {
@@ -868,6 +943,7 @@ async function main() {
     cdn,
     linkGraph,
     pa11y,
+    uptime,
   ] = await Promise.all([
     safe('SecurityHeaders', getSecurityHeadersGrade),
     safe('MozillaObservatory', getMozillaObservatoryGrade),
@@ -883,6 +959,7 @@ async function main() {
     safe('CdnEdgeHitRate', getCdnEdgeHitRate),
     safe('LinkGraph', getLinkGraph),
     safe('Pa11y', getPa11y),
+    safe('UptimeRobot', getUptimeRobotStatus),
   ]);
 
   // GSC + GA4 — only fire if we got an access token. Each independently safe()d.
@@ -942,58 +1019,113 @@ async function main() {
       source: 'api.ssllabs.com',
       detail: ssl.ok ? null : ssl.error,
     },
-    // ---- V3 Pillar 2 Performance & Experience (CWV breakouts) ----
+    // ---- V3 Pillar 2 Performance & Experience (CWV field data via CrUX) ----
+    // Replaced May 18, 2026. Previously: 3 lab CWV rows (cwv-ttfb/cwv-lcp/cwv-cls
+    // from Lighthouse synthetic) + 2 lab performance composites + 6 manual
+    // vercel-rum-* paste rows. All now superseded by auto-fetched CrUX field
+    // data (Chrome User Experience Report, 28d rolling p75, free, no new auth).
+    // CrUX is what Google's ranking algorithm actually uses for the CWV signal,
+    // so these rows are simultaneously more truthful AND lower maintenance.
+    // Lab Lighthouse metrics retained where they have no field equivalent
+    // (a11y / best-practices / SEO scores below).
     {
-      id: 'cwv-ttfb',
-      label: 'TTFB (Time to First Byte)',
-      target: '< 200ms',
+      id: 'cwv-lcp-field-mobile',
+      label: 'Field LCP — Mobile (CrUX, p75 · 28d)',
+      target: '< 2.5s (Good) · < 1.5s (Top)',
+      v3Pillar: 'P2 Performance',
+      value: ps.ok && ps.value.crux?.lcp ? `${(ps.value.crux.lcp.percentile / 1000).toFixed(2)}s` : 'unavailable',
+      numericValue: ps.ok && ps.value.crux?.lcp ? ps.value.crux.lcp.percentile : null,
+      status: ps.ok && ps.value.crux?.lcp
+        ? (ps.value.crux.lcp.percentile < 1500 ? STATUS.GREEN
+            : ps.value.crux.lcp.percentile < 2500 ? STATUS.YELLOW
+            : STATUS.RED)
+        : STATUS.GRAY,
+      source: `PageSpeed Insights · CrUX field data · mobile · ${ps.ok && ps.value.crux?.scope === 'origin' ? 'origin' : 'page'} scope`,
+      detail: ps.ok && ps.value.crux?.lcp
+        ? `Real Chrome user p75 over last 28 days · ${ps.value.crux.lcp.category}`
+        : (ps.ok ? 'No CrUX data — origin may need more traffic to qualify' : ps.error),
+    },
+    {
+      id: 'cwv-lcp-field-desktop',
+      label: 'Field LCP — Desktop (CrUX, p75 · 28d)',
+      target: '< 2.5s (Good) · < 1.5s (Top)',
+      v3Pillar: 'P2 Performance',
+      value: psDesktop.ok && psDesktop.value.crux?.lcp ? `${(psDesktop.value.crux.lcp.percentile / 1000).toFixed(2)}s` : 'unavailable',
+      numericValue: psDesktop.ok && psDesktop.value.crux?.lcp ? psDesktop.value.crux.lcp.percentile : null,
+      status: psDesktop.ok && psDesktop.value.crux?.lcp
+        ? (psDesktop.value.crux.lcp.percentile < 1500 ? STATUS.GREEN
+            : psDesktop.value.crux.lcp.percentile < 2500 ? STATUS.YELLOW
+            : STATUS.RED)
+        : STATUS.GRAY,
+      source: `PageSpeed Insights · CrUX field data · desktop · ${psDesktop.ok && psDesktop.value.crux?.scope === 'origin' ? 'origin' : 'page'} scope`,
+      detail: psDesktop.ok && psDesktop.value.crux?.lcp
+        ? `Real Chrome user p75 over last 28 days · ${psDesktop.value.crux.lcp.category}`
+        : (psDesktop.ok ? 'No CrUX data — origin may need more traffic to qualify' : psDesktop.error),
+    },
+    {
+      id: 'cwv-inp-field',
+      label: 'Field INP — p75 (CrUX, 28d)',
+      target: '< 200ms (Good) · < 100ms (Top)',
+      v3Pillar: 'P2 Performance',
+      value: (() => {
+        const m = ps.ok ? ps.value.crux?.inp?.percentile : null;
+        const dm = psDesktop.ok ? psDesktop.value.crux?.inp?.percentile : null;
+        if (m == null && dm == null) return 'unavailable';
+        return `${m != null ? `${m}ms mobile` : ''}${m != null && dm != null ? ' · ' : ''}${dm != null ? `${dm}ms desktop` : ''}`;
+      })(),
+      numericValue: ps.ok ? (ps.value.crux?.inp?.percentile ?? null) : null,
+      status: (() => {
+        const m = ps.ok ? ps.value.crux?.inp?.percentile : null;
+        const dm = psDesktop.ok ? psDesktop.value.crux?.inp?.percentile : null;
+        const worst = Math.max(m ?? 0, dm ?? 0);
+        if (!worst) return STATUS.GRAY;
+        if (worst < 100) return STATUS.GREEN;
+        if (worst < 200) return STATUS.YELLOW;
+        return STATUS.RED;
+      })(),
+      source: 'PageSpeed Insights · CrUX field data · INTERACTION_TO_NEXT_PAINT',
+      detail: 'Real Chrome user interaction latency p75 across both form factors.',
+    },
+    {
+      id: 'cwv-cls-field',
+      label: 'Field CLS — p75 (CrUX, 28d)',
+      target: '< 0.1 (Good) · < 0.05 (Top)',
+      v3Pillar: 'P2 Performance',
+      value: ps.ok && ps.value.crux?.cls ? ps.value.crux.cls.percentile.toFixed(3) : 'unavailable',
+      numericValue: ps.ok && ps.value.crux?.cls ? ps.value.crux.cls.percentile : null,
+      status: ps.ok && ps.value.crux?.cls
+        ? (ps.value.crux.cls.percentile < 0.05 ? STATUS.GREEN
+            : ps.value.crux.cls.percentile < 0.1 ? STATUS.YELLOW
+            : STATUS.RED)
+        : STATUS.GRAY,
+      source: 'PageSpeed Insights · CrUX field data · CUMULATIVE_LAYOUT_SHIFT_SCORE',
+      detail: ps.ok && ps.value.crux?.cls
+        ? `Layout-shift score · ${ps.value.crux.cls.category}`
+        : 'Origin not yet in CrUX dataset.',
+    },
+    {
+      id: 'cwv-ttfb-field',
+      label: 'Field TTFB — p75 (CrUX, 28d)',
+      target: '< 800ms (Good) · < 600ms (Top)',
       v3Pillar: 'P1 Infrastructure',
-      value: ps.ok && ps.value.ttfb != null ? `${Math.round(ps.value.ttfb)}ms` : 'unavailable',
-      numericValue: ps.ok ? ps.value.ttfb : null,
-      status: ps.ok && ps.value.ttfb != null ? (ps.value.ttfb < 200 ? STATUS.GREEN : ps.value.ttfb < 600 ? STATUS.YELLOW : STATUS.RED) : STATUS.GRAY,
-      source: 'PageSpeed Lighthouse · server-response-time',
-    },
-    {
-      id: 'cwv-lcp',
-      label: 'LCP (Largest Contentful Paint)',
-      target: '< 1.2s',
-      v3Pillar: 'P2 Performance',
-      value: ps.ok && ps.value.lcp != null ? `${(ps.value.lcp / 1000).toFixed(2)}s` : 'unavailable',
-      numericValue: ps.ok ? ps.value.lcp : null,
-      status: ps.ok && ps.value.lcp != null ? (ps.value.lcp < 1200 ? STATUS.GREEN : ps.value.lcp < 2500 ? STATUS.YELLOW : STATUS.RED) : STATUS.GRAY,
-      source: 'PageSpeed Lighthouse · largest-contentful-paint',
-    },
-    {
-      id: 'cwv-cls',
-      label: 'CLS (Cumulative Layout Shift)',
-      target: '< 0.05',
-      v3Pillar: 'P2 Performance',
-      value: ps.ok && ps.value.cls != null ? `${ps.value.cls.toFixed(3)}` : 'unavailable',
-      numericValue: ps.ok ? ps.value.cls : null,
-      status: ps.ok && ps.value.cls != null ? (ps.value.cls < 0.05 ? STATUS.GREEN : ps.value.cls < 0.1 ? STATUS.YELLOW : STATUS.RED) : STATUS.GRAY,
-      source: 'PageSpeed Lighthouse · cumulative-layout-shift',
-    },
-    {
-      id: 'pagespeed-performance-mobile',
-      label: 'Lighthouse Performance (mobile)',
-      target: '≥ 90 (V3)',
-      v3Pillar: 'P2 Performance',
-      value: ps.ok ? `${ps.value.performance}` : 'unavailable',
-      numericValue: ps.ok ? ps.value.performance : null,
-      status: ps.ok ? statusForScore(ps.value.performance, { greenMin: 90, yellowMin: 75 }) : STATUS.GRAY,
-      source: 'pagespeedonline.googleapis.com',
-      detail: ps.ok ? null : ps.error,
-    },
-    {
-      id: 'pagespeed-performance-desktop',
-      label: 'Lighthouse Performance (desktop)',
-      target: '≥ 98 (V3)',
-      v3Pillar: 'P2 Performance',
-      value: psDesktop.ok ? `${psDesktop.value.performance}` : 'unavailable',
-      numericValue: psDesktop.ok ? psDesktop.value.performance : null,
-      status: psDesktop.ok ? statusForScore(psDesktop.value.performance, { greenMin: 98, yellowMin: 90 }) : STATUS.GRAY,
-      source: 'pagespeedonline.googleapis.com (strategy=desktop)',
-      detail: psDesktop.ok ? null : psDesktop.error,
+      value: (() => {
+        const m = ps.ok ? ps.value.crux?.ttfb?.percentile : null;
+        const dm = psDesktop.ok ? psDesktop.value.crux?.ttfb?.percentile : null;
+        if (m == null && dm == null) return 'unavailable';
+        return `${m != null ? `${(m / 1000).toFixed(2)}s mobile` : ''}${m != null && dm != null ? ' · ' : ''}${dm != null ? `${(dm / 1000).toFixed(2)}s desktop` : ''}`;
+      })(),
+      numericValue: ps.ok ? (ps.value.crux?.ttfb?.percentile ?? null) : null,
+      status: (() => {
+        const m = ps.ok ? ps.value.crux?.ttfb?.percentile : null;
+        const dm = psDesktop.ok ? psDesktop.value.crux?.ttfb?.percentile : null;
+        const worst = Math.max(m ?? 0, dm ?? 0);
+        if (!worst) return STATUS.GRAY;
+        if (worst < 600) return STATUS.GREEN;
+        if (worst < 800) return STATUS.YELLOW;
+        return STATUS.RED;
+      })(),
+      source: 'PageSpeed Insights · CrUX field data · EXPERIMENTAL_TIME_TO_FIRST_BYTE',
+      detail: 'Real network + server latency to first byte. Higher than Lighthouse lab because real users hit cold caches, DNS lookups, and global edges.',
     },
     {
       id: 'cwv-page-weight',
@@ -1201,99 +1333,27 @@ async function main() {
       label: 'Uptime (last 30 days)',
       target: '≥ 99.99% (V3)',
       v3Pillar: 'P1 Infrastructure',
-      value: 'not measured',
-      numericValue: null,
-      status: STATUS.GRAY,
-      source: 'Requires external uptime monitor (UptimeRobot/Better Stack)',
-      detail: 'Bumped from 99.9% → 99.99% per V3 adoption. Wire UptimeRobot free monitor to light up.',
-    },
-    {
-      id: 'error-rate',
-      label: 'Error rate (5xx/4xx)',
-      target: '< 0.1%',
-      v3Pillar: 'P1 Infrastructure',
-      value: 'not measured',
-      numericValue: null,
-      status: STATUS.GRAY,
-      source: 'Vercel Analytics Pro tier or Sentry free tier',
-      detail: 'Scaffolded.',
-    },
-    // ============================================================================
-    // Vercel RUM (Real User Monitoring) field-data block — manual screenshot capture
-    // ----------------------------------------------------------------------------
-    // Vercel Speed Insights ships RUM data but does not expose a public API on the
-    // Hobby/Pro tiers. Values below are captured manually from the dashboard at
-    // /[project]/speed-insights with "Last 7 Days" / P75 filter, and refreshed
-    // weekly during the same audit window. Bump the constants below when you re-pull.
-    // Last refresh: 2026-05-15 (screenshots in handoff log).
-    // ============================================================================
-    {
-      id: 'vercel-rum-res-mobile',
-      label: 'Real Experience Score — Mobile (Vercel RUM, p75 · 7d)',
-      target: '≥ 90',
-      v3Pillar: 'P2 Performance',
-      value: '99 / 100',
-      numericValue: 99,
-      status: STATUS.GREEN,
-      source: 'Vercel Speed Insights · Mobile · Last 7 Days · P75',
-      detail: 'Field RES 99 — >75% of mobile visits classified "Great." No poor/needs-improvement routes.',
-    },
-    {
-      id: 'vercel-rum-res-desktop',
-      label: 'Real Experience Score — Desktop (Vercel RUM, p75 · 7d)',
-      target: '≥ 90',
-      v3Pillar: 'P2 Performance',
-      value: '99 / 100',
-      numericValue: 99,
-      status: STATUS.GREEN,
-      source: 'Vercel Speed Insights · Desktop · Last 7 Days · P75',
-      detail: 'Field RES 99 across ~207 desktop sessions. Routes: / = 97, /contact = 99, /about = 100, /[slug] = 100.',
-    },
-    {
-      id: 'vercel-rum-lcp-mobile',
-      label: 'Field LCP — Mobile (Vercel RUM, p75 · 7d)',
-      target: '< 2.5s (Good) · < 1.5s (Top)',
-      v3Pillar: 'P2 Performance',
-      value: '1.34s',
-      numericValue: 1340,
-      status: STATUS.GREEN,
-      source: 'Vercel Speed Insights · Mobile · Largest Contentful Paint',
-      detail: 'Field p75 (1.34s) beats the lab measurement (1.95s) — real Dallas users see better LCP than throttled mobile Lighthouse. P2.20 target effectively MET in the field.',
-    },
-    {
-      id: 'vercel-rum-lcp-desktop',
-      label: 'Field LCP — Desktop (Vercel RUM, p75 · 7d)',
-      target: '< 1.5s',
-      v3Pillar: 'P2 Performance',
-      value: '1.76s',
-      numericValue: 1760,
-      status: STATUS.YELLOW,
-      source: 'Vercel Speed Insights · Desktop · Largest Contentful Paint',
-      detail: 'Desktop FCP and LCP both 1.76s — render pipeline is single-pass. ~260ms gap to 1.5s "Top" threshold.',
-    },
-    {
-      id: 'vercel-rum-inp',
-      label: 'Field INP — p75 (Vercel RUM, 7d)',
-      target: '< 200ms',
-      v3Pillar: 'P2 Performance',
-      value: '80ms mobile · 48ms desktop',
-      numericValue: 80,
-      status: STATUS.GREEN,
-      source: 'Vercel Speed Insights · Interaction to Next Paint',
-      detail: 'Closes the prior "INP unavailable" gap (no CRUX_API_KEY needed). Well under 200ms on both form factors.',
-    },
-    {
-      id: 'vercel-rum-ttfb',
-      label: 'Field TTFB — p75 (Vercel RUM, 7d)',
-      target: '< 800ms (Good)',
-      v3Pillar: 'P1 Infrastructure',
-      value: '0.60s mobile · 0.59s desktop',
-      numericValue: 600,
-      status: STATUS.GREEN,
-      source: 'Vercel Speed Insights · Time to First Byte',
-      detail: 'Real-user TTFB ~600ms — higher than Lighthouse lab (5ms) because real users hit cold cache edges + DNS/handshake overhead. Still well under Vercel "Good" threshold.',
+      value: uptime.ok ? `${uptime.value.ratio30d}%` : 'unavailable',
+      numericValue: uptime.ok ? uptime.value.ratio30d : null,
+      status: uptime.ok
+        ? (uptime.value.ratio30d >= 99.99 ? STATUS.GREEN
+            : uptime.value.ratio30d >= 99.9 ? STATUS.YELLOW
+            : STATUS.RED)
+        : STATUS.GRAY,
+      source: 'UptimeRobot v2 API · getMonitors · custom_uptime_ratios=30',
+      detail: uptime.ok
+        ? `Monitor "${uptime.value.monitorName}" · current status code ${uptime.value.status} (2=up, 8=seems down, 9=down)`
+        : uptime.error,
     },
   ];
+  // V3 phase-1 KPI block ends here.
+  // ---------------------------------------------------------------------------
+  // DROPPED May 18, 2026 — `error-rate` (scaffolded but no data source, deferred
+  // until traffic justifies Sentry); 6 `vercel-rum-*` paste-anchor rows (replaced
+  // by CrUX field rows above which auto-refresh from PageSpeed Insights API);
+  // `cwv-lcp`, `cwv-cls`, `cwv-ttfb`, `pagespeed-performance-mobile`,
+  // `pagespeed-performance-desktop` (lab metrics with field equivalents).
+  // ---------------------------------------------------------------------------
 
   // Compute trend arrows + deltas (applied below across ALL phases — see end of main)
   const applyTrend = (k) => {
