@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-18T15:21:38.646Z",
+  "generatedAt": "2026-05-18T16:26:35.911Z",
   "domain": "dfwhvac.com",
-  "durationMs": 123678,
+  "durationMs": 123143,
   "phases": [
     {
       "id": "phase1",
@@ -62,23 +62,23 @@
           "numericValue": 7,
           "status": "green",
           "source": "PageSpeed Lighthouse · server-response-time",
-          "trend": "▲",
-          "delta": 3,
-          "deltaFormatted": "+3.00",
-          "deltaSentiment": "good"
+          "trend": "→",
+          "delta": 0,
+          "deltaFormatted": "0.000",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "cwv-lcp",
           "label": "LCP (Largest Contentful Paint)",
           "target": "< 1.2s",
           "v3Pillar": "P2 Performance",
-          "value": "2.55s",
-          "numericValue": 2551.056690916829,
+          "value": "2.85s",
+          "numericValue": 2852.0241924438596,
           "status": "red",
           "source": "PageSpeed Lighthouse · largest-contentful-paint",
           "trend": "▲",
-          "delta": 299.8756634035494,
-          "deltaFormatted": "+300",
+          "delta": 901.0079516356479,
+          "deltaFormatted": "+901",
           "deltaSentiment": "bad"
         },
         {
@@ -100,29 +100,29 @@
           "label": "Lighthouse Performance (mobile)",
           "target": "≥ 90 (V3)",
           "v3Pillar": "P2 Performance",
-          "value": "62",
-          "numericValue": 62,
-          "status": "red",
+          "value": "93",
+          "numericValue": 93,
+          "status": "green",
           "source": "pagespeedonline.googleapis.com",
           "detail": null,
-          "trend": "▼",
-          "delta": -32,
-          "deltaFormatted": "-32.0",
-          "deltaSentiment": "bad"
+          "trend": "▲",
+          "delta": 31,
+          "deltaFormatted": "+31.0",
+          "deltaSentiment": "good"
         },
         {
           "id": "pagespeed-performance-desktop",
           "label": "Lighthouse Performance (desktop)",
           "target": "≥ 98 (V3)",
           "v3Pillar": "P2 Performance",
-          "value": "98",
-          "numericValue": 98,
-          "status": "green",
+          "value": "85",
+          "numericValue": 85,
+          "status": "red",
           "source": "pagespeedonline.googleapis.com (strategy=desktop)",
           "detail": null,
           "trend": "▼",
-          "delta": -2,
-          "deltaFormatted": "-2.00",
+          "delta": -13,
+          "deltaFormatted": "-13.0",
           "deltaSentiment": "bad"
         },
         {
@@ -134,10 +134,10 @@
           "numericValue": 678520,
           "status": "green",
           "source": "PageSpeed Lighthouse · total-byte-weight",
-          "trend": "▲",
-          "delta": 298,
-          "deltaFormatted": "+298",
-          "deltaSentiment": "good"
+          "trend": "→",
+          "delta": 0,
+          "deltaFormatted": "0.000",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "cwv-resource-compression",
@@ -304,14 +304,14 @@
           "label": "WCAG 2.2 AA (Pa11y, automated)",
           "target": "0 errors (10-page sample)",
           "v3Pillar": "P4 Accessibility",
-          "value": "0 errors · 0 warnings (0/10 pages)",
-          "numericValue": null,
-          "status": "gray",
+          "value": "0 errors · 0 warnings (10/10 pages)",
+          "numericValue": 0,
+          "status": "green",
           "source": "Pa11y · WCAG2AA standard · 10 sample routes",
-          "detail": "All 10 pages failed. First diag: sh: 1: pa11y: not found | Command failed: npx --yes pa11y --standard WCAG2AA --reporter json --config /home/runner/work/website-dfw-II/website-dfw-II/.pa11yrc.json https://dfwhvac.com/\nsh: 1: pa11y: not found",
-          "trend": "—",
-          "delta": null,
-          "deltaFormatted": "",
+          "detail": "Automated covers ~35-40% of WCAG criteria; manual audit deferred until baseline trends clean.",
+          "trend": "→",
+          "delta": 0,
+          "deltaFormatted": "0.000",
           "deltaSentiment": "neutral"
         },
         {
@@ -323,7 +323,7 @@
           "numericValue": null,
           "status": "green",
           "source": "GitHub Actions API",
-          "detail": "last run: 2026-05-18T15:10:52Z",
+          "detail": "last run: 2026-05-18T16:19:51Z",
           "trend": "—",
           "delta": null,
           "deltaFormatted": "",
@@ -452,10 +452,10 @@
       ],
       "rollup": {
         "total": 30,
-        "green": 23,
+        "green": 24,
         "yellow": 1,
         "red": 2,
-        "gray": 4
+        "gray": 3
       }
     },
     {
@@ -636,13 +636,13 @@
         },
         {
           "id": "per-page-cr",
-          "label": "Per-page CR (top 10 entry pages)",
-          "target": "top 3 ≥ 5%",
-          "value": "top: / @ 2.2% (1 pages tracked)",
+          "label": "Per-page CR (distribution)",
+          "target": "median ≥ 3%",
+          "value": "median 2.2% · 5 pages tracked",
           "numericValue": 2.2,
-          "status": "red",
-          "source": "GA4 Data API · landingPagePlusQueryString (≥50 sessions, 28d)",
-          "detail": "🏆 / 2.2% ｜ 🔻 / 2.2%",
+          "status": "yellow",
+          "source": "GA4 Data API · landingPagePlusQueryString (≥20 sessions, 28d)",
+          "detail": "🏆 best: /request-service 9.5% · 🔻 worst: (not set) 0% · Full per-page report → build in Looker Studio (GA4 → landingPagePlusQueryString)",
           "trend": "—",
           "delta": null,
           "deltaFormatted": "",
@@ -657,10 +657,10 @@
           "status": "red",
           "source": "GA4 Data API · deviceCategory breakdown",
           "detail": "Mobile CR: 3.6% · Desktop CR: 1.4%",
-          "trend": "▲",
-          "delta": 6.300000000000004,
-          "deltaFormatted": "+6.30",
-          "deltaSentiment": "bad"
+          "trend": "→",
+          "delta": 0,
+          "deltaFormatted": "0.000",
+          "deltaSentiment": "neutral"
         },
         {
           "id": "estimator-completion",
@@ -686,8 +686,8 @@
           "source": "GA4 Data API · bounceRate (28d)",
           "detail": null,
           "trend": "→",
-          "delta": 0.09999999999999432,
-          "deltaFormatted": "+0.100",
+          "delta": 0,
+          "deltaFormatted": "0.000",
           "deltaSentiment": "neutral"
         },
         {
@@ -707,8 +707,8 @@
       "rollup": {
         "total": 8,
         "green": 0,
-        "yellow": 0,
-        "red": 7,
+        "yellow": 1,
+        "red": 6,
         "gray": 1
       }
     },
