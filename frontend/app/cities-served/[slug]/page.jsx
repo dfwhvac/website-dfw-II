@@ -14,11 +14,16 @@ export const revalidate = 3600 // ISR — page regenerates at most once per hour
 // Full list of HVAC services offered in every DFW city — used for
 // hub-and-spoke internal linking from city pages back to deep service pages.
 // Maps to PR #3, R1.2 (Apr 21, 2026 — closes audit finding from P1.2).
+//
+// May 17, 2026 — appended System Replacement to restore inbound links from
+// 28 city pages. Was orphan-flagged by the internal-link-connectivity KPI;
+// footer link alone wasn't enough crawl-weight to surface it.
 const ALL_SERVICES = [
   { title: 'Air Conditioning Repair & Install', href: '/services/residential/air-conditioning', blurb: 'Same-day AC diagnosis, repair, and full-system replacement.' },
   { title: 'Heating & Furnace Service', href: '/services/residential/heating', blurb: 'Furnace, heat pump, and gas line repair and installation.' },
   { title: 'Indoor Air Quality', href: '/services/residential/indoor-air-quality', blurb: 'Filtration, purifiers, humidifiers, and duct solutions.' },
   { title: 'Preventative Maintenance', href: '/services/residential/preventative-maintenance', blurb: 'Tune-ups and maintenance plans that prevent breakdowns.' },
+  { title: 'System Replacement & Upgrades', href: '/services/system-replacement', blurb: 'Whole-system upgrades with financing — when repair no longer makes sense.' },
   { title: 'Commercial Air Conditioning', href: '/services/commercial/commercial-air-conditioning', blurb: 'Rooftop unit and split-system service for DFW businesses.' },
   { title: 'Commercial Heating', href: '/services/commercial/commercial-heating', blurb: 'Commercial furnace, boiler, and heat pump service.' },
   { title: 'Commercial Maintenance', href: '/services/commercial/commercial-maintenance', blurb: 'Scheduled preventative service agreements for commercial HVAC.' },
@@ -379,6 +384,47 @@ export default async function CityPage({ params }) {
               </ul>
             </div>
             
+            {/* Repair-or-Replace + Estimator deep links — added May 17, 2026
+                to restore inbound links to /repair-or-replace and
+                /replacement-estimator from all 28 city pages. Footer alone
+                wasn't carrying enough crawl-weight; these contextual links
+                also serve real homeowner intent (city visitors deciding
+                between repair vs full system upgrade). */}
+            <div className="mb-12 grid md:grid-cols-2 gap-6">
+              <Link
+                href="/repair-or-replace"
+                data-testid="city-cross-link-repair-or-replace"
+                className="group bg-gradient-to-br from-prussian-blue/5 to-electric-blue/10 border border-electric-blue/30 rounded-xl p-6 hover:border-electric-blue hover:shadow-lg transition-all"
+              >
+                <h3 className="text-lg font-bold text-prussian-blue group-hover:text-electric-blue mb-2">
+                  Should you repair or replace in {city.cityName}?
+                </h3>
+                <p className="text-gray-700 text-sm mb-3">
+                  Use our 5-question decision guide. Honest answers — no upsell pressure.
+                </p>
+                <span className="inline-flex items-center gap-1 text-electric-blue text-sm font-semibold">
+                  Read the guide
+                  <ArrowRight className="w-4 h-4" />
+                </span>
+              </Link>
+              <Link
+                href="/replacement-estimator"
+                data-testid="city-cross-link-replacement-estimator"
+                className="group bg-gradient-to-br from-alert-amber/5 to-vivid-red/5 border border-alert-amber/30 rounded-xl p-6 hover:border-alert-amber hover:shadow-lg transition-all"
+              >
+                <h3 className="text-lg font-bold text-prussian-blue group-hover:text-vivid-red mb-2">
+                  Free replacement estimate for {city.cityName} homes
+                </h3>
+                <p className="text-gray-700 text-sm mb-3">
+                  Get a budget range for a new system in under 2 minutes. No phone call required.
+                </p>
+                <span className="inline-flex items-center gap-1 text-vivid-red text-sm font-semibold">
+                  Start the estimator
+                  <ArrowRight className="w-4 h-4" />
+                </span>
+              </Link>
+            </div>
+
             {/* Local Testimonial */}
             {city.localTestimonial?.quote && (
               <div className="bg-prussian-blue text-white rounded-xl p-8 mb-12">

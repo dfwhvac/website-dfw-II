@@ -1,0 +1,202 @@
+<analysis>**original_problem_statement**: 
+The user wants to finalize a premium Next.js/Sanity website for DFW HVAC. The primary goal is executing a highly structured, 5-Priority tier system (Foundation -> SEO/AEO -> Conversion -> Ad Infra -> Launch) focusing on deep SEO, Accessibility, Core Web Vitals, and conversion rate optimization. 
+PRODUCT REQUIREMENTS: Maintain a high-converting, secure, and performant HVAC lead generation funnel. The application is a single-stack Next.js app (Node.js) connected to a Headless Sanity CMS and MongoDB. Forms are protected by reCAPTCHA v3.
+
+**User's preferred language**: English (INSTRUCT next agent to respond in English only)
+
+**what currently exists?** 
+A Next.js 16.2.6 App Router application. The site's technical foundation is highly optimized (A+ security, perfect Core Web Vitals, 100% indexing parity for 51 sitemap URLs). In this session, the KPI Dashboard was heavily refactored, dropping 8 stale metrics and embedding live Vercel RUM field-data rows. Technical blocking issues are resolved, and the 7 remaining red metrics are explicitly content-conversion problems (e.g., poor CTA copy, high bounce rates).
+
+**Last working item**: 
+- **Last item agent was working**: Prioritizing the next tasks. After advising the user that the technical foundation is robust enough to shift entirely to Content/Copywriting optimization, the user asked for a list of lightweight and high impact open tasks for the agent to execute in support of the content sprint. The agent provided a 12-item list and recommended , , and .
+- **Status**: USER VERIFICATION PENDING
+- **Agent Testing Done**: N/A (Currently in planning/advisory phase)
+- **Which testing method agent to use?** NA 
+- **User Testing Done**: N
+
+**All Pending/In progress Issue list**: 
+Issue 1: GitHub Actions Pa11y Scan Silently Failing (Priority: P1)
+- Attempted fixes: Installed OS dependencies (, etc.) in . The run succeeded but Pa11y still reports 0/10 pages scanned.
+- Next debug checklist: GitHub runners require headless Chromium to run without sandboxing. Add  to the Pa11y execution command in , or verify if Puppeteer needs to be bundled.
+- Why fix this issue and what will be achieved with the fix? Restores automated accessibility validation in CI/CD.
+- Status: IN PROGRESS
+- Is recurring issue? Y
+- Should Test frontend/backend/both after fix? Backend (CI/CD)
+
+Issue 2: UptimeRobot KPI Remaining Gray (Priority: P2)
+- Attempted fixes: User created monitor and added  and  to GitHub Secrets.
+- Next debug checklist: Check if secrets were added at the Environment vs. Repository scope, or if there's a bug/omission in the  fetch logic preventing it from reading the values.
+- Why fix this issue and what will be achieved with the fix? Lights up the final missing metric in Phase 1 tracking.
+- Status: NOT STARTED
+- Is recurring issue? N
+- Should Test frontend/backend/both after fix? Backend (CI/CD)
+
+Issue 3: 3 Internal Link Orphans (Priority: P1)
+- Attempted fixes: None yet.
+- Next debug checklist: Link , , and  from the main footer and city pages.
+- Why fix this issue and what will be achieved with the fix? Restores internal PageRank to 3 high-converting URLs currently starved of traffic.
+- Status: NOT STARTED
+- Is recurring issue? N
+- Should Test frontend/backend/both after fix? Frontend
+
+**In progress Task List**: 
+Task 1:  Dashboard Wire-up (Priority: P0)
+- Where to resume: Add GA4  dimension query to the script.
+- What will be achieved with this? Gives the user per-page conversion intelligence to guide their upcoming content sprint.
+- Status: NOT STARTED
+- Should Test frontend/backend/both after fix? Backend (API Script)
+- Blocked on something: Nothing.
+
+**Upcoming and Future Tasks**
+Upcoming Tasks:
+- P1.9b: Review badge in hero (Variant C). Add inline below H1. (P1)
+- P2.21: Migrate  cron from Vercel to GitHub Actions. (P1)
+- P1.6f: Rich Results validation on 7 URLs (User action). (P2)
+- P2.19-scope: CallRail vs Twilio DNI scoping decision. (P1 - Unlocks Phase 4 Ad tracking)
+- P1.10: Progressive form redesign (2-field email/phone capture). (P1 - BLOCKED until May 27, 2026).
+- P1.9c: Inline review carousel near forms. (P2)
+- C4: Form abandonment tracking via GA4 field-blur. (P2 - BLOCKED until post May 27).
+
+Future Tasks:
+- F10: Sanity v3 -> v5 upgrade. (P3 - Delayed intentionally until late July to avoid content sprint disruption).
+- Phase 4 (Ad Infra): CallRail/Twilio DNI, Ad landing pages, GA4 Enhanced Ecommerce. (P1)
+
+**Completed work in this session**
+-  massive cleanup: deleted 8 perma-gray KPIs, embedded 6 Vercel RUM rows, flipped indexing to 100% (51/51 sitemap URLs verified), added  tracking. (DONE)
+- Generated CMO/CTO Executive Report. (DONE)
+- Dropped F3c (CSP nonce migration) completely as Mozilla B+ grade is accepted. (DONE)
+- SEC-1 B1: Bumped  from 0.4 to 0.7 in . (DONE)
+- : Added OS Chromium dependencies for Pa11y. (DONE)
+- Resolved GitHub merge conflict for . (DONE)
+
+**Earlier issues found/mentioned but not fixed**
+Issue 1: 
+- Debug checklist: React oversized components (, , ,  all > 300 lines). 
+- Why to solve this issue and what will be achieved with this? Improves maintainability. (Tracked under P2.15).
+- Should Test frontend/backend/both after fix: Frontend
+- Is recurring issue? Y
+
+**Known issue recurrence from previous fork**
+- Issue recurrence in previous fork: The Emergent platform pre-push hook causes recurring merge conflicts by re-appending duplicate  to .
+- Recurrence count: 9+
+- Status: RESOLVED (User handles this by clicking Accept current change in GH UI).
+
+**Code Architecture**
+
+
+**Key Technical Concepts**
+- Next.js 16 App Router (v16.2.6), React 19.2.6, Tailwind CSS v4.
+- Core Web Vitals (LCP/TTFB/INP) and Vercel Speed Insights (RUM).
+- GitHub Actions automated KPI auditing and dashboard regeneration.
+- Sanity CMS (v3).
+
+**key DB schema**
+-  (MongoDB): 
+
+**changes in tech stack**
+- Vercel Analytics rejected (duplicate data). F10 (Sanity v5 upgrade) deferred. F3c (CSP Nonce migration) cancelled. 
+
+**All files of reference**
+- 
+- 
+- 
+- 
+- 
+- 
+
+**Areas that need refactoring**:
+- Large page components (Tracked under P2.15).
+- Pa11y invocation arguments in .
+
+**key api endpoints**
+- 
+- 
+
+**Critical Info for New Agent**
+- **CONTENT SPRINT FOCUS:** The site is technically A+ right now. The user is beginning a major content optimization sprint (rewriting title tags, heroes, and copy). The agent should avoid heavy technical refactors (like F10 Sanity v5 upgrade) that would disrupt the user's workflow. Agent tasks should be purely supportive (tracking additions, minor component updates).
+- **CLARITY BASELINE ALERT:** Do NOT execute P1.10 (Form Redesign) until May 27, 2026.
+- **GITHUB PUSHES:** The agent cannot directly push to the main branch from the preview pod. All CI/CD and snapshot updates require the user to explicitly click Save to GitHub and manually trigger the workflow.
+- **DASHBOARD ALERTS:** Pa11y and UptimeRobot metrics are currently failing/gray in the dashboard snapshot. Treat resolving these as secondary to high-impact tracking tasks like the  wire-up or fixing the 3 orphan pages.
+
+**documents and test reports created in this job**
+-  (Updated with May 14/17 actions)
+-  (Regenerated via GH Actions)
+
+**Last 10 User Messages and any pending HUMAN messages** 
+- **User:** uSER 2 DONE
+- **User:** Double check. Im not seeing status numbers as good as the ones youre predicting...
+- **User:** Provided screenshot of merge conflicts. What do I do about these conflicts? (Status: RESOLVED - Instructed to accept current changes)
+- **User:** Completed. Analyze the results. (Status: RESOLVED)
+- **User:** It looks like the foundation is solid... One question I have is should I implement vercel analytics. (Status: RESOLVED - Agent advised against it, provided gaps)
+- **User:** The site content needs work. Is the site in good shape for me to focus on that and leave the code as is? (Status: RESOLVED - Agent confirmed readiness)
+- **User:** Is this a good time to update to sanity v5? (Status: RESOLVED - Agent deferred to July)
+- **User:** Look across all open action items and provide a list of open options that are light weight and high impact. (Status: **PENDING HUMAN ACTION** - You must execute whichever tasks the user selects from the 12-item Tier A/B/C list the agent just provided).
+
+**Project Health Check:**
+- Broken: GitHub Actions Pa11y scanner (missing  argument), UptimeRobot integration in script.
+- Mocked: .
+
+**3rd Party Integrations**
+- Sanity.io (Headless CMS)
+- Vercel (Hosting, Speed Insights)
+- MongoDB Atlas (Database)
+- Resend (Email API)
+- reCAPTCHA v3
+- Microsoft Clarity
+- Google Analytics 4 & Tag Manager 
+- Google Search Console
+- UptimeRobot (API Key)
+- Wisetack
+
+**Testing status**
+- Testing agent used after significant changes: NO (Changes were mostly config and reporting script updates)
+- Troubleshoot agent used after agent stuck in loop: NO
+- Test files created: None
+- Known regressions: Pa11y workflow is still failing to launch headless Chromium.
+
+**Credentials to test flow:**
+- Managed inside Vercel and GitHub Secrets (including ).
+
+**What agent forgot to execute**
+- The agent successfully installed the apt 2.6.1 (arm64)
+Usage: apt-get [options] command
+       apt-get [options] install|remove pkg1 [pkg2 ...]
+       apt-get [options] source pkg1 [pkg2 ...]
+
+apt-get is a command line interface for retrieval of packages
+and information about them from authenticated sources and
+for installation, upgrade and removal of packages together
+with their dependencies.
+
+Most used commands:
+  update - Retrieve new lists of packages
+  upgrade - Perform an upgrade
+  install - Install new packages (pkg is libc6 not libc6.deb)
+  reinstall - Reinstall packages (pkg is libc6 not libc6.deb)
+  remove - Remove packages
+  purge - Remove packages and config files
+  autoremove - Remove automatically all unused packages
+  dist-upgrade - Distribution upgrade, see apt-get(8)
+  dselect-upgrade - Follow dselect selections
+  build-dep - Configure build-dependencies for source packages
+  satisfy - Satisfy dependency strings
+  clean - Erase downloaded archive files
+  autoclean - Erase old downloaded archive files
+  check - Verify that there are no broken dependencies
+  source - Download source archives
+  download - Download the binary package into the current directory
+  changelog - Download and display the changelog for the given package
+
+See apt-get(8) for more information about the available commands.
+Configuration options and syntax is detailed in apt.conf(5).
+Information about how to configure sources can be found in sources.list(5).
+Package and version choices can be expressed via apt_preferences(5).
+Security details are available in apt-secure(8).
+                                        This APT has Super Cow Powers. packages for Chromium in the GitHub Action but forgot to add the  launch argument to the Pa11y invocation in , causing the accessibility CI to remain silently broken.
+
+**Debugging checklist for current issue**
+    Issue: Awaiting task selection from Lightweight / High-Impact list.
+    - Check the user's response.
+    - If they pick : Modify  to add a GA4 query grouping by . 
+    - If they pick : Update the  and  templates to inject internal links pointing to , , and .
+    - If they ask you to fix the CI measurements first: Look into  around line 900+ to add  to Pa11y. Then inspect the  fetch logic to see why it isn't reading the GitHub secrets.</analysis>

@@ -561,6 +561,69 @@ async function getGa4Metrics(accessToken) {
     events[name] = Number(row.metricValues?.[0]?.value || 0);
   });
 
+  // ---- Query 4: per-page conversion rate (top entry pages, 28d) ----
+  // Drives the content-sprint targeting decision: which of the 51 pages
+  // convert >5% vs <1%? Tells the user exactly where rewrites earn the
+  // most lift. Wired up May 17, 2026 (replaces "next iteration" stub).
+  //
+  // Uses landingPagePlusQueryString (not just landingPage) so query-string
+  // variants (e.g. ?utm_source=...) roll up to the canonical path via the
+  // path-strip below. Min-session filter (≥ 50 sessions) suppresses noise
+  // from one-off entries; otherwise a single converting visit on a long-tail
+  // URL would dominate the leaderboard at 100% CR.
+  let perPageCr = null;
+  try {
+    const perPageBody = {
+      dateRanges: [{ startDate: '28daysAgo', endDate: 'today' }],
+      dimensions: [{ name: 'landingPagePlusQueryString' }],
+      metrics: [{ name: 'sessions' }, { name: 'conversions' }],
+      orderBys: [{ metric: { metricName: 'sessions' }, desc: true }],
+      limit: 50,
+    };
+    const r4 = await fetchWithTimeout(url, { method: 'POST', headers, body: JSON.stringify(perPageBody) });
+    if (r4.ok) {
+      const d4 = await r4.json();
+      const rows = (d4.rows || []).map((row) => {
+        const raw = row.dimensionValues?.[0]?.value || '';
+        // Strip query string + trailing slash → canonical path for grouping
+        const path = (raw.split('?')[0] || raw).replace(/\/$/, '') || '/';
+        const sessions = Number(row.metricValues?.[0]?.value || 0);
+        const conversions = Number(row.metricValues?.[1]?.value || 0);
+        const cr = sessions ? Math.round((conversions / sessions) * 1000) / 10 : 0;
+        return { path, sessions, conversions, cr };
+      });
+      // Roll up duplicate paths (different query strings) into one entry
+      const rolled = new Map();
+      for (const r of rows) {
+        const prev = rolled.get(r.path) || { sessions: 0, conversions: 0 };
+        rolled.set(r.path, {
+          sessions: prev.sessions + r.sessions,
+          conversions: prev.conversions + r.conversions,
+        });
+      }
+      const consolidated = Array.from(rolled.entries())
+        .map(([path, v]) => ({
+          path,
+          sessions: v.sessions,
+          conversions: v.conversions,
+          cr: v.sessions ? Math.round((v.conversions / v.sessions) * 1000) / 10 : 0,
+        }))
+        .filter((r) => r.sessions >= 50) // noise floor
+        .sort((a, b) => b.sessions - a.sessions);
+      const topByTraffic = consolidated.slice(0, 10);
+      const winners = [...consolidated].sort((a, b) => b.cr - a.cr).slice(0, 3);
+      const losers = [...consolidated]
+        .filter((r) => r.sessions >= 100) // higher floor for "losers" — avoid penalizing low-traffic pages
+        .sort((a, b) => a.cr - b.cr)
+        .slice(0, 3);
+      perPageCr = { topByTraffic, winners, losers, totalPages: consolidated.length };
+    } else {
+      perPageCr = { error: `ga4-per-page ${r4.status}` };
+    }
+  } catch (e) {
+    perPageCr = { error: e.message?.slice(0, 120) || 'per-page query failed' };
+  }
+
   const overallCr = totals.sessions ? Math.round((totals.conversions / totals.sessions) * 1000) / 10 : null;
   const formCr = totals.sessions
     ? Math.round(((events.generate_lead || events.form_submit_lead || 0) / totals.sessions) * 1000) / 10
@@ -581,6 +644,7 @@ async function getGa4Metrics(accessToken) {
     byDevice,
     parityDelta, // % gap
     events,
+    perPageCr,
     estimatorComplete: events.estimator_complete || 0,
     estimatorOptIn: events.estimator_opt_in || 0,
     // Funnel insight: % of users who completed the wizard that ALSO submitted the lead form.
@@ -634,7 +698,14 @@ async function getPa11y() {
           const warnings = issues.filter((i) => i.type === 'warning').length;
           return { url: p, errors, warnings, total: issues.length, codes: [...new Set(issues.map((i) => i.code))] };
         } catch {
-          return { url: p, error: e.message?.slice(0, 80) || 'pa11y failed' };
+          // True failure (chromium crash, network, timeout). Capture stderr +
+          // message so CI logs surface the actual cause instead of a 0/10 gray.
+          // Bumped from 80 → 400 chars (May 17, 2026) — prior truncation hid
+          // "Failed to launch the browser process" + the underlying syscall.
+          const stderr = (e.stderr || '').toString().trim();
+          const msg = (e.message || 'pa11y failed').toString().trim();
+          const detail = [stderr, msg].filter(Boolean).join(' | ').slice(0, 400);
+          return { url: p, error: detail || 'pa11y failed (no diagnostic)' };
         }
       }
     })
@@ -1065,7 +1136,14 @@ async function main() {
       detail: !pa11y.ok
         ? 'Pa11y runner unavailable (check Chromium availability in CI).'
         : pa11y.value.totals.pagesScanned === 0
-          ? `All ${pa11y.value.totals.pagesTotal} sample pages failed to scan — likely Chromium/network failure. Re-run or check pa11y logs.`
+          ? (() => {
+              // Surface the first real error reason so we can debug without
+              // pulling down workflow logs. Falls back to a generic hint.
+              const firstErr = pa11y.value.perPage.find((p) => p.error)?.error;
+              return firstErr
+                ? `All ${pa11y.value.totals.pagesTotal} pages failed. First diag: ${firstErr}`
+                : `All ${pa11y.value.totals.pagesTotal} sample pages failed to scan — likely Chromium/network failure.`;
+            })()
           : pa11y.value.totals.pagesFailed > 0
             ? `${pa11y.value.totals.pagesFailed} of ${pa11y.value.totals.pagesTotal} pages failed to scan; ${pa11y.value.totals.errors} errors across ${pa11y.value.totals.pagesScanned} scanned. Failed: ${pa11y.value.perPage.filter((p) => p.error).map((p) => p.url).slice(0, 3).join(', ')}`
             : pa11y.value.totals.errors
@@ -1355,10 +1433,31 @@ async function main() {
       id: 'per-page-cr',
       label: 'Per-page CR (top 10 entry pages)',
       target: 'top 3 ≥ 5%',
-      value: 'next iteration',
-      status: STATUS.GRAY,
-      source: 'GA4 Data API · landingPagePlusQueryString',
-      detail: 'Site-wide CR is the priority signal right now; per-page drill-down ships next iteration.',
+      value: ga4.ok && ga4.value.perPageCr && !ga4.value.perPageCr.error
+        ? (() => {
+            const p = ga4.value.perPageCr;
+            if (!p.totalPages) return 'no pages cleared 50-session floor';
+            const w = p.winners?.[0];
+            return w ? `top: ${w.path} @ ${w.cr}% (${p.totalPages} pages tracked)` : 'insufficient data';
+          })()
+        : (googleAccessToken ? (ga4.value?.perPageCr?.error || 'error') : 'GA4 token required'),
+      numericValue: ga4.ok && ga4.value.perPageCr?.winners?.length
+        ? ga4.value.perPageCr.winners[0].cr
+        : null,
+      status: ga4.ok && ga4.value.perPageCr && !ga4.value.perPageCr.error && ga4.value.perPageCr.winners?.length
+        ? (ga4.value.perPageCr.winners.filter((w) => w.cr >= 5).length >= 3 ? STATUS.GREEN
+            : ga4.value.perPageCr.winners.filter((w) => w.cr >= 3).length >= 3 ? STATUS.YELLOW
+            : STATUS.RED)
+        : STATUS.GRAY,
+      source: 'GA4 Data API · landingPagePlusQueryString (≥50 sessions, 28d)',
+      detail: ga4.ok && ga4.value.perPageCr && !ga4.value.perPageCr.error
+        ? (() => {
+            const p = ga4.value.perPageCr;
+            const winners = (p.winners || []).map((w) => `${w.path} ${w.cr}%`).join(' · ');
+            const losers = (p.losers || []).map((l) => `${l.path} ${l.cr}%`).join(' · ');
+            return `🏆 ${winners || 'none'} ｜ 🔻 ${losers || 'none'}`;
+          })()
+        : (ga4.value?.perPageCr?.error || 'Pending GA4 query — service account + property scope required.'),
     },
     {
       id: 'mobile-desktop-cr-parity',

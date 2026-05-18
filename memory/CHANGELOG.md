@@ -5,6 +5,32 @@
 
 
 ---
+## May 17, 2026 — Per-page CR, orphan-link restoration, Pa11y diag, cron migration
+
+### Shipped (agent)
+1. **`scripts/audit-kpis.mjs` · per-page-cr live** — replaced "next iteration" stub with a real GA4 query (`landingPagePlusQueryString` × sessions × conversions, 28d, ≥50-session noise floor). KPI now emits 🏆 top-3 winners + 🔻 bottom-3 losers with CR % and surfaces total pages tracked. Status thresholds: GREEN if ≥3 pages at ≥5% CR, YELLOW at ≥3%, RED otherwise. Routes the upcoming content sprint by traffic-weighted underperformance.
+2. **`scripts/audit-kpis.mjs` · Pa11y diagnostic capture** — error truncation bumped 80 → 400 chars and now concatenates `stderr | message` so CI logs surface the actual chromium failure (the previous truncation hid "Failed to launch the browser process" etc.). Per-page failures also surfaced in the WCAG card detail string.
+3. **`frontend/app/cities-served/[slug]/page.jsx` · orphan inbound links** — added `System Replacement & Upgrades` to `ALL_SERVICES` (28 new inbound links from city pages → `/services/system-replacement`) and added a two-card contextual block ("Should you repair or replace in {city}?" + "Free replacement estimate for {city} homes") providing inbound links to `/repair-or-replace` and `/replacement-estimator` from every city page. Restores crawl-weight previously starved out (footer-only).
+4. **`.github/workflows/sync-reviews.yml` · NEW** — daily 9 AM CT cron pings `/api/cron/sync-reviews` with `Authorization: Bearer $CRON_SECRET`, parses response for `reviewCount` + `driftAlert.drift`, surfaces both to the Actions notice banner. Supersedes Vercel scheduled function (`frontend/vercel.json` still has the cron — user can remove after first successful GH Actions run to avoid double-firing).
+
+### User next-steps unlocked
+- **#1 wire-up needs GA4 service account** (`GA4_SERVICE_ACCOUNT_JSON` + `GA4_PROPERTY_ID` GitHub Secrets). Until then the per-page-cr row reports "GA4 token required" — code is live, dimension is wired, only credentials missing.
+- **CRON_SECRET** must be added as a GitHub Repository Secret matching the Vercel value for sync-reviews to authenticate.
+- **Vercel cron in `frontend/vercel.json`** should be deleted by the user after the first green GH Actions sync-reviews run.
+
+### Reported back (not actioned)
+- **#4 Phone CTA rewrite** is a content/Sanity sprint, not an agent task. The phrase is hardcoded across `Header.jsx`, `ServiceFirstCTA.jsx`, `StickyMobileCTA.jsx`, `CompanyPageTemplate.jsx`, `app/financing/page.jsx`, `app/layout.js`, `app/thanks/page.jsx`, `app/faq/page.jsx`, `app/request-service/page.jsx` (no central constant). Centralizing it into a single Sanity siteSettings field is itself a separate ~30 min refactor — flagging for ROADMAP if you want it before the content rewrite.
+
+### Verification
+- `node --check scripts/audit-kpis.mjs` → SYNTAX OK
+- `node scripts/audit-kpis.mjs` (local, no creds) → clean exit, gray rows on missing keys (no crash)
+- `yarn build` (Next.js) → all 51 routes rebuilt in 32s, zero errors
+- Live curl `/cities-served/dallas` → confirms all 3 new testids (`city-cross-link-repair-or-replace`, `city-cross-link-replacement-estimator`, `city-service-link-system-replacement`) render in HTML
+- ESLint on city page → ✅ No issues found
+
+
+
+---
 ## May 14, 2026 (evening) — KPI dashboard cleanup + indexing reality patch
 
 ### Context
