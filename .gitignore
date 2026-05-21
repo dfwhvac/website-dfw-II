@@ -1,14 +1,3 @@
-I spotted these inside the conflict block — keep them:
-
-frontend/.next/cache/webpack/server-production/0.pack (pairs with the client-production/0.pack line right above)
-frontend/.next/cache/webpack/server-production/3.pack (another webpack pack chunk that appeared in git status at some point)
-The 3-line KPI auditor comment block:
-# KPI auditor — local-mode output (CI writes the canonical kpi-snapshot.json).
-# See scripts/audit-kpis.mjs for context on the merge-conflict fix.
-frontend/public/internal/kpi-snapshot.local.json
-Everything else in the conflict block (every -e line, every # Environment and credential files duplicate block) is hook-generated garbage. Discard.
-
-Paste this entire file (101 lines, end-to-end)
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # IDE and editors
@@ -41,7 +30,6 @@ next-env.d.ts
 # Production builds
 /build
 dist/
-dist
 
 # Environment and credential files
 .env
@@ -111,3 +99,4 @@ frontend/.next/cache/webpack/server-production/3.pack
 
 # KPI auditor — local-mode output (CI writes the canonical kpi-snapshot.json).
 # See scripts/audit-kpis.mjs for context on the merge-conflict fix.
+frontend/public/internal/kpi-snapshot.local.json
