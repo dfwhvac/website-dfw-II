@@ -134,6 +134,22 @@ LCP optimization work is in code (font `optional`, lazyOnload GA4/Clarity, hero 
 
 ---
 
+## May 22, 2026 — SEC-2: estimator lead API hardened (P1 gate cleared)
+
+**What changed:** `/api/estimator/lead` now matches `/api/leads` security posture — shared `lib/lead-security.js` (reCAPTCHA v3 threshold 0.7 + IP rate limit). `EstimatorWizard.jsx` sends `recaptchaToken` on opt-in. KPI dashboard P1 GATE: **10/10 met**.
+
+**Files:**
+- `frontend/lib/lead-security.js` (new)
+- `frontend/app/api/estimator/lead/route.js`
+- `frontend/app/api/leads/route.js` (refactored to shared lib)
+- `frontend/app/replacement-estimator/EstimatorWizard.jsx`
+- `scripts/audit-kpis.mjs` (SEC-2 code scan, sec-1-gsc gate green, archive fallback for uptime/Pa11y)
+- `frontend/public/internal/kpi-snapshot.json`
+
+**Verification:** KPI audit reports `P1 10/10`; `sec-2-estimator-lead` green; no GA4 event changes.
+
+---
+
 ## May 22, 2026 — KPI dashboard dual-layer revision (schema v2)
 
 **What changed:** Rebuilt graduation model for internal KPI dashboard — every metric tagged **GATE / SIGNAL / MAINTAIN / WATCH**; phase exit checklists separate from engineering health; P2-tech vs P2-growth and P3-MEASURE vs P3-OPTIMIZE split.

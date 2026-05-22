@@ -2,11 +2,15 @@ import { NextResponse } from 'next/server'
 import { MongoClient } from 'mongodb'
 import { Resend } from 'resend'
 import { v4 as uuidv4 } from 'uuid'
+import {
+  getClientIp,
+  isRateLimited,
+  verifyRecaptcha,
+  isRecaptchaBlocked,
+} from '@/lib/lead-security'
 
 // Dedicated lead endpoint for the /replacement-estimator soft opt-in.
-// Stripped-down version of /api/leads — no address, no reCAPTCHA,
-// no problemDescription. The estimator's own inputs ARE the lead
-// context, so they're saved alongside the contact fields.
+// SEC-2 (May 22, 2026): reCAPTCHA v3 + IP rate limit — parity with /api/leads.
 
 export const dynamic = 'force-dynamic'
 
@@ -15,7 +19,6 @@ const DB_NAME = process.env.DB_NAME || 'test_database'
 const RESEND_API_KEY = process.env.RESEND_API_KEY || ''
 const NOTIFICATION_EMAIL = process.env.NOTIFICATION_EMAIL || 'estimate@dfwhvac.com'
 
-// Preview-env guard (same pattern as /api/leads — skip Resend on non-prod)
 const IS_PRODUCTION_DEPLOY = process.env.VERCEL_ENV === 'production'
 const FORCE_PREVIEW_EMAIL = process.env.FORCE_LEAD_EMAIL_IN_PREVIEW === 'true'
 const SHOULD_SEND_LEAD_EMAIL = IS_PRODUCTION_DEPLOY || FORCE_PREVIEW_EMAIL
@@ -40,8 +43,16 @@ function escapeHtml(str) {
 
 export async function POST(request) {
   try {
+    const ip = getClientIp(request)
+    if (isRateLimited(ip)) {
+      return NextResponse.json(
+        { error: 'Too many submissions. Please try again later or call us directly.' },
+        { status: 429 }
+      )
+    }
+
     const body = await request.json()
-    const { firstName, phone, email, estimate, inputs } = body || {}
+    const { firstName, phone, email, estimate, inputs, recaptchaToken } = body || {}
 
     if (!firstName || !phone) {
       return NextResponse.json(
@@ -56,6 +67,9 @@ export async function POST(request) {
       )
     }
 
+    const recaptcha = await verifyRecaptcha(recaptchaToken)
+    const isBlocked = isRecaptchaBlocked(recaptcha)
+
     const leadId = uuidv4()
     const leadDoc = {
       _leadId: leadId,
@@ -67,20 +81,20 @@ export async function POST(request) {
       estimateHigh: estimate.high,
       estimateTonnage: estimate.tonnage || null,
       wizardInputs: inputs || null,
-      status: 'new',
+      status: isBlocked ? 'blocked' : 'new',
+      recaptchaScore: recaptcha.score,
+      recaptchaSkipped: recaptcha.skipped,
       createdAt: new Date(),
     }
 
-    // Persist to MongoDB — even on preview, so the pipeline is verifiable
     const client = await getMongoClient()
     await client.db(DB_NAME).collection('leads').insertOne({ ...leadDoc })
 
-    // Email notification (production only; preview skips — same guard as /api/leads)
     if (!SHOULD_SEND_LEAD_EMAIL) {
       console.log(
-        `[estimator/lead][${process.env.VERCEL_ENV || 'local'}] Skipping Resend. leadId=${leadId} name=${leadDoc.firstName} range=$${leadDoc.estimateLow}-${leadDoc.estimateHigh}`
+        `[estimator/lead][${process.env.VERCEL_ENV || 'local'}] Skipping Resend. leadId=${leadId} name=${leadDoc.firstName} range=$${leadDoc.estimateLow}-${leadDoc.estimateHigh} blocked=${isBlocked}`
       )
-    } else if (RESEND_API_KEY) {
+    } else if (RESEND_API_KEY && !isBlocked) {
       try {
         const resend = new Resend(RESEND_API_KEY)
         const html = `
@@ -119,6 +133,10 @@ export async function POST(request) {
       } catch (emailErr) {
         console.error('[estimator/lead] Resend failed (lead still saved):', emailErr)
       }
+    } else if (isBlocked) {
+      console.log(
+        `[estimator/lead] Blocked spam submission leadId=${leadId} score=${recaptcha.score}`
+      )
     }
 
     return NextResponse.json({ success: true, leadId })

@@ -3,6 +3,13 @@ import { MongoClient } from 'mongodb'
 import { Resend } from 'resend'
 import { v4 as uuidv4 } from 'uuid'
 import { getCompanyInfo } from '@/lib/sanity'
+import {
+  getClientIp,
+  isRateLimited,
+  verifyRecaptcha,
+  isRecaptchaBlocked,
+  RECAPTCHA_THRESHOLD,
+} from '@/lib/lead-security'
 
 const LICENSE_NUMBER_FALLBACK = 'TACLB00136968E'
 
@@ -10,12 +17,10 @@ const MONGO_URL = process.env.MONGO_URL || process.env.MONGODB_URI
 const DB_NAME = process.env.DB_NAME || 'test_database'
 const RESEND_API_KEY = process.env.RESEND_API_KEY || ''
 const NOTIFICATION_EMAIL = process.env.NOTIFICATION_EMAIL || 'support@dfwhvac.com'
-const RECAPTCHA_SECRET_KEY = process.env.RECAPTCHA_SECRET_KEY || ''
 // SEC-1 B1 (May 14, 2026): bumped 0.4 → 0.7. Stricter spam gate. False positives
 // still route to the "[BLOCKED] Possible Spam Lead" review email (human-in-the-loop),
 // so legitimate customers caught by the gate are not lost — they're just reviewed
 // before being acted on. See ROADMAP SEC-1 Phase B for rationale.
-const RECAPTCHA_THRESHOLD = 0.7
 
 // Preview-env guard (Apr 24, 2026). Vercel sets VERCEL_ENV to 'production' |
 // 'preview' | 'development'. On non-production (preview branches, local dev) we
@@ -26,23 +31,6 @@ const RECAPTCHA_THRESHOLD = 0.7
 const IS_PRODUCTION_DEPLOY = process.env.VERCEL_ENV === 'production'
 const FORCE_PREVIEW_EMAIL = process.env.FORCE_LEAD_EMAIL_IN_PREVIEW === 'true'
 const SHOULD_SEND_LEAD_EMAIL = IS_PRODUCTION_DEPLOY || FORCE_PREVIEW_EMAIL
-
-// In-memory rate limiter: max 5 submissions per IP per 15 minutes
-const RATE_LIMIT_MAX = 5
-const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000
-const rateLimitMap = new Map()
-
-function isRateLimited(ip) {
-  const now = Date.now()
-  const entry = rateLimitMap.get(ip)
-  if (!entry || now - entry.windowStart > RATE_LIMIT_WINDOW_MS) {
-    rateLimitMap.set(ip, { windowStart: now, count: 1 })
-    return false
-  }
-  entry.count++
-  if (entry.count > RATE_LIMIT_MAX) return true
-  return false
-}
 
 // Email routing configuration
 const LEAD_EMAIL_CONFIG = {
@@ -71,31 +59,6 @@ async function getMongoClient() {
   if (!MONGO_URL) throw new Error('MONGO_URL not configured')
   cachedClient = await new MongoClient(MONGO_URL).connect()
   return cachedClient
-}
-
-// Verify reCAPTCHA token with Google
-async function verifyRecaptcha(token) {
-  if (!RECAPTCHA_SECRET_KEY) {
-    // Secret key not configured — skip verification entirely
-    return { success: true, score: 1.0, skipped: true }
-  }
-  if (!token) {
-    // No token provided (bot skipping, ad blocker, or very old browser) — flag as blocked
-    return { success: false, score: 0, skipped: false }
-  }
-  try {
-    const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: `secret=${RECAPTCHA_SECRET_KEY}&response=${token}`,
-    })
-    const data = await response.json()
-    return { success: data.success, score: data.score || 0, skipped: false }
-  } catch (error) {
-    console.error('reCAPTCHA verification failed (network error):', error)
-    // Graceful fallback: allow submission if Google is unreachable
-    return { success: true, score: 1.0, skipped: true }
-  }
 }
 
 // Escape HTML to prevent XSS in email templates
@@ -222,7 +185,7 @@ function buildEmailHtml({ lead, leadId, fullName, actionText, highlightColor, em
 export async function POST(request) {
   try {
     // Rate limiting by IP
-    const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
+    const ip = getClientIp(request)
     if (isRateLimited(ip)) {
       return NextResponse.json(
         { success: false, message: 'Too many submissions. Please try again later or call us directly.' },
@@ -256,7 +219,7 @@ export async function POST(request) {
 
     // Verify reCAPTCHA
     const recaptcha = await verifyRecaptcha(lead.recaptchaToken)
-    const isBlocked = !recaptcha.skipped && (!recaptcha.success || recaptcha.score < RECAPTCHA_THRESHOLD)
+    const isBlocked = isRecaptchaBlocked(recaptcha)
 
     const leadId = uuidv4()
     const fullName = `${lead.firstName} ${lead.lastName}`

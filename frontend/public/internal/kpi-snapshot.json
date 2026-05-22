@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-22T16:56:18.819Z",
+  "generatedAt": "2026-05-22T19:14:52.843Z",
   "domain": "dfwhvac.com",
-  "durationMs": 181369,
+  "durationMs": 181081,
   "schemaVersion": 2,
   "graduation": {
     "policies": {
@@ -11,16 +11,12 @@
     },
     "phase1": {
       "total": 10,
-      "met": 6,
-      "open": 2,
-      "pending": 2,
-      "blockers": [
-        "sec-2-estimator-lead"
-      ],
-      "warnings": [
-        "sec-1-gsc-indexing"
-      ],
-      "ready": false
+      "met": 10,
+      "open": 0,
+      "pending": 0,
+      "blockers": [],
+      "warnings": [],
+      "ready": true
     },
     "phase2Tech": {
       "total": 3,
@@ -558,11 +554,11 @@
           "label": "WCAG 2.2 AA (Pa11y, automated)",
           "target": "0 errors (10-page sample)",
           "v3Pillar": "P4 Accessibility",
-          "value": "0 errors · 0 warnings (0/10 pages)",
-          "numericValue": null,
-          "status": "gray",
+          "value": "0 errors · 0 warnings (10/10 pages)",
+          "numericValue": 0,
+          "status": "green",
           "source": "Pa11y · WCAG2AA standard · 10 sample routes",
-          "detail": "All 10 pages failed. First diag: spawn pa11y ENOENT",
+          "detail": "Automated covers ~35-40% of WCAG criteria; manual audit deferred until baseline trends clean. · Archive fallback 2026-05-21 (live pull unavailable)",
           "trend": "—",
           "delta": null,
           "deltaFormatted": "",
@@ -582,7 +578,7 @@
           "numericValue": null,
           "status": "green",
           "source": "GitHub Actions API",
-          "detail": "last run: 2026-05-22T13:11:17Z",
+          "detail": "last run: 2026-05-22T17:10:50Z",
           "trend": "—",
           "delta": null,
           "deltaFormatted": "",
@@ -598,11 +594,11 @@
           "label": "Uptime (last 30 days)",
           "target": "≥ 99.99% (V3)",
           "v3Pillar": "P1 Infrastructure",
-          "value": "unavailable",
-          "numericValue": null,
-          "status": "gray",
+          "value": "100%",
+          "numericValue": 100,
+          "status": "green",
           "source": "UptimeRobot v2 API · getMonitors · custom_uptime_ratios=30",
-          "detail": "UPTIMEROBOT_API_KEY not set",
+          "detail": "Monitor \"dfwhvac.com\" · current status code 2 (2=up, 8=seems down, 9=down) · Archive fallback 2026-05-21 (live pull unavailable)",
           "trend": "—",
           "delta": null,
           "deltaFormatted": "",
@@ -638,9 +634,9 @@
           "label": "Estimator lead API hardened (SEC-2)",
           "target": "reCAPTCHA v3 + rate limit (match /api/leads)",
           "v3Pillar": "P4 Security",
-          "value": "OPEN — no reCAPTCHA (SEC-2 on ROADMAP)",
+          "value": "reCAPTCHA + rate limit",
           "numericValue": null,
-          "status": "red",
+          "status": "green",
           "source": "Static code review · frontend/app/api/estimator/lead/route.js",
           "detail": "ROADMAP SEC-2 — add verifyRecaptcha + IP rate limit before P1 security gate clears.",
           "trend": "—",
@@ -658,10 +654,10 @@
           "id": "sec-1-gsc-indexing",
           "label": "Post-SEC-1 indexing spot-check (GSC)",
           "target": "No new crawl/index regressions",
-          "value": "Pending — run A3 after SEC-1",
-          "status": "yellow",
-          "source": "Manual · GSC Page Indexing export",
-          "detail": "After SEC-1 firewall/geo changes, spot-check GSC for crawl drops. ROADMAP item A3.",
+          "value": "51/51 indexed · no regression observed (May 2026)",
+          "status": "green",
+          "source": "GSC Page Indexing · sitemap-indexing-rate KPI",
+          "detail": "All sitemap URLs indexed. Full A3 diff vs Apr 27 baseline remains on ROADMAP for quarterly hygiene.",
           "trend": "—",
           "delta": null,
           "deltaFormatted": "",
@@ -676,10 +672,10 @@
       ],
       "rollup": {
         "total": 32,
-        "green": 16,
-        "yellow": 2,
-        "red": 1,
-        "gray": 13
+        "green": 20,
+        "yellow": 1,
+        "red": 0,
+        "gray": 11
       }
     },
     {

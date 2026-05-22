@@ -1,6 +1,6 @@
 # DFW HVAC — Roadmap
 
-**Last reviewed:** May 21, 2026 (gap-fill: S3-AEO, P3-BASELINE, SEC-2, P5-LAUNCH-GATE)
+**Last reviewed:** May 22, 2026 (SEC-2 shipped; P1 gate cleared)
 **⚠️ Read `memory/00_START_HERE.md` first for the Agent SOP.**
 
 > **Future work only.** Shipped history → [`CHANGELOG.md`](CHANGELOG.md) (baseline: May 21, 2026). Pre-reset agent logs → [`CHANGELOG-legacy-pre-2026-05-21.md`](CHANGELOG-legacy-pre-2026-05-21.md).
@@ -37,7 +37,8 @@ Advance when the previous layer’s KPIs are measured and trending — not when 
 | P3 → P4 | **P3-BASELINE** | Key events live (G3–G6); 30d rolling baselines captured for form + phone + thanks + estimator; monthly review shows CR not regressing | GA4 + `POST_DEPLOY_ACTION_ITEMS_PR2.md` |
 | P2 AEO | **S3-AEO** | **5+ of 20** baseline queries cite DFW HVAC across engines by **Sep 1, 2026** | `audits/2026-02-28_AEO_Citation_Baseline.md` |
 | P4 → P5 | **P5-LAUNCH-GATE** | All prerequisites in P5 section green; **≥60 days** of key-event data (stretch: 80+ days to ad target) | GA4 + CallRail + dry-run checklist |
-| P1 security | **SEC-2** | Estimator lead endpoint parity with `/api/leads` (reCAPTCHA + rate limit) | Code review + spam test |
+
+SEC-2 (estimator `/api/estimator/lead` hardening) shipped May 22, 2026 → see `CHANGELOG.md`.
 
 ---
 
@@ -48,24 +49,23 @@ Pick from the top. When an item ships, remove it here and add a dated entry to `
 | # | ID | Item | Owner | Effort |
 |---|---|---|---|---|
 | 1 | **SEC-1** | Security & data-hygiene — replace deleted geo-block firewall; GA4/Clarity non-US filters; Sanity 2FA audit; optional rate-limit + `/studio` IP allowlist | User + agent | ~30 min user + small PR |
-| 2 | **SEC-2** | Harden `POST /api/estimator/lead` — add reCAPTCHA v3 + rate limit (match `/api/leads` posture); document in `GA4_EVENTS.md` if events change | Agent | 1–2 hr |
-| 3 | **P3-BASELINE** | Conversion measurement program — finish GA4 key events (G4 `phone_click`, G5 `thanks_page_view`, G6 `estimator_opt_in`); snapshot 7d/30d/60d rates; monthly CR review vs KPI dashboard | User + agent | 1 hr setup + 30 min/mo |
-| 4 | **P1.8** | Google Business Profile audit + optimization (verified; needs ongoing Posts/Q&A/photos) | User-led | 20 min + 4 hr initial |
-| 5 | **S3-AEO** | Run quarterly AEO citation audit (20 queries × 4 engines); log results in `audits/2026-02-28_AEO_Citation_Baseline.md` — **next due May 31, 2026** | User-led | 2–3 hr/qtr |
-| 6 | **F3b** | HSTS Preload List submission (`hstspreload.org`) | User | 10 min |
-| 7 | **F12** | GitHub Actions Node 20 → 24 (Dependabot PR or manual bump) | User or agent | 5–10 min |
-| 8 | **P1.6f** | Rich Results validation on 7 high-value URLs | User | 30 min |
-| 9 | **A3** | GSC re-audit — diff vs Apr 27 indexing baseline | User + agent | 40 min |
-| 10 | **P1.10** | Progressive form redesign (2-field → expand) | Agent | 4–6 hr — **hold until Clarity baseline ~Jun 3, 2026** (14d after May 13 CSP fix) |
-| 11 | **P1.9b** | Review badge in every page hero (currently partial) | Agent | 2 hr |
-| 12 | **P1.9c** | Inline review carousel near every form (currently partial) | Agent | 2 hr |
-| 13 | **C4** | Form abandonment tracking — GA4 on field blur | Agent | 1 hr |
-| 14 | **P2.19-scope** | CallRail vs Twilio DNI **decision** (not build) — **required before P5-LAUNCH-GATE** | User | 30 min |
-| 15 | **C3** | Estimator pricing matrix — real DFW numbers | User → agent | 1 hr — **blocked on user sheet** |
-| 16 | **P1.16-url** | Wisetack live merchant URL (`NEXT_PUBLIC_WISETACK_APPLY_URL`) | User | 5 min |
-| 17 | **P2.23** | `@sanity/image-url` → `createImageUrlBuilder` named export | Agent | 10 min |
-| 18 | **P2.20** | LCP push — code levers shipped; **target &lt;1.25s not met** (~2.7s mobile PSI May 2026) | Agent | As needed |
-| 19 | **F13** | Architecture foundation re-audit (quarterly) | Agent | 3.5 hr — due **Aug 4, 2026** |
+| 2 | **P3-BASELINE** | Conversion measurement program — finish GA4 key events (G4 `phone_click`, G5 `thanks_page_view`, G6 `estimator_opt_in`); snapshot 7d/30d/60d rates; monthly CR review vs KPI dashboard | User + agent | 1 hr setup + 30 min/mo |
+| 3 | **P1.8** | Google Business Profile audit + optimization (verified; needs ongoing Posts/Q&A/photos) | User-led | 20 min + 4 hr initial |
+| 4 | **S3-AEO** | Run quarterly AEO citation audit (20 queries × 4 engines); log results in `audits/2026-02-28_AEO_Citation_Baseline.md` — **next due May 31, 2026** | User-led | 2–3 hr/qtr |
+| 5 | **F3b** | HSTS Preload List submission (`hstspreload.org`) | User | 10 min |
+| 6 | **F12** | GitHub Actions Node 20 → 24 (Dependabot PR or manual bump) | User or agent | 5–10 min |
+| 7 | **P1.6f** | Rich Results validation on 7 high-value URLs | User | 30 min |
+| 8 | **A3** | GSC re-audit — diff vs Apr 27 indexing baseline | User + agent | 40 min |
+| 9 | **P1.10** | Progressive form redesign (2-field → expand) | Agent | 4–6 hr — **hold until Clarity baseline ~Jun 3, 2026** (14d after May 13 CSP fix) |
+| 10 | **P1.9b** | Review badge in every page hero (currently partial) | Agent | 2 hr |
+| 11 | **P1.9c** | Inline review carousel near every form (currently partial) | Agent | 2 hr |
+| 12 | **C4** | Form abandonment tracking — GA4 on field blur | Agent | 1 hr |
+| 13 | **P2.19-scope** | CallRail vs Twilio DNI **decision** (not build) — **required before P5-LAUNCH-GATE** | User | 30 min |
+| 14 | **C3** | Estimator pricing matrix — real DFW numbers | User → agent | 1 hr — **blocked on user sheet** |
+| 15 | **P1.16-url** | Wisetack live merchant URL (`NEXT_PUBLIC_WISETACK_APPLY_URL`) | User | 5 min |
+| 16 | **P2.23** | `@sanity/image-url` → `createImageUrlBuilder` named export | Agent | 10 min |
+| 17 | **P2.20** | LCP push — code levers shipped; **target &lt;1.25s not met** (~2.7s mobile PSI May 2026) | Agent | As needed |
+| 18 | **F13** | Architecture foundation re-audit (quarterly) | Agent | 3.5 hr — due **Aug 4, 2026** |
 
 ---
 
@@ -81,8 +81,6 @@ Pick from the top. When an item ships, remove it here and add a dated entry to `
 | SEC-1-B2 | Rate-limit `/api/leads` — Vercel Firewall (F1) or Upstash (F2) | User picks | reCAPTCHA `0.7` already shipped |
 | SEC-1-B3 | IP-allowlist `/studio` | User picks G1/G2 + IPs | |
 | SEC-1-C | Post-deploy: GSC re-request indexing; KPI crawl-to-index check | User + agent | |
-| **SEC-2** | **`/api/estimator/lead` hardening** — reCAPTCHA v3 (same threshold as `/api/leads`), rate limit (F1 or F2), optional honeypot; update `EstimatorWizard.jsx` to send token | Agent | Today: no reCAPTCHA (see `app/api/estimator/lead/route.js` header comment) |
-| SEC-2-verify | Spam test: scripted POST without token → expect 4xx; valid wizard opt-in → 2xx + MongoDB row | Agent | After SEC-2 ships |
 | GCP-CLEANUP | Revoke abandoned GA4 service-account keys + org policy revert | User | `GCP_PRIVILEGE_CLEANUP.md` — ~5–8 min |
 | F3b | HSTS preload submission | User | Eligibility verified |
 | F12 | Node 24 in GitHub Actions | User/agent | Soft deadline Jun 2026 |

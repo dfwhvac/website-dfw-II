@@ -175,6 +175,13 @@ export default function EstimatorWizard() {
     setLeadSubmitting(true)
     setLeadError(null)
     try {
+      let recaptchaToken = ''
+      if (typeof window !== 'undefined' && window.grecaptcha) {
+        recaptchaToken = await window.grecaptcha.execute(
+          process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
+          { action: 'estimator_opt_in' }
+        )
+      }
       const res = await fetch('/api/estimator/lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -184,6 +191,7 @@ export default function EstimatorWizard() {
           email: leadForm.email.trim() || null,
           estimate: result,
           inputs: answers,
+          recaptchaToken,
         }),
       })
       if (!res.ok) {
