@@ -1,703 +1,184 @@
 # DFW HVAC — Roadmap
 
-**Last reviewed:** May 4, 2026
-**⚠️ Read `/app/memory/00_START_HERE.md` first for the Agent SOP.**
-**Source of truth for design decisions:** `/app/design_guidelines.md`
-**Companion files:** `CHANGELOG.md` (shipped items), `RECURRING_MAINTENANCE.md` (ongoing cadences), `audits/` (KPI baselines).
+**Last reviewed:** May 21, 2026
+**⚠️ Read `memory/00_START_HERE.md` first for the Agent SOP.**
 
-This file contains ONLY future-facing work, organized strictly by the 5-priority business framework.
+> **Future work only.** Shipped history → [`CHANGELOG.md`](CHANGELOG.md) (baseline: May 21, 2026). Pre-reset agent logs → [`CHANGELOG-legacy-pre-2026-05-21.md`](CHANGELOG-legacy-pre-2026-05-21.md).
 
-> **🔒 Security posture (May 4, 2026):** Incident CLOSED. All credentials flagged
-> by `gitleaks` (Sanity, Mongo, Resend, Google Places ×2, reCAPTCHA ×2,
-> CRON_SECRET, Emergent Universal Key, ORS) rotated/revoked. `.gitleaksignore`
-> published with 43 documented historical fingerprints. CI gate passing green
-> on `main` (Run #68, May 4). Eight one-off Python scripts that hardcoded keys
-> deleted from repo root. Going forward, any **new** leak still fails the build.
-
-> **🎯 Active Execution Priority (May 4, 2026 strategic re-evaluation):** The
-> 5-tier priority framework below remains the strategic structure, but
-> **near-term execution order has been re-ranked against the project goal of
-> "organic traffic that converts"** — see `## 🚀 Active Execution Order` block
-> immediately below the priority framework. F10 (Sanity v5) was the previously
-> documented #1; it has been pushed to **Tier 4 (focused single-purpose
-> session)** because it earns no user-facing KPI and the conversion-uplift
-> Phase 3 quick wins ship faster (~4 hrs total) and serve the project goal
-> directly.
+**Design source of truth:** `design_guidelines.md`  
+**GA4 event names:** `GA4_EVENTS.md` (code registry — do not invent events in this file)
 
 ---
 
-## 🎯 Priority Framework (adopted Apr 27, 2026)
+## One-line goal
 
-The site goal is **organic traffic that converts**, with paid ads as a force multiplier on a foundation-strong site, NOT a substitute for one. Each priority is a discrete layer; advance only after the previous layer's KPI baseline is captured and healthy.
+**Organic traffic that converts**, with paid ads as a force multiplier after measurement and conversion foundations are honest.
+
+---
+
+## Priority framework
 
 | Priority | Layer | Outcome |
 |---|---|---|
-| **P1** | High-Performing Website Foundation | Site loads fast, never breaks, fully accessible, mobile-perfect, zero architectural debt. |
-| **P2** | Best-in-class SEO + AEO | Maximum organic discoverability across Google, Google AI Overviews, ChatGPT, Perplexity, Gemini, GBP, Bing, Apple Maps. |
-| **P3** | Conversion Optimization | Highest possible % of visitors take a conversion action (form, phone, estimator, financing). |
-| **P4** | Ad-Measurable Infrastructure | Every conversion path attributable; pre-launch campaign infrastructure ready. |
-| **P5** | Launch + Track Ads | Spend live; optimize ruthlessly on ground-truth data. |
+| **P1** | High-performing foundation | Fast, accessible, secure, mobile-perfect |
+| **P2** | SEO + AEO | Discoverability (Google, GBP, AI crawlers, Bing/Apple) |
+| **P3** | Conversion optimization | More form submits + phone clicks per session |
+| **P4** | Ad-measurable infrastructure | Attribution before ad spend |
+| **P5** | Launch + track ads | Spend live on ground-truth data |
 
-Each priority requires its own KPI baseline + reevaluation cadence. See `/app/memory/audits/2026-04-27_KPI_Baseline.md` (to be created in Phase 1).
+Advance when the previous layer’s KPIs are measured and trending — not when docs say a tier is “complete.”
 
 ---
 
-## 🚀 Active Execution Order (re-ranked May 4, 2026 · Tier 1 ✅ COMPLETE)
+## Active execution queue
 
-The 5-tier framework above defines **strategic phases**. This block defines **near-term execution order**, re-ranked against the project goal ("organic traffic that converts") rather than ticket-cleanliness. **Pick from the top of this list each session.** When a tier is exhausted, drop down. Each item links to its full detail in the Phase tables below.
+Pick from the top. When an item ships, remove it here and add a dated entry to `CHANGELOG.md`.
 
-### ✅ Tier 1 — Phase 3 Quick-Wins Sprint COMPLETE (May 4, 2026)
-
-Outcome: 3 shipped, 2 struck after audit, F13 architecture audit unlocked an additional 4 fixes.
-
-| # | ID | Item | Outcome |
-|---|---|---|---|
-| 1 | C7 | "What happens next" copy under every form | ❌ STRUCK after audit revealed 5 existing expectation-setting touchpoints (form description, trust signals, success toast, /thanks page, customer auto-reply email) — would have been ~80% redundant |
-| 2 | C8 | "🔒 Secured" footer trust microcopy with `lucide-react` Lock icon | ✅ Shipped May 4 — Lock icon + "Your information is secure" link → /privacy-policy |
-| 3 | C2 | Click-to-call CTA placement audit | ✅ PASS May 4 — phone reachable in <3s on every mobile page across 5 user states. Audit doc: `audits/2026-05-04_C2_Click_To_Call_Mobile_Reachability.md` |
-| 4 | C6 | Mobile sticky-CTA conversion segment in GA4 | ✅ Shipped May 4 — `cta_source` parameter added to `phone_click` event; 7 surfaces tagged (sticky_mobile_cta, header_topbar_link/cta, header_desktop_cta, header_mobile_menu, footer, inline) |
-| 5 | P1.9e | Footer trust signals (license, BBB, family-owned, 145+ reviews) | ❌ STRUCK — judged unnecessary; license # already shipped via C8 work |
-
-**Bonus shipped via F13 Architecture Foundation Audit (May 4, 2026):**
-
-| ID | Item | Outcome |
-|---|---|---|
-| **F13** | Architecture Foundation Audit (8 of 9 layers, ~3.5 hrs sitewide) | ✅ Baseline established. Full report: `audits/2026-05-04_F13_Architecture_Foundation.md`. Net verdict: 93% → 99% post-fixes. Quarterly re-audit due Aug 4, 2026. |
-| **F13-P0.1** | 🔥 CSP was blocking Microsoft Clarity sitewide | ⚠️ PARTIAL FIX May 4 — added `clarity.ms` + `c.clarity.ms` to script-src/connect-src, but **missed `scripts.clarity.ms` (the actual runtime subdomain)**. PSI desktop audit on May 12 still showed CSP block on `scripts.clarity.ms/0.8.64/clarity.js`. ✅ **REAL FIX May 13** — consolidated to `*.clarity.ms` wildcard in script-src + img-src. **Clarity collected ZERO data May 4 → May 13.** 14-day baseline clock restarts May 13, 2026 → complete May 27, 2026. |
-| **F13-P1.1** | TBT regression on 6 pages (worst: heating 901ms TBT) | ✅ ROOT CAUSE FIXED May 4 — switched GA4 + Clarity `<Script>` strategy from `afterInteractive` → `lazyOnload`. Estimated 200–500ms TBT improvement sitewide. Reverify in next monthly Lighthouse cadence (May 27). |
-| **F13-P1.2** | Schema gaps on /financing + /faq | ✅ SHIPPED May 4 — `/financing` now emits BreadcrumbList + LocalBusiness + custom Offer schema (Wisetack 0% APR program). `/faq` now emits FAQPage + LocalBusiness + Breadcrumb. |
-| **F13-P1.3** | HTML validation errors (3 of 4 fixed) | ✅ MOSTLY FIXED May 4 — heading hierarchy h1→h3 fixed in ServiceTemplate; `<div>` inside `<button>` fixed in EstimatorWizard; broken `<label htmlFor>` fixed in LeadForm. Empty `<option>` documented as Radix UI false positive. |
-
-### 🟠 Tier 2 — User-led, blocking-clock items (NOW FIRST UP — start within 7 days)
-
-| # | ID | Item | Effort | Why this tier |
+| # | ID | Item | Owner | Effort |
 |---|---|---|---|---|
-| 1 | **SEC-1** | **🆕 Security & data-hygiene refactor (replace geo-block firewall rule with surgical controls)** — Multi-step playbook below. **Why this tier:** the deleted Vercel Firewall "Block Non-US Traffic" rule was likely 403-ing Googlebot (KPI shows Crawl-to-Index 0%); replacing it with surgical controls hardens the actual threats without the SEO blast radius. | ~30 min user + small code PR (agent) | P1/P2 — SEO recovery + security hardening |
-| 2 | **P1.8** | **Google Business Profile audit + optimization** (already verified per user May 4) | 20 min user (admin screenshots) + agent audit + 4 hrs initial fix-list ship + 30 min/wk ongoing | GBP impressions = 30–50% of total search visibility for local-service businesses; 60-day optimization compounding window only starts after Posts/photos/Q&A baseline established |
-| 3 | **F3b** | HSTS Preload List submission (hstspreload.org) | 10 min user | One-way ratchet. 30-day eligibility already verified. Permanent commitment to HTTPS-only (Vercel guarantees this anyway). |
-| 4 | **F12** | GitHub Actions Node 20→24 bump | 5 min user (one-click merge of next Dependabot reopen) | Soft deadline June 2026; with gitleaks now passing, Dependabot's PRs are one-click mergeable. |
-| 5 | **P1.6f** | Rich Results validation on 7 high-value URLs | 30 min user | Confirms FAQPage / WebApplication / HowTo / Service / LocalBusiness / BreadcrumbList / Offer (new) schema. |
-| 6 | **A3** | May 5 GSC re-audit (diff against Apr 27 baseline) | 10 min user + 30 min agent | Confirms commercial-cooling/maintenance content patches + legacy URL redirects cleared. |
+| 1 | **SEC-1** | Security & data-hygiene — replace deleted geo-block firewall; GA4/Clarity non-US filters; Sanity 2FA audit; optional rate-limit + `/studio` IP allowlist | User + agent | ~30 min user + small PR |
+| 2 | **P1.8** | Google Business Profile audit + optimization (verified; needs ongoing Posts/Q&A/photos) | User-led | 20 min + 4 hr initial |
+| 3 | **F3b** | HSTS Preload List submission (`hstspreload.org`) | User | 10 min |
+| 4 | **F12** | GitHub Actions Node 20 → 24 (Dependabot PR or manual bump) | User or agent | 5–10 min |
+| 5 | **P1.6f** | Rich Results validation on 7 high-value URLs | User | 30 min |
+| 6 | **A3** | GSC re-audit — diff vs Apr 27 indexing baseline | User + agent | 40 min |
+| 7 | **P1.10** | Progressive form redesign (2-field → expand) | Agent | 4–6 hr — **hold until Clarity baseline ~Jun 3, 2026** (14d after May 13 CSP fix) |
+| 8 | **P1.9b** | Review badge in every page hero (currently partial) | Agent | 2 hr |
+| 9 | **P1.9c** | Inline review carousel near every form (currently partial) | Agent | 2 hr |
+| 10 | **C4** | Form abandonment tracking — GA4 on field blur | Agent | 1 hr |
+| 11 | **P2.19-scope** | CallRail vs Twilio DNI **decision** (not build) | User | 30 min |
+| 12 | **C3** | Estimator pricing matrix — real DFW numbers | User → agent | 1 hr — **blocked on user sheet** |
+| 13 | **P1.16-url** | Wisetack live merchant URL (`NEXT_PUBLIC_WISETACK_APPLY_URL`) | User | 5 min |
+| 14 | **P2.23** | `@sanity/image-url` → `createImageUrlBuilder` named export | Agent | 10 min |
+| 15 | **P2.20** | LCP push — code levers shipped; **target &lt;1.25s not met** (~2.7s mobile PSI May 2026) | Agent | As needed |
+| 16 | **F13** | Architecture foundation re-audit (quarterly) | Agent | 3.5 hr — due **Aug 4, 2026** |
 
-#### SEC-1 — Detailed sub-steps
+---
 
-**Phase A — UI-only (no code, ~15 min user; do today)**
+## P1 — Foundation (open)
 
-| Sub | Step | Action | Status |
+| ID | Item | Owner | Notes |
 |---|---|---|---|
-| A1 | Delete the "Block Non-US Traffic" rule entirely from Vercel Firewall (don't leave it toggled off — delete it so it can't be re-enabled by accident) | User | 🔲 |
-| A2 | **DEFERRED** — Vercel Firewall → Bot Management → **Bot Protection**. Was briefly enabled May 16; immediately broke the KPI audit GitHub Action (non-browser runner gets challenged → audit fetches HTML challenge pages instead of real content → false-red across all on-site KPIs). **Re-enable only when:** (a) heavy agent-led build sessions wind down OR (b) GitHub Action runner IP is added to Vercel IP Bypass list OR (c) audit script switches to a User-Agent that Vercel verifies as a legitimate bot. Note: the same issue would silently corrupt any other non-browser tooling (cron health checks, uptime monitors, third-party crawlers). | User (deferred) | ⏸️ |
-| A3 | **DO NOT TURN ON** Vercel Firewall → Bot Management → **AI Bots** (would block GPTBot/ClaudeBot/PerplexityBot — the AEO crawlers we want) | User confirm | 🔲 |
-| A4 | GA4 → Admin → Data Streams → Configure tag → Define internal traffic → rule "Non-US Traffic" (Country ≠ United States) → Data Filters → Create filter (type: internal_traffic) → state: Active | User | 🔲 |
-| A5 | Microsoft Clarity → Settings → Filters → exclude all non-US countries (or include-only United States) | User | 🔲 |
-| A6 | Sanity → Members tab → confirm every Editor/Admin has 2FA enabled; remove stale members; tighten Roles | User | 🔲 |
+| SEC-1-A | Delete “Block Non-US Traffic” Vercel Firewall rule (not just disable) | User | See SEC-1 substeps in legacy ROADMAP / user actions |
+| SEC-1-A2 | Vercel Bot Protection | User | **Deferred** — broke KPI audit runner when enabled |
+| SEC-1-A4 | GA4 internal traffic filter (non-US) | User | |
+| SEC-1-A5 | Clarity geo filter (US only) | User | |
+| SEC-1-A6 | Sanity members 2FA + stale member cleanup | User | |
+| SEC-1-B2 | Rate-limit `/api/leads` — Vercel Firewall (F1) or Upstash (F2) | User picks | reCAPTCHA `0.7` already shipped |
+| SEC-1-B3 | IP-allowlist `/studio` | User picks G1/G2 + IPs | |
+| SEC-1-C | Post-deploy: GSC re-request indexing; KPI crawl-to-index check | User + agent | |
+| F3b | HSTS preload submission | User | Eligibility verified |
+| F12 | Node 24 in GitHub Actions | User/agent | Soft deadline Jun 2026 |
+| P2.4c | Lighthouse all-green on `/cities-served/plano` + `/request-service` | Agent | |
+| P2.7 | Unused dep audit (`depcheck`, dead `mockData.js`) | Agent | |
+| P2.15 | Component decomposition (templates &gt;300 lines) | Agent | |
+| P2.18 | `cacheComponents` migration | Agent | **Deferred** — see `P2.18_CACHE_COMPONENTS_SPIKE.md` |
+| P2.20 | LCP optimization (ongoing) | Agent | See `P2.20_LCP_OPTIMIZATION_PLAN.md` |
+| P2.23 | Sanity image-url deprecation fix | Agent | Warning-only today |
+| F7 | Lighthouse CI gate (optional) | Agent | |
+| P1.3 | Device QA matrix (iOS Safari, Android Chrome, autocomplete) | User | |
+| P1.6d | INP field measurement after CrUX qualifies | Agent | Site below CrUX threshold today |
+| INFRA-1 | Vercel DNS → per-tenant records (GoDaddy) | User | Low urgency; see legacy ROADMAP for record values |
 
-**Phase B — Code PR (agent ships once user picks options)**
+---
 
-| Sub | Step | Decision needed | Status |
+## P2 — SEO + AEO (open)
+
+| ID | Item | Owner | Cadence |
 |---|---|---|---|
-| B1 | Raise reCAPTCHA threshold from `0.4` → `0.7` in `app/api/leads/route.js:18` (existing "BLOCKED" review email keeps false positives in human-review loop) | None — recommended default | ✅ DONE May 14, 2026 |
-| B2 | Rate-limit `/api/leads` POST. **Option F1**: Vercel Firewall rate-limit rule (UI, no code, 5 req/min/IP). **Option F2**: `@upstash/ratelimit` + Vercel KV (code, sliding window, free tier). | Pick F1 or F2 | 🔲 |
-| B3 | IP-allowlist `/studio` to office/home only. **Option G1**: `next.config.js` redirect (code). **Option G2**: Vercel Firewall path rule (UI). User provides allowlisted IP(s). | Pick G1 or G2 + list IPs | 🔲 |
+| P1.6f | Rich Results Test on 7 URLs | User | Once |
+| A3 | GSC indexing re-audit | User + agent | Once, then monthly glance |
+| P1.8 | GBP optimization + weekly Posts | User | Ongoing |
+| P1.6e | Review response cadence | User | Ongoing |
+| P1.6b | City page unique body copy (28 cities) | Agent drafts → user | 1 city/wk |
+| P1.6c | Backlink audit + outreach | Agent + user | Quarterly |
+| P2.3 | NAP consistency audit | User-led | Semi-annual |
+| S4 | Programmatic SEO opportunity audit | Agent | Once |
+| S8 | Featured snippet audit | Agent | Quarterly |
+| S9 | Bing Webmaster + Apple Maps Connect | User | Once |
+| P2.9 | Blog launch (after city rewrites) | Agent + user | Deferred |
+| P2.2 | `/pricing` page | Agent | **Blocked** on user pricing data |
+| S10 | Competitor SEO audit | Agent | Quarterly |
+| P2.17 | Deprecate Sanity `metaTitle` field | Agent | Low |
+| F9 | Live KPI widget on `roadmap-preview.html` | Agent | After 7d RUM |
 
-**Phase C — Verify post-deploy (1–2 weeks, monitor)**
+**User-action queue:** `USER_ACTIONS_2026-02-28.md` (residual P1.6f, A3)
 
-| Sub | Step | Action | Status |
+---
+
+## P3 — Conversion (open)
+
+| ID | Item | Owner | Blocker |
 |---|---|---|---|
-| C1 | Re-run GSC "URL Inspection" on `/`, `/services/system-replacement`, `/cities-served/dallas` → click "Request Indexing" on each to force re-crawl now that the geo-block is removed | User | 🔲 |
-| C2 | After 7 days: trigger KPI audit → confirm Crawl-to-Index Ratio moves off 0% (target: ≥50% within 14 days, ≥75% within 28 days) | User + agent | 🔲 |
-| C3 | Vercel Firewall logs → spot-check weekly for any 403s on legitimate UAs (Googlebot, Bingbot, social unfurlers); add IPs to bypass list if false positives appear | User | 🔲 |
-| C4 | If Crawl-to-Index doesn't recover, escalate to a deeper RCA — possible alternate causes: Helpful Content algo, duplicate content, sitemap drift | Agent | 🔲 |
-| C5 | **🆕 Fix Pa11y in GitHub Action runner** — ✅ SHIPPED May 14, 2026. Added `Install Chromium OS dependencies (for Pa11y)` step to `.github/workflows/kpi-audit.yml` before the audit run (installs `libnss3 libxss1 libatk1.0-0 libatk-bridge2.0-0 libcups2 libxkbcommon-x11-0 libgtk-3-0 libgbm-dev libasound2t64` with fallback to legacy `libasound2` for older Ubuntu images). Verification: next scheduled or manual KPI audit run should report a numeric Pa11y count (e.g. "0/5 errors · X/5 pages") instead of the current gray "0/5 pages scanned" state. | Agent | ✅ |
+| P1.10 | Progressive form | Agent | Clarity baseline |
+| P1.9b | Hero review badges sitewide | Agent | — |
+| P1.9c | Carousel adjacent to all LeadForms | Agent | — |
+| C4 | Form abandonment events | Agent | — |
+| C3 | Real estimator pricing | User → agent | User sheet |
+| P1.16-url | Live Wisetack apply link | User | Merchant URL |
+| C5 | A/B testing framework | Agent | Optional |
+| P1.9d | City-filtered reviews page | Agent | — |
+| P2.10 | Lead magnets | Agent | Defer until P3 KPIs trend |
+| P2.13 | Exit intent | Agent | Defer |
+| P2.14 | Urgency signals | Agent | Defer |
+| P2.12 | SMS text-back | Agent | Post-ad-launch |
 
-### 🟡 Tier 3 — Next 2 weeks (medium effort, real impact)
-
-| # | ID | Item | Effort | Phase ref |
-|---|---|---|---|---|
-| 1 | **GA4-SVC-SETUP** | **🆕 GA4 + GSC service account setup (user-led, async)** — user follows `/app/memory/GA4_SERVICE_ACCOUNT_SETUP.md` Steps 1–7 (Google Cloud project, API enable, service-account JSON key, grant Viewer access to GA4 + GSC, paste env vars into Vercel). $0, ~15 min. | 15 min user | P2/P3 measurement enabler |
-| 2 | **GA4-SVC-VERIFY** | **🆕 GA4 + GSC service account walk-through (agent-led)** — once user replies "GA4 service account configured": agent verifies env vars present, makes test API calls to GA4 + GSC, confirms data returns, wires credentials into the audit script. | 30 min agent | Validation of #1 |
-| 3 | **KPI-DASH** | **🆕 Internal KPI dashboard** — single-page static dashboard at `/internal/kpi-dashboard.html`. Phase 1 KPIs auto-pulled by `scripts/audit-kpis.mjs`; Phase 2/3 KPIs auto-pulled if #2 complete (else scaffolded with token-requirement docs); Phases 4/5 scaffolded. Full scope in `/app/memory/KPI_DASHBOARD_SCOPE.md`. | 3 hrs agent | All phases (visualization layer) |
-| 4 | **P1.10** | Progressive form redesign (2-field → expand) | 4–6 hrs | **HOLD until May 27, 2026 minimum** (14 days of post-fix Clarity baseline data must accumulate first; the May 4 F13-P0.1 fix added `clarity.ms` but missed `scripts.clarity.ms` — the runtime subdomain — so Clarity continued collecting NOTHING. Second fix shipped May 13 with `*.clarity.ms` wildcard; **baseline clock restarts May 13, 2026**.) |
-| 5 | **P1.9b** | Review badge in every page hero | 2 hrs | P3.D |
-| 6 | **P1.9c** | Inline review carousel near every form | 2 hrs | P3.D |
-| 7 | **C4** | Form abandonment tracking — GA4 events on field-blur | 1 hr | P3.D |
-| 8 | **P2.19-scope** | CallRail vs Twilio DNI **scoping decision** (vendor + pricing + number-pool size). NOT the build, just the decision. | 30 min user | P4.D — promoted: HVAC is 60–80% phone conversions; Phase 5 ad launch blocked on this. |
-
-### 🟢 Tier 4 — Focused single-purpose session work
-
-| # | ID | Item | Effort | Why standalone |
-|---|---|---|---|---|
-| 1 | **F10** | Sanity v3.25 → v5.22 upgrade | 1.5–3 hrs agent + 15 min user QA | Major dep upgrade. Best done as the only thing in a session: preview branch → user QAs Studio admin → merge. Earns no user-facing KPI but closes 28 high-sev CVE accepted-risk debt. |
-| 2 | **F13 quarterly re-audit** | Re-run F13 architecture audit | 3.5 hrs agent | Due Aug 4, 2026. Diff against May 4 baseline; flag any regressions. |
-
-### 🔵 Tier 5 — Phase 4 build sprint (start when Phase 3 KPIs trending positive)
-
-P2.19 CallRail/DNI build · P1.12a/b/c ad LP infra · P2.20 Enhanced Conversions · A1/3-fb/4-LP/5/6 · M4 deploy freeze policy. See P4.D for full list.
-
-### 🟣 Tier 6 — Pre-launch ad work (gated on Tier 5 complete)
-
-A4-LP three quote landing pages · M4 deploy freeze policy formalized.
-
-### 🟤 Tier 7 — Quarterly + ongoing (Phase 2b cadence, runs parallel)
-
-P1.6b city page rewrites (1 city/wk × 28 weeks) · P1.6e review response cadence · S3 AEO citation audits (quarterly) · S4 programmatic SEO audit · S8 featured snippet audit · S9 Bing/Apple Maps Connect · S10 quarterly competitor audit · P2.17 deprecate Sanity `metaTitle` · F9 live KPI widget on roadmap-preview.html.
-
-### 🪵 Tier 8 — Internal hygiene (when there's slack capacity)
-
-P2.7 unused dep audit · P2.15 component decomposition · F7 Lighthouse CI gate · P2.4c Lighthouse all-green re-verification. **None of these earn a user-facing KPI; defer until top tiers are working through.** ~~F3c CSP nonce migration~~ STRUCK May 14, 2026 (Mozilla Observatory B+ accepted as final).
-
-### 🔮 Tier 9 — Future / blocked
-
-- Phase 5 (ads launch): L1–L10 — gated on Phase 4 complete
-- Phase 6 (new pages): PG1 Careers, PG2 Referrals — gated on Phase 3 trending green + Phase 4 live
-- INFRA-1 Vercel DNS migration — owner schedule, not blocking
-- C3 Estimator pricing matrix — BLOCKED on user pricing data
-- P2.10 Lead magnets · P2.13 Exit intent · P2.14 Urgency signals · P2.12 SMS — defer until Phase 3 KPIs trending
+**GA4 user actions (not code):** Mark `thanks_page_view`, `estimator_opt_in` as key events when ready — see `GA4_EVENTS.md` and `POST_DEPLOY_ACTION_ITEMS_PR2.md`.
 
 ---
 
-## 🧪 Sandbox Workflow (adopted Apr 24, 2026)
+## P4 — Ad infrastructure (open — gated on P3 baseline)
 
-**Default for all new pages and non-trivial UI changes:** build on a feature branch → Vercel Preview Deployment → user QA on phone + desktop + Lighthouse → merge to `main` for production.
-
-| Guardrail | Status | Ref |
+| ID | Item | Owner |
 |---|---|---|
-| GA4 preview-env mute | ✅ Shipped Apr 24 | `app/layout.js` |
-| Resend preview-env mute | ✅ Shipped Apr 24 | `app/api/leads/route.js` |
-| Vercel auto-`noindex` on preview URLs | ✅ Vercel default | — |
-| Sanity dataset isolation | ⏸️ Deferred | — |
-
-**Escape hatch:** `FORCE_LEAD_EMAIL_IN_PREVIEW=true` in Vercel preview env to force real email send (E2E template QA).
+| P2.19 | CallRail or Twilio DNI build | Agent + user |
+| P2.20-ec | Enhanced Conversions + offline upload | Agent |
+| P1.12a | Ad LP template | Agent |
+| A4-LP | `/quote-emergency-ac-repair`, `/quote-furnace-replacement`, `/quote-spring-tuneup` | Agent |
+| P1.12b | GCLID + UTM → MongoDB | Agent |
+| P1.12c | LP Quality Score checklist | Agent + user |
+| P2.6 | GTM + Facebook Pixel | Agent |
+| A3-fb | FB Conversions API | Agent |
+| A5 | UTM naming doc | Agent |
+| A6 | Ad budget dashboard (Sheet) | Agent + user |
+| M4 | Pre-launch deploy freeze in `RECURRING_MAINTENANCE.md` | Agent |
 
 ---
 
-# 🏗️ Priority 1: High-Performing Website Foundation
+## P5 — Ads launch (gated on P4)
 
-**Definition.** Site loads fast, never breaks, is fully accessible, works perfectly on every device, and has no architectural debt.
+Dry run → scale → optimize. See legacy ROADMAP / `RECURRING_MAINTENANCE.md` for L1–L10 detail. **Do not start spend without CallRail/DNI (P2.19) and key events live.**
 
-## P1.A — Already shipped
+---
 
-| ID | Item | Date |
+## P6 — Deferred new pages
+
+| ID | Page | Trigger |
 |---|---|---|
-| ✅ | Brand cohesion refactor (M7) | Apr 27, 2026 |
-| ✅ | RSC conversion (60% TBT savings) | Apr 21, 2026 |
-| ✅ | Legacy URL redirects (20 URLs) | Apr 23, 2026 |
-| ✅ | Header nav reorg (M6) | Apr 27, 2026 |
-| ✅ | WCAG AA contrast fixes on `electric-blue` + `vivid-red` | Apr 21, 2026 |
-| ✅ | `/app/design_guidelines.md` published | Apr 27, 2026 |
-| ✅ F0 | KPI baseline file `audits/2026-04-27_KPI_Baseline.md` | Apr 27, 2026 |
-| ✅ F5 | Vercel Analytics + Speed Insights enabled | Apr 27, 2026 |
-| ✅ F1 | Mobile UX deep audit + fixes (sticky CTA safe-area, 44px tap targets, inputMode/autoComplete) | Apr 27, 2026 |
-| ✅ F2 | Image audit + LCP `priority` on Header logo + 1.4 MB unused PNGs purged | Apr 27, 2026 |
-| ✅ P2.4b | Bundle reduction — homepage 180 → 172 kB, 38 shadcn + 27 npm deps removed | Apr 27, 2026 |
-| ✅ F3 | **Security headers hardened** — HSTS+preload, COOP/CORP, CSP `frame-ancestors`/`form-action`/`upgrade-insecure-requests` | Apr 27, 2026 |
-| ✅ P3-a11y | Skip-to-main content link (WCAG 2.1 SC 2.4.1) — first focusable element sitewide via `layout.js` + `.skip-link` CSS | Feb 28, 2026 |
-| ✅ F6 | 404 page UX upgrade — added high-value funnel cluster (Replacement Estimator, Financing, Repair-or-Replace, FAQ) below the popular-pages grid; conversion-first 404 polished | Feb 28, 2026 |
-| ✅ F4 | Backup/DR checklist published — `/app/memory/BACKUP_AND_DR.md` (4 state stores, 5 recovery scenarios, annual DR drill protocol) | Feb 28, 2026 |
-| ✅ F8 | Dependency security scan — `.github/dependabot.yml` (weekly grouped npm + GH Actions) + `.github/workflows/security.yml` (gitleaks on every PR + weekly cron) | Feb 28, 2026 |
-| ✅ F3d | `yarn audit --level high` CI gate — same `security.yml` workflow, fails build on high/critical production-dependency advisories (Sanity dev deps excluded as accepted risk) | Feb 28, 2026 |
-| ✅ F11 | **Security incident remediation** — `gitleaks` surfaced live secrets in git history (`backend/.env` + 8 root-level Python analysis scripts that hardcoded `ORS_API_KEY` and the Emergent Universal LLM Key). All flagged credentials rotated or revoked across Vercel, Google Cloud, Sanity, Resend, Atlas, reCAPTCHA, Emergent profile (9 keys total). Eight Python scripts deleted from repo. New `.gitleaksignore` allowlists 43 historical fingerprints with documented kill chain. CI now green on `main`. | May 4, 2026 |
-| ✅ F8b | `workflow_dispatch` trigger added to `.github/workflows/security.yml` — Actions tab → "Security Audit" → "Run workflow" button enables on-demand scans (post-rotation, pre-deploy). | May 4, 2026 |
-| ✅ Drift-alert wiring fix | `/api/cron/sync-reviews` recipient fallback aligned with leads route's `NOTIFICATION_EMAIL` convention plus `support@dfwhvac.com` ultimate fallback. Eliminates `skipped:missing-credentials`; threshold-arm verified live. | May 4, 2026 |
-| ✅ Sequence 4 | **Tailwind CSS v3 → v4 migration** — `npx @tailwindcss/upgrade` codemod ran cleanly. `tailwindcss@^4.3.0` + `@tailwindcss/postcss@^4.3.0` installed, `autoprefixer` removed (built into v4). `tailwind.config.js` deleted; theme moved to CSS-first `@theme` block in `app/globals.css`. PostCSS config rewritten. 34 component files migrated automatically (`bg-gradient-to-*` → `bg-linear-to-*`, `shadow` scale shifted, `outline-none` → `outline-hidden`, `flex-shrink-0` → `shrink-0`). Brand-token system (Sanity-pipelined CSS vars) preserved intact. `yarn build` clean, lint clean, CSS bundle ~14% smaller (69KB vs 80KB). Closes Dependabot PR #92. Full migration notes in CHANGELOG. | Feb 2026 |
-| ✅ P2.16 | **6 React Compiler hook-rule errors fixed.** `AddressAutocomplete.jsx` (ref-write moved into `useEffect`), `RealWorkWidget.jsx` (lazy-init `shouldLoad` for IO-undefined fallback), `ServiceTemplate.jsx` (hoisted `SERVICE_ICON_MAP` + new `ServiceIcon` wrapper at module scope — fixes 2 instances), `StickyMobileCTA.jsx` (deferred dismissed setState via `queueMicrotask`), `TestimonialCarousel.jsx` (deferred initial `onSelect()` via `queueMicrotask` + added missing emblaApi `.off()` cleanup). Lint now shows 0 errors / 22 stylistic warnings only. | Feb 2026 |
-| ✅ P2.18 spike | **`cacheComponents` exploration ran, deferred.** Empirical build-failure shows ISR `revalidate` exports incompatible with the flag — full 4–6 hr migration required, not a 30-min spike. Documented in `P2.18_CACHE_COMPONENTS_SPIKE.md`; ROADMAP P2.18 reopens only after Tailwind v4 ships (DONE) and CrUX shows LCP regression. | Feb 2026 |
-
-## P1.B — KPI baseline (capture in Phase 1, week 1)
-
-Document captures live in `/app/memory/audits/2026-04-27_KPI_Baseline.md`.
-
-| KPI | Target | Source |
-|---|---|---|
-| Lighthouse Performance (mobile) | ≥90 on /home, /plano, /financing, /replacement-estimator, /request-service | Lighthouse mobile audit |
-| Lighthouse Accessibility | ≥95 sitewide | Lighthouse |
-| Lighthouse Best Practices | ≥95 sitewide | Lighthouse |
-| Lighthouse SEO | 100 sitewide | Lighthouse |
-| CWV LCP p75 | <2.5s | GSC Experience (CrUX field) |
-| CWV INP p75 | <200ms | GSC Experience |
-| CWV CLS p75 | <0.1 | GSC Experience |
-| First Load JS (homepage) | <150 kB | `yarn build` |
-| TBT (lab) | <200ms | Lighthouse |
-| Error rate | <0.1% requests | Vercel Analytics |
-| Build time | <30s | `yarn build` (currently 22.7s ✅) |
-| Uptime | 99.95%+ | Vercel SLA |
-| Mobile vs desktop CWV gap | <20% delta | CrUX |
-| **SecurityHeaders.com grade** | **A+** | securityheaders.com (post-deploy) |
-| **Mozilla Observatory grade** | **≥ B+** (B+ accepted as final May 14, 2026) | observatory.mozilla.org |
-| **Qualys SSL Labs TLS grade** | **A or higher** | ssllabs.com |
-| **Dependency vulns (high+critical)** | **0** | GitHub Dependabot / `yarn audit` — ✅ critical=0 verified May 4, 2026 (Run #68); 28 Sanity Studio high-sev tracked under F10 |
-| **Public secret leaks (`gitleaks`)** | **0** | gitleaks scan — ✅ ZERO new leaks May 4, 2026 (Run #68); 43 historical fingerprints allowlisted in `.gitleaksignore` (all keys revoked/rotated, full kill chain in CHANGELOG) |
-
-## P1.C — Reevaluation cadence
-
-- **Weekly (5 min):** glance at Vercel Analytics RUM + GSC Experience
-- **Monthly (30 min):** full Lighthouse audit on 5 representative pages; compare to baseline; `yarn audit` deps scan
-- **Quarterly:** comprehensive tech-SEO sweep + bundle analyzer; bundle-size delta tracked; **SecurityHeaders.com + Mozilla Observatory + SSL Labs re-grade; CSP review (can `unsafe-inline` be retired via nonces?); gitleaks scan of repo**
-- **Annual:** API key rotation; HSTS Preload List re-verify _(Note: full rotation pulled forward + completed May 4, 2026 due to gitleaks-flagged incident)_
-- **Per-PR (if Lighthouse CI installed):** automated regression catch
-
-## P1.D — Action items (in execution order)
-
-| # | ID | Item | Effort | Owner |
-|---|---|---|---|---|
-| 1 | **F10** | **🔥 Sanity v3.25 → v5.22 major upgrade** — clears all 28 high-severity transitive CVEs (minimatch ReDoS, lodash code injection, rollup path traversal, picomatch ReDoS, axios DoS) currently flagged as accepted risk. Stack already compatible: React 19.2.5 ✅ (v5 needs ≥19.2), Node 20 ✅ (v4 needs ≥20). After upgrade, tighten `.github/workflows/security.yml` audit gate from `--level critical` back to `--level high`. **Workflow:** preview branch → user QAs Studio admin (`<preview>/studio`, ~15 min, agent can't log in) + agent QAs public pages → merge. **Logged Feb 28, 2026; reconfirmed top priority May 4, 2026 after security incident closure.** **⚠️ DEMOTED to Tier 4 (focused single-purpose session) on May 4, 2026 strategic re-rank — see `## 🚀 Active Execution Order`. F10 earns no user-facing KPI; conversion-uplift Phase 3 quick wins ship first.** | 1.5–3 hrs agent + 15 min user QA | Agent (lead) + User (Studio QA) |
-| 2 | **F12** | **Bump GitHub Actions versions to clear Node.js 20 deprecation warnings** — `actions/checkout@v4 → v5`, `actions/setup-node@v4 → v5`, `gitleaks/gitleaks-action@v2 → latest` (if a newer major exists). GitHub force-upgrades Node 20 → 24 in June 2026 so this is a soft deadline. Dependabot auto-reopens these PRs weekly; with gitleaks now passing on `main`, the next round will pass CI cleanly and is one-click mergeable. Optional manual short-circuit. | 5 min user (one-click merge) OR 10 min agent | User (preferred) or Agent |
-| 3 | P2.7 | Code cleanup / unused dep audit (`yarn depcheck`, dead `mockData.js`) | 1–2 hrs | Agent |
-| 4 | P2.15 | Component decomposition (templates >300 lines) | variable | Agent |
-| 4b | ~~**P2.16**~~ | ~~**React Compiler hook-rule errors surfaced by ESLint v9 migration**~~ — ✅ **SHIPPED Feb 2026.** All 6 errors fixed: `AddressAutocomplete.jsx` (ref write moved into useEffect), `RealWorkWidget.jsx` (lazy-init `shouldLoad` for IO-undefined fallback), `ServiceTemplate.jsx` (hoisted `SERVICE_ICON_MAP` + new `ServiceIcon` wrapper component at module scope — fixes 2 instances), `StickyMobileCTA.jsx` (deferred sessionStorage setState via `queueMicrotask`), `TestimonialCarousel.jsx` (deferred initial `onSelect()` via `queueMicrotask` + added missing emblaApi off cleanup). Lint now shows 0 errors / 22 stylistic warnings only. `yarn build` clean. | DONE | Agent |
-| 4c | **P2.18** | **Next.js 16 `cacheComponents` exploration — SPIKE COMPLETE, DEFERRED.** Spike executed Feb 2026: enabled `cacheComponents: true` (now top-level, not under `experimental` in Next 16), ran `yarn build` → hard-failed on all 24 routes with `Route segment config "revalidate" is not compatible with nextConfig.cacheComponents`. Migration requires: drop every `export const revalidate = 3600` (21 pages + 3 API routes), wrap every Sanity GROQ helper in `lib/sanity.js` with `'use cache'` + `cacheTag()` + `cacheLife('hours')`, add `<Suspense>` boundaries, and hook the existing `/api/revalidate` webhook into `revalidateTag()` per content type. Revised estimate: **4–6 hr dedicated session**, not a spike. Full findings in `/app/memory/P2.18_CACHE_COMPONENTS_SPIKE.md`. Reopen only after (a) Sequence 4 Tailwind v4 ships ✅, (b) Clarity baseline ends May 27, (c) CrUX field data shows LCP regression >50ms p75 on hero. **Note:** rolled into P2.20 as step 5 of the LCP optimization stack — the lowest-ROI lever of the available LCP fixes; do it last or not at all. Until then ISR + Vercel edge cache continues to serve adequately. | 4–6 hrs (deferred) | Agent |
-| 4d | **P2.20** | **🎯 LCP optimization push: 2.18s → <1.25s target.** Current PageSpeed lab measurement is 2.18s; user target is sub-1.25s (Lighthouse "Good" threshold is 2.5s, "Top decile" is 1.2s). Gap: ~930ms. Multi-lever optimization ranked by ROI (gain per hour). **Step 1 — Hero image audit + AVIF/preload/responsive sizes (-400 to -700ms, ~2-3 hrs):** Lighthouse-identify the LCP element on `/`, `/services/*`, `/cities-served/*`. Likely an unoptimized hero JPEG/PNG. Convert to AVIF (or WebP if AVIF blocked), add `<link rel="preload" as="image" fetchpriority="high">`, ensure `next/image` is used with `priority` prop + explicit `width`/`height`/`sizes`, serve a smaller variant on mobile (p75 CrUX is mobile). Biggest single-lever win. **Step 2 — Font preload + drop unused weights (-100 to -200ms, ~30 min):** Audit `next/font` config; ensure `display: 'swap'` + `preload: true`; drop any font weights not visible above the fold. Self-host if not already. **Step 3 — Defer render-blocking JS (-100 to -300ms, ~1 hr):** Audit all `<Script>` tags. Microsoft Clarity, GA4, reCAPTCHA, RealWork should all be `strategy="lazyOnload"` or `"afterInteractive"`, never `"beforeInteractive"`. **Step 4 — TTFB tuning (-50 to -150ms, ~30 min):** Verify `lib/sanity.js` uses CDN endpoint (`iar2b790.apicdn.sanity.io`, not `.api.sanity.io`); add `cache: 'force-cache'` to critical GROQ fetches; verify Vercel function region is US Central/East (Dallas audience). **Step 5 — P2.18 cacheComponents + Suspense (-80 to -250ms, 4-6 hrs):** See row 4c. Highest effort, lowest payoff — defer unless steps 1-4 don't hit target. **Expected cumulative gain after steps 1-4: ~750-1350ms → final LCP ~830-1430ms.** Target should be hit at step 4 in ~4-5 hrs total. Step 5 becomes "future-proofing/buffer" rather than path-to-target. **Prerequisite for honest measurement:** add `PAGESPEED_API_KEY` to GitHub Secrets so the KPI dashboard's PageSpeed cards turn live — needed to verify lab → field correspondence after each step lands. **Validation gate:** Run https://pagespeed.web.dev/?url=https://dfwhvac.com before AND after each step. Don't ship a step that didn't move the needle ≥80ms — means the script-side fix didn't address the actual bottleneck. | 4-5 hrs (steps 1-4) + optional 4-6 hrs (step 5) | Agent |
-| 4e | **P2.21** | **Cron migration: Vercel Hobby → GitHub Actions** for `/api/cron/sync-reviews`. Diagnosed Feb 2026: Vercel Hobby tier silently throttles cron firings to "at most once per day, non-guaranteed schedule." Last successful auto-run was May 9 (5 days of silence) despite the schedule firing daily at 06:00 UTC. Manual trigger via Vercel dashboard works end-to-end (200 → Sanity updated 153 → 155 in <60s), confirming code/secrets are all healthy — purely a Vercel platform scheduling issue. **Fix:** Move the cron to GitHub Actions following the exact same pattern as the KPI Audit (PAT auth, daily schedule, manual `Run workflow` button, full log retention). Steps: (1) Create `.github/workflows/sync-reviews.yml` with `schedule: '0 6 * * *'` invoking `curl -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" https://dfwhvac.com/api/cron/sync-reviews`. (2) Add `CRON_SECRET` to GitHub repo secrets (same value as Vercel env var). (3) Delete the `crons` block from `vercel.json` to prevent double-firing. (4) Verify with manual `Run workflow` trigger. **Why this matters:** unreliable cron = stale review counts across the site = drift between live Sanity and displayed values = real SERP/social-share misinformation. With this migrated, the cron will fire daily reliably, free, with full forever-history logs. | 15 min | Agent |
-| 4f | **P2.22** | **`lib/metadata.js` reads live Sanity instead of `REVIEW_COUNT_FALLBACK`.** Discovered Feb 2026 during review-count drift audit: every page's static SEO/social metadata (Twitter card, OpenGraph, JSON-LD AggregateRating) hardcodes `REVIEW_COUNT_FALLBACK` (currently 149) instead of reading the live Sanity count (currently 155). Affects `lib/metadata.js` lines 105 (Twitter description), 122 (OG description), 273 (JSON-LD reviewCount). Impact: Google's rich-result crawler sees stale `reviewCount`, social share previews on Twitter/Facebook/LinkedIn/Slack/iMessage all show stale "149+ reviews", and there is no automatic correction when the cron updates Sanity — only a manual `lib/constants.js` bump (or the drift-alert email, which only fires at >20 review drift). **Fix:** Convert the static `defaultMetadata` export into a `generateMetadata(companyInfo)` function pattern used by every route's `generateMetadata()`. Each route already fetches `companyInfo` for body rendering — pass it through to metadata generation too. Fall back to `REVIEW_COUNT_FALLBACK` only when companyInfo is null (Sanity outage). After this lands, the manual fallback bump in `constants.js` becomes a rarely-needed disaster-recovery action rather than weekly maintenance. **Prereq:** P2.21 should ship first so Sanity stays fresh — otherwise this just spreads stale data via a different path. | 1-1.5 hrs | Agent |
-| 4g | **P2.23** | **`@sanity/image-url` deprecation** — every page request currently logs a `level: warning` in Vercel: *"The default export of @sanity/image-url has been deprecated. Use the named export `createImageUrlBuilder` instead."* Affects every Sanity image render across the site (24+ routes). Status 200 everywhere, nothing broken — purely a deprecation warning that's polluting Vercel's log retention (with Hobby's 1-hour window, these warnings crowd out actually-actionable logs like the cron's missed runs). **Fix:** `grep -rn "from '@sanity/image-url'" /app/frontend` → change `import imageUrlBuilder from '@sanity/image-url'` to `import { createImageUrlBuilder } from '@sanity/image-url'` and update call sites accordingly. ~5 minute fix, deferred only because it's cosmetic. Low priority but worth bundling into the next "developer experience" PR. | 5-10 min | Agent |
-| 5 | P2.4c | Lighthouse all-green verification on /cities-served/plano + /request-service | 1 hr | Agent |
-| 6 | F3b | **HSTS Preload List submission** — `hstspreload.org` (eligibility verified, awaiting user submit) — see `USER_ACTIONS_2026-02-28.md` | 10 min | User |
-| 7 | F3c | ~~**CSP nonce migration** (retire `unsafe-inline` on script-src)~~ — **STRUCK May 14, 2026.** Mozilla Observatory B+ accepted as final grade. CSP nonce work earned no user-facing/security KPI; `frame-ancestors` + `form-action` already protect against the threats unsafe-inline relaxes. | DROPPED | — |
-| 8 | F7 | Lighthouse CI gate (optional) — Vercel build fails if Lighthouse drops below thresholds | 2 hrs | Agent |
-| 9 | P1.6d | INP field measurement after CrUX populates (28+ days) | 30 min + variable | Agent |
-| 10 | P1.3 | User-led device QA: iOS Safari, Android Chrome, address autocomplete | 1 hr | User |
-
-**Phase 1 exit criteria:** All P1.B KPIs measured + meet target (or have ticketed plan to meet). Site is bulletproof. Estimated 15–20 hrs total.
+| PG1 | `/careers` | P3 KPIs trending + P4 infra |
+| PG2 | `/referrals` | After PG1 |
 
 ---
 
-# 🔍 Priority 2: SEO + AEO
-
-**Definition.** Maximum organic discoverability across Google search, Google AI Overviews, ChatGPT, Perplexity, Gemini, GBP, Bing, Apple Maps.
-
-## P2.A — Already shipped
-
-| ID | Item | Date |
-|---|---|---|
-| ✅ P1.6a | Title tag audit (47 finalized titles, Option C hybrid review-count) | Apr 23, 2026 |
-| ✅ P1.17a | Manual GSC indexing requests (~95% of sitemap submitted) | Apr 21–27, 2026 |
-| ✅ Apr 27 audit | Site-wide indexing audit completed (89.4% indexed, 93.6% effective) | Apr 27, 2026 |
-| ✅ A1, A2 | `the-colony` + `commercial-heating` GSC re-submitted | Apr 27, 2026 |
-| ✅ A4 + P1.4 | Commercial-heating Sanity content fully populated (12 fields written: 5 hero benefits, 8 what-we-do items, 5 process steps, 6 why-choose-us, emergency block, 6 commercial FAQs) — kills the duplicate-content rejection | Apr 27, 2026 |
-| ✅ A4 (round 2) | Commercial-air-conditioning + commercial-maintenance Sanity content populated (12 fields each, 6 differentiated FAQs each — closes the entire commercial silo) | Feb 28, 2026 |
-| ✅ S1 | AI crawler robots.txt explicit allow (GPTBot, ChatGPT-User, OAI-SearchBot, ClaudeBot, Claude-Web, anthropic-ai, PerplexityBot, Perplexity-User, Google-Extended, Applebot-Extended, CCBot, Bytespider, Diffbot, FacebookBot, Meta-ExternalAgent) | Apr 27, 2026 |
-| ✅ S2 | Schema audit + completion: WebApplication + HowTo (6-step) on `/replacement-estimator`; FAQPage emitted from `ServiceTemplate` for any service with FAQs (`commercial-heating` now ships 6 commercial FAQs as JSON-LD) | Apr 27, 2026 |
-| ✅ S5 | Image alt-text audit — codebase clean (no `<img>` tags, no empty `alt=""`, all images use Next.js `<Image>` with alt) | Apr 27, 2026 |
-| ✅ S6 | OG / Twitter card defaults enriched in `lib/metadata.js` (default image, dimensions, alt, twitter site/creator/card, og url + locale + type) | Apr 27, 2026 |
-| ✅ S7 | Sitemap lastmod tiering — stable policy pages pinned to `POLICY_LASTMOD` constant, Sanity-driven pages use `_updatedAt` correctly | Apr 27, 2026 |
-| ✅ P2.1 | "50+ cities" copy cleanup — confirmed no false claims; "50+" only appears as "50+ Years of Family Legacy" (correct, three-generation business) | Apr 27, 2026 |
-| ✅ S3 | AEO citation tracking baseline doc — 20 queries × 4 engines (ChatGPT, Perplexity, Google AI Overviews, Gemini) — see `audits/2026-02-28_AEO_Citation_Baseline.md` (user-led quarterly run) | Feb 28, 2026 |
-| ✅ P1.5 | GSC weekly trend doc + monthly deep-dive template — `audits/2026-02-28_GSC_Weekly_Trend.md` (5 min Mondays, 30 min last Monday of month) | Feb 28, 2026 |
-| ✅ Sitemap parity | Sitemap indexing: **51 / 51 URLs indexed** (Apr 30 GSC review) — up from 89.4% (42/47) on Apr 27 baseline | Apr 30, 2026 |
-
-## P2.B — KPI baseline (capture in Phase 2a)
-
-| KPI | Current | Target | Source |
-|---|---|---|---|
-| Sitemap indexing rate | **51/51 (100%)** ✅ | 100% by Jul 1 (✅ achieved) | GSC Pages |
-| GSC impressions (28-day) | TBD | +30% in 90 days | GSC Performance |
-| GSC clicks (28-day) | TBD | +50% in 90 days | GSC Performance |
-| GSC avg CTR | TBD | +0.5pp absolute | GSC Performance |
-| GSC avg position (top 20 queries) | TBD | top 10 for ≥50% branded; top 20 for ≥70% "[service] [city]" | GSC Performance |
-| Backlink count (DR≥20) | TBD | +15 in 6 months | Ahrefs/Moz |
-| GBP impressions | TBD post-verify | +50% in 60 days | GBP Insights |
-| GBP calls | TBD | +30% in 60 days | GBP Insights |
-| GBP direction requests | TBD | +30% in 60 days | GBP Insights |
-| Google reviews count | 145 | 165 by Sep 1 | GBP |
-| Review response rate | TBD | 100% | GBP |
-| AEO citation rate | TBD via S3 | 5+/20 queries cite DFW HVAC by Sep 1 | Manual audit (S3) |
-| Featured snippets owned | 0 (assumed) | 3–5 by Sep 1 | GSC + manual |
-| Schema coverage | TBD | 100% pages have ≥2 schema types | Rich Results Test |
-
-## P2.C — Reevaluation cadence
-
-- **Weekly (5 min):** GSC dashboard glance — impressions, indexed-URL count, errors
-- **Monthly (30 min):** full GSC report deep-dive (Performance + Pages + Experience); compare to baseline
-- **Quarterly (3–4 hrs):** AEO citation audit (S3), competitor audit (S10), schema validation, NAP recheck, backlink growth
-- **Semi-annual:** Title-tag CTR review, full SEO audit refresh
-
-## P2.D — Action items
-
-### Phase 2a: SEO/AEO Quick Wins — ✅ **COMPLETE Feb 28, 2026** (12/12 shipped)
-
-User-action residuals queued in `/app/memory/USER_ACTIONS_2026-02-28.md`:
-
-| # | ID | Item | Effort | Status |
-|---|---|---|---|---|
-| 1 | P1.6f | Rich Results validation on 7 high-value URLs (FAQPage / WebApplication / HowTo / Service / LocalBusiness / BreadcrumbList) — manual user QA on https://search.google.com/test/rich-results | 30 min user | 🟡 User action queued |
-| 2 | A3 | May 5 GSC re-audit — diff against Apr 27 indexing baseline | 10 min user + 30 min agent | 🟡 User action queued |
-
-### Phase 2b: SEO Content Cadence (weeks 4–24, runs parallel to Phase 3)
-
-| # | ID | Item | Cadence | Owner |
-|---|---|---|---|---|
-| 13 | P1.8 | **Google Business Profile optimization (start ASAP — verification takes 5–14 days)** | 4 hrs initial + 30 min/wk | User-led, agent-supported |
-| 14 | P1.6e | Review response audit + ongoing cadence (target 2–5 new reviews/mo) | 1 hr + ongoing | User |
-| 15 | P1.6b | City page body content rewrite (28 cities × 300–500 unique words) | 1–2 hrs/city × 28 = 28–56 hrs over 6 mo | Agent drafts → user reviews |
-| 16 | P1.6c | Backlink profile audit + outreach (Coppell Chamber, Dallas BBB, trade press, supplier "where to buy") | 2 hrs audit + ongoing | Agent + user |
-| 17 | P2.3 | NAP consistency audit (Yelp, BBB, Angi, HomeAdvisor, Thumbtack, Nextdoor, Bing, Apple Maps) | 3–4 hrs | User-led |
-| 18 | S4 | Programmatic SEO opportunity audit — identify high-value (city × service) combos | 2 hrs | Agent |
-| 19 | S8 | Featured snippet opportunity audit | 2 hrs | Agent |
-| 20 | S9 | Bing Webmaster Tools + Apple Maps Connect setup | 1 hr | User-led |
-| 21 | P2.9 | Blog launch + 4 seasonal posts (only after all 28 city pages rewritten) | 6 hrs infra + 3 hrs/post | Agent + user |
-| 22 | P2.2 | `/pricing` page launch (currently STUB; awaits user $ data) | 4–6 hrs | Agent (when user ready) |
-| 23 | S10 | Quarterly competitor SEO audit | 2 hrs/qtr | Agent |
-| 24 | P2.17 | Deprecate Sanity `metaTitle` field (titles now code-side authoritative) | 30 min | Agent |
-| 25 | F9 | **Live KPI widget on roadmap-preview.html** — pull Vercel Speed Insights p75 (LCP/INP/CLS) + GA4 conversion rate via API; auto-replace "TBD" cells with live values. Phase 2b deliverable, after Vercel Analytics has 7+ days of RUM data. | 2 hrs | Agent |
-
-**Phase 2 exit criteria:** P2.B baseline captured + all targets either met or trending. Phase 2a fully complete; Phase 2b ongoing.
-
----
-
-# 💰 Priority 3: Conversion Optimization
-
-**Definition.** Of every visitor reaching the site, the highest possible % takes a conversion action.
-
-## P3.A — Already shipped
-
-| ID | Item | Date |
-|---|---|---|
-| ✅ P1.14 | `/replacement-estimator` 5-step wizard with Option C hybrid lead gate | Apr 24, 2026 |
-| ✅ P1.16 | `/financing` page (Wisetack, 0% APR 24mo) | Apr 24, 2026 |
-| ✅ P1.13 | `/services/system-replacement` revenue-center page | Apr 24, 2026 |
-| ✅ P1.15 | `/repair-or-replace` AEO decision-framework article | Apr 24, 2026 |
-| ✅ P1.7 | GA4 key events: `generate_lead`, `phone_click` | Apr 24, 2026 |
-| ✅ P1.11 | `/thanks` post-submit page + Resend customer auto-reply (kills post-submit ghosting; type-aware copy: service/estimate/contact/estimator) | Feb 28, 2026 |
-| ✅ G1+G2 | GA4 Key Events marked: `phone_click`, `generate_lead` | Feb 28, 2026 (user) |
-
-## P3.B — KPI baseline (capture in Phase 3 week 1)
-
-| KPI | Current | Target | Source |
-|---|---|---|---|
-| Overall conversion rate | TBD | +25% by Sep 1 | GA4: (form_submit + phone_click) ÷ unique sessions |
-| Form submission rate | TBD | +40% post P1.10 | GA4 `form_submit_lead` ÷ form views |
-| Phone click rate | TBD | +20% by Sep 1 | GA4 `phone_click` ÷ unique sessions |
-| Per-page conversion rate (top 10 entry pages) | TBD | identify worst 3, lift each 50% | GA4 Pages |
-| Mobile vs desktop conversion | TBD | parity within 10% | GA4 Devices |
-| Estimator completion rate | TBD | ≥30% of starts | GA4 funnel |
-| Estimator → opt-in rate | TBD | ≥15% of completions | GA4 funnel |
-| Bounce rate (top 5 entry pages) | TBD | <60% each | GA4 Engagement |
-| Time on page (key pages) | TBD | >45s services, >2 min /repair-or-replace + /estimator | GA4 |
-| Lead → booked-job rate | TBD | tracked for ad ROI | User CRM |
-
-## P3.C — Reevaluation cadence
-
-- **Weekly (5 min):** GA4 Realtime + Conversions glance
-- **Monthly (1 hr):** full conversion review — by-page, by-device, by-source; identify biggest drop-offs
-- **Quarterly:** A/B test cycle (1 test/month max for solo); review heatmaps; identify next bottleneck
-- **Pre/post any conversion-affecting deploy:** verify GA4 events still firing within 48 hrs
-
-## P3.D — Action items (in execution order)
-
-> 🟡 **S-FOOTER-1 (USER ACTION NEEDED, P0)** — ✅ **CLOSED Apr 30, 2026.** All three footer social URLs live in Sanity `siteSettings.socialLinks`:
->
-> 1. **Facebook** → `https://www.facebook.com/dfwhvacllc`
-> 2. **LinkedIn** → `https://www.linkedin.com/company/68683407/` (numeric ID format; vanity URL recommended once owner has admin access — see ROADMAP backlog item below)
-> 3. **Google Business Profile** → `https://share.google/6FhwhOPxWGKDg9vH8` (GBP overview — reviews, photos, hours, directions)
-
-### S-FOOTER-2 — LinkedIn vanity URL (low priority, optional)
-
-- **Status:** Backlog
-- **Trigger:** when owner has admin access to LinkedIn Company Page
-- **Action:** LinkedIn Company Page → Admin tools → Edit page → Public URL → set vanity slug like `dfw-hvac` (so the URL becomes `https://www.linkedin.com/company/dfw-hvac/` instead of the numeric ID).
-- Once claimed, paste the new URL and run the 30-second Sanity patch. Numeric URL works fine in the meantime.
-
-### S-GSC-1 — Re-pull GSC pageindex snapshot (7-day check)
-
-- **Status:** 🟡 Pending — schedule for **~May 7, 2026**
-- **Origin:** Apr 30, 2026 GSC review confirmed 5 of 7 not-indexed URLs are healthy (canonicalization redirects, intentional noindex, working as designed). 2 URLs were action items (Validate Fix on `/aboutus` and `/servicecall`; Wix-prefix removal request submitted). Google typically clears these within 3–7 days.
-- **Action:** Re-pull GSC → Indexing → Pages report. Confirm:
-  1. "Not found (404)" count drops from 1 → 0 (servicecall fix validated)
-  2. "Redirect error" count drops from 1 → 0 (aboutus fix validated)
-  3. "Excluded by 'noindex' tag" Wix PDF row drops or count decreases
-  4. Total indexed should hold at 58+ or grow as new content (commercial-cooling, commercial-maintenance Sanity content) gets re-crawled
-- **Effort:** 5 min user-side (just check the report and screenshot back).
-
-| # | ID | Item | Effort | Owner |
-|---|---|---|---|---|
-| 1 | C1 | **Microsoft Clarity heatmap + session recording installed (FREE; needs 30+ days runtime to gather data — install FIRST)** | 30 min | Agent |
-| 2 | M5 | Conversion baseline captured in `/app/memory/audits/2026-04-27_KPI_Baseline.md` | 30 min | User + agent |
-| 3 | P1.11 | `/thanks` post-submit page + Resend auto-reply (kills post-submit ghosting) | 4 hrs | ~~Agent~~ ✅ Feb 28, 2026 |
-| 4 | C7 | "What happens next" copy below every form ("we'll call within 1 business hour") | 1 hr | Agent |
-| 5 | P1.10 | **Progressive form redesign** (2-field → expand; expected 30–50% submit lift) | 4–6 hrs | Agent |
-| 6 | C4 | Form abandonment tracking — GA4 events on field-blur | 1 hr | Agent |
-| 7 | P1.9b | Review badge in every page hero | 2 hrs | Agent |
-| 8 | P1.9e | Footer + sticky bottom-bar trust signals | 1 hr | Agent |
-| 9 | P1.9c | Inline review carousel near every form | 2 hrs | Agent |
-| 10 | P1.9d | City-filtered reviews page | 3 hrs | Agent |
-| 11 | P1.9f | Post-submit rotating review (merge with P1.11) | (combined) | Agent |
-| 12 | C2 | Click-to-call CTA placement audit (verify red phone reachable in <3s on every mobile page) | 1 hr | Agent |
-| 13 | C5 | A/B testing framework — Vercel Edge Config or Sanity-driven variants | 2 hrs | Agent |
-| 14 | C3 | Estimator pricing matrix populated with REAL DFW HVAC numbers (replace placeholders in `lib/estimator-matrix.js`) | 30 min user + 30 min agent | User → agent |
-| 15 | C6 | Mobile sticky-CTA conversion lift verification (already shipped; segment in GA4) | 30 min | Agent |
-| 16 | **C8** | **"🔒 Secured" footer trust microcopy** — small lock icon + "Your information is secure" copy in `Footer.jsx`, with hover/tooltip linking to `/privacy-policy`. Targets hesitant homeowners on the financing CTA + contact form. Uses `lucide-react` `Lock` icon (already in bundle, zero cost). Worth A/B-testing against a no-trust-signal control if Vercel Edge Config A/B framework lands (C5). | 30 min | Agent |
-| 17 | P2.10 | Lead magnets (AC age lookup, replacement timing calc) | 8–12 hrs each | Defer until Phase 3 KPIs trending |
-| 18 | P2.13 | Exit intent modal | 3–4 hrs | Defer until Phase 3 KPIs trending |
-| 19 | P2.14 | Urgency signals | 3–4 hrs | Defer until Phase 3 KPIs trending |
-| 20 | P2.12 | SMS text-back via Twilio | 4–6 hrs | Defer post-ad-launch |
-
-**Phase 3 exit criteria:** P3.B baseline captured. P1.11 + P1.10 + P1.9b/c/d/e/f + C1–C8 all shipped. Conversion rate trending positive.
-
----
-
-# 📊 Priority 4: Ad-Measurable Infrastructure
-
-**Definition.** Pre-launch measurement pipeline so every conversion path is attributable to source channel. Built BEFORE any ad dollar is spent.
-
-## P4.A — Already shipped
-
-| ID | Item | Date |
-|---|---|---|
-| ✅ P1.7 | GA4 `generate_lead` + `phone_click` key events | Apr 24, 2026 |
-| ✅ G1 | GA4 Key Event marked: `phone_click` | Feb 28, 2026 (user) |
-| ✅ G2 | GA4 Key Event marked: `generate_lead` | Feb 28, 2026 (user) |
-
-## P4.A.1 — GA4 Key Event TODOs (user action, no code work needed)
-
-GA4 → Admin → Events → toggle the "Mark as key event" switch for each. All three events are **already firing** from the live codebase; flipping the toggle just makes them eligible for Conversions reports + Smart Bidding optimization once Phase 5 ad spend goes live.
-
-| ID | Event | Where it fires | Why it matters |
-|---|---|---|---|
-| G3 | `form_submit_lead` | `LeadForm.jsx`, `SimpleContactForm.jsx` after successful `/api/leads` POST | Primary form conversion. Carries `lead_type` param for service/estimate/contact segmentation |
-| G4 | `thanks_page_view` | `/thanks` page hydration on any successful submission redirect | Durable conversion landmark. Reconciles against `form_submit_lead` to catch any drops; the one Smart Bidding leans on once Phase 5 spend goes live |
-| G5 | `estimator_opt_in` | `/replacement-estimator` when a user opts in for the on-site estimate after seeing their range (`EstimatorWizard.jsx:196`) | High-intent — wizard completion AND opt-in. Higher quality signal than a generic form submit |
-
-**Future events (mark as Key Events when they ship):**
-- `form_step_1_complete` — fires on first-section completion in the progressive form (P1.10, not shipped yet)
-- `estimator_complete` — fires when the wizard hits the result screen with or without opt-in (deferred; can derive from current funnel)
-
-## P4.B — KPI baseline (pre-launch validation)
-
-| KPI | Pre-launch target | Source |
-|---|---|---|
-| CallRail/DNI installed and routing 100% of phone CTAs | Yes | CallRail dashboard |
-| GCLID capture rate on `/quote-*` LPs | 100% of GCLID visits → MongoDB | MongoDB query |
-| Enhanced Conversions match rate | ≥70% (Smart Bidding floor) | Google Ads diagnostics |
-| GA4 ↔ Google Ads link verified | Yes | Google Ads UI |
-| GA4 ↔ Facebook Pixel parity | <10% delta on lead events | GA4 vs FB Events Manager |
-| Ad LPs Quality Score (lab) | All ≥7/10 | Google Ads Editor |
-| Ad LPs Lighthouse Perf | ≥85 each | Lighthouse |
-| All conversion events firing within 48 hrs of test | Pass | GA4 DebugView |
-
-## P4.C — Reevaluation cadence
-
-- **Pre-launch:** 100% test pass before any spend authorized
-- **Daily during first 14 days of ads:** CallRail call quality, GCLID rate, conversion event firing
-- **Weekly thereafter:** full ad-platform reconciliation (GA4 ↔ Google Ads ↔ FB Ads)
-
-## P4.D — Action items (only after Phase 3 baseline trending positive)
-
-| # | ID | Item | Effort | Owner |
-|---|---|---|---|---|
-| 1 | P2.19 | **CallRail or Twilio DNI** — call tracking (~60–80% of HVAC conversions are calls) | 3–6 hrs | Agent + user |
-| 2 | P2.20 | Enhanced Conversions + Offline Conversion Upload | 3–4 hrs | Agent |
-| 3 | A1 | GA4 Enhanced E-commerce event taxonomy | 1 hr | Agent |
-| 4 | P1.12a | Dedicated ad LP template (`app/(ads)/[campaign]/page.jsx`) | 4–6 hrs | Agent |
-| 5 | A4-LP | Build `/quote-emergency-ac-repair`, `/quote-furnace-replacement`, `/quote-spring-tuneup` LPs | 3 hrs each = 9 hrs | Agent |
-| 6 | P1.12b | GCLID + UTM capture → sessionStorage → MongoDB lead record | 2–3 hrs | Agent |
-| 7 | P1.12c | Landing page Quality Score checklist validation | 1 hr | Agent + user |
-| 8 | P2.6 | Google Tag Manager + Facebook Pixel | 1–2 hrs | Agent |
-| 9 | A3-fb | Facebook Pixel + Conversions API (server-side, bypasses iOS 14 ATT) | 2 hrs | Agent |
-| 10 | A5 | UTM parameter standardization doc (utm_source/medium/campaign/content/term naming) | 1 hr | Agent docs |
-| 11 | A6 | Ad-budget tracking dashboard (Google Sheet pulling GA4 + Google Ads + FB Ads + lead-to-booked) | 2 hrs | Agent + user |
-| 12 | M4 | **Pre-launch deploy freeze policy formalized in `RECURRING_MAINTENANCE.md`** (10 days before Day 1) | 30 min docs | Agent |
-
-**Phase 4 exit criteria:** All P4.B targets met. Dry-run-ready.
-
----
-
-# 🚀 Priority 5: Launch + Track Ads
-
-**Definition.** Spend live. Optimize ruthlessly on Priority 4's instrumentation.
-
-## P5.A — KPI baseline (track from Day 1)
-
-| KPI | Target |
-|---|---|
-| CPC (Google Search) | <$8 (HVAC DFW typical $4–$12) |
-| CTR (Google Search) | >5% |
-| Conversion rate (LP → form/call) | >8% |
-| Cost per lead (CPL) | <$60 |
-| Cost per booked job (CAC) | <$200 (assuming avg ticket >$1,000) |
-| Quality Score (Google) | ≥7 |
-| Relevance Score (FB) | ≥7 |
-| LTV : CAC ratio | ≥3:1 within 90 days |
-
-## P5.B — Reevaluation cadence
-
-- **Daily (first 14 days):** spend pacing, anomalies, junk traffic
-- **Daily (always):** budget alerts via Google Ads Scripts
-- **Weekly:** negative keywords audit, ad copy refresh, audience refinement
-- **Monthly:** full creative refresh, ROI review against P1–P3 KPIs (did ads accelerate organic, or just shift attribution?)
-
-## P5.C — Action items
-
-| # | ID | Item | When |
-|---|---|---|---|
-| 1 | L1 | $10/day Google Search dry run × 5 days | Week 1 of launch |
-| 2 | L2 | $10/day Facebook dry run × 5 days | Week 1 of launch |
-| 3 | L3 | Verify all attribution paths (P4 KPIs hold under live spend) | Throughout dry run |
-| 4 | L6 | Toggle remaining GA4 key events as they fire (`thanks_page_view`, `form_step_1_complete`, `estimator_complete`) | After 24 hrs spend |
-| 5 | L4 | Scale spend on winning ad sets | Week 2+ |
-| 6 | L5 | Cull underperforming creative | Week 2+ |
-| 7 | L7 | Negative keyword audit weekly (HVAC has heavy junk: DIY, parts) | 30 min/wk × 60 days |
-| 8 | L8 | Ad creative refresh cadence — 30-day rotation (esp. FB, ad fatigue) | 2 hrs/mo |
-| 9 | L9 | Lead-to-booked-job tracking — CRM tags → Offline Conversion Upload | 30 min/wk ongoing |
-| 10 | L10 | Monthly ad ROI review against P1–P3 KPIs | 1 hr/mo |
-| 11 | P2.21 | Server-Side GTM — only if ad-blocker data loss >10% after 60 days | Month 4+ contingency |
-
----
-
-# 🆕 Phase 6: Post-Optimization Page Launches
-
-**Definition.** New site sections that extend the funnel beyond core conversion paths. Deferred until **Phases 1–4 are complete and Phase 3 KPIs are trending positive** — these pages compete for engineering attention and SEO juice with the core lead-gen flow, so they only ship once the optimized core is locking in measurable wins.
-
-**Sequencing rationale:** Building Careers and Referrals pages before the lead-gen site is fully optimized would dilute team focus and split SEO link equity across more URLs than the site can support at current authority. Once the foundation, SEO, conversion, and ad-measurable layers are healthy (P1.B + P2.B + P3.B all trending green), these pages add high-quality user paths without cannibalizing the primary funnel.
-
-## P6.A — Action items
-
-| # | ID | Item | Effort | Owner | Trigger |
-|---|---|---|---|---|---|
-| 1 | **PG1** | **Careers page** (`/careers`) — recruiting funnel for HVAC technicians, comfort advisors, install crews. Sections: company values + culture, current openings (Sanity-driven schema), benefits/compensation summary, application form (reuses `LeadForm` infra with `lead_type=career`), employee testimonials/photos. Schema: `JobPosting` JSON-LD per role for Google for Jobs eligibility. | 6–10 hrs (page + Sanity schema + form) | Agent + user (content) | After Phase 4 ad infrastructure is live and Phase 3 KPIs are trending green |
-| 2 | **PG2** | **Referrals page** (`/referrals`) — customer referral program landing page. Sections: program mechanics (e.g., "$50 credit per referred install"), how-it-works (3-step: refer → they book → you both earn), referral submission form with referrer + referee fields, terms/legal copy, social-share CTAs (FB/SMS/email pre-filled templates). MongoDB schema extension: `referrals` collection (`referrerName`, `referrerEmail`, `referrerPhone`, `refereeName`, `refereePhone`, `serviceType`, `status`, `creditIssuedAt`). Resend dual-email: confirmation to referrer + intro email to referee. GA4 event: `referral_submitted`. | 8–12 hrs (page + form + DB + email + tracking) | Agent + user (program terms) | After PG1 ships and Phase 3 conversion baseline confirms team capacity for new funnel paths |
-
-## P6.B — Why these are deferred (not dropped)
-
-Both pages are real near-term opportunities — the user has explicitly flagged them as wanted scope. They sit here rather than in Phase 3 backlog because:
-
-- **Careers page** is recruiting infrastructure, not direct lead gen. Its conversion KPI (apply rate) doesn't reinforce the same funnel as lead/phone conversion, so it should ship after the primary funnel is dialed in.
-- **Referrals page** has highest potential ROI of the two (existing-customer referrals convert at 3–5× cold leads in HVAC), but it requires a working credit-tracking workflow (CRM tagging, payout process) that's better operationalized once the booked-job CRM tags from Phase 4 are mature.
-
-Both should be re-evaluated quarterly until launched.
-
----
-
-# 🟦 Recurring Maintenance
-
-**Full checklist:** `/app/memory/RECURRING_MAINTENANCE.md`
-
-| Cadence | Headline examples |
-|---|---|
-| Daily (automated) | `/api/cron/sync-reviews` |
-| Weekly | GBP Posts, GBP review-reply SLA, CrUX glance, GSC dashboard glance, GA4 conversion check |
-| Monthly | Lighthouse audit, review-count drift, GSC not-indexed review, Places API billing, M1–M5 device matrix, full conversion review |
-| Quarterly | Tech-SEO audit, AEO citation audit, competitor SEO audit, listings description refresh, title-tag CTR review, schema validation, sitemap/robots scan |
-| Semi-annual | NAP consistency audit, seasonal title/promo refresh, broken internal-link crawl |
-| Annual | Seed/mock data review, API key rotation, Sanity dataset backup, 301/410 prune, MongoDB retention review, Maps API referrer allowlist |
-
----
-
-# 🛠️ Infrastructure / DevOps backlog (low urgency)
-
-Items that aren't tied to a Phase but should be executed on the owner's schedule. None of these are blocking. Each carries a clear "Trigger" — the condition under which the priority should be re-evaluated.
-
-### INFRA-1 — Vercel DNS migration to per-tenant records
-
-- **Status:** 🟡 Pending owner action (window: any Sunday evening within 14 days)
-- **Origin:** Vercel "DNS Change Recommended" banner spotted Apr 30, 2026 in Vercel → Domains. Vercel confirmed in-banner that current records will continue to work.
-- **Trigger to escalate:** Vercel announces a deprecation timeline for `cname.vercel-dns.com` / `76.76.21.21` (then promote to P0 immediately).
-- **Effort:** 5 min active work + 30 min monitoring during DNS propagation.
-- **Risk:** Low. Both old and new records work concurrently during propagation.
-
-**Goal:** migrate `dfwhvac.com` apex A record + `www.dfwhvac.com` CNAME from Vercel's legacy shared DNS plane to the new per-tenant records.
-
-| Record | Current (legacy, working) | New (recommended) |
-|---|---|---|
-| `dfwhvac.com` A | `76.76.21.21` | **`216.198.79.1`** |
-| `www.dfwhvac.com` CNAME | `cname.vercel-dns.com` | **`05b2be3b5601689b.vercel-dns-017.com`** |
-
-**Why migrate (not urgent, but worth doing):**
-
-- Better tenant isolation — your new CNAME is unique to your project (DDoS/security issues against other Vercel tenants can't affect you)
-- Automatic IP rotation — Vercel handles future infrastructure changes behind the dedicated CNAME with no further DNS edits required
-- Access to newer Vercel edge features (regional routing, advanced firewall rules)
-- Future-proofing against eventual deprecation of legacy records (likely 2028+)
-
-**Pre-migration checks (open these in two tabs):**
-
-- GoDaddy DNS Management for `dfwhvac.com` (registrar — nameservers `ns71/72.domaincontrol.com`)
-- Vercel → Domains page for the project
-
-**Step-by-step migration:**
-
-1. **GoDaddy → My Products → Domains → `dfwhvac.com` → DNS Management**
-2. **Edit apex A record:**
-    - Locate row: Type=`A`, Name=`@`, Value=`76.76.21.21`
-    - Change Value → `216.198.79.1`
-    - TTL: leave as-is or set to 600 for faster propagation
-    - Save
-3. **Edit www CNAME record:**
-    - Locate row: Type=`CNAME`, Name=`www`, Value=`cname.vercel-dns.com`
-    - Change Value → `05b2be3b5601689b.vercel-dns-017.com`
-    - TTL: leave as-is
-    - Save
-4. **Wait 10–30 minutes for DNS propagation.**
-5. **Vercel → Domains → click "Refresh"** on both `dfwhvac.com` and `www.dfwhvac.com`. The "DNS Change Recommended" badges should clear.
-6. **Verify globally** at `https://dnschecker.org`:
-    - `https://dnschecker.org/#A/dfwhvac.com` → should show `216.198.79.1` on most global resolvers
-    - `https://dnschecker.org/#CNAME/www.dfwhvac.com` → should show `05b2be3b5601689b.vercel-dns-017.com`
-
-**Schedule recommendation:** Sunday evening, US Central time. Avoid migrating in the same week as any active conversion A/B test (DNS flakiness would muddy the test signal). Avoid the day before a known marketing push.
-
-**Rollback (if anything goes wrong):** revert the two GoDaddy values to `76.76.21.21` and `cname.vercel-dns.com`. Propagation back will take another 10–30 minutes. Site remains accessible via `https://website-dfw-ii-b4zk.vercel.app` regardless of DNS state.
-
-**Post-migration:** mark INFRA-1 as ✅ shipped in this file with date.
-
-
-
-**Full checklist:** `/app/memory/RECURRING_MAINTENANCE.md`
-
-| Cadence | Headline examples |
-|---|---|
-| Daily (automated) | `/api/cron/sync-reviews` |
-| Weekly | GBP Posts, GBP review-reply SLA, CrUX glance, GSC dashboard glance, GA4 conversion check |
-| Monthly | Lighthouse audit, review-count drift, GSC not-indexed review, Places API billing, M1–M5 device matrix, full conversion review |
-| Quarterly | Tech-SEO audit, AEO citation audit, competitor SEO audit, listings description refresh, title-tag CTR review, schema validation, sitemap/robots scan |
-| Semi-annual | NAP consistency audit, seasonal title/promo refresh, broken internal-link crawl |
-| Annual | Seed/mock data review, API key rotation, Sanity dataset backup, 301/410 prune, MongoDB retention review, Maps API referrer allowlist |
-
----
-
-# 🗑️ Dropped from active roadmap (moved to P3 backlog only)
-
-These items don't materially serve any of the 5 priorities; revisit only if context changes.
+## Dropped / won't do (unless context changes)
 
 | Item | Reason |
 |---|---|
-| Dark mode support | Zero SEO/conversion impact for HVAC audience (~6–10 hrs saved) |
-| P2.8 Video testimonials | Marginal vs existing 145 reviews; capital-intensive ($500–1,500) |
-| Next.js 15→16 upgrade | Premature; wait until forced by security or peer-dep |
-| DNS GoDaddy → Vercel CNAME | Zero SEO/conversion impact; ops cleanup only |
-| P2.5 Sanity webhook ISR | Optimization without measurable benefit; defer unless TTFB surfaces as CWV issue |
-| P3 Housecall Pro API integration | Operations efficiency, not SEO/conversion |
-| P2.21 Server-Side GTM | Correctly already deferred to Month 4+ contingency |
-| Wix subscription cancellation | Operational; user-led, no roadmap dependency |
-| RealWork subscription evaluation | Operational; user decision |
-| Case studies page, YouTube embed on IAQ | P3 backlog; revisit after Phase 2b cadence is mature |
+| Dark mode | No HVAC audience ROI |
+| P2.8 Video testimonials | Cost vs 145+ text reviews |
+| F3c CSP nonce migration | Mozilla Observatory B+ accepted May 14 |
+| Next.js 15→16 | **Done** — on Next 16; remove if seen elsewhere |
+| F10 Sanity v5 | **Done** — `sanity@^5.26.0` |
+| P2.21 review cron → GH Actions | **Done** — `sync-reviews.yml` |
+| P2.22 live review count in metadata | **Done** — `generateMetadata()` in `layout.js` |
+| KPI-DASH static HTML | **Done** — `frontend/public/internal/kpi-dashboard.html` |
+| C1 Clarity install | **Done** — `layout.js` |
+| C6/C8/C2/P1.11 | **Done** — see CHANGELOG baseline |
 
 ---
 
-# 📍 Strategic Phase Sequencing
+## Recurring ops
 
-**Phase 1 — Foundation Lock-In** (~15–20 hrs, agent-led, ~2–3 weeks)
-Capture baseline → ship F0–F8 → close P2.4b/c/7/15. Site is bulletproof. **Exit:** P1.B all measured.
+**Full checklist:** `RECURRING_MAINTENANCE.md`
 
-**Phase 2a — SEO/AEO Quick Wins** (~5 hrs, week 3) 
-A4 + S1–S10 + P1.4/5/6f. **Exit:** P2.B baseline captured + AI crawlers verified open.
-
-**Phase 2b — SEO Content Cadence** (ongoing 6+ months, 1–2 hrs/wk) 
-P1.8 GBP starts ASAP (5–14 day verification clock!) · P1.6b 1-city-per-week · P1.6c/e ongoing · P2.3 · S4/8/9.
-
-**Phase 3 — Conversion Optimization** (~25 hrs, runs parallel to Phase 2b after Phase 2a quick wins) 
-C1 Clarity (install FIRST, 30-day data gather) → P1.11 → P1.10 → P1.9b/c/d/e/f → C2–C7. **Exit:** P3.B trending positive.
-
-**Phase 4 — Ad Infrastructure** (~25 hrs, after Phase 3 baseline trending positive) 
-P2.19 CallRail · P2.20 Enhanced Conv · P1.12a/b/c · A1/3/4-LP/5/6 · M4. **Exit:** All P4.B targets pass.
-
-**Phase 5 — Launch + Track Ads** (ongoing) 
-$10/day dry run × 5 days × 2 channels → scale → optimize on data.
-
-**Phase 6 — Post-Optimization Page Launches** (~14–22 hrs, deferred until Phase 3 KPIs trending + Phase 4 live) 
-PG1 Careers page · PG2 Referrals page. Re-evaluated quarterly until launched. Don't ship before primary funnel is locking in measurable wins.
-
-**Critical sequencing rules:**
-1. **GBP verification (P1.8) starts on Day 1 of Phase 2b** — verification takes 5–14 days, blocks the 60-day GBP uplift compounding window. Do not delay.
-2. **Microsoft Clarity (C1) installs on Day 1 of Phase 3** — needs 30+ days runtime to produce useful heatmaps before P1.10/P1.9 changes ship.
-3. **CallRail/DNI (P2.19) must be live before Day 1 of Phase 5** — without it, optimizing ads on 20–40% of conversion signal.
-4. **Phase 2b runs parallel with Phase 3** — don't wait for 28-week city content sprint to finish before shipping conversion fixes.
-5. **No two phases skip ahead.** Phase 1 must complete (or have ticketed plan) before Phase 2a starts. Phase 4 must NOT start before Phase 3 baseline trending.
+**Quarterly doc hygiene (30 min):** Reconcile ROADMAP open IDs vs `rg` in `frontend/` — any ID open &gt;90 days with code present → close in ROADMAP, note in CHANGELOG.

@@ -1,7 +1,15 @@
 # 🟢 START HERE — Agent Standard Operating Procedure
 
-**Last reviewed:** April 21, 2026
+**Last reviewed:** May 21, 2026
 **This file is the single entry point for every session.** Read it completely before taking any other action on this project.
+
+---
+
+## One-Sentence Policy (master rule)
+
+**If it is not in `/frontend` (or a named adjacent repo file such as `.github/workflows/*.yml` or `scripts/*.mjs`), it is not “shipped” — label it `PARTIAL`, `USER_ACTION`, or `INFRA` instead.**
+
+Every “✅ Shipped” claim in `CHANGELOG.md` must cite file paths and grep evidence. Event names must match `GA4_EVENTS.md`, not GA4 Admin display names.
 
 ---
 
@@ -10,8 +18,10 @@
 | File | Purpose |
 |---|---|
 | **`/app/memory/00_START_HERE.md`** (this file) | Agent SOP — session-start and session-end checklists |
-| **`/app/memory/ROADMAP.md`** | Future priorities (P1/P2/P3), 12-week ad-launch roadmap, phase groupings |
-| **`/app/memory/CHANGELOG.md`** | Reverse-chronological record of everything shipped to production |
+| **`/app/memory/ROADMAP.md`** | **Future work only** — open priorities (P1–P6); no shipped tables |
+| **`/app/memory/CHANGELOG.md`** | Reverse-chronological record of everything shipped to production (baseline reset May 21, 2026) |
+| **`/app/memory/CHANGELOG-legacy-pre-2026-05-21.md`** | Archived pre-reset agent changelog — historical only |
+| **`/app/memory/GA4_EVENTS.md`** | Authoritative registry of GA4 events **fired in code** vs GA4 Admin renames / key-event toggles |
 | **`/app/memory/PRD.md`** | Minimal shim — original problem statement, architecture, persona. Redirects to ROADMAP + CHANGELOG for live content |
 | **`/app/memory/audits/`** | All past audit artifacts (Lighthouse scorecards, technical SEO audits, QA sweeps, mobile UX audits, baseline screenshots). Save new audits HERE with ISO-date filenames. |
 | **`/app/memory/audits/README.md`** | Index of all audit files with brief descriptions |
@@ -46,7 +56,7 @@ Verify the following six items. If any fails, STOP and investigate — the docum
 
 Before handing off, verify:
 
-- [ ] **1. If I shipped anything → `/app/memory/CHANGELOG.md` has a new entry dated today** describing what shipped, with file references and verification evidence.
+- [ ] **1. If I shipped anything → `/app/memory/CHANGELOG.md` has a new entry dated today** with file paths, grep/command evidence, and any `PARTIAL` / `USER_ACTION` caveats. GA4 changes must update `GA4_EVENTS.md` if event names or params changed.
 - [ ] **2. If priorities shifted → `/app/memory/ROADMAP.md` is updated** (added/removed/moved items, rescored phases).
 - [ ] **3. If I produced audit data** (Lighthouse runs, curl scorecards, manual QA, security scans) → **saved to `/app/memory/audits/`** with ISO-date filename (`YYYY-MM-DD_what_was_audited.md`) AND `/app/memory/audits/README.md` index updated.
 - [ ] **4. `Last reviewed` stamp at the top of ROADMAP.md and CHANGELOG.md updated to today's date.**
@@ -60,8 +70,8 @@ Before handing off, verify:
 
 ## 📏 Size & Hygiene Rules
 
-- **CHANGELOG.md** should stay under ~1,000 lines. When it grows past that, **archive the oldest 90+ days** into `/app/memory/audits/changelog-archive-YYYYQX.md` and link from the bottom of CHANGELOG.md.
-- **ROADMAP.md** should stay under ~700 lines. When items complete, move them to CHANGELOG — don't let them linger as "✅ SHIPPED" entries at the top.
+- **CHANGELOG.md** should stay under ~1,000 lines. When it grows past that, **archive the oldest 90+ days** into `/app/memory/CHANGELOG-legacy-YYYY-MM-DD.md` (or `audits/changelog-archive-YYYYQX.md`) and link from the bottom of CHANGELOG.md.
+- **ROADMAP.md** should stay under ~700 lines and contain **no** "✅ SHIPPED" or "Tier X COMPLETE" blocks — when something ships, **delete it from ROADMAP** and add one CHANGELOG entry.
 - **Audit filename convention:** `YYYY-MM-DD_descriptor.md` or `YYYY-MM-DD_descriptor.csv` / `.xlsx`. Always ISO-date first so chronological sort happens naturally.
 
 ---
@@ -77,4 +87,5 @@ Before handing off, verify:
 | Technical SEO audit | audits/ with ISO-date filename |
 | Bug reproduction notes (temporary) | Nowhere persistent — handle and close |
 | A new 3rd-party integration decision | CHANGELOG when shipped; ROADMAP if planned |
+| A new or renamed GA4 event | `GA4_EVENTS.md` when code ships; user key-event toggle in `POST_DEPLOY_ACTION_ITEMS_PR2.md` |
 | User credentials for testing | `/app/memory/test_credentials.md` (platform convention) |

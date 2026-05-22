@@ -3,7 +3,7 @@
 **Purpose:** Single source of truth for every recurring operational task that keeps DFW HVAC healthy, indexed, secure, and converting. Review on the cadence below. Append new items as features ship.
 
 **Owner:** User (strategic) + Agent (execution support)
-**Last updated:** April 23, 2026
+**Last updated:** May 21, 2026
 
 > How to use: Scan by cadence when you sit down for ops. Check the "Last Done" column before running. Append notes to the run log at the bottom if anything unusual surfaces.
 
@@ -13,7 +13,7 @@
 
 | # | Task | How | Last Done |
 |---|---|---|---|
-| D1 | `/api/cron/sync-reviews` — Google Places API → Sanity → all on-site surfaces | Vercel Cron @ 6 AM UTC | Auto |
+| D1 | `/api/cron/sync-reviews` — Google Places API → Sanity → all on-site surfaces | GitHub Actions `.github/workflows/sync-reviews.yml` @ 9 AM CT (`cron: 0 14 * * *`) | Auto |
 
 ---
 
@@ -37,7 +37,7 @@
 | M3 | GSC "Discovered – currently not indexed" URL review — resubmit any new stuck URLs via URL Inspect tool | GSC → Pages → not-indexed → cross-ref `/app/memory/audits/2026-04-23_GSC_Indexing_Tracker.md` | — |
 | M4 | Google Places API billing / quota check in Google Cloud Console | GCP → Billing → Alerts | — |
 | M5 | Physical device QA matrix (M1–M5) — iOS Safari + Android Chrome + Maps autocomplete | Per `/app/memory/audits/DFW_HVAC_QA_Sweep_2026-04-21.md` | — |
-| M6 | GA4 key-events sanity check — confirm `generate_lead` (renamed from code-side `form_submit_lead` via GA4 Modify Event rule) and `phone_click` still firing and flagged as key events | GA4 → DebugView → submit real test lead + tap a phone link → verify both events land and show key-event badge in Admin → Events | April 24, 2026 (partial: `generate_lead` marked; `phone_click` toggle pending ingestion) |
+| M6 | GA4 key-events sanity check — confirm code events in `GA4_EVENTS.md` still fire on production and remain marked as key events where intended | GA4 Realtime + DebugView: `form_submit_lead`, `phone_click`, `thanks_page_view`, `estimator_opt_in` — see `POST_DEPLOY_ACTION_ITEMS_PR2.md` | April 24, 2026 (partial: form key event marked; `phone_click` toggle pending) |
 
 ---
 
@@ -45,6 +45,7 @@
 
 | # | Task | How | Last Done | Next Due |
 |---|---|---|---|---|
+| Q0 | **ROADMAP ↔ code reconciliation** — every open ROADMAP ID must grep to missing code; every shipped pattern in code must not stay open on ROADMAP | `rg` against `frontend/` per `GA4_EVENTS.md` + CHANGELOG baseline; update `ROADMAP.md` / `CHANGELOG.md` | May 21, 2026 (baseline reset) | Aug 21, 2026 |
 | Q1 | P1.2 Technical SEO Audit re-run | Agent + `/app/memory/audits/DFW_HVAC_Technical_Audit_2026-04-21.md` template | April 21, 2026 | July 21, 2026 |
 | Q2 | P1.3 Post-launch QA Sweep re-run | Agent + `/app/memory/audits/DFW_HVAC_QA_Sweep_2026-04-21.md` template | April 21, 2026 | July 21, 2026 |
 | Q3 | External business listings description refresh (GBP, Yelp, Angi, HomeAdvisor, Nextdoor) via `GET /api/canonical-description` | Fetch endpoint → paste into each listing | — | July 21, 2026 |
