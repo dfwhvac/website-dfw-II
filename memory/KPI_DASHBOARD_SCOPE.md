@@ -1,15 +1,74 @@
-# KPI Dashboard — Build Scope for Next Session
+# KPI Dashboard — Build Scope
 
-**Drafted:** May 8, 2026
+**Drafted:** May 8, 2026  
+**Revised:** May 22, 2026 (schema v2 — Gate / Signal / Maintain / Watch)  
+**Owner guide:** [`KPI_DASHBOARD_GUIDE.md`](KPI_DASHBOARD_GUIDE.md)  
 **Estimated effort:** 3 hrs agent + 0 user (Phase 1 deliverables) · separate scope for Phase 2–5 token wiring
 
 ---
 
 ## Goal
 
-Deliver a single internal dashboard at `https://dfwhvac.com/internal/kpi-dashboard.html` that visualizes the 5-Priority roadmap's KPIs in one glance. Phase 1 KPIs auto-populate without user credentials; Phases 2–5 are scaffolded with "Connect [Source]" CTAs documenting exactly what token is needed.
+Deliver a single internal dashboard at `https://dfwhvac.com/internal/kpi-dashboard.html` that answers **two questions**:
 
-**Pattern reuse:** Same static-HTML + design idiom as the existing `roadmap-preview.html` (already at `/internal/roadmap-preview.html`). This avoids server-fetch complexity, plays nicely with Vercel's static optimization, and lets the page hit Edge cache.
+1. **Phase graduation** — Are GATE criteria met to focus on the next roadmap phase?
+2. **Engineering health** — Are MAINTAIN metrics regressing?
+
+Phase 1 KPIs auto-populate without user credentials; Phases 2–5 use OAuth where configured. Manual GATE rows track GA4 Admin steps and quarterly audits.
+
+**Pattern reuse:** Static HTML + `kpi-snapshot.json` (same idiom as `roadmap-preview.html`).
+
+---
+
+## Schema v2 (May 22, 2026)
+
+Each KPI object in `kpi-snapshot.json` includes:
+
+| Field | Values | Purpose |
+|---|---|---|
+| `role` | `gate` · `signal` · `maintain` · `watch` | UI tag + default filter |
+| `phaseGate` | `P1` · `P2-tech` · `P2-growth` · `P3-MEASURE` · `P3-OPTIMIZE` · `P4` · `P5` | Checklist grouping |
+| `seoImpact` | `high` · `medium` · `low` · `none` | Owner tooltip |
+| `blocksGraduation` | `true` · `false` | Drives Gate X/Y rollup |
+| `gateId` | e.g. `SEC-2`, `P3-BASELINE` | ROADMAP sync |
+| `gateLabel` | e.g. `P1-G7`, `G4` | Checklist ID column |
+
+Snapshot also includes `graduation` rollups: `phase1`, `phase2Tech`, `phase3Measure`, `phase3Optimize`, `policies`.
+
+**Source of truth for classification:** `KPI_META` in `scripts/audit-kpis.mjs`.
+
+### GATE metrics (blocks graduation when red)
+
+| ID | phaseGate | gateId | Notes |
+|---|---|---|---|
+| `uptime-30d` | P1 | — | P1-G1 |
+| `gitleaks-status` | P1 | — | P1-G2 |
+| `vercel-rum-lcp-mobile` | P1 | — | P1-G3 · Vercel RUM |
+| `vercel-rum-inp` | P1 | — | P1-G4 |
+| `wcag-aa-pa11y` | P1 | — | P1-G5 |
+| `leads-api-recaptcha` | P1 | — | P1-G6 · code scan |
+| `sec-2-estimator-lead` | P1 | SEC-2 | P1-G7 · **open** |
+| `sitemap-url-count` | P1 | — | P1-G8 |
+| `robots-ai-allowlist` | P1 | — | P1-G8 |
+| `sec-1-gsc-indexing` | P1 | SEC-1 | P1-G9 · manual |
+| `sitemap-indexing-rate` | P2-tech | — | 51/51 indexed |
+| `sitemap-health-parity` | P2-tech | — | GSC sitemaps API |
+| `schema-coverage` | P2-tech | — | Rich results / AEO |
+| `p3-g3-form-key-event` | P3-MEASURE | P3-BASELINE | manual · G3 green |
+| `p3-g4-phone-key-event` | P3-MEASURE | P3-BASELINE | manual · pending |
+| `p3-g5-thanks-key-event` | P3-MEASURE | P3-BASELINE | manual · pending |
+| `p3-g6-estimator-key-event` | P3-MEASURE | P3-BASELINE | manual · pending |
+| `p3-baseline-30d-data` | P3-MEASURE | P3-BASELINE | GA4 sessions proxy |
+
+### SIGNAL / MAINTAIN / WATCH (summary)
+
+| Role | Count (approx) | Examples |
+|---|---|---|
+| SIGNAL | ~15 | GSC impressions/clicks/CTR, overall CR, form rate, reviews |
+| MAINTAIN | ~20 | Observatory, CDN hit rate, page weight, Lighthouse scores |
+| WATCH | ~10 | CrUX rows, Clarity friction, P4/P5 phase-gated placeholders |
+
+Non-blocking GATE: `s3-aeo-citation` (S3-AEO) — tracks long-term AEO goal, does not block P3.
 
 ---
 
@@ -172,9 +231,9 @@ These mostly track items not yet built (CallRail, Google Ads, Meta Ads). Dashboa
 ## Acceptance criteria
 
 - ☐ `https://dfwhvac.com/internal/kpi-dashboard.html` returns HTTP 200
-- ☐ At least 13 Phase 1 KPIs render with current values + traffic-light status
-- ☐ All Phase 2/3/4/5 KPI cards render as scaffolds with token-requirement documentation
-- ☐ Page styling matches `roadmap-preview.html` visual language
-- ☐ `node scripts/audit-kpis.mjs` runs to completion in <60s
-- ☐ Snapshot archive directory created with first weekly entry
+- ☐ Phase cards show **Gate X/Y met** (not green % only)
+- ☐ Collapsible **P1 / P2-tech / P3-MEASURE** exit checklists render GATE rows
+- ☐ Full table supports **Gate + Signal** default filter + role badges
+- ☐ `node scripts/audit-kpis.mjs` emits `schemaVersion: 2` + `graduation` rollups
+- ☐ `memory/KPI_DASHBOARD_GUIDE.md` documents owner ritual + ROADMAP gate sync
 - ☐ Weekly cadence documented in `RECURRING_MAINTENANCE.md`

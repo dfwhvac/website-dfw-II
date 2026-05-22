@@ -130,6 +130,26 @@ LCP optimization work is in code (font `optional`, lazyOnload GA4/Clarity, hero 
 
 **Verification:** Static HTML; `noindex,nofollow`; TOC + active queue (19 items) + KPI gates + P5-LAUNCH-GATE.
 
+**Note:** ROADMAP item **F9** (live KPI API widgets on roadmap preview) remains open — this pass is a manual doc sync, not auto-pull widgets.
+
+---
+
+## May 22, 2026 — KPI dashboard dual-layer revision (schema v2)
+
+**What changed:** Rebuilt graduation model for internal KPI dashboard — every metric tagged **GATE / SIGNAL / MAINTAIN / WATCH**; phase exit checklists separate from engineering health; P2-tech vs P2-growth and P3-MEASURE vs P3-OPTIMIZE split.
+
+**New GATE KPIs:** `leads-api-recaptcha`, `sec-2-estimator-lead` (code scan), `sec-1-gsc-indexing`, `s3-aeo-citation`, P3-BASELINE manual rows (G3–G6 + 28d data).
+
+**Live URL (after deploy):** https://dfwhvac.com/internal/kpi-dashboard.html
+
+**Files:**
+- `scripts/audit-kpis.mjs` — `KPI_META`, `graduation` rollups, `schemaVersion: 2`
+- `frontend/public/internal/kpi-dashboard.html` — gate strip, checklists, role filters
+- `memory/KPI_DASHBOARD_GUIDE.md` — owner + agent guide (new)
+- `memory/KPI_DASHBOARD_SCOPE.md` — classification table
+
+**Verification:** Run `GITHUB_ACTIONS=true node scripts/audit-kpis.mjs`; confirm P1 gate shows SEC-2 red until shipped.
+
 **Note:** ROADMAP item **F9** (live KPI API widgets on this page) remains open — this pass is a manual doc sync, not auto-pull widgets.
 
 ---

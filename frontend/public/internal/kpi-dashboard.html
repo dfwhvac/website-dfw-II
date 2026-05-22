@@ -132,6 +132,108 @@
   .summary-card .progress-bar .py { background: var(--alert-amber); }
   .summary-card .progress-bar .pr { background: var(--vivid-red); }
   .summary-card .progress-bar .pn { background: var(--slate-300); }
+  .summary-card .gate-line {
+    font-family: "SF Mono", Menlo, monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--slate-700);
+    margin-top: 0.15rem;
+  }
+  .summary-card .gate-line.ready { color: var(--success-green); }
+  .summary-card .gate-line.blocked { color: var(--vivid-red); }
+
+  /* Graduation policy banner */
+  .policy-banner {
+    background: white;
+    border: 1px solid var(--slate-200);
+    border-left: 4px solid var(--electric-blue);
+    border-radius: 8px;
+    padding: 0.85rem 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.82rem;
+    color: var(--slate-700);
+  }
+  .policy-banner strong { color: var(--prussian); }
+
+  /* Gate checklists */
+  .gate-checklists { margin-bottom: 1.25rem; }
+  .gate-checklists details {
+    background: white;
+    border: 1px solid var(--slate-200);
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    overflow: hidden;
+  }
+  .gate-checklists summary {
+    cursor: pointer;
+    padding: 0.65rem 1rem;
+    font-weight: 700;
+    font-size: 0.82rem;
+    color: var(--slate-800);
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  .gate-checklists summary::-webkit-details-marker { display: none; }
+  .gate-checklists summary::before {
+    content: '▸';
+    color: var(--electric-blue);
+    margin-right: 0.4rem;
+    font-size: 0.75rem;
+  }
+  .gate-checklists details[open] summary::before { content: '▾'; }
+  .gate-checklists .chk-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+  }
+  .gate-checklists .chk-table th {
+    background: var(--slate-50);
+    text-align: left;
+    padding: 0.4rem 0.85rem;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--slate-600);
+    border-top: 1px solid var(--slate-100);
+  }
+  .gate-checklists .chk-table td {
+    padding: 0.4rem 0.85rem;
+    border-top: 1px solid var(--slate-100);
+    vertical-align: middle;
+  }
+
+  /* Role badges */
+  .role-badge {
+    display: inline-block;
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  .role-badge.gate { background: rgba(0, 49, 83, 0.1); color: var(--prussian); }
+  .role-badge.signal { background: rgba(0, 119, 182, 0.1); color: var(--electric-blue); }
+  .role-badge.maintain { background: var(--slate-100); color: var(--slate-600); }
+  .role-badge.watch { background: rgba(148, 163, 184, 0.2); color: var(--slate-500); }
+  .seo-tag {
+    font-size: 0.65rem;
+    color: var(--slate-500);
+    font-family: "SF Mono", Menlo, monospace;
+  }
+
+  .section-label {
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--slate-500);
+    margin: 1.25rem 0 0.5rem;
+  }
 
   .dot {
     display: inline-block;
@@ -371,15 +473,26 @@
   <div class="inner">
     <span class="tag">Internal · Do not share externally</span>
     <h1>DFW HVAC — KPI Dashboard</h1>
-    <p class="sub">53-metric weekly health snapshot across all 5 roadmap phases. Hover any <em>Metric</em> for detail context, hover any <em>Current</em> value for its data source.</p>
+    <p class="sub">Phase graduation from <strong>GATE</strong> rows only — not total green count. Hover any <em>Metric</em> for detail; hover <em>Current</em> for data source. Owner guide: <code>memory/KPI_DASHBOARD_GUIDE.md</code> in repo.</p>
     <div class="meta-line" id="meta-line">Loading snapshot…</div>
   </div>
 </header>
 
 <main>
+  <div class="policy-banner" id="policy-banner"></div>
   <div class="summary-strip" id="summary-strip"></div>
 
+  <p class="section-label">Phase exit checklists (GATE rows only)</p>
+  <div class="gate-checklists" id="gate-checklists"></div>
+
+  <p class="section-label">Full metric table</p>
   <div class="toolbar">
+    <div class="filters" id="role-filters">
+      <button class="active" data-role="gate-signal">Gate + Signal</button>
+      <button data-role="gate">Gate only</button>
+      <button data-role="all">All roles</button>
+      <button data-role="maintain">Maintain</button>
+    </div>
     <div class="filters" id="filters">
       <button class="active" data-filter="all">All</button>
       <button data-filter="red"><span class="dot" style="background:var(--vivid-red)"></span>Red</button>
@@ -394,6 +507,7 @@
     <thead>
       <tr>
         <th></th>
+        <th>Role</th>
         <th>Metric</th>
         <th>Current</th>
         <th>Target</th>
@@ -411,7 +525,7 @@
 
 <footer>
   Update cadence: weekly Monday via GitHub Action <code>kpi-audit.yml</code> (or <code>node scripts/audit-kpis.mjs</code> locally).
-  See <a href="/internal/roadmap-preview.html">Roadmap →</a>
+  Guide: <code>memory/KPI_DASHBOARD_GUIDE.md</code> · <a href="/internal/roadmap-preview.html">Roadmap →</a>
 </footer>
 
 <script>
@@ -422,14 +536,16 @@
   };
 
   const $strip = document.getElementById('summary-strip');
+  const $policy = document.getElementById('policy-banner');
+  const $checklists = document.getElementById('gate-checklists');
   const $table = document.getElementById('kpi-table');
   const $body = document.getElementById('kpi-body');
   const $meta = document.getElementById('meta-line');
   const $err = document.getElementById('error');
   const $filters = document.getElementById('filters');
+  const $roleFilters = document.getElementById('role-filters');
   const $search = document.getElementById('search');
 
-  // -------- Fetch snapshot --------
   let snap;
   try {
     const r = await fetch('/internal/kpi-snapshot.json?t=' + Date.now(), { cache: 'no-cache' });
@@ -441,23 +557,62 @@
     return;
   }
 
-  // -------- Header meta --------
+  const grad = snap.graduation || {};
+  const policies = grad.policies || {};
+
   $meta.textContent =
     'Generated: ' + new Date(snap.generatedAt).toLocaleString() +
     ' · Domain: ' + snap.domain +
+    ' · Schema v' + (snap.schemaVersion || 1) +
     ' · Audit ran in ' + ((snap.durationMs || 0) / 1000).toFixed(1) + 's';
 
-  // -------- Phase summary cards --------
+  $policy.innerHTML = `
+    <strong>Graduation policy:</strong>
+    P1→P2: ${policies.p1ToP2 || 'All P1 GATE rows green.'}
+    · P2→P3: ${policies.p2ToP3 || 'P2-tech green; growth signals parallel.'}
+    · P3→P4: ${policies.p3ToP4 || 'P3-MEASURE green; optimize reds OK early.'}
+  `;
+
+  const gateSummary = (g, label) => {
+    if (!g || !g.total) return `${label}: no gates tracked`;
+    const open = g.open + g.pending;
+    const suffix = g.ready ? ' ✓ ready' : (g.blockers?.length ? ` · 🔴 ${g.blockers.length} blocker(s)` : (open ? ` · ⚠ ${open} open` : ''));
+    return `${label}: Gate ${g.met}/${g.total} met${suffix}`;
+  };
+
+  const phaseGateLine = (p) => {
+    if (p.id === 'phase1' && grad.phase1) {
+      const g = grad.phase1;
+      return gateSummary(g, 'P1 Foundation');
+    }
+    if (p.id === 'phase2') {
+      const t = grad.phase2Tech;
+      const gLine = t ? `Tech ${t.met}/${t.total}` : 'Tech —';
+      return `P2 SEO/AEO · ${gLine} · growth signals parallel`;
+    }
+    if (p.id === 'phase3' && grad.phase3Measure) {
+      const m = grad.phase3Measure;
+      const o = grad.phase3Optimize;
+      return `Measure ${m.met}/${m.total} · Optimize ${o?.green || 0}/${o?.total || 0} green`;
+    }
+    if (p.id === 'phase4' || p.id === 'phase5') return 'Not started (expected)';
+    return '';
+  };
+
   $strip.innerHTML = snap.phases.map(p => {
     const color = PHASE_COLOR[p.id];
     const r = p.rollup;
     const total = r.total || 1;
     const pct = n => (n / total * 100).toFixed(1);
+    const gLine = phaseGateLine(p);
+    const gObj = p.id === 'phase1' ? grad.phase1 : null;
+    const gateClass = gObj?.ready ? 'ready' : (gObj?.blockers?.length ? 'blocked' : '');
     return `
       <a href="#${p.id}" class="summary-card" style="border-top: 3px solid ${color};">
         <span class="phase-tag" style="color: ${color};">${p.tag}</span>
         <span class="phase-title">${p.label}</span>
-        <div class="dots">
+        <div class="gate-line ${gateClass}">${gLine}</div>
+        <div class="dots" title="All metrics (not graduation)">
           <span><span class="dot" style="background:var(--success-green)"></span>${r.green}</span>
           <span><span class="dot" style="background:var(--alert-amber)"></span>${r.yellow}</span>
           <span><span class="dot" style="background:var(--vivid-red)"></span>${r.red}</span>
@@ -473,33 +628,30 @@
     `;
   }).join('');
 
-  // -------- Helpers --------
   const STATUS_COLOR = {
     green: 'var(--success-green)', yellow: 'var(--alert-amber)',
     red: 'var(--vivid-red)', gray: 'var(--slate-400)'
   };
   const statusDot = (s) => `<span class="dot" style="background:${STATUS_COLOR[s]}"></span>`;
-  // Sentiment-aware trend renderer. Falls back to neutral if older snapshot has no sentiment field.
+  const roleBadge = (k) => {
+    const role = k.role || 'maintain';
+    const label = role.toUpperCase();
+    const gate = k.gateLabel ? ` · ${k.gateLabel}` : (k.gateId ? ` · ${k.gateId}` : '');
+    return `<span class="role-badge ${role}" title="${k.phaseGate || ''}${gate}">${label}</span>`;
+  };
   const trendHtml = (k) => {
     const arrow = k.trend;
     const sentiment = k.deltaSentiment || 'neutral';
     if (!arrow || arrow === '—') return '<span class="trend neutral">—</span>';
     return `<span class="trend ${sentiment}">${arrow}</span>`;
   };
-  // Delta badge — appears next to Current value when there's a meaningful change vs prior.
-  // Skip exactly-zero deltas — the "→" trend arrow already signals "no change" without
-  // adding visual noise to every stable row.
   const deltaBadge = (k) => {
     if (!k.deltaFormatted || k.delta === 0 || k.deltaSentiment === 'neutral') return '';
-    const sentiment = k.deltaSentiment;
-    return `<span class="delta ${sentiment}" title="vs last snapshot">${k.deltaFormatted}</span>`;
+    return `<span class="delta ${k.deltaSentiment}" title="vs last snapshot">${k.deltaFormatted}</span>`;
   };
   const escapeAttr = (s) => (s || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-
-  // Relative time helper — recomputed each render so it's always fresh on reload
   const relativeTime = (iso) => {
-    const ts = new Date(iso).getTime();
-    const secs = (Date.now() - ts) / 1000;
+    const secs = (Date.now() - new Date(iso).getTime()) / 1000;
     if (secs < 60) return 'just now';
     if (secs < 3600) return Math.floor(secs / 60) + 'm ago';
     if (secs < 86400) return Math.floor(secs / 3600) + 'h ago';
@@ -507,30 +659,64 @@
   };
   const updatedLabel = relativeTime(snap.generatedAt);
 
-  // -------- Render table rows --------
+  const CHECKLIST_GROUPS = [
+    { id: 'p1-gates', title: 'P1 Foundation — exit to P2', match: (k) => k.phaseGate === 'P1' && k.blocksGraduation },
+    { id: 'p2-tech', title: 'P2-tech — discovery ready', match: (k) => k.phaseGate === 'P2-tech' && k.blocksGraduation },
+    { id: 'p3-measure', title: 'P3-MEASURE — unlocks P4 build', match: (k) => k.phaseGate === 'P3-MEASURE' && k.blocksGraduation },
+  ];
+
+  const allKpis = snap.phases.flatMap(p => p.kpis.map(k => ({ ...k, _phase: p.id })));
+  $checklists.innerHTML = CHECKLIST_GROUPS.map(group => {
+    const rows = allKpis.filter(group.match);
+    const met = rows.filter(k => k.status === 'green').length;
+    const summary = `${group.title} · ${met}/${rows.length} met`;
+    const body = rows.map(k => `
+      <tr>
+        <td>${statusDot(k.status)}</td>
+        <td>${k.gateLabel || k.gateId || k.id}</td>
+        <td>${k.label}</td>
+        <td>${k.value || '—'}</td>
+        <td>${k.target || '—'}</td>
+      </tr>
+    `).join('');
+    return `
+      <details ${group.id === 'p1-gates' ? 'open' : ''}>
+        <summary><span>${summary}</span></summary>
+        <table class="chk-table">
+          <thead><tr><th></th><th>ID</th><th>Criterion</th><th>Current</th><th>Target</th></tr></thead>
+          <tbody>${body}</tbody>
+        </table>
+      </details>
+    `;
+  }).join('');
+
   const rows = [];
   snap.phases.forEach(p => {
     const r = p.rollup;
     const roll = `🟢 ${r.green}  🟡 ${r.yellow}  🔴 ${r.red}  ⚪ ${r.gray}  (${r.total} total)`;
     rows.push(`
       <tr class="phase-header" id="${p.id}" data-phase="${p.id}">
-        <td colspan="6">${p.tag} · ${p.label}<span class="roll">${roll}</span></td>
+        <td colspan="7">${p.tag} · ${p.label}<span class="roll">${roll}</span></td>
       </tr>
     `);
     p.kpis.forEach(k => {
       const rowClass = (k.status === 'red' || k.status === 'yellow') ? `row-${k.status}` : '';
-      const detail = escapeAttr(k.detail || '');
+      const detail = escapeAttr(k.detail || k.waiver || '');
       const source = escapeAttr(k.source || '');
       const labelText = (k.label || '').toLowerCase();
+      const role = k.role || 'maintain';
       const metricTooltip = detail
         ? `<span class="has-tooltip" data-tooltip="${detail}">${k.label}</span>`
         : k.label;
       const valueTooltip = source
         ? `<span class="has-tooltip" data-tooltip="${source}">${k.value || '—'}</span>`
         : (k.value || '—');
+      const seo = k.seoImpact && k.seoImpact !== 'none'
+        ? `<span class="seo-tag">${k.seoImpact}</span>` : '';
       rows.push(`
-        <tr class="kpi-row ${rowClass}" data-status="${k.status}" data-phase="${p.id}" data-search="${labelText}">
+        <tr class="kpi-row ${rowClass}" data-status="${k.status}" data-phase="${p.id}" data-role="${role}" data-search="${labelText} ${role}">
           <td class="status-cell">${statusDot(k.status)}</td>
+          <td>${roleBadge(k)}${seo ? '<br>' + seo : ''}</td>
           <td class="label-cell">${metricTooltip}</td>
           <td class="value-cell">${valueTooltip}${deltaBadge(k)}</td>
           <td class="target-cell">${k.target || '—'}</td>
@@ -543,24 +729,28 @@
   $body.innerHTML = rows.join('');
   $table.style.display = 'table';
 
-  // -------- Filter wiring --------
   let activeStatus = 'all';
+  let activeRole = 'gate-signal';
   let activeQuery = '';
+
   const applyFilters = () => {
     const allRows = $body.querySelectorAll('tr.kpi-row');
     const phaseHeaders = $body.querySelectorAll('tr.phase-header');
-    // Track which phases still have visible KPI rows
     const visiblePhases = new Set();
     allRows.forEach(row => {
       const status = row.dataset.status;
       const search = row.dataset.search;
+      const role = row.dataset.role;
       const matchStatus = activeStatus === 'all' || status === activeStatus;
       const matchQuery = !activeQuery || search.includes(activeQuery);
-      const visible = matchStatus && matchQuery;
+      let matchRole = true;
+      if (activeRole === 'gate-signal') matchRole = role === 'gate' || role === 'signal';
+      else if (activeRole === 'gate') matchRole = role === 'gate';
+      else if (activeRole === 'maintain') matchRole = role === 'maintain' || role === 'watch';
+      const visible = matchStatus && matchQuery && matchRole;
       row.classList.toggle('hidden', !visible);
       if (visible) visiblePhases.add(row.dataset.phase);
     });
-    // Hide phase headers whose rows are all filtered out
     phaseHeaders.forEach(h => h.classList.toggle('hidden', !visiblePhases.has(h.dataset.phase)));
   };
 
@@ -572,10 +762,20 @@
     applyFilters();
   });
 
+  $roleFilters.addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-role]');
+    if (!btn) return;
+    $roleFilters.querySelectorAll('button').forEach(b => b.classList.toggle('active', b === btn));
+    activeRole = btn.dataset.role;
+    applyFilters();
+  });
+
   $search.addEventListener('input', (e) => {
     activeQuery = e.target.value.trim().toLowerCase();
     applyFilters();
   });
+
+  applyFilters();
 })();
 </script>
 </body>

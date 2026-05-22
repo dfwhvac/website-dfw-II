@@ -851,6 +851,196 @@ async function loadPriorSnapshot() {
   }
 }
 
+// ---------- KPI classification (Gate / Signal / Maintain / Watch) ----------
+// See memory/KPI_DASHBOARD_GUIDE.md — only GATE rows with blocksGraduation drive phase exit.
+const KPI_META = {
+  'security-headers-grade': { role: 'maintain', phaseGate: 'P1', seoImpact: 'low', blocksGraduation: false },
+  'mozilla-observatory-grade': { role: 'maintain', phaseGate: 'P1', seoImpact: 'none', blocksGraduation: false, waiver: 'B+ accepted — Clarity/GA4 need unsafe-inline' },
+  'ssl-labs-grade': { role: 'maintain', phaseGate: 'P1', seoImpact: 'low', blocksGraduation: false },
+  'vercel-rum-res-mobile': { role: 'maintain', phaseGate: 'P1', seoImpact: 'medium', blocksGraduation: false },
+  'vercel-rum-res-desktop': { role: 'maintain', phaseGate: 'P1', seoImpact: 'medium', blocksGraduation: false },
+  'vercel-rum-lcp-mobile': { role: 'gate', phaseGate: 'P1', seoImpact: 'high', blocksGraduation: true, gateLabel: 'P1-G3' },
+  'vercel-rum-lcp-desktop': { role: 'maintain', phaseGate: 'P1', seoImpact: 'medium', blocksGraduation: false },
+  'vercel-rum-inp': { role: 'gate', phaseGate: 'P1', seoImpact: 'high', blocksGraduation: true, gateLabel: 'P1-G4' },
+  'vercel-rum-ttfb': { role: 'maintain', phaseGate: 'P1', seoImpact: 'medium', blocksGraduation: false },
+  'cwv-lcp-field-mobile': { role: 'watch', phaseGate: 'P1', seoImpact: 'high', blocksGraduation: false },
+  'cwv-lcp-field-desktop': { role: 'watch', phaseGate: 'P1', seoImpact: 'high', blocksGraduation: false },
+  'cwv-inp-field': { role: 'watch', phaseGate: 'P1', seoImpact: 'high', blocksGraduation: false },
+  'cwv-cls-field': { role: 'watch', phaseGate: 'P1', seoImpact: 'high', blocksGraduation: false },
+  'cwv-ttfb-field': { role: 'watch', phaseGate: 'P1', seoImpact: 'medium', blocksGraduation: false },
+  'cwv-page-weight': { role: 'maintain', phaseGate: 'P1', seoImpact: 'low', blocksGraduation: false },
+  'cwv-resource-compression': { role: 'maintain', phaseGate: 'P1', seoImpact: 'low', blocksGraduation: false },
+  'pagespeed-accessibility-mobile': { role: 'maintain', phaseGate: 'P1', seoImpact: 'low', blocksGraduation: false },
+  'pagespeed-best-practices-mobile': { role: 'maintain', phaseGate: 'P1', seoImpact: 'low', blocksGraduation: false },
+  'pagespeed-seo-mobile': { role: 'maintain', phaseGate: 'P1', seoImpact: 'medium', blocksGraduation: false },
+  'cdn-edge-hit-rate': { role: 'maintain', phaseGate: 'P1', seoImpact: 'low', blocksGraduation: false },
+  'csp-host-count': { role: 'maintain', phaseGate: 'P1', seoImpact: 'none', blocksGraduation: false },
+  'sitemap-url-count': { role: 'gate', phaseGate: 'P1', seoImpact: 'high', blocksGraduation: true, gateLabel: 'P1-G8' },
+  'robots-ai-allowlist': { role: 'gate', phaseGate: 'P1', seoImpact: 'high', blocksGraduation: true, gateLabel: 'P1-G8' },
+  'schema-coverage': { role: 'signal', phaseGate: 'P2-tech', seoImpact: 'high', blocksGraduation: true },
+  'click-depth': { role: 'maintain', phaseGate: 'P1', seoImpact: 'medium', blocksGraduation: false },
+  'internal-link-connectivity': { role: 'signal', phaseGate: 'P2-tech', seoImpact: 'high', blocksGraduation: false },
+  'wcag-aa-pa11y': { role: 'gate', phaseGate: 'P1', seoImpact: 'medium', blocksGraduation: true, gateLabel: 'P1-G5' },
+  'gitleaks-status': { role: 'gate', phaseGate: 'P1', seoImpact: 'none', blocksGraduation: true, gateLabel: 'P1-G2' },
+  'uptime-30d': { role: 'gate', phaseGate: 'P1', seoImpact: 'high', blocksGraduation: true, gateLabel: 'P1-G1' },
+  'leads-api-recaptcha': { role: 'gate', phaseGate: 'P1', seoImpact: 'none', blocksGraduation: true, gateLabel: 'P1-G6' },
+  'sec-2-estimator-lead': { role: 'gate', phaseGate: 'P1', seoImpact: 'none', blocksGraduation: true, gateLabel: 'P1-G7', gateId: 'SEC-2' },
+  'sec-1-gsc-indexing': { role: 'gate', phaseGate: 'P1', seoImpact: 'high', blocksGraduation: true, gateLabel: 'P1-G9', gateId: 'SEC-1' },
+  'gsc-impressions': { role: 'signal', phaseGate: 'P2-growth', seoImpact: 'high', blocksGraduation: false },
+  'gsc-clicks': { role: 'signal', phaseGate: 'P2-growth', seoImpact: 'high', blocksGraduation: false },
+  'gsc-ctr': { role: 'signal', phaseGate: 'P2-growth', seoImpact: 'high', blocksGraduation: false },
+  'gsc-avg-position': { role: 'signal', phaseGate: 'P2-growth', seoImpact: 'high', blocksGraduation: false },
+  'sitemap-indexing-rate': { role: 'gate', phaseGate: 'P2-tech', seoImpact: 'high', blocksGraduation: true },
+  'legacy-urls-stale': { role: 'signal', phaseGate: 'P2-tech', seoImpact: 'medium', blocksGraduation: false },
+  'sitemap-health-parity': { role: 'gate', phaseGate: 'P2-tech', seoImpact: 'high', blocksGraduation: true },
+  'reviews-count': { role: 'signal', phaseGate: 'P2-growth', seoImpact: 'medium', blocksGraduation: false },
+  's3-aeo-citation': { role: 'gate', phaseGate: 'P2-growth', seoImpact: 'high', blocksGraduation: false, gateId: 'S3-AEO' },
+  'p3-g3-form-key-event': { role: 'gate', phaseGate: 'P3-MEASURE', seoImpact: 'none', blocksGraduation: true, gateId: 'P3-BASELINE', gateLabel: 'G3' },
+  'p3-g4-phone-key-event': { role: 'gate', phaseGate: 'P3-MEASURE', seoImpact: 'none', blocksGraduation: true, gateId: 'P3-BASELINE', gateLabel: 'G4' },
+  'p3-g5-thanks-key-event': { role: 'gate', phaseGate: 'P3-MEASURE', seoImpact: 'none', blocksGraduation: true, gateId: 'P3-BASELINE', gateLabel: 'G5' },
+  'p3-g6-estimator-key-event': { role: 'gate', phaseGate: 'P3-MEASURE', seoImpact: 'none', blocksGraduation: true, gateId: 'P3-BASELINE', gateLabel: 'G6' },
+  'p3-baseline-30d-data': { role: 'gate', phaseGate: 'P3-MEASURE', seoImpact: 'none', blocksGraduation: true, gateId: 'P3-BASELINE' },
+  'overall-cr': { role: 'signal', phaseGate: 'P3-OPTIMIZE', seoImpact: 'none', blocksGraduation: false },
+  'form-submission-rate': { role: 'signal', phaseGate: 'P3-OPTIMIZE', seoImpact: 'none', blocksGraduation: false },
+  'phone-click-rate': { role: 'signal', phaseGate: 'P3-OPTIMIZE', seoImpact: 'none', blocksGraduation: false },
+  'per-page-cr': { role: 'signal', phaseGate: 'P3-OPTIMIZE', seoImpact: 'none', blocksGraduation: false },
+  'mobile-desktop-cr-parity': { role: 'signal', phaseGate: 'P3-OPTIMIZE', seoImpact: 'none', blocksGraduation: false },
+  'estimator-completion': { role: 'signal', phaseGate: 'P3-OPTIMIZE', seoImpact: 'none', blocksGraduation: false },
+  'bounce-rate': { role: 'signal', phaseGate: 'P3-OPTIMIZE', seoImpact: 'none', blocksGraduation: false },
+  'clarity-friction': { role: 'watch', phaseGate: 'P3-OPTIMIZE', seoImpact: 'none', blocksGraduation: false },
+  'callrail-tracking-numbers': { role: 'watch', phaseGate: 'P4', seoImpact: 'none', blocksGraduation: false },
+  'paid-cpc-conversion': { role: 'watch', phaseGate: 'P4', seoImpact: 'none', blocksGraduation: false },
+  'gtag-enhanced-conv': { role: 'watch', phaseGate: 'P4', seoImpact: 'none', blocksGraduation: false },
+  'cost-per-lead': { role: 'watch', phaseGate: 'P5', seoImpact: 'none', blocksGraduation: false },
+  'roas': { role: 'watch', phaseGate: 'P5', seoImpact: 'none', blocksGraduation: false },
+  'rpv': { role: 'watch', phaseGate: 'P5', seoImpact: 'none', blocksGraduation: false },
+};
+
+const DEFAULT_KPI_META = { role: 'maintain', phaseGate: null, seoImpact: 'low', blocksGraduation: false };
+
+function enrichKpi(kpi) {
+  const meta = KPI_META[kpi.id] || DEFAULT_KPI_META;
+  return { ...kpi, ...meta };
+}
+
+function gateRollupFor(kpis, predicate) {
+  const gates = kpis.filter((k) => k.blocksGraduation && predicate(k));
+  const met = gates.filter((k) => k.status === STATUS.GREEN).length;
+  const open = gates.filter((k) => k.status === STATUS.RED || k.status === STATUS.YELLOW).length;
+  const pending = gates.filter((k) => k.status === STATUS.GRAY).length;
+  const blockers = gates.filter((k) => k.status === STATUS.RED).map((k) => k.id);
+  const warnings = gates.filter((k) => k.status === STATUS.YELLOW).map((k) => k.id);
+  return {
+    total: gates.length,
+    met,
+    open,
+    pending,
+    blockers,
+    warnings,
+    ready: gates.length > 0 && met === gates.length,
+  };
+}
+
+function buildGraduationRollups(allKpis) {
+  const p1 = gateRollupFor(allKpis, (k) => k.phaseGate === 'P1');
+  const p2Tech = gateRollupFor(allKpis, (k) => k.phaseGate === 'P2-tech');
+  const p2GrowthGates = allKpis.filter((k) => k.phaseGate === 'P2-growth' && k.blocksGraduation);
+  const p3Measure = gateRollupFor(allKpis, (k) => k.phaseGate === 'P3-MEASURE');
+  const p3Optimize = allKpis.filter((k) => k.phaseGate === 'P3-OPTIMIZE' && k.role === 'signal');
+  const p3OptGreen = p3Optimize.filter((k) => k.status === STATUS.GREEN).length;
+  return {
+    policies: {
+      p1ToP2: 'All P1 GATE rows green (MAINTAIN yellows allowed).',
+      p2ToP3: 'P2-tech GATE rows green; P2-growth SIGNAL can lag in parallel.',
+      p3ToP4: 'P3-MEASURE GATE rows green; P3-OPTIMIZE red is expected early.',
+    },
+    phase1: p1,
+    phase2Tech: p2Tech,
+    phase2Growth: {
+      gatesTracked: p2GrowthGates.length,
+      note: 'S3-AEO tracks long-term AEO goal — does not block P3 work.',
+    },
+    phase3Measure: p3Measure,
+    phase3Optimize: {
+      total: p3Optimize.length,
+      green: p3OptGreen,
+      note: 'Conversion rate targets — roadmap priority, not P4 blockers.',
+    },
+  };
+}
+
+async function getCodeSecurityPosture() {
+  const leadsPath = path.join(REPO_ROOT, 'frontend/app/api/leads/route.js');
+  const estPath = path.join(REPO_ROOT, 'frontend/app/api/estimator/lead/route.js');
+  const [leads, est] = await Promise.all([
+    readFile(leadsPath, 'utf8'),
+    readFile(estPath, 'utf8'),
+  ]);
+  return {
+    leads: {
+      recaptcha: leads.includes('verifyRecaptcha') && /recaptcha/i.test(leads),
+      rateLimit: /rate limit|submissions per IP/i.test(leads),
+    },
+    estimator: {
+      recaptcha: /verifyRecaptcha|recaptchaToken/i.test(est),
+      rateLimit: /rate limit|submissions per IP/i.test(est),
+      explicitlyOpen: /no reCAPTCHA/i.test(est),
+    },
+  };
+}
+
+// Manual GATE rows — update when user completes GA4 Admin / quarterly audits.
+const MANUAL_GATE_ROWS = {
+  'sec-1-gsc-indexing': {
+    label: 'Post-SEC-1 indexing spot-check (GSC)',
+    target: 'No new crawl/index regressions',
+    value: 'Pending — run A3 after SEC-1',
+    status: STATUS.YELLOW,
+    source: 'Manual · GSC Page Indexing export',
+    detail: 'After SEC-1 firewall/geo changes, spot-check GSC for crawl drops. ROADMAP item A3.',
+  },
+  's3-aeo-citation': {
+    label: 'AEO citation rate (quarterly S3-AEO)',
+    target: '5+ of 20 queries by Sep 1, 2026',
+    value: 'Baseline pending · next audit May 31, 2026',
+    status: STATUS.GRAY,
+    source: 'audits/2026-02-28_AEO_Citation_Baseline.md',
+    detail: '20 queries × 4 engines. Log results in baseline doc. Target 5+/20 by Sep 1.',
+  },
+  'p3-g3-form-key-event': {
+    label: 'GA4 key event G3 — form_submit_lead / generate_lead',
+    target: 'Marked in GA4 Admin',
+    value: 'G3 marked (generate_lead · Apr 24, 2026)',
+    status: STATUS.GREEN,
+    source: 'POST_DEPLOY_ACTION_ITEMS_PR2.md',
+    detail: 'Code fires form_submit_lead; GA4 may show generate_lead if renamed in Admin.',
+  },
+  'p3-g4-phone-key-event': {
+    label: 'GA4 key event G4 — phone_click',
+    target: 'Marked in GA4 Admin',
+    value: 'Pending — mark phone_click',
+    status: STATUS.YELLOW,
+    source: 'POST_DEPLOY_ACTION_ITEMS_PR2.md · GA4_EVENTS.md',
+    detail: 'Verify phone_click appears in Events list, then toggle key event.',
+  },
+  'p3-g5-thanks-key-event': {
+    label: 'GA4 key event G5 — thanks_page_view',
+    target: 'Marked in GA4 Admin',
+    value: 'Pending — submit form, confirm Realtime',
+    status: STATUS.YELLOW,
+    source: 'POST_DEPLOY_ACTION_ITEMS_PR2.md',
+    detail: 'Submit any form, land on /thanks, confirm thanks_page_view in Realtime first.',
+  },
+  'p3-g6-estimator-key-event': {
+    label: 'GA4 key event G6 — estimator_opt_in',
+    target: 'Marked in GA4 Admin',
+    value: 'Pending — complete estimator opt-in once',
+    status: STATUS.YELLOW,
+    source: 'POST_DEPLOY_ACTION_ITEMS_PR2.md',
+    detail: 'Complete /replacement-estimator opt-in flow once, then mark key event.',
+  },
+};
+
 // KPIs where a LOWER numeric value is the GOAL (faster, smaller, fewer).
 // Default for everything else: higher is better (scores, percentages, counts of good things).
 const LOWER_IS_BETTER = new Set([
@@ -961,6 +1151,8 @@ async function main() {
     safe('Pa11y', getPa11y),
     safe('UptimeRobot', getUptimeRobotStatus),
   ]);
+
+  const codeSec = await safe('CodeSecurityPosture', getCodeSecurityPosture);
 
   // GSC + GA4 — only fire if we got an access token. Each independently safe()d.
   const [gsc, gscSitemap, ga4] = googleAccessToken
@@ -1429,6 +1621,45 @@ async function main() {
         ? `Monitor "${uptime.value.monitorName}" · current status code ${uptime.value.status} (2=up, 8=seems down, 9=down)`
         : uptime.error,
     },
+    {
+      id: 'leads-api-recaptcha',
+      label: 'Main lead API protected (/api/leads)',
+      target: 'reCAPTCHA v3 + rate limit',
+      v3Pillar: 'P4 Security',
+      value: codeSec.ok
+        ? (codeSec.value.leads.recaptcha && codeSec.value.leads.rateLimit
+            ? 'reCAPTCHA + rate limit'
+            : `missing: ${[!codeSec.value.leads.recaptcha && 'reCAPTCHA', !codeSec.value.leads.rateLimit && 'rate limit'].filter(Boolean).join(', ')}`)
+        : 'unavailable',
+      numericValue: null,
+      status: codeSec.ok
+        ? (codeSec.value.leads.recaptcha && codeSec.value.leads.rateLimit ? STATUS.GREEN : STATUS.RED)
+        : STATUS.GRAY,
+      source: 'Static code review · frontend/app/api/leads/route.js',
+      detail: codeSec.ok ? null : codeSec.error,
+    },
+    {
+      id: 'sec-2-estimator-lead',
+      label: 'Estimator lead API hardened (SEC-2)',
+      target: 'reCAPTCHA v3 + rate limit (match /api/leads)',
+      v3Pillar: 'P4 Security',
+      value: codeSec.ok
+        ? (codeSec.value.estimator.recaptcha && codeSec.value.estimator.rateLimit
+            ? 'reCAPTCHA + rate limit'
+            : codeSec.value.estimator.explicitlyOpen
+              ? 'OPEN — no reCAPTCHA (SEC-2 on ROADMAP)'
+              : `missing: ${[!codeSec.value.estimator.recaptcha && 'reCAPTCHA', !codeSec.value.estimator.rateLimit && 'rate limit'].filter(Boolean).join(', ')}`)
+        : 'unavailable',
+      numericValue: null,
+      status: codeSec.ok
+        ? (codeSec.value.estimator.recaptcha && codeSec.value.estimator.rateLimit
+            ? STATUS.GREEN
+            : STATUS.RED)
+        : STATUS.GRAY,
+      source: 'Static code review · frontend/app/api/estimator/lead/route.js',
+      detail: 'ROADMAP SEC-2 — add verifyRecaptcha + IP rate limit before P1 security gate clears.',
+    },
+    { id: 'sec-1-gsc-indexing', ...MANUAL_GATE_ROWS['sec-1-gsc-indexing'] },
   ];
   // V3 phase-1 KPI block ends here.
   // ---------------------------------------------------------------------------
@@ -1561,9 +1792,28 @@ async function main() {
       source: 'Sanity companyInfo.googleReviews · synced via /api/cron/sync-reviews',
       detail: 'Live count from Sanity. Target: 165 by Sep 1, 2026 (+10/quarter cadence).',
     },
+    { id: 's3-aeo-citation', ...MANUAL_GATE_ROWS['s3-aeo-citation'] },
   ];
 
   const phase3Kpis = [
+    { id: 'p3-g3-form-key-event', ...MANUAL_GATE_ROWS['p3-g3-form-key-event'] },
+    { id: 'p3-g4-phone-key-event', ...MANUAL_GATE_ROWS['p3-g4-phone-key-event'] },
+    { id: 'p3-g5-thanks-key-event', ...MANUAL_GATE_ROWS['p3-g5-thanks-key-event'] },
+    { id: 'p3-g6-estimator-key-event', ...MANUAL_GATE_ROWS['p3-g6-estimator-key-event'] },
+    {
+      id: 'p3-baseline-30d-data',
+      label: 'GA4 conversion data window (28d snapshot)',
+      target: 'GA4 OAuth connected · sessions flowing',
+      value: ga4.ok && ga4.value.totals?.sessions
+        ? `${ga4.value.totals.sessions.toLocaleString()} sessions (28d)`
+        : (googleAccessToken ? 'error' : 'GA4 token required'),
+      numericValue: ga4.ok ? ga4.value.totals?.sessions : null,
+      status: ga4.ok && ga4.value.totals?.sessions > 0 ? STATUS.GREEN : STATUS.GRAY,
+      source: 'GA4 Data API · sessionStart (28d)',
+      detail: ga4.ok
+        ? 'Proxy for ≥30d baseline program — full P3-BASELINE needs 7/30/60d manual snapshots in scorecard.'
+        : (ga4.error || 'Configure GOOGLE_* secrets for weekly auto-pull.'),
+    },
     {
       id: 'overall-cr',
       label: 'Overall conversion rate',
@@ -1587,8 +1837,8 @@ async function main() {
       status: ga4.ok && ga4.value.formCr != null
         ? (ga4.value.formCr >= 6 ? STATUS.GREEN : ga4.value.formCr >= 3 ? STATUS.YELLOW : STATUS.RED)
         : STATUS.GRAY,
-      source: 'GA4 Data API · generate_lead ÷ sessions (28d)',
-      detail: ga4.ok ? `${ga4.value.events.generate_lead || 0} generate_lead · ${ga4.value.events.form_submit_lead || 0} form_submit_lead` : ga4.error,
+      source: 'GA4 Data API · form_submit_lead ÷ sessions (28d)',
+      detail: ga4.ok ? `${ga4.value.events.form_submit_lead || 0} form_submit_lead · ${ga4.value.events.generate_lead || 0} generate_lead (Admin rename)` : ga4.error,
     },
     {
       id: 'phone-click-rate',
@@ -1721,17 +1971,28 @@ async function main() {
   phase4Kpis.forEach(applyTrend);
   phase5Kpis.forEach(applyTrend);
 
+  // Apply classification metadata to every KPI row.
+  const enrichAll = (kpis) => kpis.map((k) => enrichKpi(k));
+  const phasesRaw = [
+    { id: 'phase1', label: 'Foundation', tag: 'P1', kpis: phase1Kpis },
+    { id: 'phase2', label: 'SEO / AEO', tag: 'P2', kpis: phase2Kpis },
+    { id: 'phase3', label: 'Conversion', tag: 'P3', kpis: phase3Kpis },
+    { id: 'phase4', label: 'Ad Infrastructure', tag: 'P4', kpis: phase4Kpis },
+    { id: 'phase5', label: 'Launch & Scale', tag: 'P5', kpis: phase5Kpis },
+  ];
+  const phases = phasesRaw.map((p) => {
+    const kpis = enrichAll(p.kpis);
+    return { ...p, kpis, rollup: rollup(kpis) };
+  });
+  const allKpis = phases.flatMap((p) => p.kpis);
+
   const snapshot = {
     generatedAt: new Date().toISOString(),
     domain: DOMAIN,
     durationMs: Date.now() - t0,
-    phases: [
-      { id: 'phase1', label: 'Foundation', tag: 'P1', kpis: phase1Kpis, rollup: rollup(phase1Kpis) },
-      { id: 'phase2', label: 'SEO / AEO', tag: 'P2', kpis: phase2Kpis, rollup: rollup(phase2Kpis) },
-      { id: 'phase3', label: 'Conversion', tag: 'P3', kpis: phase3Kpis, rollup: rollup(phase3Kpis) },
-      { id: 'phase4', label: 'Ad Infrastructure', tag: 'P4', kpis: phase4Kpis, rollup: rollup(phase4Kpis) },
-      { id: 'phase5', label: 'Launch & Scale', tag: 'P5', kpis: phase5Kpis, rollup: rollup(phase5Kpis) },
-    ],
+    schemaVersion: 2,
+    graduation: buildGraduationRollups(allKpis),
+    phases,
   };
 
   await mkdir(path.dirname(SNAPSHOT_OUT), { recursive: true });
@@ -1746,11 +2007,16 @@ async function main() {
   }
 
   // Console rollup
-  const allKpis = snapshot.phases.flatMap((p) => p.kpis);
   const tally = rollup(allKpis);
+  const grad = snapshot.graduation;
   console.log(
     `[kpi] done in ${(snapshot.durationMs / 1000).toFixed(1)}s · ` +
       `🟢 ${tally.green}  🟡 ${tally.yellow}  🔴 ${tally.red}  ⚪ ${tally.gray}  (of ${tally.total})`
+  );
+  console.log(
+    `[kpi] gates · P1 ${grad.phase1.met}/${grad.phase1.total} · ` +
+      `P2-tech ${grad.phase2Tech.met}/${grad.phase2Tech.total} · ` +
+      `P3-measure ${grad.phase3Measure.met}/${grad.phase3Measure.total}`
   );
   console.log(`[kpi] snapshot → ${SNAPSHOT_OUT}`);
   if (!IN_CI) {
