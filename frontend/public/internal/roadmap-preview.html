@@ -221,8 +221,8 @@
     <h1>DFW HVAC — Strategic Roadmap</h1>
     <p><strong>Future work only.</strong> Organic traffic that converts — paid ads are a force multiplier after measurement and conversion foundations are honest.</p>
     <div class="meta">
-      <strong>Last reviewed: May 21, 2026</strong> — MVP baseline reset · KPI gates (S3-AEO, P3-BASELINE, SEC-2, P5-LAUNCH-GATE) ·
-      <strong>Tomorrow:</strong> SEC-1 (user) → SEC-2 (agent).<br>
+      <strong>Last reviewed: May 22, 2026</strong> — SEC-1-A firewall done · P1.16-url live · SEC-2 shipped · KPI-DASH-AUTO deferred ·
+      <strong>Next:</strong> SEC-1 remainder (GA4/Clarity/Sanity 2FA + GSC spot-check ~May 29) → P3-BASELINE.<br>
       Source: <code>memory/ROADMAP.md</code> ·
       Shipped history: <code>memory/CHANGELOG.md</code> (May 21 baseline) ·
       <a href="/internal/kpi-dashboard.html">KPI dashboard</a> ·
@@ -257,31 +257,30 @@
   <p class="subhead">Pick from the top each session. When an item ships, remove it from <code>ROADMAP.md</code> and add a dated entry to <code>CHANGELOG.md</code>.</p>
 
   <div class="card highlight">
-    <strong style="color:var(--vivid-red);">Start here:</strong> SEC-1 (firewall + analytics filters) → SEC-2 (estimator API hardening) → P3-BASELINE (GA4 key events).
+    <strong style="color:var(--vivid-red);">Start here:</strong> SEC-1 remainder (GA4/Clarity/Sanity 2FA + GSC spot-check) → P3-BASELINE (GA4 key events).
   </div>
 
   <table>
     <thead><tr><th>#</th><th>ID</th><th>Item</th><th>Owner</th><th>Effort</th></tr></thead>
     <tbody>
-      <tr><td class="num-cell">1</td><td class="id-cell">SEC-1</td><td>Security &amp; data-hygiene — geo-block removed; GA4/Clarity non-US filters; Sanity 2FA; optional rate-limit + <code>/studio</code> IP allowlist</td><td>User + agent</td><td>~30 min + small PR</td></tr>
-      <tr><td class="num-cell">2</td><td class="id-cell">SEC-2</td><td>Harden <code>POST /api/estimator/lead</code> — reCAPTCHA v3 + rate limit (match <code>/api/leads</code>)</td><td>Agent</td><td>1–2 hr</td></tr>
-      <tr><td class="num-cell">3</td><td class="id-cell">P3-BASELINE</td><td>GA4 key events G4–G6; 7d/30d/60d conversion snapshots; monthly CR review vs KPI dashboard</td><td>User + agent</td><td>1 hr + 30 min/mo</td></tr>
-      <tr><td class="num-cell">4</td><td class="id-cell">P1.8</td><td>Google Business Profile audit + ongoing Posts/Q&amp;A/photos</td><td>User</td><td>4 hr initial</td></tr>
-      <tr><td class="num-cell">5</td><td class="id-cell">S3-AEO</td><td>Quarterly AEO citation audit (20 queries × 4 engines) — <strong>next due May 31, 2026</strong></td><td>User</td><td>2–3 hr/qtr</td></tr>
-      <tr><td class="num-cell">6</td><td class="id-cell">F3b</td><td>HSTS Preload List (<code>hstspreload.org</code>)</td><td>User</td><td>10 min</td></tr>
-      <tr><td class="num-cell">7</td><td class="id-cell">F12</td><td>GitHub Actions Node 20 → 24</td><td>User/agent</td><td>5–10 min</td></tr>
-      <tr><td class="num-cell">8</td><td class="id-cell">P1.6f</td><td>Rich Results validation (7 URLs)</td><td>User</td><td>30 min</td></tr>
-      <tr><td class="num-cell">9</td><td class="id-cell">A3</td><td>GSC re-audit vs Apr 27 baseline</td><td>User + agent</td><td>40 min</td></tr>
-      <tr><td class="num-cell">10</td><td class="id-cell">P1.10</td><td>Progressive form redesign <span class="badge badge-pending">Hold ~Jun 3</span></td><td>Agent</td><td>4–6 hr</td></tr>
-      <tr><td class="num-cell">11</td><td class="id-cell">P1.9b</td><td>Review badge in every page hero <span class="badge badge-pending">Partial</span></td><td>Agent</td><td>2 hr</td></tr>
-      <tr><td class="num-cell">12</td><td class="id-cell">P1.9c</td><td>Inline review carousel near every form <span class="badge badge-pending">Partial</span></td><td>Agent</td><td>2 hr</td></tr>
-      <tr><td class="num-cell">13</td><td class="id-cell">C4</td><td>Form abandonment GA4 (field blur)</td><td>Agent</td><td>1 hr</td></tr>
-      <tr><td class="num-cell">14</td><td class="id-cell">P2.19-scope</td><td>CallRail vs Twilio DNI <strong>decision</strong> (required before P5)</td><td>User</td><td>30 min</td></tr>
-      <tr><td class="num-cell">15</td><td class="id-cell">C3</td><td>Estimator pricing — real DFW numbers <span class="badge badge-blocked">User sheet</span></td><td>User → agent</td><td>1 hr</td></tr>
-      <tr><td class="num-cell">16</td><td class="id-cell">P1.16-url</td><td>Wisetack live URL (<code>NEXT_PUBLIC_WISETACK_APPLY_URL</code>)</td><td>User</td><td>5 min</td></tr>
-      <tr><td class="num-cell">17</td><td class="id-cell">P2.23</td><td><code>@sanity/image-url</code> named export migration</td><td>Agent</td><td>10 min</td></tr>
-      <tr><td class="num-cell">18</td><td class="id-cell">P2.20</td><td>LCP push — target &lt;1.25s <strong>not met</strong> (~2.7s mobile PSI)</td><td>Agent</td><td>As needed</td></tr>
-      <tr><td class="num-cell">19</td><td class="id-cell">F13</td><td>Architecture re-audit — due <strong>Aug 4, 2026</strong></td><td>Agent</td><td>3.5 hr</td></tr>
+      <tr><td class="num-cell">1</td><td class="id-cell">SEC-1</td><td>Security &amp; data-hygiene — <strong>SEC-1-A done</strong>; remaining: GA4/Clarity non-US filters; Sanity 2FA; SEC-1-C GSC spot-check ~May 29; optional B2/B3</td><td>User + agent</td><td>~20 min + doc pass</td></tr>
+      <tr><td class="num-cell">2</td><td class="id-cell">P3-BASELINE</td><td>GA4 key events G4–G6; 7d/30d/60d conversion snapshots; monthly CR review vs KPI dashboard</td><td>User + agent</td><td>1 hr + 30 min/mo</td></tr>
+      <tr><td class="num-cell">3</td><td class="id-cell">P1.8</td><td>Google Business Profile audit + ongoing Posts/Q&amp;A/photos</td><td>User</td><td>4 hr initial</td></tr>
+      <tr><td class="num-cell">4</td><td class="id-cell">S3-AEO</td><td>Quarterly AEO citation audit (20 queries × 4 engines) — <strong>next due May 31, 2026</strong></td><td>User</td><td>2–3 hr/qtr</td></tr>
+      <tr><td class="num-cell">5</td><td class="id-cell">F3b</td><td>HSTS Preload List (<code>hstspreload.org</code>)</td><td>User</td><td>10 min</td></tr>
+      <tr><td class="num-cell">6</td><td class="id-cell">F12</td><td>GitHub Actions Node 20 → 24</td><td>User/agent</td><td>5–10 min</td></tr>
+      <tr><td class="num-cell">7</td><td class="id-cell">P1.6f</td><td>Rich Results validation (7 URLs)</td><td>User</td><td>30 min</td></tr>
+      <tr><td class="num-cell">8</td><td class="id-cell">A3</td><td>GSC re-audit vs Apr 27 baseline</td><td>User + agent</td><td>40 min</td></tr>
+      <tr><td class="num-cell">9</td><td class="id-cell">P1.10</td><td>Progressive form redesign <span class="badge badge-pending">Hold ~Jun 3</span></td><td>Agent</td><td>4–6 hr</td></tr>
+      <tr><td class="num-cell">10</td><td class="id-cell">P1.9b</td><td>Review badge in every page hero <span class="badge badge-pending">Partial</span></td><td>Agent</td><td>2 hr</td></tr>
+      <tr><td class="num-cell">11</td><td class="id-cell">P1.9c</td><td>Inline review carousel near every form <span class="badge badge-pending">Partial</span></td><td>Agent</td><td>2 hr</td></tr>
+      <tr><td class="num-cell">12</td><td class="id-cell">C4</td><td>Form abandonment GA4 (field blur)</td><td>Agent</td><td>1 hr</td></tr>
+      <tr><td class="num-cell">13</td><td class="id-cell">P2.19-scope</td><td>CallRail vs Twilio DNI <strong>decision</strong> (required before P5)</td><td>User</td><td>30 min</td></tr>
+      <tr><td class="num-cell">14</td><td class="id-cell">C3</td><td>Estimator pricing — real DFW numbers <span class="badge badge-blocked">User sheet</span></td><td>User → agent</td><td>1 hr</td></tr>
+      <tr><td class="num-cell">15</td><td class="id-cell">P2.23</td><td><code>@sanity/image-url</code> named export migration</td><td>Agent</td><td>10 min</td></tr>
+      <tr><td class="num-cell">16</td><td class="id-cell">P2.20</td><td>LCP push — target &lt;1.25s <strong>not met</strong> (~2.7s mobile PSI)</td><td>Agent</td><td>As needed</td></tr>
+      <tr><td class="num-cell">17</td><td class="id-cell">F13</td><td>Architecture re-audit — due <strong>Aug 4, 2026</strong></td><td>Agent</td><td>3.5 hr</td></tr>
+      <tr><td class="num-cell">18</td><td class="id-cell">KPI-DASH-AUTO</td><td>Vercel RUM auto-pull + snapshot hardening <span class="badge badge-defer">Deferred</span></td><td>Agent + user</td><td>2–3 hr</td></tr>
     </tbody>
   </table>
 </section>
@@ -350,13 +349,11 @@
   <table>
     <thead><tr><th>ID</th><th>Item</th><th>Owner</th><th>Notes</th></tr></thead>
     <tbody>
-      <tr><td class="id-cell">SEC-1-A</td><td>Delete “Block Non-US Traffic” Vercel Firewall rule</td><td>User</td><td>Delete, don’t just disable</td></tr>
-      <tr><td class="id-cell">SEC-1-A2</td><td>Vercel Bot Protection</td><td>User</td><td><span class="badge badge-defer">Deferred</span> — broke KPI audit runner</td></tr>
+      <tr><td class="id-cell">SEC-1-A2</td><td>Vercel Bot Protection + AI Bots</td><td>User</td><td><span class="badge badge-defer">Deferred</span> — leave Off (KPI audit + AEO)</td></tr>
       <tr><td class="id-cell">SEC-1-A4–A6</td><td>GA4 internal traffic filter; Clarity US-only; Sanity 2FA</td><td>User</td><td>—</td></tr>
       <tr><td class="id-cell">SEC-1-B2</td><td>Rate-limit <code>/api/leads</code> (Vercel F1 or Upstash F2)</td><td>User picks</td><td>reCAPTCHA 0.7 shipped</td></tr>
       <tr><td class="id-cell">SEC-1-B3</td><td>IP-allowlist <code>/studio</code></td><td>User</td><td>G1/G2 + IPs</td></tr>
       <tr><td class="id-cell">SEC-1-C</td><td>GSC re-request indexing; KPI crawl-to-index check</td><td>User + agent</td><td>~7 days post SEC-1</td></tr>
-      <tr><td class="id-cell">SEC-2</td><td><code>/api/estimator/lead</code> reCAPTCHA + rate limit + wizard token</td><td>Agent</td><td>No reCAPTCHA today</td></tr>
       <tr><td class="id-cell">GCP-CLEANUP</td><td>Revoke abandoned GA4 service-account keys</td><td>User</td><td><code>GCP_PRIVILEGE_CLEANUP.md</code></td></tr>
       <tr><td class="id-cell">F3b</td><td>HSTS preload submission</td><td>User</td><td>Eligible</td></tr>
       <tr><td class="id-cell">F12</td><td>GitHub Actions Node 24</td><td>User/agent</td><td>Soft deadline Jun 2026</td></tr>
@@ -413,7 +410,6 @@
       <tr><td class="id-cell">P1.9c</td><td>Carousel near all LeadForms</td><td>Agent</td><td>Partial today</td></tr>
       <tr><td class="id-cell">C4</td><td>Form abandonment GA4</td><td>Agent</td><td>—</td></tr>
       <tr><td class="id-cell">C3</td><td>Real estimator pricing</td><td>User → agent</td><td>User sheet</td></tr>
-      <tr><td class="id-cell">P1.16-url</td><td>Live Wisetack apply URL</td><td>User</td><td>Merchant URL</td></tr>
       <tr><td class="id-cell">C5</td><td>A/B testing framework</td><td>Agent</td><td>Optional</td></tr>
       <tr><td class="id-cell">P1.9d</td><td>City-filtered reviews</td><td>Agent</td><td>—</td></tr>
       <tr><td class="id-cell">P2.10–14</td><td>Lead magnets, exit intent, urgency, SMS</td><td>Agent</td><td><span class="badge badge-defer">Defer</span></td></tr>
@@ -493,6 +489,7 @@
       <tr><td>KPI dashboard HTML</td><td><span class="badge badge-shipped">Done</span> /internal/kpi-dashboard.html</td></tr>
       <tr><td>GA4-SVC-SETUP / KPI-DASH</td><td><span class="badge badge-shipped">Done</span> OAuth KPI path live</td></tr>
       <tr><td>C1 Clarity · C6/C8/C2/P1.11</td><td><span class="badge badge-shipped">Done</span> see CHANGELOG</td></tr>
+      <tr><td>SEC-1-A · SEC-2 · P1.16-url</td><td><span class="badge badge-shipped">Done</span> May 22, 2026</td></tr>
       <tr><td>Next.js 15→16</td><td><span class="badge badge-shipped">Done</span> Next 16</td></tr>
     </tbody>
   </table>
@@ -515,7 +512,7 @@
 <section id="rules">
   <h2>Sequencing rules</h2>
   <ol class="rule-list">
-    <li><strong>SEC-1 + SEC-2 before heavy CRO.</strong> Indexing and spam protection come first.</li>
+    <li><strong>Finish SEC-1 (analytics filters + 2FA) before heavy CRO.</strong> Firewall + lead API hardening shipped May 22.</li>
     <li><strong>P3-BASELINE before P4.</strong> No ad infrastructure without honest conversion measurement.</li>
     <li><strong>S3-AEO quarterly.</strong> Answer-engine visibility is explicit P2 — run the 20-query audit.</li>
     <li><strong>CallRail/DNI live before P5 spend.</strong> 60–80% of HVAC leads are phone calls.</li>

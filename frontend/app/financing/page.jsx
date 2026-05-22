@@ -9,9 +9,8 @@ import { Phone, Clock, CheckCircle2, ShieldCheck, MessageSquare, Sparkles } from
 
 export const revalidate = 3600 // ISR — page regenerates at most once per hour with fresh Sanity content
 
-// TODO(P1.16): replace with live Wisetack merchant application link once provided.
-// Fallback path keeps the CTA functional — routes to /estimate (the lead form).
-// Set NEXT_PUBLIC_WISETACK_APPLY_URL in Vercel env to go live with a real URL.
+// Wisetack pre-qual CTA — production URL from NEXT_PUBLIC_WISETACK_APPLY_URL (Vercel env).
+// Falls back to /estimate when unset (local/preview).
 const WISETACK_APPLY_URL = process.env.NEXT_PUBLIC_WISETACK_APPLY_URL || '/estimate'
 const PHONE_TEL = 'tel:+19727772665'
 const PHONE_DISPLAY = '(972) 777-COOL'

@@ -1,6 +1,6 @@
 # DFW HVAC — Roadmap
 
-**Last reviewed:** May 22, 2026 (SEC-2 shipped; P1 gate cleared)
+**Last reviewed:** May 22, 2026 (SEC-1-A firewall done; P1.16-url live; SEC-2 shipped; KPI-DASH-AUTO deferred)
 **⚠️ Read `memory/00_START_HERE.md` first for the Agent SOP.**
 
 > **Future work only.** Shipped history → [`CHANGELOG.md`](CHANGELOG.md) (baseline: May 21, 2026). Pre-reset agent logs → [`CHANGELOG-legacy-pre-2026-05-21.md`](CHANGELOG-legacy-pre-2026-05-21.md).
@@ -48,7 +48,7 @@ Pick from the top. When an item ships, remove it here and add a dated entry to `
 
 | # | ID | Item | Owner | Effort |
 |---|---|---|---|---|
-| 1 | **SEC-1** | Security & data-hygiene — replace deleted geo-block firewall; GA4/Clarity non-US filters; Sanity 2FA audit; optional rate-limit + `/studio` IP allowlist | User + agent | ~30 min user + small PR |
+| 1 | **SEC-1** | Security & data-hygiene — **SEC-1-A done** (geo-block + custom rules removed); remaining: GA4/Clarity non-US filters; Sanity 2FA; SEC-1-C GSC spot-check ~May 29; optional B2/B3 | User + agent | ~20 min user + doc pass |
 | 2 | **P3-BASELINE** | Conversion measurement program — finish GA4 key events (G4 `phone_click`, G5 `thanks_page_view`, G6 `estimator_opt_in`); snapshot 7d/30d/60d rates; monthly CR review vs KPI dashboard | User + agent | 1 hr setup + 30 min/mo |
 | 3 | **P1.8** | Google Business Profile audit + optimization (verified; needs ongoing Posts/Q&A/photos) | User-led | 20 min + 4 hr initial |
 | 4 | **S3-AEO** | Run quarterly AEO citation audit (20 queries × 4 engines); log results in `audits/2026-02-28_AEO_Citation_Baseline.md` — **next due May 31, 2026** | User-led | 2–3 hr/qtr |
@@ -62,19 +62,18 @@ Pick from the top. When an item ships, remove it here and add a dated entry to `
 | 12 | **C4** | Form abandonment tracking — GA4 on field blur | Agent | 1 hr |
 | 13 | **P2.19-scope** | CallRail vs Twilio DNI **decision** (not build) — **required before P5-LAUNCH-GATE** | User | 30 min |
 | 14 | **C3** | Estimator pricing matrix — real DFW numbers | User → agent | 1 hr — **blocked on user sheet** |
-| 15 | **P1.16-url** | Wisetack live merchant URL (`NEXT_PUBLIC_WISETACK_APPLY_URL`) | User | 5 min |
-| 16 | **P2.23** | `@sanity/image-url` → `createImageUrlBuilder` named export | Agent | 10 min |
-| 17 | **P2.20** | LCP push — code levers shipped; **target &lt;1.25s not met** (~2.7s mobile PSI May 2026) | Agent | As needed |
-| 18 | **F13** | Architecture foundation re-audit (quarterly) | Agent | 3.5 hr — due **Aug 4, 2026** |
+| 15 | **P2.23** | `@sanity/image-url` → `createImageUrlBuilder` named export | Agent | 10 min |
+| 16 | **P2.20** | LCP push — code levers shipped; **target &lt;1.25s not met** (~2.7s mobile PSI May 2026) | Agent | As needed |
+| 17 | **F13** | Architecture foundation re-audit (quarterly) | Agent | 3.5 hr — due **Aug 4, 2026** |
+| 18 | **KPI-DASH-AUTO** | KPI dashboard automation — `vercel metrics` for Speed Insights (replace manual paste); snapshot hardening (CI-only canonical writes + archive fallback for GSC/GA4 when secrets missing); user adds `VERCEL_TOKEN` + project id to GitHub Secrets; one-time **KPI Audit** workflow run to restore Google metrics | Agent + user | 2–3 hr agent · 15 min user |
 
----
+**Deferred — not blocking P1:** #18. Observability Plus + Speed Insights on `website-dfw-ii-b4zk` confirmed; manual paste still valid for P1 gates until this ships.
 
 ## P1 — Foundation (open)
 
 | ID | Item | Owner | Notes |
 |---|---|---|---|
-| SEC-1-A | Delete “Block Non-US Traffic” Vercel Firewall rule (not just disable) | User | See SEC-1 substeps in legacy ROADMAP / user actions |
-| SEC-1-A2 | Vercel Bot Protection | User | **Deferred** — broke KPI audit runner when enabled |
+| SEC-1-A2 | Vercel Bot Protection | User | **Deferred** — broke KPI audit runner when enabled; leave Off (AI Bots Off for AEO) |
 | SEC-1-A4 | GA4 internal traffic filter (non-US) | User | |
 | SEC-1-A5 | Clarity geo filter (US only) | User | |
 | SEC-1-A6 | Sanity members 2FA + stale member cleanup | User | |
@@ -94,8 +93,7 @@ Pick from the top. When an item ships, remove it here and add a dated entry to `
 | P1.3 | Device QA matrix (iOS Safari, Android Chrome, autocomplete) | User | |
 | P1.6d | INP field measurement after CrUX qualifies | Agent | Site below CrUX threshold today |
 | INFRA-1 | Vercel DNS → per-tenant records (GoDaddy) | User | Low urgency; see legacy ROADMAP for record values |
-
----
+| **KPI-DASH-AUTO** | Auto-pull Vercel Speed Insights + harden snapshot (see queue #18) | Agent + user | **Deferred** — manual RUM paste OK; Observability Plus enabled |
 
 ## P2 — SEO + AEO (open)
 
@@ -132,7 +130,6 @@ Pick from the top. When an item ships, remove it here and add a dated entry to `
 | P1.9c | Carousel adjacent to all LeadForms | Agent | — |
 | C4 | Form abandonment events | Agent | — |
 | C3 | Real estimator pricing | User → agent | User sheet |
-| P1.16-url | Live Wisetack apply link | User | Merchant URL |
 | C5 | A/B testing framework | Agent | Optional |
 | P1.9d | City-filtered reviews page | Agent | — |
 | **P3-BASELINE** | **Pre-ad conversion baseline** — complete `POST_DEPLOY_ACTION_ITEMS_PR2.md`; record 7d/30d/60d: sessions, `form_submit_lead`, `phone_click`, `thanks_page_view`, `estimator_opt_in`, overall CR; compare monthly to KPI dashboard | User + agent | Blocks honest P3→P4 advance |
@@ -213,6 +210,9 @@ Pick from the top. When an item ships, remove it here and add a dated entry to `
 | KPI-DASH static HTML | **Done** — `frontend/public/internal/kpi-dashboard.html` |
 | C1 Clarity install | **Done** — `layout.js` |
 | C6/C8/C2/P1.11 | **Done** — see CHANGELOG baseline |
+| P1.16-url | **Done** — Wisetack pre-qual URL live in Vercel prod May 22, 2026 |
+| SEC-1-A | **Done** — geo-block firewall deleted; no custom Vercel Firewall rules (May 22, 2026) |
+| SEC-2 | **Done** — estimator + main lead APIs hardened May 22, 2026 |
 
 ---
 

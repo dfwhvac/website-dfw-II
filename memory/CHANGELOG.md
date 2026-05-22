@@ -1,6 +1,6 @@
 # DFW HVAC — Changelog
 
-**Last reviewed:** May 21, 2026
+**Last reviewed:** May 22, 2026
 **⚠️ Read `memory/00_START_HERE.md` first for the Agent SOP.**
 
 > **Shipped history before May 21, 2026** lives in [`CHANGELOG-legacy-pre-2026-05-21.md`](CHANGELOG-legacy-pre-2026-05-21.md) (1,737 lines, Feb–May 2026 agent logs). That file is archival context only — do not treat it as the live product state.
@@ -35,7 +35,7 @@
 | `/replacement-estimator` | ✅ Live | 5-step wizard; **pricing matrix is placeholder** (`lib/estimator-matrix.js`) |
 | `/services`, `/services/[category]/[slug]` | ✅ Live | ServiceTemplate + LeadForm |
 | `/services/system-replacement` | ✅ Live | Revenue-center page |
-| `/repair-or-replace`, `/financing` | ✅ Live | **Wisetack apply URL stubs to `/estimate`** until `NEXT_PUBLIC_WISETACK_APPLY_URL` set |
+| `/repair-or-replace`, `/financing` | ✅ Live | Wisetack pre-qual via `NEXT_PUBLIC_WISETACK_APPLY_URL` (live in prod May 22, 2026) |
 | `/cities-served`, `/cities-served/[slug]` | ✅ Live | ~28 city pages |
 | `/thanks` | ✅ Live | Post-submit + `thanks_page_view` GA4 |
 | `/privacy-policy`, `/terms-of-service` | ✅ Live | Policy pages |
@@ -102,7 +102,7 @@ See **`memory/GA4_EVENTS.md`** for the full registry. Summary:
 | ID | What | Caveat |
 |---|---|---|
 | C3 | Estimator pricing | `lib/estimator-matrix.js` — placeholder DFW numbers |
-| P1.16 | Wisetack pre-qual | `WISETACK_APPLY_URL` defaults to `/estimate` |
+| P1.16 | Wisetack pre-qual | Live in prod via Vercel env; code fallback `/estimate` for unset env |
 | P2.23 | `@sanity/image-url` | Deprecated default import still in `lib/sanity.js` (warning only) |
 
 ### Performance honesty
@@ -120,6 +120,28 @@ LCP optimization work is in code (font `optional`, lazyOnload GA4/Clarity, hero 
 
 ---
 
+## May 22, 2026 — SEC-1-A: Vercel geo-block firewall removed
+
+**What changed:** User confirmed **SEC-1-A** complete — “Block Non-US Traffic” firewall rule deleted; **no geo-block or custom Firewall rules** remain. Bot Protection and AI Bots left **Off** (KPI audit + AEO posture). **SEC-1** remains open for A4–A6, SEC-1-C (~May 29 GSC spot-check), and optional B2/B3.
+
+**Verification:** User confirmed in Vercel Firewall (Rules + Overview); no custom rules.
+
+**Files:** `memory/ROADMAP.md`, `memory/CHANGELOG.md`, `frontend/public/internal/roadmap-preview.html`
+
+**Caveats:** GA4 non-US filter, Clarity US-only, and Sanity 2FA still pending.
+
+---
+
+## May 22, 2026 — P1.16-url: Wisetack pre-qual live in production
+
+**What changed:** Verified production `/financing` “Pre-Qualify Now” links to DFW HVAC’s Wisetack merchant pre-qual URL (`NEXT_PUBLIC_WISETACK_APPLY_URL` in Vercel). Removed **P1.16-url** from active ROADMAP queue; updated financing page comment (no code behavior change).
+
+**Verification:** Live HTML at https://dfwhvac.com/financing → `https://wisetack.us/#/uzzs02b/prequalify` (opens new tab; Wisetack soft-check form loads).
+
+**Files:** `frontend/app/financing/page.jsx`, `memory/ROADMAP.md`, `memory/CHANGELOG.md`, `frontend/public/internal/roadmap-preview.html`
+
+---
+
 ## May 22, 2026 — Roadmap preview HTML synced to clean ROADMAP
 
 **What changed:** Rebuilt `frontend/public/internal/roadmap-preview.html` to match `memory/ROADMAP.md` (May 21 baseline + KPI gates). Removed stale May 8 tiers, “already shipped” tables, GA4-SVC/KPI-DASH queue items, and corrupted duplicate footer markup.
@@ -131,6 +153,14 @@ LCP optimization work is in code (font `optional`, lazyOnload GA4/Clarity, hero 
 **Verification:** Static HTML; `noindex,nofollow`; TOC + active queue (19 items) + KPI gates + P5-LAUNCH-GATE.
 
 **Note:** ROADMAP item **F9** (live KPI API widgets on roadmap preview) remains open — this pass is a manual doc sync, not auto-pull widgets.
+
+---
+
+## May 22, 2026 — KPI-DASH-AUTO deferred to ROADMAP (docs only)
+
+**What changed:** Added **KPI-DASH-AUTO** (#19) — Vercel `vercel metrics` auto-pull, snapshot CI hardening, `VERCEL_TOKEN` GitHub secret. Deferred while P1 execution focuses on SEC-1 and trust/conversion items.
+
+**Files:** `memory/ROADMAP.md`
 
 ---
 
