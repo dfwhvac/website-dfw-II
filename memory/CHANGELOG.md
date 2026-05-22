@@ -119,3 +119,13 @@ LCP optimization work is in code (font `optional`, lazyOnload GA4/Clarity, hero 
 **Next agent rule:** New shipped work gets a dated entry below this baseline. Do not resurrect pre-reset narrative into ROADMAP.
 
 ---
+
+## May 21, 2026 — ROADMAP gap-fill (docs only)
+
+**What changed:** Added four missing workstreams to `memory/ROADMAP.md` after goal-vs-roadmap review: **S3-AEO** (quarterly citation program), **P3-BASELINE** (GA4 key events + pre-ad CR baselines), **SEC-2** (`/api/estimator/lead` reCAPTCHA + rate limit), **P5-LAUNCH-GATE** (Jul 2026 target + spend prerequisites). New **KPI gates** section defines measurable tier advancement.
+
+**Files:** `memory/ROADMAP.md`
+
+**Verification:** ROADMAP active queue renumbered; P1/P2/P3/P5 sections cross-reference `audits/2026-02-28_AEO_Citation_Baseline.md`, `POST_DEPLOY_ACTION_ITEMS_PR2.md`, `app/api/estimator/lead/route.js`.
+
+---
