@@ -1,0 +1,56 @@
+---
+description: Mandatory CHANGELOG and ROADMAP updates after every code change; no task complete until docs match codebase.
+alwaysApply: true
+---
+
+# Documentation logging (mandatory)
+
+Read `memory/00_START_HERE.md` for the One-Sentence Policy. This rule enforces it on every code change.
+
+## 1. CHANGELOG — required after code changes
+
+**Trigger:** You successfully add, modify, or delete any file under the repo **except** pure documentation-only edits confined to `memory/` (this rule itself, audits, etc.). Code paths include at minimum: `frontend/`, `scripts/`, `.github/`.
+
+**Action:** Immediately open `memory/CHANGELOG.md` and append a **dated entry** (today’s date) under the May 21, 2026 baseline. Each entry must include:
+
+- **What changed** — one or two sentences, plain English
+- **Files** — paths touched
+- **Verification** — how you confirmed it (build, grep, manual check)
+- **Caveats** — `PARTIAL` if stubs, placeholders, or user-only steps remain
+
+Do not edit `memory/CHANGELOG-legacy-pre-2026-05-21.md` for new work.
+
+**GA4:** If event names or params changed in code, update `memory/GA4_EVENTS.md` in the same pass.
+
+## 2. ROADMAP — required when work is incomplete or new scope appears
+
+**Trigger:** The coding task introduces any of:
+
+- A new structural requirement (deps, env vars, migrations, CI)
+- A known bug or regression left unfixed
+- A feature intentionally incomplete (placeholder data, stub URL, missing sitewide rollout)
+
+**Action:** Open `memory/ROADMAP.md` and add or update an **open** item in the correct P-tier section or Active execution queue. Use existing ID style when possible (`P1.10`, `C3`, `SEC-1`). Do **not** add “✅ SHIPPED” rows to ROADMAP — shipped work belongs only in CHANGELOG.
+
+**When something fully ships:** Remove its open row from ROADMAP (do not strike through or leave duplicate open items).
+
+## 3. Completion gate — strict
+
+You are **forbidden** from telling the user a programming task is **Complete**, **Finished**, or **Done** until all of the following are true:
+
+1. **Code** — changes are saved and verified (build/lint/grep as appropriate)
+2. **CHANGELOG** — dated entry reflects the actual code state (including `PARTIAL` caveats)
+3. **ROADMAP** — no stale open item for work you just finished; new gaps recorded if any remain
+4. **Reconciliation** — event names match `GA4_EVENTS.md`; no claim of “shipped” without file-path evidence
+
+If you only changed `memory/*.md` with no code diff, say **documentation updated** — not “feature shipped.”
+
+## Quick checklist (end of every code task)
+
+```
+[ ] Code verified
+[ ] memory/CHANGELOG.md — dated entry added
+[ ] memory/ROADMAP.md — open items added/removed to match reality
+[ ] memory/GA4_EVENTS.md — updated if analytics code changed
+[ ] Ready to report complete to user
+```
