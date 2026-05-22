@@ -120,6 +120,20 @@ LCP optimization work is in code (font `optional`, lazyOnload GA4/Clarity, hero 
 
 ---
 
+## May 22, 2026 — Roadmap preview HTML synced to clean ROADMAP
+
+**What changed:** Rebuilt `frontend/public/internal/roadmap-preview.html` to match `memory/ROADMAP.md` (May 21 baseline + KPI gates). Removed stale May 8 tiers, “already shipped” tables, GA4-SVC/KPI-DASH queue items, and corrupted duplicate footer markup.
+
+**Live URL (after deploy):** https://dfwhvac.com/internal/roadmap-preview.html
+
+**Files:** `frontend/public/internal/roadmap-preview.html`
+
+**Verification:** Static HTML; `noindex,nofollow`; TOC + active queue (19 items) + KPI gates + P5-LAUNCH-GATE.
+
+**Note:** ROADMAP item **F9** (live KPI API widgets on this page) remains open — this pass is a manual doc sync, not auto-pull widgets.
+
+---
+
 ## May 21, 2026 — ROADMAP gap-fill (docs only)
 
 **What changed:** Added four missing workstreams to `memory/ROADMAP.md` after goal-vs-roadmap review: **S3-AEO** (quarterly citation program), **P3-BASELINE** (GA4 key events + pre-ad CR baselines), **SEC-2** (`/api/estimator/lead` reCAPTCHA + rate limit), **P5-LAUNCH-GATE** (Jul 2026 target + spend prerequisites). New **KPI gates** section defines measurable tier advancement.
