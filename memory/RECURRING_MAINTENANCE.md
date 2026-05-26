@@ -3,7 +3,7 @@
 **Purpose:** Single source of truth for every recurring operational task that keeps DFW HVAC healthy, indexed, secure, and converting. Review on the cadence below. Append new items as features ship.
 
 **Owner:** User (strategic) + Agent (execution support)
-**Last updated:** May 21, 2026
+**Last updated:** May 26, 2026
 
 > How to use: Scan by cadence when you sit down for ops. Check the "Last Done" column before running. Append notes to the run log at the bottom if anything unusual surfaces.
 
@@ -24,7 +24,8 @@
 | W1 | GBP Posts publish (once P1.8 live) | Google Business Profile → Posts | — |
 | W2 | GBP review-reply SLA — respond to all new Google reviews within 48h | GBP dashboard → Reviews | — |
 | W3 | GSC Core Web Vitals field-data (CrUX) glance — spot regressions early | GSC → Experience → Core Web Vitals | — |
-| W4 | KPI snapshot refresh — **AUTOMATED via `.github/workflows/kpi-audit.yml`** (Mondays 7 AM Central). Workflow injects API secrets from GitHub Actions Secrets, runs `scripts/audit-kpis.mjs`, commits updated `frontend/public/internal/kpi-snapshot.json` + dated archive, Vercel auto-deploys dashboard. Manual trigger: Actions → KPI Audit → "Run workflow". Runtime ~5 min. | GitHub Actions | May 11, 2026 (automated cutover) |
+| W4 | KPI snapshot refresh — **AUTOMATED via `.github/workflows/kpi-audit.yml`** (Mondays 7 AM Central). Includes **yarn audit counts** (P1-G10), **linkinator** internal links, Pa11y, headers, GSC/GA4 when secrets set. Manual: Actions → KPI Audit → Run workflow. See `FOUNDATION_AUDIT_PROGRAM.md`. | GitHub Actions | May 26, 2026 (yarn audit + linkinator in KPI) |
+| W4b | Security Audit — **same Monday window** + every PR: **gitleaks** + **yarn audit (0 high, 0 critical** on production deps). Apr 2026 “28 high” was pre–Sanity 5.26 — re-verify in Actions log, not assumptions. | GitHub Actions | May 26, 2026 (high+critical gate) |
 
 ---
 

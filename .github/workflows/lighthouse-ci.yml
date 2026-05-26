@@ -1,0 +1,56 @@
+name: Lighthouse CI
+
+# F7 — lab performance regression gate on PRs (FOUNDATION-SHORE).
+# Mobile Lighthouse on 3 high-value URLs; fails if worst LCP > 5.5s or perf score < 75.
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  lighthouse-mobile:
+    name: Lighthouse mobile (3 URLs)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v5
+        with:
+          node-version: "20"
+
+      - name: Run Lighthouse (mobile)
+        id: lh
+        env:
+          PAGESPEED_API_KEY: ${{ secrets.PAGESPEED_API_KEY }}
+        run: |
+          set -e
+          URLS="https://dfwhvac.com/ https://dfwhvac.com/request-service https://dfwhvac.com/financing"
+          WORST_LCP=0
+          WORST_PERF=100
+          for PAGE in $URLS; do
+            echo "::group::Lighthouse $PAGE"
+            KEY_ARG=""
+            [ -n "$PAGESPEED_API_KEY" ] && KEY_ARG="&key=$PAGESPEED_API_KEY"
+            RESP=$(curl -sS --max-time 120 "https://pagespeedonline.googleapis.com/pagespeedonline/v5/runPagespeed?url=${PAGE}&strategy=mobile&category=performance${KEY_ARG}")
+            LCP=$(echo "$RESP" | node -e "const d=JSON.parse(require('fs').readFileSync(0,'utf8'));const a=d.lighthouseResult?.audits||{};process.stdout.write(String(a['largest-contentful-paint']?.numericValue||0))")
+            PERF=$(echo "$RESP" | node -e "const d=JSON.parse(require('fs').readFileSync(0,'utf8'));process.stdout.write(String(Math.round((d.lighthouseResult?.categories?.performance?.score||0)*100)))")
+            echo "LCP=${LCP}ms perf=${PERF} $PAGE"
+            LCP_INT=${LCP%.*}
+            [ "$LCP_INT" -gt "$WORST_LCP" ] && WORST_LCP=$LCP_INT
+            [ "$PERF" -lt "$WORST_PERF" ] && WORST_PERF=$PERF
+            echo "::endgroup::"
+          done
+          echo "worst_lcp_ms=$WORST_LCP" >> "$GITHUB_OUTPUT"
+          echo "worst_perf=$WORST_PERF" >> "$GITHUB_OUTPUT"
+          echo "::notice::Worst mobile lab LCP ${WORST_LCP}ms · lowest perf score ${WORST_PERF}"
+          if [ "$WORST_LCP" -gt 5500 ]; then
+            echo "::error::Lab LCP ${WORST_LCP}ms exceeds 5.5s gate on at least one URL"
+            exit 1
+          fi
+          if [ "$WORST_PERF" -lt 75 ]; then
+            echo "::error::Lab performance score ${WORST_PERF} below 75 on at least one URL"
+            exit 1
+          fi

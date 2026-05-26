@@ -1,6 +1,6 @@
 # DFW HVAC — Roadmap
 
-**Last reviewed:** May 22, 2026 (SEC-1-A firewall done; P1.16-url live; SEC-2 shipped; KPI-DASH-AUTO deferred)
+**Last reviewed:** May 26, 2026 (foundation audit hardening: yarn high+critical gate, KPI P1-G10)
 **⚠️ Read `memory/00_START_HERE.md` first for the Agent SOP.**
 
 > **Future work only.** Shipped history → [`CHANGELOG.md`](CHANGELOG.md) (baseline: May 21, 2026). Pre-reset agent logs → [`CHANGELOG-legacy-pre-2026-05-21.md`](CHANGELOG-legacy-pre-2026-05-21.md).
@@ -65,9 +65,10 @@ Pick from the top. When an item ships, remove it here and add a dated entry to `
 | 15 | **P2.23** | `@sanity/image-url` → `createImageUrlBuilder` named export | Agent | 10 min |
 | 16 | **P2.20** | LCP push — code levers shipped; **target &lt;1.25s not met** (~2.7s mobile PSI May 2026) | Agent | As needed |
 | 17 | **F13** | Architecture foundation re-audit (quarterly) | Agent | 3.5 hr — due **Aug 4, 2026** |
-| 18 | **KPI-DASH-AUTO** | KPI dashboard automation — `vercel metrics` for Speed Insights (replace manual paste); snapshot hardening (CI-only canonical writes + archive fallback for GSC/GA4 when secrets missing); user adds `VERCEL_TOKEN` + project id to GitHub Secrets; one-time **KPI Audit** workflow run to restore Google metrics | Agent + user | 2–3 hr agent · 15 min user |
+| 18 | **KPI-DASH-AUTO** | KPI dashboard automation — Speed Insights **Drain** or CLI pull (no public p75 API); replace manual `vercel-rum-*` paste; snapshot hardening; `VERCEL_TOKEN` if using REST/CLI | Agent + user | 2–3 hr · see `FOUNDATION_AUDIT_PROGRAM.md` |
+| 19 | **FOUNDATION-SHORE** | Close remaining foundation gaps — multi-URL PSI, Lighthouse CI (F7), Sanity CDN, Sentry, gitleaks v3, W3C validator | Agent | See `FOUNDATION_AUDIT_PROGRAM.md` matrix |
 
-**Deferred — not blocking P1:** #18. Observability Plus + Speed Insights on `website-dfw-ii-b4zk` confirmed; manual paste still valid for P1 gates until this ships.
+**Deferred — not blocking P1:** #18 KPI-DASH-AUTO, #19 FOUNDATION-SHORE remainder. Observability Plus + Speed Insights on `website-dfw-ii-b4zk` confirmed; manual RUM paste OK until #18 ships.
 
 ## P1 — Foundation (open)
 
@@ -89,7 +90,7 @@ Pick from the top. When an item ships, remove it here and add a dated entry to `
 | P2.18 | `cacheComponents` migration | Agent | **Deferred** — see `P2.18_CACHE_COMPONENTS_SPIKE.md` |
 | P2.20 | LCP optimization (ongoing) | Agent | See `P2.20_LCP_OPTIMIZATION_PLAN.md` |
 | P2.23 | Sanity image-url deprecation fix | Agent | Warning-only today |
-| F7 | Lighthouse CI gate (optional) | Agent | |
+| F7 | Lighthouse CI gate on PRs | Agent | **Shipped** — `lighthouse-ci.yml` (3 URLs) |
 | P1.3 | Device QA matrix (iOS Safari, Android Chrome, autocomplete) | User | |
 | P1.6d | INP field measurement after CrUX qualifies | Agent | Site below CrUX threshold today |
 | INFRA-1 | Vercel DNS → per-tenant records (GoDaddy) | User | Low urgency; see legacy ROADMAP for record values |

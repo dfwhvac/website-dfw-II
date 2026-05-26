@@ -170,10 +170,13 @@ async function getUptimeRobotStatus() {
   };
 }
 
-async function getPageSpeed(strategy = 'mobile') {
+const PSI_LAB_PATHS = ['/', '/request-service', '/financing', '/cities-served/plano'];
+
+async function getPageSpeed(strategy = 'mobile', pagePath = '/') {
   const key = process.env.PAGESPEED_API_KEY;
+  const pageUrl = `${ORIGIN}${pagePath.startsWith('/') ? pagePath : `/${pagePath}`}`;
   const url = new URL('https://pagespeedonline.googleapis.com/pagespeedonline/v5/runPagespeed');
-  url.searchParams.set('url', ORIGIN);
+  url.searchParams.set('url', pageUrl);
   url.searchParams.set('strategy', strategy);
   ['performance', 'accessibility', 'best-practices', 'seo'].forEach((c) =>
     url.searchParams.append('category', c)
@@ -218,6 +221,7 @@ async function getPageSpeed(strategy = 'mobile') {
 
   return {
     strategy,
+    pagePath,
     performance: Math.round((cats.performance?.score ?? 0) * 100),
     accessibility: Math.round((cats.accessibility?.score ?? 0) * 100),
     bestPractices: Math.round((cats['best-practices']?.score ?? 0) * 100),
@@ -319,6 +323,82 @@ async function getSchemaCoverage() {
     invalidBlocks: totalInvalid,
     perPage: results,
   };
+}
+
+/**
+ * Production dependency advisories via yarn audit (dependencies group only).
+ * Apr 21, 2026 audit reported 28 high (Sanity 3.x Studio subtree). Sanity 5.26+
+ * shipped May 2026 — re-verify weekly; CI security.yml fails on high+critical.
+ */
+async function getYarnAuditCounts() {
+  const frontendDir = path.join(REPO_ROOT, 'frontend');
+  const lockPath = path.join(frontendDir, 'yarn.lock');
+  if (!existsSync(lockPath)) throw new Error('frontend/yarn.lock missing');
+  const { execFile } = await import('node:child_process');
+  const { promisify } = await import('node:util');
+  const exec = promisify(execFile);
+  let stdout = '';
+  try {
+    const r = await exec('yarn', ['audit', '--json', '--groups', 'dependencies'], {
+      cwd: frontendDir,
+      timeout: 120_000,
+      maxBuffer: 32 * 1024 * 1024,
+    });
+    stdout = r.stdout || '';
+  } catch (e) {
+    // yarn audit exits non-zero when advisories exist — JSON still on stdout
+    stdout = e.stdout || '';
+    if (!stdout.trim()) throw new Error(e.stderr?.slice(0, 200) || e.message || 'yarn audit failed');
+  }
+  const counts = { critical: 0, high: 0, moderate: 0, low: 0, info: 0 };
+  const topAdvisories = [];
+  for (const line of stdout.split('\n')) {
+    if (!line.trim()) continue;
+    let row;
+    try {
+      row = JSON.parse(line);
+    } catch {
+      continue;
+    }
+    if (row.type !== 'auditAdvisory' || !row.data?.severity) continue;
+    const sev = row.data.severity;
+    if (counts[sev] != null) counts[sev]++;
+    if ((sev === 'critical' || sev === 'high') && topAdvisories.length < 8) {
+      topAdvisories.push({
+        module: row.data.module_name,
+        severity: sev,
+        title: (row.data.title || '').slice(0, 80),
+      });
+    }
+  }
+  return { counts, topAdvisories, scope: 'production dependencies (package.json dependencies)' };
+}
+
+/**
+ * Broken internal links on origin (linkinator). Weekly sample — full recurse can take minutes.
+ */
+async function getBrokenInternalLinks() {
+  const { execFile } = await import('node:child_process');
+  const { promisify } = await import('node:util');
+  const exec = promisify(execFile);
+  const { stdout } = await exec(
+    'npx',
+    ['--yes', 'linkinator', ORIGIN, '--silent', '--recurse'],
+    { timeout: 180_000, maxBuffer: 8 * 1024 * 1024 }
+  );
+  const host = new URL(ORIGIN).hostname;
+  const broken = [];
+  for (const line of (stdout || '').split('\n')) {
+    const m = line.match(/^\[(\d+)\]\s+(https?:\/\/\S+)/);
+    if (!m || Number(m[1]) < 400) continue;
+    try {
+      if (new URL(m[2]).hostname !== host) continue;
+    } catch {
+      continue;
+    }
+    broken.push({ code: Number(m[1]), url: m[2] });
+  }
+  return { brokenCount: broken.length, broken: broken.slice(0, 10) };
 }
 
 async function getGitleaksStatus() {
@@ -842,6 +922,123 @@ function gradeStatus(grade, greens = ['A+', 'A'], yellows = ['A-', 'B+', 'B']) {
   return STATUS.RED;
 }
 
+function lcpMsStatus(ms) {
+  if (ms == null) return STATUS.GRAY;
+  if (ms < 2500) return STATUS.GREEN;
+  if (ms < 4000) return STATUS.YELLOW;
+  return STATUS.RED;
+}
+
+/** Manual Speed Insights paste when CrUX origin not yet in PSI (May 15 baseline). */
+const RUM_PASTE = {
+  resMobile: 99,
+  resDesktop: 99,
+  lcpMobileMs: 1340,
+  lcpDesktopMs: 1760,
+  inpMobileMs: 80,
+  inpDesktopMs: 48,
+  ttfbMs: 600,
+};
+
+/** Prefer CrUX field data from PSI when available; else fall back to paste. */
+function buildVercelRumKpis(ps, psDesktop) {
+  const cruxLcpM = ps.ok ? ps.value.crux?.lcp?.percentile : null;
+  const cruxInp = ps.ok ? ps.value.crux?.inp?.percentile : null;
+  const cruxTtfb = ps.ok ? ps.value.crux?.ttfb?.percentile : null;
+  const lcpMobileMs = cruxLcpM ?? RUM_PASTE.lcpMobileMs;
+  const lcpAuto = cruxLcpM != null;
+  const inpMs = cruxInp ?? RUM_PASTE.inpMobileMs;
+  const inpAuto = cruxInp != null;
+  const ttfbMs = cruxTtfb ?? RUM_PASTE.ttfbMs;
+  const ttfbAuto = cruxTtfb != null;
+
+  return [
+    {
+      id: 'vercel-rum-res-mobile',
+      label: 'Real Experience Score — Mobile (Vercel RUM, p75 · 7d)',
+      target: '≥ 90',
+      v3Pillar: 'P2 Performance',
+      value: `${RUM_PASTE.resMobile} / 100`,
+      numericValue: RUM_PASTE.resMobile,
+      status: RUM_PASTE.resMobile >= 90 ? STATUS.GREEN : STATUS.YELLOW,
+      source: 'Vercel Speed Insights · Mobile · paste until drain/API',
+      detail: 'RES not in CrUX API — update from Speed Insights dashboard weekly if no drain.',
+    },
+    {
+      id: 'vercel-rum-res-desktop',
+      label: 'Real Experience Score — Desktop (Vercel RUM, p75 · 7d)',
+      target: '≥ 90',
+      v3Pillar: 'P2 Performance',
+      value: `${RUM_PASTE.resDesktop} / 100`,
+      numericValue: RUM_PASTE.resDesktop,
+      status: RUM_PASTE.resDesktop >= 90 ? STATUS.GREEN : STATUS.YELLOW,
+      source: 'Vercel Speed Insights · Desktop · paste',
+      detail: null,
+    },
+    {
+      id: 'vercel-rum-lcp-mobile',
+      label: 'Field LCP — Mobile (p75 · 7d)',
+      target: '< 2.5s (Good) · < 1.5s (Top)',
+      v3Pillar: 'P2 Performance',
+      value: `${(lcpMobileMs / 1000).toFixed(2)}s`,
+      numericValue: lcpMobileMs,
+      status: lcpMsStatus(lcpMobileMs),
+      source: lcpAuto ? `CrUX origin via PSI (auto) · ${ps.value.crux?.lcp?.category || 'FAST'}` : 'Vercel Speed Insights paste',
+      detail: lcpAuto ? 'Auto from PageSpeed CrUX block — replaces stale manual paste when origin qualifies.' : 'Paste from Speed Insights or wait for CrUX.',
+    },
+    {
+      id: 'vercel-rum-lcp-desktop',
+      label: 'Field LCP — Desktop (Vercel RUM, p75 · 7d)',
+      target: '< 1.5s',
+      v3Pillar: 'P2 Performance',
+      value: `${(RUM_PASTE.lcpDesktopMs / 1000).toFixed(2)}s`,
+      numericValue: RUM_PASTE.lcpDesktopMs,
+      status: lcpMsStatus(RUM_PASTE.lcpDesktopMs),
+      source: 'Vercel Speed Insights · Desktop · paste',
+      detail: null,
+    },
+    {
+      id: 'vercel-rum-inp',
+      label: 'Field INP — p75 (7d)',
+      target: '< 200ms',
+      v3Pillar: 'P2 Performance',
+      value: inpAuto ? `${inpMs}ms (CrUX)` : `${RUM_PASTE.inpMobileMs}ms mobile · ${RUM_PASTE.inpDesktopMs}ms desktop`,
+      numericValue: inpMs,
+      status: inpMs < 200 ? STATUS.GREEN : inpMs < 500 ? STATUS.YELLOW : STATUS.RED,
+      source: inpAuto ? 'CrUX via PSI (auto)' : 'Vercel Speed Insights paste',
+      detail: null,
+    },
+    {
+      id: 'vercel-rum-ttfb',
+      label: 'Field TTFB — p75 (7d)',
+      target: '< 800ms (Good)',
+      v3Pillar: 'P1 Infrastructure',
+      value: `${(ttfbMs / 1000).toFixed(2)}s`,
+      numericValue: ttfbMs,
+      status: ttfbMs < 800 ? STATUS.GREEN : ttfbMs < 1800 ? STATUS.YELLOW : STATUS.RED,
+      source: ttfbAuto ? 'CrUX via PSI (auto)' : 'Vercel Speed Insights paste',
+      detail: ttfbAuto ? 'CrUX TTFB — compare to Speed Insights UI for outliers.' : 'May diverge from Vercel UI (e.g. p75 spikes on low sample).',
+    },
+  ];
+}
+
+async function getPsiLabSamples() {
+  const samples = await Promise.all(
+    PSI_LAB_PATHS.map((p) => safe(`PSI.lab.${p}`, () => getPageSpeed('mobile', p)))
+  );
+  const rows = PSI_LAB_PATHS.map((p, i) => ({
+    path: p,
+    lcpMs: samples[i].ok ? samples[i].value.lcp : null,
+    perf: samples[i].ok ? samples[i].value.performance : null,
+    error: samples[i].ok ? null : samples[i].error,
+  }));
+  const lcps = rows.map((r) => r.lcpMs).filter((n) => n != null);
+  return {
+    rows,
+    worstLcpMs: lcps.length ? Math.max(...lcps) : null,
+  };
+}
+
 async function loadPriorSnapshot() {
   try {
     const cur = JSON.parse(await readFile(SNAPSHOT_PREV, 'utf-8'));
@@ -854,9 +1051,14 @@ async function loadPriorSnapshot() {
 // When UptimeRobot/Pa11y collectors fail locally (missing secrets or pa11y ENOENT),
 // carry forward the last green archive row so a dev run never regresses production snapshot.
 const ARCHIVE_FALLBACK_IDS = new Set(['uptime-30d', 'wcag-aa-pa11y']);
+const ARCHIVE_FALLBACK_PREFIXES = ['gsc-', 'p3-g', 'overall-cr', 'form-submission-rate', 'phone-click-rate', 'per-page-cr', 'mobile-desktop-cr', 'estimator-completion', 'bounce-rate'];
+
+function kpiUsesArchiveFallback(kpiId) {
+  return ARCHIVE_FALLBACK_IDS.has(kpiId) || ARCHIVE_FALLBACK_PREFIXES.some((p) => kpiId.startsWith(p) || kpiId === p);
+}
 
 async function fallbackKpiFromArchive(kpiId) {
-  if (!ARCHIVE_FALLBACK_IDS.has(kpiId) || !existsSync(ARCHIVE_DIR)) return null;
+  if (!kpiUsesArchiveFallback(kpiId) || !existsSync(ARCHIVE_DIR)) return null;
   try {
     const files = (await readdir(ARCHIVE_DIR))
       .filter((f) => /^\d{4}-\d{2}-\d{2}\.json$/.test(f))
@@ -883,7 +1085,7 @@ async function fallbackKpiFromArchive(kpiId) {
 
 async function applyArchiveFallbacks(kpis) {
   for (let i = 0; i < kpis.length; i++) {
-    if (kpis[i].status !== STATUS.GRAY || !ARCHIVE_FALLBACK_IDS.has(kpis[i].id)) continue;
+    if (kpis[i].status !== STATUS.GRAY || !kpiUsesArchiveFallback(kpis[i].id)) continue;
     const fb = await fallbackKpiFromArchive(kpis[i].id);
     if (fb) kpis[i] = { ...kpis[i], ...fb };
   }
@@ -920,6 +1122,9 @@ const KPI_META = {
   'internal-link-connectivity': { role: 'signal', phaseGate: 'P2-tech', seoImpact: 'high', blocksGraduation: false },
   'wcag-aa-pa11y': { role: 'gate', phaseGate: 'P1', seoImpact: 'medium', blocksGraduation: true, gateLabel: 'P1-G5' },
   'gitleaks-status': { role: 'gate', phaseGate: 'P1', seoImpact: 'none', blocksGraduation: true, gateLabel: 'P1-G2' },
+  'dependency-vulns-prod': { role: 'gate', phaseGate: 'P1', seoImpact: 'none', blocksGraduation: true, gateLabel: 'P1-G10' },
+  'broken-internal-links': { role: 'maintain', phaseGate: 'P1', seoImpact: 'medium', blocksGraduation: false },
+  'psi-lab-worst-lcp': { role: 'maintain', phaseGate: 'P1', seoImpact: 'medium', blocksGraduation: false },
   'uptime-30d': { role: 'gate', phaseGate: 'P1', seoImpact: 'high', blocksGraduation: true, gateLabel: 'P1-G1' },
   'leads-api-recaptcha': { role: 'gate', phaseGate: 'P1', seoImpact: 'none', blocksGraduation: true, gateLabel: 'P1-G6' },
   'sec-2-estimator-lead': { role: 'gate', phaseGate: 'P1', seoImpact: 'none', blocksGraduation: true, gateLabel: 'P1-G7', gateId: 'SEC-2' },
@@ -1176,6 +1381,9 @@ async function main() {
     linkGraph,
     pa11y,
     uptime,
+    yarnAudit,
+    brokenLinks,
+    psiLab,
   ] = await Promise.all([
     safe('SecurityHeaders', getSecurityHeadersGrade),
     safe('MozillaObservatory', getMozillaObservatoryGrade),
@@ -1192,6 +1400,9 @@ async function main() {
     safe('LinkGraph', getLinkGraph),
     safe('Pa11y', getPa11y),
     safe('UptimeRobot', getUptimeRobotStatus),
+    safe('YarnAudit', () => (IN_CI || process.env.FORCE_YARN_AUDIT === '1' ? getYarnAuditCounts() : Promise.reject(new Error('yarn audit runs in CI only (set FORCE_YARN_AUDIT=1 locally)')))),
+    safe('BrokenLinks', getBrokenInternalLinks),
+    safe('PsiLabSamples', getPsiLabSamples),
   ]);
 
   const codeSec = await safe('CodeSecurityPosture', getCodeSecurityPosture);
@@ -1273,74 +1484,27 @@ async function main() {
     // user-facing reality.
     // ============================================================================
     //
-    // --- ACTIVE: Vercel RUM rows (manual paste, refresh weekly) ---
-    // Last refresh: 2026-05-15. To refresh: visit Vercel → Speed Insights →
-    // Last 7 Days → P75 → copy values into the row constants below.
+    ...buildVercelRumKpis(ps, psDesktop),
     {
-      id: 'vercel-rum-res-mobile',
-      label: 'Real Experience Score — Mobile (Vercel RUM, p75 · 7d)',
-      target: '≥ 90',
+      id: 'psi-lab-worst-lcp',
+      label: 'Lab LCP worst-case (PSI mobile · 4 URLs)',
+      target: '< 2.5s field · lab diagnostic < 4s',
       v3Pillar: 'P2 Performance',
-      value: '99 / 100',
-      numericValue: 99,
-      status: STATUS.GREEN,
-      source: 'Vercel Speed Insights · Mobile · Last 7 Days · P75',
-      detail: 'Field RES 99 — >75% of mobile visits classified "Great." No poor/needs-improvement routes.',
-    },
-    {
-      id: 'vercel-rum-res-desktop',
-      label: 'Real Experience Score — Desktop (Vercel RUM, p75 · 7d)',
-      target: '≥ 90',
-      v3Pillar: 'P2 Performance',
-      value: '99 / 100',
-      numericValue: 99,
-      status: STATUS.GREEN,
-      source: 'Vercel Speed Insights · Desktop · Last 7 Days · P75',
-      detail: 'Field RES 99 across ~207 desktop sessions. Routes: / = 97, /contact = 99, /about = 100, /[slug] = 100.',
-    },
-    {
-      id: 'vercel-rum-lcp-mobile',
-      label: 'Field LCP — Mobile (Vercel RUM, p75 · 7d)',
-      target: '< 2.5s (Good) · < 1.5s (Top)',
-      v3Pillar: 'P2 Performance',
-      value: '1.34s',
-      numericValue: 1340,
-      status: STATUS.GREEN,
-      source: 'Vercel Speed Insights · Mobile · Largest Contentful Paint',
-      detail: 'Field p75 (1.34s) — real Dallas users see better LCP than throttled mobile Lighthouse lab measurement.',
-    },
-    {
-      id: 'vercel-rum-lcp-desktop',
-      label: 'Field LCP — Desktop (Vercel RUM, p75 · 7d)',
-      target: '< 1.5s',
-      v3Pillar: 'P2 Performance',
-      value: '1.76s',
-      numericValue: 1760,
-      status: STATUS.YELLOW,
-      source: 'Vercel Speed Insights · Desktop · Largest Contentful Paint',
-      detail: 'Desktop FCP and LCP both 1.76s — render pipeline is single-pass. ~260ms gap to 1.5s "Top" threshold.',
-    },
-    {
-      id: 'vercel-rum-inp',
-      label: 'Field INP — p75 (Vercel RUM, 7d)',
-      target: '< 200ms',
-      v3Pillar: 'P2 Performance',
-      value: '80ms mobile · 48ms desktop',
-      numericValue: 80,
-      status: STATUS.GREEN,
-      source: 'Vercel Speed Insights · Interaction to Next Paint',
-      detail: 'Well under 200ms on both form factors.',
-    },
-    {
-      id: 'vercel-rum-ttfb',
-      label: 'Field TTFB — p75 (Vercel RUM, 7d)',
-      target: '< 800ms (Good)',
-      v3Pillar: 'P1 Infrastructure',
-      value: '0.60s mobile · 0.59s desktop',
-      numericValue: 600,
-      status: STATUS.GREEN,
-      source: 'Vercel Speed Insights · Time to First Byte',
-      detail: 'Real-user TTFB ~600ms — higher than Lighthouse lab because real users hit cold cache edges + DNS/handshake overhead. Well under Vercel "Good" threshold.',
+      value: psiLab.ok && psiLab.value.worstLcpMs != null
+        ? `${(psiLab.value.worstLcpMs / 1000).toFixed(2)}s · ${PSI_LAB_PATHS.join(', ')}`
+        : 'unavailable',
+      numericValue: psiLab.ok ? psiLab.value.worstLcpMs : null,
+      status: psiLab.ok && psiLab.value.worstLcpMs != null
+        ? psiLab.value.worstLcpMs < 4000
+          ? STATUS.GREEN
+          : psiLab.value.worstLcpMs < 5500
+            ? STATUS.YELLOW
+            : STATUS.RED
+        : STATUS.GRAY,
+      source: 'PageSpeed Insights lab · mobile',
+      detail: psiLab.ok
+        ? psiLab.value.rows.map((r) => `${r.path}:${r.lcpMs != null ? (r.lcpMs / 1000).toFixed(2) + 's' : 'err'}`).join(' · ')
+        : psiLab.error,
     },
     // --- WATCHLIST: CrUX rows (auto-fetched, will populate once origin qualifies) ---
     // Currently expected to read "watchlist · origin not yet in CrUX dataset" for a
@@ -1647,6 +1811,52 @@ async function main() {
       detail: gitleaks.ok ? `last run: ${gitleaks.value.lastRun}` : gitleaks.error,
     },
     {
+      id: 'dependency-vulns-prod',
+      label: 'Production dependency advisories (yarn audit)',
+      target: '0 high · 0 critical',
+      v3Pillar: 'P4 Security',
+      value: yarnAudit.ok
+        ? `${yarnAudit.value.counts.critical} critical · ${yarnAudit.value.counts.high} high · ${yarnAudit.value.counts.moderate} moderate`
+        : 'CI only',
+      numericValue: yarnAudit.ok ? yarnAudit.value.counts.high + yarnAudit.value.counts.critical : null,
+      status: yarnAudit.ok
+        ? yarnAudit.value.counts.critical > 0
+          ? STATUS.RED
+          : yarnAudit.value.counts.high > 0
+            ? STATUS.RED
+            : yarnAudit.value.counts.moderate > 0
+              ? STATUS.YELLOW
+              : STATUS.GREEN
+        : STATUS.GRAY,
+      source: 'yarn audit --groups dependencies · matches security.yml gate',
+      detail: yarnAudit.ok
+        ? yarnAudit.value.topAdvisories.length
+          ? `Top: ${yarnAudit.value.topAdvisories.map((a) => `${a.module} (${a.severity})`).join('; ')}`
+          : 'Clean — post–Sanity 5.26 re-verify (Apr 2026 baseline was 28 high on Sanity 3.x)'
+        : yarnAudit.error,
+    },
+    {
+      id: 'broken-internal-links',
+      label: 'Broken internal links (linkinator)',
+      target: '0 broken',
+      v3Pillar: 'P3 Logic',
+      value: brokenLinks.ok ? `${brokenLinks.value.brokenCount} broken` : 'unavailable',
+      numericValue: brokenLinks.ok ? brokenLinks.value.brokenCount : null,
+      status: brokenLinks.ok
+        ? brokenLinks.value.brokenCount === 0
+          ? STATUS.GREEN
+          : brokenLinks.value.brokenCount <= 3
+            ? STATUS.YELLOW
+            : STATUS.RED
+        : STATUS.GRAY,
+      source: 'linkinator · origin recurse · external skipped',
+      detail: brokenLinks.ok && brokenLinks.value.broken.length
+        ? brokenLinks.value.broken.map((b) => `${b.code} ${b.url}`).join(' · ')
+        : brokenLinks.ok
+          ? 'No 4xx/5xx on internal URLs in crawl'
+          : brokenLinks.error,
+    },
+    {
       id: 'uptime-30d',
       label: 'Uptime (last 30 days)',
       target: '≥ 99.99% (V3)',
@@ -1699,7 +1909,9 @@ async function main() {
             : STATUS.RED)
         : STATUS.GRAY,
       source: 'Static code review · frontend/app/api/estimator/lead/route.js',
-      detail: 'ROADMAP SEC-2 — add verifyRecaptcha + IP rate limit before P1 security gate clears.',
+      detail: codeSec.ok && codeSec.value.estimator.recaptcha && codeSec.value.estimator.rateLimit
+        ? 'SEC-2 shipped — shared lead-security.js'
+        : 'ROADMAP SEC-2 — add verifyRecaptcha + IP rate limit',
     },
     { id: 'sec-1-gsc-indexing', ...MANUAL_GATE_ROWS['sec-1-gsc-indexing'] },
   ];

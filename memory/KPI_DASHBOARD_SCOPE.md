@@ -51,6 +51,7 @@ Snapshot also includes `graduation` rollups: `phase1`, `phase2Tech`, `phase3Meas
 | `sitemap-url-count` | P1 | — | P1-G8 |
 | `robots-ai-allowlist` | P1 | — | P1-G8 |
 | `sec-1-gsc-indexing` | P1 | SEC-1 | P1-G9 · manual |
+| `dependency-vulns-prod` | P1 | — | P1-G10 · yarn audit CI |
 | `sitemap-indexing-rate` | P2-tech | — | 51/51 indexed |
 | `sitemap-health-parity` | P2-tech | — | GSC sitemaps API |
 | `schema-coverage` | P2-tech | — | Rich results / AEO |

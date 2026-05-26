@@ -54,9 +54,19 @@ jobs:
         with:
           node-version: "20"
 
-      # No `yarn install` needed — audit-kpis.mjs uses only Node built-ins
-      # (fs, path, child_process) and pulls Pa11y on-demand via `npx --yes pa11y`.
-      # Skipping the install step avoids being blocked on lockfile drift.
+      - name: Install frontend dependencies (yarn audit collector)
+        working-directory: frontend
+        run: |
+          set +e
+          yarn install --frozen-lockfile
+          STATUS=$?
+          set -e
+          if [ "$STATUS" -ne 0 ]; then
+            echo "::warning::yarn.lock drift — running yarn install"
+            yarn install
+          fi
+
+      # Pa11y installed globally below. audit-kpis.mjs also runs linkinator via npx.
 
       # Chromium runtime deps for Pa11y (puppeteer-core ships Chromium but not
       # the host libs). Without these, `pa11y` silently fails to launch and

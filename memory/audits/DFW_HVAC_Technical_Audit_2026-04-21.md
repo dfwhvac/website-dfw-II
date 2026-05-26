@@ -1,6 +1,7 @@
 # DFW HVAC — Technical SEO & Architecture Audit
 
-**Date:** April 21, 2026
+**Date:** April 21, 2026  
+**⚠️ Dependency §13 superseded:** Sanity **5.26** shipped May 2026. Do not cite “28 high” without a fresh `yarn audit`. See `memory/FOUNDATION_AUDIT_PROGRAM.md` + CI **Security Audit** / KPI row `dependency-vulns-prod`.
 **Auditor:** E1 (automated sweep + manual review)
 **Site version:** Next.js 15.5.9 + React 19.2.5, post PR #2 (Sprint 1 completion)
 **Production URL:** https://dfwhvac.com

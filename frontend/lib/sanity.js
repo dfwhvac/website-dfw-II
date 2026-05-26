@@ -1,3 +1,4 @@
+import { cache } from 'react'
 import { createClient } from '@sanity/client'
 import imageUrlBuilder from '@sanity/image-url'
 
@@ -6,13 +7,13 @@ const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'iar2b790'
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'
 const apiVersion = '2024-01-01'
 
-// Create the Sanity client
-// useCdn: false ensures fresh content on every request (no caching delays)
+// Published reads use Sanity CDN (apicdn) — ~50–150ms vs API origin. ISR revalidate=3600
+// on pages bounds staleness; see P2.20 Step 4 / FOUNDATION_AUDIT_PROGRAM.md.
 export const client = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: false,  // Disable CDN to get fresh content immediately after publish
+  useCdn: true,
   perspective: 'published',
 })
 
@@ -347,8 +348,9 @@ export const queries = {
   }`,
 }
 
-// Helper functions to fetch data
-export async function getCompanyInfo() {
+// React cache() dedupes identical GROQ calls within one server render (e.g. layout
+// generateMetadata + page both calling getCompanyInfo).
+export const getCompanyInfo = cache(async function getCompanyInfo() {
   try {
     const data = await client.fetch(queries.companyInfo)
     return data
@@ -356,9 +358,9 @@ export async function getCompanyInfo() {
     console.error('Error fetching company info:', error)
     return null
   }
-}
+})
 
-export async function getServices() {
+export const getServices = cache(async function getServices() {
   try {
     const data = await client.fetch(queries.allServices)
     return data
@@ -366,9 +368,9 @@ export async function getServices() {
     console.error('Error fetching services:', error)
     return null
   }
-}
+})
 
-export async function getTestimonials() {
+export const getTestimonials = cache(async function getTestimonials() {
   try {
     const data = await client.fetch(queries.testimonials)
     return data
@@ -376,9 +378,9 @@ export async function getTestimonials() {
     console.error('Error fetching testimonials:', error)
     return null
   }
-}
+})
 
-export async function getSiteSettings() {
+export const getSiteSettings = cache(async function getSiteSettings() {
   try {
     const data = await client.fetch(queries.siteSettings)
     return data
@@ -386,9 +388,9 @@ export async function getSiteSettings() {
     console.error('Error fetching site settings:', error)
     return null
   }
-}
+})
 
-export async function getBrandColors() {
+export const getBrandColors = cache(async function getBrandColors() {
   try {
     const data = await client.fetch(queries.brandColors)
     return data
@@ -396,9 +398,9 @@ export async function getBrandColors() {
     console.error('Error fetching brand colors:', error)
     return null
   }
-}
+})
 
-export async function getFaqs() {
+export const getFaqs = cache(async function getFaqs() {
   try {
     const data = await client.fetch(queries.faqs)
     return data
@@ -406,9 +408,9 @@ export async function getFaqs() {
     console.error('Error fetching FAQs:', error)
     return null
   }
-}
+})
 
-export async function getAllTestimonials() {
+export const getAllTestimonials = cache(async function getAllTestimonials() {
   try {
     const data = await client.fetch(queries.allTestimonials)
     return data
@@ -416,9 +418,9 @@ export async function getAllTestimonials() {
     console.error('Error fetching testimonials:', error)
     return null
   }
-}
+})
 
-export async function getCompanyPage(slug) {
+export const getCompanyPage = cache(async function getCompanyPage(slug) {
   try {
     const data = await client.fetch(queries.companyPage, { slug })
     return data
@@ -426,9 +428,9 @@ export async function getCompanyPage(slug) {
     console.error('Error fetching company page:', error)
     return null
   }
-}
+})
 
-export async function getAllCompanyPageSlugs() {
+export const getAllCompanyPageSlugs = cache(async function getAllCompanyPageSlugs() {
   try {
     const data = await client.fetch(queries.allCompanyPageSlugs)
     return data
@@ -436,9 +438,9 @@ export async function getAllCompanyPageSlugs() {
     console.error('Error fetching company page slugs:', error)
     return []
   }
-}
+})
 
-export async function getHomepage() {
+export const getHomepage = cache(async function getHomepage() {
   try {
     const data = await client.fetch(queries.homepage)
     return data
@@ -446,9 +448,9 @@ export async function getHomepage() {
     console.error('Error fetching homepage:', error)
     return null
   }
-}
+})
 
-export async function getFaqPage() {
+export const getFaqPage = cache(async function getFaqPage() {
   try {
     const data = await client.fetch(queries.faqPage)
     return data
@@ -456,9 +458,9 @@ export async function getFaqPage() {
     console.error('Error fetching FAQ page:', error)
     return null
   }
-}
+})
 
-export async function getReviewsPage() {
+export const getReviewsPage = cache(async function getReviewsPage() {
   try {
     const data = await client.fetch(queries.reviewsPage)
     return data
@@ -466,9 +468,9 @@ export async function getReviewsPage() {
     console.error('Error fetching reviews page:', error)
     return null
   }
-}
+})
 
-export async function getCityPages() {
+export const getCityPages = cache(async function getCityPages() {
   try {
     const data = await client.fetch(queries.cityPages)
     return data || []
@@ -476,9 +478,9 @@ export async function getCityPages() {
     console.error('Error fetching city pages:', error)
     return []
   }
-}
+})
 
-export async function getAboutPage() {
+export const getAboutPage = cache(async function getAboutPage() {
   try {
     const data = await client.fetch(queries.aboutPage)
     return data
@@ -486,9 +488,9 @@ export async function getAboutPage() {
     console.error('Error fetching about page:', error)
     return null
   }
-}
+})
 
-export async function getContactPage() {
+export const getContactPage = cache(async function getContactPage() {
   try {
     const data = await client.fetch(queries.contactPage)
     return data
@@ -496,9 +498,9 @@ export async function getContactPage() {
     console.error('Error fetching contact page:', error)
     return null
   }
-}
+})
 
-export async function getTrustSignals() {
+export const getTrustSignals = cache(async function getTrustSignals() {
   try {
     const data = await client.fetch(queries.trustSignals)
     return data
@@ -506,9 +508,9 @@ export async function getTrustSignals() {
     console.error('Error fetching trust signals:', error)
     return null
   }
-}
+})
 
-export async function getSiteSettingsExtended() {
+export const getSiteSettingsExtended = cache(async function getSiteSettingsExtended() {
   try {
     const data = await client.fetch(queries.siteSettingsExtended)
     return data
@@ -516,4 +518,4 @@ export async function getSiteSettingsExtended() {
     console.error('Error fetching extended site settings:', error)
     return null
   }
-}
+})

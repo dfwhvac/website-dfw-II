@@ -120,6 +120,28 @@ LCP optimization work is in code (font `optional`, lazyOnload GA4/Clarity, hero 
 
 ---
 
+## May 26, 2026 — Foundation audit hardening (yarn audit re-verify + KPI collectors)
+
+**What changed:** Re-examined Apr 2026 “28 high” Sanity CVE baseline after **Sanity 5.26** upgrade. **security.yml** now fails on **high OR critical** production advisories (JSON parse, not `yarn --level`). **audit-kpis.mjs** adds **`dependency-vulns-prod`** (P1-G10) and **`broken-internal-links`** (linkinator). KPI workflow runs `yarn install` before audit. New tracker: `memory/FOUNDATION_AUDIT_PROGRAM.md`.
+
+**Verification:** Next **Security Audit** / **KPI Audit** Actions run on `main` — read `critical=X high=Y` in logs. Locally: `cd frontend && yarn audit --groups dependencies`.
+
+**Caveats:** If `high > 0`, CI will fail until Dependabot/resolutions clear it — intentional. Vercel RUM rows still manual paste until KPI-DASH-AUTO.
+
+**Files:** `.github/workflows/security.yml`, `.github/workflows/kpi-audit.yml`, `scripts/audit-kpis.mjs`, `memory/FOUNDATION_AUDIT_PROGRAM.md`, `memory/RECURRING_MAINTENANCE.md`, `memory/ROADMAP.md`, `memory/audits/DFW_HVAC_Technical_Audit_2026-04-21.md`
+
+---
+
+## May 26, 2026 — FOUNDATION-SHORE (Sanity CDN, multi-URL PSI, Lighthouse CI)
+
+**What changed:** `lib/sanity.js` — `useCdn: true` + React `cache()` on all fetch helpers. KPI audit: CrUX-auto LCP/INP/TTFB when PSI returns origin data; **psi-lab-worst-lcp** on 4 URLs; GSC/GA4 archive fallback when OAuth missing. New **Lighthouse CI** workflow on PRs (3 URLs, LCP ≤5.5s, perf ≥75).
+
+**Files:** `frontend/lib/sanity.js`, `scripts/audit-kpis.mjs`, `.github/workflows/lighthouse-ci.yml`, `memory/FOUNDATION_AUDIT_PROGRAM.md`
+
+**Verification:** Merge PR → Lighthouse CI runs; Monday KPI Audit shows `dependency-vulns-prod` + linkinator.
+
+---
+
 ## May 22, 2026 — SEC-1-A: Vercel geo-block firewall removed
 
 **What changed:** User confirmed **SEC-1-A** complete — “Block Non-US Traffic” firewall rule deleted; **no geo-block or custom Firewall rules** remain. Bot Protection and AI Bots left **Off** (KPI audit + AEO posture). **SEC-1** remains open for A4–A6, SEC-1-C (~May 29 GSC spot-check), and optional B2/B3.
