@@ -2,6 +2,12 @@ name: Lighthouse CI
 
 # F7 — lab performance regression gate on PRs (FOUNDATION-SHORE).
 # Mobile Lighthouse on 3 high-value URLs; fails if worst LCP > 5.5s or perf score < 75.
+#
+# Dependabot PRs: GitHub does NOT pass Actions secrets (incl. PAGESPEED_API_KEY) on
+# pull_request workflows triggered by dependabot[bot]. Unkeyed PSI calls fail fast
+# and this script used to report that as "perf score 0". Job is skipped for Dependabot;
+# merge on Security Audit + manual spot-check, or add the same key under Settings →
+# Secrets → Dependabot secrets if you need PSI on Dependabot PRs.
 
 on:
   pull_request:
@@ -13,6 +19,9 @@ jobs:
     name: Lighthouse mobile (3 URLs)
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'pull_request' && github.event.pull_request.user.login != 'dependabot[bot]')
     steps:
       - uses: actions/checkout@v5
 
@@ -27,16 +36,35 @@ jobs:
           PAGESPEED_API_KEY: ${{ secrets.PAGESPEED_API_KEY }}
         run: |
           set -e
+          set -o pipefail
+          if [ -z "$PAGESPEED_API_KEY" ]; then
+            echo "::error::PAGESPEED_API_KEY is empty in this workflow run. Add it under Settings → Secrets → Actions (and Dependabot secrets if this is a Dependabot PR)."
+            exit 1
+          fi
           URLS="https://dfwhvac.com/ https://dfwhvac.com/request-service https://dfwhvac.com/financing"
           WORST_LCP=0
           WORST_PERF=100
           for PAGE in $URLS; do
             echo "::group::Lighthouse $PAGE"
-            KEY_ARG=""
-            [ -n "$PAGESPEED_API_KEY" ] && KEY_ARG="&key=$PAGESPEED_API_KEY"
-            RESP=$(curl -sS --max-time 120 "https://pagespeedonline.googleapis.com/pagespeedonline/v5/runPagespeed?url=${PAGE}&strategy=mobile&category=performance${KEY_ARG}")
-            LCP=$(echo "$RESP" | node -e "const d=JSON.parse(require('fs').readFileSync(0,'utf8'));const a=d.lighthouseResult?.audits||{};process.stdout.write(String(a['largest-contentful-paint']?.numericValue||0))")
-            PERF=$(echo "$RESP" | node -e "const d=JSON.parse(require('fs').readFileSync(0,'utf8'));process.stdout.write(String(Math.round((d.lighthouseResult?.categories?.performance?.score||0)*100)))")
+            QUERY_URL=$(node -e "const u=new URL('https://pagespeedonline.googleapis.com/pagespeedonline/v5/runPagespeed');u.searchParams.set('url',process.argv[1]);u.searchParams.set('strategy','mobile');u.searchParams.append('category','performance');u.searchParams.set('key',process.env.PAGESPEED_API_KEY);console.log(u.toString());" "$PAGE")
+            RESP=$(curl -sS --max-time 120 "$QUERY_URL")
+            PARSED=$(echo "$RESP" | node -e "
+              const d = JSON.parse(require('fs').readFileSync(0, 'utf8'));
+              if (d.error) {
+                console.error('PSI_API_ERROR', d.error.code, d.error.message);
+                process.exit(2);
+              }
+              const lr = d.lighthouseResult;
+              if (!lr) {
+                console.error('PSI_API_ERROR missing lighthouseResult');
+                process.exit(2);
+              }
+              const lcp = lr.audits?.['largest-contentful-paint']?.numericValue ?? 0;
+              const perf = Math.round((lr.categories?.performance?.score ?? 0) * 100);
+              console.log([lcp, perf].join(' '));
+            ")
+            LCP=$(echo "$PARSED" | awk '{print $1}')
+            PERF=$(echo "$PARSED" | awk '{print $2}')
             echo "LCP=${LCP}ms perf=${PERF} $PAGE"
             LCP_INT=${LCP%.*}
             [ "$LCP_INT" -gt "$WORST_LCP" ] && WORST_LCP=$LCP_INT
@@ -54,3 +82,13 @@ jobs:
             echo "::error::Lab performance score ${WORST_PERF} below 75 on at least one URL"
             exit 1
           fi
+
+  lighthouse-dependabot-skip:
+    name: Lighthouse skipped (Dependabot PR)
+    runs-on: ubuntu-latest
+    if: >-
+      github.event_name == 'pull_request' && github.event.pull_request.user.login == 'dependabot[bot]'
+    steps:
+      - name: Explain skip
+        run: |
+          echo "::notice::Skipping Lighthouse CI — Dependabot pull_request workflows cannot use GitHub Actions secrets (PAGESPEED_API_KEY). Your key and GCP quota are fine; merge using Security Audit or run Lighthouse CI manually on main after merge."
