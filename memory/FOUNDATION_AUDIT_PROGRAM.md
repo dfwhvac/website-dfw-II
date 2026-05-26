@@ -88,7 +88,7 @@ Status key: **Done** · **In progress** · **Queued (agent)** · **User** · **D
 | Gap | Target state | Status | Owner / ref |
 |---|---|---|---|
 | yarn audit gate (high+critical) | CI + KPI mirror | **Done** May 26 | `security.yml`, `dependency-vulns-prod` |
-| Verify post–Sanity 5 advisory count | 0 high, 0 critical | **In progress** | First green CI run proves it |
+| Verify post–Sanity 5 advisory count | 0 high, 0 critical | **Done** May 26 | `resolutions` (lodash) + lockfile (picomatch); push to confirm CI |
 | gitleaks-action v3 (Node 24) | Before Jun 2, 2026 | **Queued** | `RECURRING_MAINTENANCE.md` AH1 |
 | SEC-1 remainder (GA4/Clarity/2FA/GSC) | Admin hygiene | **User** | `ROADMAP.md` SEC-1 |
 | SEC-1-B2 edge rate limit | Optional | **Deferred** | App limit exists |

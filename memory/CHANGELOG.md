@@ -128,7 +128,9 @@ LCP optimization work is in code (font `optional`, lazyOnload GA4/Clarity, hero 
 
 **Caveats:** If `high > 0`, CI will fail until Dependabot/resolutions clear it — intentional. Vercel RUM rows still manual paste until KPI-DASH-AUTO.
 
-**Files:** `.github/workflows/security.yml`, `.github/workflows/kpi-audit.yml`, `scripts/audit-kpis.mjs`, `memory/FOUNDATION_AUDIT_PROGRAM.md`, `memory/RECURRING_MAINTENANCE.md`, `memory/ROADMAP.md`, `memory/audits/DFW_HVAC_Technical_Audit_2026-04-21.md`
+**Follow-up (same day):** Cleared **11 high** production advisories after the stricter gate turned CI red on `main` (`lodash` CVE-2026-4800 via Yarn `resolutions` → 4.18.0; `picomatch` CVE-2026-33671 via `yarn.lock` → 2.3.2 / 4.0.4). Verified locally: `critical=0 high=0`.
+
+**Files:** `.github/workflows/security.yml`, `.github/workflows/kpi-audit.yml`, `scripts/audit-kpis.mjs`, `frontend/package.json`, `frontend/yarn.lock`, `memory/FOUNDATION_AUDIT_PROGRAM.md`, `memory/RECURRING_MAINTENANCE.md`, `memory/ROADMAP.md`, `memory/audits/DFW_HVAC_Technical_Audit_2026-04-21.md`
 
 ---
 

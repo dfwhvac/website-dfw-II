@@ -57,6 +57,9 @@
     "tailwindcss-animate": "^1.0.7",
     "zod": "^4.4.3"
   },
+  "resolutions": {
+    "lodash": "4.18.0"
+  },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.5",
     "@next/bundle-analyzer": "^16.2.6",
