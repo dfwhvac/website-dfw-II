@@ -1,14 +1,14 @@
 # GA4 Events — Code Registry
 
 **Last reviewed:** May 21, 2026
-**Property ID:** `G-5MX2NE7C73` (hardcoded in `frontend/app/layout.js`)
+**Property ID:** `G-5MX2NE7C73` via `NEXT_PUBLIC_GA_ID` — Tier 1: `@next/third-parties/google` `<GoogleAnalytics />` in `frontend/components/ProductionAnalytics.jsx`
 **Ground rule:** Only events listed here as “in code” are fired by the app. GA4 Admin renames and key-event toggles are **user actions**, not shipped code.
 
 ---
 
 ## Events fired in production code
 
-| Event name (gtag) | Parameters | File(s) | When it fires |
+| Event name | Parameters | File(s) | When it fires |
 |---|---|---|---|
 | `form_submit_lead` | `lead_type`, `page_path` | `components/LeadForm.jsx`, `components/SimpleContactForm.jsx` | After successful `POST /api/leads` (HTTP 2xx) |
 | `phone_click` | `phone_number`, `link_text`, `page_path`, `cta_source` | `components/PhoneClickTracker.jsx` (mounted in `app/layout.js`) | Any `tel:` link click (document delegation) |
@@ -58,17 +58,22 @@ Mark under **Admin → Data display → Events → Mark as key event** after Rea
 
 | Guard | File | Behavior |
 |---|---|---|
-| `window['ga-disable-G-5MX2NE7C73']` | `app/layout.js` `ga-preview-guard` | Mutes GA4 on all hosts except `dfwhvac.com` / `www.dfwhvac.com` |
-| Clarity script | `app/layout.js` | Loads only on production hostnames |
+| No GA scripts in HTML | `lib/analytics.js` `shouldIncludeAnalyticsScripts()` | Requires `NEXT_PUBLIC_GA_ID`, `NODE_ENV=production`, `VERCEL_ENV≠preview` |
+| Hostname allow-list | `ProductionAnalytics.jsx` | Scripts only send hits on `dfwhvac.com` / `www.dfwhvac.com` |
+| SPA `page_view` | `@next/third-parties` `GoogleAnalytics` | Auto on App Router navigations (Enhanced Measurement) |
+| Excluded paths | `GaExcludedPathGuard` | `ga-disable` on `/studio`, `/internal`, `/api` |
+| Clarity (Tier 2) | `ProductionAnalytics.jsx` | `lazyOnload` + hostname check |
 | Lead emails | `app/api/leads/route.js` | Skipped on preview unless `FORCE_LEAD_EMAIL_IN_PREVIEW=true` |
 
 ---
 
 ## Verification commands (agent / developer)
 
+Custom events use `trackEvent()` in `frontend/lib/track-event.js` (`sendGAEvent` from `@next/third-parties/google`).
+
 ```bash
-# List every gtag event name in frontend
-rg "gtag\\('event'," frontend --glob '*.{js,jsx}'
+# List every custom GA4 event name in frontend
+rg "trackEvent\\(" frontend --glob '*.{js,jsx}'
 
 # Confirm PhoneClickTracker is mounted
 rg "PhoneClickTracker" frontend/app/layout.js
