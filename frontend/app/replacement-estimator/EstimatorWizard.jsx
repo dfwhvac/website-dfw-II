@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
+import { trackEvent } from '@/lib/track-event'
 import Link from 'next/link'
 import {
   Calculator,
@@ -134,15 +135,13 @@ export default function EstimatorWizard() {
       setResult(data)
       // Fire GA4 custom event for estimator completion — joins generate_lead
       // and phone_click as a signal. Toggle as key event in GA4 once ingested.
-      if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-        try {
-          window.gtag('event', 'estimator_complete', {
-            estimate_low: data.low,
-            estimate_high: data.high,
-          })
-        } catch (_e) {
-          /* non-fatal */
-        }
+      try {
+        trackEvent('estimator_complete', {
+          estimate_low: data.low,
+          estimate_high: data.high,
+        })
+      } catch (_e) {
+        /* non-fatal */
       }
     } catch (err) {
       setError(err.message || 'Unable to calculate. Please try again.')
@@ -199,12 +198,10 @@ export default function EstimatorWizard() {
         throw new Error(data.error || 'Unable to submit.')
       }
       setLeadSubmitted(true)
-      if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-        try {
-          window.gtag('event', 'estimator_opt_in', {})
-        } catch (_e) {
-          /* non-fatal */
-        }
+      try {
+        trackEvent('estimator_opt_in', {})
+      } catch (_e) {
+        /* non-fatal */
       }
     } catch (err) {
       setLeadError(err.message)

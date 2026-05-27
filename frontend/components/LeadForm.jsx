@@ -16,6 +16,7 @@ import {
 } from './ui/select'
 import AddressAutocomplete from './AddressAutocomplete'
 import { loadRecaptchaOnce } from './RecaptchaScript'
+import { trackEvent } from '@/lib/track-event'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card'
 import { Phone, Mail, MapPin, Wrench } from 'lucide-react'
 import { toast } from 'sonner'
@@ -93,13 +94,11 @@ const LeadForm = ({
         // GA4 conversion event — track form submission as lead
         // Added Apr 21, 2026 (PR #2, P1.7) for 70+ day baseline before Google Ads launch
         try {
-          if (typeof window.gtag === 'function') {
-            window.gtag('event', 'form_submit_lead', {
-              form_name: 'lead_form',
-              lead_type: leadType,
-              page_path: window.location.pathname,
-            })
-          }
+          trackEvent('form_submit_lead', {
+            form_name: 'lead_form',
+            lead_type: leadType,
+            page_path: window.location.pathname,
+          })
         } catch (err) {
           if (process.env.NODE_ENV !== 'production') {
             console.warn('form_submit_lead tracking failed:', err)

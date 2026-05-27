@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/
 import { Phone, Mail, MessageSquare } from 'lucide-react'
 import { toast } from 'sonner'
 import { loadRecaptchaOnce } from './RecaptchaScript'
+import { trackEvent } from '@/lib/track-event'
 
 const SimpleContactForm = ({ 
   title = "Send Us a Message", 
@@ -82,13 +83,11 @@ const SimpleContactForm = ({
         // GA4 conversion event — track form submission as lead
         // Added Apr 21, 2026 (PR #2, P1.7) for 70+ day baseline before Google Ads launch
         try {
-          if (typeof window.gtag === 'function') {
-            window.gtag('event', 'form_submit_lead', {
-              form_name: 'contact_form',
-              lead_type: 'contact',
-              page_path: window.location.pathname,
-            })
-          }
+          trackEvent('form_submit_lead', {
+            form_name: 'contact_form',
+            lead_type: 'contact',
+            page_path: window.location.pathname,
+          })
         } catch (err) {
           if (process.env.NODE_ENV !== 'production') {
             console.warn('form_submit_lead tracking failed:', err)

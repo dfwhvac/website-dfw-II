@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import { trackEvent } from '@/lib/track-event'
 
 /**
  * PhoneClickTracker — global GA4 event tracker for `tel:` link clicks.
@@ -32,22 +33,19 @@ export default function PhoneClickTracker() {
     const handler = (event) => {
       const anchor = event.target?.closest?.('a[href^="tel:"]')
       if (!anchor) return
-      if (typeof window.gtag !== 'function') return
-
       const rawHref = anchor.getAttribute('href') || ''
       const phoneNumber = rawHref.replace(/^tel:/i, '').replace(/\D/g, '')
       const linkText = (anchor.textContent || '').trim().slice(0, 80)
       const ctaSource = anchor.getAttribute('data-cta-source') || 'inline'
 
       try {
-        window.gtag('event', 'phone_click', {
+        trackEvent('phone_click', {
           phone_number: phoneNumber,
           link_text: linkText,
           page_path: window.location.pathname,
           cta_source: ctaSource,
         })
       } catch (err) {
-        // Swallow — tracking must never break user interaction
         if (process.env.NODE_ENV !== 'production') {
           console.warn('phone_click tracking failed:', err)
         }

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import { trackEvent } from '@/lib/track-event'
 
 /**
  * ThanksAnalytics — fires a GA4 `thanks_page_view` event once the post-submit
@@ -14,9 +15,8 @@ import { useEffect } from 'react'
 export default function ThanksAnalytics({ leadType }) {
   useEffect(() => {
     if (typeof window === 'undefined') return
-    if (typeof window.gtag !== 'function') return
     try {
-      window.gtag('event', 'thanks_page_view', {
+      trackEvent('thanks_page_view', {
         lead_type: leadType || 'service',
         page_path: '/thanks',
       })
