@@ -105,7 +105,7 @@ jobs:
         # GitHub forces Node 24 on June 2, 2026. Upstream v3 release pending —
         # bump this pin once https://github.com/gitleaks/gitleaks-action/releases
         # publishes a Node 24-compatible tag. See RECURRING_MAINTENANCE.md → AH1.
-        uses: gitleaks/gitleaks-action@v2
+        uses: gitleaks/gitleaks-action@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # Default ruleset covers AWS, GCP, Azure, Stripe, Slack, GitHub PAT,
