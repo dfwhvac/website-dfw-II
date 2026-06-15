@@ -360,14 +360,16 @@ async function getYarnAuditCounts() {
     } catch {
       continue;
     }
-    if (row.type !== 'auditAdvisory' || !row.data?.severity) continue;
-    const sev = row.data.severity;
+    if (row.type !== 'auditAdvisory') continue;
+    const adv = row.data?.advisory;
+    if (!adv?.severity) continue;
+    const sev = adv.severity;
     if (counts[sev] != null) counts[sev]++;
     if ((sev === 'critical' || sev === 'high') && topAdvisories.length < 8) {
       topAdvisories.push({
-        module: row.data.module_name,
+        module: adv.module_name,
         severity: sev,
-        title: (row.data.title || '').slice(0, 80),
+        title: (adv.title || '').slice(0, 80),
       });
     }
   }
