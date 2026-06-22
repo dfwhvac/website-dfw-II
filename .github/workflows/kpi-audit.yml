@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           # Use a fine-grained PAT (KPI_AUDIT_PAT) issued under a Repository
           # Admin's identity rather than GITHUB_TOKEN. GitHub's repository
