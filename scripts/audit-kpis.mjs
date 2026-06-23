@@ -423,19 +423,34 @@ async function getGitleaksStatus() {
   } catch { /* fall through to legacy filter */ }
 
   const runsUrl = workflowId
-    ? `https://api.github.com/repos/${repo}/actions/workflows/${workflowId}/runs?per_page=5`
-    : `https://api.github.com/repos/${repo}/actions/runs?per_page=50`;
+    ? `https://api.github.com/repos/${repo}/actions/workflows/${workflowId}/runs?branch=main&per_page=10&status=completed`
+    : `https://api.github.com/repos/${repo}/actions/runs?branch=main&per_page=50&status=completed`;
   const r = await fetchWithTimeout(runsUrl, { headers });
   if (!r.ok) throw new Error(`github api ${r.status} for repo ${repo}`);
   const d = await r.json();
-  const gitleaksRuns = workflowId
+  const completedRuns = workflowId
     ? (d.workflow_runs || [])
     : (d.workflow_runs || []).filter((w) => /gitleaks|secret|security/i.test(w.name || ''));
-  const latest = gitleaksRuns[0];
+  const latest = completedRuns.find((run) => run.conclusion && run.conclusion !== 'skipped');
   if (!latest) return { lastRun: null, conclusion: 'no_runs' };
+
+  // P1-G2 tracks the gitleaks job — not whole-workflow status (yarn audit can fail while gitleaks passes).
+  let conclusion = latest.conclusion;
+  try {
+    const jobsRes = await fetchWithTimeout(
+      `https://api.github.com/repos/${repo}/actions/runs/${latest.id}/jobs?per_page=20`,
+      { headers }
+    );
+    if (jobsRes.ok) {
+      const jobsData = await jobsRes.json();
+      const gitleaksJob = (jobsData.jobs || []).find((j) => /gitleaks/i.test(j.name || ''));
+      if (gitleaksJob?.conclusion) conclusion = gitleaksJob.conclusion;
+    }
+  } catch { /* keep workflow-level conclusion */ }
+
   return {
     lastRun: latest.created_at,
-    conclusion: latest.conclusion || latest.status,
+    conclusion,
     htmlUrl: latest.html_url,
   };
 }
