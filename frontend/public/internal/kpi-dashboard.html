@@ -665,9 +665,27 @@
     { id: 'p3-measure', title: 'P3-MEASURE — unlocks P4 build', match: (k) => k.phaseGate === 'P3-MEASURE' && k.blocksGraduation },
   ];
 
+  /** Sort gate checklist rows by ID: P1-G1, P1-G2, … then G3/G4 (P3), then other labels. */
+  const gateRowSortKey = (k) => {
+    const label = String(k.gateLabel || k.gateId || k.id || '');
+    const pg = label.match(/^P(\d+)-G(\d+)$/i);
+    if (pg) return [parseInt(pg[1], 10), parseInt(pg[2], 10), 0, label];
+    const g = label.match(/^G(\d+)$/i);
+    if (g) return [3, parseInt(g[1], 10), 0, label];
+    return [999, 999, 1, label];
+  };
+  const compareGateRows = (a, b) => {
+    const ka = gateRowSortKey(a);
+    const kb = gateRowSortKey(b);
+    for (let i = 0; i < ka.length; i++) {
+      if (ka[i] !== kb[i]) return ka[i] < kb[i] ? -1 : 1;
+    }
+    return 0;
+  };
+
   const allKpis = snap.phases.flatMap(p => p.kpis.map(k => ({ ...k, _phase: p.id })));
   $checklists.innerHTML = CHECKLIST_GROUPS.map(group => {
-    const rows = allKpis.filter(group.match);
+    const rows = allKpis.filter(group.match).sort(compareGateRows);
     const met = rows.filter(k => k.status === 'green').length;
     const summary = `${group.title} · ${met}/${rows.length} met`;
     const body = rows.map(k => `
