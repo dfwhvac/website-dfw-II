@@ -29,7 +29,8 @@ const LeadForm = ({
   trustSignals = "✓ Fast response • ✓ Licensed techs • ✓ Upfront pricing",
   footerText = null,
   showEstimateLink = true,
-  leadType = "service"  // "service", "estimate", or "contact"
+  leadType = "service",  // "service", "estimate", or "contact"
+  embedded = false,
 }) => {
   const [formData, setFormData] = useState({
     firstName: '',
@@ -130,20 +131,8 @@ const LeadForm = ({
     }
   }
 
-  return (
-    <Card className="w-full max-w-2xl mx-auto shadow-xl border-0">
-      <CardHeader className="bg-linear-to-r from-blue-50 to-blue-100 rounded-t-lg">
-        <CardTitle className="text-2xl text-center text-gray-800 flex items-center justify-center gap-2">
-          <Wrench className="w-6 h-6 text-electric-blue" />
-          {title}
-        </CardTitle>
-        <CardDescription className="text-center text-gray-600">
-          {description}
-        </CardDescription>
-      </CardHeader>
-      
-      <CardContent className="p-8">
-        <form onSubmit={handleSubmit} onFocus={loadRecaptchaOnce} className="space-y-6">
+  const formBody = (
+    <form onSubmit={handleSubmit} onFocus={loadRecaptchaOnce} className="space-y-6">
           {/* Name Fields */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
@@ -286,6 +275,37 @@ const LeadForm = ({
             )}
           </div>
         </form>
+  )
+
+  if (embedded) {
+    return (
+      <div className="w-full">
+        <div className="mb-6">
+          <h2 className="text-2xl font-semibold text-gray-800 flex items-center gap-2">
+            <Wrench className="w-6 h-6 text-electric-blue" aria-hidden="true" />
+            {title}
+          </h2>
+          <p className="mt-1 text-gray-600">{description}</p>
+        </div>
+        {formBody}
+      </div>
+    )
+  }
+
+  return (
+    <Card className="w-full max-w-2xl mx-auto shadow-xl border-0">
+      <CardHeader className="bg-linear-to-r from-blue-50 to-blue-100 rounded-t-lg">
+        <CardTitle className="text-2xl text-center text-gray-800 flex items-center justify-center gap-2">
+          <Wrench className="w-6 h-6 text-electric-blue" />
+          {title}
+        </CardTitle>
+        <CardDescription className="text-center text-gray-600">
+          {description}
+        </CardDescription>
+      </CardHeader>
+      
+      <CardContent className="p-8">
+        {formBody}
       </CardContent>
     </Card>
   )

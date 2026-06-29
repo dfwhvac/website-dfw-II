@@ -1,6 +1,6 @@
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
-import LeadForm from '../../components/LeadForm'
+import RequestServiceFormClient from '../../components/RequestServiceFormClient'
 import { getCompanyInfo, getSiteSettings } from '../../lib/sanity'
 import { Phone, Clock, Shield, CheckCircle } from 'lucide-react'
 
@@ -48,20 +48,22 @@ export default async function RequestServicePage() {
             <div className="max-w-4xl mx-auto">
               <div className="grid md:grid-cols-3 gap-8">
                 
-                {/* Form - Takes 2 columns */}
+                {/* Form - Takes 2 columns. LeadForm chunk is lazy-loaded client-side. */}
                 <div className="md:col-span-2">
                   <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
-                    <LeadForm 
+                    <RequestServiceFormClient
                       title="Tell Us About Your HVAC Needs"
                       description="We'll contact you within 2 business hours to discuss your needs and schedule service."
                       leadType="service-request"
-                      showTrustSignals={false}
+                      showEstimateLink={true}
                     />
                   </div>
                 </div>
 
-                {/* Sidebar */}
-                <div className="space-y-6">
+                {/* Sidebar — below form in DOM; content-visibility defers paint on desktop. */}
+                <div
+                  className="space-y-6 md:[content-visibility:auto] md:[contain-intrinsic-size:auto_32rem]"
+                >
                   {/* Quick Call Option */}
                   <div className="bg-white rounded-lg shadow-lg p-6">
                     <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
