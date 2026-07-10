@@ -1,6 +1,6 @@
 # DFW HVAC — Roadmap
 
-**Last reviewed:** May 26, 2026 (foundation audit hardening: yarn high+critical gate, KPI P1-G10)
+**Last reviewed:** Jul 9, 2026 (CSP GA collect + deferred forms on `/` `/contact`)
 **⚠️ Read `memory/00_START_HERE.md` first for the Agent SOP.**
 
 > **Future work only.** Shipped history → [`CHANGELOG.md`](CHANGELOG.md) (baseline: May 21, 2026). Pre-reset agent logs → [`CHANGELOG-legacy-pre-2026-05-21.md`](CHANGELOG-legacy-pre-2026-05-21.md).
@@ -63,7 +63,7 @@ Pick from the top. When an item ships, remove it here and add a dated entry to `
 | 13 | **P2.19-scope** | CallRail vs Twilio DNI **decision** (not build) — **required before P5-LAUNCH-GATE** | User | 30 min |
 | 14 | **C3** | Estimator pricing matrix — real DFW numbers | User → agent | 1 hr — **blocked on user sheet** |
 | 15 | **P2.23** | `@sanity/image-url` → `createImageUrlBuilder` named export | Agent | 10 min |
-| 16 | **P2.20** | LCP push — code levers shipped; **target &lt;1.25s not met** (~2.7s mobile PSI May 2026) | Agent | As needed |
+| 16 | **P2.20** | LCP push — form defer on `/` + `/contact` + CSP GA collect shipped Jul 9; **field desktop RES still needs 7–14d validate**; lab mobile target &lt;1.25s not met (~2.7s May 2026) | Agent | Watch Speed Insights desktop `/` + `/contact` |
 | 17 | **F13** | Architecture foundation re-audit (quarterly) | Agent | 3.5 hr — due **Aug 4, 2026** |
 | 18 | **KPI-DASH-AUTO** | KPI dashboard automation — Speed Insights **Drain** or CLI pull (no public p75 API); replace manual `vercel-rum-*` paste; snapshot hardening; `VERCEL_TOKEN` if using REST/CLI | Agent + user | 2–3 hr · see `FOUNDATION_AUDIT_PROGRAM.md` |
 | 19 | **FOUNDATION-SHORE** | Close remaining foundation gaps — multi-URL PSI, Lighthouse CI (F7), Sanity CDN, Sentry, gitleaks v3, W3C validator | Agent | See `FOUNDATION_AUDIT_PROGRAM.md` matrix |

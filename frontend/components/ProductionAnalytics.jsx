@@ -71,8 +71,11 @@ export default function ProductionAnalytics({
       <Script id="ga-hostname-guard" strategy="lazyOnload">
         {`(function(){try{var h=location.hostname;var ok=${JSON.stringify(PRODUCTION_HOSTNAMES)};if(ok.indexOf(h)===-1){window['ga-disable-${measurementId}']=true;}}catch(e){}})();`}
       </Script>
+      {/* GA4 after hydration (next/third-parties). Collect hosts must be in CSP connect-src
+          (analytics.google.com + stats.g.doubleclick.net) or hits are silently dropped. */}
       <GoogleAnalytics gaId={measurementId} />
       <GaExcludedPathGuard measurementId={measurementId} />
+      {/* Clarity already lazyOnload — keep out of LCP critical window */}
       <ClarityPixel clarityId={clarityId} />
     </>
   )

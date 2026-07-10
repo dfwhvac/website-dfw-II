@@ -57,7 +57,10 @@ const nextConfig = {
               // breaking GA4/Ads conversion pixel fires).
               "img-src 'self' data: blob: https://cdn.sanity.io https://images.unsplash.com https://maps.googleapis.com https://maps.gstatic.com https://*.google.com https://*.googleusercontent.com https://www.googletagmanager.com https://app.realworklabs.com https://*.clarity.ms https://c.bing.com",
               "font-src 'self' https://fonts.gstatic.com",
-              "connect-src 'self' https://iar2b790.api.sanity.io https://iar2b790.apicdn.sanity.io https://www.google.com https://maps.googleapis.com https://www.google-analytics.com https://www.googletagmanager.com https://app.realworklabs.com https://vitals.vercel-insights.com https://vercel.live https://www.clarity.ms https://c.clarity.ms https://*.clarity.ms",
+              // analytics.google.com + stats.g.doubleclick.net: GA4 Measurement Protocol /
+              // gtag collect endpoints (PSI Jul 9 2026 — www.google-analytics.com alone was
+              // insufficient; collect calls were CSP-blocked and never reached GA4).
+              "connect-src 'self' https://iar2b790.api.sanity.io https://iar2b790.apicdn.sanity.io https://www.google.com https://maps.googleapis.com https://www.google-analytics.com https://analytics.google.com https://*.google-analytics.com https://stats.g.doubleclick.net https://www.googletagmanager.com https://app.realworklabs.com https://vitals.vercel-insights.com https://vercel.live https://www.clarity.ms https://c.clarity.ms https://*.clarity.ms",
               "frame-src 'self' https://www.google.com https://app.realworklabs.com",
               "frame-ancestors 'none'",
               "form-action 'self'",

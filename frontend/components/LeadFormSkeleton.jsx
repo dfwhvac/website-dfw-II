@@ -1,5 +1,5 @@
 /**
- * Placeholder shown while RequestServiceFormClient loads the LeadForm chunk.
+ * Placeholder shown while LeadFormClient loads the LeadForm chunk.
  * Static markup only — keeps layout stable and lets the hero remain LCP on desktop.
  */
 export default function LeadFormSkeleton() {

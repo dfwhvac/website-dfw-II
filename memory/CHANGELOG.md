@@ -1,9 +1,25 @@
 # DFW HVAC — Changelog
 
-**Last reviewed:** May 22, 2026
+**Last reviewed:** Jul 9, 2026
 **⚠️ Read `memory/00_START_HERE.md` first for the Agent SOP.**
 
 > **Shipped history before May 21, 2026** lives in [`CHANGELOG-legacy-pre-2026-05-21.md`](CHANGELOG-legacy-pre-2026-05-21.md) (1,737 lines, Feb–May 2026 agent logs). That file is archival context only — do not treat it as the live product state.
+
+---
+
+## Jul 9, 2026 — CSP GA collect fix + defer forms on `/` and `/contact`
+
+**What changed:** Unblocked GA4/gtag collect calls that PSI logged as CSP violations (`analytics.google.com`, `stats.g.doubleclick.net`, plus `*.google-analytics.com`). Deferred `LeadForm` / `SimpleContactForm` past first paint on homepage and contact (same pattern as `/request-service`) so desktop first-load JS stays lighter while the hero H1 remains LCP.
+
+**Files:**
+- `frontend/next.config.js` — `connect-src` additions
+- `frontend/components/LeadFormClient.jsx` (new), `SimpleContactFormClient.jsx` (new), `SimpleContactFormSkeleton.jsx` (new)
+- `frontend/components/RequestServiceFormClient.jsx` — thin wrapper over `LeadFormClient`
+- `frontend/components/HomePage.jsx`, `CompanyPageTemplate.jsx`, `LeadFormSkeleton.jsx`, `ProductionAnalytics.jsx`
+
+**Verification:** `next build --webpack` succeeded (exit 0); `/` and `/contact` static. Grep confirms CSP hosts + `*FormClient` on homepage/contact.
+
+**Caveats:** `PARTIAL` — field desktop RES improvement needs 7–14d Speed Insights after deploy. PSI lab desktop was already ~98 / LCP ~0.6s with H1 as LCP; this targets field JS cost + broken GA hits, not a guaranteed lab score bump. GTM unused-JS (~72 KiB) remains third-party.
 
 ---
 

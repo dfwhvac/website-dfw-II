@@ -2,8 +2,8 @@ import React from 'react'
 import Link from 'next/link'
 import { Button } from './ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
-import LeadForm from './LeadForm'
-import SimpleContactForm from './SimpleContactForm'
+import LeadFormClient from './LeadFormClient'
+import SimpleContactFormClient from './SimpleContactFormClient'
 import LinkedCityList from './LinkedCityList'
 import { REVIEW_COUNT_FALLBACK } from '@/lib/constants'
 import { 
@@ -249,9 +249,9 @@ const CompanyPageTemplate = ({
                 )}
               </div>
 
-              {/* Contact Form */}
+              {/* Contact Form — deferred client chunk (desktop field RES was ~70) */}
               <div>
-                <SimpleContactForm />
+                <SimpleContactFormClient />
               </div>
             </div>
           </div>
@@ -382,7 +382,7 @@ const CompanyPageTemplate = ({
         <section className="py-16 bg-prussian-blue">
           <div className="container mx-auto px-4">
             <div className="max-w-2xl mx-auto">
-              <LeadForm 
+              <LeadFormClient
                 title="Ready to Get Started?"
                 description="Contact us today for a free estimate"
               />

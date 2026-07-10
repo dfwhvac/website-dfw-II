@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { Button } from './ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card'
-import LeadForm from './LeadForm'
+import LeadFormClient from './LeadFormClient'
 import TestimonialCarouselClient from './TestimonialCarouselClient'
 import { 
   Phone, 
@@ -176,9 +176,9 @@ const HomePage = ({
               </div>
             </div>
 
-            {/* Lead Form */}
+            {/* Lead Form — lazy client chunk so hero H1 paints first on desktop */}
             <div className="lg:pl-8">
-              <LeadForm 
+              <LeadFormClient
                 title={leadForm.title}
                 description={leadForm.description}
                 buttonText={leadForm.buttonText}
