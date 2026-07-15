@@ -24,9 +24,9 @@
  * Sanity has been falling back for long enough to leak; investigate Sanity
  * first, only bump this as a stopgap.
  *
- * Last calibrated: Feb 16, 2026 (live = 155).
+ * Last calibrated: Jul 15, 2026 (live = 176).
  */
-export const REVIEW_COUNT_FALLBACK = 155
+export const REVIEW_COUNT_FALLBACK = 176
 
 /**
  * Drift alert threshold. The cron sends a one-line email to the owner when

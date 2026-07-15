@@ -1,9 +1,21 @@
 # DFW HVAC — Changelog
 
-**Last reviewed:** Jul 9, 2026
+**Last reviewed:** Jul 15, 2026
 **⚠️ Read `memory/00_START_HERE.md` first for the Agent SOP.**
 
 > **Shipped history before May 21, 2026** lives in [`CHANGELOG-legacy-pre-2026-05-21.md`](CHANGELOG-legacy-pre-2026-05-21.md) (1,737 lines, Feb–May 2026 agent logs). That file is archival context only — do not treat it as the live product state.
+
+---
+
+## Jul 15, 2026 — Bump `REVIEW_COUNT_FALLBACK` after drift alert
+
+**What changed:** Raised the disaster-recovery Google review fallback from **155 → 176** after the nightly sync-reviews cron reported 21 reviews of drift (threshold 20). Live pages still read Sanity; this only protects Sanity-outage fallback copy.
+
+**Files:** `frontend/lib/constants.js`, `memory/CHANGELOG.md`
+
+**Verification:** Grep shows `REVIEW_COUNT_FALLBACK = 176`; matches cron alert live count.
+
+**Caveats:** None — routine maintenance. Next alert only if live drifts another ~20 past 176.
 
 ---
 
