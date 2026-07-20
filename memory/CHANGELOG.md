@@ -1,9 +1,33 @@
 # DFW HVAC — Changelog
 
-**Last reviewed:** Jul 15, 2026
+**Last reviewed:** Jul 20, 2026
 **⚠️ Read `memory/00_START_HERE.md` first for the Agent SOP.**
 
 > **Shipped history before May 21, 2026** lives in [`CHANGELOG-legacy-pre-2026-05-21.md`](CHANGELOG-legacy-pre-2026-05-21.md) (1,737 lines, Feb–May 2026 agent logs). That file is archival context only — do not treat it as the live product state.
+
+---
+
+## Jul 20, 2026 — Pin adm-zip 0.6.0 for weekly Security Audit
+
+**What changed:** Weekly Security Audit #273 failed on `yarn audit` (`0 critical + 1 high`) after [GHSA-xcpc-8h2w-3j85](https://github.com/advisories/GHSA-xcpc-8h2w-3j85) landed in the advisory DB (GitHub-reviewed Jul 17). Pinned production transitive `adm-zip` (via `sanity` → `@sanity/cli` → `@sanity/runtime-cli`) from `0.5.17` → `0.6.0` with a Yarn resolution.
+
+**Files:** `frontend/package.json`, `frontend/yarn.lock`, `memory/CHANGELOG.md`
+
+**Verification:** `yarn audit --json --groups dependencies` → `critical=0 high=0` (moderate allowed); `node_modules/adm-zip` resolves to **0.6.0**; lockfile integrity matches npm.
+
+**Caveats:** None — resolution pin is intentional until `@sanity/runtime-cli` depends on `adm-zip@>=0.6.0` directly.
+
+---
+
+## Jul 15, 2026 — Review sync + curation tasks queued (docs only)
+
+**What changed:** ROADMAP active queue updated: **GBP-REVIEWS-SYNC** (#20) scoped to finish automated Google review-text pull + Sanity incorporation; new **REVIEWS-CURATE** (#21) to curate per-page displayed reviews using `memory/audits/2026-07-15_Review_Display_Inventory.xlsx`. Earlier same day: allowlist case **`6-6371000040573`** logged.
+
+**Files:** `memory/ROADMAP.md`, `memory/audits/2026-07-15_Review_Display_Inventory.xlsx`, `memory/audits/README.md`
+
+**Verification:** Queue rows #20–#21 present; case ID unchanged.
+
+**Caveats:** `USER_ACTION` / `INFRA` — sync blocked on Google approval; curation can use current inventory before sync ships.
 
 ---
 
