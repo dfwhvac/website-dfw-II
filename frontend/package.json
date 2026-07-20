@@ -69,15 +69,15 @@
     "adm-zip": "0.6.0"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.3.5",
+    "@eslint/eslintrc": "^3.3.6",
     "@next/bundle-analyzer": "^16.2.10",
-    "@tailwindcss/postcss": "^4.3.2",
-    "@types/node": "^26.1.0",
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^26.1.1",
     "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
     "eslint": "^9",
     "eslint-config-next": "^16.2.10",
-    "postcss": "^8.5.16",
+    "postcss": "^8.5.20",
     "tailwindcss": "^4.3.0",
     "typescript": "^6.0.3"
   }
