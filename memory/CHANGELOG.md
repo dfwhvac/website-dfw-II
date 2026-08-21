@@ -19,6 +19,18 @@
 
 ---
 
+## Aug 21, 2026 — Security Audit CI: ignore-scripts + drop unused canvas
+
+**What changed:** CI Security Audit was still red after the dep bump because `yarn install` on ubuntu failed (native builds / false “lockfile out of sync”), regenerated a dirtier tree, then failed audit. Fixed by (1) installing with `--frozen-lockfile --ignore-scripts` and failing hard on lock drift, (2) parsing audit JSON with Node instead of grep, (3) removing unused `canvas` dependency.
+
+**Files:** `.github/workflows/security.yml`, `frontend/package.json`, `frontend/yarn.lock`, `memory/CHANGELOG.md`
+
+**Verification:** Local frozen `--ignore-scripts` install exit 0; Node audit parser → critical=0 high=0 moderate=19.
+
+**Caveats:** Confirm GitHub Actions Security Audit goes green on this commit; then close Dependabot PRs #142/#143/#145 if still open.
+
+---
+
 ## Aug 21, 2026 — Security Audit green: dep bumps + resolutions (supersedes Dependabot #142–#145)
 
 **What changed:** Cleared production `yarn audit` high/critical advisories that were failing Security Audit on `main` (next, axios, nanoid, tar, postcss, sharp, undici, linkify-it, brace-expansion, js-yaml, etc.). Bumped frontend deps (aligned with open Dependabot groups) and pinned patched nested packages via `resolutions`. Updated `actions/setup-node` v5 → **v7** in security/kpi/lighthouse workflows.
