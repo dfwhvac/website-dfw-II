@@ -7,6 +7,18 @@
 
 ---
 
+## Aug 21, 2026 — Lead forms: require full Places address (city/state/ZIP)
+
+**What changed:** Google Places autocomplete sometimes left `serviceAddress` as street-only (Enter without a real selection, or incomplete place payload). Autocomplete now rebuilds from `address_components` / Details when needed, LeadForm blocks submit until the address looks like `street, city, ST ZIP` (or was Places-resolved into that shape), and `/api/leads` rejects incomplete service/estimate addresses so notification emails stop arriving without city/state/ZIP.
+
+**Files:** `frontend/lib/service-address.js`, `frontend/components/AddressAutocomplete.jsx`, `frontend/components/LeadForm.jsx`, `frontend/app/api/leads/route.js`, `memory/CHANGELOG.md`
+
+**Verification:** Node smoke tests on `looksLikeFullUsAddress` / `buildServiceAddressFromPlace`; grep confirms LeadForm + API share the same incomplete message.
+
+**Caveats:** Contact leads may still omit address. Manual QA: pick a DFW suggestion on `/request-service` and confirm the field fills with city/state/ZIP; type street-only and confirm submit is blocked.
+
+---
+
 ## Aug 21, 2026 — Security Audit green: dep bumps + resolutions
 
 **What changed:** Cleared Security Audit CI (high/critical yarn audit) by bumping production/dev deps (incl. `next`/`axios` and Dependabot #145/#143 ranges) and extending Yarn `resolutions` (`nanoid` 3.3.18, `tar` 7.5.22, `postcss` 8.5.26, `undici` 7.29.0, `linkify-it` 5.0.2, `brace-expansion` 2.1.4, `js-yaml` 3.15.1, `sharp` 0.35.3). Bumped `actions/setup-node` v5→v7 in CI workflows (supersedes Dependabot #142).
