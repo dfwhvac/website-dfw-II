@@ -7,6 +7,30 @@
 
 ---
 
+## Aug 21, 2026 — Review sync wrap-up: ISR revalidate + fallback 191
+
+**What changed:** (1) After a successful `/api/cron/sync-reviews` run, call `revalidatePath` for `/reviews`, `/`, `/about`, and `/services` so the site does not keep serving the previous hour’s ISR snapshot. (2) Bumped `REVIEW_COUNT_FALLBACK` 176 → **191** to match live Google count from Actions #96.
+
+**Files:** `frontend/app/api/cron/sync-reviews/route.js`, `frontend/lib/constants.js`, `memory/CHANGELOG.md`, `memory/ROADMAP.md`
+
+**Verification:** Sanity CDN/API query confirmed `visible`/`withText`/`withGbpId` = 164 and `companyInfo.googleReviews` = 191 while the live page still showed 111 — ISR cache, not a failed upsert. Fallback constant now equals that live count.
+
+**Caveats:** Needs deploy + one sync (or wait for ISR) to see ~164 text reviews on `/reviews`.
+
+---
+
+## Aug 21, 2026 — GBP Phase C validated in production (docs)
+
+**What changed:** First production Sync Reviews run after Phase C deploy succeeded (GitHub Actions **#96**, commit `fc4aad7`): `live=191`, `drift=15`, `textUpsert=164`. ROADMAP open item **GBP-REVIEWS-SYNC** removed (shipped).
+
+**Files:** `memory/ROADMAP.md`, `memory/CHANGELOG.md`
+
+**Verification:** User screenshot of Actions success notice with those three metrics.
+
+**Caveats:** Fallback bumped to 191 in wrap-up commit same day. Next open review work is **REVIEWS-CURATE**.
+
+---
+
 ## Aug 21, 2026 — GBP Phase C: nightly review-text sync to Sanity
 
 **What changed:** Extended `/api/cron/sync-reviews` to (1) keep Places API rating/count updates and (2) use Business Profile OAuth to paginate all location reviews, upsert those **with text** into Sanity `testimonial` docs (deterministic ids + `googleReviewId`), and soft-hide legacy Google testimonials lacking that id after a healthy sync. GitHub Actions sync workflow timeout/curl raised for longer runs.
@@ -18,9 +42,9 @@
 - `.github/workflows/sync-reviews.yml`
 - `frontend/.env.example`, `memory/ROADMAP.md`, `memory/CHANGELOG.md`
 
-**Verification:** Mapper unit checks (blank text skipped; star/date/id mapping); `next build --webpack` exit 0.
+**Verification:** Mapper unit checks; `next build --webpack` exit 0; later validated by Actions #96 (`textUpsert=164`).
 
-**Caveats:** `PARTIAL` until production redeploy + first successful Actions `workflow_dispatch` shows `reviewTextSync.upserted` > 0. Count sync still uses Places; text sync soft-fails so a GBP outage does not block rating updates. Hobby plan `maxDuration` may cap long runs — monitor first job.
+**Caveats:** Count sync still uses Places; text sync soft-fails so a GBP outage does not block rating updates.
 
 ---
 

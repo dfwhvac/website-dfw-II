@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { Resend } from 'resend'
 import { REVIEW_COUNT_FALLBACK, REVIEW_DRIFT_ALERT_THRESHOLD } from '@/lib/constants'
 import {
@@ -10,6 +11,14 @@ import {
 
 // Allow full GBP pagination + Sanity upserts on scheduled runs (Pro/Fluid).
 export const maxDuration = 300
+
+/** Paths that read companyInfo review count and/or testimonial lists. */
+const REVIEW_DEPENDENT_PATHS = [
+  '/reviews',
+  '/',
+  '/about',
+  '/services',
+]
 
 const GOOGLE_PLACES_API_KEY = process.env.GOOGLE_PLACES_API_KEY
 const GOOGLE_PLACE_ID = process.env.GOOGLE_PLACE_ID || 'ChIJoSn502QpTIYRy6YwoMmFyCE'
@@ -166,12 +175,25 @@ export async function GET(request) {
     // Drift alert (Feb 28, 2026) — never blocks cron success.
     const driftAlert = await maybeSendDriftAlert(user_ratings_total)
 
+    // Bust ISR so /reviews (and other surfaces) show fresh Sanity data
+    // immediately instead of waiting up to revalidate=3600.
+    const revalidated = []
+    for (const path of REVIEW_DEPENDENT_PATHS) {
+      try {
+        revalidatePath(path)
+        revalidated.push(path)
+      } catch (err) {
+        console.error(`[sync-reviews] revalidatePath(${path}) failed:`, err)
+      }
+    }
+
     return NextResponse.json({
       success: true,
       rating,
       reviewCount: user_ratings_total,
       sanityUpdated: sanityResult,
       reviewTextSync,
+      revalidated,
       driftAlert,
       timestamp: new Date().toISOString(),
     })
