@@ -10,6 +10,10 @@ import {
   isRecaptchaBlocked,
   RECAPTCHA_THRESHOLD,
 } from '@/lib/lead-security'
+import {
+  ADDRESS_INCOMPLETE_MESSAGE,
+  looksLikeFullUsAddress,
+} from '@/lib/service-address'
 
 const LICENSE_NUMBER_FALLBACK = 'TACLB00136968E'
 
@@ -217,13 +221,31 @@ export async function POST(request) {
       )
     }
 
+    const leadType = lead.leadType || 'service'
+    // Service + estimate forms collect a site address; require city/state/ZIP.
+    // Contact inquiries may omit address.
+    if (leadType === 'service' || leadType === 'estimate') {
+      const address = String(lead.serviceAddress || '').trim()
+      if (!address) {
+        return NextResponse.json(
+          { success: false, message: 'Please enter a service address.' },
+          { status: 400 }
+        )
+      }
+      if (!looksLikeFullUsAddress(address)) {
+        return NextResponse.json(
+          { success: false, message: ADDRESS_INCOMPLETE_MESSAGE },
+          { status: 400 }
+        )
+      }
+    }
+
     // Verify reCAPTCHA
     const recaptcha = await verifyRecaptcha(lead.recaptchaToken)
     const isBlocked = isRecaptchaBlocked(recaptcha)
 
     const leadId = uuidv4()
     const fullName = `${lead.firstName} ${lead.lastName}`
-    const leadType = lead.leadType || 'service'
 
     // Save to MongoDB (always save, flag blocked submissions)
     const client = await getMongoClient()

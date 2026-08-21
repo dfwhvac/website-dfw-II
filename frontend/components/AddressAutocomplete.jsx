@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 import { Input } from './ui/input'
+import { buildServiceAddressFromPlace } from '@/lib/service-address'
 
 const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY || ''
 
@@ -9,6 +10,8 @@ const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY || ''
 const DFW_LAT = 32.8998
 const DFW_LNG = -97.0403
 const DFW_RADIUS = 96560
+
+const PLACE_FIELDS = ['place_id', 'formatted_address', 'address_components', 'geometry', 'name']
 
 let loadPromise = null
 
@@ -27,6 +30,9 @@ function loadGoogleMaps() {
   return loadPromise
 }
 
+/**
+ * @param {(value: string, meta?: { source: 'places' | 'typed', placeId?: string }) => void} onChange
+ */
 const AddressAutocomplete = ({ value, onChange, id, className, placeholder, required }) => {
   const inputRef = useRef(null)
   const autocompleteRef = useRef(null)
@@ -34,16 +40,10 @@ const AddressAutocomplete = ({ value, onChange, id, className, placeholder, requ
   const [ready, setReady] = useState(false)
   const [focused, setFocused] = useState(false)
 
-  // Keep the latest onChange callback in a ref so the Places `place_changed`
-  // listener (attached once) always invokes the current handler without
-  // forcing the listener-setup effect to re-run on every parent re-render.
   useEffect(() => {
     onChangeRef.current = onChange
   }, [onChange])
 
-  // Lazy-load Google Maps only when the user actually interacts with the
-  // address field. Saves ~800–1,200ms TBT on form pages for users who never
-  // engage with the address input (e.g., bounced visitors, mobile tire-kickers).
   const handleFocus = () => {
     setFocused(true)
     if (!GOOGLE_MAPS_API_KEY || ready) return
@@ -51,8 +51,6 @@ const AddressAutocomplete = ({ value, onChange, id, className, placeholder, requ
   }
 
   const handleBlur = () => {
-    // Keep attribution visible if the field has a value (user has interacted).
-    // Otherwise hide to keep the UI clean.
     if (!value) setFocused(false)
   }
 
@@ -63,28 +61,51 @@ const AddressAutocomplete = ({ value, onChange, id, className, placeholder, requ
     const autocomplete = new gm.places.Autocomplete(inputRef.current, {
       types: ['address'],
       componentRestrictions: { country: 'us' },
+      fields: PLACE_FIELDS,
     })
 
-    // Bias toward DFW
     const dfwCenter = new gm.LatLng(DFW_LAT, DFW_LNG)
     const circle = new gm.Circle({ center: dfwCenter, radius: DFW_RADIUS })
     autocomplete.setBounds(circle.getBounds())
 
+    const emitPlacesAddress = (place) => {
+      const formatted = buildServiceAddressFromPlace(place)
+      if (!formatted) return false
+      onChangeRef.current(formatted, {
+        source: 'places',
+        placeId: place.place_id || undefined,
+      })
+      return true
+    }
+
     autocomplete.addListener('place_changed', () => {
       const place = autocomplete.getPlace()
-      if (place?.formatted_address) {
-        onChangeRef.current(place.formatted_address)
+
+      // Enter / dismiss without a real prediction — Google docs: no geometry.
+      // Do not overwrite React state; parent keeps typed text and unresolved flag.
+      if (!place?.place_id && !place?.geometry?.location) {
+        return
+      }
+
+      if (emitPlacesAddress(place)) return
+
+      // Selected prediction but Details payload incomplete — fetch fields explicitly.
+      if (place.place_id) {
+        const svc = new gm.places.PlacesService(document.createElement('div'))
+        svc.getDetails(
+          { placeId: place.place_id, fields: PLACE_FIELDS },
+          (detail, status) => {
+            if (status === gm.places.PlacesServiceStatus.OK && detail) {
+              emitPlacesAddress(detail)
+            }
+          }
+        )
       }
     })
 
     autocompleteRef.current = autocomplete
   }, [ready])
 
-  // Show attribution once the user engages with the field (focus) or after
-  // autocomplete has loaded. Google's Places API terms require "Powered by
-  // Google" attribution when displaying autocomplete results. When the widget's
-  // suggestions dropdown is active, Google renders its own branding there, but
-  // we surface this inline so attribution is visible throughout the interaction.
   const showAttribution = focused || ready || Boolean(value)
 
   return (
@@ -94,7 +115,7 @@ const AddressAutocomplete = ({ value, onChange, id, className, placeholder, requ
         id={id}
         type="text"
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => onChange(e.target.value, { source: 'typed' })}
         onFocus={handleFocus}
         onBlur={handleBlur}
         required={required}

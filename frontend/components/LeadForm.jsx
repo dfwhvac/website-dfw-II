@@ -17,6 +17,7 @@ import {
 import AddressAutocomplete from './AddressAutocomplete'
 import { loadRecaptchaOnce } from './RecaptchaScript'
 import { trackEvent } from '@/lib/track-event'
+import { ADDRESS_INCOMPLETE_MESSAGE, looksLikeFullUsAddress } from '@/lib/service-address'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card'
 import { Phone, Mail, MapPin, Wrench } from 'lucide-react'
 import { toast } from 'sonner'
@@ -41,6 +42,8 @@ const LeadForm = ({
     numSystems: '',
     problemDescription: ''
   })
+  const [addressResolvedFromPlaces, setAddressResolvedFromPlaces] = useState(false)
+  const [addressError, setAddressError] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
 
@@ -59,9 +62,23 @@ const LeadForm = ({
     setFormData(prev => ({ ...prev, [field]: value }))
   }
 
+  const handleAddressChange = (value, meta) => {
+    setFormData(prev => ({ ...prev, serviceAddress: value }))
+    setAddressResolvedFromPlaces(meta?.source === 'places')
+    if (addressError) setAddressError('')
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsSubmitting(true)
+    setAddressError('')
+
+    if (!looksLikeFullUsAddress(formData.serviceAddress)) {
+      setAddressError(ADDRESS_INCOMPLETE_MESSAGE)
+      toast.error(ADDRESS_INCOMPLETE_MESSAGE)
+      setIsSubmitting(false)
+      return
+    }
 
     try {
       // Get reCAPTCHA token
@@ -85,6 +102,7 @@ const LeadForm = ({
         body: JSON.stringify({
           ...formData,
           leadType: leadType,
+          addressResolvedFromPlaces,
           recaptchaToken,
         })
       })
@@ -117,11 +135,17 @@ const LeadForm = ({
           numSystems: '',
           problemDescription: ''
         })
+        setAddressResolvedFromPlaces(false)
+        setAddressError('')
         // Redirect to /thanks (P1.11) — kills post-submit ghosting + creates
         // a durable conversion landmark for GA4 / Google Ads.
         router.push(`/thanks?type=${encodeURIComponent(leadType)}`)
       } else {
-        toast.error(result.message || "Something went wrong. Please try again.")
+        const msg = result.message || "Something went wrong. Please try again."
+        if (msg === ADDRESS_INCOMPLETE_MESSAGE) {
+          setAddressError(msg)
+        }
+        toast.error(msg)
       }
     } catch (error) {
       console.error('Lead submission error:', error)
@@ -214,11 +238,20 @@ const LeadForm = ({
             <AddressAutocomplete
               id="serviceAddress"
               value={formData.serviceAddress}
-              onChange={(value) => handleInputChange('serviceAddress', value)}
+              onChange={handleAddressChange}
               required
               className="h-12 border-gray-300 focus:border-electric-blue focus:ring-electric-blue"
-              placeholder="123 Main St, Dallas, TX 75201"
+              placeholder="Start typing, then select your address from the list"
             />
+            {addressError ? (
+              <p className="text-sm text-vivid-red" role="alert">
+                {addressError}
+              </p>
+            ) : (
+              <p className="text-xs text-gray-500">
+                Select an address from the Google suggestions so we get city, state, and ZIP.
+              </p>
+            )}
           </div>
 
           {/* Number of Systems */}
