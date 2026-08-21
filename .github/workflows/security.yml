@@ -48,49 +48,58 @@ jobs:
           # Re-enable later only if CI duration becomes a real bottleneck.
 
       - name: Install dependencies
-        # Try frozen-lockfile first to catch real drift in normal PRs.
-        # If it fails (typically because a package.json merge conflict was
-        # resolved in the GitHub web editor without regenerating yarn.lock),
-        # fall back to a regular install so the audit can still run. The
-        # actual security gate is the `yarn audit` JSON parser below — drift
-        # alone is not a security issue.
+        # Audit only needs a resolved tree from yarn.lock — skip native builds
+        # (canvas/sharp) that often fail on bare ubuntu runners and wrongly trip
+        # the frozen-lockfile fallback (which then regenerates a dirtier lockfile).
         run: |
           set +e
-          yarn install --frozen-lockfile
+          yarn install --frozen-lockfile --ignore-scripts
           STATUS=$?
           set -e
           if [ "$STATUS" -ne 0 ]; then
-            echo "::warning::yarn.lock out of sync with package.json. Regenerating to allow audit to run. Please update yarn.lock locally before next merge."
-            yarn install
+            echo "::error::yarn.lock out of sync with package.json (frozen-lockfile failed). Update yarn.lock locally; do not regenerate in CI."
+            exit 1
           fi
 
       # yarn 1's `--level` flag has known bugs in exit-code reporting (it can
       # exit non-zero on lower-severity advisories even when no critical ones
       # exist — we observed exit code 14 = high+moderate+low, not critical).
       #
-      # We bypass the broken exit-code logic by parsing yarn's JSON output and
-      # counting critical-severity advisories explicitly. This is bulletproof:
-      # if zero critical advisories exist, the build passes regardless of how
-      # many lower-severity issues are present.
+      # Count only auditAdvisory.severity via node JSON parse (not grep) so
+      # summary lines / nested fields cannot false-positive.
       - name: Run yarn audit
         run: |
           set +e
-          # JSON mode emits one advisory per line. Production deps only
-          # (--groups dependencies = package.json "dependencies", includes sanity@5).
-          # Do not use yarn --level (exit codes are unreliable on yarn 1).
-          AUDIT_JSON=$(yarn audit --json --groups dependencies 2>/dev/null || true)
+          yarn audit --json --groups dependencies > /tmp/yarn-audit.jsonl 2>/tmp/yarn-audit.err
           set -e
-          CRITICAL_COUNT=$(echo "$AUDIT_JSON" | grep -c '"severity":"critical"' || true)
-          HIGH_COUNT=$(echo "$AUDIT_JSON" | grep -c '"severity":"high"' || true)
-          MODERATE_COUNT=$(echo "$AUDIT_JSON" | grep -c '"severity":"moderate"' || true)
-          echo "Production dependency advisories: critical=$CRITICAL_COUNT high=$HIGH_COUNT moderate=$MODERATE_COUNT"
-          if [ "$CRITICAL_COUNT" -gt 0 ] || [ "$HIGH_COUNT" -gt 0 ]; then
-            echo "$AUDIT_JSON" | grep '"severity":"critical"\|"severity":"high"' | head -20
-            echo "::error::yarn audit: $CRITICAL_COUNT critical + $HIGH_COUNT high in production dependencies. Run 'cd frontend && yarn audit --groups dependencies' locally."
-            exit 1
-          fi
-          echo "::notice::yarn audit clean of high/critical production advisories (moderate=$MODERATE_COUNT allowed)."
-          exit 0
+          node <<'NODE'
+          const fs = require('fs');
+          const lines = fs.readFileSync('/tmp/yarn-audit.jsonl', 'utf8').split('\n').filter(Boolean);
+          let critical = 0, high = 0, moderate = 0;
+          const samples = [];
+          for (const line of lines) {
+            let o;
+            try { o = JSON.parse(line); } catch { continue; }
+            if (o.type !== 'auditAdvisory') continue;
+            const sev = o.data && o.data.advisory && o.data.advisory.severity;
+            if (sev === 'critical') {
+              critical += 1;
+              if (samples.length < 20) samples.push(line);
+            } else if (sev === 'high') {
+              high += 1;
+              if (samples.length < 20) samples.push(line);
+            } else if (sev === 'moderate') {
+              moderate += 1;
+            }
+          }
+          console.log(`Production dependency advisories: critical=${critical} high=${high} moderate=${moderate}`);
+          if (critical > 0 || high > 0) {
+            for (const s of samples) console.log(s);
+            console.error(`::error::yarn audit: ${critical} critical + ${high} high in production dependencies. Run 'cd frontend && yarn audit --groups dependencies' locally.`);
+            process.exit(1);
+          }
+          console.log(`::notice::yarn audit clean of high/critical production advisories (moderate=${moderate} allowed).`);
+          NODE
 
   gitleaks:
     name: gitleaks (secret scan)
