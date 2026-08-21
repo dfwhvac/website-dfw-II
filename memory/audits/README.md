@@ -33,6 +33,12 @@
 | [`2026-04-21_Lighthouse_Tier1_Production.md`](./2026-04-21_Lighthouse_Tier1_Production.md) | Apr 21, 2026 | Curated 12-page mobile + desktop Lighthouse on production after all Apr 21 fixes | Site scorecard (full details inside) |
 | [`baseline-screenshots-2026-04-18/`](./baseline-screenshots-2026-04-18/) | Apr 18, 2026 | 13-page visual baselines pre-Next 15 upgrade | Regression reference |
 
+### Content / Reviews inventory
+
+| File | Date | Scope | Result |
+|---|---|---|---|
+| [`2026-07-15_Review_Display_Inventory.xlsx`](./2026-07-15_Review_Display_Inventory.xlsx) | Jul 15, 2026 | Excluding `/reviews`: URLs with live review text + city pages enabled but empty | 9 populated URLs (29 display rows); 28 city pages empty local testimonial |
+
 ### Mobile / UX / QA
 
 | File | Date | Scope | Result |
