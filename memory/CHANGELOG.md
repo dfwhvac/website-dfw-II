@@ -19,6 +19,18 @@
 
 ---
 
+## Aug 21, 2026 — Security Audit CI: audit without yarn install
+
+**What changed:** CI still failed because `yarn install --frozen-lockfile` itself exits non-zero on ubuntu (not the audit counts). Security Audit job now pins Yarn 1.22.22 via corepack and runs `yarn audit` against the lockfile with **no install step**.
+
+**Files:** `.github/workflows/security.yml`, `memory/CHANGELOG.md`
+
+**Verification:** Prior local audit parser critical=0 high=0; confirm Actions green on this push.
+
+**Caveats:** None for the gate; Dependabot PRs still close manually when CI is green.
+
+---
+
 ## Aug 21, 2026 — Security Audit CI: ignore-scripts + drop unused canvas
 
 **What changed:** CI Security Audit was still red after the dep bump because `yarn install` on ubuntu failed (native builds / false “lockfile out of sync”), regenerated a dirtier tree, then failed audit. Fixed by (1) installing with `--frozen-lockfile --ignore-scripts` and failing hard on lock drift, (2) parsing audit JSON with Node instead of grep, (3) removing unused `canvas` dependency.

@@ -42,36 +42,27 @@ jobs:
         uses: actions/setup-node@v7
         with:
           node-version: "20"
-          # NOTE: yarn cache deliberately disabled here. It's a nice-to-have
-          # (saves ~30s per run) that turned into a brittle dependency-path
-          # configuration. Audit + install completes in ~60s without it.
-          # Re-enable later only if CI duration becomes a real bottleneck.
 
-      - name: Install dependencies
-        # Audit only needs a resolved tree from yarn.lock — skip native builds
-        # (canvas/sharp) that often fail on bare ubuntu runners and wrongly trip
-        # the frozen-lockfile fallback (which then regenerates a dirtier lockfile).
+      - name: Pin Yarn classic 1.22.22
         run: |
-          set +e
-          yarn install --frozen-lockfile --ignore-scripts
-          STATUS=$?
-          set -e
-          if [ "$STATUS" -ne 0 ]; then
-            echo "::error::yarn.lock out of sync with package.json (frozen-lockfile failed). Update yarn.lock locally; do not regenerate in CI."
-            exit 1
-          fi
+          corepack enable
+          corepack prepare yarn@1.22.22 --activate
+          yarn --version
 
-      # yarn 1's `--level` flag has known bugs in exit-code reporting (it can
-      # exit non-zero on lower-severity advisories even when no critical ones
-      # exist — we observed exit code 14 = high+moderate+low, not critical).
-      #
-      # Count only auditAdvisory.severity via node JSON parse (not grep) so
-      # summary lines / nested fields cannot false-positive.
+      # yarn audit resolves advisories from yarn.lock + the registry — it does
+      # not require a full node_modules install. Skipping install avoids native
+      # builds (sharp) and Mac-vs-Linux lockfile edge cases that were failing
+      # frozen-lockfile on ubuntu and regenerating a dirtier tree.
       - name: Run yarn audit
         run: |
           set +e
           yarn audit --json --groups dependencies > /tmp/yarn-audit.jsonl 2>/tmp/yarn-audit.err
           set -e
+          if [ -s /tmp/yarn-audit.err ]; then
+            echo "::group::yarn audit stderr"
+            cat /tmp/yarn-audit.err
+            echo "::endgroup::"
+          fi
           node <<'NODE'
           const fs = require('fs');
           const lines = fs.readFileSync('/tmp/yarn-audit.jsonl', 'utf8').split('\n').filter(Boolean);
@@ -96,6 +87,10 @@ jobs:
           if (critical > 0 || high > 0) {
             for (const s of samples) console.log(s);
             console.error(`::error::yarn audit: ${critical} critical + ${high} high in production dependencies. Run 'cd frontend && yarn audit --groups dependencies' locally.`);
+            process.exit(1);
+          }
+          if (lines.length === 0) {
+            console.error('::error::yarn audit produced no JSON output — check yarn version / network.');
             process.exit(1);
           }
           console.log(`::notice::yarn audit clean of high/critical production advisories (moderate=${moderate} allowed).`);
