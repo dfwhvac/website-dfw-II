@@ -1,9 +1,50 @@
 # DFW HVAC — Changelog
 
-**Last reviewed:** Jul 20, 2026
+**Last reviewed:** Aug 21, 2026
 **⚠️ Read `memory/00_START_HERE.md` first for the Agent SOP.**
 
 > **Shipped history before May 21, 2026** lives in [`CHANGELOG-legacy-pre-2026-05-21.md`](CHANGELOG-legacy-pre-2026-05-21.md) (1,737 lines, Feb–May 2026 agent logs). That file is archival context only — do not treat it as the live product state.
+
+---
+
+## Aug 21, 2026 — GBP Phase C: nightly review-text sync to Sanity
+
+**What changed:** Extended `/api/cron/sync-reviews` to (1) keep Places API rating/count updates and (2) use Business Profile OAuth to paginate all location reviews, upsert those **with text** into Sanity `testimonial` docs (deterministic ids + `googleReviewId`), and soft-hide legacy Google testimonials lacking that id after a healthy sync. GitHub Actions sync workflow timeout/curl raised for longer runs.
+
+**Files:**
+- `frontend/lib/gbp-reviews.js` (new)
+- `frontend/app/api/cron/sync-reviews/route.js`
+- `frontend/sanity/schemas/testimonial.js` (`googleReviewId`)
+- `.github/workflows/sync-reviews.yml`
+- `frontend/.env.example`, `memory/ROADMAP.md`, `memory/CHANGELOG.md`
+
+**Verification:** Mapper unit checks (blank text skipped; star/date/id mapping); `next build --webpack` exit 0.
+
+**Caveats:** `PARTIAL` until production redeploy + first successful Actions `workflow_dispatch` shows `reviewTextSync.upserted` > 0. Count sync still uses Places; text sync soft-fails so a GBP outage does not block rating updates. Hobby plan `maxDuration` may cap long runs — monitor first job.
+
+---
+
+## Aug 21, 2026 — GBP Phase B OAuth smoke tests passed (docs only)
+
+**What changed:** User completed Phase B for **GBP-REVIEWS-SYNC**: OAuth client `DFW HVAC Review Sync`, Playground auth with `business.manage`, and successful `accounts` / `locations` / `reviews.list` calls for DFW HVAC (`accounts/114818860562564505726`, `locations/4714471983400937136`). ROADMAP advanced to **Phase C** (code).
+
+**Files:** `memory/ROADMAP.md`, `memory/CHANGELOG.md`
+
+**Verification:** User-confirmed HTTP 200 on reviews.list in OAuth Playground.
+
+**Caveats:** `USER_ACTION` — add five `GBP_*` secrets to Vercel Production before / while Phase C ships. No review-text sync in production until Phase C code deploys.
+
+---
+
+## Aug 4, 2026 — GBP API allowlist approved (docs only)
+
+**What changed:** User confirmed Google approved Business Profile API Basic Access for case **`6-6371000040573`**. ROADMAP **GBP-REVIEWS-SYNC** unblocked from allowlist wait → **Phase B OAuth** (user), then Phase C code (agent).
+
+**Files:** `memory/ROADMAP.md`, `memory/CHANGELOG.md`
+
+**Verification:** Status updated from pending to approved per user report Aug 4, 2026.
+
+**Caveats:** `USER_ACTION` — Phase B (APIs, OAuth, smoke tests) still required before coding the review-text sync.
 
 ---
 

@@ -49,6 +49,14 @@ export default {
       initialValue: 'google',
     },
     {
+      name: 'googleReviewId',
+      title: 'Google Review ID',
+      type: 'string',
+      description:
+        'Set by nightly GBP sync (Phase C). Used to upsert without duplicates. Leave blank for manually curated reviews.',
+      readOnly: true,
+    },
+    {
       name: 'isVisible',
       title: 'Visible on Website',
       type: 'boolean',

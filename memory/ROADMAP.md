@@ -1,6 +1,6 @@
 # DFW HVAC — Roadmap
 
-**Last reviewed:** Jul 9, 2026 (CSP GA collect + deferred forms on `/` `/contact`)
+**Last reviewed:** Aug 21, 2026 (GBP Phase C review-text sync shipped — validate on first cron)
 **⚠️ Read `memory/00_START_HERE.md` first for the Agent SOP.**
 
 > **Future work only.** Shipped history → [`CHANGELOG.md`](CHANGELOG.md) (baseline: May 21, 2026). Pre-reset agent logs → [`CHANGELOG-legacy-pre-2026-05-21.md`](CHANGELOG-legacy-pre-2026-05-21.md).
@@ -67,8 +67,35 @@ Pick from the top. When an item ships, remove it here and add a dated entry to `
 | 17 | **F13** | Architecture foundation re-audit (quarterly) | Agent | 3.5 hr — due **Aug 4, 2026** |
 | 18 | **KPI-DASH-AUTO** | KPI dashboard automation — Speed Insights **Drain** or CLI pull (no public p75 API); replace manual `vercel-rum-*` paste; snapshot hardening; `VERCEL_TOKEN` if using REST/CLI | Agent + user | 2–3 hr · see `FOUNDATION_AUDIT_PROGRAM.md` |
 | 19 | **FOUNDATION-SHORE** | Close remaining foundation gaps — multi-URL PSI, Lighthouse CI (F7), Sanity CDN, Sentry, gitleaks v3, W3C validator | Agent | See `FOUNDATION_AUDIT_PROGRAM.md` matrix |
+| 20 | **GBP-REVIEWS-SYNC** | Nightly Google review **text** → Sanity + count sync. **Phase C code shipped Aug 21** — validate first Actions run + `/reviews` after deploy; then remove from queue. | User + agent | Redeploy + manual workflow_dispatch |
+| 21 | **REVIEWS-CURATE** | **Curate which reviews appear on each page** (home carousel, about, each service URL, city local quotes) using [`audits/2026-07-15_Review_Display_Inventory.xlsx`](audits/2026-07-15_Review_Display_Inventory.xlsx). Fill Sheet 2 city gaps; pick best quotes per surface (not only default “newest / first N”). | User → agent | 2–4 hr after inventory sign-off; can start curation planning before sync ships |
 
 **Deferred — not blocking P1:** #18 KPI-DASH-AUTO, #19 FOUNDATION-SHORE remainder. Observability Plus + Speed Insights on `website-dfw-ii-b4zk` confirmed; manual RUM paste OK until #18 ships.
+
+### GBP-REVIEWS-SYNC — Phase C shipped (Aug 21, 2026)
+
+| Field | Value |
+|---|---|
+| **Case ID** | `6-6371000040573` |
+| **Status** | Phase A ✅ · Phase B ✅ · **Phase C code ✅** — awaiting production deploy + first green sync |
+| **Code** | `frontend/lib/gbp-reviews.js`, `frontend/app/api/cron/sync-reviews/route.js`, `testimonial.googleReviewId`, workflow timeout ↑ |
+| **Account / location** | `114818860562564505726` / `4714471983400937136` |
+| **Vercel secrets** | `GBP_OAUTH_*` + `GBP_ACCOUNT_ID` + `GBP_LOCATION_ID` (user added Aug 21) |
+| **Validate** | Redeploy production → GitHub Actions → **Sync Reviews** → Run workflow → confirm JSON `reviewTextSync.upserted` > 0 → check `/reviews` |
+| **Done when** | First successful text sync verified; then remove this open row (shipped → CHANGELOG only) |
+
+Legacy CSV testimonials without `googleReviewId` are soft-hidden (`isVisible: false`) after a healthy sync (≥20 text reviews) to avoid duplicates on `/reviews`.
+
+### REVIEWS-CURATE — per-page display (Jul 15, 2026)
+
+| Field | Value |
+|---|---|
+| **Inventory** | `memory/audits/2026-07-15_Review_Display_Inventory.xlsx` |
+| **Sheet 1** | Baseline of what each URL currently shows (home 12, about 3, 7 services × 2) |
+| **Sheet 2** | 28 city pages enabled for `localTestimonial` but empty — populate selectively |
+| **Goal** | Intentional curation: featured reviews chosen per page (service-relevant, city-local, trust-dense), not only chronological first-N from Sanity |
+| **Depends on** | Soft-depends on **GBP-REVIEWS-SYNC** for a fresher pool; curation of *existing* Sheet 1 URLs can proceed in Sanity/Studio anytime |
+| **Done when** | Owner-approved assignment list applied in Sanity (and code only if needed for per-page picks); inventory re-exported or Sheet 1 updated |
 
 ## P1 — Foundation (open)
 
@@ -133,6 +160,8 @@ Pick from the top. When an item ships, remove it here and add a dated entry to `
 | C3 | Real estimator pricing | User → agent | User sheet |
 | C5 | A/B testing framework | Agent | Optional |
 | P1.9d | City-filtered reviews page | Agent | — |
+| **GBP-REVIEWS-SYNC** | Automated Google review-text → Sanity + `/reviews` (queue #20) | User + agent | Phase C shipped — validate deploy |
+| **REVIEWS-CURATE** | Per-page review curation from `2026-07-15_Review_Display_Inventory.xlsx` (queue #21) | User → agent | Soft-depends on sync for fresher pool |
 | **P3-BASELINE** | **Pre-ad conversion baseline** — complete `POST_DEPLOY_ACTION_ITEMS_PR2.md`; record 7d/30d/60d: sessions, `form_submit_lead`, `phone_click`, `thanks_page_view`, `estimator_opt_in`, overall CR; compare monthly to KPI dashboard | User + agent | Blocks honest P3→P4 advance |
 | **GA4-G4** | Mark `phone_click` as key event in GA4 Admin | User | Part of P3-BASELINE |
 | **GA4-G5** | Mark `thanks_page_view` as key event | User | Part of P3-BASELINE |

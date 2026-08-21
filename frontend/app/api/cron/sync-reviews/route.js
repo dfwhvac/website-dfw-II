@@ -1,6 +1,15 @@
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { REVIEW_COUNT_FALLBACK, REVIEW_DRIFT_ALERT_THRESHOLD } from '@/lib/constants'
+import {
+  fetchAllGbpReviews,
+  getGbpAccessToken,
+  isGbpReviewSyncConfigured,
+  upsertGbpReviewsToSanity,
+} from '@/lib/gbp-reviews'
+
+// Allow full GBP pagination + Sanity upserts on scheduled runs (Pro/Fluid).
+export const maxDuration = 300
 
 const GOOGLE_PLACES_API_KEY = process.env.GOOGLE_PLACES_API_KEY
 const GOOGLE_PLACE_ID = process.env.GOOGLE_PLACE_ID || 'ChIJoSn502QpTIYRy6YwoMmFyCE'
@@ -76,34 +85,53 @@ async function maybeSendDriftAlert(liveCount) {
   }
 }
 
+/**
+ * Phase C — pull GBP reviews with text into Sanity testimonials.
+ * Soft-fails: count/rating sync still succeeds if this throws (caller catches).
+ */
+async function syncReviewTextFromGbp() {
+  if (!isGbpReviewSyncConfigured()) {
+    return { skipped: 'gbp-env-not-configured' }
+  }
+
+  const accessToken = await getGbpAccessToken()
+  const { reviews } = await fetchAllGbpReviews(accessToken)
+  const upsert = await upsertGbpReviewsToSanity(reviews)
+
+  return {
+    fetched: reviews.length,
+    ...upsert,
+  }
+}
+
 export async function GET(request) {
   // Verify cron secret — reject unauthorized requests
   const authHeader = request.headers.get('authorization')
   if (CRON_SECRET && authHeader !== `Bearer ${CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
-  
+
   try {
-    // Fetch from Google Places API
+    // Fetch rating + total count from Google Places API (unchanged Phase A path)
     const googleResponse = await fetch(
       `https://maps.googleapis.com/maps/api/place/details/json?place_id=${GOOGLE_PLACE_ID}&fields=name,rating,user_ratings_total&key=${GOOGLE_PLACES_API_KEY}`
     )
     const googleData = await googleResponse.json()
-    
+
     if (googleData.status !== 'OK') {
       return NextResponse.json({ error: 'Google API error', details: googleData }, { status: 500 })
     }
-    
+
     const { rating, user_ratings_total } = googleData.result
-    
-    // Update Sanity
+
+    // Update Sanity companyInfo rating/count
     const sanityResponse = await fetch(
       `https://${SANITY_PROJECT_ID}.api.sanity.io/v2024-01-01/data/mutate/${SANITY_DATASET}`,
       {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${SANITY_API_TOKEN}`,
-          'Content-Type': 'application/json'
+          Authorization: `Bearer ${SANITY_API_TOKEN}`,
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           mutations: [
@@ -112,20 +140,30 @@ export async function GET(request) {
                 id: 'companyInfo',
                 set: {
                   googleRating: rating,
-                  googleReviews: user_ratings_total
-                }
-              }
-            }
-          ]
-        })
+                  googleReviews: user_ratings_total,
+                },
+              },
+            },
+          ],
+        }),
       }
     )
-    
+
     const sanityResult = await sanityResponse.json()
 
-    // Drift alert (Feb 28, 2026) — sends a one-line maintenance email if the
-    // live count is more than REVIEW_DRIFT_ALERT_THRESHOLD reviews away from
-    // REVIEW_COUNT_FALLBACK. Never blocks cron success.
+    // Phase C — full review text → Sanity testimonials (does not fail the cron)
+    let reviewTextSync = { skipped: 'not-run' }
+    try {
+      reviewTextSync = await syncReviewTextFromGbp()
+    } catch (err) {
+      console.error('[gbp-reviews] text sync failed:', err)
+      reviewTextSync = {
+        success: false,
+        error: err.message || String(err),
+      }
+    }
+
+    // Drift alert (Feb 28, 2026) — never blocks cron success.
     const driftAlert = await maybeSendDriftAlert(user_ratings_total)
 
     return NextResponse.json({
@@ -133,10 +171,10 @@ export async function GET(request) {
       rating,
       reviewCount: user_ratings_total,
       sanityUpdated: sanityResult,
+      reviewTextSync,
       driftAlert,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     })
-    
   } catch (error) {
     console.error('Sync error:', error)
     return NextResponse.json({ error: error.message }, { status: 500 })
