@@ -7,6 +7,42 @@
 
 ---
 
+## Aug 21, 2026 — Security Audit green: dep bumps + resolutions
+
+**What changed:** Cleared Security Audit CI (high/critical yarn audit) by bumping production/dev deps (incl. `next`/`axios` and Dependabot #145/#143 ranges) and extending Yarn `resolutions` (`nanoid` 3.3.18, `tar` 7.5.22, `postcss` 8.5.26, `undici` 7.29.0, `linkify-it` 5.0.2, `brace-expansion` 2.1.4, `js-yaml` 3.15.1, `sharp` 0.35.3). Bumped `actions/setup-node` v5→v7 in CI workflows (supersedes Dependabot #142).
+
+**Files:** `frontend/package.json`, `frontend/yarn.lock`, `.github/workflows/security.yml`, `.github/workflows/kpi-audit.yml`, `.github/workflows/lighthouse-ci.yml`, `memory/CHANGELOG.md`, `memory/ROADMAP.md`
+
+**Verification:** `yarn audit --groups dependencies` → `critical=0 high=0` (CI-style grep counts).
+
+**Caveats:** Close open Dependabot PRs #142/#143/#145 as superseded after this lands on `main`. Some resolution pins warn as semver-incompatible with nested requests (intentional until upstream catches up).
+
+---
+
+## Aug 21, 2026 — Security Audit green: dep bumps + resolutions (supersedes Dependabot #142–#145)
+
+**What changed:** Cleared production `yarn audit` high/critical advisories that were failing Security Audit on `main` (next, axios, nanoid, tar, postcss, sharp, undici, linkify-it, brace-expansion, js-yaml, etc.). Bumped frontend deps (aligned with open Dependabot groups) and pinned patched nested packages via `resolutions`. Updated `actions/setup-node` v5 → **v7** in security/kpi/lighthouse workflows.
+
+**Files:** `frontend/package.json`, `frontend/yarn.lock`, `.github/workflows/security.yml`, `.github/workflows/kpi-audit.yml`, `.github/workflows/lighthouse-ci.yml`, `memory/CHANGELOG.md`, `memory/ROADMAP.md`
+
+**Verification:** `yarn audit --groups dependencies` → 0 high / 0 critical; `next build --webpack` exit 0.
+
+**Caveats:** Close Dependabot PRs **#142**, **#143**, **#145** as superseded after this lands on `main`. Global `nanoid` resolution forces 3.3.18 (audit-clean; yarn may warn on packages requesting ^5).
+
+---
+
+## Aug 21, 2026 — ROADMAP: REVIEWS-CURATE promoted (docs)
+
+**What changed:** Marked GBP review sync fully complete; moved **REVIEWS-CURATE** to active queue **#5** with SEO/AEO approach notes (intent-matched quotes per URL; keep `/reviews` paginated). Session todo list also tracks REVIEWS-CURATE (and deferred Security Audit CI).
+
+**Files:** `memory/ROADMAP.md`, `memory/CHANGELOG.md`
+
+**Verification:** Queue + detail section updated to match Aug 21 sync wrap-up.
+
+**Caveats:** Inventory `.xlsx` may still be untracked locally until committed with curation work.
+
+---
+
 ## Aug 21, 2026 — Review sync wrap-up: ISR revalidate + fallback 191
 
 **What changed:** (1) After a successful `/api/cron/sync-reviews` run, call `revalidatePath` for `/reviews`, `/`, `/about`, and `/services` so the site does not keep serving the previous hour’s ISR snapshot. (2) Bumped `REVIEW_COUNT_FALLBACK` 176 → **191** to match live Google count from Actions #96.

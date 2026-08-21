@@ -1,6 +1,6 @@
 # DFW HVAC — Roadmap
 
-**Last reviewed:** Aug 21, 2026 (GBP-REVIEWS-SYNC validated — Actions #96 textUpsert=164)
+**Last reviewed:** Aug 21, 2026 (Security Audit dep fix in flight; REVIEWS-CURATE next)
 **⚠️ Read `memory/00_START_HERE.md` first for the Agent SOP.**
 
 > **Future work only.** Shipped history → [`CHANGELOG.md`](CHANGELOG.md) (baseline: May 21, 2026). Pre-reset agent logs → [`CHANGELOG-legacy-pre-2026-05-21.md`](CHANGELOG-legacy-pre-2026-05-21.md).
@@ -46,42 +46,48 @@ SEC-2 (estimator `/api/estimator/lead` hardening) shipped May 22, 2026 → see `
 
 Pick from the top. When an item ships, remove it here and add a dated entry to `CHANGELOG.md`.
 
+**Next review action (unblocked Aug 21):** **REVIEWS-CURATE** (#5) — GBP text sync + count/fallback/ISR wrap-up are shipped; curate which quotes appear on each page for SEO/AEO (prefer relevance over dumping all 164 on `/reviews`).
+
 | # | ID | Item | Owner | Effort |
 |---|---|---|---|---|
 | 1 | **SEC-1** | Security & data-hygiene — **SEC-1-A done** (geo-block + custom rules removed); remaining: GA4/Clarity non-US filters; Sanity 2FA; SEC-1-C GSC spot-check ~May 29; optional B2/B3 | User + agent | ~20 min user + doc pass |
 | 2 | **P3-BASELINE** | Conversion measurement program — finish GA4 key events (G4 `phone_click`, G5 `thanks_page_view`, G6 `estimator_opt_in`); snapshot 7d/30d/60d rates; monthly CR review vs KPI dashboard | User + agent | 1 hr setup + 30 min/mo |
 | 3 | **P1.8** | Google Business Profile audit + optimization (verified; needs ongoing Posts/Q&A/photos) | User-led | 20 min + 4 hr initial |
 | 4 | **S3-AEO** | Run quarterly AEO citation audit (20 queries × 4 engines); log results in `audits/2026-02-28_AEO_Citation_Baseline.md` — **next due May 31, 2026** | User-led | 2–3 hr/qtr |
-| 5 | **F3b** | HSTS Preload List submission (`hstspreload.org`) | User | 10 min |
-| 6 | **F12** | GitHub Actions Node 20 → 24 (Dependabot PR or manual bump) | User or agent | 5–10 min |
-| 7 | **P1.6f** | Rich Results validation on 7 high-value URLs | User | 30 min |
-| 8 | **A3** | GSC re-audit — diff vs Apr 27 indexing baseline | User + agent | 40 min |
-| 9 | **P1.10** | Progressive form redesign (2-field → expand) | Agent | 4–6 hr — **hold until Clarity baseline ~Jun 3, 2026** (14d after May 13 CSP fix) |
-| 10 | **P1.9b** | Review badge in every page hero (currently partial) | Agent | 2 hr |
-| 11 | **P1.9c** | Inline review carousel near every form (currently partial) | Agent | 2 hr |
-| 12 | **C4** | Form abandonment tracking — GA4 on field blur | Agent | 1 hr |
-| 13 | **P2.19-scope** | CallRail vs Twilio DNI **decision** (not build) — **required before P5-LAUNCH-GATE** | User | 30 min |
-| 14 | **C3** | Estimator pricing matrix — real DFW numbers | User → agent | 1 hr — **blocked on user sheet** |
-| 15 | **P2.23** | `@sanity/image-url` → `createImageUrlBuilder` named export | Agent | 10 min |
-| 16 | **P2.20** | LCP push — form defer on `/` + `/contact` + CSP GA collect shipped Jul 9; **field desktop RES still needs 7–14d validate**; lab mobile target &lt;1.25s not met (~2.7s May 2026) | Agent | Watch Speed Insights desktop `/` + `/contact` |
-| 17 | **F13** | Architecture foundation re-audit (quarterly) | Agent | 3.5 hr — due **Aug 4, 2026** |
-| 18 | **KPI-DASH-AUTO** | KPI dashboard automation — Speed Insights **Drain** or CLI pull (no public p75 API); replace manual `vercel-rum-*` paste; snapshot hardening; `VERCEL_TOKEN` if using REST/CLI | Agent + user | 2–3 hr · see `FOUNDATION_AUDIT_PROGRAM.md` |
-| 19 | **FOUNDATION-SHORE** | Close remaining foundation gaps — multi-URL PSI, Lighthouse CI (F7), Sanity CDN, Sentry, gitleaks v3, W3C validator | Agent | See `FOUNDATION_AUDIT_PROGRAM.md` matrix |
-| 20 | **REVIEWS-CURATE** | **Curate which reviews appear on each page** (home carousel, about, each service URL, city local quotes) using [`audits/2026-07-15_Review_Display_Inventory.xlsx`](audits/2026-07-15_Review_Display_Inventory.xlsx). Fill Sheet 2 city gaps; pick best quotes per surface (not only default “newest / first N”). | User → agent | 2–4 hr after inventory sign-off |
+| 5 | **REVIEWS-CURATE** | **Curate per-page Google review quotes** (home, about, services, cities) from [`audits/2026-07-15_Review_Display_Inventory.xlsx`](audits/2026-07-15_Review_Display_Inventory.xlsx) + live Sanity pool (~164 with text). Fill Sheet 2 city gaps; pick service-/city-relevant quotes (not only newest). Keep `/reviews` load-more; maximize SEO/AEO via the right quotes on the right URLs. | User → agent | 2–4 hr |
+| 6 | **F3b** | HSTS Preload List submission (`hstspreload.org`) | User | 10 min |
+| 7 | **F12** | GitHub Actions Node 20 → 24 (Dependabot PR or manual bump) | User or agent | 5–10 min |
+| 8 | **P1.6f** | Rich Results validation on 7 high-value URLs | User | 30 min |
+| 9 | **A3** | GSC re-audit — diff vs Apr 27 indexing baseline | User + agent | 40 min |
+| 10 | **P1.10** | Progressive form redesign (2-field → expand) | Agent | 4–6 hr — **hold until Clarity baseline ~Jun 3, 2026** (14d after May 13 CSP fix) |
+| 11 | **P1.9b** | Review badge in every page hero (currently partial) | Agent | 2 hr |
+| 12 | **P1.9c** | Inline review carousel near every form (currently partial) | Agent | 2 hr |
+| 13 | **C4** | Form abandonment tracking — GA4 on field blur | Agent | 1 hr |
+| 14 | **P2.19-scope** | CallRail vs Twilio DNI **decision** (not build) — **required before P5-LAUNCH-GATE** | User | 30 min |
+| 15 | **C3** | Estimator pricing matrix — real DFW numbers | User → agent | 1 hr — **blocked on user sheet** |
+| 16 | **P2.23** | `@sanity/image-url` → `createImageUrlBuilder` named export | Agent | 10 min |
+| 17 | **P2.20** | LCP push — form defer on `/` + `/contact` + CSP GA collect shipped Jul 9; **field desktop RES still needs 7–14d validate**; lab mobile target &lt;1.25s not met (~2.7s May 2026) | Agent | Watch Speed Insights desktop `/` + `/contact` |
+| 18 | **F13** | Architecture foundation re-audit (quarterly) | Agent | 3.5 hr — due **Aug 4, 2026** |
+| 19 | **KPI-DASH-AUTO** | KPI dashboard automation — Speed Insights **Drain** or CLI pull (no public p75 API); replace manual `vercel-rum-*` paste; snapshot hardening; `VERCEL_TOKEN` if using REST/CLI | Agent + user | 2–3 hr · see `FOUNDATION_AUDIT_PROGRAM.md` |
+| 20 | **FOUNDATION-SHORE** | Close remaining foundation gaps — multi-URL PSI, Lighthouse CI (F7), Sanity CDN, Sentry, gitleaks v3, W3C validator | Agent | See `FOUNDATION_AUDIT_PROGRAM.md` matrix |
 
-**Deferred — not blocking P1:** #18 KPI-DASH-AUTO, #19 FOUNDATION-SHORE remainder. Observability Plus + Speed Insights on `website-dfw-ii-b4zk` confirmed; manual RUM paste OK until #18 ships.
+**Deferred — not blocking P1:** #19 KPI-DASH-AUTO, #20 FOUNDATION-SHORE remainder. Observability Plus + Speed Insights on `website-dfw-ii-b4zk` confirmed; manual RUM paste OK until #19 ships.
 
-### REVIEWS-CURATE — per-page display (Jul 15, 2026)
+### REVIEWS-CURATE — per-page display (next; Aug 21, 2026)
 
 | Field | Value |
 |---|---|
-| **Inventory** | `memory/audits/2026-07-15_Review_Display_Inventory.xlsx` |
-| **Sheet 1** | Baseline of what each URL currently shows (home 12, about 3, 7 services × 2) |
+| **Status** | **Ready** — GBP-REVIEWS-SYNC complete (164 text reviews in Sanity; count 191; ISR revalidate + fallback shipped) |
+| **Inventory** | `memory/audits/2026-07-15_Review_Display_Inventory.xlsx` (commit spreadsheet if still untracked) |
+| **Sheet 1** | Baseline of what each URL currently shows (home 12, about 3, 7 services × 2) — refresh against live pool |
 | **Sheet 2** | 28 city pages enabled for `localTestimonial` but empty — populate selectively |
-| **Goal** | Intentional curation: featured reviews chosen per page (service-relevant, city-local, trust-dense), not only chronological first-N from Sanity |
-| **Depends on** | GBP text sync is live (Actions #96 upserted 164); fresher pool available for curation |
-| **Done when** | Owner-approved assignment list applied in Sanity (and code only if needed for per-page picks); inventory re-exported or Sheet 1 updated |
+| **SEO/AEO approach** | Keep AggregateRating (5.0 · 191) sitewide; keep `/reviews` paginated (~10–20 first). Win comes from **2–4 intent-matched quotes per high-value URL**, not from rendering all 164 texts |
+| **Suggested order** | (1) Home + about (2) top service pages (3) highest-traffic cities (4) remaining cities |
+| **Done when** | Owner-approved assignment list applied in Sanity (and code only if needed for per-page picks); inventory Sheet 1 updated |
 
+### GBP-REVIEWS-SYNC — shipped (Aug 21, 2026)
+
+Nightly Places count + GBP review-text → Sanity; Actions #96 validated (`textUpsert=164`). Wrap-up: `revalidatePath` + `REVIEW_COUNT_FALLBACK=191`. Details → `CHANGELOG.md`.
 ## P1 — Foundation (open)
 
 | ID | Item | Owner | Notes |
@@ -145,7 +151,7 @@ Pick from the top. When an item ships, remove it here and add a dated entry to `
 | C3 | Real estimator pricing | User → agent | User sheet |
 | C5 | A/B testing framework | Agent | Optional |
 | P1.9d | City-filtered reviews page | Agent | — |
-| **REVIEWS-CURATE** | Per-page review curation from `2026-07-15_Review_Display_Inventory.xlsx` (queue #21) | User → agent | Soft-depends on sync for fresher pool |
+| **REVIEWS-CURATE** | Per-page review curation from inventory + live Sanity pool (active queue **#5**) | User → agent | Ready — sync shipped |
 | **P3-BASELINE** | **Pre-ad conversion baseline** — complete `POST_DEPLOY_ACTION_ITEMS_PR2.md`; record 7d/30d/60d: sessions, `form_submit_lead`, `phone_click`, `thanks_page_view`, `estimator_opt_in`, overall CR; compare monthly to KPI dashboard | User + agent | Blocks honest P3→P4 advance |
 | **GA4-G4** | Mark `phone_click` as key event in GA4 Admin | User | Part of P3-BASELINE |
 | **GA4-G5** | Mark `thanks_page_view` as key event | User | Part of P3-BASELINE |
