@@ -89,7 +89,7 @@ Status key: **Done** · **In progress** · **Queued (agent)** · **User** · **D
 |---|---|---|---|
 | yarn audit gate (high+critical) | CI + KPI mirror | **Done** May 26 | `security.yml`, `dependency-vulns-prod` |
 | Verify post–Sanity 5 advisory count | 0 high, 0 critical | **Done** May 26 | `resolutions` (lodash) + lockfile (picomatch); push to confirm CI |
-| gitleaks-action v3 (Node 24) | Before Jun 2, 2026 | **Queued** | `RECURRING_MAINTENANCE.md` AH1 |
+| gitleaks-action v3 (Node 24) | Before Jun 2, 2026 | **Done Aug 24, 2026** | `security.yml` → `@v3` |
 | SEC-1 remainder (GA4/Clarity/2FA/GSC) | Admin hygiene | **User** | `ROADMAP.md` SEC-1 |
 | SEC-1-B2 edge rate limit | Optional | **Deferred** | App limit exists |
 | SEC-1-B3 `/studio` IP allowlist | Optional | **User** | Vercel custom rule |
@@ -137,7 +137,7 @@ Status key: **Done** · **In progress** · **Queued (agent)** · **User** · **D
 3. **Agent** — KPI-DASH-AUTO (Vercel drain or documented manual refresh SOP + CrUX-first gates).
 4. **Agent** — Sanity CDN + layout fetch dedupe (performance).
 5. **Agent** — Lighthouse CI (F7) + multi-URL PSI.
-6. **Agent** — gitleaks v3 before June 2.
+6. **Agent** — gitleaks v3 — **done Aug 24, 2026**.
 7. **Optional** — Sentry, edge rate limit, studio IP allowlist.
 
 ---
@@ -157,7 +157,7 @@ Status key: **Done** · **In progress** · **Queued (agent)** · **User** · **D
 - [ ] KPI **P1 graduation** includes P1-G10 green without waiver
 - [ ] Vercel RUM KPI rows match dashboard (auto or ≤7d manual SOP)
 - [ ] SEC-1 checklist complete (firewall done; filters + 2FA + GSC)
-- [ ] gitleaks v3 on Node 24
+- [x] gitleaks v3 on Node 24
 - [ ] 0 broken internal links in weekly KPI
 - [ ] No silent gray on GSC/GA4 when secrets configured
 
