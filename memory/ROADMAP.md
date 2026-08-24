@@ -1,6 +1,6 @@
 # DFW HVAC — Roadmap
 
-**Last reviewed:** Aug 21, 2026 (Security Audit dep fix shipped; **REVIEWS-CURATE** next)
+**Last reviewed:** Aug 24, 2026 (F12 Node 24 + gitleaks v3; **REVIEWS-CURATE** next)
 **⚠️ Read `memory/00_START_HERE.md` first for the Agent SOP.**
 
 > **Future work only.** Shipped history → [`CHANGELOG.md`](CHANGELOG.md) (baseline: May 21, 2026). Pre-reset agent logs → [`CHANGELOG-legacy-pre-2026-05-21.md`](CHANGELOG-legacy-pre-2026-05-21.md).
@@ -56,22 +56,21 @@ Pick from the top. When an item ships, remove it here and add a dated entry to `
 | 4 | **S3-AEO** | Run quarterly AEO citation audit (20 queries × 4 engines); log results in `audits/2026-02-28_AEO_Citation_Baseline.md` — **next due May 31, 2026** | User-led | 2–3 hr/qtr |
 | 5 | **REVIEWS-CURATE** | **Curate per-page Google review quotes** (home, about, services, cities) from [`audits/2026-07-15_Review_Display_Inventory.xlsx`](audits/2026-07-15_Review_Display_Inventory.xlsx) + live Sanity pool (~164 with text). Fill Sheet 2 city gaps; pick service-/city-relevant quotes (not only newest). Keep `/reviews` load-more; maximize SEO/AEO via the right quotes on the right URLs. | User → agent | 2–4 hr |
 | 6 | **F3b** | HSTS Preload List submission (`hstspreload.org`) | User | 10 min |
-| 7 | **F12** | GitHub Actions Node 20 → 24 (Dependabot PR or manual bump) | User or agent | 5–10 min |
-| 8 | **P1.6f** | Rich Results validation on 7 high-value URLs | User | 30 min |
-| 9 | **A3** | GSC re-audit — diff vs Apr 27 indexing baseline | User + agent | 40 min |
-| 10 | **P1.10** | Progressive form redesign (2-field → expand) | Agent | 4–6 hr — **hold until Clarity baseline ~Jun 3, 2026** (14d after May 13 CSP fix) |
-| 11 | **P1.9b** | Review badge in every page hero (currently partial) | Agent | 2 hr |
-| 12 | **P1.9c** | Inline review carousel near every form (currently partial) | Agent | 2 hr |
-| 13 | **C4** | Form abandonment tracking — GA4 on field blur | Agent | 1 hr |
-| 14 | **P2.19-scope** | CallRail vs Twilio DNI **decision** (not build) — **required before P5-LAUNCH-GATE** | User | 30 min |
-| 15 | **C3** | Estimator pricing matrix — real DFW numbers | User → agent | 1 hr — **blocked on user sheet** |
-| 16 | **P2.23** | `@sanity/image-url` → `createImageUrlBuilder` named export | Agent | 10 min |
-| 17 | **P2.20** | LCP push — form defer on `/` + `/contact` + CSP GA collect shipped Jul 9; **field desktop RES still needs 7–14d validate**; lab mobile target &lt;1.25s not met (~2.7s May 2026) | Agent | Watch Speed Insights desktop `/` + `/contact` |
-| 18 | **F13** | Architecture foundation re-audit (quarterly) | Agent | 3.5 hr — due **Aug 4, 2026** |
-| 19 | **KPI-DASH-AUTO** | KPI dashboard automation — Speed Insights **Drain** or CLI pull (no public p75 API); replace manual `vercel-rum-*` paste; snapshot hardening; `VERCEL_TOKEN` if using REST/CLI | Agent + user | 2–3 hr · see `FOUNDATION_AUDIT_PROGRAM.md` |
-| 20 | **FOUNDATION-SHORE** | Close remaining foundation gaps — multi-URL PSI, Lighthouse CI (F7), Sanity CDN, Sentry, gitleaks v3, W3C validator | Agent | See `FOUNDATION_AUDIT_PROGRAM.md` matrix |
+| 7 | **P1.6f** | Rich Results validation on 7 high-value URLs | User | 30 min |
+| 8 | **A3** | GSC re-audit — diff vs Apr 27 indexing baseline | User + agent | 40 min |
+| 9 | **P1.10** | Progressive form redesign (2-field → expand) | Agent | 4–6 hr — **hold until Clarity baseline ~Jun 3, 2026** (14d after May 13 CSP fix) |
+| 10 | **P1.9b** | Review badge in every page hero (currently partial) | Agent | 2 hr |
+| 11 | **P1.9c** | Inline review carousel near every form (currently partial) | Agent | 2 hr |
+| 12 | **C4** | Form abandonment tracking — GA4 on field blur | Agent | 1 hr |
+| 13 | **P2.19-scope** | CallRail vs Twilio DNI **decision** (not build) — **required before P5-LAUNCH-GATE** | User | 30 min |
+| 14 | **C3** | Estimator pricing matrix — real DFW numbers | User → agent | 1 hr — **blocked on user sheet** |
+| 15 | **P2.23** | `@sanity/image-url` → `createImageUrlBuilder` named export | Agent | 10 min |
+| 16 | **P2.20** | LCP push — form defer on `/` + `/contact` + CSP GA collect shipped Jul 9; **field desktop RES still needs 7–14d validate**; lab mobile target &lt;1.25s not met (~2.7s May 2026) | Agent | Watch Speed Insights desktop `/` + `/contact` |
+| 17 | **F13** | Architecture foundation re-audit (quarterly) | Agent | 3.5 hr — due **Aug 4, 2026** |
+| 18 | **KPI-DASH-AUTO** | KPI dashboard automation — Speed Insights **Drain** or CLI pull (no public p75 API); replace manual `vercel-rum-*` paste; snapshot hardening; `VERCEL_TOKEN` if using REST/CLI | Agent + user | 2–3 hr · see `FOUNDATION_AUDIT_PROGRAM.md` |
+| 19 | **FOUNDATION-SHORE** | Close remaining foundation gaps — multi-URL PSI, Lighthouse CI (F7), Sanity CDN, Sentry, W3C validator | Agent | See `FOUNDATION_AUDIT_PROGRAM.md` matrix |
 
-**Deferred — not blocking P1:** #19 KPI-DASH-AUTO, #20 FOUNDATION-SHORE remainder. Observability Plus + Speed Insights on `website-dfw-ii-b4zk` confirmed; manual RUM paste OK until #19 ships.
+**Deferred — not blocking P1:** #18 KPI-DASH-AUTO, #19 FOUNDATION-SHORE remainder. Observability Plus + Speed Insights on `website-dfw-ii-b4zk` confirmed; manual RUM paste OK until #18 ships.
 
 ### REVIEWS-CURATE — per-page display (next; Aug 21, 2026)
 
@@ -101,7 +100,6 @@ Nightly Places count + GBP review-text → Sanity; Actions #96 validated (`textU
 | SEC-1-C | Post-deploy: GSC re-request indexing; KPI crawl-to-index check | User + agent | |
 | GCP-CLEANUP | Revoke abandoned GA4 service-account keys + org policy revert | User | `GCP_PRIVILEGE_CLEANUP.md` — ~5–8 min |
 | F3b | HSTS preload submission | User | Eligibility verified |
-| F12 | Node 24 in GitHub Actions | User/agent | Soft deadline Jun 2026 |
 | P2.4c | Lighthouse all-green on `/cities-served/plano` + `/request-service` | Agent | |
 | P2.7 | Unused dep audit (`depcheck`, dead `mockData.js`) | Agent | |
 | P2.15 | Component decomposition (templates &gt;300 lines) | Agent | |

@@ -1,9 +1,21 @@
 # DFW HVAC — Changelog
 
-**Last reviewed:** Aug 21, 2026
+**Last reviewed:** Aug 24, 2026
 **⚠️ Read `memory/00_START_HERE.md` first for the Agent SOP.**
 
 > **Shipped history before May 21, 2026** lives in [`CHANGELOG-legacy-pre-2026-05-21.md`](CHANGELOG-legacy-pre-2026-05-21.md) (1,737 lines, Feb–May 2026 agent logs). That file is archival context only — do not treat it as the live product state.
+
+---
+
+## Aug 24, 2026 — CI: Node 24 + gitleaks-action v3 (F12 + AH1)
+
+**What changed:** Bumped `actions/setup-node` from Node 20 → **24** in KPI Audit, Security Audit (yarn job), and Lighthouse CI so installs match current dependency engines (fixes Monday KPI failure on `@sanity/visual-editing` requiring ≥22.12). Bumped `gitleaks/gitleaks-action` **v2 → v3** (Node 24 action runtime; no scan behavior change) to clear the deprecation warning and beat the Sep 16, 2026 Node-20 runner removal.
+
+**Files:** `.github/workflows/kpi-audit.yml`, `.github/workflows/security.yml`, `.github/workflows/lighthouse-ci.yml`, `memory/CHANGELOG.md`, `memory/ROADMAP.md`, `memory/RECURRING_MAINTENANCE.md`, `memory/FOUNDATION_AUDIT_PROGRAM.md`
+
+**Verification:** Grep confirms `node-version: "24"` and `gitleaks-action@v3`; F12 / AH1 removed from open queues.
+
+**Caveats:** Confirm green Security Audit + re-run KPI Audit (workflow_dispatch) after merge to refresh this week’s snapshot.
 
 ---
 
