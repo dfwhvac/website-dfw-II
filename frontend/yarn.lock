@@ -2796,6 +2796,14 @@
     "@portabletext/toolkit" "^5.0.2"
     "@portabletext/types" "^4.0.2"
 
+"@portabletext/react@^8.0.1":
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/@portabletext/react/-/react-8.0.1.tgz#2f1ff540760405b707a46000352ebafe9c288790"
+  integrity sha512-Fy9UxVhppgEckEvczZytg4bBxiPcZIM49NrJ3sizEoz19aNzJWEYoUj7f3TI94907psEk0yfR145eoOgkedM2A==
+  dependencies:
+    "@portabletext/toolkit" "^6.0.0"
+    "@portabletext/types" "^4.0.2"
+
 "@portabletext/sanity-bridge@^3.1.1":
   version "3.2.5"
   resolved "https://registry.yarnpkg.com/@portabletext/sanity-bridge/-/sanity-bridge-3.2.5.tgz#c3db8e9b196e8e43e0c0b763521034600e43f3b1"
@@ -2832,6 +2840,13 @@
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/@portabletext/toolkit/-/toolkit-5.0.2.tgz#e2c124623d68ce6ea551160960c7a1b98b7cafdb"
   integrity sha512-Njc1LE1PMJkTx/wEPqZ6sOWGgFgX2B47fxpOQ/Ia4ByhsZoA5Sq8dNvvV5F052j/xE8TbOLiBEjS848FkKADDQ==
+  dependencies:
+    "@portabletext/types" "^4.0.2"
+
+"@portabletext/toolkit@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@portabletext/toolkit/-/toolkit-6.0.0.tgz#1609172bc4a2d977973f0e153f9963cdb544d987"
+  integrity sha512-+qSqe0KnefuZfNLUhzQRTpbSKxslZof+3pNwxg0DC8dfZ1yLKyyBUw6iR7EpDL+SJlrnpiBfEcfmEuFitK1NSQ==
   dependencies:
     "@portabletext/types" "^4.0.2"
 
