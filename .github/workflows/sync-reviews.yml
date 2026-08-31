@@ -2,7 +2,8 @@ name: Sync Reviews (Google → Sanity)
 
 # Pings the production /api/cron/sync-reviews endpoint daily to refresh the
 # Google review count, sync review *text* into Sanity testimonials (GBP OAuth),
-# dispatch drift alerts, and keep Sanity in sync.
+# upsert the append-only Google Review Archive, email on count drops /
+# missing review IDs, dispatch fallback drift alerts, and keep Sanity in sync.
 #
 # WHY GH ACTIONS (not Vercel scheduled functions):
 #   Vercel Hobby silently throttles scheduled functions — observed cadence
@@ -67,4 +68,6 @@ jobs:
           REVIEWS=$(python3 -c "import json;d=json.load(open('/tmp/sync-resp.json'));print(d.get('reviewCount','?'))" 2>/dev/null || echo "?")
           DRIFT=$(python3 -c "import json;d=json.load(open('/tmp/sync-resp.json'));print(d.get('driftAlert',{}).get('drift','within-threshold'))" 2>/dev/null || echo "?")
           TEXT=$(python3 -c "import json;d=json.load(open('/tmp/sync-resp.json'));t=d.get('reviewTextSync') or {};print(t.get('upserted', t.get('skipped', t.get('error','?'))))" 2>/dev/null || echo "?")
-          echo "::notice::Reviews synced · live=${REVIEWS} · drift=${DRIFT} · textUpsert=${TEXT}"
+          MISSING=$(python3 -c "import json;d=json.load(open('/tmp/sync-resp.json'));print((d.get('reviewLedger') or {}).get('newlyMissingCount', (d.get('reviewLedger') or {}).get('skipped','?')))" 2>/dev/null || echo "?")
+          DROP=$(python3 -c "import json;d=json.load(open('/tmp/sync-resp.json'));a=d.get('disappearanceAlert') or {};print(a.get('sent', a.get('skipped','?')))" 2>/dev/null || echo "?")
+          echo "::notice::Reviews synced · live=${REVIEWS} · drift=${DRIFT} · textUpsert=${TEXT} · newlyMissing=${MISSING} · dropAlert=${DROP}"

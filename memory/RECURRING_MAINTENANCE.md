@@ -3,7 +3,7 @@
 **Purpose:** Single source of truth for every recurring operational task that keeps DFW HVAC healthy, indexed, secure, and converting. Review on the cadence below. Append new items as features ship.
 
 **Owner:** User (strategic) + Agent (execution support)
-**Last updated:** May 26, 2026
+**Last updated:** Aug 28, 2026
 
 > How to use: Scan by cadence when you sit down for ops. Check the "Last Done" column before running. Append notes to the run log at the bottom if anything unusual surfaces.
 
@@ -13,7 +13,7 @@
 
 | # | Task | How | Last Done |
 |---|---|---|---|
-| D1 | `/api/cron/sync-reviews` — Google Places API → Sanity → all on-site surfaces | GitHub Actions `.github/workflows/sync-reviews.yml` @ 9 AM CT (`cron: 0 14 * * *`) | Auto |
+| D1 | `/api/cron/sync-reviews` — Places count + GBP text → site testimonials; **append-only Google Review Archive** + email if the public count drops or named reviews disappear | GitHub Actions `.github/workflows/sync-reviews.yml` @ 9 AM CT (`cron: 0 14 * * *`) | Auto |
 
 ---
 

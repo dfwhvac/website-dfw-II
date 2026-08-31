@@ -1,6 +1,6 @@
 # DFW HVAC — Roadmap
 
-**Last reviewed:** Aug 24, 2026 (F12 Node 24 + gitleaks v3; **REVIEWS-CURATE** next)
+**Last reviewed:** Aug 31, 2026 (Google Review Archive + disappearance alerts; **REVIEWS-CURATE** next)
 **⚠️ Read `memory/00_START_HERE.md` first for the Agent SOP.**
 
 > **Future work only.** Shipped history → [`CHANGELOG.md`](CHANGELOG.md) (baseline: May 21, 2026). Pre-reset agent logs → [`CHANGELOG-legacy-pre-2026-05-21.md`](CHANGELOG-legacy-pre-2026-05-21.md).

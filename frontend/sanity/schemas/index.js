@@ -12,11 +12,15 @@ import cityPage from './cityPage'
 import aboutPage from './aboutPage'
 import contactPage from './contactPage'
 import trustSignals from './trustSignals'
+import googleReviewLedger from './googleReviewLedger'
+import googleReviewSyncLog from './googleReviewSyncLog'
 
 export const schemaTypes = [
   companyInfo,
   service,
   testimonial,
+  googleReviewLedger,
+  googleReviewSyncLog,
   companyPage,
   brandColors,
   siteSettings,

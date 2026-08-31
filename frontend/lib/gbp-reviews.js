@@ -117,6 +117,23 @@ export function googleReviewDocId(reviewId) {
   return `google-review-${safe}`
 }
 
+/** Stable Google review id from a GBP reviews.list object. */
+export function extractGbpReviewId(review) {
+  if (!review) return null
+  if (review.reviewId) return String(review.reviewId)
+  if (typeof review.name === 'string' && review.name.includes('/')) {
+    const last = review.name.split('/').pop()
+    return last || null
+  }
+  return null
+}
+
+export function gbpReviewerDisplayName(review) {
+  const name = review?.reviewer?.displayName
+  if (name && String(name).trim()) return String(name).trim().slice(0, 200)
+  return 'Google Customer'
+}
+
 /**
  * Map a GBP review to a Sanity testimonial document (createOrReplace payload).
  * Returns null if there is no usable review text.
@@ -125,20 +142,13 @@ export function mapGbpReviewToTestimonial(review) {
   const text = (review.comment || '').trim()
   if (!text) return null
 
-  const reviewId =
-    review.reviewId ||
-    (typeof review.name === 'string' ? review.name.split('/').pop() : null)
+  const reviewId = extractGbpReviewId(review)
   if (!reviewId) return null
-
-  const name =
-    review.reviewer?.displayName ||
-    review.reviewer?.profilePhotoUrl ||
-    'Google Customer'
 
   return {
     _id: googleReviewDocId(reviewId),
     _type: 'testimonial',
-    name: String(name).slice(0, 200),
+    name: gbpReviewerDisplayName(review),
     rating: starRatingToNumber(review.starRating),
     text,
     date: formatReviewDate(review.createTime || review.updateTime),
