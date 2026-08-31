@@ -7,6 +7,18 @@
 
 ---
 
+## Aug 31, 2026 — CI-LH-SKIP: drop dummy Dependabot Lighthouse job
+
+**What changed:** Removed the `Lighthouse skipped (Dependabot PR)` companion job from Lighthouse CI. It existed so Dependabot PRs had an explicit skip notice, but GitHub still lists a skipped job when `if:` is false — so **every human PR** showed “1 skipped” even when real Lighthouse had passed. Dependabot PRs still skip `lighthouse-mobile` (no `PAGESPEED_API_KEY` on those runs); merge those on Security Audit as before.
+
+**Files:** `.github/workflows/lighthouse-ci.yml`, `memory/CHANGELOG.md`, `memory/ROADMAP.md`
+
+**Verification:** Grep shows `lighthouse-dependabot-skip` gone; `lighthouse-mobile` still excludes `dependabot[bot]`. YAML still has one job.
+
+**Caveats:** Dependabot PRs will show `Lighthouse mobile (3 URLs)` as skipped (one skip, only on bot PRs). Human PRs should show no Lighthouse skip.
+
+---
+
 ## Aug 31, 2026 — Google Review Archive + disappearance alerts
 
 **What changed:** Nightly review sync now keeps an append-only Sanity archive of every Google review it has ever seen (including star-only). Rows are never deleted when Google stops showing a review. If the public Places count drops or named review IDs leave the live GBP list, the owner gets a Resend email with reviewer name, stars, date, full text, Google review ID, and a copy-paste packet for Google Business Profile support (`Missing reviews`). Studio has a **Google Review Archive** desk (missing / all / nightly logs). Website testimonials are unchanged (still display-only).

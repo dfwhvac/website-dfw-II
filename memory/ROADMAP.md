@@ -1,6 +1,6 @@
 # DFW HVAC — Roadmap
 
-**Last reviewed:** Aug 31, 2026 (CI-LH-SKIP queued; merge #155 then seed archive)
+**Last reviewed:** Aug 31, 2026 (**REVIEWS-CURATE** next)
 **⚠️ Read `memory/00_START_HERE.md` first for the Agent SOP.**
 
 > **Future work only.** Shipped history → [`CHANGELOG.md`](CHANGELOG.md) (baseline: May 21, 2026). Pre-reset agent logs → [`CHANGELOG-legacy-pre-2026-05-21.md`](CHANGELOG-legacy-pre-2026-05-21.md).
@@ -48,11 +48,8 @@ Pick from the top. When an item ships, remove it here and add a dated entry to `
 
 **Next review action (unblocked Aug 21):** **REVIEWS-CURATE** (#5) — GBP text sync + count/fallback/ISR wrap-up are shipped; curate which quotes appear on each page for SEO/AEO (prefer relevance over dumping all 164 on `/reviews`).
 
-**Next after landing PRs #155 / #153 / #154:** **CI-LH-SKIP** — GitHub PRs always show one Lighthouse check as skipped. On human PRs it is `Lighthouse skipped (Dependabot PR)`; on Dependabot PRs it is the real Lighthouse job. Both jobs exist on purpose (`lighthouse-ci.yml`) because Dependabot cannot use `PAGESPEED_API_KEY`. Decide whether to hide the unused job so “1 skipped” stops looking like a failed check.
-
 | # | ID | Item | Owner | Effort |
 |---|---|---|---|---|
-| 0 | **CI-LH-SKIP** | Stop PRs from always showing a skipped Lighthouse check: keep Dependabot skip behavior, but don’t list the unused job on the other PR type. See `lighthouse-ci.yml` jobs `lighthouse-mobile` vs `lighthouse-dependabot-skip`. | Agent | 20 min |
 | 1 | **SEC-1** | Security & data-hygiene — **SEC-1-A done** (geo-block + custom rules removed); remaining: GA4/Clarity non-US filters; Sanity 2FA; SEC-1-C GSC spot-check ~May 29; optional B2/B3 | User + agent | ~20 min user + doc pass |
 | 2 | **P3-BASELINE** | Conversion measurement program — finish GA4 key events (G4 `phone_click`, G5 `thanks_page_view`, G6 `estimator_opt_in`); snapshot 7d/30d/60d rates; monthly CR review vs KPI dashboard | User + agent | 1 hr setup + 30 min/mo |
 | 3 | **P1.8** | Google Business Profile audit + optimization (verified; needs ongoing Posts/Q&A/photos) | User-led | 20 min + 4 hr initial |
