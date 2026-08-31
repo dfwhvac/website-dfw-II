@@ -8,6 +8,15 @@ import {
   isGbpReviewSyncConfigured,
   upsertGbpReviewsToSanity,
 } from '@/lib/gbp-reviews'
+import {
+  buildDisappearanceAlertHtml,
+  buildGoogleSupportPacket,
+  disappearanceAlertSubject,
+  fetchPreviousPlacesCount,
+  markDisappearanceAlertSent,
+  shouldSendDisappearanceAlert,
+  syncGoogleReviewLedger,
+} from '@/lib/google-review-ledger'
 
 // Allow full GBP pagination + Sanity upserts on scheduled runs (Pro/Fluid).
 export const maxDuration = 300
@@ -35,7 +44,9 @@ const RESEND_API_KEY = process.env.RESEND_API_KEY
 const DRIFT_ALERT_TO = process.env.DRIFT_ALERT_TO || process.env.NOTIFICATION_EMAIL || 'support@dfwhvac.com'
 const DRIFT_ALERT_FROM = process.env.DRIFT_ALERT_FROM || process.env.NOTIFICATION_FROM || 'notifications@dfwhvac.com'
 const DRIFT_ALERT_ENABLED = process.env.DRIFT_ALERT_ENABLED !== 'false'
+const DISAPPEARANCE_ALERT_ENABLED = process.env.DISAPPEARANCE_ALERT_ENABLED !== 'false'
 const IS_PRODUCTION_DEPLOY = process.env.VERCEL_ENV === 'production'
+const GBP_LOCATION_ID = process.env.GBP_LOCATION_ID || ''
 
 /**
  * If the live Google review count has drifted >REVIEW_DRIFT_ALERT_THRESHOLD
@@ -95,21 +106,78 @@ async function maybeSendDriftAlert(liveCount) {
 }
 
 /**
- * Phase C — pull GBP reviews with text into Sanity testimonials.
- * Soft-fails: count/rating sync still succeeds if this throws (caller catches).
+ * Email the owner when the public Google count drops or named reviews leave
+ * the live GBP list. Includes a copy-paste packet for Google support.
+ * Never blocks cron success.
  */
-async function syncReviewTextFromGbp() {
-  if (!isGbpReviewSyncConfigured()) {
-    return { skipped: 'gbp-env-not-configured' }
+async function maybeSendDisappearanceAlert(ledger) {
+  if (!DISAPPEARANCE_ALERT_ENABLED) return { skipped: 'disabled' }
+  if (!IS_PRODUCTION_DEPLOY) return { skipped: 'non-production' }
+  if (!RESEND_API_KEY || !DRIFT_ALERT_TO) return { skipped: 'missing-credentials' }
+
+  const newlyMissing = ledger?.newlyMissing || []
+  if (
+    !shouldSendDisappearanceAlert({
+      previousPlacesCount: ledger.previousPlacesCount,
+      livePlacesCount: ledger.livePlacesCount,
+      newlyMissingCount: newlyMissing.length,
+    })
+  ) {
+    return { skipped: 'no-drop' }
   }
 
-  const accessToken = await getGbpAccessToken()
-  const { reviews } = await fetchAllGbpReviews(accessToken)
-  const upsert = await upsertGbpReviewsToSanity(reviews)
+  const packet = buildGoogleSupportPacket({
+    previousPlacesCount: ledger.previousPlacesCount,
+    livePlacesCount: ledger.livePlacesCount,
+    snapshotAt: new Date().toISOString(),
+    newlyMissing,
+    gbpListCount: ledger.gbpListCount,
+    placeId: GOOGLE_PLACE_ID,
+    gbpLocationId: GBP_LOCATION_ID,
+  })
 
-  return {
-    fetched: reviews.length,
-    ...upsert,
+  try {
+    const resend = new Resend(RESEND_API_KEY)
+    const { data, error } = await resend.emails.send({
+      from: DRIFT_ALERT_FROM,
+      to: DRIFT_ALERT_TO,
+      subject: disappearanceAlertSubject({
+        previousPlacesCount: ledger.previousPlacesCount,
+        livePlacesCount: ledger.livePlacesCount,
+        newlyMissingCount: newlyMissing.length,
+      }),
+      html: buildDisappearanceAlertHtml({
+        previousPlacesCount: ledger.previousPlacesCount,
+        livePlacesCount: ledger.livePlacesCount,
+        newlyMissing,
+        restored: ledger.restored || [],
+        gbpListCount: ledger.gbpListCount,
+        unnamedDropEstimate: ledger.unnamedDropEstimate,
+        packet,
+      }),
+    })
+
+    if (error) {
+      console.error('[disappearance-alert] Resend error:', error)
+      return { sent: false, error: error.message || String(error) }
+    }
+
+    try {
+      await markDisappearanceAlertSent(ledger.syncLogId)
+    } catch (err) {
+      console.error('[disappearance-alert] failed to mark sync log:', err)
+    }
+
+    return {
+      sent: true,
+      id: data?.id,
+      newlyMissingCount: newlyMissing.length,
+      previousPlacesCount: ledger.previousPlacesCount,
+      livePlacesCount: ledger.livePlacesCount,
+    }
+  } catch (err) {
+    console.error('[disappearance-alert] Unexpected error:', err)
+    return { sent: false, error: err.message || String(err) }
   }
 }
 
@@ -132,6 +200,13 @@ export async function GET(request) {
     }
 
     const { rating, user_ratings_total } = googleData.result
+
+    let previousPlacesCount = null
+    try {
+      previousPlacesCount = await fetchPreviousPlacesCount()
+    } catch (err) {
+      console.error('[review-ledger] previous count lookup failed:', err)
+    }
 
     // Update Sanity companyInfo rating/count
     const sanityResponse = await fetch(
@@ -160,17 +235,51 @@ export async function GET(request) {
 
     const sanityResult = await sanityResponse.json()
 
-    // Phase C — full review text → Sanity testimonials (does not fail the cron)
+    // Phase C — GBP reviews → website testimonials + append-only archive.
+    // Does not fail the cron if either step throws.
     let reviewTextSync = { skipped: 'not-run' }
+    let reviewLedger = { skipped: 'not-run' }
     try {
-      reviewTextSync = await syncReviewTextFromGbp()
+      if (!isGbpReviewSyncConfigured()) {
+        reviewTextSync = { skipped: 'gbp-env-not-configured' }
+        reviewLedger = { skipped: 'gbp-env-not-configured' }
+      } else {
+        const accessToken = await getGbpAccessToken()
+        const { reviews } = await fetchAllGbpReviews(accessToken)
+        const upsert = await upsertGbpReviewsToSanity(reviews)
+        reviewTextSync = { fetched: reviews.length, ...upsert }
+        reviewLedger = await syncGoogleReviewLedger({
+          reviews,
+          previousPlacesCount,
+          livePlacesCount: user_ratings_total,
+        })
+      }
     } catch (err) {
-      console.error('[gbp-reviews] text sync failed:', err)
-      reviewTextSync = {
-        success: false,
-        error: err.message || String(err),
+      console.error('[gbp-reviews] text/ledger sync failed:', err)
+      if (reviewTextSync.skipped === 'not-run') {
+        reviewTextSync = {
+          success: false,
+          error: err.message || String(err),
+        }
+      }
+      if (reviewLedger.skipped === 'not-run') {
+        reviewLedger = {
+          success: false,
+          error: err.message || String(err),
+          previousPlacesCount,
+          livePlacesCount: user_ratings_total,
+          newlyMissing: [],
+        }
       }
     }
+
+    // Count-drop / missing-review alert — never blocks cron success.
+    const disappearanceAlert = await maybeSendDisappearanceAlert({
+      ...reviewLedger,
+      previousPlacesCount: reviewLedger.previousPlacesCount ?? previousPlacesCount,
+      livePlacesCount: reviewLedger.livePlacesCount ?? user_ratings_total,
+      newlyMissing: reviewLedger.newlyMissing || [],
+    })
 
     // Drift alert (Feb 28, 2026) — never blocks cron success.
     const driftAlert = await maybeSendDriftAlert(user_ratings_total)
@@ -193,6 +302,25 @@ export async function GET(request) {
       reviewCount: user_ratings_total,
       sanityUpdated: sanityResult,
       reviewTextSync,
+      reviewLedger:
+        reviewLedger.success === false || reviewLedger.skipped
+          ? {
+              skipped: reviewLedger.skipped,
+              success: reviewLedger.success,
+              error: reviewLedger.error,
+            }
+          : {
+              gbpListCount: reviewLedger.gbpListCount,
+              liveLedgerCount: reviewLedger.liveLedgerCount,
+              missingLedgerCount: reviewLedger.missingLedgerCount,
+              newlyMissingCount: reviewLedger.newlyMissingCount,
+              restoredCount: reviewLedger.restoredCount,
+              seededFromTestimonials: reviewLedger.seededFromTestimonials,
+              placesDelta: reviewLedger.placesDelta,
+              unnamedDropEstimate: reviewLedger.unnamedDropEstimate,
+              alertWouldSend: reviewLedger.alertWouldSend,
+            },
+      disappearanceAlert,
       revalidated,
       driftAlert,
       timestamp: new Date().toISOString(),
