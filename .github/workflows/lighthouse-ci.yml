@@ -5,9 +5,10 @@ name: Lighthouse CI
 #
 # Dependabot PRs: GitHub does NOT pass Actions secrets (incl. PAGESPEED_API_KEY) on
 # pull_request workflows triggered by dependabot[bot]. Unkeyed PSI calls fail fast
-# and this script used to report that as "perf score 0". Job is skipped for Dependabot;
-# merge on Security Audit + manual spot-check, or add the same key under Settings →
-# Secrets → Dependabot secrets if you need PSI on Dependabot PRs.
+# and this script used to report that as "perf score 0". lighthouse-mobile is skipped
+# for Dependabot (merge on Security Audit, or add the key under Settings → Secrets →
+# Dependabot secrets). Do not add a companion "skipped" job — GitHub lists skipped
+# jobs on every PR, so human PRs would always show "1 skipped".
 
 on:
   pull_request:
@@ -82,13 +83,3 @@ jobs:
             echo "::error::Lab performance score ${WORST_PERF} below 75 on at least one URL"
             exit 1
           fi
-
-  lighthouse-dependabot-skip:
-    name: Lighthouse skipped (Dependabot PR)
-    runs-on: ubuntu-latest
-    if: >-
-      github.event_name == 'pull_request' && github.event.pull_request.user.login == 'dependabot[bot]'
-    steps:
-      - name: Explain skip
-        run: |
-          echo "::notice::Skipping Lighthouse CI — Dependabot pull_request workflows cannot use GitHub Actions secrets (PAGESPEED_API_KEY). Your key and GCP quota are fine; merge using Security Audit or run Lighthouse CI manually on main after merge."
