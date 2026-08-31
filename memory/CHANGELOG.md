@@ -1,9 +1,31 @@
 # DFW HVAC — Changelog
 
-**Last reviewed:** Aug 24, 2026
+**Last reviewed:** Aug 31, 2026
 **⚠️ Read `memory/00_START_HERE.md` first for the Agent SOP.**
 
 > **Shipped history before May 21, 2026** lives in [`CHANGELOG-legacy-pre-2026-05-21.md`](CHANGELOG-legacy-pre-2026-05-21.md) (1,737 lines, Feb–May 2026 agent logs). That file is archival context only — do not treat it as the live product state.
+
+---
+
+## Aug 31, 2026 — Google Review Archive + disappearance alerts
+
+**What changed:** Nightly review sync now keeps an append-only Sanity archive of every Google review it has ever seen (including star-only). Rows are never deleted when Google stops showing a review. If the public Places count drops or named review IDs leave the live GBP list, the owner gets a Resend email with reviewer name, stars, date, full text, Google review ID, and a copy-paste packet for Google Business Profile support (`Missing reviews`). Studio has a **Google Review Archive** desk (missing / all / nightly logs). Website testimonials are unchanged (still display-only).
+
+**Files:**
+- `frontend/lib/google-review-ledger.js` (new)
+- `frontend/lib/gbp-reviews.js`
+- `frontend/app/api/cron/sync-reviews/route.js`
+- `frontend/sanity/schemas/googleReviewLedger.js` (new)
+- `frontend/sanity/schemas/googleReviewSyncLog.js` (new)
+- `frontend/sanity/schemas/index.js`
+- `frontend/sanity.config.js`
+- `.github/workflows/sync-reviews.yml`
+- `frontend/.env.example`
+- `memory/CHANGELOG.md`, `memory/ROADMAP.md`, `memory/RECURRING_MAINTENANCE.md`
+
+**Verification:** Node smoke tests on ledger diff / alert-gate / GBP mapping (exit 0). Grep confirms `syncGoogleReviewLedger`, `googleReviewLedger` schema, and Studio archive desk. `next build --webpack` compiled successfully (sync-reviews remains a dynamic route).
+
+**Caveats:** `PARTIAL` until production deploy + one sync (Actions → Sync Reviews → Run workflow). First run seeds the archive from live GBP + existing website testimonials; star-only reviews that already vanished before that seed cannot be named. Mute with `DISAPPEARANCE_ALERT_ENABLED=false`. Emails send in production only (same Resend path as the fallback drift reminder).
 
 ---
 

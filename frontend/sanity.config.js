@@ -1,7 +1,7 @@
 import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
 import { schemaTypes } from './sanity/schemas'
-import { EditIcon } from '@sanity/icons'
+import { EditIcon, StarIcon } from '@sanity/icons'
 
 // Custom desk structure with Drafts view
 const deskStructure = (S) =>
@@ -64,7 +64,40 @@ const deskStructure = (S) =>
             .schemaType('reviewsPage')
             .documentId('reviewsPage')
         ),
-      
+      S.listItem()
+        .title('Google Review Archive')
+        .icon(StarIcon)
+        .child(
+          S.list()
+            .title('Google Review Archive')
+            .items([
+              S.listItem()
+                .title('Missing from Google')
+                .child(
+                  S.documentList()
+                    .title('Missing from Google')
+                    .filter('_type == "googleReviewLedger" && status == "missing"')
+                    .apiVersion('2024-01-01')
+                ),
+              S.listItem()
+                .title('All archived reviews')
+                .child(
+                  S.documentList()
+                    .title('All archived reviews')
+                    .filter('_type == "googleReviewLedger"')
+                    .apiVersion('2024-01-01')
+                ),
+              S.listItem()
+                .title('Nightly sync logs')
+                .child(
+                  S.documentList()
+                    .title('Nightly sync logs')
+                    .filter('_type == "googleReviewSyncLog"')
+                    .apiVersion('2024-01-01')
+                ),
+            ])
+        ),
+
       S.divider(),
       
       // Collection documents
@@ -77,6 +110,8 @@ const deskStructure = (S) =>
             'brandColors',
             'faqPage',
             'reviewsPage',
+            'googleReviewLedger',
+            'googleReviewSyncLog',
           ].includes(listItem.getId())
       ),
     ])
