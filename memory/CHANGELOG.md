@@ -7,6 +7,18 @@
 
 ---
 
+## Sep 2, 2026 — Security Audit: pin browserslist 4.28.8 (6 high advisories)
+
+**What changed:** Security Audit on `main` failed with **6 high** production advisories — all transitive `browserslist@4.28.2` via Sanity CLI / Babel (GHSA memory-growth + custom-stats crash, patched in ≥4.28.7). Added Yarn resolution `browserslist@4.28.8`.
+
+**Files:** `frontend/package.json`, `frontend/yarn.lock`, `memory/CHANGELOG.md`
+
+**Verification:** `yarn audit --groups dependencies` → `critical=0 high=0`; lockfile resolves `browserslist@4.28.8`.
+
+**Caveats:** Unrelated to PR #158 (memory-only); new advisories landed in the registry after Aug 31 green run.
+
+---
+
 ## Sep 2, 2026 — Archive Emergent service-area analysis in-repo
 
 **What changed:** Gathered the early Coppell drive-time / housing / income coverage work into `memory/assets/service-area-analysis/` (maps, sanitized generator scripts, methodology README). Spreadsheets stay in `frontend/internal/`. OpenRouteService keys were not restored; regenerate only with `ORS_API_KEY` in the environment.
