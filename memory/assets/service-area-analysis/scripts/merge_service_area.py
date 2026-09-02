@@ -4,9 +4,14 @@ Merge Service Area Zones with Housing Demographics
 All zip codes from service area, sorted by zone proximity
 """
 
+from pathlib import Path
+
 import requests
 import pandas as pd
 import time
+
+_REPO_ROOT = Path(__file__).resolve().parents[4]
+_INTERNAL = _REPO_ROOT / "frontend" / "internal"
 
 CENSUS_API_BASE = "https://api.census.gov/data/2022/acs/acs5"
 
@@ -127,7 +132,7 @@ def main():
     
     # Load service area data
     print("Loading service area data...")
-    service_df = pd.read_csv('/app/frontend/public/DFW_HVAC_Service_Area_Zones.csv')
+    service_df = pd.read_csv(_INTERNAL / 'DFW_HVAC_Service_Area_Zones.csv')
     service_df['Zip Code'] = service_df['Zip Code'].astype(str).str.zfill(5)
     print(f"  Found {len(service_df)} zip codes in service area")
     
@@ -180,7 +185,7 @@ def main():
     merged_df = merged_df[column_order]
     
     # Save
-    output_path = '/app/frontend/public/DFW_HVAC_Master_Service_Area.csv'
+    output_path = str(_INTERNAL / 'DFW_HVAC_Master_Service_Area.csv')
     merged_df.to_csv(output_path, index=False)
     print(f"\nSaved to {output_path}")
     
