@@ -5,9 +5,14 @@ Single-Family Detached vs. Other Dwelling Types + Median Household Income
 Data Source: US Census Bureau, American Community Survey (ACS) 5-year estimates
 """
 
+from pathlib import Path
+
 import requests
 import pandas as pd
 import time
+
+_REPO_ROOT = Path(__file__).resolve().parents[4]
+_INTERNAL = _REPO_ROOT / "frontend" / "internal"
 
 # Census API endpoint for ACS 5-year estimates
 CENSUS_API_BASE = "https://api.census.gov/data/2022/acs/acs5"
@@ -126,7 +131,7 @@ def main():
     df = df.sort_values('% Single-Family Detached', ascending=False)
     
     # Save to CSV
-    output_path = '/app/frontend/public/DFW_HVAC_Housing_Types.csv'
+    output_path = str(_INTERNAL / 'DFW_HVAC_Housing_Types.csv')
     df.to_csv(output_path, index=False)
     print(f"\nSaved to {output_path}")
     

@@ -1,9 +1,21 @@
 # DFW HVAC — Changelog
 
-**Last reviewed:** Aug 31, 2026
+**Last reviewed:** Sep 2, 2026
 **⚠️ Read `memory/00_START_HERE.md` first for the Agent SOP.**
 
 > **Shipped history before May 21, 2026** lives in [`CHANGELOG-legacy-pre-2026-05-21.md`](CHANGELOG-legacy-pre-2026-05-21.md) (1,737 lines, Feb–May 2026 agent logs). That file is archival context only — do not treat it as the live product state.
+
+---
+
+## Sep 2, 2026 — Archive Emergent service-area analysis in-repo
+
+**What changed:** Gathered the early Coppell drive-time / housing / income coverage work into `memory/assets/service-area-analysis/` (maps, sanitized generator scripts, methodology README). Spreadsheets stay in `frontend/internal/`. OpenRouteService keys were not restored; regenerate only with `ORS_API_KEY` in the environment.
+
+**Files:** `memory/assets/service-area-analysis/**`, `memory/assets/service-area-maps/README.md` (pointer), `housing_analysis.py` and `merge_service_area.py` moved under the archive `scripts/`, `memory/00_START_HERE.md`, `memory/audits/README.md`, `memory/CHANGELOG.md`
+
+**Verification:** Git tracks both PNGs and the four service-area CSVs; `generate_4zone_map.py` has no hardcoded API key (`os.environ.get("ORS_API_KEY")`); scripts no longer write to `/app/frontend/public/`.
+
+**Caveats:** Regenerating the map needs a new OpenRouteService key and extra Python GIS packages. Saved CSV/PNG are the deliverable; running the generator is optional.
 
 ---
 

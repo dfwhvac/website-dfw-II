@@ -62,5 +62,5 @@ These remain in `/app/frontend/internal/` because they're reference material, no
 - `DFW_HVAC_Brand_Framework_3Pillar.md` + `.csv` — Trust/Excellence/Care framework
 - `DFW_HVAC_Competitor_Analysis.md` + `.csv` — competitive landscape
 - `DFW_HVAC_FAQs.csv` — customer FAQ content
-- `DFW_HVAC_Housing_Types.csv`, `Master_Service_Area.csv`, `Service_Area_4Zone.csv`, `Service_Area_Zones.csv` — DFW geo reference
+- `DFW_HVAC_Housing_Types.csv`, `Master_Service_Area.csv`, `Service_Area_4Zone.csv`, `Service_Area_Zones.csv` — DFW geo reference (method + maps: `memory/assets/service-area-analysis/`)
 - `package.json.backup-v14`, `yarn.lock.backup-v14` — pre-upgrade dependency snapshots
