@@ -1,6 +1,6 @@
 # DFW HVAC — Audit Archive
 
-**Last reviewed:** April 23, 2026
+**Last reviewed:** Sep 8, 2026
 **Location rule:** Every new audit artifact (Lighthouse run, technical SEO audit, QA sweep, security scan, accessibility report, bundle analysis, etc.) goes HERE with filename `YYYY-MM-DD_descriptor.{md|csv|xlsx|json}`.
 
 ## Naming convention
@@ -37,6 +37,7 @@
 
 | File | Date | Scope | Result |
 |---|---|---|---|
+| `YYYY-MM-DD_gbp-review-replies.md` | on demand | Owner-reply corpus from Sanity `googleReviewLedger` (LLM voice) | Generate via `frontend/scripts/export-gbp-review-replies.mjs` |
 | [`2026-07-15_Review_Display_Inventory.xlsx`](./2026-07-15_Review_Display_Inventory.xlsx) | Jul 15, 2026 | Excluding `/reviews`: URLs with live review text + city pages enabled but empty | 9 populated URLs (29 display rows); 28 city pages empty local testimonial |
 
 ### Mobile / UX / QA

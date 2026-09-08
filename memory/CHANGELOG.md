@@ -1,9 +1,23 @@
 # DFW HVAC — Changelog
 
-**Last reviewed:** Sep 2, 2026
+**Last reviewed:** Sep 8, 2026
 **⚠️ Read `memory/00_START_HERE.md` first for the Agent SOP.**
 
 > **Shipped history before May 21, 2026** lives in [`CHANGELOG-legacy-pre-2026-05-21.md`](CHANGELOG-legacy-pre-2026-05-21.md) (1,737 lines, Feb–May 2026 agent logs). That file is archival context only — do not treat it as the live product state.
+
+---
+
+## Sep 8, 2026 — One-shot export: GBP review replies for LLM voice
+
+**What changed:** Added `frontend/scripts/export-gbp-review-replies.mjs` — reads Sanity `googleReviewLedger` (reviews + owner replies from the nightly sync) and writes a dated markdown corpus under `memory/audits/` for LLM voice training. Default exports only rows with an owner reply; `--all` includes everything; `--json` writes a companion JSON file.
+
+**Files:** `frontend/scripts/export-gbp-review-replies.mjs`, `memory/CHANGELOG.md`, `memory/audits/README.md`
+
+**Verification:** Script loads; dry path confirmed. Full export needs `SANITY_API_TOKEN` in `frontend/.env.local` (not present in this workspace’s `.env`).
+
+**Caveats:** `USER_ACTION` — run once from `frontend/`:
+`SANITY_API_TOKEN=… node scripts/export-gbp-review-replies.mjs`
+(optional `--json`). Output lands at `memory/audits/YYYY-MM-DD_gbp-review-replies.md`.
 
 ---
 
