@@ -1,9 +1,21 @@
 # DFW HVAC — Changelog
 
-**Last reviewed:** Sep 2, 2026
+**Last reviewed:** Sep 8, 2026
 **⚠️ Read `memory/00_START_HERE.md` first for the Agent SOP.**
 
 > **Shipped history before May 21, 2026** lives in [`CHANGELOG-legacy-pre-2026-05-21.md`](CHANGELOG-legacy-pre-2026-05-21.md) (1,737 lines, Feb–May 2026 agent logs). That file is archival context only — do not treat it as the live product state.
+
+---
+
+## Sep 8, 2026 — Security Audit: pin js-yaml 3.15.2 + sharp 0.35.4
+
+**What changed:** Security Audit failed with **2 high** production advisories published 2026-09-08 against pins already on `main`: `js-yaml@3.15.1` (GHSA-2883-xcg3-v3hh) and `sharp@0.35.3` (GHSA-rgj7-g3m4-5g8c). Bumped Yarn resolutions to `js-yaml@3.15.2` and `sharp@0.35.4` and refreshed the lockfile. Unblocks Dependabot #160/#161 and export draft #162 once they rebase onto this.
+
+**Files:** `frontend/package.json`, `frontend/yarn.lock`, `memory/CHANGELOG.md`
+
+**Verification:** `yarn why` → `js-yaml@3.15.2`, `sharp@0.35.4`; `yarn audit --groups dependencies` → `critical=0 high=0`.
+
+**Caveats:** Merge this before the open Dependabot / export PRs (or rebase those onto it). Resolution-vs-requested-version yarn warnings are expected (same pattern as other pins).
 
 ---
 
