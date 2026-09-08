@@ -7,6 +7,20 @@
 
 ---
 
+## Sep 8, 2026 — One-shot export: GBP review replies for LLM voice
+
+**What changed:** Added `frontend/scripts/export-gbp-review-replies.mjs` — reads Sanity `googleReviewLedger` (reviews + owner replies from the nightly sync) and writes a dated markdown corpus under `memory/audits/` for LLM voice training. Default exports only rows with an owner reply; `--all` includes everything; `--json` writes a companion JSON file.
+
+**Files:** `frontend/scripts/export-gbp-review-replies.mjs`, `memory/CHANGELOG.md`, `memory/audits/README.md`
+
+**Verification:** Script loads; dry path confirmed. Full export needs `SANITY_API_TOKEN` in `frontend/.env.local` (not present in this workspace’s `.env`).
+
+**Caveats:** `USER_ACTION` — run once from `frontend/`:
+`SANITY_API_TOKEN=… node scripts/export-gbp-review-replies.mjs`
+(optional `--json`). Output lands at `memory/audits/YYYY-MM-DD_gbp-review-replies.md`.
+
+---
+
 ## Sep 8, 2026 — Security Audit: pin js-yaml 3.15.2 + sharp 0.35.4
 
 **What changed:** Security Audit failed with **2 high** production advisories published 2026-09-08 against pins already on `main`: `js-yaml@3.15.1` (GHSA-2883-xcg3-v3hh) and `sharp@0.35.3` (GHSA-rgj7-g3m4-5g8c). Bumped Yarn resolutions to `js-yaml@3.15.2` and `sharp@0.35.4` and refreshed the lockfile. Unblocks Dependabot #160/#161 and export draft #162 once they rebase onto this.
