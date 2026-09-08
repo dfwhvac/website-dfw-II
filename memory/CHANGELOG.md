@@ -21,6 +21,18 @@
 
 ---
 
+## Sep 8, 2026 — Security Audit: pin js-yaml 3.15.2 + sharp 0.35.4
+
+**What changed:** Security Audit failed with **2 high** production advisories published 2026-09-08 against pins already on `main`: `js-yaml@3.15.1` (GHSA-2883-xcg3-v3hh) and `sharp@0.35.3` (GHSA-rgj7-g3m4-5g8c). Bumped Yarn resolutions to `js-yaml@3.15.2` and `sharp@0.35.4` and refreshed the lockfile. Unblocks Dependabot #160/#161 and export draft #162 once they rebase onto this.
+
+**Files:** `frontend/package.json`, `frontend/yarn.lock`, `memory/CHANGELOG.md`
+
+**Verification:** `yarn why` → `js-yaml@3.15.2`, `sharp@0.35.4`; `yarn audit --groups dependencies` → `critical=0 high=0`.
+
+**Caveats:** Merge this before the open Dependabot / export PRs (or rebase those onto it). Resolution-vs-requested-version yarn warnings are expected (same pattern as other pins).
+
+---
+
 ## Sep 2, 2026 — Security Audit: pin browserslist 4.28.8 (6 high advisories)
 
 **What changed:** Security Audit on `main` failed with **6 high** production advisories — all transitive `browserslist@4.28.2` via Sanity CLI / Babel (GHSA memory-growth + custom-stats crash, patched in ≥4.28.7). Added Yarn resolution `browserslist@4.28.8`.
