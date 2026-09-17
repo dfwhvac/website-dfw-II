@@ -1,19 +1,20 @@
 name: Security Audit
 
 # Phase 1 P1.D items F8 (Dependabot+gitleaks) and F3d (yarn audit CI gate).
-# Added Feb 28, 2026.
+# Added Feb 28, 2026. Redesigned Sep 17, 2026 (weekly soft-fail).
 #
 # WHAT THIS GATES:
-#   - yarn audit on every PR + main push: fails on high OR critical (production deps)
-#   - gitleaks on every PR + main push: blocks secret leaks before they merge
+#   - yarn audit on every PR + main push: FAILS on high OR critical (production deps)
+#   - Monday schedule: still runs yarn audit + gitleaks, but yarn findings soft-fail
+#     and open/update a GitHub Issue (label security-audit) so main is not "red"
+#     every time the advisory DB moves. Merge protection stays on PR/push.
+#   - gitleaks on every PR + main push + schedule: blocks secret leaks
 #
 # WHY:
-#   - F3d closes the dependency-vuln blind spot. Apr 21, 2026 baseline: 28 high on
-#     Sanity 3.x Studio subtree. Sanity 5.26+ (May 2026) should clear most — this gate
-#     re-verifies weekly; KPI dashboard row dependency-vulns-prod mirrors these counts.
+#   - F3d closes the dependency-vuln blind spot.
 #   - F8 prevents the recurring "credential committed by accident" class of bug.
-#     Site has 6+ third-party API keys (Sanity, Resend, Google Places, reCAPTCHA,
-#     Google Auth, Vercel) — secret-leak detection is non-optional.
+#   - Weekly advisory DB churn made fail-on-high cron look like broken main;
+#     discovery stays, the red badge on schedule does not.
 
 on:
   push:
@@ -21,12 +22,15 @@ on:
   pull_request:
     branches: [main]
   schedule:
-    # Weekly Monday 7 AM Central — catches advisories disclosed against pinned versions
-    # even when no PR has been opened.
+    # Weekly Monday 7 AM Central — discover advisories against pinned versions
+    # even when no PR has been opened. Soft-fail yarn findings (see above).
     - cron: "0 13 * * 1"
-  # Manual on-demand trigger — Actions tab → Security Audit → "Run workflow" button.
-  # Useful for ad-hoc audits after rotating secrets or before a deploy.
   workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: read
 
 jobs:
   yarn-audit:
@@ -35,6 +39,11 @@ jobs:
     defaults:
       run:
         working-directory: frontend
+    outputs:
+      critical: ${{ steps.parse.outputs.critical }}
+      high: ${{ steps.parse.outputs.high }}
+      has_blockers: ${{ steps.parse.outputs.has_blockers }}
+      findings_json: ${{ steps.parse.outputs.findings_json }}
     steps:
       - uses: actions/checkout@v7
 
@@ -51,8 +60,7 @@ jobs:
 
       # yarn audit resolves advisories from yarn.lock + the registry — it does
       # not require a full node_modules install. Skipping install avoids native
-      # builds (sharp) and Mac-vs-Linux lockfile edge cases that were failing
-      # frozen-lockfile on ubuntu and regenerating a dirtier tree.
+      # builds (sharp) and Mac-vs-Linux lockfile edge cases.
       - name: Run yarn audit
         run: |
           set +e
@@ -63,38 +71,113 @@ jobs:
             cat /tmp/yarn-audit.err
             echo "::endgroup::"
           fi
-          node <<'NODE'
-          const fs = require('fs');
-          const lines = fs.readFileSync('/tmp/yarn-audit.jsonl', 'utf8').split('\n').filter(Boolean);
-          let critical = 0, high = 0, moderate = 0;
-          const samples = [];
-          for (const line of lines) {
-            let o;
-            try { o = JSON.parse(line); } catch { continue; }
-            if (o.type !== 'auditAdvisory') continue;
-            const sev = o.data && o.data.advisory && o.data.advisory.severity;
-            if (sev === 'critical') {
-              critical += 1;
-              if (samples.length < 20) samples.push(line);
-            } else if (sev === 'high') {
-              high += 1;
-              if (samples.length < 20) samples.push(line);
-            } else if (sev === 'moderate') {
-              moderate += 1;
+
+      - name: Parse yarn audit
+        id: parse
+        working-directory: .
+        env:
+          AUDIT_JSONL: /tmp/yarn-audit.jsonl
+          # PR + push (and manual dispatch) remain hard gates. Monday schedule reports only.
+          FAIL_ON_FINDINGS: ${{ github.event_name == 'schedule' && 'false' || 'true' }}
+        run: node scripts/parse-yarn-audit-ci.cjs
+
+  security-audit-issue:
+    name: open/update security-audit issue (schedule)
+    needs: yarn-audit
+    if: >-
+      github.event_name == 'schedule' &&
+      needs.yarn-audit.outputs.has_blockers == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Upsert GitHub Issue
+        uses: actions/github-script@v7
+        env:
+          FINDINGS_JSON: ${{ needs.yarn-audit.outputs.findings_json }}
+          CRITICAL: ${{ needs.yarn-audit.outputs.critical }}
+          HIGH: ${{ needs.yarn-audit.outputs.high }}
+        with:
+          script: |
+            const critical = process.env.CRITICAL || '0'
+            const high = process.env.HIGH || '0'
+            let findings = []
+            try {
+              findings = JSON.parse(process.env.FINDINGS_JSON || '[]')
+            } catch (_) {
+              findings = []
             }
-          }
-          console.log(`Production dependency advisories: critical=${critical} high=${high} moderate=${moderate}`);
-          if (critical > 0 || high > 0) {
-            for (const s of samples) console.log(s);
-            console.error(`::error::yarn audit: ${critical} critical + ${high} high in production dependencies. Run 'cd frontend && yarn audit --groups dependencies' locally.`);
-            process.exit(1);
-          }
-          if (lines.length === 0) {
-            console.error('::error::yarn audit produced no JSON output — check yarn version / network.');
-            process.exit(1);
-          }
-          console.log(`::notice::yarn audit clean of high/critical production advisories (moderate=${moderate} allowed).`);
-          NODE
+            const label = 'security-audit'
+            const title = `Security Audit: ${high} high / ${critical} critical production advisories`
+            const rows = findings.length
+              ? findings.map((f) =>
+                  `| ${f.severity} | \`${f.module}\` | ${f.vulnerable} | ${f.patched} | ${f.ghsa} | \`${f.path || ''}\` |`
+                ).join('\n')
+              : '| _(see Actions log)_ | | | | | |'
+            const body = [
+              '## Weekly Security Audit findings',
+              '',
+              'Monday cron discovered high/critical production advisories against the current lockfile.',
+              '**PR/push merges remain blocked** until these are fixed. This issue is the ops queue — the schedule workflow itself does not fail.',
+              '',
+              `Counts: **${high} high**, **${critical} critical**.`,
+              '',
+              '### Fix order (parent bump first)',
+              '1. Bump the direct package if it already pulls a fixed transitive (`sanity`, `next`, …).',
+              '2. Only then add a time-boxed Yarn `resolutions` pin + CHANGELOG note.',
+              '3. Merge Dependabot version PRs after the advisory is cleared.',
+              '',
+              'See `memory/FOUNDATION_AUDIT_PROGRAM.md` (Security Audit playbook).',
+              '',
+              '| Severity | Module | Vulnerable | Patched | GHSA | Path |',
+              '|---|---|---|---|---|---|',
+              rows,
+              '',
+              `Workflow run: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+              '',
+            ].join('\n')
+
+            await github.rest.issues.getLabel({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: label,
+            }).catch(async () => {
+              await github.rest.issues.createLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: label,
+                color: 'B60205',
+                description: 'Weekly yarn audit high/critical findings',
+              })
+            })
+
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: label,
+              per_page: 20,
+            })
+            const existing = issues.data.find((i) =>
+              i.title.startsWith('Security Audit:')
+            )
+            if (existing) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existing.number,
+                title,
+                body,
+              })
+              core.notice(`Updated issue #${existing.number}`)
+            } else {
+              const created = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body,
+                labels: [label],
+              })
+              core.notice(`Opened issue #${created.data.number}`)
+            }
 
   gitleaks:
     name: gitleaks (secret scan)
@@ -102,16 +185,11 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with:
-          fetch-depth: 0   # full history needed for proper diff scan
+          fetch-depth: 0
 
       - name: Run gitleaks
-        # Aug 24, 2026: @v3 migrates action runtime Node 20 → 24 (no behavior change).
-        # Closes RECURRING_MAINTENANCE AH1 before Sep 16, 2026 Node-20 removal.
         uses: gitleaks/gitleaks-action@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # Default ruleset covers AWS, GCP, Azure, Stripe, Slack, GitHub PAT,
-          # private SSH keys, generic high-entropy strings. Sufficient for this
-          # repo's threat model.
           GITLEAKS_ENABLE_COMMENTS: "true"
           GITLEAKS_ENABLE_SUMMARY: "true"

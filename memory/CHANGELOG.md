@@ -1,9 +1,26 @@
 # DFW HVAC — Changelog
 
-**Last reviewed:** Sep 8, 2026
+**Last reviewed:** Sep 17, 2026
 **⚠️ Read `memory/00_START_HERE.md` first for the Agent SOP.**
 
 > **Shipped history before May 21, 2026** lives in [`CHANGELOG-legacy-pre-2026-05-21.md`](CHANGELOG-legacy-pre-2026-05-21.md) (1,737 lines, Feb–May 2026 agent logs). That file is archival context only — do not treat it as the live product state.
+
+---
+
+## Sep 17, 2026 — Security Audit: smol-toml pin + stop weekly red-main churn
+
+**What changed:** (1) Pinned Yarn resolution `smol-toml@1.7.1` for GHSA-7w5x-hrqm-74c2 (Sanity CLI transitive) that failed Monday’s scheduled Security Audit. (2) Redesigned Security Audit so **PR/push still fail** on high/critical, but **Monday schedule soft-fails** yarn findings and opens/updates a `security-audit` GitHub Issue. Parser now prints module / GHSA / path. Docs: parent-bump-first playbook + monthly Sanity patch checklist (M7).
+
+**Files:**
+- `frontend/package.json`, `frontend/yarn.lock`
+- `.github/workflows/security.yml`
+- `scripts/parse-yarn-audit-ci.cjs` (new)
+- `.github/dependabot.yml`
+- `memory/FOUNDATION_AUDIT_PROGRAM.md`, `memory/RECURRING_MAINTENANCE.md`, `memory/CHANGELOG.md`
+
+**Verification:** `yarn why smol-toml` → 1.7.1; `yarn audit --groups dependencies` → `critical=0 high=0`; local parser exit 0 with `FAIL_ON_FINDINGS=true`.
+
+**Caveats:** `USER_ACTION` — after merge, `@dependabot recreate` (or rebase) on open dep PRs #164/#165. First Monday cron with findings will create the `security-audit` label + issue. Dependabot **security updates** were confirmed Off and enabled via API (vulnerability alerts + automated security fixes) during this change.
 
 ---
 
