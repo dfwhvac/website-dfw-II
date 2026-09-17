@@ -90,7 +90,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Upsert GitHub Issue
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         env:
           FINDINGS_JSON: ${{ needs.yarn-audit.outputs.findings_json }}
           CRITICAL: ${{ needs.yarn-audit.outputs.critical }}
