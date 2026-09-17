@@ -3,7 +3,7 @@
 **Purpose:** Single source of truth for every recurring operational task that keeps DFW HVAC healthy, indexed, secure, and converting. Review on the cadence below. Append new items as features ship.
 
 **Owner:** User (strategic) + Agent (execution support)
-**Last updated:** Aug 28, 2026
+**Last updated:** Sep 17, 2026
 
 > How to use: Scan by cadence when you sit down for ops. Check the "Last Done" column before running. Append notes to the run log at the bottom if anything unusual surfaces.
 
@@ -25,7 +25,7 @@
 | W2 | GBP review-reply SLA — respond to all new Google reviews within 48h | GBP dashboard → Reviews | — |
 | W3 | GSC Core Web Vitals field-data (CrUX) glance — spot regressions early | GSC → Experience → Core Web Vitals | — |
 | W4 | KPI snapshot refresh — **AUTOMATED via `.github/workflows/kpi-audit.yml`** (Mondays 7 AM Central). Includes **yarn audit counts** (P1-G10), **linkinator** internal links, Pa11y, headers, GSC/GA4 when secrets set. Manual: Actions → KPI Audit → Run workflow. See `FOUNDATION_AUDIT_PROGRAM.md`. | GitHub Actions | May 26, 2026 (yarn audit + linkinator in KPI) |
-| W4b | Security Audit — **same Monday window** + every PR: **gitleaks** + **yarn audit (0 high, 0 critical** on production deps). Apr 2026 “28 high” was pre–Sanity 5.26 — re-verify in Actions log, not assumptions. | GitHub Actions | May 26, 2026 (high+critical gate) |
+| W4b | Security Audit — **PR/push:** gitleaks + yarn audit **0 high / 0 critical** (merge blocker). **Monday cron:** same scans, but yarn findings **soft-fail** and open/update a `security-audit` GitHub Issue — merge Dependabot + any pin PR that week; do not treat schedule red as “main on fire.” Playbook: `FOUNDATION_AUDIT_PROGRAM.md`. | GitHub Actions | Sep 17, 2026 (soft-fail redesign) |
 
 ---
 
@@ -39,6 +39,7 @@
 | M4 | Google Places API billing / quota check in Google Cloud Console | GCP → Billing → Alerts | — |
 | M5 | Physical device QA matrix (M1–M5) — iOS Safari + Android Chrome + Maps autocomplete | Per `/app/memory/audits/DFW_HVAC_QA_Sweep_2026-04-21.md` | — |
 | M6 | GA4 key-events sanity check — confirm code events in `GA4_EVENTS.md` still fire on production and remain marked as key events where intended | GA4 Realtime + DebugView: `form_submit_lead`, `phone_click`, `thanks_page_view`, `estimator_opt_in` — see `POST_DEPLOY_ACTION_ITEMS_PR2.md` | April 24, 2026 (partial: form key event marked; `phone_click` toggle pending) |
+| M7 | **Sanity patch/minor bump** — Dependabot ignores `@sanity/*` majors by design; once a month check for patch/minor releases of `sanity` / `@sanity/vision` / `@sanity/client` so CLI subtree CVEs are not only fixed by Yarn `resolutions` forever | npm / Sanity changelog → bump in `frontend/package.json` + `yarn install` → PR; prune obsolete resolutions if absorbed | — |
 
 ---
 

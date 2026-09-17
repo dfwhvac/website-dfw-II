@@ -5,6 +5,14 @@
 # in /frontend (the only stack — Python backend was retired Apr 20, 2026).
 # Security updates fire immediately; routine version bumps batch weekly so the
 # repo doesn't drown in PRs.
+#
+# USER_ACTION (repo settings, not this file): keep Dependabot security updates
+# enabled (GitHub → Settings → Code security → Dependabot → Dependabot security
+# updates). That is separate from the weekly version groups below and is how
+# GHSA-triggered PRs appear outside Monday version bumps.
+#
+# @sanity/* majors stay ignored (Studio upgrade risk). Monthly patch/minor
+# Sanity bumps are a manual checklist item — see RECURRING_MAINTENANCE M7.
 
 version: 2
 updates:

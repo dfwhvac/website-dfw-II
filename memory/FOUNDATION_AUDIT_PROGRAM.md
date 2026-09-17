@@ -31,23 +31,34 @@ All **28 high** were attributed to the **Sanity 3.x Studio** dependency subtree 
 | **Next.js 16** | Shipped | Separate from Sanity tree |
 | **CI gate** | Feb–May 2026 | Was **critical-only** (JSON parse); comment still cited “28 high accepted” while **not failing on high** |
 
-### What runs today (after May 26, 2026 hardening)
+### What runs today (after Sep 17, 2026 redesign)
 
 | Layer | Behavior |
 |---|---|
-| **security.yml** | Fails on **high OR critical** in `yarn audit --groups dependencies` |
-| **audit-kpis.mjs** | New row **`dependency-vulns-prod`** (P1-G10) — same counts weekly in CI |
-| **Dependabot** | Still opens PRs (e.g. `next-sanity` 12→13); separate from audit workflow |
+| **security.yml (PR + push)** | **Fails** on high OR critical in `yarn audit --groups dependencies` — merge blocker |
+| **security.yml (Monday schedule)** | Still runs audit + gitleaks; yarn high/critical **soft-fail** and open/update a GitHub Issue (`security-audit` label) so main is not “red” only because the advisory DB moved |
+| **audit-kpis.mjs** | Row **`dependency-vulns-prod`** (P1-G10) — same counts weekly in CI |
+| **Dependabot** | Weekly grouped minor/patch + (repo setting) Dependabot **security updates** anytime |
 
 **Important:** `--groups dependencies` includes `sanity` (it is in `dependencies`, not `devDependencies`). The old mental model “Studio CVEs don’t count because dev-only” was **wrong for yarn’s dependency group** — they always counted in production group; we only **ignored** them in CI by failing on critical alone.
+
+### Security Audit playbook (when high/critical appear)
+
+**Parent bump first — resolutions last:**
+
+1. **Identify** — Actions log / issue table shows `module`, GHSA, `path` (e.g. `sanity>@sanity/cli>smol-toml`).
+2. **Prefer parent bump** — if `sanity`, `next`, or another **direct** dependency already releases a version that pulls a fixed transitive, bump that direct dep and refresh the lockfile.
+3. **Time-boxed resolution** — only if the parent is not fixed yet: add a Yarn `resolutions` pin in `frontend/package.json`, refresh `yarn.lock`, CHANGELOG note, open PR. Revisit quarterly to **prune** pins parents have absorbed.
+4. **Then Dependabot** — rebase/recreate open Dependabot version PRs after the advisory is cleared on `main` (otherwise they keep failing the PR gate for unrelated bumps).
+5. **Do not** treat Monday schedule soft-fail as “ignore forever” — merge the fix PR / close the `security-audit` issue the same week when possible (~15–30 min ops).
 
 ### How to verify right now
 
 1. **GitHub → Actions → Security Audit** on latest `main` — read log line `critical=X high=Y moderate=Z`.
 2. After next **KPI Audit** Monday run — dashboard row **Production dependency advisories**.
-3. Locally: `cd frontend && yarn audit --groups dependencies` (high/critical must be 0 to pass CI).
+3. Locally: `cd frontend && yarn audit --groups dependencies` (high/critical must be 0 to pass **PR/push** CI). Parser used in CI: `node ../scripts/parse-yarn-audit-ci.cjs` (after writing JSONL).
 
-If **high > 0** after Sanity 5: merge Dependabot patches, add `resolutions` only as last resort, or document a **time-boxed waiver** with module list (not silent acceptance).
+If **high > 0** on a PR: follow the playbook above — do not merge until clear.
 
 ---
 
@@ -57,7 +68,7 @@ If **high > 0** after Sanity 5: merge Dependabot patches, add `resolutions` only
 |---|---|---|
 | Dependabot npm | Mon 8:00 AM CT | Minor/patch groups + security PRs anytime |
 | Dependabot Actions | Mon | `actions/*` bumps |
-| Security Audit | Mon 7:00 AM CT + every PR/push | gitleaks + **yarn high/critical** |
+| Security Audit | Mon 7:00 AM CT (discover + issue) + every PR/push (hard gate) | gitleaks + yarn high/critical |
 | KPI Audit | Mon 7:00 AM CT + manual | `audit-kpis.mjs` → snapshot commit |
 | Sync Reviews | Daily 9:00 AM CT | Google → Sanity |
 | Branch freshness | Every PR | `yarn.lock` / `package.json` ≤25 commits behind |
