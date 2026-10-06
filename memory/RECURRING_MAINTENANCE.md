@@ -3,7 +3,7 @@
 **Purpose:** Single source of truth for every recurring operational task that keeps DFW HVAC healthy, indexed, secure, and converting. Review on the cadence below. Append new items as features ship.
 
 **Owner:** User (strategic) + Agent (execution support)
-**Last updated:** Sep 17, 2026
+**Last updated:** Oct 6, 2026
 
 > How to use: Scan by cadence when you sit down for ops. Check the "Last Done" column before running. Append notes to the run log at the bottom if anything unusual surfaces.
 
@@ -14,6 +14,7 @@
 | # | Task | How | Last Done |
 |---|---|---|---|
 | D1 | `/api/cron/sync-reviews` — Places count + GBP text → site testimonials; **append-only Google Review Archive** + email if the public count drops or named reviews disappear | GitHub Actions `.github/workflows/sync-reviews.yml` @ 9 AM CT (`cron: 0 14 * * *`) | Auto |
+| D2 | Braces patch watch — if npm `braces` latest is no longer `3.0.3`, the job fails and opens a `security-audit` issue. Remove `scripts/braces-waiver.cjs` and bump the lockfile the same day | GitHub Actions `.github/workflows/braces-watch.yml` @ 9:30 AM CT (`cron: 30 14 * * *`) | Auto |
 
 ---
 

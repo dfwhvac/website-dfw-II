@@ -1,9 +1,33 @@
 # DFW HVAC — Changelog
 
-**Last reviewed:** Sep 17, 2026
+**Last reviewed:** Oct 6, 2026
 **⚠️ Read `memory/00_START_HERE.md` first for the Agent SOP.**
 
 > **Shipped history before May 21, 2026** lives in [`CHANGELOG-legacy-pre-2026-05-21.md`](CHANGELOG-legacy-pre-2026-05-21.md) (1,737 lines, Feb–May 2026 agent logs). That file is archival context only — do not treat it as the live product state.
+
+---
+
+## Oct 6, 2026 — Self-expiring waiver for unfixed `braces`
+
+**What changed:** Security Audit and the KPI production-dependency count skip `braces` GHSA-vfj7-8cjw-p6xm only while the npm `latest` dist-tag is still `3.0.3`. A registry failure does not skip it. A daily Braces patch watch reads the registry and, the day a newer version exists, opens a `security-audit` issue and fails the job.
+
+**Files:** `scripts/braces-waiver.cjs`, `scripts/check-braces-patch.cjs`, `scripts/parse-yarn-audit-ci.cjs`, `scripts/audit-kpis.mjs`, `.github/workflows/braces-watch.yml`, `.github/workflows/security.yml`, `memory/CHANGELOG.md`, `memory/ROADMAP.md`, `memory/FOUNDATION_AUDIT_PROGRAM.md`, `memory/RECURRING_MAINTENANCE.md`
+
+**Verification:** Fresh `yarn audit --groups dependencies` parsed with `FAIL_ON_FINDINGS=true` → `critical=0 high=0 moderate=3 waived=2` (npm `braces` latest is `3.0.3`). Parser fixture with latest `3.0.4` exits 1. A second high in the fixture still fails while the waiver is active. `node scripts/check-braces-patch.cjs` reports `patch_published=false`.
+
+**Caveats:** `PARTIAL` — the advisory is still unfixed. Remove `scripts/braces-waiver.cjs`, `scripts/check-braces-patch.cjs`, and `.github/workflows/braces-watch.yml` when npm publishes a newer `braces` or Sanity 5.x drops it. Dependabot #178, #180, #182, and #183 stay unmerged until this pull request is on `main` and their Security Audit checks are green.
+
+---
+
+## Oct 6, 2026 — Clear production yarn-audit highs except unfixed `braces`
+
+**What changed:** Bumped Next.js and the matching `@next/*` / `eslint-config-next` range to `^16.3.6` (lockfile resolved `16.3.8`) for GHSA-vcvr-r3jv-pc5j, remote code execution in `next/og` ImageResponse. Raised Yarn resolutions: `undici` 7.29.1, `brace-expansion` 2.1.7, `sharp` 0.35.5, `adm-zip` 0.6.1, and new `source-map-js` 1.2.2.
+
+**Files:** `frontend/package.json`, `frontend/yarn.lock`, `memory/CHANGELOG.md`
+
+**Verification:** `yarn audit --groups dependencies` parsed with `FAIL_ON_FINDINGS=true` → `critical=0 high=2 moderate=3`. Both remaining highs are the same advisory, `braces` GHSA-vfj7-8cjw-p6xm, patched version listed as `<0.0.0`. npm `braces` latest is still `3.0.3`. Path is Sanity CLI only (`@sanity/codegen` → chokidar / micromatch). Sanity 5.31.2 is the current 5.x maintenance release; a Sanity 6 bump is out of scope.
+
+**Caveats:** `PARTIAL` — `braces` GHSA-vfj7-8cjw-p6xm was still unfixed when these pins landed. The entry above waives that one advisory only while npm latest stays `3.0.3`.
 
 ---
 

@@ -91,6 +91,7 @@ Nightly Places count + GBP review-text → Sanity; Actions #96 validated (`textU
 
 | ID | Item | Owner | Notes |
 |---|---|---|---|
+| **SEC-BRACES** | `braces@3.0.3` GHSA-vfj7-8cjw-p6xm has no patched npm release (Sanity CLI → codegen → chokidar/micromatch). Security Audit and the KPI dependency row waive this GHSA only while npm latest is `3.0.3`. Daily `braces-watch.yml` opens a `security-audit` issue and fails the day a newer version publishes; then remove the waiver and bump | Agent | Oct 6, 2026 |
 | SEC-1-A2 | Vercel Bot Protection | User | **Deferred** — broke KPI audit runner when enabled; leave Off (AI Bots Off for AEO) |
 | SEC-1-A4 | GA4 internal traffic filter (non-US) | User | |
 | SEC-1-A5 | Clarity geo filter (US only) | User | |
