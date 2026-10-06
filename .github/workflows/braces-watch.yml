@@ -1,0 +1,126 @@
+name: Braces patch watch
+
+# Dated exception for GHSA-vfj7-8cjw-p6xm (2026-10-06).
+# Security Audit ignores that advisory only while npm `braces` latest is 3.0.3
+# (scripts/braces-waiver.cjs). This job reads the registry every day. The day a
+# newer version exists it opens an issue and fails, so the exception is not
+# left until the next Monday Security Audit.
+
+on:
+  schedule:
+    # 9:30 AM Central during daylight time (8:30 AM Central in standard time).
+    - cron: "30 14 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  watch:
+    name: npm braces latest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup Node 24
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+
+      - name: Compare latest to the waiver
+        id: check
+        run: node scripts/check-braces-patch.cjs
+
+      - name: Open or close the patch issue
+        if: steps.check.outputs.patch_published == 'true'
+        uses: actions/github-script@v9
+        env:
+          LATEST: ${{ steps.check.outputs.latest }}
+          WAIVER: ${{ steps.check.outputs.waiver }}
+        with:
+          script: |
+            const latest = process.env.LATEST || 'unknown'
+            const waiverPresent = process.env.WAIVER === 'present'
+            const label = 'security-audit'
+            const title = 'braces patch published: remove GHSA-vfj7-8cjw-p6xm waiver'
+
+            await github.rest.issues.getLabel({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: label,
+            }).catch(async () => {
+              await github.rest.issues.createLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: label,
+                color: 'B60205',
+                description: 'Weekly yarn audit high/critical findings',
+              })
+            })
+
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: label,
+              per_page: 20,
+            })
+            const existing = issues.data.find((issue) => issue.title === title)
+
+            if (!waiverPresent) {
+              if (existing) {
+                await github.rest.issues.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: existing.number,
+                  state: 'closed',
+                })
+                core.notice(`Closed issue #${existing.number}; waiver module is gone`)
+              }
+              return
+            }
+
+            const body = [
+              '## braces published a version newer than 3.0.3',
+              '',
+              `npm \`braces\` latest is **${latest}**.`,
+              'The dated exception in `scripts/braces-waiver.cjs` (GHSA-vfj7-8cjw-p6xm, added 2026-10-06) applies only while latest is `3.0.3`.',
+              'Security Audit stops waiving this advisory on the next run, and pull requests fail until it is cleared.',
+              '',
+              '### Do this',
+              '1. Prefer a Sanity 5.x release that no longer depends on vulnerable `braces`. If none exists, install the patched `braces` (parent bump first; Yarn `resolutions` only if the parent is still behind).',
+              '2. Delete `scripts/braces-waiver.cjs`, `scripts/check-braces-patch.cjs`, and `.github/workflows/braces-watch.yml`.',
+              '3. Confirm `yarn audit --groups dependencies` has no remaining high or critical advisory, then merge.',
+              '',
+              'This job stays red until that removal lands.',
+              '',
+              `Workflow run: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+              '',
+            ].join('\n')
+
+            if (existing) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existing.number,
+                title,
+                body,
+              })
+              core.notice(`Updated issue #${existing.number}`)
+            } else {
+              const created = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body,
+                labels: [label],
+              })
+              core.notice(`Opened issue #${created.data.number}`)
+            }
+
+      - name: Fail until the waiver is removed
+        if: steps.check.outputs.patch_published == 'true' && steps.check.outputs.waiver == 'present'
+        run: |
+          echo "::error::npm braces ${{ steps.check.outputs.latest }} is published. Remove scripts/braces-waiver.cjs and bump the lockfile."
+          exit 1

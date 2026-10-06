@@ -15,6 +15,9 @@ name: Security Audit
 #   - F8 prevents the recurring "credential committed by accident" class of bug.
 #   - Weekly advisory DB churn made fail-on-high cron look like broken main;
 #     discovery stays, the red badge on schedule does not.
+#   - braces GHSA-vfj7-8cjw-p6xm is waived only while npm latest is 3.0.3
+#     (scripts/braces-waiver.cjs). A newer publish ends the waiver.
+#     .github/workflows/braces-watch.yml checks that daily.
 
 on:
   push:

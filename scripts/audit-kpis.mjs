@@ -12,7 +12,11 @@
 import { writeFile, mkdir, readFile, readdir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
+import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
+
+const require = createRequire(import.meta.url);
+const { fetchBracesLatest, isWaivedBracesFinding } = require('./braces-waiver.cjs');
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, '..');
@@ -352,6 +356,14 @@ async function getYarnAuditCounts() {
   }
   const counts = { critical: 0, high: 0, moderate: 0, low: 0, info: 0 };
   const topAdvisories = [];
+  let bracesLatest = null;
+  let bracesWaiverNote = null;
+  let waivedBraces = 0;
+  try {
+    bracesLatest = await fetchBracesLatest();
+  } catch (err) {
+    bracesWaiverNote = `braces waiver not applied (registry check failed: ${err.message || err})`;
+  }
   for (const line of stdout.split('\n')) {
     if (!line.trim()) continue;
     let row;
@@ -364,6 +376,13 @@ async function getYarnAuditCounts() {
     const adv = row.data?.advisory;
     if (!adv?.severity) continue;
     const sev = adv.severity;
+    const ghsa =
+      adv.github_advisory_id ||
+      (typeof adv.url === 'string' && adv.url.includes('GHSA-') ? adv.url.split('/').pop() : '');
+    if (isWaivedBracesFinding({ module: adv.module_name, ghsa }, bracesLatest)) {
+      waivedBraces += 1;
+      continue;
+    }
     if (counts[sev] != null) counts[sev]++;
     if ((sev === 'critical' || sev === 'high') && topAdvisories.length < 8) {
       topAdvisories.push({
@@ -373,7 +392,14 @@ async function getYarnAuditCounts() {
       });
     }
   }
-  return { counts, topAdvisories, scope: 'production dependencies (package.json dependencies)' };
+  return {
+    counts,
+    topAdvisories,
+    scope: 'production dependencies (package.json dependencies)',
+    waivedBraces,
+    bracesLatest,
+    bracesWaiverNote,
+  };
 }
 
 /**
@@ -1847,9 +1873,19 @@ async function main() {
         : STATUS.GRAY,
       source: 'yarn audit --groups dependencies · matches security.yml gate',
       detail: yarnAudit.ok
-        ? yarnAudit.value.topAdvisories.length
-          ? `Top: ${yarnAudit.value.topAdvisories.map((a) => `${a.module} (${a.severity})`).join('; ')}`
-          : 'Clean — post–Sanity 5.26 re-verify (Apr 2026 baseline was 28 high on Sanity 3.x)'
+        ? [
+            yarnAudit.value.waivedBraces
+              ? `Waived braces GHSA-vfj7-8cjw-p6xm × ${yarnAudit.value.waivedBraces} while npm latest is ${yarnAudit.value.bracesLatest} (exception 2026-10-06). Daily Braces patch watch opens an issue when a newer version publishes.`
+              : null,
+            yarnAudit.value.bracesWaiverNote,
+            yarnAudit.value.topAdvisories.length
+              ? `Top: ${yarnAudit.value.topAdvisories.map((a) => `${a.module} (${a.severity})`).join('; ')}`
+              : yarnAudit.value.waivedBraces
+                ? null
+                : 'Clean — post–Sanity 5.26 re-verify (Apr 2026 baseline was 28 high on Sanity 3.x)',
+          ]
+            .filter(Boolean)
+            .join(' ')
         : yarnAudit.error,
     },
     {
