@@ -52,6 +52,10 @@ All **28 high** were attributed to the **Sanity 3.x Studio** dependency subtree 
 4. **Then Dependabot** — rebase/recreate open Dependabot version PRs after the advisory is cleared on `main` (otherwise they keep failing the PR gate for unrelated bumps).
 5. **Do not** treat Monday schedule soft-fail as “ignore forever” — merge the fix PR / close the `security-audit` issue the same week when possible (~15–30 min ops).
 
+### GitHub secret scanning (Oct 7, 2026)
+
+Repo setting **secret scanning** + **push protection** are **enabled** (complements `gitleaks` in `security.yml`). Turned on before HCP / other new secrets. Code scanning (CodeQL) remains deferred.
+
 ### Dated exception: braces GHSA-vfj7-8cjw-p6xm (Oct 6, 2026)
 
 No patched npm release (`braces@3.0.3`; advisory patched versions `<0.0.0`). Sanity CLI only. `scripts/braces-waiver.cjs` skips that one GHSA in Security Audit and in the KPI `dependency-vulns-prod` count **only while** the npm `latest` dist-tag is `3.0.3`. A registry failure does not waive. `.github/workflows/braces-watch.yml` checks daily and opens a `security-audit` issue titled `braces patch published:` the day latest moves. In that PR, remove the waiver module, the check script, and the watch workflow, then bump the lockfile.
