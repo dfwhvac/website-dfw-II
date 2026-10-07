@@ -1,6 +1,6 @@
 # DFW HVAC — Roadmap
 
-**Last reviewed:** Oct 7, 2026 (**SEC-VERCEL-SECRETS** next; Dependabot clear-out done)
+**Last reviewed:** Oct 7, 2026 (**SEC-VERCEL-SECRETS** next; **HCP-CRM-SYNC** restored as next ops automation)
 **⚠️ Read `memory/00_START_HERE.md` first for the Agent SOP.**
 
 > **Future work only.** Shipped history → [`CHANGELOG.md`](CHANGELOG.md) (baseline: May 21, 2026). Pre-reset agent logs → [`CHANGELOG-legacy-pre-2026-05-21.md`](CHANGELOG-legacy-pre-2026-05-21.md).
@@ -46,35 +46,36 @@ SEC-2 (estimator `/api/estimator/lead` hardening) shipped May 22, 2026 → see `
 
 Pick from the top. When an item ships, remove it here and add a dated entry to `CHANGELOG.md`.
 
-**Next review action (Oct 7):** **SEC-VERCEL-SECRETS** (rotate + Secret-type env vars) → **SEC-POSTURE** (full site security gap review). Then resume **REVIEWS-CURATE** (#7). Dependabot #178/#182/#185/#186 merged; #179 closed.
+**Next review action (Oct 7):** **SEC-VERCEL-SECRETS** → design/build **HCP-CRM-SYNC** (lead → Housecall Pro customer for dial-from-CRM) → **SEC-POSTURE**. Then resume **REVIEWS-CURATE**.
 
 **Due Mon Oct 13, 2026 — GSC-CITY-1013:** On Oct 6, indexing was requested for `/cities-served/coppell`, `/cities-served/the-colony`, and `/cities-served/haslet`. Inspect each URL in Search Console. If it says “URL is on Google,” close this item. If not, request indexing once more, then stop. The same-day request for `www.dfwhvac.com/aboutus` does not close this item.
 
 | # | ID | Item | Owner | Effort |
 |---|---|---|---|---|
 | 1 | **SEC-VERCEL-SECRETS** | Rotate Vercel “Needs Attention” secrets (`CRON_SECRET`, `RECAPTCHA_SECRET_KEY`, `GOOGLE_PLACES_API_KEY`, `RESEND_API_KEY`, `LOGTAIL_URL`, `SANITY_API_TOKEN`, …); re-add as **Secret** for Production + Preview only; clean duplicate rows; redeploy. Triggered by Security Dashboard + April 2026 non-sensitive env-var incident posture. | User (+ agent checklist) | 45–90 min |
-| 2 | **SEC-POSTURE** | Broader security approach review — map controls vs attack surface (deps/CI, secrets, app APIs, account/2FA, Vercel deployment protection, Sanity). Identify **critical gaps** only; fold findings into SEC-1 / playbook. | User + agent | 1–2 hr planning |
-| 3 | **SEC-1** | Security & data-hygiene — **SEC-1-A done** (geo-block + custom rules removed); remaining: GA4/Clarity non-US filters; Sanity 2FA; SEC-1-C GSC spot-check; optional B2/B3 | User + agent | ~20 min user + doc pass |
-| 4 | **P3-BASELINE** | Conversion measurement program — finish GA4 key events (G4 `phone_click`, G5 `thanks_page_view`, G6 `estimator_opt_in`); snapshot 7d/30d/60d rates; monthly CR review vs KPI dashboard | User + agent | 1 hr setup + 30 min/mo |
-| 5 | **P1.8** | Google Business Profile audit + optimization (verified; needs ongoing Posts/Q&A/photos) | User-led | 20 min + 4 hr initial |
-| 6 | **S3-AEO** | Run quarterly AEO citation audit (20 queries × 4 engines); log results in `audits/2026-02-28_AEO_Citation_Baseline.md` — **next due May 31, 2026** | User-led | 2–3 hr/qtr |
-| 7 | **REVIEWS-CURATE** | **Curate per-page Google review quotes** (home, about, services, cities) from [`audits/2026-07-15_Review_Display_Inventory.xlsx`](audits/2026-07-15_Review_Display_Inventory.xlsx) + live Sanity pool (~164 with text). Fill Sheet 2 city gaps; pick service-/city-relevant quotes (not only newest). Keep `/reviews` load-more; maximize SEO/AEO via the right quotes on the right URLs. | User → agent | 2–4 hr |
-| 8 | **F3b** | HSTS Preload List submission (`hstspreload.org`) | User | 10 min |
-| 9 | **P1.6f** | Rich Results validation on 7 high-value URLs | User | 30 min |
-| 10 | **A3** | GSC re-audit — diff vs Apr 27 indexing baseline | User + agent | 40 min |
-| 11 | **P1.10** | Progressive form redesign (2-field → expand) | Agent | 4–6 hr — **hold until Clarity baseline ~Jun 3, 2026** (14d after May 13 CSP fix) |
-| 12 | **P1.9b** | Review badge in every page hero (currently partial) | Agent | 2 hr |
-| 13 | **P1.9c** | Inline review carousel near every form (currently partial) | Agent | 2 hr |
-| 14 | **C4** | Form abandonment tracking — GA4 on field blur | Agent | 1 hr |
-| 15 | **P2.19-scope** | CallRail vs Twilio DNI **decision** (not build) — **required before P5-LAUNCH-GATE** | User | 30 min |
-| 16 | **C3** | Estimator pricing matrix — real DFW numbers | User → agent | 1 hr — **blocked on user sheet** |
-| 17 | **P2.23** | `@sanity/image-url` → `createImageUrlBuilder` named export | Agent | 10 min |
-| 18 | **P2.20** | LCP push — form defer on `/` + `/contact` + CSP GA collect shipped Jul 9; **field desktop RES still needs 7–14d validate**; lab mobile target &lt;1.25s not met (~2.7s May 2026) | Agent | Watch Speed Insights desktop `/` + `/contact` |
-| 19 | **F13** | Architecture foundation re-audit (quarterly) | Agent | 3.5 hr — due **Aug 4, 2026** |
-| 20 | **KPI-DASH-AUTO** | KPI dashboard automation — Speed Insights **Drain** or CLI pull (no public p75 API); replace manual `vercel-rum-*` paste; snapshot hardening; `VERCEL_TOKEN` if using REST/CLI | Agent + user | 2–3 hr · see `FOUNDATION_AUDIT_PROGRAM.md` |
-| 21 | **FOUNDATION-SHORE** | Close remaining foundation gaps — multi-URL PSI, Lighthouse CI (F7), Sanity CDN, Sentry, W3C validator | Agent | See `FOUNDATION_AUDIT_PROGRAM.md` matrix |
+| 2 | **HCP-CRM-SYNC** | **Housecall Pro: auto customer create/attach from valid web leads** so office can dial from the HCP phone system without re-keying. Lookup → score → create-or-attach; exact phone/email reuse; fuzzy ~90%+ → review queue (no blind duplicates). Prefer direct HCP API over Zapier. Email notification stays. Design notes below. | User + agent | 1–2d phased |
+| 3 | **SEC-POSTURE** | Broader security approach review — map controls vs attack surface (deps/CI, secrets, app APIs, account/2FA, Vercel deployment protection, Sanity). Identify **critical gaps** only; fold findings into SEC-1 / playbook. | User + agent | 1–2 hr planning |
+| 4 | **SEC-1** | Security & data-hygiene — **SEC-1-A done** (geo-block + custom rules removed); remaining: GA4/Clarity non-US filters; Sanity 2FA; SEC-1-C GSC spot-check; optional B2/B3 | User + agent | ~20 min user + doc pass |
+| 5 | **P3-BASELINE** | Conversion measurement program — finish GA4 key events (G4 `phone_click`, G5 `thanks_page_view`, G6 `estimator_opt_in`); snapshot 7d/30d/60d rates; monthly CR review vs KPI dashboard | User + agent | 1 hr setup + 30 min/mo |
+| 6 | **P1.8** | Google Business Profile audit + optimization (verified; needs ongoing Posts/Q&A/photos) | User-led | 20 min + 4 hr initial |
+| 7 | **S3-AEO** | Run quarterly AEO citation audit (20 queries × 4 engines); log results in `audits/2026-02-28_AEO_Citation_Baseline.md` — **next due May 31, 2026** | User-led | 2–3 hr/qtr |
+| 8 | **REVIEWS-CURATE** | **Curate per-page Google review quotes** (home, about, services, cities) from [`audits/2026-07-15_Review_Display_Inventory.xlsx`](audits/2026-07-15_Review_Display_Inventory.xlsx) + live Sanity pool (~164 with text). Fill Sheet 2 city gaps; pick service-/city-relevant quotes (not only newest). Keep `/reviews` load-more; maximize SEO/AEO via the right quotes on the right URLs. | User → agent | 2–4 hr |
+| 9 | **F3b** | HSTS Preload List submission (`hstspreload.org`) | User | 10 min |
+| 10 | **P1.6f** | Rich Results validation on 7 high-value URLs | User | 30 min |
+| 11 | **A3** | GSC re-audit — diff vs Apr 27 indexing baseline | User + agent | 40 min |
+| 12 | **P1.10** | Progressive form redesign (2-field → expand) | Agent | 4–6 hr — **hold until Clarity baseline ~Jun 3, 2026** (14d after May 13 CSP fix) |
+| 13 | **P1.9b** | Review badge in every page hero (currently partial) | Agent | 2 hr |
+| 14 | **P1.9c** | Inline review carousel near every form (currently partial) | Agent | 2 hr |
+| 15 | **C4** | Form abandonment tracking — GA4 on field blur | Agent | 1 hr |
+| 16 | **P2.19-scope** | CallRail vs Twilio DNI **decision** (not build) — **required before P5-LAUNCH-GATE** | User | 30 min |
+| 17 | **C3** | Estimator pricing matrix — real DFW numbers | User → agent | 1 hr — **blocked on user sheet** |
+| 18 | **P2.23** | `@sanity/image-url` → `createImageUrlBuilder` named export | Agent | 10 min |
+| 19 | **P2.20** | LCP push — form defer on `/` + `/contact` + CSP GA collect shipped Jul 9; **field desktop RES still needs 7–14d validate**; lab mobile target &lt;1.25s not met (~2.7s May 2026) | Agent | Watch Speed Insights desktop `/` + `/contact` |
+| 20 | **F13** | Architecture foundation re-audit (quarterly) | Agent | 3.5 hr — due **Aug 4, 2026** |
+| 21 | **KPI-DASH-AUTO** | KPI dashboard automation — Speed Insights **Drain** or CLI pull (no public p75 API); replace manual `vercel-rum-*` paste; snapshot hardening; `VERCEL_TOKEN` if using REST/CLI | Agent + user | 2–3 hr · see `FOUNDATION_AUDIT_PROGRAM.md` |
+| 22 | **FOUNDATION-SHORE** | Close remaining foundation gaps — multi-URL PSI, Lighthouse CI (F7), Sanity CDN, Sentry, W3C validator | Agent | See `FOUNDATION_AUDIT_PROGRAM.md` matrix |
 
-**Deferred — not blocking P1:** #20 KPI-DASH-AUTO, #21 FOUNDATION-SHORE remainder. Observability Plus + Speed Insights on `website-dfw-ii-b4zk` confirmed; manual RUM paste OK until #20 ships.
+**Deferred — not blocking P1:** #21 KPI-DASH-AUTO, #22 FOUNDATION-SHORE remainder. Observability Plus + Speed Insights on `website-dfw-ii-b4zk` confirmed; manual RUM paste OK until #21 ships.
 
 ### REVIEWS-CURATE — per-page display (next; Aug 21, 2026)
 
@@ -91,6 +92,22 @@ Pick from the top. When an item ships, remove it here and add a dated entry to `
 ### GBP-REVIEWS-SYNC — shipped (Aug 21, 2026)
 
 Nightly Places count + GBP review-text → Sanity; Actions #96 validated (`textUpsert=164`). Wrap-up: `revalidatePath` + `REVIEW_COUNT_FALLBACK=191`. Details → `CHANGELOG.md`.
+
+### HCP-CRM-SYNC — Housecall Pro lead → customer (restored Oct 7, 2026)
+
+| Field | Value |
+|---|---|
+| **Status** | **Queued — design agreed; no product code yet.** Restored from Aug 24 parked stash. Build only after **SEC-VERCEL-SECRETS** (or in parallel once HCP API key is confirmed). |
+| **Owner goal** | Today: email arrives → owner re-keys prospect into HCP → dials from CRM phone. Target: valid service/estimate lead → HCP **customer** ready to call; email still arrives as backup. |
+| **Chat / history** | Aug 24 design: Cursor chat **HCP CRM lead automation** (transcript `c59968b8-a7ff-49e3-a6a4-62d971c8bd6d`) |
+| **Scope in** | Customer create **or** attach to existing; tags/notes (`web-lead`, lead type, site `leadId`); store `hcpStatus` / `hcpCustomerId` on Mongo `leads` |
+| **Scope out** | Auto-book jobs; replace email; Zapier as the long-term path; auto-create on fuzzy-only match; contact-form inquiries (email-only keeps current path) |
+| **Valid lead gates** | Not reCAPTCHA-blocked; full Places address; 10-digit phone; real email; `leadType` service or estimate only (estimator lead can join later with same rules) |
+| **Dedup order** | (1) Exact phone (2) Exact email (3) Normalized address + similar name → reuse (4) Fuzzy ~90%+ → **review queue, no create** (5) Clear new → create |
+| **Reliability** | HCP sync runs **after** Mongo write + email attempt; HCP failure never drops the lead or the email. Retry with backoff; surface failures in email footer or a daily digests later |
+| **Phased build** | (0) Confirm HCP API on plan + smoke list/search/create (1) Read-only search + score log in Mongo (2) Exact match → attach + note (3) Clear new → create customer (4) Review UX for maybe-matches |
+| **Done when** | Office stops manual re-key for exact matches; new clear leads appear as HCP customers within ~1 minute; fuzzy cases never create duplicates |
+
 ## P1 — Foundation (open)
 
 | ID | Item | Owner | Notes |

@@ -7,6 +7,18 @@
 
 ---
 
+## Oct 7, 2026 — Restore HCP-CRM-SYNC on the roadmap
+
+**What changed:** Put **HCP-CRM-SYNC** back in the active queue (#2) with design notes for automating Housecall Pro customer create/attach from valid web leads (dial-from-CRM goal). Restored from the Aug 24 local stash; no product code.
+
+**Files:** `memory/ROADMAP.md`, `memory/CHANGELOG.md`
+
+**Verification:** Queue row + detail section present; stash `wip: HCP park docs` dropped after restore.
+
+**Caveats:** Documentation only — integration not built. Prerequisite: HCP API access on plan + **SEC-VERCEL-SECRETS** before shipping secrets into Vercel.
+
+---
+
 ## Oct 7, 2026 — Pin smol-toml 1.9.0 for GHSA-r4xh-jqrq-34v2
 
 **What changed:** Raised the Yarn resolution `smol-toml` from `1.7.1` to `1.9.0` (Sanity CLI transitive) for the medium quadratic-parse advisory. Dependabot could not open a clean update while the older pin was in place.
