@@ -56,6 +56,10 @@ All **28 high** were attributed to the **Sanity 3.x Studio** dependency subtree 
 
 No patched npm release (`braces@3.0.3`; advisory patched versions `<0.0.0`). Sanity CLI only. `scripts/braces-waiver.cjs` skips that one GHSA in Security Audit and in the KPI `dependency-vulns-prod` count **only while** the npm `latest` dist-tag is `3.0.3`. A registry failure does not waive. `.github/workflows/braces-watch.yml` checks daily and opens a `security-audit` issue titled `braces patch published:` the day latest moves. In that PR, remove the waiver module, the check script, and the watch workflow, then bump the lockfile.
 
+### Vercel secrets (SEC-VERCEL-SECRETS)
+
+“Needs Attention” on env vars = Security Dashboard findings (not marked **Secret**, and/or older than 90 days). **90-day rotation is not mandatory** for deploys; for this project we are doing a **one-time rotate + re-add as Secret** (Production + Preview) after the April 2026 non-sensitive env-var incident posture. Local/Development values stay in `.env.local` (Secret type cannot include Development). Tracked in `ROADMAP.md` active queue; broader controls review is **SEC-POSTURE**.
+
 ### How to verify right now
 
 1. **GitHub → Actions → Security Audit** on latest `main` — read log line `critical=X high=Y moderate=Z`.

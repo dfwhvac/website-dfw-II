@@ -1,9 +1,21 @@
 # DFW HVAC — Changelog
 
-**Last reviewed:** Oct 6, 2026
+**Last reviewed:** Oct 7, 2026
 **⚠️ Read `memory/00_START_HERE.md` first for the Agent SOP.**
 
 > **Shipped history before May 21, 2026** lives in [`CHANGELOG-legacy-pre-2026-05-21.md`](CHANGELOG-legacy-pre-2026-05-21.md) (1,737 lines, Feb–May 2026 agent logs). That file is archival context only — do not treat it as the live product state.
+
+---
+
+## Oct 7, 2026 — Sync ops notes: Vercel secrets queue + GSC city follow-up
+
+**What changed:** Documented **SEC-VERCEL-SECRETS** / **SEC-POSTURE** at the top of the active queue, logged Oct 6 indexing requests for Coppell / The Colony / Haslet with follow-up **GSC-CITY-1013** due Mon Oct 13, and noted Dependabot clear-out + issue #179 closed.
+
+**Files:** `memory/ROADMAP.md`, `memory/FOUNDATION_AUDIT_PROGRAM.md`, `memory/audits/2026-04-23_GSC_Indexing_Tracker.md`, `memory/CHANGELOG.md`
+
+**Verification:** Diff reviewed against `origin/main`; no code or lockfile changes.
+
+**Caveats:** Documentation only. Vercel secret rotation and the Oct 13 GSC inspect are still user steps.
 
 ---
 

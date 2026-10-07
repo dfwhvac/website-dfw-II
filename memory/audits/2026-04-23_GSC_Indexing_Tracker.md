@@ -160,3 +160,4 @@ After Day 4 completes, **every URL from the "Discovered – not indexed" bucket 
 |---|---|
 | 4/23/2026 | Document created. Day 1 + Day 2 submissions logged. Day 3–7 plan published. |
 | 4/24/2026 | Day 3 submitted (10 URLs). `/cities-served/grapevine` was already indexed → freed slot used to promote `/cities-served/colleyville` from Day 4. Day 4 bucket now has 5 URLs + 4 Apr 24 pages awaiting merge. Running indexed-or-submitted = 31 of 47 (66%). |
+| 10/6/2026 | User requested indexing for `/cities-served/coppell`, `/cities-served/the-colony`, and `/cities-served/haslet`. All three were in GSC “Crawled – currently not indexed” (last crawl Apr 26–27) and absent from Google. Follow-up **GSC-CITY-1013** due Mon Oct 13, 2026. Same day, user also requested indexing for `https://www.dfwhvac.com/aboutus`. That request does not clear the redirect-error row (two-hop `www` chain) and does not close GSC-CITY-1013. |
