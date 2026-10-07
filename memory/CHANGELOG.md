@@ -7,6 +7,18 @@
 
 ---
 
+## Oct 7, 2026 — Pin uuid 11.1.1 + enable GitHub secret scanning
+
+**What changed:** (1) Yarn resolution `uuid@11.1.1` so Sanity CLI’s old `uuid@10` path clears Dependabot alert #3 / GHSA-w5hq-g745-h8pq. (2) Enabled GitHub **secret scanning** and **push protection** on the repo (complements gitleaks CI) before HCP API secrets land.
+
+**Files:** `frontend/package.json`, `frontend/yarn.lock`, `memory/CHANGELOG.md` (repo setting via GitHub API — not a file)
+
+**Verification:** `yarn why uuid` → only `11.1.1`. Parser → `critical=0 high=0 moderate=1 waived=2` (remaining moderate: `sprintf-js`, no patch). Repo `security_and_analysis.secret_scanning` / `secret_scanning_push_protection` = enabled.
+
+**Caveats:** `sprintf-js` and unfixed `braces` alerts stay open. Push protection may block a commit that looks like a key; use GitHub’s allowlist flow only for false positives.
+
+---
+
 ## Oct 7, 2026 — Restore HCP-CRM-SYNC on the roadmap
 
 **What changed:** Put **HCP-CRM-SYNC** back in the active queue (#2) with design notes for automating Housecall Pro customer create/attach from valid web leads (dial-from-CRM goal). Restored from the Aug 24 local stash; no product code.
