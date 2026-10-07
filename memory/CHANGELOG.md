@@ -7,6 +7,18 @@
 
 ---
 
+## Oct 7, 2026 — Pin smol-toml 1.9.0 for GHSA-r4xh-jqrq-34v2
+
+**What changed:** Raised the Yarn resolution `smol-toml` from `1.7.1` to `1.9.0` (Sanity CLI transitive) for the medium quadratic-parse advisory. Dependabot could not open a clean update while the older pin was in place.
+
+**Files:** `frontend/package.json`, `frontend/yarn.lock`, `memory/CHANGELOG.md`
+
+**Verification:** `yarn why smol-toml` → `1.9.0`. Parser with `FAIL_ON_FINDINGS=true` → `critical=0 high=0 moderate=2 waived=2` (remaining moderates: `uuid`, `sprintf-js`; braces still waived).
+
+**Caveats:** Medium only — Security Audit was already green. Clears Dependabot alert #37 after merge.
+
+---
+
 ## Oct 7, 2026 — Sync ops notes: Vercel secrets queue + GSC city follow-up
 
 **What changed:** Documented **SEC-VERCEL-SECRETS** / **SEC-POSTURE** at the top of the active queue, logged Oct 6 indexing requests for Coppell / The Colony / Haslet with follow-up **GSC-CITY-1013** due Mon Oct 13, and noted Dependabot clear-out + issue #179 closed.
