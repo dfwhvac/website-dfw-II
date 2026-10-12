@@ -1,0 +1,2009 @@
+{
+  "exportedAt": "2026-10-07",
+  "source": "googleReviewLedger",
+  "filter": "has_owner_reply",
+  "totalLedger": 202,
+  "count": 200,
+  "reviews": [
+    {
+      "googleReviewId": "AbFvOql3soxPCBt7RAd6_UXoHnEkvekvrzYqlH8OuJvOD900HCEoVoGTE0cr-fPUUZsA9l_0QxHE",
+      "reviewerName": "Scott Reynolds",
+      "starRating": 5,
+      "dateDisplay": "09/22/26",
+      "createTime": "2026-09-22T16:48:12.138609Z",
+      "comment": "",
+      "reviewReply": "Thanks Scott! Glad we could get out there and quickly clear that main drain line clog to stop the water from dripping at your eave. Clogged AC condensate lines are super common in Keller summers, so we're happy the DFW HVAC team got it solved for you. Thank you for your support and give us a shout whenever we can help out with your AC or heating maintenance or repairs!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmy78yG2M61JOlPr34KMXd8TQPjMqI8fHMg3ZMLaeEQSGpU_2koW16vAQQrivxSXne0Le6R",
+      "reviewerName": "Lynne Young",
+      "starRating": 5,
+      "dateDisplay": "09/15/26",
+      "createTime": "2026-09-15T10:33:19.007501Z",
+      "comment": "Excellent service and communication throughout the entire service/repair process from the initial service request to the invoice.",
+      "reviewReply": "Thanks Lynne! We are so grateful for your support and glad to hear our team provided exceptional HVAC service. As a local DFW heating and air conditioning team, we take great pride in maintaining clear communication throughout every repair\u2014from the initial diagnostic to the final invoice. It's a real difference-maker to have technicians who genuinely spend time explaining their recommendations!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqlxOTrWtf1A_ShxcuCaCg58ZbCvF-gCzKt40ueqLkKY1PgjVJ40o11gpMwXVRGldLD6AANO",
+      "reviewerName": "Vickie Powell",
+      "starRating": 5,
+      "dateDisplay": "09/10/26",
+      "createTime": "2026-09-10T16:13:03.083304Z",
+      "comment": "Very good experience. We'll call on y'all again if needed very trustworthy. Paul was a very considerative, my needs and Neil. As well.\nThank y'all again very much.",
+      "reviewReply": "Thanks Vickie! Earning your trust is the very best compliment you can give us. I\u2019ll be sure to pass this along to Paul and Neil\u2014they\u2019ll be glad to hear it! We appreciate the support and we\u2019ll be ready if you need anything else for the A/C.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnGe4D2Yk2s2jBcBzog5A3WDuz8goRSlvZL3vHFXmH4-pIOlySleDORRa1zfTHWrJKdb48LoQ",
+      "reviewerName": "Chenell Mosley Lee",
+      "starRating": 5,
+      "dateDisplay": "09/09/26",
+      "createTime": "2026-09-09T22:07:50.573289Z",
+      "comment": "I called and left a message Tuesday evening because our system wasn't cooling. Neil reached out Wednesday morning and had us scheduled for an 8:30-9:30am service window. Josh made it within the window. He was knowledgeable, courteous, and respectful. He explained his professional observations, made recommendations and got us cooling again.",
+      "reviewReply": "Thanks Chenell! At DFW HVAC we know that when the AC isn't blowing cold in the height of Texas summer, it's an emergency. I'm glad we were able to schedule your AC repair service quickly and that your technician provided expert HVAC repair. All of our technicians take the time needed to explain their observations and recommendations so you understand the situation and the solution. We never pressure sell and only recommend what you truly need. We're excited to be your go-to AC guys whenever you need great service!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmRSyxv0qRBrQrEc9ji15GDE8ggM2FbLPkEaJVrK-H-DR11K_znt5B-PjB4xUzN49cMmWF5lQ",
+      "reviewerName": "Will Verret",
+      "starRating": 5,
+      "dateDisplay": "09/08/26",
+      "createTime": "2026-09-08T19:46:54.535921Z",
+      "comment": "Great to work with from start to finish. Walked through all options without any pressure sales. Quality of work and pricing was great too!",
+      "reviewReply": "Thanks Will! Glad the crew made your full AC replacement and installation smooth and easy. Upfront answers and zero sales pressure is how we do business here at DFW HVAC. Hope that new system is keeping the house ice-cold this Texas summer. Appreciate you helping us spread the word and please reach out whenever we can help.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmCL1_i94hasKk_krX6_WQluDAjoqBhnP9HYYFgTUjoYGb3HsQpUw6gYpl954GZdGKF5XbXYw",
+      "reviewerName": "Sarah Wingfield",
+      "starRating": 5,
+      "dateDisplay": "09/01/26",
+      "createTime": "2026-09-01T22:45:23.948131Z",
+      "comment": "",
+      "reviewReply": "Thanks Sarah! When your air conditioner stops blowing cold air in the height of the Texas heat, we appreciate you trusting DFW HVAC for fast AC repair. We're always glad to help our Coppell neighbors stay cool, and we appreciate your 5-star support!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkdtq08lgMR57M1kafz1xOac5Ha7KnmA4SKxSut8i92k3HQQrZejsGeqMGMEH-nJtbY7WaB9Q",
+      "reviewerName": "Jim Roberts",
+      "starRating": 5,
+      "dateDisplay": "08/30/26",
+      "createTime": "2026-08-30T17:17:07.595214Z",
+      "comment": "I got great same day service and value.",
+      "reviewReply": "Thanks Jim! Providing fast, same-day AC service at a fair price is what we do. We appreciate your business and the great support!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkq6I7xU3oYV0mSRO6bltRkCM5aTxCP7guh0XvIGXOnduBpAFz_ezbZOqSdIUJZHI42-Xklug",
+      "reviewerName": "Randy Moon",
+      "starRating": 5,
+      "dateDisplay": "08/28/26",
+      "createTime": "2026-08-28T19:32:33.889926Z",
+      "comment": "Thanks for such a quick response to my request.",
+      "reviewReply": "Thanks Randy! Being right here in Coppell makes it easy for us to jump on AC repairs fast when the heat hits. Glad the team got you taken care of so quickly and we really appreciate the support!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnzu3TObuzLCHnYhz7eqVJVvhChHVuJuT4MqHufO_pajpME4kWZY59UpmTJj6g2m628BiFxnw",
+      "reviewerName": "Stevelyn Pickens",
+      "starRating": 5,
+      "dateDisplay": "08/27/26",
+      "createTime": "2026-08-27T20:42:18.413954Z",
+      "comment": "When it is a 109 degrees outside and the air conditioner stops working, you want someone to come quickly, be honest and get the job done in 24-48 hours!  That's what DFW HVAC did for me.  I will continue calling them for any future needs.",
+      "reviewReply": "Thanks Stevelyn! That 109-degree Texas heat is no joke, so getting your air conditioner repaired fast was our top priority. At DFW HVAC, whether we\u2019re performing emergency AC repairs or a full HVAC replacement\u2014like upgrading old R22 systems to modern R454B units\u2014we always focus on being honest, transparent, and quick. Thank you for your business, and we'll be ready whenever you call!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqm8TZlUPpqP9OsknCK5_Qxs3uOl4mzQLRcO6y2RCtCoiKQxCul9eH_g8lmRMrYxn1FhIDG9KQ",
+      "reviewerName": "Jason Ward",
+      "starRating": 5,
+      "dateDisplay": "08/20/26",
+      "createTime": "2026-08-20T18:15:26.332563Z",
+      "comment": "Quick response, quick to resolve and didn\u2019t constantly try to upsale me.  Very professional,  Definitely recommend.",
+      "reviewReply": "Thanks Jason! Providing a quick response, an honest diagnosis, and an effective air conditioner repair\u2014without any pressure or upselling\u2014is exactly how we operate at DFW HVAC. We're glad we could get your AC blowing cold air again so quickly. Thank you for the recommendation, and we\u2019ll be ready whenever you or our Coppell neighbors need us!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmiTLzc6wtLyaxA08TlEf994CZI8e3Z_FjlwjiW6qDMgKGbICmJUtz1WZ1vns3--9gMQMGf",
+      "reviewerName": "Al M.",
+      "starRating": 5,
+      "dateDisplay": "08/19/26",
+      "createTime": "2026-08-19T22:19:58.117671Z",
+      "comment": "Wow, a great bunch of people that are quick to take care of your HVAC issues, polite, AND the price was VERY reasonable. I couldn't be home, but our youngest son lives across the street and Jonathan Grubb explained to him what needed to be fixed. HIGHLY RECOMMEND this business for your HVAC issues!",
+      "reviewReply": "Thanks for the review, Al! We\u2019re thrilled Jonathan was able to provide fast, honest A/C system repair for your family. DFW HVAC is built on clear recommendations, fair prices, and zero upselling. Thank you for trusting us\u2014whenever you or anyone in Hurst needs A/C repair, heating service, or maintenance, our team is ready to take care of y'all!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkINaunk1PsjIhcUiZ0iRIWEluOQYoBWrjZEDf--DJ93mmmgF9pv5vIwPqQJrP_1P_R9OmSow",
+      "reviewerName": "William Swearingen",
+      "starRating": 5,
+      "dateDisplay": "08/19/26",
+      "createTime": "2026-08-19T16:59:44.618920Z",
+      "comment": "",
+      "reviewReply": "Thanks William! When an AC can\u2019t keep up or is running constantly but not cooling during peak summer heat, DFW HVAC is here to help our Coppell neighbors. Count on us for an honest diagnosis of the little problems all the way through to a high-efficiency HVAC system replacement. Our team is dedicated to fair pricing with zero upselling, and we appreciate your support!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmbTvwy6iAJF-3-776yF3eCVLBfvfG-bopE74syfxdFUDIm-VBzDy70TFWTFF20cQJ8Fhdsew",
+      "reviewerName": "Lorenzo Samaniego",
+      "starRating": 5,
+      "dateDisplay": "08/19/26",
+      "createTime": "2026-08-19T02:59:36.909607Z",
+      "comment": "Thank you Jonathan.\nAlways appreciate the quick response and providing details. A/C is back to operating & cooling.\n\nMuch Appreciated!\n\nCustomer\nLarry Samaniego",
+      "reviewReply": "Thanks Larry! Happy to help and glad it was a simple capacitor replacement instead of something more major. We appreciate your support and please keep reaching out whenever we can help again with quick and detailed AC repair!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnLDRa7dyaBg1NZVneSXtEtuCsXDWExAp11DYfEsXv7NCjfBNnV3f7xPLcZmKuES7fOrw3w",
+      "reviewerName": "joe K",
+      "starRating": 5,
+      "dateDisplay": "08/14/26",
+      "createTime": "2026-08-14T18:12:18.164085Z",
+      "comment": "Trust is everything, other HVAC companies had told us we had to replace our entire unit. DFW HVAC Coppell came out within an hour and fixed our unit. Jonathan explained to us we had a older unit but just needed a capacitor, and that ours was still in good shape. You can trust DFW HVAC in Coppell!",
+      "reviewReply": "Thanks Joe! We're honored to have earned your trust. Part of our job is sharing bad news when a system is truly broken, so we love it when we're able to save a customer from a bad diagnosis and share the good news if it's a simple fix. Trust is truly everything and we hold firm to our family legacy of honesty, fair pricing and treating others like we'd want to be treated. Thanks for the great review and we're so glad to be able to help a fellow Coppell neighbor!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnv2UU4EjK3vayA6dvsp2OyUuz5w69aiD7EcHX_x7VnMBQUYrot4rXPbrVkwp3bcjooh5KGCA",
+      "reviewerName": "Dan Bajer",
+      "starRating": 5,
+      "dateDisplay": "08/13/26",
+      "createTime": "2026-08-13T20:33:18.898551Z",
+      "comment": "Excellent service and reasonable price.",
+      "reviewReply": "Thanks Dan! Delivering excellent service at fair prices with a no-pressure approach is our family legacy and how we learned the trade. You can always count on DFW HVAC for honest diagnostics and customer-first recommendations for the best AC value. We appreciate your business and your great feedback!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOql5n71LY5oMEQocAcDXPY4qcUCScVOtr9SOZDRQbOrfyC7aApfRH6waO2BdwhPi9Vq6RdVPrQ",
+      "reviewerName": "Karen Black",
+      "starRating": 5,
+      "dateDisplay": "08/13/26",
+      "createTime": "2026-08-13T17:35:35.911082Z",
+      "comment": "We are so pleased with the quality of work, prompt response , and excellent pricing of DFW HVAC.   It's so refreshing to work with an honest company.  We will definitely use them again and will refer our friends!",
+      "reviewReply": "Thanks Karen! We're proud to have earned your trust and so glad that you had a great experience with our team's quality work, prompt service, and fair, honest pricing. There's no better compliment to us than a referral, so when you or your friends in Flower Mound need air conditioning and heating repair, we'll be ready to help!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkwGHrFamog826bPjJtRLr8OAs8_H5tt8nTycd8-HZpHraBal-eNmlKL9eF9pVmR6yhE-6JLw",
+      "reviewerName": "Jessica Barnett",
+      "starRating": 5,
+      "dateDisplay": "08/12/26",
+      "createTime": "2026-08-12T20:19:53.851929Z",
+      "comment": "Excellent service! We are selling our home and the inspection showed a temperature differential that was out of range. Called DFWHVAC and they were prompt, professional, knowledgeable, and thorough! Paul showed up right on time and took the time to explain the process as he worked. The system was running good, but with the evaluation and a little tune up it is now running great! Thank you so much DFWHVAC!",
+      "reviewReply": "Thanks Jessica! We are so glad to hear Paul provided prompt and professional service. All of us here at DFW HVAC take pride in clear communication and fair pricing, and we enjoy helping home and business owners understand one of the most expensive appliances they own. We take the time needed to communicate and document our findings. Thank you for your support and great feedback. We wish you the best with your home sale and we hope to help you whenever you need HVAC at the new property!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqksVfq_UNGGv21veJFtR5iTMWZEuxCvkgmHvVbTj6TtyMNNR205dkAI0-4qf8j800qD33N4",
+      "reviewerName": "Kari Schachere",
+      "starRating": 5,
+      "dateDisplay": "08/10/26",
+      "createTime": "2026-08-10T16:13:02.160045Z",
+      "comment": "Excellent communication with appointment scheduling and arrival time. Paul solved our issue and got us back to having a cool house quickly. Highly recommend DFW HVAC!",
+      "reviewReply": "Thanks Kari! We\u2019re so glad to hear Paul was able to get your house cool again quickly. Clear communication and reliable service are top priorities for us, so hearing that your appointment went seamlessly means a lot. We're proud to be your go-to team for air conditioner repair and maintenance in Argyle!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqn9M3_qZUHjzuB7eoto3O28KThQZmSwuOeOHYmRSditNs_7ufGQW_lelGTeYQx1EV_M6BxIOg",
+      "reviewerName": "Jack Hanneman",
+      "starRating": 5,
+      "dateDisplay": "08/07/26",
+      "createTime": "2026-08-07T14:19:54.751215Z",
+      "comment": "On time.fixed the issue quickly.  They are now my AC guys",
+      "reviewReply": "Thanks Jack! We really appreciate the review and are glad our team got your air condition fixed quickly and on time. We're proud to be your go-to AC team in Richardson! Whenever you need an honest assessment or fast service, DFW HVAC will be ready to help.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqlP880Y33c3IW_4qMwwrJRuMqUuF4toAZJCLRgJ1MpS3cBYytzX1J9YrFqxuPo2ZLlyZrro",
+      "reviewerName": "Kenneth Dodson",
+      "starRating": 5,
+      "dateDisplay": "08/04/26",
+      "createTime": "2026-08-04T15:59:25.093177Z",
+      "comment": "",
+      "reviewReply": "Thanks Kenneth! We're glad the DFW HVAC team could quickly resolve your AC blower motor issue and get your home back to comfortable. We take pride in providing fast, dependable air conditioning service to homeowners throughout Coppell. Thanks for choosing us and for taking the time to leave a great review!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqlZbS8GpWi8cTA773sKjUF7TjpXjvfmnm8kAU3ztaLs7IMPWoN7JSGf7OqfdLEdqMJqgqVcFw",
+      "reviewerName": "Hermes Trismegistus",
+      "starRating": 5,
+      "dateDisplay": "08/03/26",
+      "createTime": "2026-08-03T01:51:06.724505Z",
+      "comment": "Had to replace the AC unit in a duplex due to system failure and age of the equipment. Jonathan, one of the owners gave me a concise run down of the various problems and was very patient for over a half hour on the phone with all my questions. The crew only took about half of a day to remove the failed equipment and install the new replacement equipment. All in almost 100 deg heat! Neil, the co-owner was very conscientious and gathered pictures and model and serial numbers for out records. Neil bundled all this information in a detailed email. I checked the quote with my favorite AI and the DFWHVAC prices were under what the AI calculated. Great company to do business with! Jonathan and Neil really care about customer education and satisfaction and their crew are excellent technicians!",
+      "reviewReply": "Thanks Hermes! Replacing an AC unit\u2014especially on a rental home during the brutal 100-degree heat\u2014is a major project, so we\u2019re thrilled to hear that Jonathan, Neil, and our HVAC installation crew made the process seamless for you.\n\nAs a local heating and cooling company, we take immense pride in providing clear customer education, accurate HVAC replacement quotes, and detailed service records. Knowing you felt supported throughout the entire air conditioning replacement process means the world to all of us here at DFW HVAC. We appreciate your business and will be here to support you and your tenants whenever you need reliable AC repair and maintenance services in the future!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqk2-0kAWfFdaZwdxYCFMQqDaJ80YJDa52wt0Cvzny3pe4oqfbYSeElFGGNF8KRnYD5KW0Dv",
+      "reviewerName": "Don Grove",
+      "starRating": 5,
+      "dateDisplay": "07/31/26",
+      "createTime": "2026-07-31T18:56:36.045486Z",
+      "comment": "Quick response, quick/excellent service, friendly, and honest.",
+      "reviewReply": "Thanks Don! Friendly and honest service is part of our company DNA and the family legacy. At DFW HVAC, our goal is to deliver transparent pricing and reliable service across the Metroplex\u2014whether it\u2019s routine A/C maintenance, fast HVAC repair, or a full system replacement. We truly appreciate your support, review, and we were glad to get your air conditioner running smoothly!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnpGOPVGziB7YLQVpZ57BxFCsniACNhOhHwSETBQ06sn3O8tSfYOvGriAlp47yWxij8cFQLSQ",
+      "reviewerName": "Bethany McClintic",
+      "starRating": 5,
+      "dateDisplay": "07/24/26",
+      "createTime": "2026-07-24T17:31:34.474978Z",
+      "comment": "DFW HVAC was wonderful to work with. They explained everything thoroughly and got our AC working quickly. Their pricing was fair and they kept in communication through the whole process. We will definitely use them for future HVAC needs.",
+      "reviewReply": "Thanks Bethany! We're thrilled to have earned your trust and very glad that our communication helped make the process easy and clear.\nWe strongly believe in taking the time to explain the HVAC system to homeowners so you understand all your options, our recommendation, and the reasons behind it. Our goal is always fair pricing, fast AC repairs, and honest advice. We will be here and ready to help whenever you or your Coppell neighbors need us!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkJwDVW4H9mU9ThUVYbMRNfYbGY8tS7yvuY7Zf_ix_Gk1jWQvcwmgfI1pi9zDGdbPRWl6uKXw",
+      "reviewerName": "Patricia Green",
+      "starRating": 5,
+      "dateDisplay": "07/20/26",
+      "createTime": "2026-07-20T22:31:29.328018Z",
+      "comment": "Honest, reliable, personable, very knowledgeable and prompt. I highly recommend DFW HVAC!",
+      "reviewReply": "Thanks Patricia! We really appreciate you highlighting our promptness and honesty. Whether we\u2019re fixing an AC not cooling on a hot day or evaluating an HVAC system replacement, our team aims to be fast, knowledgeable, and straightforward without scare tactics or pushing stuff you don't need. Thank you for recommending DFW HVAC!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkbHV62o1Kzeh2bYVbjAUMavnQiR3-tqHd0gyMvbGYzQrmk94EkFLjd7THj8dsgJub4n9T4Cg",
+      "reviewerName": "Mark Bulmash",
+      "starRating": 5,
+      "dateDisplay": "07/15/26",
+      "createTime": "2026-07-15T02:35:57.405643Z",
+      "comment": "Jonathan Grubb went the extra mile to correct the wiring for my three heating/cooling units so that they could run as two stage units, even though I had originally just asked him to replace three existing thermostats with new smart thermostats and EIMs.  I would definitely use them again for any new work on my systems.",
+      "reviewReply": "Thanks Mark! At DFW HVAC going the extra mile is our standard, and Jonathan is a perfect example of that. He saw the big picture and realized your heating and cooling systems were being underutilized. By taking that little bit of extra time to correct the wiring, he essentially unlocked a whole new level of comfort and lower energy bills for you. While most any local company can handle a basic smart thermostat installation, our team specializes in advanced AC repair, complex multi-stage wiring, and zone control systems with ease. We truly appreciate your business and are proud to be your choice for DFW heating and air conditioning!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnsvPiGmt_a5AiETrPySBAGbLvxU_g8qL96Z_TPsWRG0-rN0Hh_ql9vfd-ypZ0_i9OGj37aig",
+      "reviewerName": "Victoria Herold",
+      "starRating": 5,
+      "dateDisplay": "07/13/26",
+      "createTime": "2026-07-13T23:42:55.737561Z",
+      "comment": "",
+      "reviewReply": "Thanks Victoria! We appreciate your trust in us for DFW HVAC services, continuing our three-generation family legacy of providing high-quality heating and cooling comfort across the metroplex. At DFW HVAC, we enjoy our customers and take the time needed to consult when there is a problem or a major repair. Our goal is for our customers to understand all their options and the underlying reasons driving our recommendations. Whether you need emergency air conditioning repair, seasonal AC maintenance, or a complete HVAC system replacement, we\u2019re here to help. We even offer free system replacement estimates, and you can visit dfwhvac.com to use our instant online system replacement estimator tool for a quick quote. Thanks for choosing us to keep your home comfortable!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqniWNOFh7foGElIkw-rHlfYHP-g-Meb68c7Dxg9lq3R9jXxBDRk6Jbt8X-_yBzcrR_dTWMVnw",
+      "reviewerName": "Scott Durco",
+      "starRating": 5,
+      "dateDisplay": "07/11/26",
+      "createTime": "2026-07-11T14:20:25.487941Z",
+      "comment": "Great work by the team. Good communication and on time.",
+      "reviewReply": "Thanks Scott! We really appreciate you taking the time to leave a great review. Our teams know how important communication is and we always try to respect your time by being prompt. Thanks for choosing DFW HVAC for your AC evaporator coil job.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOql5InSpKS25XzY_0gAA8MVZa4Dj5loGABJnxdQzOoTl4pw7xd3nNxRh9oNP7dXb-igajNbr",
+      "reviewerName": "Duane",
+      "starRating": 5,
+      "dateDisplay": "07/06/26",
+      "createTime": "2026-07-06T20:18:08.014617Z",
+      "comment": "A great experience with a great local contractor. DFW HVAC provides great customer service focused on servicing their customers quickly and professionally. AC went out completely mid-afternoon Sunday 7/5. Even the thermostat was black (no power). Neil from DFW HVAC promptly called me this morning (Monday) and immediately set up a service call for 10:30 AM. Service call was prompt and on schedule and Paul performed a thorough check of the furnace and condenser unit. Checked for a clogged condensation line, but al was good. Though no error codes were noted, the suspicion is there was a power interruption that caused the AC unit to shut off. Will monitor for any future failure.",
+      "reviewReply": "Thanks Duane! We really appreciate you taking the time to recognize the team's effort. I\u2019ll be sure to pass your kind words along - they always strive to be prompt, thorough, and professional. We're glad to hear everything checked out clean after that power glitch, but we\u2019re standing by if anything else pops up. Thanks for trusting us when you need reliable DFW air conditioning repair!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkr_fxRr2oXs-0J8K6Taid_7mtd1GokUrYKtbpa0xkBms6It0CHAiHin1Q2vbZ6pxr2DhsxkQ",
+      "reviewerName": "Wendy T",
+      "starRating": 5,
+      "dateDisplay": "07/02/26",
+      "createTime": "2026-07-02T17:11:02.572296Z",
+      "comment": "Great experience. No problems and went smoothly and efficiently. Everything was explained to us in great detail and understandable language. Pricing was reasonable. We are switching our semi annual maintenance plan to DFW.",
+      "reviewReply": "Thanks Wendy! Knowing you had a great experience with your full AC system replacement is the perfect ending to June. We believe that clearly explaining all your options is one of our biggest strengths\u2014we excel at helping homeowners understand one of the most important systems in their home. When it comes to a major HVAC repair and install, our goal is to make it as smooth and efficient as possible so you can get right back to being comfortable and do away with the stress. Winning your business for the long haul and adding you to our maintenance plan is the ultimate compliment. We look forward to keeping your new investment and home comfort protected for years to come!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqk9Cbunz5tKrEableOT1C-KPuh1Gqif_hMiVnCd9aqiv6zpuSPgx0Vt0D2XkfE7iEZ2ZdE9rQ",
+      "reviewerName": "Dr. Ahmed Shoukry",
+      "starRating": 5,
+      "dateDisplay": "07/01/26",
+      "createTime": "2026-07-01T19:21:29.931382Z",
+      "comment": "Thank you for your great service",
+      "reviewReply": "Thanks Ahmed! You're very welcome, and we greatly appreciate you taking the time to leave us such a great review. We look forward to helping you and the rest of our neighbors here in the Coppell community.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqlojsDLFUmeQhHyh-5gadzX2jIEn1Xo8esoKEL2ed7Kf5b0eVLHyO5ew6jXetpfmgWxUVtnYQ",
+      "reviewerName": "Matt McCraney",
+      "starRating": 5,
+      "dateDisplay": "06/29/26",
+      "createTime": "2026-06-29T14:41:43.532080Z",
+      "comment": "",
+      "reviewReply": "Thanks Matt! It was a pleasure working on your AC to get it comfortable again quickly. Whether it's something small like a failed capacitor or an entire HVAC system replacement, you can count on DFW HVAC to take our time and communicate. We'll explain what we find, why we're making our recommendations and be there to answer questions throughout the process. Thank you for your trust in us and the great review!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqntzzF9bvyiGihcAWdv9knZ6nhx6fYkOGE3ZJSS9XZ_dgPjeUen0UhCqXBpbJ9AnbdO5C3Lgw",
+      "reviewerName": "John Young",
+      "starRating": 5,
+      "dateDisplay": "06/27/26",
+      "createTime": "2026-06-27T00:46:13.493610Z",
+      "comment": "The family aspect is what is displayed here\u2026 people who understand how it is to need great, reliable service that\u2019s affordable and fair\u2026 Jonathon was honest and listened to my concerns and the technician he sent, Paul, was top-notch\u2026 they weren\u2019t focused on \u201cup-sale\u201d\u2026 I will use them for all of my HVAC needs and recommend them to anyone and everyone needing installation or service\u2026 Grateful for you guys!!!",
+      "reviewReply": "Thanks John! We're grateful to have the opportunity to do what we enjoy and work with the best customers in DFW. We're proud to be a family owned business - it gives us the freedom to take extra time to fully listen to our customers and explain our recommendations without the pressure of sales quotas. Straightforward, fair, honest HVAC is our three generation legacy and all we do. Thank you for your trust and your recommendation!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmblqctWLa_yuF2TVrrIzPQ4k-6rlVmK_IbxoFXoPpUBrBoXQXiktLyGeOknSiPrFTLaSEouA",
+      "reviewerName": "Bonnie Shinsky",
+      "starRating": 5,
+      "dateDisplay": "06/23/26",
+      "createTime": "2026-06-23T01:03:32.800462Z",
+      "comment": "Very prompt in appointment and knowledgeable in resolving leak from ac.",
+      "reviewReply": "Thanks Bonnie! HVAC drain clogs are incredibly common this time of year because North Texas summers force AC systems to pull so much moisture out of the air. A 5-ton AC system can easily generate 15+ gallons of water a day! We\u2019re glad your home is fully equipped to handle it now with a clear primary line, plus that secondary drain and properly hung auxiliary pan for ultimate peace of mind. We appreciate your business and the great review!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkK6baEaxnwYCs-vP9v0Bus8w02XDJQ1hJ_yx6SwYPIO17dC_rXAwNl9pUk3FFp87_46f7EZw",
+      "reviewerName": "Jane Whittaker",
+      "starRating": 5,
+      "dateDisplay": "06/22/26",
+      "createTime": "2026-06-22T23:40:54.640645Z",
+      "comment": "There are so many businesses out there claiming to offer the best and most efficient HVAC service that it can be difficult to know who to trust and which companies are genuinely looking out for their customers. DFW HVAC was absolutely brilliant from start to finish.\n\nTheir team was informative, professional, and clearly knew exactly what they were talking about. One thing that really stood out was their transparency. They provided videos showing the issues with our system, which gave us confidence in their diagnosis and recommendations.\n\nNot only was the service excellent, but it was also the cheapest refrigerant refill we\u2019ve ever had. They were honest about the condition of our system and explained that we will eventually need a new unit, but there was never any pressure or upselling - just straightforward, trustworthy advice.\n\nProfessionalism, customer service, honesty, and expertise are all qualities you hope to find when building a relationship with a company, and DFW HVAC delivered on every one of them. When the time comes to replace our system, we won\u2019t hesitate to use them again.\n\nIf you\u2019re looking for an HVAC company you can trust, don\u2019t hesitate to call DFW HVAC today. Highly recommended!",
+      "reviewReply": "Wow and thank you Jane! We know trust is everything and we always focus on our relationships over a quick sale. We treat people how we want to be treated and we hate pushy sales tactics just as much as you do.\n\nOur team likes using pictures and video during our assessments because HVAC is so often out of view and hidden away in an attic. It's especially helpful to show when we use the leak detector and find the exact location of the refrigerant leak.\n\nWe\u2019re happy we could get your refrigerant refilled at a great price and help you map out the future of your system on your own terms. Whenever the time comes for an HVAC system replacement, our team will be ready to give you the same honest, five-star service. Your review fills the whole team with pride and we appreciate your business!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqm8bl1NGr8OIfLPgrJU9RFK1PQ6wZG_ME5fP976NZDXASQ6IItO6CADDDx9ZDOLdhvYasf6",
+      "reviewerName": "Denny Appelbaum",
+      "starRating": 5,
+      "dateDisplay": "06/22/26",
+      "createTime": "2026-06-22T13:31:51.197370Z",
+      "comment": "I had to have my A/C condenser and coil replaced.\nThe quote provided was very thorough and the price was reasonable for the units requested. Communication was clear and concise.\n\nBoth owners were on site at one point or another, and the crew was on time and did a very meticulous job, and cleaned up and hauled off everything once the install was complete.\n\nThey also were respectful of our home and spread drop sheets from the entry along the stairs up to where the attic entry was located.\nThe communication was great all throughout.\n\nThe only negative item (which I consider very small) is that I\u2019d requested a warranty registration confirmation for the condenser and coil which were installed, which my last HVAC company took care of for me. I didn\u2019t receive it after prompt (same day) payment, but I simply took care of this item myself shortly thereafter.",
+      "reviewReply": "Thanks Denny! We really appreciate your wonderful review and feedback! As owners, we pride ourselves on being hands-on and ensuring our crew treats your home with the utmost respect, so hearing that the drop cloths and cleanup stood out means a lot to us.\n\nThank you for the honest feedback on where we missed the mark. You\u2019re clearly someone who doesn\u2019t like loose ends and prefers to get things done right away, and we respect that. Because manufacturers allow a 90-day window for registration, our standard process\u2014especially during our busy summer season\u2014is to batch and process the system registrations within the first few weeks. We love how proactive you were to handle it right away and we\u2019ll use this learning to remind our team to communicate that timeline more clearly to our clients.\n\nThank you for your prompt payment, great review and for helping us improve!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmqW_5YXMibjF34kDThZrXGhrxh4LIDWB-yNJE5-nXUtRTGv8ticvtdjPokeNJGbs_TmdpqdQ",
+      "reviewerName": "Matt",
+      "starRating": 5,
+      "dateDisplay": "06/19/26",
+      "createTime": "2026-06-19T16:45:11.636613Z",
+      "comment": "Great service, very responsive, flexible scheduling, solved our HVAC problem in no time, highly recommend!",
+      "reviewReply": "Thanks Matt! Getting ahead of your HVAC maintenance and refreshing some of the smaller components during a move-in is such a smart move to ensure long-term reliability. We were glad to help get the new house ready for you. Welcome to the neighborhood, and don't hesitate to reach out if you need anything else!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqk6KnJOdFhkTSAhtM3Vo01dxLfWNTqau-BAItLHx5mwnfKhvMpRYnvEizPlbvBHfrkvUgRcEg",
+      "reviewerName": "Kari McClure",
+      "starRating": 5,
+      "dateDisplay": "06/17/26",
+      "createTime": "2026-06-17T20:10:55.941400Z",
+      "comment": "Very personable and explained options and recommendations for repair versus replacing AC.  Got us up and running so cooled off immediately and then came back to install. Timely and great crew installing new AC.",
+      "reviewReply": "Thanks Kari! We prioritize spending extra time to communicate and educate our customers. It's important to us that you feel well informed and understand the basis for our recommendations, especially with the recent change in refrigerants. We're proud of the HVAC system replacement we did for you and confident you're going to enjoy the multi-stage system. Thanks and it's always great to help a neighbor here in Coppell!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmf5HsyEW3oDxVFboxWwjrQW7nbA8uL4CjSJz5YAgRKpAQtBlNbZoUrWI7YQY-JnPdi7laxJQ",
+      "reviewerName": "Roy Morris",
+      "starRating": 5,
+      "dateDisplay": "06/15/26",
+      "createTime": "2026-06-15T18:56:02.525090Z",
+      "comment": "Prompt Service and ready answers and choices.",
+      "reviewReply": "Thanks Roy! You're going to love the new system and the AC will keep you comfortable through the hot Texas summer. We appreciate you taking the time to give a great review and we'll be ready to help whenever you or the Flower Mound community needs us.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqlLt5cDziBFe8lOqE3hGtu63INqFSVJBWE06hKhvoCm_pLQ5Yy2q95VH3eozNxbRPuMyQdWfw",
+      "reviewerName": "Leann",
+      "starRating": 5,
+      "dateDisplay": "06/11/26",
+      "createTime": "2026-06-11T19:08:14.286815Z",
+      "comment": "",
+      "reviewReply": "Thanks Leann! We always appreciate the 5-star support. Around this time of year, our team is busy helping local home and business owners answer a lot of common air conditioning questions\u2014especially when the intense North Texas summer heat hits.\n\nLately, we've been helping DFW locals troubleshoot everything from why an AC is blowing warm air to handling emergency air conditioning repairs and replacing failed capacitors. Whatever it takes to keep your system running efficiently through the heatwaves, DFW HVAC is ready to help!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmm_SXzVr_u81wgwHtiYFHq_HKl4B-0ANGb67Ah1R8PNUsyU8S2WLbCYx8AYr39MXM_fchwTA",
+      "reviewerName": "Louise Goodwin",
+      "starRating": 5,
+      "dateDisplay": "06/11/26",
+      "createTime": "2026-06-11T17:05:31.576698Z",
+      "comment": "The service man came the same day I called and diagnosed the problem quickly and had my A/C up and running in about an hour.   He had to replace the fan motor.  He was very friendly and professional.  I only have good things to say about DFW HVAC.,",
+      "reviewReply": "Thanks Louise! Fast, friendly, and professional air conditioning service is how we've done it for the entire three-generation legacy. We're glad our technician had your system running efficiently again in about an hour. Thank you for supporting DFW HVAC, and we'll be ready whenever you need us.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnoGw81fHcWTYLHTltNyc0zEyYwFbLH-bsI0vhkMryW3tHZNgXuR2qnvIADdeqUN2-ELpA05A",
+      "reviewerName": "Joby James",
+      "starRating": 5,
+      "dateDisplay": "06/10/26",
+      "createTime": "2026-06-10T17:57:24.971578Z",
+      "comment": "",
+      "reviewReply": "Thanks Joby! Really appreciate you leaving us a great review and glad to get your home back to cooling and comfortable. It's our pleasure to get to help you and the Lewisville community. Whenever you need us, we'll be ready and happy to help!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkK5Z0BXfDsVlMvOx3qWXXHMhPdIUqxB3-mzZrYXXNzg2D_VS__EeNOb6-7AT3dgTcggm3VDQ",
+      "reviewerName": "Kyle Denney",
+      "starRating": 5,
+      "dateDisplay": "06/06/26",
+      "createTime": "2026-06-06T00:29:03.702853Z",
+      "comment": "Showed up on time within an hour window and repaired my mini split. Very knowledgeable and professional. I will be calling on them again when needed.",
+      "reviewReply": "Thanks Kyle! Glad we were able to get your mini split system back to cooling so quickly. We appreciate your business and great review. Looking forward to helping with your AC or heat whenever you need us.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqn3xWaS5oa2igfybhtTSr4ui8BkkyIgzRzaMRshZDNU9DiKcPa_i6VBZSlFjH8PC1-zFEifHg",
+      "reviewerName": "Billy Szendrey",
+      "starRating": 5,
+      "dateDisplay": "06/05/26",
+      "createTime": "2026-06-05T19:58:57.625974Z",
+      "comment": "Always punctual. Reasonable cost, great service.  Very responsive to unscheduled service",
+      "reviewReply": "Thanks Billy! We practice the Golden Rule and always respect our customers' time. We do our best to set accurate arrival windows for every AC repair or heating service call. Our DFW HVAC technicians even send a text when they are on the way so you aren't stuck waiting around. Whether we are fixing an air conditioner, furnace, or heat pump in an expensive zip code or a modest one, our flat-rate pricing never changes. We keep our HVAC service costs fair and back our work with a longer labor warranty than the competition. We are very proud to have earned your business and your trust.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnG_JFgYBBhYT99E0WtNrXaQlqOo6coVGxg0bRG0S87EnyqxMM79_zG5Ximzo-R6IT0s7ax-Q",
+      "reviewerName": "Leigh Ann Davis",
+      "starRating": 5,
+      "dateDisplay": "05/27/26",
+      "createTime": "2026-05-27T16:22:08.983314Z",
+      "comment": "Jonathan did a great job replacing two very old thermostats in an efficient amount of time. Prices are very fair and this is a family owned company that can be trusted.",
+      "reviewReply": "Thanks Leigh Ann! You're going to love your new modern thermostats, especially now that they are fully installed and programmed. DFW HVAC is proud to be family-owned, allowing us to keep our pricing fair across the entire metroplex. We have a three generation legacy of trust built up that we'll never break, and we look forward to keeping your AC and furnace in great shape for years to come.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnnqtl4Km65LQnLAM4Enatq7QDKqUJq4B2jBlOcOCWMaXJ3it2jNtOEh8wrFow28jfDzZVt",
+      "reviewerName": "Robert Blocker",
+      "starRating": 5,
+      "dateDisplay": "05/27/26",
+      "createTime": "2026-05-27T13:31:30.068613Z",
+      "comment": "DFW HVAC is a company you can trust to do a great job. Johnathan, the owner was on site to insure everything was going as promised. I will be using them as my AC group in the future.",
+      "reviewReply": "Thanks Robert! Backed by three generations of experience, DFW HVAC really prides itself on stepping in to resolve those stubborn, complex ductwork problems that leave others scratching their heads. There is nothing more satisfying for Jonathan and the team than nailing the diagnosis on our very first visit and giving you the peace of mind that a long time issue won't be overlooked again. We are proud to have earned your trust and look forward to being your go-to AC team from here on out.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmFFT3eVTeUCbn-lFmZ8dXBAt_HqvcbdElejjeWiXmWWyV7IvQ0S_Ug-fcMs675C1TeSZ6F",
+      "reviewerName": "Edie Sazama",
+      "starRating": 5,
+      "dateDisplay": "05/13/26",
+      "createTime": "2026-05-13T17:00:22.199073Z",
+      "comment": "Paul arrived on schedule, was very personable, knowledgeable and professional. He identified the problem, replaced the part and checked the temperature to ensure the unit was cooling, in less than hour.  I recommend this service to my friends and family.",
+      "reviewReply": "Edie, thank you so much for the incredible recommendation! Knowing that you\u2019d trust us with your friends and family is the greatest compliment we could receive. All of us here at DFW HVAC pride ourselves on that attention to detail and taking time to explain everything to our customers. So glad to hear you\u2019re back to cooling and your great feedback about Paul. We sincerely appreciate your support and we\u2019ll be ready whenever you need us!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqm2RjAOr7MMXMe2W2M9oN90GVuxSNLInAI3w9oL0i-yYp5p7kUVDT5jO9iU68Q2NxLg-vndeA",
+      "reviewerName": "Edie Sazama",
+      "starRating": 5,
+      "dateDisplay": "05/13/26",
+      "createTime": "2026-05-13T16:50:15.584529Z",
+      "comment": "Paul quickly identified the reason the A/C was not cooling, repaired the problem and the unit was back in service within 30 minutes. He was on time, professional and knowledgeable. The cost was very fair.",
+      "reviewReply": "Thanks for two glowing reviews Edie! It\u2019s great to hear that you found our pricing fair and our team professional. We\u2019re carrying on the family legacy of honest HVAC work at a fair price. We appreciate the support and are glad we could get your home cooling again!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnRHuUPatPimIqWVH4PBveCii9Xo01qpqMZpGydhxFnaZzHpPoML-lNMm08DegdXdXho-Jyjg",
+      "reviewerName": "Rxpert",
+      "starRating": 5,
+      "dateDisplay": "05/08/26",
+      "createTime": "2026-05-08T14:53:02.953329Z",
+      "comment": "problem was efficiently identified and repaired. They are friendly, trustworthy people that do good work. I have called on them over many years for their help and expertise.",
+      "reviewReply": "Thank you! We\u2019re so glad we could jump in and get that HVAC repair sorted out for you. We try to keep things simple: be friendly, be honest, and do the job right. Having you call on our family for our expertise over many years is truly the best compliment we could receive. Give us a shout whenever you need us next!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmtPmCNi3SvkoYD5lpW4S9vD1ujgKdbPpjCZ6zZSkTX4tZWKUaX_Nmyb7VU-2P67CsOzP5fHQ",
+      "reviewerName": "Saroeurn Soeun",
+      "starRating": 5,
+      "dateDisplay": "05/07/26",
+      "createTime": "2026-05-07T19:54:22.669077Z",
+      "comment": "Paul was great! Explained what the issues were and how to help prevent it in the future. Highly recommend this company. Wonderful job!",
+      "reviewReply": "Thanks Saroeurn! Paul is a pro at the 'why' behind the fix. All of us at DFW HVAC believe an informed customer is a happy one, so we take the extra time most companies won't to explain the job. We\u2019re glad your AC is back to draining properly and your home is protected. Thanks for the recommendation!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkrplnllV26vaXCqjF71HUKo_Va7KcnMdQRzvoW3APNv5sBH-XELpgeZWondDsYr5JVQEa1JA",
+      "reviewerName": "Kyle Stark",
+      "starRating": 5,
+      "dateDisplay": "05/05/26",
+      "createTime": "2026-05-05T01:18:46.782708Z",
+      "comment": "I\u2019m so thankful for the guys at DFW HVAC! Incredible service, worked quickly and a reasonable price! Thanks for taking care of us guys!",
+      "reviewReply": "Thanks Kyle! I'm really glad the guys were able to track down the new condenser fan motor and get your AC cooling again so quickly. As a business built on a three-generation family legacy, we love what we do and we treat our customers like we'd want to be treated. We just fix what is actually broken and get your home comfortable again, with absolutely no high-pressure sales pitches. We're proud to take care of our neighbors in Arlington, and we're always here if you need us down the road!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqlVHu7nKQee4fm6DyN21PbjQRKdf1M237L_NUufSmXZMNGzNIPtVgGgPfazvEQ-Oe7qBKMP8Q",
+      "reviewerName": "Thomas",
+      "starRating": 5,
+      "dateDisplay": "04/30/26",
+      "createTime": "2026-04-30T23:56:51.924992Z",
+      "comment": "Very thorough technician. Excellent at trouble shooting.",
+      "reviewReply": "Thanks Thomas! One of our core tenets at DFW HVAC is excellence in what we do, so it\u2019s awesome to hear our tech\u2019s troubleshooting measured up. Whether it\u2019s an AC system replacement or just routine HVAC maintenance, being thorough is just how we do things. I\u2019ll be sure to pass your thanks along to the technician\u2014it will make his day! Glad we could get your HVAC in top shape again at a price that hit the mark.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnbY2idFL7ALmhTTf84QyT3VhT_5kRwGoTlaZrikGZxEnkUajeORuLlbRApb3dqX9xQhkJRzQ",
+      "reviewerName": "Brian Mizell",
+      "starRating": 5,
+      "dateDisplay": "04/26/26",
+      "createTime": "2026-04-26T14:17:20.364256Z",
+      "comment": "DFW HVAC and the Grubbs family have always been excellent to work with.  We\u2019ve used them for more than 10 years for systems maintenance, replacement of units, and everything in between.  They provide great service at a fair price.  Thank you!  Highly recommend.",
+      "reviewReply": "Thanks Brian! We are honored to hit that 10-year milestone with you. From AC maintenance to full HVAC replacements, our company is built on trust, excellence, and care in all that we do. This is the heart of our three generation legacy carried forward by Ronny and Jonathan. We appreciate your support and we'll be here whenever you need us.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmW6wgv6-szf6s08s6mZuGo2cUGdiIPGuG8xPjxsVChFE4nlWOHKm1ROok8vsdptAzg7voc",
+      "reviewerName": "Sharon Boelhouwer",
+      "starRating": 5,
+      "dateDisplay": "04/24/26",
+      "createTime": "2026-04-24T09:40:17.076972Z",
+      "comment": "Paul is very professional. He answered all my questions and explained his repair satisfactory. Thank you for your service all these years",
+      "reviewReply": "Thanks, Sharon! We truly appreciate your thoughtful review and your long-term support as a loyal customer.\n\nPaul is a real pro and excels at discussing the \"how and why\" of a repair or HVAC system function with our customers. At DFW HVAC, we uphold a service standard that your HVAC systems and repairs should never be a mystery. We want you to feel completely confident and informed about how your furnace and AC are performing. Spring maintenance is an essential way to lengthen your system\u2019s lifespan and avoid an unexpected outage in the heat of summer.\n\nThank you again for your business over the years. We look forward to keeping your home comfortable for many more years to come!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqktzdS6m1I4wv9v8ziEvlq9IsRSgyiZgbxVssK-zOb2iJTdfRja8Q2czq7F3zmaPgYtCMufcQ",
+      "reviewerName": "CJ Lenart",
+      "starRating": 5,
+      "dateDisplay": "04/23/26",
+      "createTime": "2026-04-23T02:20:28.961607Z",
+      "comment": "Timely, knowledgeable, and estimate was reasonable. Showed up when the were scheduled and cleaned up after the work was completed.",
+      "reviewReply": "Thanks CJ! We\u2019re glad to hear the HVAC system replacement went smoothly. Our team takes a lot of pride in being punctual and leaving the job site clean\u2014we know that's a big part of a professional AC installation.\n\nA full system replacement is a significant project, so it\u2019s great to know you found the estimate reasonable and were happy with the one-day installation. We appreciate your trust in DFW HVAC and we're here whenever you need help with your heating or cooling in the future!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOql6ObsSnMfgbW_j1NO0ez0vpn_0qMcRADT-3_km-2kdm7YRq_-hLQ41pRvDUdWgSRIMggr4DQ",
+      "reviewerName": "Kerry Smith",
+      "starRating": 5,
+      "dateDisplay": "04/22/26",
+      "createTime": "2026-04-22T17:41:56.615563Z",
+      "comment": "",
+      "reviewReply": "Thanks Kerry! We\u2019re glad we could get your home cooling again with your new AC and coil featuring next-generation refrigerant (R-454B).\n\nFor homeowners looking to improve their indoor environment, these units pair well with the REME HALO Zero. It is a 100% ozone-free air purifier that neutralizes up to 99% of bacteria, viruses, and allergens. Contact us if you would like more information on adding this technology to your air conditioner.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkP79unHOkbn_YMyyetHfV3vSISTMAp4chVAoveyR832hXo7DeiPkbCQDQEQ_qj9tww-igI",
+      "reviewerName": "Ethan Thompson",
+      "starRating": 5,
+      "dateDisplay": "04/16/26",
+      "createTime": "2026-04-16T16:44:17.262794Z",
+      "comment": "Quick and professional AC installation. On site the crew were able to preserve parts of the older system and pass on the savings to us.",
+      "reviewReply": "Thanks Ethan! As a local Coppell company, we love seeing our work out in the community. The crew takes a lot of pride in every AC installation, and those clean lines on your new condenser in the photos really show their commitment to quality workmanship. We treat customers how we'd want to be treated and that means saving you money\u2014whether by preserving the functional parts of your existing air conditioning system or making honest recommendations from the start. Enjoy the new system and stay cool!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkLlyfcHrH7vX3B3Qprow93jncGebHQWhJSopRghtBZAG0eyg1D1lLGeT4KoTg5-PRhn4zJ",
+      "reviewerName": "Ann",
+      "starRating": 5,
+      "dateDisplay": "04/03/26",
+      "createTime": "2026-04-03T22:52:54.107371Z",
+      "comment": "I have used the family business service for 20 years.  They were honest and met out heating and AC needs promptly.  Paul was very patient on the phone with the issue. Followed up and came on the same day to take care of the issue.",
+      "reviewReply": "Wow, 20 years, Ann! Thank you so much for sticking with our family for two decades. We\u2019ll be sure to pass your kind words along to Paul\u2014he takes great pride in being patient and thorough on every call.\n\nAs a business with a three generation legacy, providing that same-day heating and AC service throughout the metroplex is what we've grown up doing. We truly appreciate your loyalty and we\u2019ll be here whenever you need us next!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqlrUDhQ-P8kdk8nR1NkhJeSFaVnHNSimFDK8u0JOE_W7lRSi8GisEPnDgwmPROealAr12AZfQ",
+      "reviewerName": "Howard Cummins",
+      "starRating": 5,
+      "dateDisplay": "03/26/26",
+      "createTime": "2026-03-26T19:53:13.732271Z",
+      "comment": "We met Jonathan through a referral from neighbors who have used DFW HVAC. Jonathan was very prompt at getting back to me and providing a quote and even more prompt at getting the work done. Is price was very competitive and the quality of the work was outstanding. After completing the job everything was cleaned up nicely and you would have never known they were here. I will use DFW HVAC for my future air conditioning needs.",
+      "reviewReply": "Thanks Howard! We truly appreciate your neighbors for the referral\u2014there\u2019s no higher compliment for us than being recommended by one neighbor to another. Our team takes pride in providing prompt service and always leaving a clean job site. We approach every job with excellence in mind and care for your home like it\u2019s our own. We\u2019re thrilled we could deliver quality work at a competitive price and appreciate you trusting us to be your go-to for all things HVAC.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqno3uXij7MzZXgruKAGLPonHMwnlYIbIaegupi2k73E639FaTct9MaQtuIXtE9UtYjOi4ZI",
+      "reviewerName": "Mahtab Rouhani",
+      "starRating": 5,
+      "dateDisplay": "03/25/26",
+      "createTime": "2026-03-25T12:46:04.159371Z",
+      "comment": "",
+      "reviewReply": "Thank you for the 5 stars Mahtab! We're glad we could get that AC repair handled for you quickly.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqlqidI9jJgHfwGxZir22npkfxG2CCnrHpASGkQO6_AAQd5FdXBhIlElGIxyZQzxbWxdYQkS",
+      "reviewerName": "Becky Blazek",
+      "starRating": 5,
+      "dateDisplay": "03/14/26",
+      "createTime": "2026-03-14T12:15:35.199273Z",
+      "comment": "Used this company for years. Excellent service; trustworthy, dependable, and honest.",
+      "reviewReply": "Thanks Becky! We appreciate your support over the years. Our team is happy to be your choice for dependable heating and air conditioning in Arlington. We'll be ready to help whenever you need us.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnGx67tTrm6cqiJWgjhE_Wx4HM-EhLhE6iCj2uHLh3N7-7uTrhAr8E6Z4pF8Wn7T1Eo2euxEQ",
+      "reviewerName": "Leigh Anne McKingsley",
+      "starRating": 5,
+      "dateDisplay": "03/11/26",
+      "createTime": "2026-03-11T18:10:34.314010Z",
+      "comment": "DFW HVAC is a top-notch, trustworthy company who gives honest assessments of the problem, provide quality work and truly care about their customer's needs. I highly recommend!",
+      "reviewReply": "Thanks Leigh Anne! It\u2019s wonderful to hear you had such a great experience. We've built the business around excellence, trust and care, so knowing we hit the mark for your AC repair is great feedback. We\u2019re always here for you and the community whenever you need us!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqlCE3djw1v3UqdMR83vz6FxBeXHq4yPSjhjkYnrHu5Cw4hefXp11WAJyVewxHo2pu7cr0uhIQ",
+      "reviewerName": "Mary Furlong",
+      "starRating": 5,
+      "dateDisplay": "03/10/26",
+      "createTime": "2026-03-10T20:24:35.491605Z",
+      "comment": "Always a professional experience with DFW HVAC!  Thank you!",
+      "reviewReply": "Thanks Mary! DFW HVAC is built on a three generation family legacy of excellence, care and trust serving the metroplex. These core values guide our entire company and each of the professionals on the team. We'll be ready to help whenever you need us.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqlOlOEclNRwv54cx-ykRuu6CqNWNSMa2hM-aD2modonibMarAWC5qdaHK1yL-t8GZ7-ZXK_qA",
+      "reviewerName": "Kelly Bowyer",
+      "starRating": 5,
+      "dateDisplay": "03/10/26",
+      "createTime": "2026-03-10T19:33:35.841871Z",
+      "comment": "Thanks again for your help!",
+      "reviewReply": "Thanks Kelly! Our team is glad to help and quick to respond. We appreciate your business and will be here whenever you need us.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnN7sfJPHUEIq6mmS8qvIbl2uZfIDfeJ1obdigenk_ngDH_5_I42OCw30eqp7zZ8eN2GRGqog",
+      "reviewerName": "Dave Lacki",
+      "starRating": 5,
+      "dateDisplay": "02/25/26",
+      "createTime": "2026-02-25T15:33:15.557528Z",
+      "comment": "As usual great service from DFW HVAC",
+      "reviewReply": "Thanks Dave! We appreciate your business and all of your support over the years.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqntHOEmi09B36iqyA6fQrswHYpdgH7wqIGpNedkpdfpPfR6sHOl7Apm_nYuJ0xR9JKePdZHpw",
+      "reviewerName": "David Green",
+      "starRating": 5,
+      "dateDisplay": "02/24/26",
+      "createTime": "2026-02-24T17:54:42.474623Z",
+      "comment": "I\u2019ve done business with this family owned and operated HV/AC business for many years and have always been very pleased with the services they provide. The HV/AC service work they\u2019ve done on my rental properties and my my home are prompt, reliable and fair priced.  I highly recommend them to my friends and neighbors.\nDave Green",
+      "reviewReply": "Thanks Dave! We have a three generation family legacy of trust, excellence and care in the work we do and the customers we support. We are very proud to carry the torch and treat people like we would want to be treated. Thank you for your many years of business and for your support in helping us spread the word!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkmMPgYyiIjazSfn8yZ68RZWEgqiy74m9mxr-VmypfRBYLOfl3Xjn0No0NedT3chTGbTm_AmA",
+      "reviewerName": "David Bullock",
+      "starRating": 5,
+      "dateDisplay": "01/23/26",
+      "createTime": "2026-01-23T20:45:02.696604Z",
+      "comment": "DFW HVAC replaced my packaged system. In every respect, this family owned business exceeded expectations. Replacing older packaged systems can be challenging, but these gentlemen and their whole crew are seasoned experts and perfectionists. From the first consultation to the prompt and meticulous custom installation, I have been thoroughly impressed and satisfied with DFW HVAC.\nDavid B\nDallas Texas",
+      "reviewReply": "Thanks, David! DFW HVAC draws on three generations of family HVAC experience, giving us a deep well of knowledge to apply to every project. Our team enjoyed using their creativity and skilled craftsmanship to customize your installation. HVAC system design has evolved over the decades, so it was important to tailor the new system to your existing ducting to ensure optimal airflow, efficiency, and comfort. The team\u2019s attention to detail really shone in the custom duct transition, which looks as good as it performs. Thank you again for your review and your business\u2014we\u2019re always here whenever you need us.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmVh4GuV2KRJpVrLmFX7EfMmyJpbcj8caDdoy8qojnFtXFZNIgDEOQ-C2iKqcAXINFWzVgfRQ",
+      "reviewerName": "Julie Martinez",
+      "starRating": 5,
+      "dateDisplay": "01/15/26",
+      "createTime": "2026-01-15T23:44:57.565712Z",
+      "comment": "Always great service!!",
+      "reviewReply": "Thanks Julie!!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqky-3hW3eGUoRXCyG3FjbxYjcJqyanNRihUu_SIihZrsmUYWfM6sVkChvdilaylzxIxVK0sRg",
+      "reviewerName": "Duane Dewart",
+      "starRating": 5,
+      "dateDisplay": "01/12/26",
+      "createTime": "2026-01-12T20:02:27.980566Z",
+      "comment": "This is the second HVAC system DFW HVAC has performed at my home with American Standard systems. I can't express enough good things about the service commitment Jonathan and his team provide his customers. So nice to deal with a small local contractor. He was prompt to respond to my HVAC replacement needs and provided me with a very competitive price for an American Standard Gold Series 5 Ton AC and 100,000 BTU furnace. The installation went smoothly, and the entire workspace was cleaned like they weren't even here.",
+      "reviewReply": "Thanks, Duane! Your experience is exactly what we strive to deliver every time at DFW HVAC. We\u2019re very intentional in how we approach each job\u2014taking the time to consult before making recommendations, installing high-quality equipment, and leaving your home comfortable, clean, and tidy. We respect your home and your time, and we work hard to earn our customers\u2019 trust through transparency and fair pricing. We appreciate your continued business and look forward to supporting your systems for many years to come.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkgo1mspQUj5cqpW_Xe6CJhZGVTfRhWKfKP-b1AfvEk9935KOEAgtfLTCdTJCU069_ykgNbxg",
+      "reviewerName": "Jimmy Long",
+      "starRating": 5,
+      "dateDisplay": "01/06/26",
+      "createTime": "2026-01-06T23:21:40.622868Z",
+      "comment": "Very responsive. Technician was very friendly, knowledgeable, and detail oriented. Definitely will use again.",
+      "reviewReply": "Thanks Jimmy! We really appreciate you taking the time to share your experience. We\u2019ll be sure to recognize your technician for delivering the friendly, knowledgeable, and detail-oriented service we believe every customer deserves. At DFW HVAC, we take pride in providing clear guidance, fair pricing, and work we confidently stand behind. We look forward to serving you again whenever you need us!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkWynsyG6XynDcylv_jjZek3Oj3bud9GBhSdle2ZJvSvK9XCcYsnO-obKEGEWXXpGSJSWyn",
+      "reviewerName": "Kenneth Eller",
+      "starRating": 5,
+      "dateDisplay": "12/23/25",
+      "createTime": "2025-12-23T03:56:46.062599Z",
+      "comment": "",
+      "reviewReply": "Thanks Kenneth!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkILB_1WYs_3Zyr3jK5bSC3Ia24U7P4X23pXW3CTubWKnZwjtYZDTWTGb74BYguhg5EiSvOPA",
+      "reviewerName": "Cindy Corbitt",
+      "starRating": 5,
+      "dateDisplay": "12/17/25",
+      "createTime": "2025-12-17T01:20:46.997417Z",
+      "comment": "I've used this family business for many years at several of my homes. They are as honest as can be. They do great work and really keep the costs down. They have saved me with a simple fix for the cost of a service call all the way helping me with new systems. They're not trying to sell new systems you don't need, but if the time comes that you need something new, they explain the issues and options and help you make the decision that's best for you. I trust them and recommend them to all my friends.",
+      "reviewReply": "Thanks Cindy! Your review is exciting because your experience is exactly what we aim to provide. We always look for the most cost effective way to solve the issue and take the time to educate and explain the thought process supporting our recommendations. We whole heartedly believe in being honest and treating customers the way we'd like to be treated. Thank you for your business and for supporting us with recommendations to friends and this fabulous review!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkMlWhrPRhnFT6BrV-UNi6YKKFerEPd70MpmPSHwWb2xWS8BJ95Yyif_1OOuYVFP8pa2-zN_Q",
+      "reviewerName": "Kathy Foss",
+      "starRating": 5,
+      "dateDisplay": "12/04/25",
+      "createTime": "2025-12-04T23:19:58.719556Z",
+      "comment": "",
+      "reviewReply": "Thanks Kathy! We're glad that your dehumidifier was covered under warranty and that we were able to get the new unit installed and running great before the rain. We enjoy helping our Castle Hills neighbors keep healthy indoor air quality and temperatures comfortable.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkowC05jYM1bfJN8nv-xKEPSlc_no_DVgJlD04yjcp_Y96GhD50unWLgE0dYv4lRjQ6pyzjDA",
+      "reviewerName": "Patch Garcia",
+      "starRating": 5,
+      "dateDisplay": "12/02/25",
+      "createTime": "2025-12-02T18:16:17.444120Z",
+      "comment": "Always responsive and incredibly dependable. They\u2019ve serviced my home for years, and the quality and consistency have always been excellent. Highly recommended.",
+      "reviewReply": "Thanks Patch! We strive to build long-term, high trust relationships with all of our customers and make it easy to work with us. When combined with high-quality diagnosis and workmanship, being dependable, consistent, and responsive are key ingredients to creating those relationships. It's very satisfying to get your feedback and see that we're hitting the mark. I'll pass on your praise to the entire team here at DFW HVAC. Thank you for your business and we appreciate you taking the time to share such a great review!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkMjtRZnFD5LJGQmjsyxRmNno0VSMMXzv5Y6PB63L3lYe4YOOei1RJ8R4Oluur-j4FYD7fGvg",
+      "reviewerName": "Kim Vastine",
+      "starRating": 5,
+      "dateDisplay": "11/26/25",
+      "createTime": "2025-11-26T15:30:22.924223Z",
+      "comment": "Very cheerful and responsive communications and thoroughly  professional in their work for a job well done. Highly recommend!",
+      "reviewReply": "Thanks Kim! It was great to have a chance to work with you and support your business. When closing deadlines are coming and you're juggling all the details on behalf of your client, we're there to make the HVAC related projects easy and transparent. Cheerful, responsive and clear communication, combined with comprehensive documentation and a keen focus to deliver on time, means you can trust us and apply more focus elsewhere. Thank you for helping us spread the word about DFW HVAC to your favorite realtors and clients. We look forward to working with you again!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkHVtUQlXoGpBXLPJ4Xa27H5A7aEkk14RZeZdlY_uBl8f2PRZ9CWEXqY2G9DpyhfSYA_VlG",
+      "reviewerName": "angela bridges",
+      "starRating": 5,
+      "dateDisplay": "11/25/25",
+      "createTime": "2025-11-25T19:06:33.041707Z",
+      "comment": "Great company and great price!",
+      "reviewReply": "Thanks Angela! We appreciate your business and you taking the time to give us a great review.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmpVjD1s5tUTGHlfMJvF-wH476d9upu_Vgxqc0hCICgUIp4PfCTW7I6MWN8MqqZsdyd9_m7GQ",
+      "reviewerName": "Rhett",
+      "starRating": 5,
+      "dateDisplay": "11/19/25",
+      "createTime": "2025-11-19T18:47:19.428952Z",
+      "comment": "These guys were more knowledgable than the other two companies that I got bids from and better priced.  They came out ant and did a beautful installation.",
+      "reviewReply": "Thanks Rhett! It was our pleasure getting to install your new HVAC system. Having a knowledgeable and experienced consultation is more important than many homeowners realize. This is because there isn't a better time to modify a system and solve longstanding issues than when it's system replacement time. As you experienced, many companies don't take the time to assess all the factors or consult to uncover how to adjust the design to solve issues now and optimize for the future. All of us at DFW HVAC take pride in our workmanship and ultimately in your satisfaction as our customer. Thank you for your business and for taking the time to give a great review!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmgD2f2OseIG8AOE5D7rqaGqTuM2wogPAhgpxQ3hGbBn9TVqLKsklX5kCd4YtMZdS0DqykGsA",
+      "reviewerName": "Thomas Jarman",
+      "starRating": 5,
+      "dateDisplay": "11/03/25",
+      "createTime": "2025-11-03T15:02:33.355312Z",
+      "comment": "This was the best experience I have ever had with a/c people. Paul and Jonathan were gracious and professional during the whole time. All aspects from service to installation were handled with the best communication and patience. I HIGHLY RECOMMEND THESE GUYS !!!!!!!!!",
+      "reviewReply": "Thanks Thomas! To hear that this was your best experience with an HVAC company truly makes our day. Our entire team is staffed with professionals who value communication and will take the time to explain what we find, the options available, and the details of why we recommend the solutions we do. We look forward to helping you and your community with any heating and air conditioning needs in the future.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqm58QuQqtywuQ_peBvsqLpMtCM-Wvgp1NcE_Yv-QoKOeDMU0MQMjmtpYmP2ad-YusigSBk8Qg",
+      "reviewerName": "Wil Atkins",
+      "starRating": 5,
+      "dateDisplay": "10/17/25",
+      "createTime": "2025-10-17T20:53:06.426616Z",
+      "comment": "We had a fantastic experience with DFW HVAC. They installed a new AC system and furnace for us, and also fixed our ductwork that had been making some rooms too hot and others too cold. The difference is night and day \u2014 our whole home is comfortable now!\n\nThe team was professional, efficient, affordable and super easy to work with. You can tell they really care about doing quality work. If you need HVAC service in the DFW area, these are the guys to call!",
+      "reviewReply": "Thanks Wil! Your family is going to love the new two-stage system. We're excited to hear your feedback on the redesign of the ducting as we expect it to make a big impact on your bills and in keeping the western bedroom comfortable. We look forward to serving you and the Flower Mound community for years to come!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmE1G-2NMKcdTHvdYEYVEnSEgQhGAVrm9v41HQdHnygFkewEQ8gZdeUrE7Pc76KE4OAaP3Hxg",
+      "reviewerName": "Brian Seibel",
+      "starRating": 5,
+      "dateDisplay": "10/15/25",
+      "createTime": "2025-10-15T23:33:51.467402Z",
+      "comment": "I called DFW HVAC and they were at my house the next day. They resolved my air distribution issue in one day. Now,  I don't have some rooms that are cold, some not.",
+      "reviewReply": "Thanks Brian! Glad we were able to solve the issue and keep all of the house comfortable. Air distribution can be tricky and so many homeowners live with the issue not realizing it can be solved. Thanks for giving us a great review and we're ready to help whenever you need us.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqm8wewTYLvekEGyCmcrMrGpVHWIZ-U7iGMNyiHTxkT34jaeSiOVGxKgCtox4PYIZyYUwo-RjQ",
+      "reviewerName": "Sharon Boelhouwer",
+      "starRating": 5,
+      "dateDisplay": "10/15/25",
+      "createTime": "2025-10-15T18:16:34.280698Z",
+      "comment": "Paul was very professional and answered all my questions",
+      "reviewReply": "Thanks Sharon! Great to hear how well Paul did and we'll let him know. All of our technicians will take the time to explain what's going on with the system, what needs to be done and why they make their recommendations. We value the chance to explain the logic and our approach so that our customer's understand and are fully informed about their options when they make decisions for their home or business.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqm7GHdIlg1LMHIge7jddGIpdomHId4DuknJVJCsr_ACU2bqrMLXWUB39T7ZvXp2ABrsrEB7Qg",
+      "reviewerName": "Jonathan Houston",
+      "starRating": 5,
+      "dateDisplay": "10/10/25",
+      "createTime": "2025-10-10T12:25:23.803890Z",
+      "comment": "Paul did a great job getting our AC fixed quickly. I highly recommend them!",
+      "reviewReply": "Thank you Jonathan!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnUwSlVs2tJhpTYiwuCo13_1AriMyygjKjZ-1vN76EmzLRa0rjjcsaj2ANnLtSiWOZaGsXY2A",
+      "reviewerName": "Rod Giesselmann",
+      "starRating": 5,
+      "dateDisplay": "10/08/25",
+      "createTime": "2025-10-08T21:54:09.643909Z",
+      "comment": "Both Jonathan at office and Paul at our house were very helpful...used their father for years with HVAC stuff...he is and should be proud of them!!!",
+      "reviewReply": "Thanks Rod! We're very proud of our long family heritage of treating people right and helping our communities with high quality work at fair prices. We have three generations of HVAC business in our DNA, and it's built into the very core of DFW HVAC.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmzsjYBmjWcYioMUw1EtwGT2m5VG7_EoFI5r9xMWQ7tHVx329i9JXHuFSdBayyffdMsv1D_mA",
+      "reviewerName": "John Kutzer",
+      "starRating": 5,
+      "dateDisplay": "09/11/25",
+      "createTime": "2025-09-11T14:59:22.402532Z",
+      "comment": "",
+      "reviewReply": "Thank you John!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmRqE4Zl5CFSoQs0Fpr6HgfC7iaHlgjZUVc6HcpyYANgA0XqYJNwH5H8SdBxPcBvfqeUOGo-w",
+      "reviewerName": "Bobby Nulisch",
+      "starRating": 5,
+      "dateDisplay": "09/02/25",
+      "createTime": "2025-09-02T12:39:59.584428Z",
+      "comment": "DFW HVAC is professional, accurate, reasonable and affordable! I give them my full recommendation. Paul quickly identified our church's AC's  power issue and told us what was needed to fix it. The AC is running great now!",
+      "reviewReply": "Thanks Bobby! We love your feedback and appreciate you taking the time to give a review.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnXuJqCJVg5YaEY-XtNEhue-Qa2sltzIwI_MPH-ydH4NsOTEJRu4kx3SLnan_cuVdApamUd",
+      "reviewerName": "Torri Hayden",
+      "starRating": 5,
+      "dateDisplay": "08/27/25",
+      "createTime": "2025-08-27T21:18:02.097602Z",
+      "comment": "",
+      "reviewReply": "Thanks Torri!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqlkPSXFeDZhkWaqe5lw5S7DpQXiPQZCZknt06OiqB3MAztvKDgqWSQ14o_8mWODg_haTqt0YA",
+      "reviewerName": "Bonnie Wilder",
+      "starRating": 5,
+      "dateDisplay": "08/26/25",
+      "createTime": "2025-08-26T14:28:12.574558Z",
+      "comment": "Service is good. A family owned business that their father started and taught them. A legacy they carry on with good customer service and follow up.",
+      "reviewReply": "Thanks Bonnie! We're very grateful to be a family business carrying on the tradition of not only our dad, but of our grandfather too. We cherish being part of three generations of HVAC experience, knowledge and a legacy of doing right by our customers. We appreciate your business and support!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqls28XNLY1U9FPOVuS-XiHiEi1-gxpaYYQLLE8DnWCMeNH6Zqubu0vqlEnIoP7vHaECFwOsVg",
+      "reviewerName": "Brandon Baughman",
+      "starRating": 5,
+      "dateDisplay": "08/22/25",
+      "createTime": "2025-08-22T19:46:55.836238Z",
+      "comment": "Fast, friendly service.  Fan motor seized mid day on the hottest day of the year.  Gave them a call and they had a tech out and got us back up and running before dinner.",
+      "reviewReply": "Thank you Brandon! When the AC fails on a DFW summer day you know who to call. You can even contact us via text or online at www.DFWHVAC.com. Glad you're back to staying cool and comfortable. Thank you for your business and such a great review.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmJBSD_4hDFnyuQ6Unt7dYha_QfZ-qitHI2DOK8pVlul7pctF_M1UulleVZF3EJKNFxKjyl6Q",
+      "reviewerName": "Michele",
+      "starRating": 5,
+      "dateDisplay": "08/22/25",
+      "createTime": "2025-08-22T18:44:13.898831Z",
+      "comment": "Professional, HONEST, friendly, and really took their time to teach me about my a.c. system and what to look for. Im so thankful I found them! I recommend them to anyone who wants an honest, personable Professional, who will take the time to answer your questions and look for solutions...instead of pressuring and using fear tactics to sell a new a.c. unit. This company is a treasure!",
+      "reviewReply": "Thanks Michele! This is such a fun review to see because your experience is exactly what we aim to provide. We are experienced professionals who enjoy helping educate home and business owners about how their systems function and what has gone wrong. We take the time to listen before we respond and have pride in our work, our company and in the way we treat people. Thank you for your business and your review. We look forward to helping you whenever you need us.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnQ6wtYl8gRx_kiaWJHppESIwKkQMuT-w6GlQhN_5sLle2m5JZ3_20ZGg1NNq7Ttt8SH5X9",
+      "reviewerName": "Sam Shank",
+      "starRating": 5,
+      "dateDisplay": "08/19/25",
+      "createTime": "2025-08-19T14:33:50.070826Z",
+      "comment": "Great service",
+      "reviewReply": "Thank you Sam!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkHos099zY-X92a3QAMjcLu8VHC6q015TTq12derNWK7ZYNHKnj2uR7RmoBUzmxQxaf1cA50Q",
+      "reviewerName": "John Foss",
+      "starRating": 5,
+      "dateDisplay": "08/14/25",
+      "createTime": "2025-08-14T14:45:55.291376Z",
+      "comment": "Very responsive and straightforward to deal with, great service.",
+      "reviewReply": "Thanks John!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkhbufGz3HR38F87cR5j3_PRYElXOeA1-IYlB2JUiAxH2JO2vmLAENEqcqFSrkdai0fal1YhA",
+      "reviewerName": "Kevin Grogan",
+      "starRating": 5,
+      "dateDisplay": "08/13/25",
+      "createTime": "2025-08-13T18:56:19.983470Z",
+      "comment": "Paul is always great to work with and figures out the root cause of equipment problems. If he has the needed parts, he will make repairs quickly and get us back up and running.",
+      "reviewReply": "Thanks Kevin!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkCgtgc_fxy9mo-ZVrU4ZyGjmcLSjpFH25UNa_KwaJsvlV8pgV6bWvJ4GLSAb-f44fDSRwudg",
+      "reviewerName": "Bobby Blazek",
+      "starRating": 5,
+      "dateDisplay": "08/07/25",
+      "createTime": "2025-08-07T23:45:46.553542Z",
+      "comment": "Prompt service, quick diagnostic, quick repair, Great job",
+      "reviewReply": "Thanks Bobby! We appreciate your business and taking the time to give a great review. Glad you're back to staying cool as the Texas heat keeps rising.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnzspQC5vP8ztSOCso6ti8xMe99j5naj3su0T4XjvYKteWYnhH_hHwFLrO1JzYHjnaQO8WSDA",
+      "reviewerName": "Bill Stallsworth",
+      "starRating": 5,
+      "dateDisplay": "08/04/25",
+      "createTime": "2025-08-04T19:56:47.785401Z",
+      "comment": "DFW HVAC (Paul G.) did an outstanding job. In 5 minutes he had several ideas that could be causing the problem. His meters told him he was right and within 20 minutes the system was cooling again. This is the only company I will call to work on my system.",
+      "reviewReply": "Thank you Bill! Reach out to us anytime at www.dfwhvac.com.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqlslbpfmvZ25RD2rRq4hqeDMCWficlnuvugnQeyxBx8-b4RA1iRzk_Ob3lx8eEIz1sBU49VXQ",
+      "reviewerName": "Angie Roden",
+      "starRating": 5,
+      "dateDisplay": "08/02/25",
+      "createTime": "2025-08-02T18:00:41.840564Z",
+      "comment": "Great work!  Friendly tech.  Thank you so much!",
+      "reviewReply": "Thanks Angie! Our pleasure and we appreciate you sharing your review.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmw-iT35BPdbw3XZXgXqwhuYWJimL8eIfhovmcT0NxEgbjdhomZooObjUWcb2dzQy9QvES3RA",
+      "reviewerName": "Wes Hall",
+      "starRating": 5,
+      "dateDisplay": "07/31/25",
+      "createTime": "2025-07-31T18:30:48.772506Z",
+      "comment": "",
+      "reviewReply": "Thanks Will! Whenever you need DFW HVAC we'll be ready. Reach out to us or schedule directly at www.dfwhvac.com.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOql6vVXeJUIqv6CdkPH7dP78SPaxmL37RabJcEUPje55EdkF5GQERQDgQCHeB44I9uTpBKOL",
+      "reviewerName": "Sandra Smith",
+      "starRating": 5,
+      "dateDisplay": "07/30/25",
+      "createTime": "2025-07-30T21:55:35.196219Z",
+      "comment": "",
+      "reviewReply": "Thank you Sandra!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqn6yWC8AbgJQZoBqeDBDqZHc1fejvxFm8i_hXhaFrbTJpvk9jK6VoJIlyyVJuAaeUVsIqHf_A",
+      "reviewerName": "Eric Robbins",
+      "starRating": 5,
+      "dateDisplay": "07/29/25",
+      "createTime": "2025-07-29T16:01:54.879125Z",
+      "comment": "Service tech got there on time and solved the issue quickly. Kept me informed and educated me as to what was happening and how it was fixed. Even gave me some suggestions on how to prevent this issue from happening again. Two thumbs up!",
+      "reviewReply": "Thanks Eric! Great feedback and validation for us to hear. We intentionally focus on informing and educating our customers. Integrity, strong communication skills, technical expertise, and the thoroughness to document our findings are all traits you can count on in a DFW HVAC technician.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnkQb_5OqkoqdzfinSPWj7__my0UC96TbRxOhBbhEu0blYHHJDrQVWNuf9-rbPfePs71JaONQ",
+      "reviewerName": "Beth Schneider",
+      "starRating": 5,
+      "dateDisplay": "07/28/25",
+      "createTime": "2025-07-28T20:14:16.729957Z",
+      "comment": "Great experience!  They were prompt to respond to initial call and arrange time to come out to assess the issue I was having .  They did a great job and very fair price for all the work that was needed .  I have complete confidence in the work and all the recommendations needed for my AC repairs .  I would highly recommend them and trust them for anything you need for your HVAC!!",
+      "reviewReply": "Thanks Beth! We're honored to have earned your trust as a new customer. We're so glad that our approach of explaining not just what needs to be done, but also why and how, created confidence in our recommendations and work. We take the time to explain because we firmly believe an educated customer is the most satisfied customer. Whenever we can empower someone with the knowledge of their options, tradeoffs and long-term value considerations, they can confidently make the choice of which direction is best for their goals.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOql2u7sJRrrMmwylKoy1ji2MK5Z6K52-sXLnM4C3N-V92SPMVJDNNc5X2uC3s9X4n-n63DzYZQ",
+      "reviewerName": "Faiyaz Farasat",
+      "starRating": 5,
+      "dateDisplay": "07/27/25",
+      "createTime": "2025-07-27T22:14:21.380023Z",
+      "comment": "",
+      "reviewReply": "Thank you Faiyaz!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqm9qCAITWiKJhAj-5oRskxpbFxFgqlj8wJ-nPlQibzlE9NiDyqz3YW_HGSn81rZo8mqh9EMYQ",
+      "reviewerName": "Robin Griffith",
+      "starRating": 5,
+      "dateDisplay": "07/26/25",
+      "createTime": "2025-07-26T01:24:43.528313Z",
+      "comment": "Great service. Very professional and honest. Family-owned business. Been a customer for many years.",
+      "reviewReply": "Thanks Robin! Proud to have earned your business and your trust. We appreciate your review and we'll be here whenever you need us.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnpyC6dc4_M9SjGr4UR3cnIjD5_3G_hn39I5vLT0VF1Q4bzLDxejp0bBuphZLBd4XL51y-R",
+      "reviewerName": "Kim Sullivan",
+      "starRating": 5,
+      "dateDisplay": "07/17/25",
+      "createTime": "2025-07-17T15:27:27.131447Z",
+      "comment": "I can\u2019t recommend Neil enough! He\u2019s incredibly trustworthy, dependable, and truly knows what he\u2019s doing when it comes to AC work. He showed up on time, communicated clearly, and went above and beyond to make sure everything was running perfectly. It\u2019s rare to find someone so professional and honest these days \u2014 I\u2019ll definitely be calling him again for any future needs. Five stars all the way!",
+      "reviewReply": "Thanks Kim! If you or any of the Flower Mound community need help or a second quote visit dfwhvac.com. Our whole team shares the same values you describe...fair, professional and knowledgeable service is our standard.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmSUZon8mGGJYgNU7E3-I4wq2cPWvXQs1x0_n4qm0DbJqm5uSLGiTPhs9YQWxgfaoN_VM1WMw",
+      "reviewerName": "howardtomfinn",
+      "starRating": 5,
+      "dateDisplay": "07/16/25",
+      "createTime": "2025-07-16T17:57:14.630585Z",
+      "comment": "",
+      "reviewReply": "Thank you Tom! We're glad the air conditioner is running well like it should. Whenever you need us please reach out on the phone or www.dfwhvac.com.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkdHdPpYjNeZ7hhdfQhtdGiJjK_bndkhat0P8KE4rKxdtDtGOwMmRVTMdqaz9947trW7iJC",
+      "reviewerName": "Daniel Ryan",
+      "starRating": 5,
+      "dateDisplay": "07/15/25",
+      "createTime": "2025-07-15T18:45:36.097322Z",
+      "comment": "Jonathan and DFW HVAC were great! We had our AC go out in the middle of the night and reached out to them first thing in the morning. They were responsive and able to get us on their schedule that afternoon. Jonathan was able to diagnose, get the proper replacement parts and fix the issue in no time at all. Our family is very thankful for DFW HVAC getting our house cool again this summer!",
+      "reviewReply": "Thanks Daniel! DFW HVAC has the experience to make the right diagnosis and the distributor relationships to get parts fast. I'm glad it all came together for you and the family so you didn't have to spend another night in the heat.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqlvDePb1NkbOzQzwprqGJkSdTRr7vvFvb_08uM1es0-kQTQd3fYpNyeIffwKxH4ZwWlEyVC",
+      "reviewerName": "Diane de Waal",
+      "starRating": 5,
+      "dateDisplay": "07/15/25",
+      "createTime": "2025-07-15T16:38:38.035617Z",
+      "comment": "Great job! Recommended!",
+      "reviewReply": "Thanks Diane! We appreciate your business and your support for us. We'll be ready to help whenever you need us.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqml_XS7-EwbdGxY2wFlMuV-OZc4pX29PB4zB2Hx9EnhdHB5ScxN_JwGYUt6WyH7RopFsoHKXA",
+      "reviewerName": "jared williams",
+      "starRating": 5,
+      "dateDisplay": "07/09/25",
+      "createTime": "2025-07-09T13:29:03.681254Z",
+      "comment": "",
+      "reviewReply": "Thanks Jared!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkn_p8EvaE6l7Na9-F8Z5ZH_h0jiGXrXaC3rvLdxi7VTkOejujhaFtPG89r49QvLp7y24tUhA",
+      "reviewerName": "Kishan Patel",
+      "starRating": 5,
+      "dateDisplay": "07/08/25",
+      "createTime": "2025-07-08T19:11:15.502021Z",
+      "comment": "These guys showed up and had an immediate resolution to our problem. They were fast and affordable and we decided to continue with a service contract with them as well. Wouldn\u2019t recommend anyone else!",
+      "reviewReply": "Thanks Kishan! We're proud and appreciative to have earned your business for the longterm. Really fun to get to watch your team work on all of those beautiful vehicles at Supreme Wraps.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqldt0lr6C1qZHalT71A3h1qieaTHFwoYb5VaCTxO3a-i0NIdD9gDxE4HzmIZ7BVVMQX8isGmA",
+      "reviewerName": "William Block",
+      "starRating": 5,
+      "dateDisplay": "07/04/25",
+      "createTime": "2025-07-04T16:18:23.273727Z",
+      "comment": "They are prompt, thorough, efficient, and friendly, I recommend DFW HVAC.",
+      "reviewReply": "Thank you Bill! On time, thorough, efficient and friendly AC service when you need us. Visit DFWHVAC.com or give us a call anytime we can help!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkr5Z5NwZ3FCEfGSWcmintuc8cXbYCMlMrgs6fxup_qnE06NUxriwDZRvpLbkJMT3qXPDk_",
+      "reviewerName": "Wes Mays",
+      "starRating": 5,
+      "dateDisplay": "06/28/25",
+      "createTime": "2025-06-28T12:18:53.137343Z",
+      "comment": "",
+      "reviewReply": "Thanks Wes! It was great to meet you and get your AC back to keeping the house comfortable again. We're here whenever you or the Coppell community need us.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOql5JCy95Zu3D-7wN3-aVcYtRXozIsKtBCry8ZvrgDKnNdtsTPh1KOxM4hNSs3aIXIGPBxfeew",
+      "reviewerName": "Steve Cruz",
+      "starRating": 5,
+      "dateDisplay": "06/27/25",
+      "createTime": "2025-06-27T00:29:12.281862Z",
+      "comment": "Neil from DFW HVAC was fantastic! He was honest when it came to diagnosing the issue, which turned out to be a small fix. Part was switched out, and Boom! Air was flowing again. Honest, reliable, and fair priced is hard to find these days, but not with DFW HVAC. Give them a call! Trust me!",
+      "reviewReply": "Thanks Steve! Your review speaks for itself and is such important validation for our business. Everyone says they\u2019re honest but the unethical companies in the HVAC industry prey on people's ignorance about their AC. Our technicians do the opposite, spending the time needed to educate home and business owners. We don't win every job, but we always feel good that we've helped people be less vulnerable by empowering them with knowledge. We\u2019re grateful for your trust and look forward to serving the Lantana community again\u2014reach out at dfwhvac.com anytime!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkUji3mJ0ndc2TB7-apl1KTRIRcTYWiFJ9ZP57LUeGxxA0n65zFVEz5CFZnx9rsvNy9HqAunA",
+      "reviewerName": "Scott Denbina",
+      "starRating": 5,
+      "dateDisplay": "06/26/25",
+      "createTime": "2025-06-26T02:22:37.894500Z",
+      "comment": "Came right on time as scheduled, found the problem quickly and fixed it.  Very technically proficient and professional.",
+      "reviewReply": "Thanks, Scott for your great review! Your feedback will make our technician\u2019s day. He truly delivered on DFW HVAC\u2019s standards of technical proficiency and professionalism, arriving on time and fixing the issue quickly. We also value integrity and a passion for helping, which he brings in abundance. If you or your community need HVAC support, reach out at dfwhvac.com\u2014we\u2019re here to help!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnwqjUgdJ2rVRW0AcdOtlCKOABqdi494HdZNPBKMu7jMfJLvJd22yCBoZ4u-5c1KUgt4fVtxw",
+      "reviewerName": "Jennifer Miller",
+      "starRating": 5,
+      "dateDisplay": "06/20/25",
+      "createTime": "2025-06-20T00:41:18.519818Z",
+      "comment": "The team at DFW HVAC are great to work with.  It was stressful when my AC unit wasn\u2019t working correctly and was causing condensation on the ceiling below.  I reached out to one company that told me I had no choice but to get an entire new unit which was so expensive.  I reached out to DFW HVAC for a second opinion and they were so great to work with.  They were very honest and gave me multiple options based on my situation. They treated me like I was part of the family and were able to solve at a fraction of the price.  I will call them again. Thank you!",
+      "reviewReply": "Thanks Jennifer! DFW HVAC is here to lower your stress along with the temperature. We love it when we can provide a second opinion and save a homeowner thousands. Sometimes repair vs. replacement is a nuanced discussion, and that's why we provide you with all the options and analysis. However, inexperienced or even unethical HVAC companies will default to replacing a unit instead of making the case for a repair because it's best for them. Getting a second opinion was very wise and we're glad to have earned your trust. We treat people how we'd like to be treated, same as family!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmb7sCdp8z2A5UWZsz21frtEnv4H1XH7hgMGYvFQY54XlFynlG7CJAZ3X1m7mRqgG0F02YB1Q",
+      "reviewerName": "Laura Smith",
+      "starRating": 5,
+      "dateDisplay": "06/19/25",
+      "createTime": "2025-06-19T18:15:23.359989Z",
+      "comment": "Great response to my call.  Paul came out the same day, promptly found and fixed the issue. Explained the problem and showed me a picture. Very satisfied.",
+      "reviewReply": "Thanks Laura! It\u2019s always satisfying for us to swiftly get an air conditioner cooling again to beat the Texas heat. At DFW HVAC, as Paul did for you, we are committed to helping customers understand their system, issue, and solution options to find the best value for their needs. Sounds like Paul did an outstanding job, and we will let him know! We\u2019re here for you whenever you need us.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkBN9DAhiO1ISZWFdu5sJH5a_bzjbqw71KDO-DUaq0qswbkG0--qdSukfi-OJYgNUGXUEig",
+      "reviewerName": "Pilar Mendez",
+      "starRating": 5,
+      "dateDisplay": "06/17/25",
+      "createTime": "2025-06-17T21:32:14.070618Z",
+      "comment": "We recently had DFW HVAC out for a service call, and we were very please with the experience from start to finish. The technicians were knowledgeable and respectful to our home. Our system has been running smoothly since, and we appreciated the honest communication and fair pricing.\n\nHighly recommend DFW HVAC for anyone looking for reliable and professional service!",
+      "reviewReply": "Thank you, Pilar! Your experience with the team is a wonderful confirmation they're embracing the DFW HVAC core values. Knowledgeable, respectful service at a fair price that solves the problem is exactly what we hope for as customers ourselves \u2013 the golden rule exemplified. We look forward to serving you again.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkbJAnzbWeYj9oE-VRYc3thBEilz4j2TO9wbnfE0Y0kyjQUFQ5dX5k9uycaWSoMkf6BLoGg",
+      "reviewerName": "Ron Blair",
+      "starRating": 5,
+      "dateDisplay": "06/17/25",
+      "createTime": "2025-06-17T17:16:54.220301Z",
+      "comment": "Great experience.  Paul did a great job servicing all 3 HVAC systems.  Kept me in the loop on everything he was doing.  Totally professional and efficient.  Call 'em",
+      "reviewReply": "Thanks Ron! It was our pleasure to install your new system and great to visit with you. We're so glad to hear you love it. HVAC systems are a major investment that you'll rely on for many years, and we're confident you chose wisely with DFW HVAC.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmtwGZ5hUZCZfUlJGJRF2RZ_qOFtRrfNfTNd4Wwta1h5_wFyeQeRQMvkWpmVhzMlJJY_RMvGA",
+      "reviewerName": "Greg Foster",
+      "starRating": 5,
+      "dateDisplay": "06/08/25",
+      "createTime": "2025-06-08T18:32:25.652521Z",
+      "comment": "The review of my AC unit, both inside and outside, was thorough and the report was complete and fully explained.",
+      "reviewReply": "Thank you Greg! We're glad to hear your feedback and we expect nothing less from our technicians. At DFW HVAC we intentionally take the extra time to fully explain the situation and educate our clients. Knowledge is power and we want to empower clients so they can save money and make well informed decisions that impact their comfort and wallet.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqn-nTKCI-1B6TOM32dqfG0ngpXScm9KAyu9262uj9IhCnqNh4sXXU5Sy1hRsk-g8rJkL8UPvg",
+      "reviewerName": "Kendall Rodriguez",
+      "starRating": 5,
+      "dateDisplay": "06/06/25",
+      "createTime": "2025-06-06T15:21:25.522210Z",
+      "comment": "",
+      "reviewReply": "Thanks Kendall. HVAC system prices continue to rise in 2025 with the EPA required new refrigerant and the addition of recent tariffs. We use our experience and industry knowledge to recommend the most cost-effective solution to meet your budget.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmQ9kgPCzhYEIv0EJj1GxX8QyhNdRX7yP_xSYMZO4M4bTiDYeRy6_jSzS09PxMs9OuyJ_35gQ",
+      "reviewerName": "CILA UNGER",
+      "starRating": 5,
+      "dateDisplay": "06/05/25",
+      "createTime": "2025-06-05T18:32:52.525654Z",
+      "comment": "Wonderful work, as usual.",
+      "reviewReply": "Thanks Cila!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqlKwhO9iymFy7XmgzYO_DK2t7FqkNnkoqjRYsifVEBbwzeZWlSJ2HR6B-rJMGQ7xSkRWC1r4Q",
+      "reviewerName": "Leslie Milan",
+      "starRating": 5,
+      "dateDisplay": "06/04/25",
+      "createTime": "2025-06-04T14:25:08.648126Z",
+      "comment": "Great Service and right on time!",
+      "reviewReply": "Thanks Leslie! As the old quote goes, 'Time is the most valuable thing we spend,' and we take that to heart, always respecting our clients' time. We're so glad you had a great experience with us and that your air conditioner is ready to tackle the summer heat.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqlJYs8LRFqzhKE9TfNwYtD8qjckhQq8FejQ6evC4Fafm5Mi2NLXQWNMInAiFZuH3H6yBsdfYw",
+      "reviewerName": "Craig Hutton",
+      "starRating": 5,
+      "dateDisplay": "06/02/25",
+      "createTime": "2025-06-02T19:15:01.445992Z",
+      "comment": "Professional, prompt, and affordable.  They have serviced my home and business HVAC needs for years without regret.  I always feel they have my best interest in mind.",
+      "reviewReply": "Thank you Craig! There's no greater endorsement than a clients trust in us to manage more properties and systems over the years. We're grateful to serve both your personal and professional arenas, keeping everything running smoothly.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmGZvAdPGGWdGBUdrAJGhrRTcO3nl-EH8SmgJyXoAmrd7a2i8O2dqHy1ZXXmXOKef1Apb7pbw",
+      "reviewerName": "Randy Ames",
+      "starRating": 5,
+      "dateDisplay": "06/01/25",
+      "createTime": "2025-06-01T20:21:33.771100Z",
+      "comment": "",
+      "reviewReply": "Thank you Randy!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnXeOt7jHf0lVG5Is3dcjBj_sGEeO71e4eHYGwOwnaOVvhipQH5nBGkzaqyPA8n3IHm6kT3jw",
+      "reviewerName": "Nancy Wiebold",
+      "starRating": 5,
+      "dateDisplay": "05/31/25",
+      "createTime": "2025-05-31T14:16:43.517734Z",
+      "comment": "DFW HVAC came highly recommended and we couldn't be more pleased with their knowledge, competence and friendly demeanor. Excellent troubleshooting and situation resolved with our AC. Excellent service and excellent work. Thanks Paul!",
+      "reviewReply": "Thank you Nancy! We're glad you had a great experience and your air conditioner is back to cooling. DFW HVAC technicians all aim for exactly the service you received and we'll be sure to share your praise with Paul.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOql4jZ6JIl-tG4bIFt3oJQ0GtCd11iPLAEFzh5oJSst591Q8wqDBIez2L2TGgJP4K3ATeNmv",
+      "reviewerName": "Bryan ODonald",
+      "starRating": 5,
+      "dateDisplay": "05/24/25",
+      "createTime": "2025-05-24T21:19:55.027278Z",
+      "comment": "",
+      "reviewReply": "Thank you Bryan!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqk_3DjYxWsY9Cv0pSebCuWPZwR_gMBEX7fcGk305QmaFp8VJIlujxDO7fzBWOAR92Wmlnyo",
+      "reviewerName": "Damaso Rodriguez",
+      "starRating": 5,
+      "dateDisplay": "05/22/25",
+      "createTime": "2025-05-22T21:58:10.148187Z",
+      "comment": "Jonathan has always been a joy to work with. It\u2019s rare to have someone in a service industry come into your home and make you feel like he has your best interest at heart.",
+      "reviewReply": "Thank you Damaso! There's no better praise we could receive than this. We approach the business with just that attitude and treat people how we want to be treated.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmYKuzOHYRsPfyX2XemsvlSam9QQ4WZUMnGQhBolkm06vwtqifuNnVyDROGGwzY5TnhCJU1JA",
+      "reviewerName": "A Martin",
+      "starRating": 5,
+      "dateDisplay": "05/21/25",
+      "createTime": "2025-05-21T06:01:23.320881Z",
+      "comment": "I was having issues with my A/C and call them to check it, they were able to adjust to my schedule and after throughly checking the unit they explained the problem in detail. They fixed it right away and made sure it worked before leaving.",
+      "reviewReply": "Thank you for your review! At DFW HVAC we take the time needed for thorough diagnosis and repair. We're also happy to spend the time explaining the issue along with our recommendations. Knowledge is power and we believe sharing it is the best way to empower our customers.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqlKU8TUj065RdMHY7SbNdW04m_zJeZoHh5WDSAPpoqRzATyHnCzytH41pDh51e9SSOVNsOS0Q",
+      "reviewerName": "Michael duToit",
+      "starRating": 5,
+      "dateDisplay": "05/19/25",
+      "createTime": "2025-05-19T21:56:43.471289Z",
+      "comment": "DFW HVAC\u2019s Team provided a quick response to our call for service.  They delivered quality work and got our AC back to cooling the house for a very fair price.  I highly recommend this Company.",
+      "reviewReply": "Thanks Michael! Glad your AC is back in action and you're staying cool. We're here whenever you need us.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmMgwgIfHlFiYwZ-pkeQfd_Qjz4AnWMscNZwdzerHZhO8-zAhqIIYWHIKe2IJ1RuMgJAcUmmA",
+      "reviewerName": "Carissa Jade Olsen",
+      "starRating": 5,
+      "dateDisplay": "05/15/25",
+      "createTime": "2025-05-15T00:11:46.286305Z",
+      "comment": "Jonathan and his team at DFW HVAC were quick to respond and very fair in pricing when my compressor unexpectedly went out on a unit they originally installed two years ago. They got the warrantied replacement part, got me on the schedule, and got it changed out at an extremely reasonable price since they installed the unit. Jonathan is extremely fair with his clients, even in the midst of changing governmental policies, requirements, and tariffs. He\u2019s a trustworthy partner for home maintenance.",
+      "reviewReply": "Thank you Carissa! DFW HVAC stands behind it's work and warranty. We approach every job as part of a long-term working relationship, with our goal of becoming a trusted advisor our customers count on.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqlOlCTgx2XSlpzcoqJZ-8Jl8TCthj14vRllxHRpOYKFGLLCEgBfQT6wWP7za2NwsxZlgmlrPA",
+      "reviewerName": "Arsenic",
+      "starRating": 5,
+      "dateDisplay": "05/06/25",
+      "createTime": "2025-05-06T00:01:10.960936Z",
+      "comment": "What a great family with fantastic service! Everything for my service call was explained in detail and executed with efficiency and care! I look forward to further business!",
+      "reviewReply": "We appreciate your business and kind words! It's so helpful to hear that our technician explained in detail and took care doing your job. We do our best to take the time to empower customers with knowledge so they understand their home or business HVAC systems.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmFgrxEDWkCDnnetIpKDRsoLowN0IfwKtXd0-xBdmaAryUR3kklGneD1IROmexvY0J5Df7PWA",
+      "reviewerName": "Colin McCall",
+      "starRating": 5,
+      "dateDisplay": "04/27/25",
+      "createTime": "2025-04-27T21:53:57.911531Z",
+      "comment": "Excellent work!!! On time and cleaned up everything afterwards!!  Highly recommend!!!",
+      "reviewReply": "Thanks Colin! Your updates are looking great and we're glad to get to help you with the duct work. We appreciate your business and your excellent review of DFW HVAC!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqm5VhwyD4zDjY18ODED6_wtkPqaush83ncLARcoiDFYMMlvwyXuFM4NNlkaw1Mi4oikbz09hQ",
+      "reviewerName": "Lee Jones",
+      "starRating": 5,
+      "dateDisplay": "04/20/25",
+      "createTime": "2025-04-20T18:12:22.466046Z",
+      "comment": "Great and timely response! Easy to work with and repaired our AC with expertise!",
+      "reviewReply": "Thank you for your great feedback and review Lee! We're glad you found us helpful and easy to do business with. We aim to treat everyone the way we want to be treated and look forward to helping you and your friends whenever you need us.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqk3lxLKVyOxQhNaRpSdMILAgQirVl0gHMrhwqZFpMQkrz4sTsY-nPxyRuAGIHk7KJxJYHZw",
+      "reviewerName": "rachael grissel",
+      "starRating": 5,
+      "dateDisplay": "04/15/25",
+      "createTime": "2025-04-15T19:08:43.028637Z",
+      "comment": "We have an add-on at our house and for years, we've just had window units. We hated them but couldn't decide if we wanted to just redo everything, or do a separate unit, or a mini split.\nWhat I loved was that Jonathan came in and simplified it, we came to a conclusion and that was it. The software/ app they use is super easy,  shows step by step and timing.........\nThey came on time, the crew was very respectful of our property. I spent the day with them, learning and understanding the split unit system. Aside from the split unit, they rerouted some of the a/c in the attic, giving me another vent. Very good solutions. They cleaned up and it's been great. Tax credit is nice as well.\nDefinitely recommend",
+      "reviewReply": "Thanks Rachel! At DFW HVAC we take the time to consult and help make complex options simple to understand. We don\u2019t just fix the problem; we educate in the process. Taking the extra time pays dividends for our customers and we do it because it\u2019s how we want to be treated when we're the customer. Knowing we helped you and it was an easy process is truly satisfying as a business owner. Thank you for recommending us, and we are here for any future needs!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmlzdaSkyr1hjJblXJJNZPBBD3AxKiQZAjP3cGXmI2mWbU-rqDwk57VQY1qrcI6U2zq0Ubzmg",
+      "reviewerName": "investinyourself Jane",
+      "starRating": 5,
+      "dateDisplay": "04/11/25",
+      "createTime": "2025-04-11T16:47:57.318510Z",
+      "comment": "Outstanding all round service",
+      "reviewReply": "Thank you!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmNMqxWzKurVv-HQbfGCYOgjQL19yz_X5i-8yHOfVr7dl0P2gPJ2jt3mcXKxNsDx2g3dAZ1",
+      "reviewerName": "Kyle Berlin",
+      "starRating": 5,
+      "dateDisplay": "04/04/25",
+      "createTime": "2025-04-04T15:45:18.039252Z",
+      "comment": "Living in Dallas, I have needed to call an A/C repairman out many times. I tried several companies, but for the last few years i only call DFW HVAC  because i know they won't try to upsell me on lots of extras, they're prices seem fair, they've always been able to fix it the first time, and if my A/C is out, they try to get to me quick. I knew they were good when they replaced a blown capacitor and didn't give me a huge markup on the replacement part.\n\nI'm the type of person who likes to stand behind the technician as they work on my house, and these guys have always been happy to let me do that, and explain to me what they are doing.\nMy most recent problem was a blocked condensate drain line, and he showed me how to pour vinegar  in the auxiliary port and use a flexible stick to break up the algae growth that was blocking the flow, so next time I'll be able to do it myself.",
+      "reviewReply": "Thanks Kyle! Your experience of easy, quick and fair with the right amount of customer education is how we like to do business. HVAC preventative maintenance is crucial for system longevity and your air conditioner will be ready when the Texas heat hits this summer.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqm4lOEutXHNuOw_LkAQ6JIp_-XQ8HZCSHSwms7NRv4NyTvVZzEHntdu5iitVHgvqdPloWgV",
+      "reviewerName": "Joe Eagle",
+      "starRating": 5,
+      "dateDisplay": "03/31/25",
+      "createTime": "2025-03-31T23:08:34.031237Z",
+      "comment": "10 STARS for DFW-HVAC and its Owner Jonathan -- SMART, THOROUGH AND HONEST!!  In March 2025, my out-of-warranty upstairs AC unit in University Park stopped working. The problem was initially \"misdiagnosed\" (either incompetently, or possibly intentionally...) by TWO well-known AC companies who \"regularly work in University Park.\"  BOTH claimed the issue was a \"mysterious electrical short in the system\" that they were CERTAIN \"could not be located\" (2nd guy blamed the 1st one for causing problem by allegedly \"defectively wiring a transformer\" he had replaced!), and BOTH recommended a COMPLETE SYSTEM REPLACEMENT.  Upon hearing this -- and that I had been without AC for several days during an early \"hot\" spell -- Jonathan offered to personally come that day to inspect the non-working unit.  In short order, he diagnosed and located two exposed and touching wires coming from the outside condenser, fixed them, and the unit HAS BEEN WORKING FINE EVER SINCE.  Very reasonable charge.  I've owned homes in University Park for over 30 years and he is the best I've ever found.  ***HIGHLY RECOMMEND***",
+      "reviewReply": "Thanks Joe, 10 stars is amazing! HVAC systems can be tricky to diagnose. An inexperienced tech can easily overlook an elusive quick fix, then default to recommending a pricey AC unit replacement. Our core values of honesty, transparency and taking the time to educate drive us to keep digging and find the true diagnosis. You were wise to get a second opinion and we\u2019re proud to have earned another great customer with 30+ years in University Park.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqlTeZuobtcfVTXtjEZsp847296SHFPwwZdtTi3Boosn7esuk2DSaspn9CIJD_Lfs6xlXytW",
+      "reviewerName": "Kiran Kumar",
+      "starRating": 5,
+      "dateDisplay": "03/31/25",
+      "createTime": "2025-03-31T18:14:15.107353Z",
+      "comment": "",
+      "reviewReply": "Thanks Kiran!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnrQUGHg3shcVbN5wQl0OoKKtbgaSaZKnoW1XdOKDYCZrRbbkfrWQTgDfzH9IyGFm8-NY_Nng",
+      "reviewerName": "Genevieve Lim",
+      "starRating": 5,
+      "dateDisplay": "03/26/25",
+      "createTime": "2025-03-26T23:41:12.583974Z",
+      "comment": "Detailed and friendly service.",
+      "reviewReply": "Thanks for your review Genevieve!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqm_Mvt3dXce-fgj5AfgSC_1ACyXijclXtKzCpw_bVLYXm-fH92pMXbM3Vs8Dpw8YnGHKIQzVg",
+      "reviewerName": "Rory Carrick",
+      "starRating": 5,
+      "dateDisplay": "03/19/25",
+      "createTime": "2025-03-19T01:18:51.730363Z",
+      "comment": "Great pricing.  Jonathan was really easy to work with and took his time to educate me on the options.  Install was quick and they took care of the house.   I would highly recommend.",
+      "reviewReply": "Thanks Rory! It was great to help a fellow local Coppell business. We come from a consultative background and believe in empowering our customers with knowledge, not just fixing problems. Every home or building is a bit different and has its own unique needs that often aren\u2019t addressed by the builder. We enjoy designing tailored, efficient solutions that go beyond what a standard fix might offer, all at fair pricing.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkE7e_D4hWiu4XBhFjbKSzYBjT2OUece6MrjTsY7RBYOJpBfSaPwCR4nU3aDNiCEpQV7vST",
+      "reviewerName": "Caleb Voigt",
+      "starRating": 5,
+      "dateDisplay": "03/05/25",
+      "createTime": "2025-03-05T19:30:28.209522Z",
+      "comment": "Jay was extremely professional and timely with his site visits.  He took the time to understand our system and came up with a solution that he was able to explain to us the plan and executed it quickly amd efficiently.\n\nEven after addressing out hearing issues he placed follow up calls and was available for any follow up questions or visits that were necessary.\n\nI would recommend this company to anyone who needs HVAC repairs or a new system.",
+      "reviewReply": "Thanks Caleb! At DFW HVAC we prioritize taking the time to listen fully because we know that gathering all the details is the key to making a good evaluation. Building layout, original system design, owner preference, budget, etc. all need to be factored in to understand the problem and address it. Our techs have the experience, the patience, the time and genuinely enjoy educating customers about the factors that go into their recommendation. Everyone in DFW needs heating and cooling, but most homeowners never get a full explanation either because the tech doesn't understand it or their company doesn't prioritize spending that extra time. We're here when you need us and appreciate your kind review.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkfZPa2DCNUEuJ_jh9OV56JLJBfCH4GgJ3H8H0HjkIabXMzsUeLyPbr78c3a1UDeHlwbnBJ",
+      "reviewerName": "Matt Cason",
+      "starRating": 5,
+      "dateDisplay": "03/05/25",
+      "createTime": "2025-03-05T00:56:52.085132Z",
+      "comment": "Very professional and fast! Of course the first warm day my AC craps out. They came out and found a simple float valve was the issue. It was fixed and buttoned back up in no time and we were enjoying crisp cool air again! Very clean and friendly. Definitely recommend.",
+      "reviewReply": "Thanks Matt! DFW HVAC is ready if you or your neighbors need anything.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqla7MT3mydDpeAo9ILrOioYb0physcN2GJQRQWfMIQROkcFxhgH3WnhMLe9FK5Db-9_nJItow",
+      "reviewerName": "Scott Aikin",
+      "starRating": 5,
+      "dateDisplay": "03/04/25",
+      "createTime": "2025-03-04T20:44:10.544325Z",
+      "comment": "Called them first thing in the morning to report my heater wasn\u2019t working. They arrived within an hour and got me up and running shortly thereafter. Couldn\u2019t be happier.",
+      "reviewReply": "Thanks Scott! Delivering a great job at a great price has been the winning formula here at DFW HVAC since we started. Glad to hear the system is still running strong.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkG3XBWPIl_0V-jtEdySIlkWpqfMbw-I_VgHUbB107qOAGVxTdHWq0tmYOBoalEOiCqcnSA",
+      "reviewerName": "Kelly Newman",
+      "starRating": 5,
+      "dateDisplay": "02/26/25",
+      "createTime": "2025-02-26T18:36:33.067180Z",
+      "comment": "We recently had our annual HVAC cleaning with a third-party company, and they tried to scare us into an expensive mold remediation service, claiming our system needed immediate attention. Something didn\u2019t feel right, so we called DFW HVAC for a second opinion. They made us a priority, and Jonathan came out quickly to inspect everything. He was professional, honest, and reassuring\u2014confirming that our system was completely fine and that the first company was just trying to upsell us.\n\nDFW HVAC has earned our trust as our go-to HVAC experts. Jonathan and the team treat customers like family, and we truly appreciate their integrity and expertise. We\u2019ll be using them for all our HVAC needs in the future! Highly recommend!",
+      "reviewReply": "Thanks Kelly! We're proud to have earned your trust. When someone scares you or something feels a bit off it\u2019s always a smart choice to double check the prior diagnosis. We provide free estimates for whole system or major system component replacements and draw on our legacy of three generations in the HVAC business. DFW HVAC will never mislead or deceive. We take pleasure in breaking the good news to a business or homeowner if we think they\u2019ve been misinformed or misled. We treat people how we'd like to be treated and orient our business towards a longterm, mutually beneficial relationship serving our clients.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqlqCY11i6DhoOB0Nca3uK6niCAUvH97H5H09crbhCn8nvSpdTRTgdPZt0Wh8ewekSbYYPk8",
+      "reviewerName": "Jesse D.",
+      "starRating": 5,
+      "dateDisplay": "02/13/25",
+      "createTime": "2025-02-13T16:43:31.210237Z",
+      "comment": "I had an excellent experience with DFW HVAC! I just bought a home and needed my HVAC system checked out. They came out the very next day, clearly explained the issue, and provided me with multiple options for resolving it. I decided to replace the system, and they made the process seamless.\n\nThey provided a detailed electronic quote with financing options, scheduled the installation promptly, and showed up right on time. The team was professional, personable, and extremely careful\u2014using drop cloths and keeping my home clean throughout the process. They completed the replacement in a single day with top-notch workmanship.\n\nHighly recommend DFW HVAC for their professionalism, transparency, and quality service!",
+      "reviewReply": "Hi Jesse - Thanks for your review. The DFW HVAC team will be proud to hear the great feedback and know they made your experience a good one. Buying a new house and then a new central AC system is a lot to manage. We hope that our experience and straight forward consultation made it as easy as possible. Thanks for trusting us and please reach out anytime we can help you and your neighbors.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkWxCiLQuMphzk9gOYvgoiR1oaxQj4PUwBhV6L_SgYd5DxNwbfQhm-P2mvULTruq0UlmivvFQ",
+      "reviewerName": "Jimmy Phillips",
+      "starRating": 5,
+      "dateDisplay": "02/11/25",
+      "createTime": "2025-02-11T01:19:49.567886Z",
+      "comment": "Pros and courteous",
+      "reviewReply": "At DFW HVAC we are professional, knowledgeable and stand behind our work. Thanks for trusting us with your HVAC needs Jimmy and we really appreciate you taking the time to give us a great review!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnm4LHKMt_kKh8uR3u6P0nLeTp6Hl2ZTsPhXBQc1O9jOb1knW7UiiGAJGxrxTXVkGg9mTRIpA",
+      "reviewerName": "Traci Baumgartner",
+      "starRating": 5,
+      "dateDisplay": "02/10/25",
+      "createTime": "2025-02-10T17:07:35.911545Z",
+      "comment": "Professional, timely, and would highly recommend!!!",
+      "reviewReply": "Thanks so much Traci! We appreciate customer feedback and our team will be happy to hear it. Please don't hesitate to share DFW HVAC with friend's and neighbors.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqn6cr0YX0tfA1Aevarl_c1YjYWtkcmNnNHYJbXo5vDX80luSPVIx5We0FOoqRWLFrMiYZOj",
+      "reviewerName": "Francisco Obera",
+      "starRating": 5,
+      "dateDisplay": "01/31/25",
+      "createTime": "2025-01-31T18:09:19.138413Z",
+      "comment": "",
+      "reviewReply": "Thank you for your positive feedback! We appreciate your support and are glad to hear you had a great experience with us at DFW HVAC. If you have any further comments or questions, feel free to reach out!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqm7KV6tQlO7TSLvjqtKrHEUwXpxOxtT9qeMOqhFyhEJ2U4VS1COE21SdTSMd4t5LaY_VFVQNA",
+      "reviewerName": "Pam Patriquin",
+      "starRating": 5,
+      "dateDisplay": "01/29/25",
+      "createTime": "2025-01-29T00:47:29.633501Z",
+      "comment": "I have had two visits from DFW HVAC. The first was from Jonathan and the second his brother, Paul. They are both personable, very knowledgeable and considerate. I am sure I overwhelmed them with many questions which they were kind enough to answer. I like a family run company. Their dad taught them well.",
+      "reviewReply": "Hi Pam - Thank you for the kind words and great review. It's certainly the family trade spanning 3 generations of HVAC men back to Grandad. We enjoy talking with people and do our best to take as much time as needed to fully answer questions large and small. We look forward to helping you next time you need us!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkLF8QvfT-NezhybqLUzQGXLB6oO_ee16iNoEvwWvfXIVqckkQf6lcwbbPlDhqhsaC10gP9KQ",
+      "reviewerName": "Gary Smith",
+      "starRating": 5,
+      "dateDisplay": "01/23/25",
+      "createTime": "2025-01-23T16:51:28.731160Z",
+      "comment": "excellent service !!",
+      "reviewReply": "Thanks Gary!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmLmoxGPTsdnP9YbAt-3QXPPxrcjsItpjaWjxvReIFNiyXOBg98-wdxQaMYF5yd_dzzjtBlrA",
+      "reviewerName": "Nan",
+      "starRating": 5,
+      "dateDisplay": "01/07/25",
+      "createTime": "2025-01-07T05:15:49.700359Z",
+      "comment": "We had an excellent experience working with Jonathan & team from DFW HVAC.\nFrom start to finish, they were professional, knowledgeable, and efficient. They quickly understood our specific requirements of the remodel project and provided a clear plan of action and followed through. Their expertise and attention to detail was evident throughout the process.\n\nThe team was professional, punctual and easy to work with. Their pricing was transparent and fair, and Jonathan provided helpful tips for maintaining our system in the future. We highly recommend DFW HVAC for HVAC needs \u2014they truly go above and beyond!",
+      "reviewReply": "Thank you Nan! Your remodel was a great chance to engage some creativity and find a HVAC solution. We appreciate your business and Google review. Enjoy the new year and your new space!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqn7R6d1PaDJHjp1exdp5e53pcqRdAgveN1VK98mC-0TxTx1aKMBuR74aqGrogvg7feDfSDQ",
+      "reviewerName": "Hope Adams",
+      "starRating": 5,
+      "dateDisplay": "01/03/25",
+      "createTime": "2025-01-03T16:38:37.131908Z",
+      "comment": "Paul came out to a house that I am potentially purchasing and I am glad that I had his professional eyes take a look before we head to closing!",
+      "reviewReply": "Thanks Hope!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkWUAMfDxAqqbVJEjWYup-Zlezbc-FgwUHZcSNNWp3-mw7aVeE8tHSdwceVj6Bkf3lwGI8xkQ",
+      "reviewerName": "Michael Cole",
+      "starRating": 5,
+      "dateDisplay": "12/28/24",
+      "createTime": "2024-12-28T01:22:54.777015Z",
+      "comment": "Highly recommended.\nProfessional. Very good communication.\nThey cleaned up after themselves and did the work that they we talked about.\nI really appreciated that the Grubbs (as well as the others) were always willing to answer my many questions.\nAlso, their prices were better than any of the other quotes we received for a new HVAC system.",
+      "reviewReply": "Thanks Michael. We believe that investing our time to fully educate customers is the right way to do business. We're always glad to spend the time to make sure a home or business owner fully understands the root of the problem, all their options, the rational for our recommended solution, and what provides them with the best value.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmLuaEpwNdFeBxI6pLX8T6FjE56b66dLObWMh6c7tglyJkJRfNPueMeLzFG01DXt2t6vSDF",
+      "reviewerName": "Kevin Mayo",
+      "starRating": 5,
+      "dateDisplay": "12/21/24",
+      "createTime": "2024-12-21T15:19:48.071019Z",
+      "comment": "These guys have been beyond helpful in diagnosing what was wrong with my HVAC system and providing insight into what we could to do improve performance in our home. Wouldn't go with anyone else!",
+      "reviewReply": "Thanks Kevin!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqn-45CuVM7PvbhREq5EavUyPkR1LVQNIrI1N34992HngmUEm8Q7KRAyxrh5hnLRzsZ3NqwdiA",
+      "reviewerName": "J Baughman",
+      "starRating": 5,
+      "dateDisplay": "12/18/24",
+      "createTime": "2024-12-18T04:59:20.388557Z",
+      "comment": "Technician arrived on time and did a thorough AC system inspection. He was very professional and provided great customer service. Highly recommend.",
+      "reviewReply": "Thank you J!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqlf8u6bSe4ElyaaXGjaHFQYg0c4bBDwSSHvohuHSEyEH28jogNTENxhRI3w-o7v4IpUL7603g",
+      "reviewerName": "Sandy Godwin",
+      "starRating": 5,
+      "dateDisplay": "12/16/24",
+      "createTime": "2024-12-16T20:36:10.744313Z",
+      "comment": "Great work, honest and reasonable!!!",
+      "reviewReply": "Thank you Sandy!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmf5cVGo6MaNmT5hDrBz7Kea63BQMfrCtez72lCUJPGdhS3-bVG0h07FxgX9DITy75K-qE7dg",
+      "reviewerName": "J.P. Hunter",
+      "starRating": 5,
+      "dateDisplay": "12/08/24",
+      "createTime": "2024-12-08T19:32:19.922870Z",
+      "comment": "Fast friendly and efficient. I got the sense that they fixed what was wrong, and not just what they could have billed me.",
+      "reviewReply": "Thanks J.P.! Your two sentences just about sums up our company ethos...fast, friendly service with integrity. We appreciate your business and thank you for taking the time to share the review.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnrmjw9N0O4CL5v3M0-rXhlmYK4ODgjcz4admslWur0j9_pinYQrAoFb04hVW-3TpCF2taL",
+      "reviewerName": "Raja Mumuni",
+      "starRating": 5,
+      "dateDisplay": "11/30/24",
+      "createTime": "2024-11-30T19:32:25.104115Z",
+      "comment": "The team at DFW HVAC never lets down. They have provided sound advice on multiple occasions that have saved me money and led to better outcomes than the big box companies",
+      "reviewReply": "Thanks Raja! We're fortunate to be a third-generation HVAC business able to draw on all the accumulated experience to deliver the best value to customers. We excel at finding creative or alternate options overlooked by others. We're always here to provide a second opinion and appreciate your trust in us!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkNT_bUIMt23dxUL9z6pTggyVKOWtoWvB3ubs2mhUo7hWZ8rYQdwGJ1ZUdLr-sbDjeBt5lLLg",
+      "reviewerName": "Courtney Dean",
+      "starRating": 5,
+      "dateDisplay": "11/30/24",
+      "createTime": "2024-11-30T03:15:09.821800Z",
+      "comment": "I cannot rave enough about this company. If you are looking for an honest, reliable, HV/AC company you\u2019ve found it. They also do superior work.",
+      "reviewReply": "Thanks so much for the wonderful review, Courtney! We are a family business built on the standards of honesty, reliability and excellence. Your feedback is so valuable and gratifying for our team\u2014it\u2019s the best confirmation that we\u2019re meeting our goals. We're here for you whenever you need us!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkzZpuf0j8YoybZTvuu2yYsvy0K-fNXITGciQvySSxj2V1MWi6VbK6hitwsJP6RbN64H4KdFg",
+      "reviewerName": "Katrina Pugh",
+      "starRating": 5,
+      "dateDisplay": "11/26/24",
+      "createTime": "2024-11-26T01:19:43.384709Z",
+      "comment": "They were very prompt and efficient. Pricing is very reasonable. I highly recommend them. I\u2019ve used them numerous times and Jon has always identified the problem quickly and addressed quickly. If you have an issue with your system this is who you need to call!  He won\u2019t try to rip you off!",
+      "reviewReply": "Thanks Katrina!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqm6JWP-pdY96XQyqIEW59ye0U8OAX8EziDnbntOK6r8fLZKk6OcU2-a8KDtVHb5yjlDesva",
+      "reviewerName": "Wendell Mitchell",
+      "starRating": 5,
+      "dateDisplay": "11/20/24",
+      "createTime": "2024-11-20T18:21:17.039942Z",
+      "comment": "Jonathan and his father were Alpine Air for years. Jonathan is now running the family-owned business with a new name. I always felt they were professional and good value for their service.  They never pushed hard to \"upsell\" you on services or products like several other larger HVAC companies.  I will be using them for any of my future HVAC needs.",
+      "reviewReply": "Thank you Wendell. DFW HVAC is a fresh name on the same values and business we've been raised with.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmukDQ51CyXGW6iHZ57G0XZt7-X5xT0tJdTU6FRgk1XZ2W5yPP3FHevI6mK3xRi1gHqFYKQ",
+      "reviewerName": "KC P",
+      "starRating": 5,
+      "dateDisplay": "11/18/24",
+      "createTime": "2024-11-18T20:44:02.171435Z",
+      "comment": "Best HVAC company in DFW. We will never go anywhere else. They operate honestly w integrity. In our experience that is hard to find.",
+      "reviewReply": "Thanks KC P! \"Best HVAC company in DFW\" is a title we'll wear proudly. Delivering on our three-generation legacy means pairing honest, clear communication with expert air distribution and HVAC maintenance to deliver home comfort at a fair price. We truly appreciate your trust in us and your wonderful review. We'll be ready to help whenever you or the Flower Mound and Bridlewood neighbors need us.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkisxiAxfm4pEGliJ599xySu7DCcfO5Vw2Lr8gPH675SBWJ3G4nfBF5ZP_xAvHV6RLnV2u9zA",
+      "reviewerName": "Billy Johnson",
+      "starRating": 5,
+      "dateDisplay": "11/15/24",
+      "createTime": "2024-11-15T15:12:54.785676Z",
+      "comment": "",
+      "reviewReply": "Thank you Billy.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqn9Ujo2g_gHkMQm-YYy2rN86ZiY5KUkYEZiv-QK_bLhYMn0AlUkfzoTIIfJVLR0RsA5hzI8YA",
+      "reviewerName": "Leslie Acosta",
+      "starRating": 5,
+      "dateDisplay": "11/08/24",
+      "createTime": "2024-11-08T23:27:04.537587Z",
+      "comment": "DFW HVAC quickly diagnosed and fixed our problem, and saved us 10s of thousands of dollars when we were told by competitors we needed to replace our entire system! They went above and beyond for us, even as a first time customer. If you also made the mistake of calling a competitor first, get a second opinion from them that you know you can trust, even better if they're your first call!",
+      "reviewReply": "It\u2019s always satisfying to save a customer from a bad diagnosis. We treat everyone with integrity and fair pricing, just as we\u2019d expect to be treated. Always get a second opinion\u2014it can save you thousands! Thank you for your business and the great review, Leslie!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqlGoCV02mGrnhOfZboZRa2nYl6z6YKAqTNdxKCMBM6-Rq4ZpzmTH5-LmoCQFNPxMr7KAS-_",
+      "reviewerName": "Pete Johnson",
+      "starRating": 5,
+      "dateDisplay": "11/08/24",
+      "createTime": "2024-11-08T14:12:00.185513Z",
+      "comment": "DFW HVAC just replace to complete HVAC units at my home (AC & gas furnaces). The did the complete job in one day, as promised. Their professional team arrived at 7:30AM and finished the job around 6:30PM. During that time, they worked tirelessly without any obvious breaks to complete the job. The systems work perfectly and upon completion the crew took extra time to clean the entire area. The following day I received a follow up call to make sure everything was working perfectly. If you want the best service from honest, professionals, call the team at DFW HVAC....you will be glad you did!",
+      "reviewReply": "The entire DFW HVAC team will be proud to hear your feedback Pete. Thank you for your business and taking the time to give such a detailed review.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnSi9bj46ad79PoWXnLujrl95j3ipg7X-wsya26lNnhh7mUxgkGNhQ4mGFJjfYxmBhMrK3nIg",
+      "reviewerName": "Kay Hise",
+      "starRating": 5,
+      "dateDisplay": "11/08/24",
+      "createTime": "2024-11-08T00:22:30.516042Z",
+      "comment": "Ty so much. Work was clean and precise.",
+      "reviewReply": "Thank you Kay!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnLOCj5m8D9CZfXb3hfXCCl9fwrKfbsSk6HamFdlMUDDd4tNt6kKIfnI2_GnTXMHZdpairtUQ",
+      "reviewerName": "Penny Young",
+      "starRating": 5,
+      "dateDisplay": "11/07/24",
+      "createTime": "2024-11-07T17:07:48.960814Z",
+      "comment": "I highly recommend this company.  The service was excellent and the price fair.",
+      "reviewReply": "Thanks Penny!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqlGxI3mH8mLxNoKAKLrWuznR11AAr0oGwqFAGbFiMmf-Nd7DANRa-a1taX8vQVaLYNbQNbMRQ",
+      "reviewerName": "Ryan Layman",
+      "starRating": 5,
+      "dateDisplay": "11/01/24",
+      "createTime": "2024-11-01T23:37:04.485037Z",
+      "comment": "Prompt service.   Much appreciated.",
+      "reviewReply": "Thanks Ryan!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqlJRhtbnEmctwbdBaiokiwH3GO-dm0pHduszdESZgDFq7vBudXix3jhOUasXDbts8lLdxNRsw",
+      "reviewerName": "Linda Layman Peterson",
+      "starRating": 5,
+      "dateDisplay": "11/01/24",
+      "createTime": "2024-11-01T23:28:06.422074Z",
+      "comment": "DFW HVAC did terrific work   as always, on time, knowledgeable and neat! Solved my issue quickly and kept me informed along the way.\nI've been relying on Jonathan and his crew for many years and trust them explicitly.\nI highly recommend them fir any and all HVAC needs.",
+      "reviewReply": "Thanks Linda. We appreciate your business and support!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnHg8L6KqxqnFyPJman-nYPWATpfeMBYzElz0hmsbTNkav04sbZLd53fR0_hzsbCP3pZ-97",
+      "reviewerName": "Matt Skawinski",
+      "starRating": 5,
+      "dateDisplay": "10/27/24",
+      "createTime": "2024-10-27T20:33:09.260672Z",
+      "comment": "Jonathan and the team at DFW HVAC are friendly, professional, and knowledgeable. They genuinely care about their customers, which is apparent after each and every interaction. Jonathan has always been fully open and transparent with explaining the work scope and estimates. He spent the time evaluating my entire HVAC system - the total square footage in relation to the amount of air that needed to be moved - before recommending a replacement system for our household. In a world where honest and dependable service can be hard to find, DFW HVAC stands out!",
+      "reviewReply": "Matt, thank you so much for the wonderful review! It's encouraging to see that our approach is so well received and appreciated.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqk3hF8vQsDyUC5aFynjkMeNUAtFcpH49ZuY1tr-hMUFTUHndLGW5EpXKFH1rCr8Wt2rw2uG8g",
+      "reviewerName": "Jeffrey Richman",
+      "starRating": 5,
+      "dateDisplay": "10/23/24",
+      "createTime": "2024-10-23T23:26:39.986525Z",
+      "comment": "DFW did a great job from beginning to end. We ended up needing two systems, one for upstairs and one for downstairs. The unit recommendations they made are saving me almost 50% on my electric bill! The installation process was great and they put pads down to make sure no dirt or mud was tracked in and cleaned up inside and out afterward. They showed us how to operate the units and installed Ecobee smart thermostats which are amazing. I would recommend them!",
+      "reviewReply": "A nice cool house and a 50% lower energy bill is an absolute win! We love the ease of use with the Ecobee thermostats too. Thank you for the positive feedback and taking the time to make a review Jeffery.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmrXrz6zAEKDQsgOdCUNYGixUeNwuFQEi3C9wfBGyCOrK6faT_OPgBOUjGD3jf4bdpNh7P6",
+      "reviewerName": "Reese Nall",
+      "starRating": 5,
+      "dateDisplay": "10/18/24",
+      "createTime": "2024-10-18T13:30:30.178780Z",
+      "comment": "We had such an incredible experience with DFW hvac! Replacing our entire hvac system wasn\u2019t something we were looking forward to, but the team at DFW hvac made the process easier than we had expected. Neil was incredibly responsive and really helped us navigate the decisions on what type of equipment would be most beneficial while also being conscientious of our budget. The install of 2 complete systems was done in a day! The team was super friendly and kind and also very respectful of our home, keeping the work areas neat and tidy. Our house feels amazing with the new systems in place\u2014no more hot rooms! Absolutely recommend DFW hvac!!!",
+      "reviewReply": "Thank you Reece and virtual high five! We appreciate the wonderful feedback and are thrilled the systems are doing their jobs so well.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnyUHkfQWTaYAo6-MapMJTo1-HjOHdShgyjRr8WYaGvu0VIOrH3z-G3eRIyYx51NGooyhEx",
+      "reviewerName": "Justin Nall",
+      "starRating": 5,
+      "dateDisplay": "10/16/24",
+      "createTime": "2024-10-16T16:51:09.039070Z",
+      "comment": "WOW. We had a fantastic experience with Neil and Jonathan at DFW HVAC. We needed to replace our entire HVAC system (two systems, one system for upstairs and one for downstairs) which was a huge undertaking. They were not only one of the most competitive on price, they were the most professional, they had the best communication and quick response time, they took time to answer all our questions and to provide additional information on anything we weren't clear about or didn't know. All of that made it an easy choice to move forward with them and I'm SO GLAD we did! They were even better after that! They got us scheduled almost immediately and had the entire job completed in one day. Their crews were punctual, professional, and they did an excellent job. They took the time to prep the install areas and to thoroughly clean up after they were done. Everything was spotless.\nWe've now had the best 10 nights of sleep we've had all year because the y new systems are so high performing!\nIf I could give them 6 stars I would!",
+      "reviewReply": "This is such a great review and highlights our favorite parts of the job. We take each homes\u2019 unique needs as a challenging puzzle to solve. The art of consulting customers to help them get exactly what they want, and consider questions many less experienced HVAC companies don\u2019t know to ask, is the key to tailoring the right solution. Of course, the best designed solution is only as good as the competitive pricing and top-quality, warrantied work that follows. We take real joy in success stories like yours Justin. In Texas, a well-designed system is the only way to get great sleep and whole home comfort. Thank you!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnN-5Iz8c2qa3M2i71cgjuUlxIbZSBO7iRhjyiG6eUfiXF8oChLLX0utRyhkEZaaPxx6h3-",
+      "reviewerName": "Andrew Boyle",
+      "starRating": 5,
+      "dateDisplay": "10/16/24",
+      "createTime": "2024-10-16T16:45:42.037376Z",
+      "comment": "Just had my cooling and heating system.replaced by Johnathan from DFW HVAC.  Every detail of the project was handled to perfection.  The service was exactly what I expected for sell of the equipment to clean up of the installation.  A total professional, and I would highly recommend DFW HVAC.",
+      "reviewReply": "It's very meaningful to receive such a positive review because it validates our process, methods and overall approach to doing business. The entire DFW HVAC team takes pride in making these great outcomes a reality for our customers. Thank you Andrew for trusting us with your home and for spreading the positivity!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnZSihbjWfELzAzEmEKXzH1lzBmHzKjWJHF2LM7Y4IRrDY0GOkY7heZOm_HUQeRVUm1ohBkMA",
+      "reviewerName": "Joe Thomas",
+      "starRating": 5,
+      "dateDisplay": "10/15/24",
+      "createTime": "2024-10-15T10:50:40.314242Z",
+      "comment": "Jonathan and his team analyzed my problem, recommended solutions and handled the installation of my new equipment and removal of the old.  They kept the floors clean and Jonathan explained everything to me.  All at a fair price.  DFW HVAC is the greatest!",
+      "reviewReply": "Hi Joe - Thanks so much. You ordering the team pizza on install day was a top-notch gentleman's move. We love the feedback and appreciate you taking the time to provide it. We're here if you need us!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnX0LD2pJtnu_Qq_sgVKNojbJzYmopoQeMxesnEdOOBoTGWeLxDNs2ZH6nf9v1ifi2t3gEL",
+      "reviewerName": "Legging Lover",
+      "starRating": 5,
+      "dateDisplay": "10/14/24",
+      "createTime": "2024-10-14T13:24:04.243767Z",
+      "comment": "Can\u2019t speak highly enough of my experience with the company. I would recommend to anyone looking for fantastic and timely service. I\u2019m so grateful to have a dependable company to work with.",
+      "reviewReply": "Thank you so much for your positivity and taking the time to give us a review. We truly strive for five star service and it always makes our day to receive a review like yours.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqlvX6YpmoLEb8LJhIzwQaYxvNrjym6IxPgx-GdzXoBWpmCbhtIHWRYjWvt9NkNUtvN42rMK",
+      "reviewerName": "Linda Baughman",
+      "starRating": 5,
+      "dateDisplay": "10/11/24",
+      "createTime": "2024-10-11T21:44:53.252833Z",
+      "comment": "",
+      "reviewReply": "Thank you Linda!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnGJhcN3bc4AnlJPrI97bnt2xz2krIG2gFGWDVqSPCFNmrV--RIesDRJGJkvz_E47V6hxa5Mg",
+      "reviewerName": "Amy",
+      "starRating": 5,
+      "dateDisplay": "08/24/24",
+      "createTime": "2024-08-24T17:43:43.429530Z",
+      "comment": "Jon saved us when our old unit finally was done for. Amazing customer service, came over within a couple of hours of calling and price was unbelievable! Highly recommend",
+      "reviewReply": "Thanks Amy!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmCeMhV6tdpO7-BsH5Zgo2m6hbQs35zrQQoGGqmYWCPbr1ZYWxUhklp_OPYctFzN49LBbznMA",
+      "reviewerName": "Jonathan Jeng",
+      "starRating": 5,
+      "dateDisplay": "08/23/24",
+      "createTime": "2024-08-23T03:06:58.305928Z",
+      "comment": "Jonathan was informative and thorough, pinpointed the problem right away. 10/10",
+      "reviewReply": "Thanks Jonathan!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnS5i2g8cYU1eBuYcyfpj0fhX0GYjA2526L-xDEVZ-p5JTR9MEbHKnsa05CMvMknIZPI3Vn2g",
+      "reviewerName": "Carl Stralow",
+      "starRating": 5,
+      "dateDisplay": "08/20/24",
+      "createTime": "2024-08-20T14:17:37.801197Z",
+      "comment": "Friendly, professional and timely service.  Fixed the problem and shared what had happened to the unit.",
+      "reviewReply": "Thanks Carl. Stay Cool!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqlV0-2twe8uGoeVfvGKdo358xL7b4TKPyVqRYChPVM7obuymZB3LlVAlsedr4TZ3eVNkZ164g",
+      "reviewerName": "Stan Henderson",
+      "starRating": 5,
+      "dateDisplay": "08/15/24",
+      "createTime": "2024-08-15T22:43:46.683977Z",
+      "comment": "They did a great job. Good quality equipment. Professional installation, and the left the job site clean",
+      "reviewReply": "It was great getting to meet you and install the new system Stan. Thank you for taking the time to review us. We're excited to hear how the multiple sensor solution improves the cool air distribution for the hot spot upstairs.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmDU4l2MKCMsTTRtO8K-FNyp1MQ2hWF7dXsaZiGVRVhfzJo0C-mUXYFGgyDiWyrsFgDN9bb6A",
+      "reviewerName": "M Kramer",
+      "starRating": 5,
+      "dateDisplay": "08/13/24",
+      "createTime": "2024-08-13T14:15:29.908289Z",
+      "comment": "Jonathan and his brother are highly competent and professional.  They showed up on time and were efficient.   It is nice to work with a business that cares about their customers.",
+      "reviewReply": "Thank you!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkgXbpUCvqhIIKMj4BsjUJ_milz87YmQe5mlQZUrObyfypBbdqNqsyxKpOA5oWejpK9USnPIQ",
+      "reviewerName": "Lynda Airey",
+      "starRating": 5,
+      "dateDisplay": "08/09/24",
+      "createTime": "2024-08-09T19:01:36.322507Z",
+      "comment": "DFW HVAC was highly recommended to us from our neighbor.  We called and Jonathan responded immediately to evaluate our AC situation, resulting in replacement of the furnace, condenser, coil and heat exchanger.  The team was professional, timely, informative, clean and efficient.  They took extra care to cover interior carpet on the stairs and floor when they had to access the hot attic.  Truly a great company!  We highly recommend DFW HVAC and will definitely use them in the future.",
+      "reviewReply": "Thank you Lynda! Being thorough and explaining everything can take extra time, but we always do it because it's what we would expect as customers too. It's a nice boost to the team on these hot and busy summer days to receive such positive feedback and your review 100% validates why taking the extra time is well worth it.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmNZGIosjXqXFCnnLm-p4IqkIQihmBukXfKVylP0sTMYrFFCzLpUvEsORnHl9nD0-sIGD4Q3A",
+      "reviewerName": "Eric Gordon",
+      "starRating": 5,
+      "dateDisplay": "08/07/24",
+      "createTime": "2024-08-07T15:51:40.774394Z",
+      "comment": "These guys are the best.  They\u2019ve been helping me for years and are always first rate, fair, and provide exceptional service.",
+      "reviewReply": "Thanks Eric! We appreciate your trust in us and will be there when you need us.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOql3-Lkx1z9xtLe1ePNtvg1UsGzvucoDaUZX6HI3fYC5PsOWTck9HDs3SjGBw_GCUIZOcEZ0_Q",
+      "reviewerName": "Trent Owen",
+      "starRating": 5,
+      "dateDisplay": "08/06/24",
+      "createTime": "2024-08-06T21:11:37.669349Z",
+      "comment": "DFW replaced my split system, did fantastic work. Arrived on time, took great care to protect the walls & floors, and got the work done in a day. New system works great, very happy. Highly recommend these guys!",
+      "reviewReply": "Thank you Trent! We keep a high standard and your kind feedback will make the install team proud.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmtsku3am5k6etbJOgYeNVZYTVyhMd2p00paBfNSNO69aFck3g_ODnrLr8rI8LZJR-APRa9",
+      "reviewerName": "Nathan Barrilleaux",
+      "starRating": 5,
+      "dateDisplay": "08/06/24",
+      "createTime": "2024-08-06T18:31:34.130746Z",
+      "comment": "Fast and good pricing",
+      "reviewReply": "Thank you Nathan!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqktPPMX7_X1_d69DSYblaMzj_z2NvTjFaohlfwxkAGCWZCXkyINLOfa6xRuuESKpQzUWPbiEw",
+      "reviewerName": "Martha Narvaez",
+      "starRating": 5,
+      "dateDisplay": "08/06/24",
+      "createTime": "2024-08-06T18:21:10.938183Z",
+      "comment": "Johnathan was very knowledgeable and efficient. I was thankful that he was able make room for my AC repair - now works great. Thank you, Jonathan.",
+      "reviewReply": "Thanks Martha! We're so glad you're staying cool again and appreciate your kind words.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnEm55HB1l4BC4u1ewgkhKOgjA2qPvCFzrBeDwtoDLRe_c1_CMqQd3nzQ6tAjBAFGNUhAcyaw",
+      "reviewerName": "Tyler Swilley",
+      "starRating": 5,
+      "dateDisplay": "07/29/24",
+      "createTime": "2024-07-29T19:35:40.308481Z",
+      "comment": "Excellent service and very knowledgeable technicians.",
+      "reviewReply": "Thanks Tyler!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnjzAMhVOIAm9To_Vws2aXfEABkjeifR1iJodfZZUsJ3-TRciY33_jJdff_S3lBIm9KRPxopA",
+      "reviewerName": "tommy goss",
+      "starRating": 5,
+      "dateDisplay": "07/21/24",
+      "createTime": "2024-07-21T16:51:21.661829Z",
+      "comment": "DFW (Alpine) HVAC techs are very professional and knowledgeable. They installed my new AC and it works great. We would highly recommend this company for AC issues.",
+      "reviewReply": "Thanks for your great review Tommy!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkQWI4oBiSL2bJovwwVDfMn9GgsDnVO0rgGLnjrNZElw6otacw2rkndJ8yF_rgAJTZvJ2LoDw",
+      "reviewerName": "Pauline Badillo",
+      "starRating": 5,
+      "dateDisplay": "07/04/24",
+      "createTime": "2024-07-04T19:48:46.693754Z",
+      "comment": "",
+      "reviewReply": "Hi Pauline. Thank you so much for the feedback.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkzodqQppUVwEk3Fg3BvBAnlYKRcbR6prjwcgi0AHJB0xl0FIuIr_9fCJDI8utVSEl8c6Yo",
+      "reviewerName": "alir chitsazan",
+      "starRating": 5,
+      "dateDisplay": "07/02/24",
+      "createTime": "2024-07-02T17:02:32.032561Z",
+      "comment": "Immediately respond and resolve problems. And they are the one that you can trust.\nThank you for you great service",
+      "reviewReply": "You're welcome Alir. Thanks for taking the time to give us your feedback!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkaL0DhDCM91Q_tNl3AfnFA8EaGCfUo4lQnysD8gNCV0b1KY-pI2T52IzLj-afBvwovhKU6UQ",
+      "reviewerName": "Matt B",
+      "starRating": 5,
+      "dateDisplay": "06/28/24",
+      "createTime": "2024-06-28T23:50:18.423566Z",
+      "comment": "",
+      "reviewReply": "Thanks Matt!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqlGQnurvdMbYT3Z4Oq8BgCs6inCR9Uq5Ji3dYJRv4JEYXomLNN9k_i2eTCMhBQ3F_J8Uhzm",
+      "reviewerName": "Fred Benna",
+      "starRating": 5,
+      "dateDisplay": "06/18/24",
+      "createTime": "2024-06-18T00:07:00.092313Z",
+      "comment": "Great company to have your A/C work done.  Always on time and honest.",
+      "reviewReply": "Thanks for your feedback Fred!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkvSJIjmGxGFKN91wGxKnknpibyaWrzfBvUSwz4-qCnuDQvo9KWiqYug51vfsM4CazMPeOZ",
+      "reviewerName": "Megan Coblentz",
+      "starRating": 5,
+      "dateDisplay": "01/05/24",
+      "createTime": "2024-01-05T19:16:19.260216Z",
+      "comment": "If I could give 6 stars I would! Wow! What can I say about Alpine, they have been such a blessing to my husband and I since we bought our first house. From coming to check the system during our inspection period, to fixing a heating and cooling issue over the past few months, and then replacing our duct-work, they have gone above and beyond! The most recent fix happened this week with an issue on our heater and wiring to it. It started over heating and causing an electrical smell in our home. It happened on New Years Day, while my husband was out of town, and I knew something was not good. I called Johnathan and he called me back right away. He told me to shut my system off and his brother Paul (who was originally off New Years Day) would meet me after work to look at the issue. When Paul arrived that night he spent over 3 hours looking at all the various possibilities, double and triple checking. He even got his Father (who has 40+ years in the business) out for a second pair of eyes. They fixed the heating element and wired it all safely for me. They even relayed the message and technical jargon to my electrician later this week, who is coming to fix the electrical issue tomorrow. I felt so cared for by them, and they really made sure I understood what was going on to keep my house safe with their repair! I could not recommend anymore more highly!",
+      "reviewReply": "Thank you Megan!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqld-JgVlT7NCZmgYrtVEsdNDxh6cZ8FrK_P1wHH99c5B3kIDVXNNQbj0zlzRNXuTvkdPwoQ",
+      "reviewerName": "David Coblentz",
+      "starRating": 5,
+      "dateDisplay": "10/06/23",
+      "createTime": "2023-10-06T20:49:42.181565Z",
+      "comment": "Great service! Paul came out on short notice and replaced our motor quickly and professionally.",
+      "reviewReply": "Thank you for your feedback David!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnqhUWtJIQvIYiU4kzK75N8RSpXHv6KAKWEULcTr-XgkmA6xKLo8CPJPMjb9dZhUqeorQZ3",
+      "reviewerName": "Deborah Peasley",
+      "starRating": 5,
+      "dateDisplay": "08/27/23",
+      "createTime": "2023-08-27T15:44:28.112177Z",
+      "comment": "Jonathan and his crew are the best in every respect. They show up on time, are professional, and charge a fair price for the work  performed. I highly recommend Alpine HVAC!!",
+      "reviewReply": "Thanks Deborah!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqn7SbgKr8sWsff-EM5RLV-kcQmmDnao_amrhuvRiTHJrZSTVBVT2Izfuj4SJYOJ6zmG24mAJg",
+      "reviewerName": "David McFadden",
+      "starRating": 5,
+      "dateDisplay": "07/27/23",
+      "createTime": "2023-07-27T03:19:00.914294Z",
+      "comment": "Owner Ronny Grubb is amazing. Made a special trip to get me going. A honest man who will treat you fair.",
+      "reviewReply": "Thanks David!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqm64zjCD8nFL2zjPbi-ejCe0FsPPp6JfEoF100J6hZ_-38IF0bdTHRax4PEkIm0MMTanO_9Zw",
+      "reviewerName": "Donald Cain",
+      "starRating": 5,
+      "dateDisplay": "07/16/23",
+      "createTime": "2023-07-16T00:02:58.457808Z",
+      "comment": "Paul and company replaced our furnace promptly.  They didn't leave us \"in with the cold\". Thanks Alpine Air",
+      "reviewReply": "Thanks Donald!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqms5EneHLEJhelOMonJ5325hu75vhNaOO_KaA2aViQcqCRUTkt9iNNOF5jkA-uPY-VR4fDK9w",
+      "reviewerName": "Damian London",
+      "starRating": 5,
+      "dateDisplay": "07/01/23",
+      "createTime": "2023-07-01T23:02:19.778938Z",
+      "comment": "I  woke up to a clogged A/C drain pipe that caused a condensation leak into my bathroom due to was going down the ducting. It being summer in Texas, all HVAC companies are very busy. Ronnie could not make it out today, but he helped walk me through how to get my pipe unclogged enough to be able to actually run my A/C instead of dying in this heat until they can come out. They are running a business, but they care enough to help how they can even if they can\u2019t make it out. That\u2019s not something you can much of these days. I will fully trust them with any and all HVAC needs in my future.",
+      "reviewReply": "Thank you for your feedback Damian!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqlDmYwf8r7s6e5ixXXEbtUSBYzIl4_V1rxH3-9o5XnWeL3MRCAnRQBAUZ5Cu8UJU7YhbxrxLA",
+      "reviewerName": "Maureen Kelly",
+      "starRating": 5,
+      "dateDisplay": "06/11/23",
+      "createTime": "2023-06-11T21:54:25.728557Z",
+      "comment": "Alpine HVAC is the best!  10 stars - Jonathan knows how to service his customers!  Awesome experience for my install and the service call in the midst of a heat wave!  Also recommend the allergen air filtration unit that was installed on my new A/C unit - its been a game changer for me as a person with year round allergies.  If you need HVAC service call Alpine HVAC!",
+      "reviewReply": "Thanks Maureen! We're so glad to get your feedback and know the air quality improvements have been a game changer for you. It's amazing what a difference it makes for so many people.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqnNF6FIlSRlpJcpbdPEVNsdwhzi5638BrKHDimBmrXCBD7K_ExRSZXBta1a_zrr5lJv3SeIAQ",
+      "reviewerName": "Michael McCall",
+      "starRating": 5,
+      "dateDisplay": "05/30/23",
+      "createTime": "2023-05-30T19:25:52.775369Z",
+      "comment": "The technician did a Spring checkup on our 5 Ton Heat Pump that cools our home.  He also diagnosed and repaired a Ductless system that cools my wife's \"She-Shed\".  Both were done very professionally.\n\nI have recommended Alpine HVAC to a number of family members and friends because they have always done excellent work.",
+      "reviewReply": "Thanks Michael!",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqmNg5Xn-CSPv7o0-YeVb65VyINFyhAoI_HYjshuLFd-d0QVY5wRLYcQL-1m4xQ3tGSPZA1g0Q",
+      "reviewerName": "Chad Cross",
+      "starRating": 5,
+      "dateDisplay": "09/12/22",
+      "createTime": "2022-09-12T02:03:24.784918Z",
+      "comment": "Jonathan did a fantastic job repairing my AC systems here in Southlake. The prior contractor had installed the equipment incorrectly and he fixed it all beautifully. The project was completed on time, on budget and they cleaned up really well following the repairs. If you need HVAC work call Jonathan!",
+      "reviewReply": "Thanks Chad! We enjoy challenges like sorting out complex installs and prior systems that need optimization.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqkrUhcufheQX8wMBusmjug_vNJzhFW2WF98GIRBaB-tCHu5wUXkthqYCoaipBfdjMJAcEzdpA",
+      "reviewerName": "Gentry Zacheis",
+      "starRating": 5,
+      "dateDisplay": "06/14/22",
+      "createTime": "2022-06-14T03:27:22.679287Z",
+      "comment": "Amazing service! Highly recommend.",
+      "reviewReply": "Thank you Gentry! Your feedback is greatly appreciated.",
+      "status": "live"
+    },
+    {
+      "googleReviewId": "AbFvOqn8-f5Tn5gTF0BDEtJJbN9M9jhZ9_dS1dQNGUhNLydbdJx4nVepPPiKRzV4k8DrZ9ruENwzeA",
+      "reviewerName": "Em",
+      "starRating": 5,
+      "dateDisplay": "08/21/21",
+      "createTime": "2021-08-21T19:48:59.833636Z",
+      "comment": "I can not say enough good things about this company. DFW HVAC is simply the best HVAC company around. Ronny, Jonathan, and Paul are so very knowledgeable and professional and had me up and running in no time. They are the only company I will use going forward. Do yourself a favor and call DFW HVAC today for all your HVAC needs.",
+      "reviewReply": "Thanks, Em! It really made our day to hear that you\u2019re feeling so well cared for. Ronny, Jonathan, and Paul were happy to help, and we\u2019ll be sure to pass your kind words along to them!\n\nWe all strive to do our best and keep you well informed along the way to getting your HVAC repair or maintenance handled quickly. Knowing we\u2019re the only team you\u2019ll call for your AC needs going forward is the highest compliment our family business could receive.\n\nThank you for being such a loyal neighbor here in the Metroplex\u2014we\u2019ll be ready whenever you need us next!",
+      "status": "live"
+    }
+  ]
+}
