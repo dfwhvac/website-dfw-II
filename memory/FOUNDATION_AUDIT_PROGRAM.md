@@ -80,8 +80,8 @@ If **high > 0** on a PR: follow the playbook above — do not merge until clear.
 |---|---|---|
 | Dependabot npm | Mon 8:00 AM CT | Minor/patch groups + security PRs anytime |
 | Dependabot Actions | Mon | `actions/*` bumps |
-| Security Audit | Mon 7:00 AM CT (discover + issue) + every PR/push (hard gate) | gitleaks + yarn high/critical |
-| KPI Audit | Mon 7:00 AM CT + manual | `audit-kpis.mjs` → snapshot commit |
+| Security Audit | Sun 8:00 PM CT (discover + issue) + every PR/push (hard gate) | gitleaks + yarn high/critical |
+| KPI Audit | Sun 8:00 PM CT + manual | `audit-kpis.mjs` → snapshot commit |
 | Sync Reviews | Daily 9:00 AM CT | Google → Sanity |
 | Braces patch watch | Daily 9:30 AM CT | npm `braces` latest vs the 3.0.3 waiver |
 | Branch freshness | Every PR | `yarn.lock` / `package.json` ≤25 commits behind |

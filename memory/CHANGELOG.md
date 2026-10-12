@@ -1,9 +1,21 @@
 # DFW HVAC — Changelog
 
-**Last reviewed:** Oct 7, 2026
+**Last reviewed:** Oct 12, 2026
 **⚠️ Read `memory/00_START_HERE.md` first for the Agent SOP.**
 
 > **Shipped history before May 21, 2026** lives in [`CHANGELOG-legacy-pre-2026-05-21.md`](CHANGELOG-legacy-pre-2026-05-21.md) (1,737 lines, Feb–May 2026 agent logs). That file is archival context only — do not treat it as the live product state.
+
+---
+
+## Oct 12, 2026 — Weekly audits: Sunday evening CT schedule
+
+**What changed:** Moved Security Audit and KPI Audit cron from Monday 8 AM CT (`0 13 * * 1`) to Sunday 8 PM CT (`0 1 * * 1`, Monday 01:00 UTC during CDT) so GitHub schedule lag still leaves results ready Monday morning. Daily Sync Reviews and braces-watch unchanged.
+
+**Files:** `.github/workflows/security.yml`, `.github/workflows/kpi-audit.yml`, `memory/FOUNDATION_AUDIT_PROGRAM.md`, `memory/AGENT_PROTOCOL.md`, `memory/CHANGELOG.md`
+
+**Verification:** Cron comments + FOUNDATION automation table show Sun 8:00 PM CT; `workflow_dispatch` of all four jobs triggered 2026-10-12 while waiting on delayed Monday schedule.
+
+**Caveats:** Fixed-UTC cron shifts one hour when Central leaves daylight time (becomes ~7 PM CT Sundays in CST). Soft-fail issue creation still only on `schedule` events, not manual dispatch.
 
 ---
 

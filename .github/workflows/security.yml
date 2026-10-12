@@ -5,9 +5,10 @@ name: Security Audit
 #
 # WHAT THIS GATES:
 #   - yarn audit on every PR + main push: FAILS on high OR critical (production deps)
-#   - Monday schedule: still runs yarn audit + gitleaks, but yarn findings soft-fail
-#     and open/update a GitHub Issue (label security-audit) so main is not "red"
-#     every time the advisory DB moves. Merge protection stays on PR/push.
+#   - Weekly schedule (Sunday evening CT): still runs yarn audit + gitleaks, but yarn
+#     findings soft-fail and open/update a GitHub Issue (label security-audit) so
+#     main is not "red" every time the advisory DB moves. Merge protection stays
+#     on PR/push. Results are ready to review Monday morning.
 #   - gitleaks on every PR + main push + schedule: blocks secret leaks
 #
 # WHY:
@@ -25,9 +26,10 @@ on:
   pull_request:
     branches: [main]
   schedule:
-    # Weekly Monday 7 AM Central — discover advisories against pinned versions
-    # even when no PR has been opened. Soft-fail yarn findings (see above).
-    - cron: "0 13 * * 1"
+    # Sunday 8 PM Central (01:00 UTC Monday during CDT; 02:00 UTC during CST —
+    # cron stays fixed UTC). Soft-fail yarn findings (see above). Picked so
+    # GitHub's schedule lag still leaves results ready Monday morning.
+    - cron: "0 1 * * 1"
   workflow_dispatch:
 
 permissions:
@@ -80,7 +82,7 @@ jobs:
         working-directory: .
         env:
           AUDIT_JSONL: /tmp/yarn-audit.jsonl
-          # PR + push (and manual dispatch) remain hard gates. Monday schedule reports only.
+          # PR + push (and manual dispatch) remain hard gates. Weekly schedule reports only.
           FAIL_ON_FINDINGS: ${{ github.event_name == 'schedule' && 'false' || 'true' }}
         run: node scripts/parse-yarn-audit-ci.cjs
 
@@ -118,7 +120,7 @@ jobs:
             const body = [
               '## Weekly Security Audit findings',
               '',
-              'Monday cron discovered high/critical production advisories against the current lockfile.',
+              'Weekly cron discovered high/critical production advisories against the current lockfile.',
               '**PR/push merges remain blocked** until these are fixed. This issue is the ops queue — the schedule workflow itself does not fail.',
               '',
               `Counts: **${high} high**, **${critical} critical**.`,

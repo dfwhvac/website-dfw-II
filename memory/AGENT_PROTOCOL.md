@@ -9,7 +9,7 @@
 The Emergent pod is **forked from `main` at session start** and **does not auto-pull** during the session. Meanwhile, `main` keeps receiving commits from:
 
 - Dependabot weekly merges (every Monday 8 AM CT)
-- KPI Audit workflow snapshot commits (every Monday 7 AM CT)
+- KPI Audit workflow snapshot commits (every Sunday 8 PM CT)
 - Any other PRs merged during the session
 - Any agent activity on parallel sessions
 

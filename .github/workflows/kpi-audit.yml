@@ -18,9 +18,9 @@ name: KPI Audit
 
 on:
   schedule:
-    # Monday 7 AM Central (13:00 UTC during DST, 13:00 UTC standard — close enough)
-    # Same cadence as Security Audit so both run in one window.
-    - cron: "0 13 * * 1"
+    # Sunday 8 PM Central (01:00 UTC Monday during CDT; ~02:00 UTC during CST).
+    # Same window as Security Audit so both land before Monday morning review.
+    - cron: "0 1 * * 1"
   # Manual on-demand: Actions tab → KPI Audit → "Run workflow"
   # Use this after rotating any secret or to verify a freshly-added key works.
   workflow_dispatch:
