@@ -153,4 +153,8 @@ jobs:
           fi
           DATE=$(date -u +%Y-%m-%d)
           git commit -m "chore(kpi): weekly snapshot ${DATE} [skip ci]"
+          # Rebase onto any commits that landed while the audit ran (e.g. docs
+          # pushes, Dependabot), then push. Without this, a concurrent main
+          # update rejects the snapshot push even though the audit succeeded.
+          git pull --rebase origin main
           git push

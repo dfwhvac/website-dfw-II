@@ -9,11 +9,11 @@
 
 ## Oct 12, 2026 — Weekly audits: Sunday evening CT schedule
 
-**What changed:** Moved Security Audit and KPI Audit cron from Monday 8 AM CT (`0 13 * * 1`) to Sunday 8 PM CT (`0 1 * * 1`, Monday 01:00 UTC during CDT) so GitHub schedule lag still leaves results ready Monday morning. Daily Sync Reviews and braces-watch unchanged.
+**What changed:** Moved Security Audit and KPI Audit cron from Monday 8 AM CT (`0 13 * * 1`) to Sunday 8 PM CT (`0 1 * * 1`, Monday 01:00 UTC during CDT) so GitHub schedule lag still leaves results ready Monday morning. Daily Sync Reviews and braces-watch unchanged. KPI commit step now `git pull --rebase origin main` before push so a concurrent main update does not reject the snapshot.
 
 **Files:** `.github/workflows/security.yml`, `.github/workflows/kpi-audit.yml`, `memory/FOUNDATION_AUDIT_PROGRAM.md`, `memory/AGENT_PROTOCOL.md`, `memory/CHANGELOG.md`
 
-**Verification:** Cron comments + FOUNDATION automation table show Sun 8:00 PM CT; `workflow_dispatch` of all four jobs triggered 2026-10-12 while waiting on delayed Monday schedule.
+**Verification:** Cron comments + FOUNDATION automation table show Sun 8:00 PM CT; manual `workflow_dispatch` of Security / Sync Reviews / Braces succeeded 2026-10-12; first KPI dispatch audited OK but push raced this schedule commit — rebase fix + re-dispatch.
 
 **Caveats:** Fixed-UTC cron shifts one hour when Central leaves daylight time (becomes ~7 PM CT Sundays in CST). Soft-fail issue creation still only on `schedule` events, not manual dispatch.
 
