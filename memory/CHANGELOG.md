@@ -7,6 +7,18 @@
 
 ---
 
+## Oct 16, 2026 — Business hours: Mon–Thu 8 AM–6 PM, Friday 8 AM–5 PM
+
+**What changed:** Operating hours are now Monday–Thursday 8:00 AM–6:00 PM and Friday 8:00 AM–5:00 PM (weekends stay closed). Footer, contact/company pages, FAQ fallbacks, request-service, thanks, and the 404 line no longer collapse Friday into a single Mon–Fri 7 AM–6 PM range. JSON-LD opening hours use schema.org times (`08:00`–`18:00`, Friday `17:00`). Published Sanity copy that still says 7 AM–6 PM or the old 9 AM appointment window is rewritten at render time.
+
+**Files:** `frontend/lib/businessHours.js`, `frontend/lib/mockData.js`, `frontend/lib/metadata.js`, `frontend/lib/sanity.js`, `frontend/lib/services.js`, `frontend/components/Footer.jsx`, `frontend/components/CompanyPageTemplate.jsx`, `frontend/components/SchemaMarkup.jsx`, `frontend/app/faq/page.jsx`, `frontend/app/contact/page.jsx`, `frontend/app/[slug]/page.jsx`, `frontend/app/request-service/page.jsx`, `frontend/app/thanks/page.jsx`, `frontend/app/not-found.jsx`, `frontend/app/services/[category]/[slug]/page.jsx`, `frontend/sanity/schemas/companyInfo.js`, `frontend/sanity/schemas/contactPage.js`, `frontend/scripts/update-business-hours.mjs`, `frontend/scripts/update-faq-hours.mjs`, `frontend/scripts/patch-hours-oct-2026.mjs`, `frontend/scripts/patch-contactpage-meta.js`, `frontend/scripts/patch-faq-hours-consistency.js`, `frontend/scripts/patch-faq-rs3-hours.js`, `frontend/scripts/patch-hours-and-dispatch.js`, `memory/CHANGELOG.md`, `memory/ROADMAP.md`
+
+**Verification:** Grep of `frontend` `*.{js,jsx,mjs}` shows the old 7 AM–6 PM schedule only inside the legacy-phrase rewriter. Python check of the four live FAQ answers plus the contact meta description rewrites to the new range with no leftover 7 AM / 9 AM. Contact meta is 141 characters. Sanity production was read (companyInfo still `7AM-6PM` every weekday; four FAQ docs and both contact metas still state the old schedule). No local `SANITY_API_TOKEN` or Node binary, so the CMS write was not run. Browser not exercised.
+
+**Caveats:** None for hours content. User ran `patch-hours-oct-2026.mjs` Oct 16 (`Hours patch committed.` — companyInfo, contactPage, page-contact, faq-rs3/c3/rsc3, open FAQ). GBP hours confirmed same day. Keep `frontend/.env.local` local; do not commit it. Do not re-run `patch-hours-and-dispatch.js` for this update — it also unsets `siteSettings.leadFormDescription`.
+
+---
+
 ## Oct 12, 2026 — Weekly audits: Sunday evening CT schedule
 
 **What changed:** Moved Security Audit and KPI Audit cron from Monday 8 AM CT (`0 13 * * 1`) to Sunday 8 PM CT (`0 1 * * 1`, Monday 01:00 UTC during CDT) so GitHub schedule lag still leaves results ready Monday morning. Daily Sync Reviews and braces-watch unchanged. KPI commit step now `git pull --rebase origin main` before push so a concurrent main update does not reject the snapshot.

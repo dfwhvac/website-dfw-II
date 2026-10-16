@@ -20,7 +20,7 @@ const client = createClient({
 
 const patch = {
   metaDescription:
-    'Contact DFW HVAC for heating and cooling service across Dallas-Fort Worth. Open Monday–Friday, 7 AM – 6 PM. Same-day service available.',
+    'Contact DFW HVAC for heating and cooling service across Dallas-Fort Worth. Open Mon–Thu 8 AM–6 PM, Fri 8 AM–5 PM. Same-day service available.',
 }
 
 async function run() {

@@ -165,7 +165,7 @@ export default async function NotFound() {
       </main>
 
       <footer className="text-center text-gray-500 text-sm py-6 border-t border-gray-100">
-        DFW HVAC · Coppell, TX · Mon–Fri 7AM–6PM
+        DFW HVAC · Coppell, TX · Mon–Thu 8AM–6PM, Fri 8AM–5PM
       </footer>
     </div>
   )

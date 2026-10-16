@@ -4,6 +4,7 @@ import CompanyPageTemplate from '@/components/CompanyPageTemplate'
 import { getCompanyInfo, getSiteSettings, getCityPages, getContactPage } from '@/lib/sanity'
 import { companyInfo as mockCompanyInfo } from '@/lib/mockData'
 import { buildPageMetadata } from '@/lib/metadata'
+import { HOURS_CONTACT_META, rewriteLegacyHoursCopy } from '@/lib/businessHours'
 
 export const revalidate = 3600 // ISR — page regenerates at most once per hour with fresh Sanity content
 
@@ -12,7 +13,7 @@ export async function generateMetadata() {
   const contactPage = await getContactPage()
   return buildPageMetadata({
     title: 'Contact DFW HVAC - Coppell, TX Office',
-    description: contactPage?.metaDescription || 'Contact DFW HVAC for expert heating and cooling services in Dallas-Fort Worth. Same-day service available Monday-Friday. Call (972) 777-COOL.',
+    description: rewriteLegacyHoursCopy(contactPage?.metaDescription) || HOURS_CONTACT_META,
     path: '/contact',
   })
 }

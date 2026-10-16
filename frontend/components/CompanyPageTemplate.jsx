@@ -6,6 +6,7 @@ import LeadFormClient from './LeadFormClient'
 import SimpleContactFormClient from './SimpleContactFormClient'
 import LinkedCityList from './LinkedCityList'
 import { REVIEW_COUNT_FALLBACK } from '@/lib/constants'
+import { BUSINESS_HOURS, formatBusinessHourLines, resolveBusinessHours } from '@/lib/businessHours'
 import { 
   Phone, 
   Mail, 
@@ -28,7 +29,8 @@ const CompanyPageTemplate = ({
   const phone = companyInfo?.phone || '(972) 777-COOL'
   const address = companyInfo?.address || '556 S Coppell Rd Ste 103, Coppell, TX 75019'
   const googleReviews = companyInfo?.googleReviews || REVIEW_COUNT_FALLBACK
-  const businessHours = companyInfo?.businessHours || {}
+  const businessHours = resolveBusinessHours(companyInfo?.businessHours) || BUSINESS_HOURS
+  const hourLines = formatBusinessHourLines(businessHours)
   // Use cityPages if available, otherwise fall back to serviceAreas from companyInfo
   const serviceAreas = cityPages.length > 0 ? cityPages : (companyInfo?.serviceAreas || [])
 
@@ -215,8 +217,9 @@ const CompanyPageTemplate = ({
                     <div>
                       <h3 className="font-semibold text-gray-900">Business Hours</h3>
                       <div className="text-gray-600 text-sm">
-                        <p>Monday - Friday: {businessHours.monday || '7AM-6PM'}</p>
-                        <p>Saturday - Sunday: Closed</p>
+                        {hourLines.map((line) => (
+                          <p key={line.text}>{line.text}</p>
+                        ))}
                         <p className="text-vivid-red font-medium mt-1">Same-Day Service Available</p>
                       </div>
                     </div>

@@ -31,11 +31,11 @@ async function updateBusinessHours() {
       .patch(doc._id)
       .set({
         businessHours: {
-          monday: '9AM-6PM',
-          tuesday: '9AM-6PM',
-          wednesday: '9AM-6PM',
-          thursday: '9AM-6PM',
-          friday: '9AM-6PM',
+          monday: '8AM-6PM',
+          tuesday: '8AM-6PM',
+          wednesday: '8AM-6PM',
+          thursday: '8AM-6PM',
+          friday: '8AM-5PM',
           saturday: 'Closed',
           sunday: 'Closed',
         }

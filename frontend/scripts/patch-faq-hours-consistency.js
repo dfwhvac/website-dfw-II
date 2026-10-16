@@ -1,7 +1,6 @@
 /**
  * Patch the Sanity `faq-c3` and `faq-rsc3` FAQ docs so their business hours
- * match the Footer + JSON-LD schema (Mon-Fri 7 AM - 6 PM, not 9 AM). These
- * two docs were missed in the initial Feb 28 hours-consistency audit.
+ * match the Footer + JSON-LD schema (Mon–Thu 8 AM – 6 PM, Fri 8 AM – 5 PM).
  *
  * Run from /app/frontend with SANITY_API_TOKEN in .env.local:
  *   node scripts/patch-faq-hours-consistency.js
@@ -21,17 +20,17 @@ const patches = [
   {
     _id: 'faq-c3',
     answer:
-      'Absolutely. We understand business disruption costs money. We offer flexible scheduling within our operating hours (Monday-Friday, 7 AM - 6 PM) to minimize impact on your operations.',
+      'Absolutely. We understand business disruption costs money. We offer flexible scheduling within our operating hours (Monday–Thursday, 8 AM – 6 PM, and Friday, 8 AM – 5 PM) to minimize impact on your operations.',
   },
   {
     _id: 'faq-rsc3',
     answer:
-      'Our regular business hours are Monday through Friday, 7:00 AM to 6:00 PM. We are closed on Saturday and Sunday.',
+      'Our regular business hours are Monday through Thursday, 8:00 AM to 6:00 PM, and Friday, 8:00 AM to 5:00 PM. We are closed on Saturday and Sunday.',
   },
   {
     _id: '2b207bd8-9bd7-40e3-82fa-6264e4704b10',
     answer:
-      'We schedule service calls between 7 AM and 6 PM, Monday through Friday. Emergency calls placed during business hours are dispatched same-day; voicemails left after hours are returned the next business morning.',
+      'Our office is open Monday through Thursday from 8 AM to 6 PM, and Friday from 8 AM to 5 PM. Emergency calls placed during business hours are dispatched same-day when available; voicemails left after hours are returned the next business morning.',
   },
 ]
 

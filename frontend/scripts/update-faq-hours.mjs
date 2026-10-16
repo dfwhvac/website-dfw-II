@@ -28,15 +28,14 @@ async function updateFaqHours() {
     let changed = false
     
     // Fix "What are your business hours?" answer
-    if (faq.question && faq.question.toLowerCase().includes('business hours')) {
-      newAnswer = 'Our regular business hours are Monday through Friday, 9:00 AM to 6:00 PM. We are closed on Saturday and Sunday.'
+    if (faq.question && faq.question.toLowerCase().includes('what are your business hours')) {
+      newAnswer = 'Our regular business hours are Monday through Thursday, 8:00 AM to 6:00 PM, and Friday, 8:00 AM to 5:00 PM. We are closed on Saturday and Sunday.'
       changed = true
     }
     
     // Fix any references to old hours patterns
     if (newAnswer && (
       newAnswer.includes('7:00 AM to 7:00 PM') ||
-      newAnswer.includes('8:00 AM to 5:00 PM') ||
       newAnswer.includes('8:00 AM to 1:00 PM') ||
       newAnswer.includes('Monday-Saturday') ||
       newAnswer.includes('Monday through Saturday') ||
@@ -48,7 +47,7 @@ async function updateFaqHours() {
       newAnswer = newAnswer.replace(/Monday through Friday,?\s*7:00 AM to 7:00 PM/gi, 'Monday through Friday, 9:00 AM to 6:00 PM')
       newAnswer = newAnswer.replace(/Saturday\s*8:00 AM to 5:00 PM/gi, 'Saturday and Sunday: Closed')
       newAnswer = newAnswer.replace(/Saturday\s*8:00 AM to 1:00 PM/gi, 'Saturday and Sunday: Closed')
-      newAnswer = newAnswer.replace(/\(Monday-Saturday\)/gi, '(Monday-Friday, 9 AM - 6 PM)')
+      newAnswer = newAnswer.replace(/\(Monday-Saturday\)/gi, '(Monday–Thursday, 8 AM – 6 PM, and Friday, 8 AM – 5 PM)')
       newAnswer = newAnswer.replace(/Monday through Saturday/gi, 'Monday through Friday')
       newAnswer = newAnswer.replace(/For emergencies, we offer 24\/7 service\. Call our main line anytime and you'll reach our emergency dispatch during off-hours\./gi, '')
       newAnswer = newAnswer.replace(/For weekend issues, we prioritize Monday morning appointments( to get your system back up and running quickly)?\.?/gi, '')

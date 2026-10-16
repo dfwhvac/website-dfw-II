@@ -1,6 +1,7 @@
 // SEO metadata utilities for DFW HVAC
 
 import { REVIEW_COUNT_FALLBACK } from './constants'
+import { resolveBusinessHours, schemaOpeningHours } from './businessHours'
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://dfwhvac.com'
 
@@ -307,9 +308,7 @@ export function createJsonLd(data, companyInfo = null) {
         'Southlake, TX',
         'The Colony, TX'
       ],
-      openingHours: [
-        'Mo-Fr 07:00-18:00'
-      ],
+      openingHours: schemaOpeningHours(resolveBusinessHours(companyInfo?.businessHours)),
       priceRange: '$$',
       aggregateRating: {
         '@type': 'AggregateRating',
