@@ -1,6 +1,7 @@
 import { cache } from 'react'
 import { createClient } from '@sanity/client'
 import imageUrlBuilder from '@sanity/image-url'
+import { rewriteLegacyHoursCopy } from './businessHours'
 
 // Sanity configuration
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'iar2b790'
@@ -403,7 +404,11 @@ export const getBrandColors = cache(async function getBrandColors() {
 export const getFaqs = cache(async function getFaqs() {
   try {
     const data = await client.fetch(queries.faqs)
-    return data
+    if (!Array.isArray(data)) return data
+    return data.map((faq) => ({
+      ...faq,
+      answer: rewriteLegacyHoursCopy(faq.answer),
+    }))
   } catch (error) {
     console.error('Error fetching FAQs:', error)
     return null

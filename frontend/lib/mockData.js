@@ -1,6 +1,7 @@
 // Mock data for DFW HVAC website
 
 import { REVIEW_COUNT_FALLBACK } from './constants'
+import { BUSINESS_HOURS } from './businessHours'
 
 export const companyInfo = {
   name: "DFW HVAC",
@@ -14,15 +15,7 @@ export const companyInfo = {
   description: "DFW HVAC delivers expert HVAC service with integrity and care—earning trust and long-term customer satisfaction through quality workmanship.",
   googleRating: 5.0,
   googleReviews: REVIEW_COUNT_FALLBACK,
-  businessHours: {
-    monday: "7AM-6PM",
-    tuesday: "7AM-6PM", 
-    wednesday: "7AM-6PM",
-    thursday: "7AM-6PM",
-    friday: "7AM-6PM",
-    saturday: "Closed",
-    sunday: "Closed"
-  },
+  businessHours: { ...BUSINESS_HOURS },
   serviceAreas: [
     "Dallas", "Fort Worth", "Arlington", "Plano", "Irving", "Garland", 
     "Grand Prairie", "Mesquite", "Carrollton", "Richardson", "Lewisville", "Coppell"

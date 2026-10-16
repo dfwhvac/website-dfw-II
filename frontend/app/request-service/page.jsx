@@ -115,8 +115,9 @@ export default async function RequestServicePage() {
                       Business Hours
                     </h3>
                     <div className="text-sm text-gray-600 space-y-1">
-                      <p>Monday - Friday: 9AM - 6PM</p>
-                      <p>Saturday - Sunday: Closed</p>
+                      <p>Monday – Thursday: 8AM – 6PM</p>
+                      <p>Friday: 8AM – 5PM</p>
+                      <p>Saturday – Sunday: Closed</p>
                     </div>
                     <p className="text-xs text-gray-500 mt-3">
                       Emergency service available for existing customers.

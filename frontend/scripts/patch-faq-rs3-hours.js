@@ -1,6 +1,6 @@
 /**
  * Patch the Sanity `faq-rs3` doc so its business hours match the Footer +
- * JSON-LD schema (Mon-Fri 7 AM - 6 PM, not 9 AM). Inconsistency caught Feb 28,
+ * JSON-LD schema (Mon–Thu 8 AM – 6 PM, Fri 8 AM – 5 PM). Inconsistency caught Feb 28,
  * 2026 during the discrete-timeline audit.
  *
  * Run from /app/frontend with SANITY_API_TOKEN in .env.local:
@@ -19,7 +19,7 @@ const client = createClient({
 
 const patch = {
   answer:
-    'Yes, we offer same-day HVAC repair services throughout the Dallas-Fort Worth area during our business hours (Monday-Friday, 7 AM - 6 PM). When your AC fails on a hot Texas summer day or your heater stops working during a cold snap, call us and we will get a technician to you as quickly as possible.',
+    'Yes, we offer same-day HVAC repair services throughout the Dallas-Fort Worth area during our business hours (Monday–Thursday, 8 AM – 6 PM, and Friday, 8 AM – 5 PM). When your AC fails on a hot Texas summer day or your heater stops working during a cold snap, call us and we will get a technician to you as quickly as possible.',
 }
 
 async function run() {

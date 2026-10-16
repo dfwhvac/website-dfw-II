@@ -9,6 +9,7 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { notFound } from 'next/navigation'
 import { getReviewBadgeCount, buildTitleWithBadge } from '@/lib/metadata'
+import { rewriteLegacyHoursCopy } from '@/lib/businessHours'
 
 export const revalidate = 3600 // ISR — page regenerates at most once per hour with fresh Sanity content
 
@@ -230,11 +231,11 @@ export default async function ServicePage({ params }) {
           includes: ['System assessment', 'Multiple options', 'Financing available'],
         },
       },
-    faqs: service.faqs || [
+    faqs: (service.faqs || [
       { question: `How often should I service my ${service.title.toLowerCase()}?`, answer: 'We recommend annual maintenance to keep your system running efficiently and prevent costly repairs.' },
       { question: 'Do you offer financing?', answer: 'Yes! We offer flexible financing options to make your HVAC investment affordable.' },
       { question: 'Are your technicians licensed?', answer: 'Absolutely. All our technicians are fully licensed, insured, and background-checked.' },
-    ],
+    ]).map((faq) => ({ ...faq, answer: rewriteLegacyHoursCopy(faq.answer) })),
   }
   
   return (
@@ -249,7 +250,7 @@ export default async function ServicePage({ params }) {
         areaServedCities={cityPages}
       />
       {service.faqs && service.faqs.length > 0 && (
-        <FAQSchema faqs={service.faqs} />
+        <FAQSchema faqs={serviceData.faqs} />
       )}
       <BreadcrumbListSchema
         items={[
