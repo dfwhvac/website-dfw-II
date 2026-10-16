@@ -22,7 +22,7 @@ export default {
       type: 'text',
       group: 'seo',
       validation: Rule => Rule.max(160),
-      initialValue: 'Contact DFW HVAC for expert heating and cooling services in Dallas-Fort Worth. Same-day service available Monday-Friday. Call (972) 777-COOL.',
+      initialValue: 'Contact DFW HVAC for heating and cooling service across Dallas-Fort Worth. Open Mon–Thu 8 AM–6 PM, Fri 8 AM–5 PM. Same-day service available.',
     },
 
     // Hero Section
@@ -61,7 +61,7 @@ export default {
       title: 'Phone Description',
       type: 'string',
       group: 'content',
-      initialValue: 'Same-day service M-Sat',
+      initialValue: 'Same-day service Mon–Fri',
     },
     {
       name: 'emailDescription',

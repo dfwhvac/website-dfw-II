@@ -83,7 +83,7 @@ const NEXT_STEPS_CONTACT = [
   },
   {
     icon: Clock,
-    title: 'Mon–Fri, 7 AM – 6 PM (CT)',
+    title: 'Mon–Thu 8 AM – 6 PM, Fri 8 AM – 5 PM (CT)',
     body:
       'Messages submitted outside those hours are queued for the next business morning. Weekend voicemails are returned Monday.',
   },

@@ -4,6 +4,7 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Phone, Mail, MapPin, Clock, Lock } from 'lucide-react'
+import { BUSINESS_HOURS, formatBusinessHourLines, resolveBusinessHours } from '@/lib/businessHours'
 
 // Inline brand-logo SVGs. Lucide-react ships these icons as files but
 // Next.js 15's optimizePackageImports barrel-optimizer cannot reliably
@@ -161,11 +162,8 @@ const Footer = ({ companyInfo = {}, siteSettings = null }) => {
   const phoneVanity = companyInfo?.phone || '(972) 777-COOL'
   const phoneDigits = companyInfo?.phoneDisplay || '(972) 777-2665'
   const address = companyInfo?.address || 'Dallas-Fort Worth Area'
-  const businessHours = companyInfo?.businessHours || {
-    monday: '7AM-6PM',
-    saturday: 'Closed',
-    sunday: 'Closed'
-  }
+  const businessHours = resolveBusinessHours(companyInfo?.businessHours) || BUSINESS_HOURS
+  const hourLines = formatBusinessHourLines(businessHours)
 
   return (
     <footer className="bg-gray-900 text-white">
@@ -251,11 +249,12 @@ const Footer = ({ companyInfo = {}, siteSettings = null }) => {
                 </div>
               )}
               {showBusinessHours && businessHours && (
-                <div className="flex items-center gap-3 text-sm">
-                  <Clock className="w-4 h-4 text-alert-amber" />
+                <div className="flex items-start gap-3 text-sm">
+                  <Clock className="w-4 h-4 text-alert-amber mt-0.5" />
                   <div className="text-gray-300">
-                    <div>Mon-Fri: {businessHours.monday}</div>
-                    <div>Sat-Sun: Closed</div>
+                    {hourLines.map((line) => (
+                      <div key={line.text}>{line.text}</div>
+                    ))}
                   </div>
                 </div>
               )}

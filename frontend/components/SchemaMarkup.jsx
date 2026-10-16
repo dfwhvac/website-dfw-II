@@ -5,6 +5,7 @@
 // from lib/constants.js as the last-resort fallback).
 
 import { REVIEW_COUNT_FALLBACK } from '@/lib/constants'
+import { BUSINESS_HOURS, resolveBusinessHours, rewriteLegacyHoursCopy, toSchemaTime } from '@/lib/businessHours'
 
 /**
  * Safely stringify schema data for injection into a <script type="application/ld+json"> tag.
@@ -39,7 +40,7 @@ export function LocalBusinessSchema({ companyInfo, cityPages = [] }) {
 
   // Build hours specification
   const hoursSpec = []
-  const hours = companyInfo.businessHours || {}
+  const hours = resolveBusinessHours(companyInfo.businessHours) || BUSINESS_HOURS
   const dayMap = {
     monday: 'Monday',
     tuesday: 'Tuesday', 
@@ -53,14 +54,14 @@ export function LocalBusinessSchema({ companyInfo, cityPages = [] }) {
   for (const [key, day] of Object.entries(dayMap)) {
     const value = hours[key]
     if (value && value.toLowerCase() !== 'closed') {
-      // Parse "7AM-7PM" format
-      const match = value.match(/(\d+(?::\d+)?(?:AM|PM)?)\s*-\s*(\d+(?::\d+)?(?:AM|PM)?)/i)
+      // Parse "8AM-6PM" or "8:00 AM - 6:00 PM" into schema.org Time (08:00 / 18:00).
+      const match = value.match(/(\d{1,2}(?::\d{2})?\s*(?:AM|PM)?)\s*[-–]\s*(\d{1,2}(?::\d{2})?\s*(?:AM|PM)?)/i)
       if (match) {
         hoursSpec.push({
           "@type": "OpeningHoursSpecification",
           "dayOfWeek": day,
-          "opens": match[1],
-          "closes": match[2]
+          "opens": toSchemaTime(match[1]),
+          "closes": toSchemaTime(match[2])
         })
       }
     }
@@ -131,7 +132,7 @@ export function FAQSchema({ faqs }) {
       "name": faq.question,
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": faq.answer
+        "text": rewriteLegacyHoursCopy(faq.answer)
       }
     }))
   }

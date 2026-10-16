@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import { getCompanyPage, getAllCompanyPageSlugs, getCompanyInfo, getSiteSettings, getAllTestimonials } from '@/lib/sanity'
 import { companyInfo as mockCompanyInfo, testimonials as mockTestimonials } from '@/lib/mockData'
 import DynamicPage from '@/components/DynamicPage'
+import { rewriteLegacyHoursCopy } from '@/lib/businessHours'
 
 // ISR: Revalidate every hour
 export const revalidate = 3600 // ISR — page regenerates at most once per hour with fresh Sanity content
@@ -27,7 +28,9 @@ export async function generateMetadata({ params }) {
 
   return {
     title: page.metaTitle || `${page.title} | DFW HVAC`,
-    description: page.metaDescription || page.heroDescription || `${page.title} - DFW HVAC serving Dallas-Fort Worth.`,
+    description: rewriteLegacyHoursCopy(
+      page.metaDescription || page.heroDescription || `${page.title} - DFW HVAC serving Dallas-Fort Worth.`
+    ),
     alternates: {
       canonical: `/${slug}`,
     },

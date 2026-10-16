@@ -81,6 +81,7 @@ export default {
       name: 'businessHours',
       title: 'Business Hours',
       type: 'object',
+      description: 'Monday–Thursday 8AM-6PM, Friday 8AM-5PM. Use Closed for Saturday and Sunday.',
       fields: [
         { name: 'monday', title: 'Monday', type: 'string' },
         { name: 'tuesday', title: 'Tuesday', type: 'string' },
